@@ -17,6 +17,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	self.radioViewController = [[UIViewController alloc] init];
+
+	self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.radioViewController];
+	self.navigationController.navigationBar.translucent = NO;
+	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:UIColorFromHex(@"#434343", 1.0),
+									 NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:19.0]};
+	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
+
+	[self.window setRootViewController:self.navigationController];
+	[self.window makeKeyAndVisible];
+
 	return YES;
 }
 
