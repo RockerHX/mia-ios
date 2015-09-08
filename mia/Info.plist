@@ -26,6 +26,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>CFBundleDisplayName</key>
+	<string>Mia</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
