@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RadioViewDelegate
+
+- (void)notifyPing;
+- (void)notifyLogin;
+
+@end
+
+
 @interface RadioView : UIView
+
+@property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 
 @end

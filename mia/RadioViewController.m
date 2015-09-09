@@ -11,7 +11,7 @@
 #import "RadioView.h"
 #import "UIImage+ColorToImage.h"
 
-@interface RadioViewController () <SRWebSocketDelegate>
+@interface RadioViewController () <SRWebSocketDelegate, RadioViewDelegate>
 
 @end
 
@@ -24,8 +24,9 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
-	self.view.backgroundColor = [UIColor yellowColor];
-/*
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.userInteractionEnabled = YES;
+
 	[self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
 	if ([[UIView appearance] respondsToSelector:@selector(setTintColor:)]) {
 		[self.navigationController.navigationBar setTintColor:UIColorFromHex(@"#FFFFFF", 1.0)];
@@ -38,12 +39,13 @@
 									 NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:19.0]};
 	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
 	self.navigationItem.title = self.title;
-*/
+
 	CGRect radioFrame = CGRectMake(self.view.bounds.origin.x,
 									 self.view.bounds.origin.y,
 									 self.view.bounds.size.width,
 									 self.view.bounds.size.height - self.navigationController.navigationBar.frame.size.height - self.navigationController.navigationBar.frame.origin.y);
 	radioView = [[RadioView alloc] initWithFrame:radioFrame];
+	radioView.radioViewDelegate = self;
 	[self.view addSubview:radioView];
 }
 
@@ -81,10 +83,6 @@
 	[_webSocket sendPing:nil];
 }
 
-- (void)sendTest {
-	[_webSocket send:@"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}"];
-}
-
 - (void)viewDidAppear:(BOOL)animated;
 {
 	[super viewDidAppear:animated];
@@ -105,9 +103,6 @@
 {
 	NSLog(@"Websocket Connected");
 	self.title = @"Connected!";
-
-	[self sendPing:nil];
-	[self sendTest];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
@@ -139,7 +134,14 @@
 }
 
 
+#pragma mark - RadioViewDelegate
 
+- (void)notifyPing {
+	[self sendPing:nil];
+}
 
+- (void)notifyLogin {
+	[_webSocket send:@"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}"];
+}
 
 @end
