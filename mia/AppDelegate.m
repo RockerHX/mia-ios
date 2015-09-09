@@ -18,7 +18,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	self.radioViewController = [[UIViewController alloc] init];
+	self.radioViewController = [[RadioViewController alloc] init];
 
 	self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.radioViewController];
 	self.navigationController.navigationBar.translucent = NO;

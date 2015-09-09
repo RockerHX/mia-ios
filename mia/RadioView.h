@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  RadioView.h
 //  mia
 //
-//  Created by linyehui on 2015/09/08.
+//  Created by linyehui on 2015/09/09.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface RadioView : UIView
 
 @end
-
