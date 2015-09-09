@@ -81,6 +81,10 @@
 	[_webSocket sendPing:nil];
 }
 
+- (void)sendTest {
+	[_webSocket send:@"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}"];
+}
+
 - (void)viewDidAppear:(BOOL)animated;
 {
 	[super viewDidAppear:animated];
@@ -103,6 +107,7 @@
 	self.title = @"Connected!";
 
 	[self sendPing:nil];
+	[self sendTest];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
