@@ -8,6 +8,14 @@
 
 //typedef void(^RequestGetBannerSceneSuccess)();
 
+extern NSString * const WebSocketMgrNotificationUserInfoKey;
+
+extern NSString * const WebSocketMgrNotificationDidOpen;
+extern NSString * const WebSocketMgrNotificationDidFailWithError;
+extern NSString * const WebSocketMgrNotificationDidReceiveMessage;
+extern NSString * const WebSocketMgrNotificationDidCloseWithCode;
+extern NSString * const WebSocketMgrNotificationDidReceivePong;
+
 @interface WebSocketMgr : NSObject
 
 /**

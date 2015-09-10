@@ -10,7 +10,13 @@
 #import "WebSocketMgr.h"
 #import "SRWebSocket.h"
 
-static const NSTimeInterval webSocketPingTimeInterval = 30;		// 心跳的定时发送时间间隔
+NSString * const WebSocketMgrNotificationUserInfoKey			= @"msg";
+
+NSString * const WebSocketMgrNotificationDidOpen			 	= @"WebSocketMgrNotificationDidOpen";
+NSString * const WebSocketMgrNotificationDidFailWithError		= @"WebSocketMgrNotificationDidFailWithError";
+NSString * const WebSocketMgrNotificationDidReceiveMessage		= @"WebSocketMgrNotificationDidReceiveMessage";
+NSString * const WebSocketMgrNotificationDidCloseWithCode		= @"WebSocketMgrNotificationDidCloseWithCode";
+NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotificationDidReceivePong";
 
 @interface WebSocketMgr() <SRWebSocketDelegate>
 
@@ -70,13 +76,17 @@ static const NSTimeInterval webSocketPingTimeInterval = 30;		// 心跳的定时�
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket;
 {
+	// 心跳的定时发送时间间隔
+	static const NSTimeInterval kWebSocketPingTimeInterval = 30;
+
 	NSLog(@"Websocket Connected");
-	timer = [NSTimer scheduledTimerWithTimeInterval:webSocketPingTimeInterval
+	timer = [NSTimer scheduledTimerWithTimeInterval:kWebSocketPingTimeInterval
 											 target:self
 										   selector:@selector(pingTimerAction)
 										   userInfo:nil
 											repeats:YES];
 	//self.title = @"Connected!";
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
@@ -86,6 +96,9 @@ static const NSTimeInterval webSocketPingTimeInterval = 30;		// 心跳的定时�
 	//self.title = @"Connection Failed! (see logs)";
 	[timer invalidate];
 	_webSocket = nil;
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:WebSocketMgrNotificationUserInfoKey];
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailWithError object:self userInfo:userInfo];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
@@ -94,6 +107,9 @@ static const NSTimeInterval webSocketPingTimeInterval = 30;		// 心跳的定时�
 	//[_messages addObject:[[TCMessage alloc] initWithMessage:message fromMe:NO]];
 	//[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_messages.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 	//[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:message forKey:WebSocketMgrNotificationUserInfoKey];
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceiveMessage object:self userInfo:userInfo];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
@@ -102,11 +118,19 @@ static const NSTimeInterval webSocketPingTimeInterval = 30;		// 心跳的定时�
 	//self.title = @"Connection Closed! (see logs)";
 	[timer invalidate];
 	_webSocket = nil;
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithInteger:code],@"code",
+							  reason,@"reason",
+							  [NSNumber numberWithInteger:wasClean],@"wasClean",
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self userInfo:userInfo];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
 {
 	NSLog(@"Websocket received pong");
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceivePong object:self];
 }
 
 # pragma mark - Timer Action

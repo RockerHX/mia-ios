@@ -48,6 +48,12 @@
 	radioView = [[RadioView alloc] initWithFrame:radioFrame];
 	radioView.radioViewDelegate = self;
 	[self.view addSubview:radioView];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceivePong:) name:WebSocketMgrNotificationDidReceivePong object:[WebSocketMgr standarWebSocketMgr]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,42 +85,23 @@
 	[[WebSocketMgr standarWebSocketMgr] close];
 }
 
-#pragma mark - SRWebSocketDelegate
-/*
-- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
-{
-	NSLog(@"Websocket Connected");
+#pragma mark - Notification
+
+-(void)notificationWebSocketDidOpen:(NSNotification *)notification {
 	self.title = @"Connected!";
 }
-
-- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
-{
-	NSLog(@":( Websocket Failed With Error %@", error);
-
+-(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	self.title = @"Connection Failed! (see logs)";
-	_webSocket = nil;
 }
-
-- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
-{
-	NSLog(@"Received \"%@\"", message);
-	//[_messages addObject:[[TCMessage alloc] initWithMessage:message fromMe:NO]];
-	//[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_messages.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-	//[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+-(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSLog(@"RadioViewController Received \"%@\"", [[notification userInfo] valueForKey:WebSocketMgrNotificationUserInfoKey]);
 }
-
-- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
-{
-	NSLog(@"WebSocket closed");
+-(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	self.title = @"Connection Closed! (see logs)";
-	_webSocket = nil;
 }
-
-- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
-{
-	NSLog(@"Websocket received pong");
+-(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
+	NSLog(@"RadioViewController Websocket received pong");
 }
-*/
 
 #pragma mark - RadioViewDelegate
 
