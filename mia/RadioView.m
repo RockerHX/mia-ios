@@ -122,7 +122,19 @@
 
 - (void)onClickPlayButton:(id)sender {
 	NSString *defaultMusic = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
-	[audioStream playFromURL:[NSURL URLWithString:defaultMusic]];
+	if ([audioStream isPlaying]) {
+		[audioStream pause];
+
+		[playButton setTitle:@"Play" forState:UIControlStateNormal];
+	} else {
+		if ([audioStream url]) {
+			[audioStream pause];
+		} else {
+			[audioStream playFromURL:[NSURL URLWithString:defaultMusic]];
+		}
+
+		[playButton setTitle:@"Pause" forState:UIControlStateNormal];
+	}
 }
 
 @end
