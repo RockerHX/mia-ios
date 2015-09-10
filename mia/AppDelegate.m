@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface AppDelegate ()
 
@@ -28,6 +29,10 @@
 
 	[self.window setRootViewController:self.navigationController];
 	[self.window makeKeyAndVisible];
+
+	AVAudioSession *audioSession=[AVAudioSession sharedInstance];
+	[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+	[audioSession setActive:YES error:nil];
 
 	return YES;
 }
