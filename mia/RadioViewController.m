@@ -56,6 +56,14 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceivePong:) name:WebSocketMgrNotificationDidReceivePong object:[WebSocketMgr standarWebSocketMgr]];
 }
 
+-(void)dealloc{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:[WebSocketMgr standarWebSocketMgr]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceivePong object:[WebSocketMgr standarWebSocketMgr]];
+}
+
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.

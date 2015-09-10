@@ -10,11 +10,15 @@
 
 #import "UIImage+ColorToImage.h"
 #import "HJWButton.h"
+#import "FSAudioStream.h"
 
 @implementation RadioView {
 	HJWButton *pingButton;
 	HJWButton *loginButton;
 	HJWButton *reconnectButton;
+	HJWButton *playButton;
+
+	FSAudioStream *audioStream;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -23,6 +27,11 @@
 		self.userInteractionEnabled = YES;
 //		self.backgroundColor = [UIColor redColor];
 		[self loadButtons];
+
+		// init audioStream
+		audioStream = [[FSAudioStream alloc] init];
+		audioStream.strictContentTypeChecking = NO;
+		audioStream.defaultContentType = @"audio/mpeg";
 	}
 
 	return self;
@@ -77,6 +86,21 @@
 	[reconnectButton addTarget:self action:@selector(onClickReconnectButton:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:reconnectButton];
 
+	CGRect playButtonFrame = CGRectMake(60,
+											 290.0f,
+											 200,
+											 50);
+
+	playButton = [[HJWButton alloc] initWithFrame:playButtonFrame
+										   titleString:@"Play" titleColor:[UIColor whiteColor]
+												  font:UIFontFromSize(15)
+											   logoImg:nil
+									   backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
+
+	playButton.layer.masksToBounds = YES;
+	playButton.layer.cornerRadius = 5.0f;
+	[playButton addTarget:self action:@selector(onClickPlayButton:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:playButton];
 }
 
 #pragma mark - Actions
@@ -94,6 +118,11 @@
 - (void)onClickReconnectButton:(id)sender {
 	NSLog(@"OnClick Reconnect");
 	[self.radioViewDelegate notifyReconnect];
+}
+
+- (void)onClickPlayButton:(id)sender {
+	NSString *defaultMusic = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
+	[audioStream playFromURL:[NSURL URLWithString:defaultMusic]];
 }
 
 @end
