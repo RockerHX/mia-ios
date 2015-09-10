@@ -12,6 +12,7 @@
 
 - (void)notifyPing;
 - (void)notifyLogin;
+- (void)notifyReconnect;
 
 @end
 

@@ -7,16 +7,17 @@
 //
 
 #import "RadioViewController.h"
+#import "WebSocketMgr.h"
 #import "SRWebSocket.h"
 #import "RadioView.h"
 #import "UIImage+ColorToImage.h"
 
-@interface RadioViewController () <SRWebSocketDelegate, RadioViewDelegate>
+@interface RadioViewController () <RadioViewDelegate>
 
 @end
 
 @implementation RadioViewController {
-	SRWebSocket *_webSocket;
+//	SRWebSocket *_webSocket;
 	RadioView *radioView;
 }
 
@@ -54,33 +55,16 @@
 	// Dispose of any resources that can be recreated.
 }
 
-- (void)_reconnect;
-{
-	_webSocket.delegate = nil;
-	[_webSocket close];
-
-	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://api.miamusic.com"]]];
-	_webSocket.delegate = self;
-
-	self.title = @"Opening Connection...";
-	[_webSocket open];
-
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[self _reconnect];
-}
-
-- (void)reconnect:(id)sender;
-{
-	[self _reconnect];
+	[[WebSocketMgr standarWebSocketMgr] reconnect];
+	self.title = @"Opening Connection...";
 }
 
 - (void)sendPing:(id)sender;
 {
-	[_webSocket sendPing:nil];
+	[[WebSocketMgr standarWebSocketMgr] sendPing:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated;
@@ -92,13 +76,11 @@
 {
 	[super viewDidDisappear:animated];
 
-	_webSocket.delegate = nil;
-	[_webSocket close];
-	_webSocket = nil;
+	[[WebSocketMgr standarWebSocketMgr] close];
 }
 
 #pragma mark - SRWebSocketDelegate
-
+/*
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket;
 {
 	NSLog(@"Websocket Connected");
@@ -132,7 +114,7 @@
 {
 	NSLog(@"Websocket received pong");
 }
-
+*/
 
 #pragma mark - RadioViewDelegate
 
@@ -141,7 +123,13 @@
 }
 
 - (void)notifyLogin {
-	[_webSocket send:@"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}"];
+	NSString *testLoginData = @"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}";
+	[[WebSocketMgr standarWebSocketMgr] send:testLoginData];
+}
+
+- (void)notifyReconnect {
+	[[WebSocketMgr standarWebSocketMgr] reconnect];
+	self.title = @"Opening Connection...";
 }
 
 @end

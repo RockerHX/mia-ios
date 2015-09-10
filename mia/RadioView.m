@@ -14,6 +14,7 @@
 @implementation RadioView {
 	HJWButton *pingButton;
 	HJWButton *loginButton;
+	HJWButton *reconnectButton;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -60,6 +61,21 @@
 	[loginButton addTarget:self action:@selector(onClickLoginButton:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:loginButton];
 	
+	CGRect reconnectButtonFrame = CGRectMake(60,
+										 210.0f,
+										 200,
+										 50);
+
+	reconnectButton = [[HJWButton alloc] initWithFrame:reconnectButtonFrame
+									   titleString:@"Reconnect" titleColor:[UIColor whiteColor]
+											  font:UIFontFromSize(15)
+										   logoImg:nil
+								   backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
+
+	reconnectButton.layer.masksToBounds = YES;
+	reconnectButton.layer.cornerRadius = 5.0f;
+	[reconnectButton addTarget:self action:@selector(onClickReconnectButton:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:reconnectButton];
 
 }
 
@@ -73,6 +89,11 @@
 - (void)onClickLoginButton:(id)sender {
 	NSLog(@"OnClick Login");
 	[self.radioViewDelegate notifyLogin];
+}
+
+- (void)onClickReconnectButton:(id)sender {
+	NSLog(@"OnClick Reconnect");
+	[self.radioViewDelegate notifyReconnect];
 }
 
 @end
