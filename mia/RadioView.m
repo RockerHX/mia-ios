@@ -11,15 +11,13 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIImage+ColorToImage.h"
 #import "HJWButton.h"
-#import "FSAudioStream.h"
+#import "MusicPlayerMgr.h"
 
 @implementation RadioView {
 	HJWButton *pingButton;
 	HJWButton *loginButton;
 	HJWButton *reconnectButton;
 	HJWButton *playButton;
-
-	FSAudioStream *audioStream;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -29,25 +27,16 @@
 //		self.backgroundColor = [UIColor redColor];
 		[self loadButtons];
 
-		// init audioStream
-		audioStream = [[FSAudioStream alloc] init];
-		audioStream.strictContentTypeChecking = NO;
-		audioStream.defaultContentType = @"audio/mpeg";
-
-		// 设置后台播放模式
-		AVAudioSession *audioSession=[AVAudioSession sharedInstance];
-		[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-		[audioSession setActive:YES error:nil];
-
-		// 添加通知，拔出耳机后暂停播放
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:[MusicPlayerMgr standarMusicPlayerMgr]];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:[MusicPlayerMgr standarMusicPlayerMgr]];
 	}
 
 	return self;
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:[MusicPlayerMgr standarMusicPlayerMgr]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:[MusicPlayerMgr standarMusicPlayerMgr]];
 }
 
 - (void)loadButtons {
@@ -118,25 +107,12 @@
 
 #pragma mark - Notification
 
-/**
- *  一旦输出改变则执行此方法
- *
- *  @param notification 输出改变通知对象
- */
-- (void)routeChange:(NSNotification *)notification{
-	NSDictionary *dic=notification.userInfo;
-	int changeReason= [dic[AVAudioSessionRouteChangeReasonKey] intValue];
-	//等于AVAudioSessionRouteChangeReasonOldDeviceUnavailable表示旧输出不可用
-	if (changeReason==AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
-		AVAudioSessionRouteDescription *routeDescription=dic[AVAudioSessionRouteChangePreviousRouteKey];
-		AVAudioSessionPortDescription *portDescription= [routeDescription.outputs firstObject];
-		//原设备为耳机则暂停
-		if ([portDescription.portType isEqualToString:@"Headphones"]) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self pauseMusic];
-			});
-		}
-	}
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	[playButton setTitle:@"Pause" forState:UIControlStateNormal];
+}
+
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	[playButton setTitle:@"Play" forState:UIControlStateNormal];
 }
 
 #pragma mark - Actions
@@ -157,54 +133,28 @@
 }
 
 - (void)onClickPlayButton:(id)sender {
-	if ([audioStream isPlaying]) {
+	if ([[MusicPlayerMgr standarMusicPlayerMgr] isPlaying]) {
 		[self pauseMusic];
 	} else {
 		[self playMusic];
 	}
 }
 
-#pragma mark - audio options
+#pragma mark - audio operations
 
 - (void)playMusic {
-	static NSString *defaultMusic = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
+	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
+	static NSString *defaultMusicTitle = @"贝尔加湖畔";
+	static NSString *defaultMusicArtist = @"李健";
 
-	if ([audioStream url]) {
-		[audioStream pause];
-	} else {
-		[audioStream playFromURL:[NSURL URLWithString:defaultMusic]];
-	}
-
-	[self setMediaInfo:nil andTitle:@"春江花月夜" andArtist:@"李健"];
+	[[MusicPlayerMgr standarMusicPlayerMgr] playWithUrl:defaultMusicUrl andTitle:defaultMusicTitle andArtist:defaultMusicArtist];
 	[playButton setTitle:@"Pause" forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
-	[audioStream pause];
-
+	[[MusicPlayerMgr standarMusicPlayerMgr] pause];
 	[playButton setTitle:@"Play" forState:UIControlStateNormal];
-}
-
-- (void) setMediaInfo : (UIImage *) img andTitle : (NSString *) title andArtist : (NSString *) artist
-{
-	NSLog(@"begen set album art, to MPNowPlayingInfoCenter.");
-	if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
-		NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-
-
-		[dict setObject:title forKey:MPMediaItemPropertyAlbumTitle];
-		[dict setObject:artist forKey:MPMediaItemPropertyArtist];
-
-		float totalSeconds = [audioStream duration].minute * 60.0 + [audioStream duration].second;
-		[dict setObject:[NSNumber numberWithFloat:totalSeconds] forKey:MPMediaItemPropertyPlaybackDuration];
-		[dict setObject:[NSNumber numberWithFloat:[audioStream currentTimePlayed].playbackTimeInSeconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
-
-//		MPMediaItemArtwork * mArt = [[MPMediaItemArtwork alloc] initWithImage:img];
-//		[dict setObject:mArt forKey:MPMediaItemPropertyArtwork];
-		[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
-		[[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
-	}
 }
 
 @end

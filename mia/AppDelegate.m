@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <AVFoundation/AVFoundation.h>
+#import "MusicPlayerMgr.h"
 
 @interface AppDelegate ()
 
@@ -66,38 +67,9 @@
 }
 
 #pragma mark 远程控制事件
--(void)remoteControlReceivedWithEvent:(UIEvent *)event{
-	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
-	if(event.type==UIEventTypeRemoteControl){
-		switch (event.subtype) {
-			case UIEventSubtypeRemoteControlPlay:
-				//[self playMusic];
-				break;
-			case UIEventSubtypeRemoteControlTogglePlayPause:
-				//[self onClickPlayButton:nil];
-				break;
-			case UIEventSubtypeRemoteControlNextTrack:
-				NSLog(@"Next...");
-				break;
-			case UIEventSubtypeRemoteControlPreviousTrack:
-				NSLog(@"Previous...");
-				break;
-			case UIEventSubtypeRemoteControlBeginSeekingForward:
-				NSLog(@"Begin seek forward...");
-				break;
-			case UIEventSubtypeRemoteControlEndSeekingForward:
-				NSLog(@"End seek forward...");
-				break;
-			case UIEventSubtypeRemoteControlBeginSeekingBackward:
-				NSLog(@"Begin seek backward...");
-				break;
-			case UIEventSubtypeRemoteControlEndSeekingBackward:
-				NSLog(@"End seek backward...");
-				break;
-			default:
-				break;
-		}
-	}
+-(void)remoteControlReceivedWithEvent:(UIEvent *)event {
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicPlayerMgrNotificationUserInfoKey];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
 }
 
 #pragma mark - Core Data stack

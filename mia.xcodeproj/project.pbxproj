@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
+		397E427D1BA26ED2006BE9E7 /* MusicPlayerMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E427C1BA26ED2006BE9E7 /* MusicPlayerMgr.m */; };
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
@@ -74,6 +75,8 @@
 /* Begin PBXFileReference section */
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
+		397E427B1BA26ED2006BE9E7 /* MusicPlayerMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerMgr.h; sourceTree = "<group>"; };
+		397E427C1BA26ED2006BE9E7 /* MusicPlayerMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerMgr.m; sourceTree = "<group>"; };
 		397F02CC1B9EEEF500C413FE /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02D01B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02D11B9EEEF500C413FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -217,6 +220,23 @@
 			path = WebSocketMgr;
 			sourceTree = "<group>";
 		};
+		397E42791BA26ED2006BE9E7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				397E427A1BA26ED2006BE9E7 /* MusicPlayerMgr */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		397E427A1BA26ED2006BE9E7 /* MusicPlayerMgr */ = {
+			isa = PBXGroup;
+			children = (
+				397E427B1BA26ED2006BE9E7 /* MusicPlayerMgr.h */,
+				397E427C1BA26ED2006BE9E7 /* MusicPlayerMgr.m */,
+			);
+			path = MusicPlayerMgr;
+			sourceTree = "<group>";
+		};
 		397F02C31B9EEEF500C413FE = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +260,7 @@
 		397F02CE1B9EEEF500C413FE /* mia */ = {
 			isa = PBXGroup;
 			children = (
+				397E42791BA26ED2006BE9E7 /* Model */,
 				397E42741BA126AF006BE9E7 /* Network */,
 				39BCADA51BA02F3100C6F7F2 /* Vendors */,
 				39BCAD771BA02AFE00C6F7F2 /* UIComponment */,
@@ -769,6 +790,7 @@
 				39BCAD9F1BA02AFE00C6F7F2 /* UIView+Extension.m in Sources */,
 				39BCAD411B9F141B00C6F7F2 /* UserDefaultsUtils.m in Sources */,
 				39BCAD6E1B9F15E600C6F7F2 /* NSString+IsNull.m in Sources */,
+				397E427D1BA26ED2006BE9E7 /* MusicPlayerMgr.m in Sources */,
 				39BCADD11BA02F3100C6F7F2 /* UIButton+WebCache.m in Sources */,
 				39BCAD711B9F15E600C6F7F2 /* UIColor+HexColorString.m in Sources */,
 				39BCAD6A1B9F15E600C6F7F2 /* NSData+Base64.m in Sources */,
