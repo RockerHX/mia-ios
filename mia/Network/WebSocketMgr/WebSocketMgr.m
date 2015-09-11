@@ -65,7 +65,9 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 
 - (void)sendPing:(id)sender
 {
-	[_webSocket sendPing:nil];
+	if ([_webSocket readyState] == SR_OPEN) {
+		[_webSocket sendPing:nil];
+	}
 }
 
 - (void)send:(id)data {

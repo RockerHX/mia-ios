@@ -100,18 +100,23 @@
 
 -(void)notificationWebSocketDidOpen:(NSNotification *)notification {
 	self.title = @"Connected!";
+	[radioView setLogText:@"Websocket Connected"];
 }
 -(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	self.title = @"Connection Failed! (see logs)";
+	[radioView setLogText:@"Websocket Connection Failed."];
 }
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSLog(@"RadioViewController Received \"%@\"", [[notification userInfo] valueForKey:WebSocketMgrNotificationUserInfoKey]);
+	NSString *msg = [[NSString alloc] initWithFormat:@"%@", [[notification userInfo] valueForKey:WebSocketMgrNotificationUserInfoKey]];
+	NSLog(@"RadioViewController Received \"%@\"", msg);
+	[radioView setLogText:msg];
 }
 -(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	self.title = @"Connection Closed! (see logs)";
 }
 -(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
 	NSLog(@"RadioViewController Websocket received pong");
+	[radioView setLogText:@"Websocket received pong"];
 }
 
 #pragma mark - RadioViewDelegate

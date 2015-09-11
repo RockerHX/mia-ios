@@ -11,6 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIImage+ColorToImage.h"
 #import "HJWButton.h"
+#import "HJWLabel.h"
 #import "MusicPlayerMgr.h"
 
 @implementation RadioView {
@@ -18,6 +19,7 @@
 	HJWButton *loginButton;
 	HJWButton *reconnectButton;
 	HJWButton *playButton;
+	HJWLabel *logLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -103,6 +105,25 @@
 	playButton.layer.cornerRadius = 5.0f;
 	[playButton addTarget:self action:@selector(onClickPlayButton:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:playButton];
+
+	static const CGFloat kLabelFontSize = 11.0f;
+	//用户名
+	CGRect logLabelFrame = CGRectMake(10.0f,
+									   self.bounds.size.height - 100.0f,
+									   self.bounds.size.width - 20,
+									   100.0f);
+	NSString *nameString = @"Mia Music";
+	logLabel = [[HJWLabel alloc] initWithFrame:logLabelFrame
+										   text:nameString
+										   font:UIFontFromSize(kLabelFontSize)
+									  textColor:[UIColor blackColor]
+								  textAlignment:NSTextAlignmentCenter
+									numberLines:3];
+	[self addSubview:logLabel];
+}
+
+- (void)setLogText:(NSString *)msg {
+	[logLabel setText:msg];
 }
 
 #pragma mark - Notification

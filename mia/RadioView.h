@@ -21,4 +21,6 @@
 
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 
+- (void)setLogText:(NSString *)msg;
+
 @end
