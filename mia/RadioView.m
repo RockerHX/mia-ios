@@ -123,7 +123,18 @@
 }
 
 - (void)setLogText:(NSString *)msg {
-	[logLabel setText:msg];
+	NSDate *now = [NSDate date];
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
+
+	NSString *text = [[NSString alloc]
+					  initWithFormat:@"%02ld:%02ld:%02ld %@",
+					  (long)[dateComponent hour],
+					  [dateComponent minute],
+					  [dateComponent second],
+					  msg];
+	[logLabel setText:text];
 }
 
 #pragma mark - Notification
