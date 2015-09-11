@@ -130,6 +130,14 @@
 - (void)onClickReconnectButton:(id)sender {
 	NSLog(@"OnClick Reconnect");
 	[self.radioViewDelegate notifyReconnect];
+
+	// for test
+//	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/e8ace5fe6fdd0b3eea0a0d717d562b98.mp3";
+//	static NSString *defaultMusicTitle = @"轻音乐";
+//	static NSString *defaultMusicArtist = @"小虫";
+//
+//	[[MusicPlayerMgr standarMusicPlayerMgr] playWithUrl:defaultMusicUrl andTitle:defaultMusicTitle andArtist:defaultMusicArtist];
+//	[playButton setTitle:@"Pause" forState:UIControlStateNormal];
 }
 
 - (void)onClickPlayButton:(id)sender {

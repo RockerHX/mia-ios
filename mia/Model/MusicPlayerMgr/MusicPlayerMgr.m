@@ -73,10 +73,15 @@ NSString * const MusicPlayerMgrNotificationDidPause			 	= @"MusicPlayerMgrNotifi
 }
 
 - (void)playWithUrl:url andTitle:title andArtist:artist {
-	// TODO 歌曲url不一样时需要停止歌曲后重新播放
-	if ([audioStream url]) {
+	if (![audioStream url]) {
+		// 没有设置过歌曲url，直接播放
+		[audioStream playFromURL:[NSURL URLWithString:url]];
+	} else if ([[[audioStream url] absoluteString] isEqualToString:url]) {
+		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
 		[audioStream pause];
 	} else {
+		// 切换歌曲
+		[audioStream stop];
 		[audioStream playFromURL:[NSURL URLWithString:url]];
 	}
 
