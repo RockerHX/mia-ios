@@ -30,10 +30,14 @@
 	[self.window setRootViewController:self.navigationController];
 	[self.window makeKeyAndVisible];
 
+	// 设置后台播放模式
 	AVAudioSession *audioSession=[AVAudioSession sharedInstance];
 	[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
 	[audioSession setActive:YES error:nil];
 
+	//启用远程控制事件接收
+	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+	
 	return YES;
 }
 
@@ -59,6 +63,41 @@
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	// Saves changes in the application's managed object context before the application terminates.
 	[self saveContext];
+}
+
+#pragma mark 远程控制事件
+-(void)remoteControlReceivedWithEvent:(UIEvent *)event{
+	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
+	if(event.type==UIEventTypeRemoteControl){
+		switch (event.subtype) {
+			case UIEventSubtypeRemoteControlPlay:
+				//[self playMusic];
+				break;
+			case UIEventSubtypeRemoteControlTogglePlayPause:
+				//[self onClickPlayButton:nil];
+				break;
+			case UIEventSubtypeRemoteControlNextTrack:
+				NSLog(@"Next...");
+				break;
+			case UIEventSubtypeRemoteControlPreviousTrack:
+				NSLog(@"Previous...");
+				break;
+			case UIEventSubtypeRemoteControlBeginSeekingForward:
+				NSLog(@"Begin seek forward...");
+				break;
+			case UIEventSubtypeRemoteControlEndSeekingForward:
+				NSLog(@"End seek forward...");
+				break;
+			case UIEventSubtypeRemoteControlBeginSeekingBackward:
+				NSLog(@"Begin seek backward...");
+				break;
+			case UIEventSubtypeRemoteControlEndSeekingBackward:
+				NSLog(@"End seek backward...");
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 #pragma mark - Core Data stack

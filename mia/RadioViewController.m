@@ -8,7 +8,6 @@
 
 #import "RadioViewController.h"
 #import "WebSocketMgr.h"
-#import "SRWebSocket.h"
 #import "RadioView.h"
 #import "UIImage+ColorToImage.h"
 
@@ -56,7 +55,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceivePong:) name:WebSocketMgrNotificationDidReceivePong object:[WebSocketMgr standarWebSocketMgr]];
 }
 
--(void)dealloc{
+-(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:[WebSocketMgr standarWebSocketMgr]];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:[WebSocketMgr standarWebSocketMgr]];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:[WebSocketMgr standarWebSocketMgr]];
@@ -74,6 +73,10 @@
 	[super viewWillAppear:animated];
 	[[WebSocketMgr standarWebSocketMgr] reconnect];
 	self.title = @"Opening Connection...";
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
 }
 
 - (void)sendPing:(id)sender;
