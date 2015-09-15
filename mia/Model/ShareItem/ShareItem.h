@@ -21,6 +21,8 @@
 @property (strong, nonatomic) NSString *sLongitude;
 @property (strong, nonatomic) NSString *sLatitude;
 
+@property (strong, nonatomic) MusicItem *music;
+
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

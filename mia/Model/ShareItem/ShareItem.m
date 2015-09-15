@@ -23,6 +23,8 @@
 		self.sLatitude = [dictionary objectForKey:@"sLatitude"];
 		self.cView = [[dictionary objectForKey:@"cView"] intValue];
 		self.cComm = [[dictionary objectForKey:@"cComm"] intValue];
+
+		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
     }
 	
     return self;

@@ -7,6 +7,8 @@
 //
 
 extern NSString * const MiaAPIKey_ServerCommand;
+extern NSString * const MiaAPICommand_Music_GetNearby;
+extern NSString * const MiaAPICommand_User_PostGuest;
 
 @interface MiaAPIHelper : NSObject
 

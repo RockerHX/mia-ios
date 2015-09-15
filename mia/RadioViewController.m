@@ -12,9 +12,11 @@
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
 #import "AAPullToRefresh.h"
+#import "ShareItem.h"
 
 const CGFloat kTopViewDefaultHeight				= 30.0f;
 const CGFloat kBottomViewDefaultHeight			= 30.0f;
+const int kShareListMax							= 10;
 
 @interface RadioViewController () <RadioViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -23,6 +25,9 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 @end
 
 @implementation RadioViewController {
+	NSMutableArray *onlineShareList;
+	ShareItem *currentShareItem;
+	BOOL isLoading;
 }
 
 - (void)viewDidLoad {
@@ -67,6 +72,9 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	}];
 	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
 	bv.borderColor = [UIColor whiteColor];
+
+	onlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+	isLoading = YES;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:[WebSocketMgr standarWebSocketMgr]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:[WebSocketMgr standarWebSocketMgr]];
@@ -156,6 +164,15 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	NSLog(@"%@", command);
 
 	[_radioView setLogText:command];
+
+	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
+		[self handleNearbyFeeds:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
+		NSLog(@"without guid, we can do nothing.");
+		// TODO linyehui
+		// 没有guid的时候后续的获取信息都会失败
+	}
+
 }
 
 -(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
@@ -180,6 +197,37 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 - (void)notifyReconnect {
 	[[WebSocketMgr standarWebSocketMgr] reconnect];
 	self.title = @"Opening Connection...";
+}
+
+#pragma mark - received message from websocket
+
+- (void)handleNearbyFeeds:(NSDictionary *) userInfo {
+	NSArray *shareList = userInfo[@"v"][@"data"];
+	if (!shareList)
+		return;
+
+	for(id item in shareList){
+		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
+		//NSLog(@"%@", shareItem);
+		[onlineShareList addObject:shareItem];
+	}
+
+	if (isLoading) {
+		[self showNextShare];
+		isLoading = NO;
+	}
+
+}
+
+- (ShareItem *)showNextShare {
+	currentShareItem = [onlineShareList objectAtIndex:0];
+	[onlineShareList removeObjectAtIndex:0];
+
+	if ([onlineShareList count] == 0) {
+		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
+	}
+
+	return currentShareItem;
 }
 
 @end

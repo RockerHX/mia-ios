@@ -6,8 +6,6 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-//typedef void(^RequestGetBannerSceneSuccess)();
-
 extern NSString * const MusicPlayerMgrNotificationUserInfoKey;
 
 extern NSString * const MusicPlayerMgrNotificationRemoteControlEvent;
