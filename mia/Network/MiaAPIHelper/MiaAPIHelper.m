@@ -20,11 +20,13 @@ NSString * const MiaAPIKey_Timestamp				= @"s";
 NSString * const MiaAPIKey_Values					= @"v";
 
 NSString * const MiaAPICommand_Music_GetNearby		= @"Music.Get.Nearby";
-
 NSString * const MiaAPIKey_Latitude					= @"latitude";
 NSString * const MiaAPIKey_Longitude				= @"longitude";
 NSString * const MiaAPIKey_Start					= @"start";
 NSString * const MiaAPIKey_Item						= @"item";
+
+NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
+NSString * const MiaAPIKey_GUID						= @"guid";
 
 NSString * const UserDefaultsKey_UUID				= @"uuid";
 
@@ -47,9 +49,33 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 
 +(void)sendUUID {
 	NSString *currentUUID = [self getUUID];
+	//NSLog(@"%@, %lu", currentUUID, (unsigned long)currentUUID.length);
 
-	NSLog(@"%@, %lu", currentUUID, (unsigned long)currentUUID.length);
-	// TODO send to server
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostGuest forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:currentUUID forKey:MiaAPIKey_GUID];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standarWebSocketMgr] send:jsonString];
+
 }
 
 +(void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item {
@@ -72,7 +98,8 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 													   options:NSJSONWritingPrettyPrinted
 														 error:&error];
 	if (error) {
-		NSLog(@"dic->%@", error);
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
 	}
 
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
