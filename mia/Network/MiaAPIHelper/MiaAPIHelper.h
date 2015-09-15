@@ -10,7 +10,8 @@ extern NSString * const MiaAPIKey_ServerCommand;
 
 @interface MiaAPIHelper : NSObject
 
-+(void)sendGUID;
++(id)getUUID;
++(void)sendUUID;
 +(void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item;
 
 @end

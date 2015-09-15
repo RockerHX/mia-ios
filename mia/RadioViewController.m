@@ -107,8 +107,8 @@
 	self.title = @"Connected!";
 	[radioView setLogText:@"Websocket Connected"];
 
-	// TODO send guid to server
-	[MiaAPIHelper sendGUID];
+	// TODO send uuid to server
+	[MiaAPIHelper sendUUID];
 	[self loadData];
 
 }

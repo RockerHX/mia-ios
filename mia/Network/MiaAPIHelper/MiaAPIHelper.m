@@ -26,7 +26,7 @@ NSString * const MiaAPIKey_Longitude				= @"longitude";
 NSString * const MiaAPIKey_Start					= @"start";
 NSString * const MiaAPIKey_Item						= @"item";
 
-NSString * const UserDefaultsKey_GUID				= @"guid";
+NSString * const UserDefaultsKey_UUID				= @"uuid";
 
 @interface MiaAPIHelper()
 
@@ -35,14 +35,20 @@ NSString * const UserDefaultsKey_GUID				= @"guid";
 @implementation MiaAPIHelper{
 }
 
-+(void)sendGUID {
-	NSString *currentGUID = [UserDefaultsUtils valueWithKey:UserDefaultsKey_GUID];
-	if (!currentGUID) {
-		currentGUID = [[NSUUID UUID] UUIDString];
-		[UserDefaultsUtils saveValue:currentGUID forKey:UserDefaultsKey_GUID];
++(id)getUUID {
+	NSString *currentUUID = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UUID];
+	if (!currentUUID) {
+		currentUUID = [[NSUUID UUID] UUIDString];
+		[UserDefaultsUtils saveValue:currentUUID forKey:UserDefaultsKey_UUID];
 	}
 
-	//NSLog(@"%@, %d", currentGUID, currentGUID.length);
+	return currentUUID;
+}
+
++(void)sendUUID {
+	NSString *currentUUID = [self getUUID];
+
+	NSLog(@"%@, %lu", currentUUID, (unsigned long)currentUUID.length);
 	// TODO send to server
 }
 
