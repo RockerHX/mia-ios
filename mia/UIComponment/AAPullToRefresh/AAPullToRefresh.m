@@ -133,8 +133,8 @@
         self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     else
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    //self.backgroundColor = [UIColor clearColor];
-	self.backgroundColor = UIColor.greenColor;
+    self.backgroundColor = [UIColor clearColor];
+	
     //init actitvity indicator
     _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     _activityIndicatorView.hidesWhenStopped = YES;

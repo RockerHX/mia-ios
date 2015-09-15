@@ -18,7 +18,6 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 @interface RadioViewController () <RadioViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *thresholdView;
 @property (nonatomic, strong) RadioView *radioView;
 
 @end
@@ -38,32 +37,20 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	self.scrollView.alwaysBounceHorizontal = NO;
 	self.scrollView.alwaysBounceVertical = YES;
 	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	self.scrollView.backgroundColor = UIColor.yellowColor;
+	self.scrollView.backgroundColor = UIColor.grayColor;
 	[self.view addSubview:self.scrollView];
-
-//	CGRect rect = self.scrollView.bounds;
-//	rect.size.height = self.scrollView.contentSize.height;
-//	rect.origin.y += kTopViewDefaultHeight;
-//	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
-//
-//	self.radioView = [[RadioView alloc] initWithFrame:rect];
-//	self.radioView.radioViewDelegate = self;
-//	//self.thresholdView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//	self.radioView.userInteractionEnabled = NO;
-//	self.radioView.backgroundColor = UIColor.redColor;
-//	[self.scrollView addSubview:self.radioView];
 
 	CGRect rect = self.scrollView.bounds;
 	rect.size.height = self.scrollView.contentSize.height;
 	rect.origin.y += kTopViewDefaultHeight;
 	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
 
-	self.thresholdView = [[UIView alloc] initWithFrame:rect];
+	self.radioView = [[RadioView alloc] initWithFrame:rect];
+	self.radioView.radioViewDelegate = self;
 	//self.thresholdView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	self.thresholdView.userInteractionEnabled = NO;
-	self.thresholdView.backgroundColor = UIColor.redColor;
-	[self.scrollView addSubview:self.thresholdView];
-
+	//self.radioView.userInteractionEnabled = NO;
+	self.radioView.backgroundColor = UIColor.whiteColor;
+	[self.scrollView addSubview:self.radioView];
 
 	// top
 	AAPullToRefresh *tv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionTop actionHandler:^(AAPullToRefresh *v){
@@ -118,12 +105,12 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	rect.size.height = self.scrollView.contentSize.height;
 	rect.origin.y += kTopViewDefaultHeight;
 	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
-	self.thresholdView.frame = rect;
+	self.radioView.frame = rect;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-	return self.thresholdView;
+	return self.radioView;
 }
 
 - (void)sendPing:(id)sender;
