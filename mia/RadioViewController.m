@@ -150,27 +150,12 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	self.title = @"Connection Failed! (see logs)";
 	[_radioView setLogText:@"Websocket Connection Failed."];
 }
+
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *msg = [[NSString alloc] initWithFormat:@"%@", [[notification userInfo] valueForKey:WebSocketMgrNotificationUserInfoKey]];
-	//NSLog(@"RadioViewController Received \"%@\"", msg);
-	[_radioView setLogText:msg];
-
-	//解析JSON
-	NSError *error = nil;
-	id resultString = [NSJSONSerialization JSONObjectWithData:[msg dataUsingEncoding:NSUTF8StringEncoding]
-													  options:NSJSONReadingMutableLeaves
-														error:&error];
-	if (error) {
-		NSLog(@"dic->%@",error);
-		return;
-	}
-
-	NSString *command = resultString[MiaAPIKey_ServerCommand];
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
 	NSLog(@"%@", command);
-	
-	//NSArray *navigatorArray = resultString[@"navigator"];
 
-	//NSLog(@"\njsonString:%@\nresultString:%@\nnavigatorArray:%@", jsonString, resultString, navigatorArray);
+	[_radioView setLogText:command];
 }
 
 -(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {

@@ -9,8 +9,11 @@
 
 #import "WebSocketMgr.h"
 #import "SRWebSocket.h"
+#import "MiaAPIHelper.h"
 
-NSString * const WebSocketMgrNotificationUserInfoKey			= @"msg";
+NSString * const WebSocketMgrNotificationKey_Msg				= @"msg";
+NSString * const WebSocketMgrNotificationKey_Command			= @"cmd";
+NSString * const WebSocketMgrNotificationKey_Values				= @"values";
 
 NSString * const WebSocketMgrNotificationDidOpen			 	= @"WebSocketMgrNotificationDidOpen";
 NSString * const WebSocketMgrNotificationDidFailWithError		= @"WebSocketMgrNotificationDidFailWithError";
@@ -99,19 +102,25 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 	[timer invalidate];
 	_webSocket = nil;
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:WebSocketMgrNotificationUserInfoKey];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:WebSocketMgrNotificationKey_Msg];
 	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailWithError object:self userInfo:userInfo];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
 {
 	NSLog(@"Received \"%@\"", message);
-	//[_messages addObject:[[TCMessage alloc] initWithMessage:message fromMe:NO]];
-	//[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_messages.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-	//[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:message forKey:WebSocketMgrNotificationUserInfoKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceiveMessage object:self userInfo:userInfo];
+	//解析JSON
+	NSError *error = nil;
+	id resultString = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding]
+													  options:NSJSONReadingMutableLeaves
+														error:&error];
+	if (error) {
+		NSLog(@"dic->%@",error);
+		return;
+	}
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceiveMessage object:self userInfo:resultString];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;

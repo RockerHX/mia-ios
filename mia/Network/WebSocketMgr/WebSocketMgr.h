@@ -8,7 +8,9 @@
 
 //typedef void(^RequestGetBannerSceneSuccess)();
 
-extern NSString * const WebSocketMgrNotificationUserInfoKey;
+extern NSString * const WebSocketMgrNotificationKey_Msg;
+extern NSString * const WebSocketMgrNotificationKey_Command;
+extern NSString * const WebSocketMgrNotificationKey_Values;
 
 extern NSString * const WebSocketMgrNotificationDidOpen;
 extern NSString * const WebSocketMgrNotificationDidFailWithError;

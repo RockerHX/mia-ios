@@ -13,6 +13,8 @@
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
 		397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E428A1BA7CA5A006BE9E7 /* centerIcon@2x.png */; };
 		397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */; };
+		397E42921BA816B6006BE9E7 /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42911BA816B6006BE9E7 /* FeedItem.m */; };
+		397E42961BA81836006BE9E7 /* MusicItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42951BA81836006BE9E7 /* MusicItem.m */; };
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
@@ -87,6 +89,10 @@
 		397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPullToRefresh.m; sourceTree = "<group>"; };
 		397E428A1BA7CA5A006BE9E7 /* centerIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "centerIcon@2x.png"; sourceTree = "<group>"; };
 		397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchpad@2x.png"; sourceTree = "<group>"; };
+		397E42901BA816B6006BE9E7 /* FeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
+		397E42911BA816B6006BE9E7 /* FeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
+		397E42941BA81836006BE9E7 /* MusicItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicItem.h; sourceTree = "<group>"; };
+		397E42951BA81836006BE9E7 /* MusicItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicItem.m; sourceTree = "<group>"; };
 		397F02CC1B9EEEF500C413FE /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02D01B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02D11B9EEEF500C413FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -234,6 +240,8 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				397E42931BA81836006BE9E7 /* MusicItem */,
+				397E428F1BA816B6006BE9E7 /* FeedItem */,
 				397E427A1BA26ED2006BE9E7 /* MusicPlayerMgr */,
 			);
 			path = Model;
@@ -266,6 +274,24 @@
 				397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */,
 			);
 			path = AAPullToRefresh;
+			sourceTree = "<group>";
+		};
+		397E428F1BA816B6006BE9E7 /* FeedItem */ = {
+			isa = PBXGroup;
+			children = (
+				397E42901BA816B6006BE9E7 /* FeedItem.h */,
+				397E42911BA816B6006BE9E7 /* FeedItem.m */,
+			);
+			path = FeedItem;
+			sourceTree = "<group>";
+		};
+		397E42931BA81836006BE9E7 /* MusicItem */ = {
+			isa = PBXGroup;
+			children = (
+				397E42941BA81836006BE9E7 /* MusicItem.h */,
+				397E42951BA81836006BE9E7 /* MusicItem.m */,
+			);
+			path = MusicItem;
 			sourceTree = "<group>";
 		};
 		397F02C31B9EEEF500C413FE = {
@@ -780,6 +806,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39BCAD741B9F15E600C6F7F2 /* UIImage+ImageEffects.m in Sources */,
+				397E42961BA81836006BE9E7 /* MusicItem.m in Sources */,
 				39BCAD761B9F15E600C6F7F2 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				39BCAD731B9F15E600C6F7F2 /* UIImage+Extrude.m in Sources */,
 				39BCADD01BA02F3100C6F7F2 /* SDWebImagePrefetcher.m in Sources */,
@@ -791,6 +818,7 @@
 				39BCAD6D1B9F15E600C6F7F2 /* NSString+Emoji.m in Sources */,
 				39BCAD6C1B9F15E600C6F7F2 /* NSString+DateFormatter.m in Sources */,
 				39BCADD41BA02F3100C6F7F2 /* UIImage+WebP.m in Sources */,
+				397E42921BA816B6006BE9E7 /* FeedItem.m in Sources */,
 				39BCADCC1BA02F3100C6F7F2 /* SDWebImageDecoder.m in Sources */,
 				39BCADD31BA02F3100C6F7F2 /* UIImage+MultiFormat.m in Sources */,
 				39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */,
