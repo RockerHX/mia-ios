@@ -27,7 +27,7 @@
 	if(self){
 		self.userInteractionEnabled = YES;
 //		self.backgroundColor = [UIColor redColor];
-		[self loadButtons];
+		[self initUI];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:[MusicPlayerMgr standarMusicPlayerMgr]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:[MusicPlayerMgr standarMusicPlayerMgr]];
@@ -41,7 +41,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:[MusicPlayerMgr standarMusicPlayerMgr]];
 }
 
-- (void)loadButtons {
+- (void)initUI {
 	CGRect pingButtonFrame = CGRectMake(60,
 										50.0f,
 										200,

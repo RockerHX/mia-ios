@@ -10,6 +10,7 @@
 #import "WebSocketMgr.h"
 #import "RadioView.h"
 #import "UIImage+ColorToImage.h"
+#import "MiaAPIHelper.h"
 
 @interface RadioViewController () <RadioViewDelegate>
 
@@ -96,11 +97,20 @@
 	[[WebSocketMgr standarWebSocketMgr] close];
 }
 
+- (void)loadData {
+	[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
+}
+
 #pragma mark - Notification
 
 -(void)notificationWebSocketDidOpen:(NSNotification *)notification {
 	self.title = @"Connected!";
 	[radioView setLogText:@"Websocket Connected"];
+
+	// TODO send guid to server
+	[MiaAPIHelper sendGUID];
+	[self loadData];
+
 }
 -(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	self.title = @"Connection Failed! (see logs)";
@@ -108,14 +118,32 @@
 }
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *msg = [[NSString alloc] initWithFormat:@"%@", [[notification userInfo] valueForKey:WebSocketMgrNotificationUserInfoKey]];
-	NSLog(@"RadioViewController Received \"%@\"", msg);
+	//NSLog(@"RadioViewController Received \"%@\"", msg);
 	[radioView setLogText:msg];
+
+	//解析JSON
+	NSError *error = nil;
+	id resultString = [NSJSONSerialization JSONObjectWithData:[msg dataUsingEncoding:NSUTF8StringEncoding]
+													  options:NSJSONReadingMutableLeaves
+														error:&error];
+	if (error) {
+		NSLog(@"dic->%@",error);
+		return;
+	}
+
+	NSString *command = resultString[MiaAPIKey_ServerCommand];
+	NSLog(@"%@", command);
+	
+	//NSArray *navigatorArray = resultString[@"navigator"];
+
+	//NSLog(@"\njsonString:%@\nresultString:%@\nnavigatorArray:%@", jsonString, resultString, navigatorArray);
 }
+
 -(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	self.title = @"Connection Closed! (see logs)";
 }
 -(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
-	NSLog(@"RadioViewController Websocket received pong");
+//	NSLog(@"RadioViewController Websocket received pong");
 	[radioView setLogText:@"Websocket received pong"];
 }
 
