@@ -11,43 +11,75 @@
 #import "RadioView.h"
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
+#import "AAPullToRefresh.h"
+
+const CGFloat kTopViewDefaultHeight				= 30.0f;
+const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 @interface RadioViewController () <RadioViewDelegate>
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *thresholdView;
+@property (nonatomic, strong) RadioView *radioView;
 
 @end
 
 @implementation RadioViewController {
-//	SRWebSocket *_webSocket;
-	RadioView *radioView;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-
 	self.view.backgroundColor = [UIColor whiteColor];
-	self.view.userInteractionEnabled = YES;
 
-	[self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
-	if ([[UIView appearance] respondsToSelector:@selector(setTintColor:)]) {
-		[self.navigationController.navigationBar setTintColor:UIColorFromHex(@"#FFFFFF", 1.0)];
-	}else{
-		[self.navigationController.navigationBar setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"#FFFFFF", 1.0)] forBarMetrics:UIBarMetricsDefault];
-	}
-	self.navigationController.navigationBar.translucent = NO;
+	self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	self.scrollView.delegate = self;
+	self.scrollView.maximumZoomScale = 2.0f;
+	self.scrollView.contentSize = self.view.bounds.size;
+	self.scrollView.alwaysBounceHorizontal = NO;
+	self.scrollView.alwaysBounceVertical = YES;
+	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	self.scrollView.backgroundColor = UIColor.yellowColor;
+	[self.view addSubview:self.scrollView];
 
-	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:UIColorFromHex(@"#434343", 1.0),
-									 NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:19.0]};
-	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
-	self.navigationItem.title = self.title;
+//	CGRect rect = self.scrollView.bounds;
+//	rect.size.height = self.scrollView.contentSize.height;
+//	rect.origin.y += kTopViewDefaultHeight;
+//	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
+//
+//	self.radioView = [[RadioView alloc] initWithFrame:rect];
+//	self.radioView.radioViewDelegate = self;
+//	//self.thresholdView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//	self.radioView.userInteractionEnabled = NO;
+//	self.radioView.backgroundColor = UIColor.redColor;
+//	[self.scrollView addSubview:self.radioView];
 
-	CGRect radioFrame = CGRectMake(self.view.bounds.origin.x,
-									 self.view.bounds.origin.y,
-									 self.view.bounds.size.width,
-									 self.view.bounds.size.height - self.navigationController.navigationBar.frame.size.height - self.navigationController.navigationBar.frame.origin.y);
-	radioView = [[RadioView alloc] initWithFrame:radioFrame];
-	radioView.radioViewDelegate = self;
-	[self.view addSubview:radioView];
+	CGRect rect = self.scrollView.bounds;
+	rect.size.height = self.scrollView.contentSize.height;
+	rect.origin.y += kTopViewDefaultHeight;
+	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
+
+	self.thresholdView = [[UIView alloc] initWithFrame:rect];
+	//self.thresholdView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	self.thresholdView.userInteractionEnabled = NO;
+	self.thresholdView.backgroundColor = UIColor.redColor;
+	[self.scrollView addSubview:self.thresholdView];
+
+
+	// top
+	AAPullToRefresh *tv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionTop actionHandler:^(AAPullToRefresh *v){
+		NSLog(@"fire from top");
+		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
+	}];
+	tv.imageIcon = [UIImage imageNamed:@"launchpad"];
+	tv.borderColor = [UIColor whiteColor];
+
+	// bottom
+	AAPullToRefresh *bv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionBottom actionHandler:^(AAPullToRefresh *v){
+		NSLog(@"fire from bottom");
+		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
+	}];
+	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
+	bv.borderColor = [UIColor whiteColor];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:[WebSocketMgr standarWebSocketMgr]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:[WebSocketMgr standarWebSocketMgr]];
@@ -80,6 +112,20 @@
 	[super viewWillDisappear:animated];
 }
 
+- (void)viewWillLayoutSubviews
+{
+	CGRect rect = self.scrollView.bounds;
+	rect.size.height = self.scrollView.contentSize.height;
+	rect.origin.y += kTopViewDefaultHeight;
+	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
+	self.thresholdView.frame = rect;
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+	return self.thresholdView;
+}
+
 - (void)sendPing:(id)sender;
 {
 	[[WebSocketMgr standarWebSocketMgr] sendPing:nil];
@@ -87,14 +133,15 @@
 
 - (void)viewDidAppear:(BOOL)animated;
 {
+	//[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[super viewDidAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
-
 	[[WebSocketMgr standarWebSocketMgr] close];
+	//[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[super viewDidDisappear:animated];
 }
 
 - (void)loadData {
@@ -105,7 +152,7 @@
 
 -(void)notificationWebSocketDidOpen:(NSNotification *)notification {
 	self.title = @"Connected!";
-	[radioView setLogText:@"Websocket Connected"];
+	[_radioView setLogText:@"Websocket Connected"];
 
 	// TODO send uuid to server
 	[MiaAPIHelper sendUUID];
@@ -114,12 +161,12 @@
 }
 -(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	self.title = @"Connection Failed! (see logs)";
-	[radioView setLogText:@"Websocket Connection Failed."];
+	[_radioView setLogText:@"Websocket Connection Failed."];
 }
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *msg = [[NSString alloc] initWithFormat:@"%@", [[notification userInfo] valueForKey:WebSocketMgrNotificationUserInfoKey]];
 	//NSLog(@"RadioViewController Received \"%@\"", msg);
-	[radioView setLogText:msg];
+	[_radioView setLogText:msg];
 
 	//解析JSON
 	NSError *error = nil;
@@ -144,7 +191,7 @@
 }
 -(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
 //	NSLog(@"RadioViewController Websocket received pong");
-	[radioView setLogText:@"Websocket received pong"];
+	[_radioView setLogText:@"Websocket received pong"];
 }
 
 #pragma mark - RadioViewDelegate

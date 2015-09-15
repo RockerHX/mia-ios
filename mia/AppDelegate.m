@@ -22,13 +22,10 @@
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.radioViewController = [[RadioViewController alloc] init];
 
-	self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.radioViewController];
-	self.navigationController.navigationBar.translucent = NO;
-	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:UIColorFromHex(@"#434343", 1.0),
-									 NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:19.0]};
-	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
-
-	[self.window setRootViewController:self.navigationController];
+	//self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.radioViewController];
+	//[self.navigationController setNavigationBarHidden:YES animated:NO];
+	//[self.window setRootViewController:self.navigationController];
+	[self.window setRootViewController:self.radioViewController];
 	[self.window makeKeyAndVisible];
 
 	// 设置后台播放模式

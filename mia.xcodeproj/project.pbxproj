@@ -10,6 +10,9 @@
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E427D1BA26ED2006BE9E7 /* MusicPlayerMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E427C1BA26ED2006BE9E7 /* MusicPlayerMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
+		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
+		397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E428A1BA7CA5A006BE9E7 /* centerIcon@2x.png */; };
+		397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */; };
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
@@ -80,6 +83,10 @@
 		397E427C1BA26ED2006BE9E7 /* MusicPlayerMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
 		397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiaAPIHelper.m; sourceTree = "<group>"; };
+		397E42881BA7CA5A006BE9E7 /* AAPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPullToRefresh.h; sourceTree = "<group>"; };
+		397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPullToRefresh.m; sourceTree = "<group>"; };
+		397E428A1BA7CA5A006BE9E7 /* centerIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "centerIcon@2x.png"; sourceTree = "<group>"; };
+		397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchpad@2x.png"; sourceTree = "<group>"; };
 		397F02CC1B9EEEF500C413FE /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02D01B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02D11B9EEEF500C413FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -248,6 +255,17 @@
 				397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */,
 			);
 			path = MiaAPIHelper;
+			sourceTree = "<group>";
+		};
+		397E42871BA7CA5A006BE9E7 /* AAPullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				397E42881BA7CA5A006BE9E7 /* AAPullToRefresh.h */,
+				397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */,
+				397E428A1BA7CA5A006BE9E7 /* centerIcon@2x.png */,
+				397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */,
+			);
+			path = AAPullToRefresh;
 			sourceTree = "<group>";
 		};
 		397F02C31B9EEEF500C413FE = {
@@ -469,6 +487,7 @@
 		39BCAD771BA02AFE00C6F7F2 /* UIComponment */ = {
 			isa = PBXGroup;
 			children = (
+				397E42871BA7CA5A006BE9E7 /* AAPullToRefresh */,
 				39BCAD781BA02AFE00C6F7F2 /* HJWLabel */,
 				39BCAD7B1BA02AFE00C6F7F2 /* HJWRefresh */,
 				39BCAD8A1BA02AFE00C6F7F2 /* HJWTextAlertView */,
@@ -707,7 +726,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				39BCAD9C1BA02AFE00C6F7F2 /* arrow@2x.png in Resources */,
+				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
 				397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */,
+				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +796,7 @@
 				39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */,
 				39BCAD9E1BA02AFE00C6F7F2 /* UIScrollView+HJWRefresh.m in Sources */,
 				39BCADA31BA02AFE00C6F7F2 /* HJWTipView.m in Sources */,
+				397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
 				39BCAD6B1B9F15E600C6F7F2 /* NSObject+PropertyAndMethods.m in Sources */,
