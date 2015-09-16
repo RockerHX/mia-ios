@@ -14,7 +14,7 @@ const int kShareListMax							= 10;
 }
 
 + (id)initFromArchive {
-	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[self onlineShareListArchivePath]];
+	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[self archivePath]];
 	if (!aMgr) {
 	    aMgr = [[self alloc] init];
 	}
@@ -25,28 +25,28 @@ const int kShareListMax							= 10;
 - (id)init {
 	self = [super init];
 	if (self) {
-		_onlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
-		_offlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+		_onlineList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+		_offlineList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
 	}
 
 	return self;
 }
 
 - (NSUInteger)getOnlineCount {
-	return [_onlineShareList count];
+	return [_onlineList count];
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);
-		[_onlineShareList addObject:shareItem];
+		[_onlineList addObject:shareItem];
 	}
 }
 
 - (ShareItem *)popShareItem {
-	_currentShareItem = [_onlineShareList objectAtIndex:0];
-	[_onlineShareList removeObjectAtIndex:0];
+	_currentShareItem = [_onlineList objectAtIndex:0];
+	[_onlineList removeObjectAtIndex:0];
 
 	return _currentShareItem;
 }
@@ -54,7 +54,7 @@ const int kShareListMax							= 10;
 
 - (BOOL)saveChanges {
 	// TODO
-	if (![NSKeyedArchiver archiveRootObject:self toFile:[ShareListMgr onlineShareListArchivePath]]) {
+	if (![NSKeyedArchiver archiveRootObject:self toFile:[ShareListMgr archivePath]]) {
 		NSLog(@"archive online share list failed.");
 		return NO;
 	}
@@ -62,25 +62,25 @@ const int kShareListMax							= 10;
 	return YES;
 }
 
-+ (NSString *)onlineShareListArchivePath {
++ (NSString *)archivePath {
 	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
 
-	return [documentDirectory stringByAppendingString:@"onlinelist.archive"];
+	return [documentDirectory stringByAppendingString:@"sharelist.archive"];
 }
 
 //将对象编码(即:序列化)
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-	[aCoder encodeObject:self.onlineShareList forKey:@"onlineList"];
-	[aCoder encodeObject:self.offlineShareList forKey:@"offlineList"];
+	[aCoder encodeObject:self.onlineList forKey:@"onlineList"];
+	[aCoder encodeObject:self.offlineList forKey:@"offlineList"];
 	[aCoder encodeObject:self.currentShareItem forKey:@"currentItem"];
 }
 
 //将对象解码(反序列化)
 -(id) initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
-		self.onlineShareList = [aDecoder decodeObjectForKey:@"onlineList"];
-		self.offlineShareList = [aDecoder decodeObjectForKey:@"offlineList"];
+		self.onlineList = [aDecoder decodeObjectForKey:@"onlineList"];
+		self.offlineList = [aDecoder decodeObjectForKey:@"offlineList"];
 		self.currentShareItem = [aDecoder decodeObjectForKey:@"currentItem"];
 	}
 

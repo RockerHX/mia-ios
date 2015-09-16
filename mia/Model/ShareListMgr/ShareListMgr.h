@@ -10,8 +10,8 @@
 
 @interface ShareListMgr : NSObject <NSCoding>
 
-@property (strong, nonatomic) NSMutableArray *onlineShareList;
-@property (strong, nonatomic) NSMutableArray *offlineShareList;
+@property (strong, nonatomic) NSMutableArray *onlineList;
+@property (strong, nonatomic) NSMutableArray *offlineList;
 @property (strong, nonatomic) ShareItem *currentShareItem;
 
 + (id)initFromArchive;
