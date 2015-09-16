@@ -15,6 +15,7 @@
 		397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E428B1BA7CA5A006BE9E7 /* launchpad@2x.png */; };
 		397E42961BA81836006BE9E7 /* MusicItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42951BA81836006BE9E7 /* MusicItem.m */; };
 		397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42991BA83131006BE9E7 /* ShareItem.m */; };
+		397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E429D1BA8EBE6006BE9E7 /* ShareListMgr.m */; };
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
@@ -93,6 +94,8 @@
 		397E42951BA81836006BE9E7 /* MusicItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicItem.m; sourceTree = "<group>"; };
 		397E42981BA83131006BE9E7 /* ShareItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareItem.h; sourceTree = "<group>"; };
 		397E42991BA83131006BE9E7 /* ShareItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareItem.m; sourceTree = "<group>"; };
+		397E429C1BA8EBE6006BE9E7 /* ShareListMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareListMgr.h; sourceTree = "<group>"; };
+		397E429D1BA8EBE6006BE9E7 /* ShareListMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareListMgr.m; sourceTree = "<group>"; };
 		397F02CC1B9EEEF500C413FE /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02D01B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02D11B9EEEF500C413FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -240,6 +243,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				397E429B1BA8EBE6006BE9E7 /* ShareListMgr */,
 				397E42971BA83131006BE9E7 /* ShareItem */,
 				397E42931BA81836006BE9E7 /* MusicItem */,
 				397E427A1BA26ED2006BE9E7 /* MusicPlayerMgr */,
@@ -292,6 +296,15 @@
 				397E42991BA83131006BE9E7 /* ShareItem.m */,
 			);
 			path = ShareItem;
+			sourceTree = "<group>";
+		};
+		397E429B1BA8EBE6006BE9E7 /* ShareListMgr */ = {
+			isa = PBXGroup;
+			children = (
+				397E429C1BA8EBE6006BE9E7 /* ShareListMgr.h */,
+				397E429D1BA8EBE6006BE9E7 /* ShareListMgr.m */,
+			);
+			path = ShareListMgr;
 			sourceTree = "<group>";
 		};
 		397F02C31B9EEEF500C413FE = {
@@ -827,6 +840,7 @@
 				397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
+				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				39BCAD6B1B9F15E600C6F7F2 /* NSObject+PropertyAndMethods.m in Sources */,
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,
 				39BCADCF1BA02F3100C6F7F2 /* SDWebImageManager.m in Sources */,

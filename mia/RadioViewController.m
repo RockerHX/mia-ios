@@ -13,10 +13,10 @@
 #import "MiaAPIHelper.h"
 #import "AAPullToRefresh.h"
 #import "ShareItem.h"
+#import "ShareListMgr.h"
 
 const CGFloat kTopViewDefaultHeight				= 30.0f;
 const CGFloat kBottomViewDefaultHeight			= 30.0f;
-const int kShareListMax							= 10;
 
 @interface RadioViewController () <RadioViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -25,8 +25,7 @@ const int kShareListMax							= 10;
 @end
 
 @implementation RadioViewController {
-	NSMutableArray *onlineShareList;
-	ShareItem *currentShareItem;
+	ShareListMgr *shareListMgr;
 	BOOL isLoading;
 }
 
@@ -73,7 +72,8 @@ const int kShareListMax							= 10;
 	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
 	bv.borderColor = [UIColor whiteColor];
 
-	onlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+	shareListMgr = [[ShareListMgr alloc] initFromArchive];
+	
 	isLoading = YES;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:[WebSocketMgr standarWebSocketMgr]];
@@ -206,28 +206,23 @@ const int kShareListMax							= 10;
 	if (!shareList)
 		return;
 
-	for(id item in shareList){
-		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
-		//NSLog(@"%@", shareItem);
-		[onlineShareList addObject:shareItem];
-	}
+	[shareListMgr addSharesWithArray:shareList];
 
 	if (isLoading) {
 		[self showNextShare];
 		isLoading = NO;
 	}
 
+	[shareListMgr saveChanges];
 }
 
 - (ShareItem *)showNextShare {
-	currentShareItem = [onlineShareList objectAtIndex:0];
-	[onlineShareList removeObjectAtIndex:0];
-
-	if ([onlineShareList count] == 0) {
+	ShareItem *currentItem = [shareListMgr popShareItem];
+	if ([shareListMgr getOnlineCount] == 0) {
 		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
 	}
 
-	return currentShareItem;
+	return currentItem;
 }
 
 @end

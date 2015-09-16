@@ -8,7 +8,7 @@
 
 #import "MusicItem.h"
 
-@interface ShareItem : NSObject
+@interface ShareItem : NSObject <NSCoding>
 
 @property (strong, nonatomic) NSString *spID;
 @property (strong, nonatomic) NSString *sID;
