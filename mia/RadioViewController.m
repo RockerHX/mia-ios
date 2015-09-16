@@ -177,7 +177,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 }
 
 - (void)loadData {
-	[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
+	[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:3];
 }
 
 #pragma mark - Notification

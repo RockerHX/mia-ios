@@ -13,6 +13,7 @@
 #import "HJWButton.h"
 #import "HJWLabel.h"
 #import "MusicPlayerMgr.h"
+#import "UIImageView+WebCache.h"
 
 @implementation RadioView {
 	HJWButton *pingButton;
@@ -20,6 +21,12 @@
 	HJWButton *reconnectButton;
 	HJWButton *playButton;
 	HJWLabel *logLabel;
+
+	UIImageView *coverImageView;
+	HJWLabel *musicNameLabel;
+	HJWLabel *musicArtistLabel;
+	HJWLabel *sharerLabel;
+	HJWLabel *noteLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -42,6 +49,82 @@
 }
 
 - (void)initUI {
+	static const CGFloat kCoverWidth = 160;
+	static const CGFloat kCoverHeight = 160;
+	static const CGFloat kCoverMarginTop = 90;
+
+	static const CGFloat kMusicNameMarginTop = kCoverMarginTop + kCoverHeight + 20;
+	static const CGFloat kMusicNameMarginLeft = 20;
+	static const CGFloat kMusicArtistMarginLeft = 10;
+	static const CGFloat kMusicNameHeight = 20;
+	static const CGFloat kMusicArtistHeight = 20;
+
+	static const CGFloat kSharerMarginLeft = 20;
+	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 20;
+	static const CGFloat kSharerHeight = 20;
+
+	static const CGFloat kNoteMarginLeft = 5;
+	static const CGFloat kNoteMarginTop = kSharerMarginTop;
+	static const CGFloat kNoteMarginRight = 50;
+	static const CGFloat kNoteHeight = 20;
+
+	CGRect aboutBackgroundFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
+											 kCoverMarginTop,
+											 kCoverWidth,
+											 kCoverHeight);
+	coverImageView = [[UIImageView alloc] initWithFrame:aboutBackgroundFrame];
+	[coverImageView sd_setImageWithURL:nil
+					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
+	[self addSubview:coverImageView];
+
+	musicNameLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
+														  kMusicNameMarginTop,
+														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
+														  kMusicNameHeight)
+										  text:@"Castle Walls"
+										  font:UIFontFromSize(9.0f)
+									 textColor:[UIColor blackColor]
+								 textAlignment:NSTextAlignmentRight
+								   numberLines:1];
+	[self addSubview:musicNameLabel];
+
+	musicArtistLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
+														  kMusicNameMarginTop,
+														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
+														  kMusicArtistHeight)
+										  text:@" - Mercy"
+										  font:UIFontFromSize(8.0f)
+										   textColor:[UIColor grayColor]
+									   textAlignment:NSTextAlignmentLeft
+								   numberLines:1];
+	[self addSubview:musicArtistLabel];
+
+	sharerLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
+																  kSharerMarginTop,
+																  coverImageView.frame.origin.x - kSharerMarginLeft,
+																  kSharerHeight)
+												  text:@"Aaronbing:"
+												  font:UIFontFromSize(9.0f)
+											 textColor:[UIColor blueColor]
+										 textAlignment:NSTextAlignmentRight
+										   numberLines:1];
+	//sharerLabel.backgroundColor = [UIColor yellowColor];
+	[self addSubview:sharerLabel];
+
+	noteLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
+															 kNoteMarginTop,
+															 self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
+															 kNoteHeight)
+											 text:@"灵乐盛行时期的巅峰之作，表达痛苦与傍徨。"
+											 font:UIFontFromSize(9.0f)
+										textColor:[UIColor blackColor]
+									textAlignment:NSTextAlignmentLeft
+									  numberLines:1];
+	//[noteLabel alignTop];
+	//noteLabel.backgroundColor = [UIColor redColor];
+	[self addSubview:noteLabel];
+
+/*
 	CGRect pingButtonFrame = CGRectMake(60,
 										50.0f,
 										200,
@@ -120,6 +203,7 @@
 								  textAlignment:NSTextAlignmentCenter
 									numberLines:3];
 	[self addSubview:logLabel];
+*/
 }
 
 - (void)setLogText:(NSString *)msg {
