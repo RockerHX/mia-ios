@@ -236,6 +236,10 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	self.title = @"Opening Connection...";
 }
 
+- (void)notifyPlayCompletion {
+	[self showNextShare];
+}
+
 #pragma mark - received message from websocket
 
 - (void)handleNearbyFeeds:(NSDictionary *) userInfo {

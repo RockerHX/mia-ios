@@ -366,7 +366,7 @@ static const CGFloat kNoteHeight = 60;
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	NSLog(@"play next song");
-	[self.radioViewDelegate notifyReconnect];
+	[self.radioViewDelegate notifyPlayCompletion];
 }
 
 #pragma mark - Actions
