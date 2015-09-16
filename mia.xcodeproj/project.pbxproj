@@ -34,6 +34,10 @@
 		397E42E11BA90CBC006BE9E7 /* startButton_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E42DF1BA90CBC006BE9E7 /* startButton_normal@2x.png */; };
 		397E42E31BA91154006BE9E7 /* setting_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E42E21BA91154006BE9E7 /* setting_share@2x.png */; };
 		397E42E51BA942C3006BE9E7 /* default_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 397E42E41BA942C3006BE9E7 /* default_cover@2x.jpg */; };
+		397E42EB1BA96118006BE9E7 /* favorite_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E42EA1BA96118006BE9E7 /* favorite_normal@2x.png */; };
+		397E42EF1BA96544006BE9E7 /* comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E42EC1BA96544006BE9E7 /* comments.png */; };
+		397E42F01BA96544006BE9E7 /* views.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E42ED1BA96544006BE9E7 /* views.png */; };
+		397E42F11BA96544006BE9E7 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 397E42EE1BA96544006BE9E7 /* location.png */; };
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
@@ -132,6 +136,10 @@
 		397E42DF1BA90CBC006BE9E7 /* startButton_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startButton_normal@2x.png"; sourceTree = "<group>"; };
 		397E42E21BA91154006BE9E7 /* setting_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting_share@2x.png"; sourceTree = "<group>"; };
 		397E42E41BA942C3006BE9E7 /* default_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default_cover@2x.jpg"; sourceTree = "<group>"; };
+		397E42EA1BA96118006BE9E7 /* favorite_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_normal@2x.png"; sourceTree = "<group>"; };
+		397E42EC1BA96544006BE9E7 /* comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comments.png; sourceTree = "<group>"; };
+		397E42ED1BA96544006BE9E7 /* views.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = views.png; sourceTree = "<group>"; };
+		397E42EE1BA96544006BE9E7 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		397F02CC1B9EEEF500C413FE /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02D01B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02D11B9EEEF500C413FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -471,6 +479,10 @@
 		397E42DD1BA90CBC006BE9E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				397E42EC1BA96544006BE9E7 /* comments.png */,
+				397E42ED1BA96544006BE9E7 /* views.png */,
+				397E42EE1BA96544006BE9E7 /* location.png */,
+				397E42EA1BA96118006BE9E7 /* favorite_normal@2x.png */,
 				397E42E41BA942C3006BE9E7 /* default_cover@2x.jpg */,
 				397E42E21BA91154006BE9E7 /* setting_share@2x.png */,
 				397E42DE1BA90CBC006BE9E7 /* startButton_hover@2x.png */,
@@ -801,12 +813,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				397E42E51BA942C3006BE9E7 /* default_cover@2x.jpg in Resources */,
+				397E42EF1BA96544006BE9E7 /* comments.png in Resources */,
 				39BCAD9C1BA02AFE00C6F7F2 /* arrow@2x.png in Resources */,
+				397E42F01BA96544006BE9E7 /* views.png in Resources */,
+				397E42F11BA96544006BE9E7 /* location.png in Resources */,
 				397E42E01BA90CBC006BE9E7 /* startButton_hover@2x.png in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
 				397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */,
 				397E42E11BA90CBC006BE9E7 /* startButton_normal@2x.png in Resources */,
 				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
+				397E42EB1BA96118006BE9E7 /* favorite_normal@2x.png in Resources */,
 				397E42E31BA91154006BE9E7 /* setting_share@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

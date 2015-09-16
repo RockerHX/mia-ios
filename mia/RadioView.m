@@ -26,7 +26,12 @@
 	HJWLabel *musicNameLabel;
 	HJWLabel *musicArtistLabel;
 	HJWLabel *sharerLabel;
-	HJWLabel *noteLabel;
+	UITextView *noteTextView;
+
+	HJWButton *favoriteButton;
+	HJWLabel *commentLabel;
+	HJWLabel *viewsLabel;
+	HJWLabel *locationLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -64,9 +69,9 @@
 	static const CGFloat kSharerHeight = 20;
 
 	static const CGFloat kNoteMarginLeft = 5;
-	static const CGFloat kNoteMarginTop = kSharerMarginTop;
+	static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
 	static const CGFloat kNoteMarginRight = 50;
-	static const CGFloat kNoteHeight = 20;
+	static const CGFloat kNoteHeight = 60;
 
 	CGRect aboutBackgroundFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
 											 kCoverMarginTop,
@@ -111,18 +116,107 @@
 	//sharerLabel.backgroundColor = [UIColor yellowColor];
 	[self addSubview:sharerLabel];
 
-	noteLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
-															 kNoteMarginTop,
-															 self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
-															 kNoteHeight)
-											 text:@"灵乐盛行时期的巅峰之作，表达痛苦与傍徨。"
-											 font:UIFontFromSize(9.0f)
-										textColor:[UIColor blackColor]
-									textAlignment:NSTextAlignmentLeft
-									  numberLines:1];
-	//[noteLabel alignTop];
-	//noteLabel.backgroundColor = [UIColor redColor];
-	[self addSubview:noteLabel];
+	noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
+															   kNoteMarginTop,
+															   self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
+																kNoteHeight)];
+	noteTextView.text = @"灵乐盛行时期的巅峰之作，表达痛苦与傍徨。";
+	//noteTextView.backgroundColor = [UIColor redColor];
+	noteTextView.scrollEnabled = NO;
+	noteTextView.font = UIFontFromSize(9.0f);
+	noteTextView.userInteractionEnabled = NO;
+	[self addSubview:noteTextView];
+
+	static const CGFloat kFavoriteMarginBottom = 80;
+	static const CGFloat kFavoriteWidth = 25;
+	static const CGFloat kFavoriteHeight = 25;
+
+	favoriteButton = [[HJWButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
+																 self.bounds.size.height - kFavoriteMarginBottom - kFavoriteHeight,
+																 kFavoriteWidth,
+																 kFavoriteHeight)
+										  titleString:nil
+										   titleColor:nil
+												 font:nil
+											  logoImg:nil
+									  backgroundImage:nil];
+	[favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
+	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:favoriteButton];
+
+	static const CGFloat kBottomButtonMarginBottom		= 20;
+	static const CGFloat kBottomButtonWidth				= 15;
+	static const CGFloat kBottomButtonHeight			= 15;
+	static const CGFloat kCommentImageMarginLeft		= 20;
+	static const CGFloat kViewsImageMarginLeft			= 60;
+	static const CGFloat kLocationImageMarginRight		= 1;
+	static const CGFloat kLocationLabelMarginRight		= 20;
+	static const CGFloat kLocationLabelWidth			= 80;
+
+	static const CGFloat kCommentLabelMarginLeft		= 2;
+	static const CGFloat kBottomLabelMarginBottom		= 20;
+	static const CGFloat kBottomLabelHeight				= 15;
+	static const CGFloat kCommentLabelWidth				= 20;
+
+	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft,
+																				   self.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				   kBottomButtonWidth,
+																				   kBottomButtonHeight)];
+	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
+	[self addSubview:commentsImageView];
+
+	commentLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
+														  self.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+														  kCommentLabelWidth,
+														  kBottomLabelHeight)
+										  text:@"10"
+										  font:UIFontFromSize(8.0f)
+										   textColor:[UIColor grayColor]
+									   textAlignment:NSTextAlignmentLeft
+								   numberLines:1];
+	//commentLabel.backgroundColor = [UIColor redColor];
+	[self addSubview:commentLabel];
+
+	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft,
+																				   self.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				   kBottomButtonWidth,
+																				   kBottomButtonHeight)];
+	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
+	[self addSubview:viewsImageView];
+
+	static const CGFloat kViewsLabelMarginLeft			= 2;
+	static const CGFloat kViewsLabelWidth				= 20;
+
+	viewsLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
+															  self.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															  kViewsLabelWidth,
+															  kBottomLabelHeight)
+											  text:@"10"
+											  font:UIFontFromSize(8.0f)
+										 textColor:[UIColor grayColor]
+									 textAlignment:NSTextAlignmentLeft
+									   numberLines:1];
+	//viewsLabel.backgroundColor = [UIColor redColor];
+	[self addSubview:viewsLabel];
+
+	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
+																				   self.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				   kBottomButtonWidth,
+																				   kBottomButtonHeight)];
+	[locationImageView setImage:[UIImage imageNamed:@"location"]];
+	[self addSubview:locationImageView];
+
+	locationLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(self.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
+															self.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															kLocationLabelWidth,
+															kBottomLabelHeight)
+											text:@"深圳大学，深圳，广东"
+											font:UIFontFromSize(8.0f)
+									   textColor:[UIColor grayColor]
+								   textAlignment:NSTextAlignmentLeft
+									 numberLines:1];
+	//locationLabel.backgroundColor = [UIColor redColor];
+	[self addSubview:locationLabel];
 
 /*
 	CGRect pingButtonFrame = CGRectMake(60,
@@ -262,6 +356,10 @@
 	} else {
 		[self playMusic];
 	}
+}
+
+- (void)favoriteButtonAction:(id)sender {
+	NSLog(@"favoriteButtonAction");
 }
 
 #pragma mark - audio operations
