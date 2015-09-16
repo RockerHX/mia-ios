@@ -17,6 +17,7 @@ NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 NSString * const MusicPlayerMgrNotificationRemoteControlEvent	= @"MusicPlayerMgrNotificationRemoteControlEvent";
 NSString * const MusicPlayerMgrNotificationDidPlay			 	= @"MusicPlayerMgrNotificationDidPlay";
 NSString * const MusicPlayerMgrNotificationDidPause			 	= @"MusicPlayerMgrNotificationDidPause";
+NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotificationCompletion";
 
 @interface MusicPlayerMgr()
 
@@ -46,6 +47,9 @@ NSString * const MusicPlayerMgrNotificationDidPause			 	= @"MusicPlayerMgrNotifi
 		audioStream = [[FSAudioStream alloc] init];
 		audioStream.strictContentTypeChecking = NO;
 		audioStream.defaultContentType = @"audio/mpeg";
+		audioStream.onCompletion = ^() {
+			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion object:nil];
+		};
 
 		// 设置后台播放模式
 		AVAudioSession *audioSession=[AVAudioSession sharedInstance];

@@ -90,16 +90,18 @@ static const CGFloat kViewsLabelWidth				= 20;
 //		self.backgroundColor = [UIColor redColor];
 		[self initUI];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:[MusicPlayerMgr standarMusicPlayerMgr]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:[MusicPlayerMgr standarMusicPlayerMgr]];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 	}
 
 	return self;
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:[MusicPlayerMgr standarMusicPlayerMgr]];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:[MusicPlayerMgr standarMusicPlayerMgr]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 - (void)initUI {
@@ -207,7 +209,7 @@ static const CGFloat kViewsLabelWidth				= 20;
 																				   self.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
 																				   kBottomButtonWidth,
 																				   kBottomButtonHeight)];
-	[viewsImageView setImage:[UIImage imageNamed:@""]];
+	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
 	[self addSubview:viewsImageView];
 
 	viewsLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
@@ -337,8 +339,8 @@ static const CGFloat kViewsLabelWidth				= 20;
 	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
 	[noteTextView setText:[item sNote]];
 
-	[commentLabel setText:NSStringFromInt([item cComm])];
-	[viewsLabel setText:NSStringFromInt([item cView])];
+	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
+	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[locationLabel setText:[item sAddress]];
 
 	[self playMusic];
@@ -352,6 +354,11 @@ static const CGFloat kViewsLabelWidth				= 20;
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
 	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+}
+
+- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	NSLog(@"play next song");
+	[self.radioViewDelegate notifyReconnect];
 }
 
 #pragma mark - Actions

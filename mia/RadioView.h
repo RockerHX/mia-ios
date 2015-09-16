@@ -14,6 +14,7 @@
 - (void)notifyPing;
 - (void)notifyLogin;
 - (void)notifyReconnect;
+- (void)notifyPlayCompletion;
 
 @end
 

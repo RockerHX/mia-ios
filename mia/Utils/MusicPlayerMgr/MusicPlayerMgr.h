@@ -11,6 +11,7 @@ extern NSString * const MusicPlayerMgrNotificationUserInfoKey;
 extern NSString * const MusicPlayerMgrNotificationRemoteControlEvent;
 extern NSString * const MusicPlayerMgrNotificationDidPlay;
 extern NSString * const MusicPlayerMgrNotificationDidPause;
+extern NSString * const MusicPlayerMgrNotificationCompletion;
 
 @interface MusicPlayerMgr : NSObject
 
