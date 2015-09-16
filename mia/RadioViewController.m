@@ -72,7 +72,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
 	bv.borderColor = [UIColor whiteColor];
 
-	shareListMgr = [[ShareListMgr alloc] initFromArchive];
+	shareListMgr = [ShareListMgr initFromArchive];
 	
 	isLoading = YES;
 

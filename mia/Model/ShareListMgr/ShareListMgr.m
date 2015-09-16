@@ -11,61 +11,50 @@
 const int kShareListMax							= 10;
 
 @implementation ShareListMgr {
-	NSMutableArray *onlineShareList;
-	NSMutableArray *offlineShareList;
-	ShareItem *currentShareItem;
 }
 
-- (id)initFromArchive {
-	// TODO 要试下能否直接archive 这个对象本身，这样就不需要分两个文件来保存了
-//	self = ....
-//	if (self) {
-//		return self;
-//	}
-
-    self = [super init];
-    if(self) {
-		// load data from archive
-
-		onlineShareList = [NSKeyedUnarchiver unarchiveObjectWithFile:[self onlineShareListArchivePath]];
-		NSLog(@"%@", onlineShareList);
-		if (!onlineShareList) {
-			onlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
-		}
-
-    }
++ (id)initFromArchive {
+	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[self onlineShareListArchivePath]];
+	if (!aMgr) {
+	    aMgr = [[self alloc] init];
+	}
 	
-    return self;
+    return aMgr;
+}
+
+- (id)init {
+	self = [super init];
+	if (self) {
+		_onlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+		_offlineShareList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+	}
+
+	return self;
 }
 
 - (NSUInteger)getOnlineCount {
-	return [onlineShareList count];
+	return [_onlineShareList count];
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);
-		[onlineShareList addObject:shareItem];
+		[_onlineShareList addObject:shareItem];
 	}
-
-	if (![NSKeyedArchiver archiveRootObject:onlineShareList toFile:[self onlineShareListArchivePath]]) {
-		NSLog(@"archive online share list failed.");
-	}
-
 }
 
 - (ShareItem *)popShareItem {
-	currentShareItem = [onlineShareList objectAtIndex:0];
-	[onlineShareList removeObjectAtIndex:0];
+	_currentShareItem = [_onlineShareList objectAtIndex:0];
+	[_onlineShareList removeObjectAtIndex:0];
 
-	return currentShareItem;
+	return _currentShareItem;
 }
 
 
 - (BOOL)saveChanges {
 	// TODO
-	if (![NSKeyedArchiver archiveRootObject:onlineShareList toFile:[self onlineShareListArchivePath]]) {
+	if (![NSKeyedArchiver archiveRootObject:self toFile:[ShareListMgr onlineShareListArchivePath]]) {
 		NSLog(@"archive online share list failed.");
 		return NO;
 	}
@@ -73,11 +62,30 @@ const int kShareListMax							= 10;
 	return YES;
 }
 
-- (NSString *)onlineShareListArchivePath {
++ (NSString *)onlineShareListArchivePath {
 	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
 
 	return [documentDirectory stringByAppendingString:@"onlinelist.archive"];
+}
+
+//将对象编码(即:序列化)
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+	[aCoder encodeObject:self.onlineShareList forKey:@"onlineList"];
+	[aCoder encodeObject:self.offlineShareList forKey:@"offlineList"];
+	[aCoder encodeObject:self.currentShareItem forKey:@"currentItem"];
+}
+
+//将对象解码(反序列化)
+-(id) initWithCoder:(NSCoder *)aDecoder {
+	if (self=[super init]) {
+		self.onlineShareList = [aDecoder decodeObjectForKey:@"onlineList"];
+		self.offlineShareList = [aDecoder decodeObjectForKey:@"offlineList"];
+		self.currentShareItem = [aDecoder decodeObjectForKey:@"currentItem"];
+	}
+
+	return (self);
+
 }
 
 @end

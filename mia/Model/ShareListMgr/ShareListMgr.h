@@ -8,9 +8,13 @@
 
 #import "ShareItem.h"
 
-@interface ShareListMgr : NSObject
+@interface ShareListMgr : NSObject <NSCoding>
 
-- (id)initFromArchive;
+@property (strong, nonatomic) NSMutableArray *onlineShareList;
+@property (strong, nonatomic) NSMutableArray *offlineShareList;
+@property (strong, nonatomic) ShareItem *currentShareItem;
+
++ (id)initFromArchive;
 - (NSUInteger)getOnlineCount;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
