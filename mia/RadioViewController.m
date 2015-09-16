@@ -10,10 +10,11 @@
 #import "WebSocketMgr.h"
 #import "RadioView.h"
 #import "UIImage+ColorToImage.h"
+#import "UIImage+Extrude.h"
 #import "MiaAPIHelper.h"
 #import "AAPullToRefresh.h"
-#import "ShareItem.h"
 #import "ShareListMgr.h"
+#import "HJWButton.h"
 
 const CGFloat kTopViewDefaultHeight				= 30.0f;
 const CGFloat kBottomViewDefaultHeight			= 30.0f;
@@ -27,50 +28,14 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 @implementation RadioViewController {
 	ShareListMgr *shareListMgr;
 	BOOL isLoading;
+	HJWButton *profileButton;
+	HJWButton *shareButton;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	self.view.backgroundColor = [UIColor whiteColor];
-
-	self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	self.scrollView.delegate = self;
-	self.scrollView.maximumZoomScale = 2.0f;
-	self.scrollView.contentSize = self.view.bounds.size;
-	self.scrollView.alwaysBounceHorizontal = NO;
-	self.scrollView.alwaysBounceVertical = YES;
-	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	self.scrollView.backgroundColor = UIColor.grayColor;
-	[self.view addSubview:self.scrollView];
-
-	CGRect rect = self.scrollView.bounds;
-	rect.size.height = self.scrollView.contentSize.height;
-	rect.origin.y += kTopViewDefaultHeight;
-	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
-
-	self.radioView = [[RadioView alloc] initWithFrame:rect];
-	self.radioView.radioViewDelegate = self;
-	//self.thresholdView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	//self.radioView.userInteractionEnabled = NO;
-	self.radioView.backgroundColor = UIColor.whiteColor;
-	[self.scrollView addSubview:self.radioView];
-
-	// top
-	AAPullToRefresh *tv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionTop actionHandler:^(AAPullToRefresh *v){
-		NSLog(@"fire from top");
-		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
-	}];
-	tv.imageIcon = [UIImage imageNamed:@"launchpad"];
-	tv.borderColor = [UIColor whiteColor];
-
-	// bottom
-	AAPullToRefresh *bv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionBottom actionHandler:^(AAPullToRefresh *v){
-		NSLog(@"fire from bottom");
-		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
-	}];
-	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
-	bv.borderColor = [UIColor whiteColor];
+	[self initUI];
 
 	shareListMgr = [ShareListMgr initFromArchive];
 	
@@ -119,6 +84,78 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
 	return self.radioView;
+}
+
+- (void)initUI {
+	self.view.backgroundColor = [UIColor whiteColor];
+
+	self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	self.scrollView.delegate = self;
+	self.scrollView.maximumZoomScale = 2.0f;
+	self.scrollView.contentSize = self.view.bounds.size;
+	self.scrollView.alwaysBounceHorizontal = NO;
+	self.scrollView.alwaysBounceVertical = YES;
+	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	self.scrollView.backgroundColor = UIColor.grayColor;
+	[self.view addSubview:self.scrollView];
+
+	CGRect rect = self.scrollView.bounds;
+	rect.size.height = self.scrollView.contentSize.height;
+	rect.origin.y += kTopViewDefaultHeight;
+	rect.size.height -= (kTopViewDefaultHeight + kBottomViewDefaultHeight);
+
+	self.radioView = [[RadioView alloc] initWithFrame:rect];
+	self.radioView.radioViewDelegate = self;
+	//self.thresholdView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	//self.radioView.userInteractionEnabled = NO;
+	self.radioView.backgroundColor = UIColor.whiteColor;
+	[self.scrollView addSubview:self.radioView];
+
+	// top
+	AAPullToRefresh *tv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionTop actionHandler:^(AAPullToRefresh *v){
+		NSLog(@"fire from top");
+		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
+	}];
+	tv.imageIcon = [UIImage imageNamed:@"launchpad"];
+	tv.borderColor = [UIColor whiteColor];
+
+	// bottom
+	AAPullToRefresh *bv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionBottom actionHandler:^(AAPullToRefresh *v){
+		NSLog(@"fire from bottom");
+		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
+	}];
+	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
+	bv.borderColor = [UIColor whiteColor];
+
+	static const CGFloat kTopButtonWidth                          = 30.0f;
+	static const CGFloat kTopButtonHeight                         = 30.0f;
+	static const CGFloat kTopButtonMarginTop                      = 18.0f;
+	static const CGFloat kProfileButtonMarginLeft                 = 10.0f;
+	static const CGFloat kShareButtonMarginRight                  = 10.0f;
+
+	CGRect profileButtonFrame = {.origin.x = kProfileButtonMarginLeft,
+		.origin.y = kTopButtonMarginTop,
+		.size.width = kTopButtonWidth,
+		.size.height = kTopButtonHeight};
+	profileButton = [[HJWButton alloc] initWithFrame:profileButtonFrame titleString:@"9" titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_normal"]]];
+	[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_hover"]] forState:UIControlStateHighlighted];
+	[profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:profileButton];
+
+	CGRect shareButtonFrame = {.origin.x = SCREEN_WIDTH - kShareButtonMarginRight - kTopButtonWidth,
+		.origin.y = kTopButtonMarginTop,
+		.size.width = kTopButtonWidth,
+		.size.height = kTopButtonHeight};
+	shareButton = [[HJWButton alloc] initWithFrame:shareButtonFrame
+									   titleString:nil
+										titleColor:[UIColor whiteColor]
+											  font:UIFontFromSize(15)
+										   logoImg:[UIImage imageExtrude:[UIImage imageNamed:@"setting_share"]]
+								   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_normal"]]];
+	[shareButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_hover"]] forState:UIControlStateHighlighted];
+	[shareButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:shareButton];
+
 }
 
 - (void)sendPing:(id)sender;
@@ -224,5 +261,8 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 	return currentItem;
 }
+
+- (void)profileButtonAction:(id)sender {}
+- (void)shareButtonAction:(id)sender {}
 
 @end
