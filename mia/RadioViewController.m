@@ -259,6 +259,8 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
 	}
 
+	[self.radioView setShareItem:currentItem];
+
 	return currentItem;
 }
 

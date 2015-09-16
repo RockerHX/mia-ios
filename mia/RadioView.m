@@ -15,14 +15,63 @@
 #import "MusicPlayerMgr.h"
 #import "UIImageView+WebCache.h"
 
+static const CGFloat kCoverWidth = 160;
+static const CGFloat kCoverHeight = 160;
+static const CGFloat kCoverMarginTop = 90;
+
+static const CGFloat kPlayButtonWidth			= 30;
+static const CGFloat kPlayButtonHeight			= 30;
+static const CGFloat kPlayButtonMarginBottom	= 5;
+static const CGFloat kPlayButtonMarginRight		= 5;
+
+static const CGFloat kMusicNameMarginTop = kCoverMarginTop + kCoverHeight + 20;
+static const CGFloat kMusicNameMarginLeft = 20;
+static const CGFloat kMusicArtistMarginLeft = 10;
+static const CGFloat kMusicNameHeight = 20;
+static const CGFloat kMusicArtistHeight = 20;
+
+static const CGFloat kSharerMarginLeft = 20;
+static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 20;
+static const CGFloat kSharerHeight = 20;
+
+static const CGFloat kFavoriteMarginBottom = 80;
+static const CGFloat kFavoriteWidth = 25;
+static const CGFloat kFavoriteHeight = 25;
+
+static const CGFloat kNoteMarginLeft = 5;
+static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
+static const CGFloat kNoteMarginRight = 50;
+static const CGFloat kNoteHeight = 60;
+
+static const CGFloat kBottomButtonMarginBottom		= 20;
+static const CGFloat kBottomButtonWidth				= 15;
+static const CGFloat kBottomButtonHeight			= 15;
+static const CGFloat kCommentImageMarginLeft		= 20;
+static const CGFloat kViewsImageMarginLeft			= 60;
+static const CGFloat kLocationImageMarginRight		= 1;
+static const CGFloat kLocationLabelMarginRight		= 20;
+static const CGFloat kLocationLabelWidth			= 80;
+
+static const CGFloat kCommentLabelMarginLeft		= 2;
+static const CGFloat kBottomLabelMarginBottom		= 20;
+static const CGFloat kBottomLabelHeight				= 15;
+static const CGFloat kCommentLabelWidth				= 20;
+
+static const CGFloat kViewsLabelMarginLeft			= 2;
+static const CGFloat kViewsLabelWidth				= 20;
+
+
 @implementation RadioView {
 	HJWButton *pingButton;
 	HJWButton *loginButton;
 	HJWButton *reconnectButton;
-	HJWButton *playButton;
 	HJWLabel *logLabel;
 
+	ShareItem *currentShareItem;
+
 	UIImageView *coverImageView;
+	HJWButton *playButton;
+
 	HJWLabel *musicNameLabel;
 	HJWLabel *musicArtistLabel;
 	HJWLabel *sharerLabel;
@@ -54,39 +103,33 @@
 }
 
 - (void)initUI {
-	static const CGFloat kCoverWidth = 160;
-	static const CGFloat kCoverHeight = 160;
-	static const CGFloat kCoverMarginTop = 90;
-
-	static const CGFloat kMusicNameMarginTop = kCoverMarginTop + kCoverHeight + 20;
-	static const CGFloat kMusicNameMarginLeft = 20;
-	static const CGFloat kMusicArtistMarginLeft = 10;
-	static const CGFloat kMusicNameHeight = 20;
-	static const CGFloat kMusicArtistHeight = 20;
-
-	static const CGFloat kSharerMarginLeft = 20;
-	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 20;
-	static const CGFloat kSharerHeight = 20;
-
-	static const CGFloat kNoteMarginLeft = 5;
-	static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
-	static const CGFloat kNoteMarginRight = 50;
-	static const CGFloat kNoteHeight = 60;
-
-	CGRect aboutBackgroundFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
+	CGRect coverFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
 											 kCoverMarginTop,
 											 kCoverWidth,
 											 kCoverHeight);
-	coverImageView = [[UIImageView alloc] initWithFrame:aboutBackgroundFrame];
+	coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
 	[coverImageView sd_setImageWithURL:nil
 					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
 	[self addSubview:coverImageView];
+
+	playButton = [[HJWButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
+															 coverFrame.origin.y + coverFrame.size.height - kPlayButtonMarginBottom - kPlayButtonHeight,
+															 kPlayButtonWidth,
+															 kPlayButtonHeight)
+									  titleString:nil
+									   titleColor:nil
+											 font:nil
+										  logoImg:nil
+								  backgroundImage:nil];
+	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:playButton];
 
 	musicNameLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
-										  text:@"Castle Walls"
+										  text:@""
 										  font:UIFontFromSize(9.0f)
 									 textColor:[UIColor blackColor]
 								 textAlignment:NSTextAlignmentRight
@@ -97,7 +140,7 @@
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
 														  kMusicArtistHeight)
-										  text:@" - Mercy"
+										  text:@""
 										  font:UIFontFromSize(8.0f)
 										   textColor:[UIColor grayColor]
 									   textAlignment:NSTextAlignmentLeft
@@ -108,7 +151,7 @@
 																  kSharerMarginTop,
 																  coverImageView.frame.origin.x - kSharerMarginLeft,
 																  kSharerHeight)
-												  text:@"Aaronbing:"
+												  text:@""
 												  font:UIFontFromSize(9.0f)
 											 textColor:[UIColor blueColor]
 										 textAlignment:NSTextAlignmentRight
@@ -120,16 +163,12 @@
 															   kNoteMarginTop,
 															   self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
 																kNoteHeight)];
-	noteTextView.text = @"灵乐盛行时期的巅峰之作，表达痛苦与傍徨。";
+	noteTextView.text = @"";
 	//noteTextView.backgroundColor = [UIColor redColor];
 	noteTextView.scrollEnabled = NO;
 	noteTextView.font = UIFontFromSize(9.0f);
 	noteTextView.userInteractionEnabled = NO;
 	[self addSubview:noteTextView];
-
-	static const CGFloat kFavoriteMarginBottom = 80;
-	static const CGFloat kFavoriteWidth = 25;
-	static const CGFloat kFavoriteHeight = 25;
 
 	favoriteButton = [[HJWButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
 																 self.bounds.size.height - kFavoriteMarginBottom - kFavoriteHeight,
@@ -144,19 +183,6 @@
 	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:favoriteButton];
 
-	static const CGFloat kBottomButtonMarginBottom		= 20;
-	static const CGFloat kBottomButtonWidth				= 15;
-	static const CGFloat kBottomButtonHeight			= 15;
-	static const CGFloat kCommentImageMarginLeft		= 20;
-	static const CGFloat kViewsImageMarginLeft			= 60;
-	static const CGFloat kLocationImageMarginRight		= 1;
-	static const CGFloat kLocationLabelMarginRight		= 20;
-	static const CGFloat kLocationLabelWidth			= 80;
-
-	static const CGFloat kCommentLabelMarginLeft		= 2;
-	static const CGFloat kBottomLabelMarginBottom		= 20;
-	static const CGFloat kBottomLabelHeight				= 15;
-	static const CGFloat kCommentLabelWidth				= 20;
 
 	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft,
 																				   self.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
@@ -169,7 +195,7 @@
 														  self.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 														  kCommentLabelWidth,
 														  kBottomLabelHeight)
-										  text:@"10"
+										  text:@""
 										  font:UIFontFromSize(8.0f)
 										   textColor:[UIColor grayColor]
 									   textAlignment:NSTextAlignmentLeft
@@ -181,17 +207,14 @@
 																				   self.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
 																				   kBottomButtonWidth,
 																				   kBottomButtonHeight)];
-	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
+	[viewsImageView setImage:[UIImage imageNamed:@""]];
 	[self addSubview:viewsImageView];
-
-	static const CGFloat kViewsLabelMarginLeft			= 2;
-	static const CGFloat kViewsLabelWidth				= 20;
 
 	viewsLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
 															  self.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															  kViewsLabelWidth,
 															  kBottomLabelHeight)
-											  text:@"10"
+											  text:@""
 											  font:UIFontFromSize(8.0f)
 										 textColor:[UIColor grayColor]
 									 textAlignment:NSTextAlignmentLeft
@@ -210,7 +233,7 @@
 															self.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															kLocationLabelWidth,
 															kBottomLabelHeight)
-											text:@"深圳大学，深圳，广东"
+											text:@""
 											font:UIFontFromSize(8.0f)
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
@@ -267,22 +290,6 @@
 	[reconnectButton addTarget:self action:@selector(onClickReconnectButton:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:reconnectButton];
 
-	CGRect playButtonFrame = CGRectMake(60,
-											 290.0f,
-											 200,
-											 50);
-
-	playButton = [[HJWButton alloc] initWithFrame:playButtonFrame
-										   titleString:@"Play" titleColor:[UIColor whiteColor]
-												  font:UIFontFromSize(15)
-											   logoImg:nil
-									   backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
-
-	playButton.layer.masksToBounds = YES;
-	playButton.layer.cornerRadius = 5.0f;
-	[playButton addTarget:self action:@selector(onClickPlayButton:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:playButton];
-
 	static const CGFloat kLabelFontSize = 11.0f;
 	//用户名
 	CGRect logLabelFrame = CGRectMake(10.0f,
@@ -315,14 +322,36 @@
 	[logLabel setText:text];
 }
 
+- (void)setShareItem:(ShareItem *)item {
+	if (!item) {
+		return;
+	}
+
+	currentShareItem = item;
+
+	[coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
+					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
+
+	[musicNameLabel setText:[[item music] name]];
+	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
+	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
+	[noteTextView setText:[item sNote]];
+
+	[commentLabel setText:NSStringFromInt([item cComm])];
+	[viewsLabel setText:NSStringFromInt([item cView])];
+	[locationLabel setText:[item sAddress]];
+
+	[self playMusic];
+}
+
 #pragma mark - Notification
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	[playButton setTitle:@"Pause" forState:UIControlStateNormal];
+	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	[playButton setTitle:@"Play" forState:UIControlStateNormal];
+	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 #pragma mark - Actions
@@ -340,17 +369,14 @@
 - (void)onClickReconnectButton:(id)sender {
 	NSLog(@"OnClick Reconnect");
 	[self.radioViewDelegate notifyReconnect];
-
-	// for test
-//	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/e8ace5fe6fdd0b3eea0a0d717d562b98.mp3";
-//	static NSString *defaultMusicTitle = @"轻音乐";
-//	static NSString *defaultMusicArtist = @"小虫";
-//
-//	[[MusicPlayerMgr standarMusicPlayerMgr] playWithUrl:defaultMusicUrl andTitle:defaultMusicTitle andArtist:defaultMusicArtist];
-//	[playButton setTitle:@"Pause" forState:UIControlStateNormal];
 }
 
-- (void)onClickPlayButton:(id)sender {
+- (void)favoriteButtonAction:(id)sender {
+	NSLog(@"favoriteButtonAction");
+}
+
+- (void)playButtonAction:(id)sender {
+	NSLog(@"playButtonAction");
 	if ([[MusicPlayerMgr standarMusicPlayerMgr] isPlaying]) {
 		[self pauseMusic];
 	} else {
@@ -358,25 +384,25 @@
 	}
 }
 
-- (void)favoriteButtonAction:(id)sender {
-	NSLog(@"favoriteButtonAction");
-}
-
 #pragma mark - audio operations
 
 - (void)playMusic {
-	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
-	static NSString *defaultMusicTitle = @"贝尔加湖畔";
-	static NSString *defaultMusicArtist = @"李健";
+//	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
+//	static NSString *defaultMusicTitle = @"贝尔加湖畔";
+//	static NSString *defaultMusicArtist = @"李健";
 
-	[[MusicPlayerMgr standarMusicPlayerMgr] playWithUrl:defaultMusicUrl andTitle:defaultMusicTitle andArtist:defaultMusicArtist];
-	[playButton setTitle:@"Pause" forState:UIControlStateNormal];
+	NSString *musicUrl = [[currentShareItem music] murl];
+	NSString *musicTitle = [[currentShareItem music] name];
+	NSString *musicArtist = [[currentShareItem music] singerName];
+
+	[[MusicPlayerMgr standarMusicPlayerMgr] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
 	[[MusicPlayerMgr standarMusicPlayerMgr] pause];
-	[playButton setTitle:@"Play" forState:UIControlStateNormal];
+	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 @end

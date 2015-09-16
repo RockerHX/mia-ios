@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShareItem.h"
 
 @protocol RadioViewDelegate
 
@@ -22,5 +23,6 @@
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 
 - (void)setLogText:(NSString *)msg;
+- (void)setShareItem:(ShareItem *)item;
 
 @end
