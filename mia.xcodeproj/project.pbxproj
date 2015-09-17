@@ -48,6 +48,8 @@
 		397F02EF1B9EEEF500C413FE /* miaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02EE1B9EEEF500C413FE /* miaTests.m */; };
 		397FA4FB1BAAA989003FD186 /* RadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA4F81BAAA989003FD186 /* RadioView.m */; };
 		397FA4FC1BAAA989003FD186 /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA4FA1BAAA989003FD186 /* RadioViewController.m */; };
+		397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5031BAADBD8003FD186 /* PXInfiniteScrollView.m */; };
+		397FA5071BAAF06E003FD186 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5061BAAF06E003FD186 /* PlayerView.m */; };
 		39BCAD981BA02AFE00C6F7F2 /* HJWLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCAD7A1BA02AFE00C6F7F2 /* HJWLabel.m */; };
 		39BCAD991BA02AFE00C6F7F2 /* HJWRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCAD7D1BA02AFE00C6F7F2 /* HJWRefreshBaseView.m */; };
 		39BCAD9A1BA02AFE00C6F7F2 /* HJWRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCAD7F1BA02AFE00C6F7F2 /* HJWRefreshFooterView.m */; };
@@ -161,6 +163,10 @@
 		397FA4F81BAAA989003FD186 /* RadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioView.m; sourceTree = "<group>"; };
 		397FA4F91BAAA989003FD186 /* RadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioViewController.h; sourceTree = "<group>"; };
 		397FA4FA1BAAA989003FD186 /* RadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioViewController.m; sourceTree = "<group>"; };
+		397FA5021BAADBD8003FD186 /* PXInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXInfiniteScrollView.h; sourceTree = "<group>"; };
+		397FA5031BAADBD8003FD186 /* PXInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXInfiniteScrollView.m; sourceTree = "<group>"; };
+		397FA5051BAAF06E003FD186 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
+		397FA5061BAAF06E003FD186 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mia-Prefix.pch"; sourceTree = "<group>"; };
 		39BCAD3E1B9F141B00C6F7F2 /* AppMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		39BCAD791BA02AFE00C6F7F2 /* HJWLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJWLabel.h; sourceTree = "<group>"; };
@@ -578,12 +584,23 @@
 		397FA4F61BAAA989003FD186 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				397FA5051BAAF06E003FD186 /* PlayerView.h */,
+				397FA5061BAAF06E003FD186 /* PlayerView.m */,
 				397FA4F71BAAA989003FD186 /* RadioView.h */,
 				397FA4F81BAAA989003FD186 /* RadioView.m */,
 				397FA4F91BAAA989003FD186 /* RadioViewController.h */,
 				397FA4FA1BAAA989003FD186 /* RadioViewController.m */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		397FA5011BAADBD8003FD186 /* PXInfiniteScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				397FA5021BAADBD8003FD186 /* PXInfiniteScrollView.h */,
+				397FA5031BAADBD8003FD186 /* PXInfiniteScrollView.m */,
+			);
+			path = PXInfiniteScrollView;
 			sourceTree = "<group>";
 		};
 		39BCAD3D1B9F141B00C6F7F2 /* Utils */ = {
@@ -600,6 +617,7 @@
 		39BCAD771BA02AFE00C6F7F2 /* UIComponment */ = {
 			isa = PBXGroup;
 			children = (
+				397FA5011BAADBD8003FD186 /* PXInfiniteScrollView */,
 				397E42F61BAA93C1006BE9E7 /* KYCircularView */,
 				397E42871BA7CA5A006BE9E7 /* AAPullToRefresh */,
 				39BCAD781BA02AFE00C6F7F2 /* HJWLabel */,
@@ -913,6 +931,7 @@
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
+				397FA5071BAAF06E003FD186 /* PlayerView.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				39BCADD41BA02F3100C6F7F2 /* UIImage+WebP.m in Sources */,
@@ -952,6 +971,7 @@
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
 				39BCADCD1BA02F3100C6F7F2 /* SDWebImageDownloader.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
+				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
 				39BCADC91BA02F3100C6F7F2 /* NSData+ImageContentType.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,

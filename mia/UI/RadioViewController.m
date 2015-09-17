@@ -112,8 +112,9 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	[self.scrollView addSubview:self.radioView];
 
 	// top
+	__weak RadioViewController *weakSelf = self;
 	AAPullToRefresh *tv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionTop actionHandler:^(AAPullToRefresh *v){
-		NSLog(@"fire from top");
+		[weakSelf pullReflashFromTop];
 		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
 	}];
 	tv.imageIcon = [UIImage imageNamed:@"launchpad"];
@@ -121,7 +122,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 	// bottom
 	AAPullToRefresh *bv = [self.scrollView addPullToRefreshPosition:AAPullToRefreshPositionBottom actionHandler:^(AAPullToRefresh *v){
-		NSLog(@"fire from bottom");
+		[weakSelf pullReflashFromBottom];
 		[v performSelector:@selector(stopIndicatorAnimation) withObject:nil afterDelay:1.0f];
 	}];
 	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
@@ -262,7 +263,17 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	return currentItem;
 }
 
+#pragma mark - Actions
+
 - (void)profileButtonAction:(id)sender {}
 - (void)shareButtonAction:(id)sender {}
+
+- (void)pullReflashFromTop {
+	NSLog(@"pullReflashFromTop");
+}
+
+- (void)pullReflashFromBottom {
+	NSLog(@"pullReflashFromBottom");
+}
 
 @end

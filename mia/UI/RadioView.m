@@ -15,34 +15,16 @@
 #import "MusicPlayerMgr.h"
 #import "UIImageView+WebCache.h"
 #import "KYCircularView.h"
+#import "PXInfiniteScrollView.h"
+#import "PlayerView.h"
 
-static const CGFloat kCoverWidth = 160;
-static const CGFloat kCoverHeight = 160;
-static const CGFloat kCoverMarginTop = 90;
-
-static const CGFloat kPlayButtonWidth			= 30;
-static const CGFloat kPlayButtonHeight			= 30;
-static const CGFloat kPlayButtonMarginBottom	= 5;
-static const CGFloat kPlayButtonMarginRight		= 5;
-
-static const CGFloat kMusicNameMarginTop = kCoverMarginTop + kCoverHeight + 20;
-static const CGFloat kMusicNameMarginLeft = 20;
-static const CGFloat kMusicArtistMarginLeft = 10;
-static const CGFloat kMusicNameHeight = 20;
-static const CGFloat kMusicArtistHeight = 20;
-
-static const CGFloat kSharerMarginLeft = 20;
-static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 20;
-static const CGFloat kSharerHeight = 20;
+static const CGFloat kPlayerMarginTop			= 90;
+static const CGFloat kPlayerHeight				= 300;
 
 static const CGFloat kFavoriteMarginBottom = 80;
 static const CGFloat kFavoriteWidth = 25;
 static const CGFloat kFavoriteHeight = 25;
 
-static const CGFloat kNoteMarginLeft = 5;
-static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
-static const CGFloat kNoteMarginRight = 50;
-static const CGFloat kNoteHeight = 60;
 
 @implementation RadioView {
 	HJWButton *pingButton;
@@ -51,14 +33,8 @@ static const CGFloat kNoteHeight = 60;
 
 	ShareItem *currentShareItem;
 
-	UIImageView *coverImageView;
-	KYCircularView *progressView;
-	HJWButton *playButton;
-
-	HJWLabel *musicNameLabel;
-	HJWLabel *musicArtistLabel;
-	HJWLabel *sharerLabel;
-	UITextView *noteTextView;
+	PlayerView *playerView;
+	PXInfiniteScrollView *playerScrollView;
 
 	HJWButton *favoriteButton;
 	HJWLabel *commentLabel;
@@ -90,74 +66,10 @@ static const CGFloat kNoteHeight = 60;
 }
 
 - (void)initUI {
-	CGRect coverFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
-											 kCoverMarginTop,
-											 kCoverWidth,
-											 kCoverHeight);
-	[self initProgressViewWithCoverFrame:coverFrame];
+	playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
+	[self addSubview:playerView];
 
-	coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
-	[coverImageView sd_setImageWithURL:nil
-					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
-	[self addSubview:coverImageView];
-
-	playButton = [[HJWButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
-															 coverFrame.origin.y + coverFrame.size.height - kPlayButtonMarginBottom - kPlayButtonHeight,
-															 kPlayButtonWidth,
-															 kPlayButtonHeight)
-									  titleString:nil
-									   titleColor:nil
-											 font:nil
-										  logoImg:nil
-								  backgroundImage:nil];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:playButton];
-
-	musicNameLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
-														  kMusicNameMarginTop,
-														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
-														  kMusicNameHeight)
-										  text:@""
-										  font:UIFontFromSize(9.0f)
-									 textColor:[UIColor blackColor]
-								 textAlignment:NSTextAlignmentRight
-								   numberLines:1];
-	[self addSubview:musicNameLabel];
-
-	musicArtistLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
-														  kMusicNameMarginTop,
-														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
-														  kMusicArtistHeight)
-										  text:@""
-										  font:UIFontFromSize(8.0f)
-										   textColor:[UIColor grayColor]
-									   textAlignment:NSTextAlignmentLeft
-								   numberLines:1];
-	[self addSubview:musicArtistLabel];
-
-	sharerLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
-																  kSharerMarginTop,
-																  coverImageView.frame.origin.x - kSharerMarginLeft,
-																  kSharerHeight)
-												  text:@""
-												  font:UIFontFromSize(9.0f)
-											 textColor:[UIColor blueColor]
-										 textAlignment:NSTextAlignmentRight
-										   numberLines:1];
-	//sharerLabel.backgroundColor = [UIColor yellowColor];
-	[self addSubview:sharerLabel];
-
-	noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
-															   kNoteMarginTop,
-															   self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
-																kNoteHeight)];
-	noteTextView.text = @"";
-	//noteTextView.backgroundColor = [UIColor redColor];
-	noteTextView.scrollEnabled = NO;
-	noteTextView.font = UIFontFromSize(9.0f);
-	noteTextView.userInteractionEnabled = NO;
-	[self addSubview:noteTextView];
+	[self initPlayerUI];
 
 	favoriteButton = [[HJWButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
 																 self.bounds.size.height - kFavoriteMarginBottom - kFavoriteHeight,
@@ -225,27 +137,21 @@ static const CGFloat kNoteHeight = 60;
 */
 }
 
-- (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
-{
-	progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
-	progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
-	progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
-	progressView.lineWidth = 8.0;
+- (void)initPlayerUI {
+	playerScrollView = [[PXInfiniteScrollView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, 300)];
+	playerScrollView.backgroundColor = [UIColor redColor];
+	[playerScrollView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
+	[playerScrollView setScrollDirection:PXInfiniteScrollViewDirectionHorizontal];
+	//[self addSubview:playerScrollView];
 
-	CGFloat pathWidth = progressView.frame.size.width;
-	CGFloat pathHeight = progressView.frame.size.height;
-	UIBezierPath *path = [UIBezierPath bezierPath];
-	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth, 0)];
-	[path addLineToPoint:CGPointMake(0, 0)];
-	[path addLineToPoint:CGPointMake(0, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth / 2, pathHeight)];
-	[path closePath];
-
-	progressView.path = path;
-
-	[self addSubview:progressView];
+	UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+	view1.backgroundColor = [UIColor grayColor];
+	UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+	view2.backgroundColor = [UIColor yellowColor];
+	UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+	view3.backgroundColor = [UIColor greenColor];
+	NSArray *viewArray = [[NSArray alloc] initWithObjects:view1, view2, view3, nil];
+	[playerScrollView setPages:viewArray];
 }
 
 - (void)initBottomView {
@@ -338,31 +244,21 @@ static const CGFloat kNoteHeight = 60;
 
 	currentShareItem = item;
 
-	[coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
-					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
-
-	[musicNameLabel setText:[[item music] name]];
-	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
-	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
-	[noteTextView setText:[item sNote]];
+	[playerView setShareItem:item];
 
 	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[locationLabel setText:[item sAddress]];
-
-	[self playMusic];
 }
 
 #pragma mark - Notification
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
+	[playerView notifyMusicPlayerMgrDidPlay];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[progressTimer invalidate];
+	[playerView notifyMusicPlayerMgrDidPause];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
@@ -391,43 +287,8 @@ static const CGFloat kNoteHeight = 60;
 	NSLog(@"favoriteButtonAction");
 }
 
-- (void)playButtonAction:(id)sender {
-	NSLog(@"playButtonAction");
-	if ([[MusicPlayerMgr standard] isPlaying]) {
-		[self pauseMusic];
-	} else {
-		[self playMusic];
-	}
-}
-
 - (void)bottomViewTouchAction:(id)sender {
 	NSLog(@"bottomViewTouchAction");
-}
-
-#pragma mark - audio operations
-
-- (void)playMusic {
-//	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
-//	static NSString *defaultMusicTitle = @"贝尔加湖畔";
-//	static NSString *defaultMusicArtist = @"李健";
-
-	NSString *musicUrl = [[currentShareItem music] murl];
-	NSString *musicTitle = [[currentShareItem music] name];
-	NSString *musicArtist = [[currentShareItem music] singerName];
-
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
-	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-
-}
-
-- (void)pauseMusic {
-	[[MusicPlayerMgr standard] pause];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-}
-
-- (void)updateProgress:(NSTimer *)timer {
-	float postion = [[MusicPlayerMgr standard] getPlayPosition];
-	[progressView setProgress:postion];
 }
 
 @end
