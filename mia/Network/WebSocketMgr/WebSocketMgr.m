@@ -34,7 +34,7 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
  *  使用单例初始化
  *
  */
-+(id)standarWebSocketMgr{
++(id)standard{
     static WebSocketMgr *webSocketMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{

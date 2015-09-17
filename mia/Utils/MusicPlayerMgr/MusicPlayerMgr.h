@@ -19,7 +19,7 @@ extern NSString * const MusicPlayerMgrNotificationCompletion;
  *  使用单例初始化
  *
  */
-+(id)standarMusicPlayerMgr;
++(id)standard;
 
 - (BOOL)isPlaying;
 - (void)playWithUrl:url andTitle:title andArtist:artist;

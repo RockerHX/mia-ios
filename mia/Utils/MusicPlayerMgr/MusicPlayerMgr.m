@@ -31,7 +31,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
  *  使用单例初始化
  *
  */
-+(id)standarMusicPlayerMgr{
++(id)standard{
     static MusicPlayerMgr *aMusicPlayerMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{

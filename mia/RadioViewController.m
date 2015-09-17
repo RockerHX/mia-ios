@@ -64,7 +64,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[[WebSocketMgr standarWebSocketMgr] reconnect];
+	[[WebSocketMgr standard] reconnect];
 	self.title = @"Opening Connection...";
 }
 
@@ -160,7 +160,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 - (void)sendPing:(id)sender;
 {
-	[[WebSocketMgr standarWebSocketMgr] sendPing:nil];
+	[[WebSocketMgr standard] sendPing:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated;
@@ -171,7 +171,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[[WebSocketMgr standarWebSocketMgr] close];
+	[[WebSocketMgr standard] close];
 	//[self.navigationController setNavigationBarHidden:NO animated:animated];
 	[super viewDidDisappear:animated];
 }
@@ -222,11 +222,11 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 - (void)notifyLogin {
 	NSString *testLoginData = @"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}";
-	[[WebSocketMgr standarWebSocketMgr] send:testLoginData];
+	[[WebSocketMgr standard] send:testLoginData];
 }
 
 - (void)notifyReconnect {
-	[[WebSocketMgr standarWebSocketMgr] reconnect];
+	[[WebSocketMgr standard] reconnect];
 	self.title = @"Opening Connection...";
 }
 

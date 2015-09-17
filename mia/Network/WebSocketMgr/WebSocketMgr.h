@@ -24,7 +24,7 @@ extern NSString * const WebSocketMgrNotificationDidReceivePong;
  *  使用单例初始化
  *
  */
-+(id)standarWebSocketMgr;
++(id)standard;
 
 - (void)reconnect;
 - (void)close;

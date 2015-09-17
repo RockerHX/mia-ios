@@ -74,7 +74,7 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 	//NSLog(@"%@", jsonString);
 
-	[[WebSocketMgr standarWebSocketMgr] send:jsonString];
+	[[WebSocketMgr standard] send:jsonString];
 
 }
 
@@ -105,7 +105,7 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", jsonString);
 
-	[[WebSocketMgr standarWebSocketMgr] send:jsonString];
+	[[WebSocketMgr standard] send:jsonString];
 }
 
 @end

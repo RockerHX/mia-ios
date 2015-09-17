@@ -393,7 +393,7 @@ static const CGFloat kNoteHeight = 60;
 
 - (void)playButtonAction:(id)sender {
 	NSLog(@"playButtonAction");
-	if ([[MusicPlayerMgr standarMusicPlayerMgr] isPlaying]) {
+	if ([[MusicPlayerMgr standard] isPlaying]) {
 		[self pauseMusic];
 	} else {
 		[self playMusic];
@@ -415,18 +415,18 @@ static const CGFloat kNoteHeight = 60;
 	NSString *musicTitle = [[currentShareItem music] name];
 	NSString *musicArtist = [[currentShareItem music] singerName];
 
-	[[MusicPlayerMgr standarMusicPlayerMgr] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
-	[[MusicPlayerMgr standarMusicPlayerMgr] pause];
+	[[MusicPlayerMgr standard] pause];
 	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)updateProgress:(NSTimer *)timer {
-	float postion = [[MusicPlayerMgr standarMusicPlayerMgr] getPlayPosition];
+	float postion = [[MusicPlayerMgr standard] getPlayPosition];
 	[progressView setProgress:postion];
 }
 
