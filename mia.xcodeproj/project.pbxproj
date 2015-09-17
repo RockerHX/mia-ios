@@ -44,9 +44,10 @@
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
-		397F02DB1B9EEEF500C413FE /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02DA1B9EEEF500C413FE /* RadioViewController.m */; };
 		397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F02DF1B9EEEF500C413FE /* Images.xcassets */; };
 		397F02EF1B9EEEF500C413FE /* miaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02EE1B9EEEF500C413FE /* miaTests.m */; };
+		397FA4FB1BAAA989003FD186 /* RadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA4F81BAAA989003FD186 /* RadioView.m */; };
+		397FA4FC1BAAA989003FD186 /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA4FA1BAAA989003FD186 /* RadioViewController.m */; };
 		39BCAD981BA02AFE00C6F7F2 /* HJWLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCAD7A1BA02AFE00C6F7F2 /* HJWLabel.m */; };
 		39BCAD991BA02AFE00C6F7F2 /* HJWRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCAD7D1BA02AFE00C6F7F2 /* HJWRefreshBaseView.m */; };
 		39BCAD9A1BA02AFE00C6F7F2 /* HJWRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCAD7F1BA02AFE00C6F7F2 /* HJWRefreshFooterView.m */; };
@@ -76,7 +77,6 @@
 		39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC31BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m */; };
 		39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC51BA02F3100C6F7F2 /* UIImageView+WebCache.m */; };
 		39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */; };
-		39BCADDA1BA037AA00C6F7F2 /* RadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADD91BA037AA00C6F7F2 /* RadioView.m */; };
 		66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE68AFFBF4F159DD2430486 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -153,12 +153,14 @@
 		397F02D31B9EEEF500C413FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		397F02D41B9EEEF500C413FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		397F02D71B9EEEF500C413FE /* mia.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mia.xcdatamodel; sourceTree = "<group>"; };
-		397F02D91B9EEEF500C413FE /* RadioViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadioViewController.h; sourceTree = "<group>"; };
-		397F02DA1B9EEEF500C413FE /* RadioViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RadioViewController.m; sourceTree = "<group>"; };
 		397F02DF1B9EEEF500C413FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		397F02E81B9EEEF500C413FE /* miaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = miaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02ED1B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02EE1B9EEEF500C413FE /* miaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = miaTests.m; sourceTree = "<group>"; };
+		397FA4F71BAAA989003FD186 /* RadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioView.h; sourceTree = "<group>"; };
+		397FA4F81BAAA989003FD186 /* RadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioView.m; sourceTree = "<group>"; };
+		397FA4F91BAAA989003FD186 /* RadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioViewController.h; sourceTree = "<group>"; };
+		397FA4FA1BAAA989003FD186 /* RadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioViewController.m; sourceTree = "<group>"; };
 		39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mia-Prefix.pch"; sourceTree = "<group>"; };
 		39BCAD3E1B9F141B00C6F7F2 /* AppMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		39BCAD791BA02AFE00C6F7F2 /* HJWLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJWLabel.h; sourceTree = "<group>"; };
@@ -219,8 +221,6 @@
 		39BCADC51BA02F3100C6F7F2 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		39BCADC61BA02F3100C6F7F2 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
-		39BCADD81BA037AA00C6F7F2 /* RadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioView.h; sourceTree = "<group>"; };
-		39BCADD91BA037AA00C6F7F2 /* RadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioView.m; sourceTree = "<group>"; };
 		834D0885FF5069CC428F3F54 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8BB1D1E7765FD72A878E7526 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		8FE68AFFBF4F159DD2430486 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -532,18 +532,12 @@
 		397F02CE1B9EEEF500C413FE /* mia */ = {
 			isa = PBXGroup;
 			children = (
+				397FA4F61BAAA989003FD186 /* UI */,
 				397E42791BA26ED2006BE9E7 /* Model */,
 				397E42741BA126AF006BE9E7 /* Network */,
 				39BCADA51BA02F3100C6F7F2 /* Vendors */,
 				39BCAD771BA02AFE00C6F7F2 /* UIComponment */,
 				39BCAD3D1B9F141B00C6F7F2 /* Utils */,
-				39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */,
-				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
-				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
-				39BCADD81BA037AA00C6F7F2 /* RadioView.h */,
-				39BCADD91BA037AA00C6F7F2 /* RadioView.m */,
-				397F02D91B9EEEF500C413FE /* RadioViewController.h */,
-				397F02DA1B9EEEF500C413FE /* RadioViewController.m */,
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
 				397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */,
 				397E42DD1BA90CBC006BE9E7 /* Resources */,
@@ -555,6 +549,9 @@
 		397F02CF1B9EEEF500C413FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */,
+				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
+				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
 				397F02D01B9EEEF500C413FE /* Info.plist */,
 				397F02D11B9EEEF500C413FE /* main.m */,
 			);
@@ -576,6 +573,17 @@
 				397F02ED1B9EEEF500C413FE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		397FA4F61BAAA989003FD186 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				397FA4F71BAAA989003FD186 /* RadioView.h */,
+				397FA4F81BAAA989003FD186 /* RadioView.m */,
+				397FA4F91BAAA989003FD186 /* RadioViewController.h */,
+				397FA4FA1BAAA989003FD186 /* RadioViewController.m */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		39BCAD3D1B9F141B00C6F7F2 /* Utils */ = {
@@ -897,6 +905,7 @@
 			files = (
 				397E42961BA81836006BE9E7 /* MusicItem.m in Sources */,
 				397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */,
+				397FA4FB1BAAA989003FD186 /* RadioView.m in Sources */,
 				39BCADD01BA02F3100C6F7F2 /* SDWebImagePrefetcher.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				39BCAD9A1BA02AFE00C6F7F2 /* HJWRefreshFooterView.m in Sources */,
@@ -927,12 +936,12 @@
 				39BCADA41BA02AFE00C6F7F2 /* HJWButton.m in Sources */,
 				39BCADA11BA02AFE00C6F7F2 /* HJWGrowingTextView.m in Sources */,
 				39BCAD981BA02AFE00C6F7F2 /* HJWLabel.m in Sources */,
-				39BCADDA1BA037AA00C6F7F2 /* RadioView.m in Sources */,
 				39BCAD9D1BA02AFE00C6F7F2 /* UIScrollView+Extension.m in Sources */,
 				39BCADA01BA02AFE00C6F7F2 /* HJWTexAlertView.m in Sources */,
 				397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */,
 				39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
+				397FA4FC1BAAA989003FD186 /* RadioViewController.m in Sources */,
 				39BCADA21BA02AFE00C6F7F2 /* HJWTextViewInternal.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
@@ -941,7 +950,6 @@
 				39BCAD991BA02AFE00C6F7F2 /* HJWRefreshBaseView.m in Sources */,
 				39BCAD9B1BA02AFE00C6F7F2 /* HJWRefreshHeaderView.m in Sources */,
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
-				397F02DB1B9EEEF500C413FE /* RadioViewController.m in Sources */,
 				39BCADCD1BA02F3100C6F7F2 /* SDWebImageDownloader.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
 				39BCADC91BA02F3100C6F7F2 /* NSData+ImageContentType.m in Sources */,
