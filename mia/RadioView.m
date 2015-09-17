@@ -64,6 +64,8 @@ static const CGFloat kNoteHeight = 60;
 	HJWLabel *commentLabel;
 	HJWLabel *viewsLabel;
 	HJWLabel *locationLabel;
+
+	NSTimer *progressTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -72,8 +74,6 @@ static const CGFloat kNoteHeight = 60;
 		self.userInteractionEnabled = YES;
 //		self.backgroundColor = [UIColor redColor];
 		[self initUI];
-
-		[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
@@ -357,10 +357,12 @@ static const CGFloat kNoteHeight = 60;
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
 	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[progressTimer invalidate];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
