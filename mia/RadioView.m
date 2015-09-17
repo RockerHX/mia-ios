@@ -14,6 +14,7 @@
 #import "HJWLabel.h"
 #import "MusicPlayerMgr.h"
 #import "UIImageView+WebCache.h"
+#import "KYCircularView.h"
 
 static const CGFloat kCoverWidth = 160;
 static const CGFloat kCoverHeight = 160;
@@ -52,6 +53,7 @@ static const CGFloat kNoteHeight = 60;
 	ShareItem *currentShareItem;
 
 	UIImageView *coverImageView;
+	KYCircularView *progressView;
 	HJWButton *playButton;
 
 	HJWLabel *musicNameLabel;
@@ -72,6 +74,8 @@ static const CGFloat kNoteHeight = 60;
 //		self.backgroundColor = [UIColor redColor];
 		[self initUI];
 
+		[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
+
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -91,6 +95,8 @@ static const CGFloat kNoteHeight = 60;
 											 kCoverMarginTop,
 											 kCoverWidth,
 											 kCoverHeight);
+	[self initProgressViewWithCoverFrame:coverFrame];
+
 	coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
 	[coverImageView sd_setImageWithURL:nil
 					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
@@ -232,6 +238,29 @@ static const CGFloat kNoteHeight = 60;
 									numberLines:3];
 	[self addSubview:logLabel];
 */
+}
+
+- (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
+{
+	progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
+	progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
+	progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
+	progressView.lineWidth = 8.0;
+
+	CGFloat pathWidth = progressView.frame.size.width;
+	CGFloat pathHeight = progressView.frame.size.height;
+	UIBezierPath *path = [UIBezierPath bezierPath];
+	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
+	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
+	[path addLineToPoint:CGPointMake(pathWidth, 0)];
+	[path addLineToPoint:CGPointMake(0, 0)];
+	[path addLineToPoint:CGPointMake(0, pathHeight)];
+	[path addLineToPoint:CGPointMake(pathWidth / 2, pathHeight)];
+	[path closePath];
+
+	progressView.path = path;
+
+	[self addSubview:progressView];
 }
 
 - (void)initBottomView {
@@ -422,6 +451,14 @@ static const CGFloat kNoteHeight = 60;
 - (void)pauseMusic {
 	[[MusicPlayerMgr standarMusicPlayerMgr] pause];
 	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+}
+
+- (void)updateProgress:(NSTimer *)timer {
+	_localProgress = ((int)((_localProgress * 100.0f) + 1.01) % 100) / 100.0f;
+
+	//    [_circularView1 setProgress:_localProgress];
+	//    [_circularView2 setProgress:_localProgress];
+	[progressView setProgress:_localProgress];
 }
 
 @end

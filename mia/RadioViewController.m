@@ -96,7 +96,7 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 	self.scrollView.alwaysBounceHorizontal = NO;
 	self.scrollView.alwaysBounceVertical = YES;
 	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	self.scrollView.backgroundColor = UIColor.grayColor;
+	self.scrollView.backgroundColor = UIColorFromRGB(32, 111, 255);
 	[self.view addSubview:self.scrollView];
 
 	CGRect rect = self.scrollView.bounds;

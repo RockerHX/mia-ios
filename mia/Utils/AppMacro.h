@@ -40,6 +40,7 @@
 #define FONT_COLOUR_DEFAULT                                  [UIColor colorWithRed:206.0f/255.0 green:211.0f/255.0 blue:226.0f/255.0 alpha:1]
 #define DADU_DEFAULT_COLOR                                   [UIColor colorWithRed:246.0f/255.0 green:26.0f/255.0 blue:88.0f/255.0 alpha:1]
 #define LIGHT_GRAY                                           [UIColor colorWithRed:205.0f/255.0 green:205.0f/255.0 blue:205.0f/255.0 alpha:1]
+#define ColorHex(rgbValue) 									 [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:255.0]
 
 #pragma code
 
