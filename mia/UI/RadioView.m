@@ -13,9 +13,6 @@
 #import "HJWButton.h"
 #import "HJWLabel.h"
 #import "MusicPlayerMgr.h"
-#import "UIImageView+WebCache.h"
-#import "KYCircularView.h"
-#import "PXInfiniteScrollView.h"
 #import "LoopPlayerView.h"
 
 static const CGFloat kPlayerMarginTop			= 90;
@@ -34,7 +31,6 @@ static const CGFloat kFavoriteHeight = 25;
 	ShareItem *currentShareItem;
 
 	LoopPlayerView *loopPlayerView;
-	PXInfiniteScrollView *playerScrollView;
 
 	HJWButton *favoriteButton;
 	HJWLabel *commentLabel;
@@ -68,8 +64,6 @@ static const CGFloat kFavoriteHeight = 25;
 - (void)initUI {
 	loopPlayerView = [[LoopPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
 	[self addSubview:loopPlayerView];
-
-	[self initPlayerUI];
 
 	favoriteButton = [[HJWButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
 																 self.bounds.size.height - kFavoriteMarginBottom - kFavoriteHeight,
@@ -135,23 +129,6 @@ static const CGFloat kFavoriteHeight = 25;
 	[self addSubview:reconnectButton];
 
 */
-}
-
-- (void)initPlayerUI {
-	playerScrollView = [[PXInfiniteScrollView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, 300)];
-	playerScrollView.backgroundColor = [UIColor redColor];
-	[playerScrollView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
-	[playerScrollView setScrollDirection:PXInfiniteScrollViewDirectionHorizontal];
-	//[self addSubview:playerScrollView];
-
-	UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-	view1.backgroundColor = [UIColor grayColor];
-	UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-	view2.backgroundColor = [UIColor yellowColor];
-	UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-	view3.backgroundColor = [UIColor greenColor];
-	NSArray *viewArray = [[NSArray alloc] initWithObjects:view1, view2, view3, nil];
-	[playerScrollView setPages:viewArray];
 }
 
 - (void)initBottomView {

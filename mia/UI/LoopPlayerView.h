@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
+#import "PlayerView.h"
 
 @interface LoopPlayerView : UIView
 
-- (void)setShareItem:(ShareItem *)item;
+- (PlayerView *)getCurrentPlayerView;
+- (PlayerView *)getPrevPlayerView;
+- (PlayerView *)getNextPlayerView;
 
+- (void)setShareItem:(ShareItem *)item;
 - (void)notifyMusicPlayerMgrDidPlay;
 - (void)notifyMusicPlayerMgrDidPause;
 
