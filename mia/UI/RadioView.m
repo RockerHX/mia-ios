@@ -16,7 +16,7 @@
 #import "UIImageView+WebCache.h"
 #import "KYCircularView.h"
 #import "PXInfiniteScrollView.h"
-#import "PlayerView.h"
+#import "LoopPlayerView.h"
 
 static const CGFloat kPlayerMarginTop			= 90;
 static const CGFloat kPlayerHeight				= 300;
@@ -33,7 +33,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 	ShareItem *currentShareItem;
 
-	PlayerView *playerView;
+	LoopPlayerView *loopPlayerView;
 	PXInfiniteScrollView *playerScrollView;
 
 	HJWButton *favoriteButton;
@@ -66,8 +66,8 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)initUI {
-	playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
-	[self addSubview:playerView];
+	loopPlayerView = [[LoopPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
+	[self addSubview:loopPlayerView];
 
 	[self initPlayerUI];
 
@@ -244,7 +244,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 	currentShareItem = item;
 
-	[playerView setShareItem:item];
+	[loopPlayerView setShareItem:item];
 
 	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
@@ -254,11 +254,11 @@ static const CGFloat kFavoriteHeight = 25;
 #pragma mark - Notification
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	[playerView notifyMusicPlayerMgrDidPlay];
+	[loopPlayerView notifyMusicPlayerMgrDidPlay];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	[playerView notifyMusicPlayerMgrDidPause];
+	[loopPlayerView notifyMusicPlayerMgrDidPause];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
