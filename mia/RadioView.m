@@ -48,7 +48,6 @@ static const CGFloat kNoteHeight = 60;
 	HJWButton *pingButton;
 	HJWButton *loginButton;
 	HJWButton *reconnectButton;
-	HJWLabel *logLabel;
 
 	ShareItem *currentShareItem;
 
@@ -223,20 +222,6 @@ static const CGFloat kNoteHeight = 60;
 	[reconnectButton addTarget:self action:@selector(onClickReconnectButton:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:reconnectButton];
 
-	static const CGFloat kLabelFontSize = 11.0f;
-	//用户名
-	CGRect logLabelFrame = CGRectMake(10.0f,
-									   self.bounds.size.height - 100.0f,
-									   self.bounds.size.width - 20,
-									   100.0f);
-	NSString *nameString = @"Mia Music";
-	logLabel = [[HJWLabel alloc] initWithFrame:logLabelFrame
-										   text:nameString
-										   font:UIFontFromSize(kLabelFontSize)
-									  textColor:[UIColor blackColor]
-								  textAlignment:NSTextAlignmentCenter
-									numberLines:3];
-	[self addSubview:logLabel];
 */
 }
 
@@ -346,21 +331,6 @@ static const CGFloat kNoteHeight = 60;
 	[bottomView addSubview:locationLabel];
 }
 
-- (void)setLogText:(NSString *)msg {
-	NSDate *now = [NSDate date];
-	NSCalendar *calendar = [NSCalendar currentCalendar];
-	NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-	NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
-
-	NSString *text = [[NSString alloc]
-					  initWithFormat:@"%02ld:%02ld:%02ld %@",
-					  (long)[dateComponent hour],
-					  [dateComponent minute],
-					  [dateComponent second],
-					  msg];
-	[logLabel setText:text];
-}
-
 - (void)setShareItem:(ShareItem *)item {
 	if (!item) {
 		return;
@@ -454,11 +424,8 @@ static const CGFloat kNoteHeight = 60;
 }
 
 - (void)updateProgress:(NSTimer *)timer {
-	_localProgress = ((int)((_localProgress * 100.0f) + 1.01) % 100) / 100.0f;
-
-	//    [_circularView1 setProgress:_localProgress];
-	//    [_circularView2 setProgress:_localProgress];
-	[progressView setProgress:_localProgress];
+	float postion = [[MusicPlayerMgr standarMusicPlayerMgr] getPlayPosition];
+	[progressView setProgress:postion];
 }
 
 @end

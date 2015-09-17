@@ -22,9 +22,7 @@
 @interface RadioView : UIView
 
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
-@property (nonatomic, assign) float localProgress;
 
-- (void)setLogText:(NSString *)msg;
 - (void)setShareItem:(ShareItem *)item;
 
 @end

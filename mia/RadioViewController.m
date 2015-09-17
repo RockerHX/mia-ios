@@ -183,31 +183,25 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 #pragma mark - Notification
 
 -(void)notificationWebSocketDidOpen:(NSNotification *)notification {
-	self.title = @"Connected!";
-	[_radioView setLogText:@"Websocket Connected"];
-
-	// TODO send uuid to server
 	[MiaAPIHelper sendUUID];
 	[self loadData];
 
 }
 -(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
-	self.title = @"Connection Failed! (see logs)";
-	[_radioView setLogText:@"Websocket Connection Failed."];
+	// TODO linyehui
+	// 长连接初始化失败的时候需要有提示
 }
 
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
 	NSLog(@"%@", command);
 
-	[_radioView setLogText:command];
-
 	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
 		[self handleNearbyFeeds:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
 		NSLog(@"without guid, we can do nothing.");
 		// TODO linyehui
-		// 没有guid的时候后续的获取信息都会失败
+		// 没有GUID的时候后续的获取信息都会失败
 	}
 
 }
@@ -215,9 +209,9 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 -(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	self.title = @"Connection Closed! (see logs)";
 }
+
 -(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
 //	NSLog(@"RadioViewController Websocket received pong");
-	[_radioView setLogText:@"Websocket received pong"];
 }
 
 #pragma mark - RadioViewDelegate

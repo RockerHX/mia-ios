@@ -195,6 +195,14 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	}
 }
 
+- (float)getPlayPosition {
+	if (![self isPlaying]) {
+		return 0.0;
+	} else {
+		return [audioStream currentTimePlayed].position;
+	}
+}
+
 @end
 
 
