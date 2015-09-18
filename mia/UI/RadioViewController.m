@@ -238,10 +238,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 #pragma mark - RadioViewDelegate
 
-- (void)notifyPing {
-	[self sendPing:nil];
-}
-
 - (void)notifyLogin {
 	NSString *testLoginData = @"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}";
 	[[WebSocketMgr standard] send:testLoginData];
@@ -252,21 +248,19 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	self.title = @"Opening Connection...";
 }
 
-- (void)notifyPlayCompletion {
-	//[self showNextShare];
-}
-
 #pragma mark - Actions
 
 - (void)profileButtonAction:(id)sender {}
 - (void)shareButtonAction:(id)sender {}
 
 - (void)pullReflashFromTop {
-	NSLog(@"pullReflashFromTop");
+//	NSLog(@"pullReflashFromTop");
+	[_radioView skipFeed];
 }
 
 - (void)pullReflashFromBottom {
-	NSLog(@"pullReflashFromBottom");
+//	NSLog(@"pullReflashFromBottom");
+	[_radioView spreadFeed];
 }
 
 @end

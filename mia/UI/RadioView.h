@@ -11,11 +11,6 @@
 #import "LoopPlayerView.h"
 @protocol RadioViewDelegate
 
-- (void)notifyPing;
-- (void)notifyLogin;
-- (void)notifyReconnect;
-- (void)notifyPlayCompletion;
-
 @end
 
 
@@ -25,5 +20,8 @@
 
 - (void)handleNearbyFeeds:(NSDictionary *)userInfo;
 - (void)setShareItem:(ShareItem *)item;
+
+- (void)spreadFeed;
+- (void)skipFeed;
 
 @end

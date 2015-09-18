@@ -70,6 +70,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)initUI {
 	loopPlayerView = [[LoopPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
+	loopPlayerView.loopPlayerViewDelegate = self;
 	[self addSubview:loopPlayerView];
 
 	favoriteButton = [[HJWButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
@@ -247,16 +248,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	NSLog(@"play next song");
-	[self.radioViewDelegate notifyPlayCompletion];
-}
-
-#pragma mark - LoopPlayerViewDelegate
-
-- (void)notifySwipeLeft {
-
-}
-
-- (void)notifySwipeRight {
+	[self showNextShare];
 }
 
 #pragma mark - received message from websocket
@@ -287,22 +279,25 @@ static const CGFloat kFavoriteHeight = 25;
 	return currentItem;
 }
 
+- (void)spreadFeed {
+	NSLog(@"#swipe# up spred");
+}
+
+- (void)skipFeed {
+	NSLog(@"#swipe# down");
+}
+
+#pragma mark - LoopPlayerViewDelegate
+
+- (void)notifySwipeLeft {
+	NSLog(@"#swipe# left");
+}
+
+- (void)notifySwipeRight {
+	NSLog(@"#swipe# right");
+}
+
 #pragma mark - Actions
-
-- (void)onClickPingButton:(id)sender {
-	NSLog(@"OnClick Ping");
-	[self.radioViewDelegate notifyPing];
-}
-
-- (void)onClickLoginButton:(id)sender {
-	NSLog(@"OnClick Login");
-	[self.radioViewDelegate notifyLogin];
-}
-
-- (void)onClickReconnectButton:(id)sender {
-	NSLog(@"OnClick Reconnect");
-	[self.radioViewDelegate notifyReconnect];
-}
 
 - (void)favoriteButtonAction:(id)sender {
 	NSLog(@"favoriteButtonAction");
