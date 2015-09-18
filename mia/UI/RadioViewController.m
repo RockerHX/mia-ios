@@ -198,8 +198,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
 														message:kAlertMsgWebSocketFailed
 													   delegate:self
-											  cancelButtonTitle:@"取消"
-											  otherButtonTitles:@"确定", nil];
+											  cancelButtonTitle:@"确定"
+											  otherButtonTitles:nil];
 	[alertView show];
 }
 
@@ -218,8 +218,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
 																message:kAlertMsgSendGUIDFailed
 															   delegate:self
-													  cancelButtonTitle:@"取消"
-													  otherButtonTitles:@"确定", nil];
+													  cancelButtonTitle:@"确定"
+													  otherButtonTitles:nil];
 			[alertView show];
 		}
 	}
@@ -236,9 +236,9 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 #pragma mark - delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 1 && [alertView.message isEqual:kAlertMsgWebSocketFailed]) {
+	if ([alertView.message isEqual:kAlertMsgWebSocketFailed]) {
 		[self notifyReconnect];
-	} else if (buttonIndex == 1 && [alertView.message isEqual:kAlertMsgSendGUIDFailed]) {
+	} else if ([alertView.message isEqual:kAlertMsgSendGUIDFailed]) {
 		[MiaAPIHelper sendUUID];
 	}
 }
