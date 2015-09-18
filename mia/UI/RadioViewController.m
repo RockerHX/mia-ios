@@ -19,7 +19,11 @@
 const CGFloat kTopViewDefaultHeight				= 30.0f;
 const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
-@interface RadioViewController () <RadioViewDelegate>
+static NSString * kAlertTitleError			= @"错误提示";
+static NSString * kAlertMsgWebSocketFailed	= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
+static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID失败），点击确认重新发送";
+
+@interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) RadioView *radioView;
 
@@ -191,6 +195,12 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 -(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	// TODO linyehui
 	// 长连接初始化失败的时候需要有提示
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+														message:kAlertMsgWebSocketFailed
+													   delegate:self
+											  cancelButtonTitle:@"取消"
+											  otherButtonTitles:@"确定", nil];
+	[alertView show];
 }
 
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
@@ -201,8 +211,17 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 		[self handleNearbyFeeds:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
 		NSLog(@"without guid, we can do nothing.");
-		// TODO linyehui
-		// 没有GUID的时候后续的获取信息都会失败
+		id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+		if ([ret intValue] != 0) {
+			// TODO linyehui
+			// 没有GUID的时候后续的获取信息都会失败
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+																message:kAlertMsgSendGUIDFailed
+															   delegate:self
+													  cancelButtonTitle:@"取消"
+													  otherButtonTitles:@"确定", nil];
+			[alertView show];
+		}
 	}
 
 }
@@ -213,6 +232,15 @@ const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 -(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
 //	NSLog(@"RadioViewController Websocket received pong");
+}
+#pragma mark - delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 1 && [alertView.message isEqual:kAlertMsgWebSocketFailed]) {
+		[self notifyReconnect];
+	} else if (buttonIndex == 1 && [alertView.message isEqual:kAlertMsgSendGUIDFailed]) {
+		[MiaAPIHelper sendUUID];
+	}
 }
 
 #pragma mark - RadioViewDelegate

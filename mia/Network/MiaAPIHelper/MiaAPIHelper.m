@@ -18,6 +18,7 @@ NSString * const MiaAPIKey_ClientCommand			= @"c";
 NSString * const MiaAPIKey_Version					= @"r";
 NSString * const MiaAPIKey_Timestamp				= @"s";
 NSString * const MiaAPIKey_Values					= @"v";
+NSString * const MiaAPIKey_Return					= @"ret";
 
 NSString * const MiaAPICommand_Music_GetNearby		= @"Music.Get.Nearby";
 NSString * const MiaAPIKey_Latitude					= @"latitude";
