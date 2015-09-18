@@ -57,8 +57,7 @@ static const CGFloat kFavoriteHeight = 25;
 //		self.backgroundColor = [UIColor redColor];
 		[self initUI];
 
-		shareListMgr = [ShareListMgr initFromArchive];
-		isLoading = YES;
+		[self initPlayerData];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
@@ -230,6 +229,11 @@ static const CGFloat kFavoriteHeight = 25;
 	[bottomView addSubview:locationLabel];
 }
 
+- (void)initPlayerData {
+	shareListMgr = [ShareListMgr initFromArchive];
+	isLoading = YES;
+}
+
 - (void)setShareItem:(ShareItem *)item {
 	if (!item) {
 		return;
@@ -264,8 +268,7 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	NSLog(@"play next song");
-	[self showNextShare];
+	[self notifySwipeLeft];
 }
 
 #pragma mark - received message from websocket
@@ -288,6 +291,7 @@ static const CGFloat kFavoriteHeight = 25;
 - (ShareItem *)showNextShare {
 	ShareItem *currentItem = [shareListMgr popShareItem];
 	if ([shareListMgr getOnlineCount] == 0) {
+		// TODO linyehui
 		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
 	}
 
@@ -308,6 +312,8 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)notifySwipeLeft {
 	NSLog(@"#swipe# left");
+
+	[self showNextShare];
 }
 
 - (void)notifySwipeRight {
