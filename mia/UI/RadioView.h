@@ -7,19 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ShareItem.h"
-#import "LoopPlayerView.h"
+
 @protocol RadioViewDelegate
 
 @end
 
 
-@interface RadioView : UIView <LoopPlayerViewDelegate>
+@interface RadioView : UIView
 
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
-
-- (void)handleNearbyFeeds:(NSDictionary *)userInfo;
-- (void)setShareItem:(ShareItem *)item;
 
 - (void)spreadFeed;
 - (void)skipFeed;

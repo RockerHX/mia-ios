@@ -15,6 +15,9 @@
 #import "MusicPlayerMgr.h"
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
+#import "WebSocketMgr.h"
+#import "ShareItem.h"
+#import "LoopPlayerView.h"
 
 static const CGFloat kPlayerMarginTop			= 90;
 static const CGFloat kPlayerHeight				= 300;
@@ -23,6 +26,9 @@ static const CGFloat kFavoriteMarginBottom = 80;
 static const CGFloat kFavoriteWidth = 25;
 static const CGFloat kFavoriteHeight = 25;
 
+@interface RadioView () <LoopPlayerViewDelegate>
+
+@end
 
 @implementation RadioView {
 	ShareListMgr *shareListMgr;
@@ -54,6 +60,7 @@ static const CGFloat kFavoriteHeight = 25;
 		shareListMgr = [ShareListMgr initFromArchive];
 		isLoading = YES;
 
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -63,6 +70,7 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -237,6 +245,15 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 #pragma mark - Notification
+
+-(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	NSLog(@"%@", command);
+
+	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
+		[self handleNearbyFeeds:[notification userInfo]];
+	}
+}
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[loopPlayerView notifyMusicPlayerMgrDidPlay];
