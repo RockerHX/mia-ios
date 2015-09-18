@@ -10,7 +10,16 @@
 #import "ShareItem.h"
 #import "PlayerView.h"
 
-@interface LoopPlayerView : UIView
+@protocol LoopPlayerViewDelegate
+
+- (void)notifySwipeLeft;
+- (void)notifySwipeRight;
+
+@end
+
+@interface LoopPlayerView : UIView <UIScrollViewDelegate>
+
+@property (weak, nonatomic)id<LoopPlayerViewDelegate> loopPlayerViewDelegate;
 
 - (PlayerView *)getCurrentPlayerView;
 - (PlayerView *)getPrevPlayerView;

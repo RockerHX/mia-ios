@@ -13,7 +13,6 @@
 #import "UIImage+Extrude.h"
 #import "MiaAPIHelper.h"
 #import "AAPullToRefresh.h"
-#import "ShareListMgr.h"
 #import "HJWButton.h"
 
 const CGFloat kTopViewDefaultHeight				= 30.0f;
@@ -30,8 +29,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 @end
 
 @implementation RadioViewController {
-	ShareListMgr *shareListMgr;
-	BOOL isLoading;
 	HJWButton *profileButton;
 	HJWButton *shareButton;
 }
@@ -40,10 +37,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
-
-	shareListMgr = [ShareListMgr initFromArchive];
-	
-	isLoading = YES;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
@@ -208,7 +201,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	NSLog(@"%@", command);
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
-		[self handleNearbyFeeds:[notification userInfo]];
+		[[self radioView] handleNearbyFeeds:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
 		NSLog(@"without guid, we can do nothing.");
 		id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
@@ -260,35 +253,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 }
 
 - (void)notifyPlayCompletion {
-	[self showNextShare];
-}
-
-#pragma mark - received message from websocket
-
-- (void)handleNearbyFeeds:(NSDictionary *) userInfo {
-	NSArray *shareList = userInfo[@"v"][@"data"];
-	if (!shareList)
-		return;
-
-	[shareListMgr addSharesWithArray:shareList];
-
-	if (isLoading) {
-		[self showNextShare];
-		isLoading = NO;
-	}
-
-	[shareListMgr saveChanges];
-}
-
-- (ShareItem *)showNextShare {
-	ShareItem *currentItem = [shareListMgr popShareItem];
-	if ([shareListMgr getOnlineCount] == 0) {
-		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
-	}
-
-	[self.radioView setShareItem:currentItem];
-
-	return currentItem;
+	//[self showNextShare];
 }
 
 #pragma mark - Actions

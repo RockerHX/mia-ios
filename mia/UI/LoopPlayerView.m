@@ -10,8 +10,15 @@
 #import "PXInfiniteScrollView.h"
 #import "PlayerView.h"
 
+typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
+	LoopPlayerViewPagingCurrent	 	= 0,
+	LoopPlayerViewPagingLeft	= 1,
+	LoopPlayerViewPagingRight		= 2,
+};
+
 @implementation LoopPlayerView {
 	PXInfiniteScrollView *playerScrollView;
+	NSInteger lastPage;
 	//PlayerView *playerView;
 }
 
@@ -28,6 +35,7 @@
 
 - (void)initPlayerView {
 	playerScrollView = [[PXInfiniteScrollView alloc] initWithFrame:self.bounds];
+	playerScrollView.delegate = self;
 	//playerScrollView.backgroundColor = [UIColor redColor];
 	[playerScrollView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
 	[playerScrollView setScrollDirection:PXInfiniteScrollViewDirectionHorizontal];
@@ -41,6 +49,7 @@
 	}
 
 	[playerScrollView setPages:viewArray];
+	lastPage = [playerScrollView currentPage];
 }
 
 #pragma mark public method
@@ -68,6 +77,81 @@
 }
 - (void)notifyMusicPlayerMgrDidPause {
 	[[self getCurrentPlayerView] notifyMusicPlayerMgrDidPause];
+}
+
+#pragma mark UIScrollViewDelegate
+
+// called on start of dragging (may require some time and or distance to move)
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+	NSLog(@"scrollViewWillBeginDragging++++++++++++++++++++++++");
+}
+
+// called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+	NSLog(@"scrollViewDidEndDragging========================%d", (int)[playerScrollView currentPage]);
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollViewSender {
+	NSLog(@"scrollViewDidEndDecelerating***************************");
+	LoopPlayerViewPaging pagingDirection = [self checkPagingDirection];
+	switch (pagingDirection) {
+		case LoopPlayerViewPagingCurrent:
+			NSLog(@"LoopPlayerViewPagingCurrent");
+			break;
+		case LoopPlayerViewPagingLeft:
+			NSLog(@"LoopPlayerViewPagingLeft");
+			[_loopPlayerViewDelegate notifySwipeLeft];
+			break;
+		case LoopPlayerViewPagingRight:
+			NSLog(@"LoopPlayerViewPagingRight");
+			[_loopPlayerViewDelegate notifySwipeRight];
+			break;
+		default:
+			NSLog(@"Error PagingDirection!!");
+			break;
+	}
+
+	lastPage = [playerScrollView currentPage];
+}
+
+// called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+	NSLog(@"scrollViewDidEndScrollingAnimation------------------------");
+}
+
+
+# pragma mark - 
+
+- (LoopPlayerViewPaging)checkPagingDirection {
+	NSLog(@"lastPage:%d, currentPage:%d", (int)lastPage, (int)[playerScrollView currentPage]);
+
+	if (lastPage == [playerScrollView currentPage]) {
+		return LoopPlayerViewPagingCurrent;
+	}
+
+	NSInteger maxIndex = MAX(0, [playerScrollView pageCount] - 1);
+	if (lastPage == 0) {
+		// 第一个，需要判断向右翻页后翻到了最后一页的情况
+		if (maxIndex == [playerScrollView currentPage]) {
+			return LoopPlayerViewPagingRight;
+		} else {
+			return LoopPlayerViewPagingLeft;
+		}
+	} else if (lastPage == maxIndex) {
+		// 最后一个，需要判断向左滑动，到了第一页的情况
+		if (0 == [playerScrollView currentPage]) {
+			return LoopPlayerViewPagingLeft;
+		} else {
+			return LoopPlayerViewPagingRight;
+		}
+	} else {
+		// 中间页面，直接判断大于小于即可
+		if (lastPage > [playerScrollView currentPage]) {
+			return LoopPlayerViewPagingRight;
+		} else {
+			return LoopPlayerViewPagingLeft;
+		}
+	}
 }
 
 @end

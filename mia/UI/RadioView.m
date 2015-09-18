@@ -13,7 +13,8 @@
 #import "HJWButton.h"
 #import "HJWLabel.h"
 #import "MusicPlayerMgr.h"
-#import "LoopPlayerView.h"
+#import "ShareListMgr.h"
+#import "MiaAPIHelper.h"
 
 static const CGFloat kPlayerMarginTop			= 90;
 static const CGFloat kPlayerHeight				= 300;
@@ -24,6 +25,9 @@ static const CGFloat kFavoriteHeight = 25;
 
 
 @implementation RadioView {
+	ShareListMgr *shareListMgr;
+	BOOL isLoading;
+	
 	HJWButton *pingButton;
 	HJWButton *loginButton;
 	HJWButton *reconnectButton;
@@ -46,6 +50,9 @@ static const CGFloat kFavoriteHeight = 25;
 		self.userInteractionEnabled = YES;
 //		self.backgroundColor = [UIColor redColor];
 		[self initUI];
+
+		shareListMgr = [ShareListMgr initFromArchive];
+		isLoading = YES;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
@@ -241,6 +248,43 @@ static const CGFloat kFavoriteHeight = 25;
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	NSLog(@"play next song");
 	[self.radioViewDelegate notifyPlayCompletion];
+}
+
+#pragma mark - LoopPlayerViewDelegate
+
+- (void)notifySwipeLeft {
+
+}
+
+- (void)notifySwipeRight {
+}
+
+#pragma mark - received message from websocket
+
+- (void)handleNearbyFeeds:(NSDictionary *) userInfo {
+	NSArray *shareList = userInfo[@"v"][@"data"];
+	if (!shareList)
+		return;
+
+	[shareListMgr addSharesWithArray:shareList];
+
+	if (isLoading) {
+		[self showNextShare];
+		isLoading = NO;
+	}
+
+	[shareListMgr saveChanges];
+}
+
+- (ShareItem *)showNextShare {
+	ShareItem *currentItem = [shareListMgr popShareItem];
+	if ([shareListMgr getOnlineCount] == 0) {
+		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
+	}
+
+	[self setShareItem:currentItem];
+
+	return currentItem;
 }
 
 #pragma mark - Actions

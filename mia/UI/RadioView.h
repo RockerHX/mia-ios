@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
-
+#import "LoopPlayerView.h"
 @protocol RadioViewDelegate
 
 - (void)notifyPing;
@@ -19,10 +19,11 @@
 @end
 
 
-@interface RadioView : UIView
+@interface RadioView : UIView <LoopPlayerViewDelegate>
 
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 
+- (void)handleNearbyFeeds:(NSDictionary *)userInfo;
 - (void)setShareItem:(ShareItem *)item;
 
 @end
