@@ -1,28 +1,28 @@
 //
-//  HJWLabel.h
-//  huanjuwan
+//  MIALabel.h
+//  mia
 //
-//  Created by huanjuwan on 14-8-4.
+//  Created by mia on 14-8-4.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-@class HJWLabel;
+@class MIALabel;
 
-@protocol HJWLabelTouchesDelegate <NSObject>
+@protocol MIALabelTouchesDelegate <NSObject>
 
 @optional
-- (void)label:(HJWLabel *)label touchesWtihTag:(NSInteger)tag;
+- (void)label:(MIALabel *)label touchesWtihTag:(NSInteger)tag;
 
 @end
 
-@interface HJWLabel : UILabel
+@interface MIALabel : UILabel
 
 
 
-@property (nonatomic, assign) id <HJWLabelTouchesDelegate> delegate;
+@property (nonatomic, assign) id <MIALabelTouchesDelegate> delegate;
 
 
 /**

@@ -10,8 +10,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIImage+ColorToImage.h"
-#import "HJWButton.h"
-#import "HJWLabel.h"
+#import "MIAButton.h"
+#import "MIALabel.h"
 #import "MusicPlayerMgr.h"
 #import "UIImageView+WebCache.h"
 #import "KYCircularView.h"
@@ -22,11 +22,11 @@
 
 	UIImageView *coverImageView;
 	KYCircularView *progressView;
-	HJWButton *playButton;
+	MIAButton *playButton;
 
-	HJWLabel *musicNameLabel;
-	HJWLabel *musicArtistLabel;
-	HJWLabel *sharerLabel;
+	MIALabel *musicNameLabel;
+	MIALabel *musicArtistLabel;
+	MIALabel *sharerLabel;
 	UITextView *noteTextView;
 
 	NSTimer *progressTimer;
@@ -80,7 +80,7 @@
 					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
 	[self addSubview:coverImageView];
 
-	playButton = [[HJWButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
+	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
 															 coverFrame.origin.y + coverFrame.size.height - kPlayButtonMarginBottom - kPlayButtonHeight,
 															 kPlayButtonWidth,
 															 kPlayButtonHeight)
@@ -93,7 +93,7 @@
 	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:playButton];
 
-	musicNameLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
+	musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
@@ -104,7 +104,7 @@
 								   numberLines:1];
 	[self addSubview:musicNameLabel];
 
-	musicArtistLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
+	musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
 														  kMusicArtistHeight)
@@ -115,7 +115,7 @@
 								   numberLines:1];
 	[self addSubview:musicArtistLabel];
 
-	sharerLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
+	sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
 																  kSharerMarginTop,
 																  coverImageView.frame.origin.x - kSharerMarginLeft,
 																  kSharerHeight)

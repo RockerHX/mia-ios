@@ -1,24 +1,24 @@
 //
-//  HJWTipView.m
-//  huanjuwan
+//  MIATipView.m
+//  mia
 //
 //  Created by HongBin Lin on 14-8-15.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWTipView.h"
-#import "HJWLabel.h"
-#import "HJWButton.h"
+#import "MIATipView.h"
+#import "MIALabel.h"
+#import "MIAButton.h"
 #import "UIImage+ColorToImage.h"
 
-@interface HJWTipView()
+@interface MIATipView()
 
-@property (retain, nonatomic) HJWLabel *label;
-@property (retain, nonatomic) HJWButton *button;
+@property (retain, nonatomic) MIALabel *label;
+@property (retain, nonatomic) MIAButton *button;
 
 @end
 
-@implementation HJWTipView
+@implementation MIATipView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -40,7 +40,7 @@
     self = [super initWithFrame:frame];
     if(self){
         self.backgroundColor = [UIColor clearColor];
-        self.label = [[HJWLabel alloc] initWithFrame:frame text:content font:UIFontFromSize(12) textColor:UIColorFromHex(@"747C8D", 1.0) textAlignment:NSTextAlignmentCenter numberLines:0];
+        self.label = [[MIALabel alloc] initWithFrame:frame text:content font:UIFontFromSize(12) textColor:UIColorFromHex(@"747C8D", 1.0) textAlignment:NSTextAlignmentCenter numberLines:0];
         [self addSubview:self.label];
     }
     return self;
@@ -50,11 +50,11 @@
     self = [super initWithFrame:frame];
     if(self){
         self.backgroundColor = [UIColor clearColor];
-        self.label = [[HJWLabel alloc] initWithFrame:frame text:content font:UIFontFromSize(12) textColor:UIColorFromHex(@"747C8D", 1.0) textAlignment:NSTextAlignmentCenter numberLines:0];
+        self.label = [[MIALabel alloc] initWithFrame:frame text:content font:UIFontFromSize(12) textColor:UIColorFromHex(@"747C8D", 1.0) textAlignment:NSTextAlignmentCenter numberLines:0];
         [self.label sizeToFit];
         self.label.frame = CGRectMake(self.frame.size.width/2 - self.label.frame.size.width/2, self.frame.size.height/2 - self.label.frame.size.height/2 - 30.0f, self.label.frame.size.width, self.label.frame.size.height);
         [self addSubview:self.label];
-        self.button = [[HJWButton alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 130.0f/2, self.label.frame.origin.y + self.label.frame.size.height + 30.0f, 130.0f, 35.0f) titleString:buttonTitle titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
+        self.button = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 130.0f/2, self.label.frame.origin.y + self.label.frame.size.height + 30.0f, 130.0f, 35.0f) titleString:buttonTitle titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
         self.button.layer.masksToBounds = YES;
         self.button.layer.cornerRadius = 5.0f;
         [self.button addTarget:self action:@selector(onClickButtonAction:) forControlEvents:UIControlEventTouchUpInside];

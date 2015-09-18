@@ -1,14 +1,14 @@
 //
-//  UIScrollView+HJWRefresh.h
-//  huanjuwan
+//  UIScrollView+MIARefresh.h
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface UIScrollView (HJWRefresh)
+@interface UIScrollView (MIARefresh)
 #pragma mark - 下拉刷新
 /**
  *  添加一个下拉刷新头部控件

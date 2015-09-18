@@ -1,49 +1,49 @@
 //
-//  UIScrollView+HJWRefresh.m
-//  huanjuwan
+//  UIScrollView+MIARefresh.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "UIScrollView+HJWRefresh.h"
-#import "HJWRefreshHeaderView.h"
-#import "HJWRefreshFooterView.h"
+#import "UIScrollView+MIARefresh.h"
+#import "MIARefreshHeaderView.h"
+#import "MIARefreshFooterView.h"
 #import <objc/runtime.h>
 
 @interface UIScrollView()
-@property (weak, nonatomic) HJWRefreshHeaderView *header;
-@property (weak, nonatomic) HJWRefreshFooterView *footer;
+@property (weak, nonatomic) MIARefreshHeaderView *header;
+@property (weak, nonatomic) MIARefreshFooterView *footer;
 @end
 
-@implementation UIScrollView (HJWRefresh)
+@implementation UIScrollView (MIARefresh)
 
 #pragma mark - 运行时相关
-static char HJWRefreshHeaderViewKey;
-static char HJWRefreshFooterViewKey;
+static char MIARefreshHeaderViewKey;
+static char MIARefreshFooterViewKey;
 
-- (void)setHeader:(HJWRefreshHeaderView *)header {
-    [self willChangeValueForKey:@"HJWRefreshHeaderViewKey"];
-    objc_setAssociatedObject(self, &HJWRefreshHeaderViewKey,
+- (void)setHeader:(MIARefreshHeaderView *)header {
+    [self willChangeValueForKey:@"MIARefreshHeaderViewKey"];
+    objc_setAssociatedObject(self, &MIARefreshHeaderViewKey,
                              header,
                              OBJC_ASSOCIATION_ASSIGN);
-    [self didChangeValueForKey:@"HJWRefreshHeaderViewKey"];
+    [self didChangeValueForKey:@"MIARefreshHeaderViewKey"];
 }
 
-- (HJWRefreshHeaderView *)header {
-    return objc_getAssociatedObject(self, &HJWRefreshHeaderViewKey);
+- (MIARefreshHeaderView *)header {
+    return objc_getAssociatedObject(self, &MIARefreshHeaderViewKey);
 }
 
-- (void)setFooter:(HJWRefreshFooterView *)footer {
-    [self willChangeValueForKey:@"HJWRefreshFooterViewKey"];
-    objc_setAssociatedObject(self, &HJWRefreshFooterViewKey,
+- (void)setFooter:(MIARefreshFooterView *)footer {
+    [self willChangeValueForKey:@"MIARefreshFooterViewKey"];
+    objc_setAssociatedObject(self, &MIARefreshFooterViewKey,
                              footer,
                              OBJC_ASSOCIATION_ASSIGN);
-    [self didChangeValueForKey:@"HJWRefreshFooterViewKey"];
+    [self didChangeValueForKey:@"MIARefreshFooterViewKey"];
 }
 
-- (HJWRefreshFooterView *)footer {
-    return objc_getAssociatedObject(self, &HJWRefreshFooterViewKey);
+- (MIARefreshFooterView *)footer {
+    return objc_getAssociatedObject(self, &MIARefreshFooterViewKey);
 }
 
 #pragma mark - 下拉刷新
@@ -55,7 +55,7 @@ static char HJWRefreshFooterViewKey;
 - (void)addHeaderWithCallback:(void (^)())callback
 {
     if (!self.header) {
-        HJWRefreshHeaderView *header = [HJWRefreshHeaderView header];
+        MIARefreshHeaderView *header = [MIARefreshHeaderView header];
         [self addSubview:header];
         self.header = header;
     }
@@ -72,7 +72,7 @@ static char HJWRefreshFooterViewKey;
 - (void)addHeaderWithTarget:(id)target action:(SEL)action
 {
     if (!self.header) {
-        HJWRefreshHeaderView *header = [HJWRefreshHeaderView header];
+        MIARefreshHeaderView *header = [MIARefreshHeaderView header];
         [self addSubview:header];
         self.header = header;
     }
@@ -129,7 +129,7 @@ static char HJWRefreshFooterViewKey;
 {
     // 1.创建新的footer
     if (!self.footer) {
-        HJWRefreshFooterView *footer = [HJWRefreshFooterView footer];
+        MIARefreshFooterView *footer = [MIARefreshFooterView footer];
         [self addSubview:footer];
         self.footer = footer;
     }
@@ -147,7 +147,7 @@ static char HJWRefreshFooterViewKey;
 - (void)addFooterWithTarget:(id)target action:(SEL)action
 {
     if (!self.footer) {
-        HJWRefreshFooterView *footer = [HJWRefreshFooterView footer];
+        MIARefreshFooterView *footer = [MIARefreshFooterView footer];
         [self addSubview:footer];
         self.footer = footer;
     }

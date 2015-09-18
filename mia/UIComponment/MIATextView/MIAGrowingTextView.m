@@ -1,16 +1,16 @@
 //
-//  HJWGrowingTextView.m
-//  huanjuwan
+//  MIAGrowingTextView.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-12.
+//  Created by mia on 14-8-12.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWGrowingTextView.h"
-#import "HJWTextViewInternal.h"
+#import "MIAGrowingTextView.h"
+#import "MIATextViewInternal.h"
 #import "NSString+Emoji.h"
 
-@interface HJWGrowingTextView(private)
+@interface MIAGrowingTextView(private)
 
 -(void)commonInitialiser;
 -(void)resizeTextView:(NSInteger)newSizeH;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation HJWGrowingTextView
+@implementation MIAGrowingTextView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -44,7 +44,7 @@
     CGRect frame = self.frame;
     frame.origin.y = 0;
     frame.origin.x = 0;
-    self.internalTextView = [[HJWTextViewInternal alloc] initWithFrame:frame];
+    self.internalTextView = [[MIATextViewInternal alloc] initWithFrame:frame];
     self.internalTextView.delegate = self;
     self.internalTextView.scrollEnabled = NO;
     self.internalTextView.font = [UIFont systemFontOfSize:14.0f];

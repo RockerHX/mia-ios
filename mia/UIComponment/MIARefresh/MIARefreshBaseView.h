@@ -1,29 +1,29 @@
 //
-//  HJWRefreshBaseView.h
-//  huanjuwan
+//  MIARefreshBaseView.h
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@class HJWRefreshBaseView;
+@class MIARefreshBaseView;
 
 typedef enum {
-	HJWRefreshStatePulling          = 1,    // 松开就可以进行刷新的状态
-	HJWRefreshStateNormal           = 2,    // 普通状态
-	HJWRefreshStateRefreshing       = 3,    // 正在刷新中的状态
-    HJWRefreshStateWillRefreshing   = 4
-} HJWRefreshState;
+	MIARefreshStatePulling          = 1,    // 松开就可以进行刷新的状态
+	MIARefreshStateNormal           = 2,    // 普通状态
+	MIARefreshStateRefreshing       = 3,    // 正在刷新中的状态
+    MIARefreshStateWillRefreshing   = 4
+} MIARefreshState;
 
 #pragma mark - 控件的类型
 typedef enum {
-    HJWRefreshViewTypeHeader        = -1,   // 头部控件
-    HJWRefreshViewTypeFooter        = 1     // 尾部控件
-} HJWRefreshViewType;
+    MIARefreshViewTypeHeader        = -1,   // 头部控件
+    MIARefreshViewTypeFooter        = 1     // 尾部控件
+} MIARefreshViewType;
 
-@interface HJWRefreshBaseView : UIView
+@interface MIARefreshBaseView : UIView
 
 
 @property (nonatomic, weak, readonly)   UIScrollView *scrollView;
@@ -62,7 +62,7 @@ typedef enum {
  */
 - (void)endRefreshing;
 
-@property (assign, nonatomic) HJWRefreshState state;
+@property (assign, nonatomic) MIARefreshState state;
 @end
 
 

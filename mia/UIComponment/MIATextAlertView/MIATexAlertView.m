@@ -1,12 +1,12 @@
 //
-//  HJWTexAlertView.m
-//  huanjuwan
+//  MIATexAlertView.m
+//  mia
 //
 //  Created by HongBin Lin on 14-10-8.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWTexAlertView.h"
+#import "MIATexAlertView.h"
 #import <QuartzCore/QuartzCore.h>
 
 const static CGFloat kAlertViewDefaultButtonHeight       = 50;
@@ -15,7 +15,7 @@ const static CGFloat kAlertViewCornerRadius              = 7;
 const static CGFloat kMotionEffectExtent                 = 10.0;
 
 
-@implementation HJWTexAlertView
+@implementation MIATexAlertView
 
 CGFloat buttonHeight = 0;
 CGFloat buttonSpacerHeight = 0;
@@ -128,7 +128,7 @@ CGFloat buttonSpacerHeight = 0;
 }
 
 // Default button behaviour
-- (void)customIOS7dialogButtonTouchUpInside: (HJWTexAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)customIOS7dialogButtonTouchUpInside: (MIATexAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"Button Clicked! %d, %d", (int)buttonIndex, (int)[alertView tag]);
     [self close];

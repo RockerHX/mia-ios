@@ -1,32 +1,32 @@
 //
-//  HJWRefreshFooterView.m
-//  huanjuwan
+//  MIARefreshFooterView.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWRefreshFooterView.h"
+#import "MIARefreshFooterView.h"
 #import "UIView+Extension.h"
 #import "UIScrollView+Extension.h"
 
-@interface HJWRefreshFooterView()
+@interface MIARefreshFooterView()
 @property (assign, nonatomic) int lastRefreshCount;
 @end
 
-@implementation HJWRefreshFooterView
+@implementation MIARefreshFooterView
 
-NSString *const HJWRefreshFooterPullToRefresh               = @"上拉可以加载更多数据";
-NSString *const HJWRefreshFooterReleaseToRefresh            = @"松开立即加载更多数据";
-NSString *const HJWRefreshFooterRefreshing                  = @"正在加载中...";
-NSString *const HJWRefreshContentSize                       = @"contentSize";
-static const NSString *HJWRefreshContentOffset              = @"contentOffset";
-static const CGFloat HJWRefreshSlowAnimationDuration        = 0.4;
-static const CGFloat HJWRefreshFastAnimationDuration        = 0.25;
+NSString *const MIARefreshFooterPullToRefresh               = @"上拉可以加载更多数据";
+NSString *const MIARefreshFooterReleaseToRefresh            = @"松开立即加载更多数据";
+NSString *const MIARefreshFooterRefreshing                  = @"正在加载中...";
+NSString *const MIARefreshContentSize                       = @"contentSize";
+static const NSString *MIARefreshContentOffset              = @"contentOffset";
+static const CGFloat MIARefreshSlowAnimationDuration        = 0.4;
+static const CGFloat MIARefreshFastAnimationDuration        = 0.25;
 
 + (instancetype)footer
 {
-    return [[HJWRefreshFooterView alloc] init];
+    return [[MIARefreshFooterView alloc] init];
 }
 
 - (void)layoutSubviews
@@ -38,10 +38,10 @@ static const CGFloat HJWRefreshFastAnimationDuration        = 0.25;
 - (void)willMoveToSuperview:(UIView *)newSuperview{
     [super willMoveToSuperview:newSuperview];
     
-    [self.superview removeObserver:self forKeyPath:HJWRefreshContentSize context:nil];
+    [self.superview removeObserver:self forKeyPath:MIARefreshContentSize context:nil];
     
     if (newSuperview) {
-        [newSuperview addObserver:self forKeyPath:HJWRefreshContentSize options:NSKeyValueObservingOptionNew context:nil];
+        [newSuperview addObserver:self forKeyPath:MIARefreshContentSize options:NSKeyValueObservingOptionNew context:nil];
 
         [self adjustFrameWithContentSize];
     }
@@ -64,12 +64,12 @@ static const CGFloat HJWRefreshFastAnimationDuration        = 0.25;
     // 不能跟用户交互，直接返回
     if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden) return;
     
-    if ([HJWRefreshContentSize isEqualToString:keyPath]) {
+    if ([MIARefreshContentSize isEqualToString:keyPath]) {
         // 调整frame
         [self adjustFrameWithContentSize];
-    } else if ([HJWRefreshContentOffset isEqualToString:keyPath]) {
+    } else if ([MIARefreshContentOffset isEqualToString:keyPath]) {
         // 如果正在刷新，直接返回
-        if (self.state == HJWRefreshStateRefreshing) return;
+        if (self.state == MIARefreshStateRefreshing) return;
         
         // 调整状态
         [self adjustStateWithContentOffset];
@@ -93,16 +93,16 @@ static const CGFloat HJWRefreshFastAnimationDuration        = 0.25;
         // 普通 和 即将刷新 的临界点
         CGFloat normal2pullingOffsetY = happenOffsetY + self.height;
         
-        if (self.state == HJWRefreshStateNormal && currentOffsetY > normal2pullingOffsetY) {
+        if (self.state == MIARefreshStateNormal && currentOffsetY > normal2pullingOffsetY) {
             // 转为即将刷新状态
-            self.state = HJWRefreshStatePulling;
-        } else if (self.state == HJWRefreshStatePulling && currentOffsetY <= normal2pullingOffsetY) {
+            self.state = MIARefreshStatePulling;
+        } else if (self.state == MIARefreshStatePulling && currentOffsetY <= normal2pullingOffsetY) {
             // 转为普通状态
-            self.state = HJWRefreshStateNormal;
+            self.state = MIARefreshStateNormal;
         }
-    } else if (self.state == HJWRefreshStatePulling) {// 即将刷新 && 手松开
+    } else if (self.state == MIARefreshStatePulling) {// 即将刷新 && 手松开
         // 开始刷新
-        self.state = HJWRefreshStateRefreshing;
+        self.state = MIARefreshStateRefreshing;
     }
 }
 
@@ -110,29 +110,29 @@ static const CGFloat HJWRefreshFastAnimationDuration        = 0.25;
  *  设置状态
  *
  */
-- (void)setState:(HJWRefreshState)state{
+- (void)setState:(MIARefreshState)state{
     if (self.state == state) return;
     
-    HJWRefreshState oldState = self.state;
+    MIARefreshState oldState = self.state;
     
     [super setState:state];
     
 	switch (state)
     {
-		case HJWRefreshStateNormal:
+		case MIARefreshStateNormal:
         {
             // 设置文字
-            self.statusLabel.text = HJWRefreshFooterPullToRefresh;
+            self.statusLabel.text = MIARefreshFooterPullToRefresh;
             
             // 刷新完毕
-            if (HJWRefreshStateRefreshing == oldState) {
+            if (MIARefreshStateRefreshing == oldState) {
                 self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
-                [UIView animateWithDuration:HJWRefreshSlowAnimationDuration animations:^{
+                [UIView animateWithDuration:MIARefreshSlowAnimationDuration animations:^{
                     self.scrollView.contentInsetBottom = self.scrollViewOriginalInset.bottom;
                 }];
             } else {
                 // 执行动画
-                [UIView animateWithDuration:HJWRefreshFastAnimationDuration animations:^{
+                [UIView animateWithDuration:MIARefreshFastAnimationDuration animations:^{
                     self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
                 }];
             }
@@ -140,32 +140,32 @@ static const CGFloat HJWRefreshFastAnimationDuration        = 0.25;
             CGFloat deltaH = [self heightForContentBreakView];
             int currentCount = [self totalDataCountInScrollView];
             // 刚刷新完毕
-            if (HJWRefreshStateRefreshing == oldState && deltaH > 0 && currentCount != self.lastRefreshCount) {
+            if (MIARefreshStateRefreshing == oldState && deltaH > 0 && currentCount != self.lastRefreshCount) {
                 self.scrollView.contentOffsetY = self.scrollView.contentOffsetY;
             }
 			break;
         }
             
-		case HJWRefreshStatePulling:
+		case MIARefreshStatePulling:
         {
             // 设置文字
-            self.statusLabel.text = HJWRefreshFooterReleaseToRefresh;
+            self.statusLabel.text = MIARefreshFooterReleaseToRefresh;
             
-            [UIView animateWithDuration:HJWRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:MIARefreshFastAnimationDuration animations:^{
                 self.arrowImage.transform = CGAffineTransformIdentity;
             }];
 			break;
         }
             
-        case HJWRefreshStateRefreshing:
+        case MIARefreshStateRefreshing:
         {
             // 设置文字
-            self.statusLabel.text = HJWRefreshFooterRefreshing;
+            self.statusLabel.text = MIARefreshFooterRefreshing;
             
             // 记录刷新前的数量
             self.lastRefreshCount = [self totalDataCountInScrollView];
             
-            [UIView animateWithDuration:HJWRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:MIARefreshFastAnimationDuration animations:^{
                 CGFloat bottom = self.height + self.scrollViewOriginalInset.bottom;
                 CGFloat deltaH = [self heightForContentBreakView];
                 if (deltaH < 0) {

@@ -1,6 +1,6 @@
 //
-//  HJWTipView.h
-//  huanjuwan
+//  MIATipView.h
+//  mia
 //
 //  Created by HongBin Lin on 14-8-15.
 //  Copyright (c) 2014年 duowan. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HJWTipView : UIView
+@interface MIATipView : UIView
 
 /**
  *  初始化TipView

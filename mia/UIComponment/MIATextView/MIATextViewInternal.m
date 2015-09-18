@@ -1,14 +1,14 @@
 //
-//  HJWTextViewInternal.m
-//  huanjuwan
+//  MIATextViewInternal.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-12.
+//  Created by mia on 14-8-12.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWTextViewInternal.h"
+#import "MIATextViewInternal.h"
 
-@implementation HJWTextViewInternal
+@implementation MIATextViewInternal
 
 - (id)initWithFrame:(CGRect)frame
 {

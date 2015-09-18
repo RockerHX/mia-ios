@@ -1,17 +1,17 @@
 //
-//  HJWRefreshBaseView.m
-//  huanjuwan
+//  MIARefreshBaseView.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWRefreshBaseView.h"
+#import "MIARefreshBaseView.h"
 #import "UIView+Extension.h"
 #import "UIScrollView+Extension.h"
 #import <objc/message.h>
 
-@interface HJWRefreshBaseView(){
+@interface MIARefreshBaseView(){
     __weak UILabel *_statusLabel;
     __weak UIImageView *_arrowImage;
     __weak UIActivityIndicatorView *_activityView;
@@ -19,10 +19,10 @@
 
 @end
 
-@implementation HJWRefreshBaseView
+@implementation MIARefreshBaseView
 
-NSString *const HJWRefreshContentOffset             = @"contentOffset";
-static const CGFloat HJWRefreshViewHeight           = 64.0;
+NSString *const MIARefreshContentOffset             = @"contentOffset";
+static const CGFloat MIARefreshViewHeight           = 64.0;
 
 /**
  *  状态标签
@@ -69,12 +69,12 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    frame.size.height = HJWRefreshViewHeight;
+    frame.size.height = MIARefreshViewHeight;
     if (self = [super initWithFrame:frame]) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.backgroundColor = [UIColor clearColor];
 
-        self.state = HJWRefreshStateNormal;
+        self.state = MIARefreshStateNormal;
     }
     return self;
 }
@@ -96,10 +96,10 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
     [super willMoveToSuperview:newSuperview];
     
     // 旧的父控件
-    [self.superview removeObserver:self forKeyPath:HJWRefreshContentOffset context:nil];
+    [self.superview removeObserver:self forKeyPath:MIARefreshContentOffset context:nil];
     
     if (newSuperview) { // 新的父控件
-        [newSuperview addObserver:self forKeyPath:HJWRefreshContentOffset options:NSKeyValueObservingOptionNew context:nil];
+        [newSuperview addObserver:self forKeyPath:MIARefreshContentOffset options:NSKeyValueObservingOptionNew context:nil];
         
         // 设置宽度
         self.width = newSuperview.width;
@@ -115,8 +115,8 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
 
 - (void)drawRect:(CGRect)rect
 {
-    if (self.state == HJWRefreshStateWillRefreshing) {
-        self.state = HJWRefreshStateRefreshing;
+    if (self.state == MIARefreshStateWillRefreshing) {
+        self.state = MIARefreshStateRefreshing;
     }
 }
 
@@ -126,7 +126,7 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
  */
 - (BOOL)isRefreshing
 {
-    return HJWRefreshStateRefreshing == self.state;
+    return MIARefreshStateRefreshing == self.state;
 }
 
 /**
@@ -135,9 +135,9 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
 - (void)beginRefreshing
 {
     if (self.window) {
-        self.state = HJWRefreshStateRefreshing;
+        self.state = MIARefreshStateRefreshing;
     } else {
-        _state = HJWRefreshStateWillRefreshing;
+        _state = MIARefreshStateWillRefreshing;
         [super setNeedsDisplay];
     }
 }
@@ -150,7 +150,7 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
     double delayInSeconds = 0.3;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        self.state = HJWRefreshStateNormal;
+        self.state = MIARefreshStateNormal;
     });
 }
 
@@ -158,10 +158,10 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
  *  设置状态
  *
  */
-- (void)setState:(HJWRefreshState )state
+- (void)setState:(MIARefreshState )state
 {
     // 0.存储当前的contentInset
-    if (self.state != HJWRefreshStateRefreshing) {
+    if (self.state != MIARefreshStateRefreshing) {
         _scrollViewOriginalInset = self.scrollView.contentInset;
     }
     
@@ -169,7 +169,7 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
         return;
     
     switch (state) {
-		case HJWRefreshStateNormal: // 普通状态
+		case MIARefreshStateNormal: // 普通状态
         {
             // 显示箭头
             self.arrowImage.hidden = NO;
@@ -179,10 +179,10 @@ static const CGFloat HJWRefreshViewHeight           = 64.0;
 			break;
         }
             
-        case HJWRefreshStatePulling:
+        case MIARefreshStatePulling:
             break;
             
-		case HJWRefreshStateRefreshing:
+		case MIARefreshStateRefreshing:
         {
             // 开始转圈圈
 			[self.activityView startAnimating];

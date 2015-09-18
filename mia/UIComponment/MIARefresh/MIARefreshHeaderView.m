@@ -1,16 +1,16 @@
 //
-//  HJWRefreshHeaderView.m
-//  huanjuwan
+//  MIARefreshHeaderView.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWRefreshHeaderView.h"
+#import "MIARefreshHeaderView.h"
 #import "UIView+Extension.h"
 #import "UIScrollView+Extension.h"
 
-@interface HJWRefreshHeaderView()
+@interface MIARefreshHeaderView()
 
 // 最后的更新时间
 @property (nonatomic, strong) NSDate *lastUpdateTime;
@@ -18,15 +18,15 @@
 
 @end
 
-@implementation HJWRefreshHeaderView
+@implementation MIARefreshHeaderView
 
-NSString *const HJWRefreshHeaderPullToRefresh               = @"上拉可以刷新";
-NSString *const HJWRefreshHeaderReleaseToRefresh            = @"松开立即刷新";
-NSString *const HJWRefreshHeaderRefreshing                  = @"正在刷新中...";
-NSString *const HJWRefreshHeaderTimeKey                     = @"HJWRefreshHeaderView";
-static const NSString *HJWRefreshContentOffset              = @"contentOffset";
-static CGFloat HJWRefreshSlowAnimationDuration              = 0.4;
-static CGFloat HJWRefreshFastAnimationDuration              = 0.25;
+NSString *const MIARefreshHeaderPullToRefresh               = @"上拉可以刷新";
+NSString *const MIARefreshHeaderReleaseToRefresh            = @"松开立即刷新";
+NSString *const MIARefreshHeaderRefreshing                  = @"正在刷新中...";
+NSString *const MIARefreshHeaderTimeKey                     = @"MIARefreshHeaderView";
+static const NSString *MIARefreshContentOffset              = @"contentOffset";
+static CGFloat MIARefreshSlowAnimationDuration              = 0.4;
+static CGFloat MIARefreshFastAnimationDuration              = 0.25;
 
 #pragma mark - 控件初始化
 /**
@@ -45,14 +45,14 @@ static CGFloat HJWRefreshFastAnimationDuration              = 0.25;
         [self addSubview:_lastUpdateTimeLabel = lastUpdateTimeLabel];
         
         // 加载时间
-        self.lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:HJWRefreshHeaderTimeKey];
+        self.lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:MIARefreshHeaderTimeKey];
     }
     return _lastUpdateTimeLabel;
 }
 
 + (instancetype)header
 {
-    return [[HJWRefreshHeaderView alloc] init];
+    return [[MIARefreshHeaderView alloc] init];
 }
 
 - (void)layoutSubviews
@@ -88,7 +88,7 @@ static CGFloat HJWRefreshFastAnimationDuration              = 0.25;
 {
     _lastUpdateTime = lastUpdateTime;
     
-    [[NSUserDefaults standardUserDefaults] setObject:lastUpdateTime forKey:HJWRefreshHeaderTimeKey];
+    [[NSUserDefaults standardUserDefaults] setObject:lastUpdateTime forKey:MIARefreshHeaderTimeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     // 更新时间
@@ -127,10 +127,10 @@ static CGFloat HJWRefreshFastAnimationDuration              = 0.25;
     if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden)
         return;
     
-    if (self.state == HJWRefreshStateRefreshing)
+    if (self.state == MIARefreshStateRefreshing)
         return;
     
-    if ([HJWRefreshContentOffset isEqualToString:keyPath]) {
+    if ([MIARefreshContentOffset isEqualToString:keyPath]) {
         [self adjustStateWithContentOffset];
     }
 }
@@ -153,70 +153,70 @@ static CGFloat HJWRefreshFastAnimationDuration              = 0.25;
         // 普通 和 即将刷新 的临界点
         CGFloat normal2pullingOffsetY = happenOffsetY - self.height;
         
-        if (self.state == HJWRefreshStateNormal && currentOffsetY < normal2pullingOffsetY) {
+        if (self.state == MIARefreshStateNormal && currentOffsetY < normal2pullingOffsetY) {
             // 转为即将刷新状态
-            self.state = HJWRefreshStatePulling;
-        } else if (self.state == HJWRefreshStatePulling && currentOffsetY >= normal2pullingOffsetY) {
+            self.state = MIARefreshStatePulling;
+        } else if (self.state == MIARefreshStatePulling && currentOffsetY >= normal2pullingOffsetY) {
             // 转为普通状态
-            self.state = HJWRefreshStateNormal;
+            self.state = MIARefreshStateNormal;
         }
-    } else if (self.state == HJWRefreshStatePulling) {// 即将刷新 && 手松开
+    } else if (self.state == MIARefreshStatePulling) {// 即将刷新 && 手松开
         // 开始刷新
-        self.state = HJWRefreshStateRefreshing;
+        self.state = MIARefreshStateRefreshing;
     }
 }
 
 #pragma mark 设置状态
-- (void)setState:(HJWRefreshState)state{
+- (void)setState:(MIARefreshState)state{
     if (self.state == state)
         return;
     
-    HJWRefreshState oldState = self.state;
+    MIARefreshState oldState = self.state;
     
     [super setState:state];
 
 	switch (state) {
-		case HJWRefreshStateNormal: // 下拉可以刷新
+		case MIARefreshStateNormal: // 下拉可以刷新
         {
             // 设置文字
-			self.statusLabel.text = HJWRefreshHeaderPullToRefresh;
+			self.statusLabel.text = MIARefreshHeaderPullToRefresh;
             
             // 刷新完毕
-            if (HJWRefreshStateRefreshing == oldState) {
+            if (MIARefreshStateRefreshing == oldState) {
                 self.arrowImage.transform = CGAffineTransformIdentity;
                 // 保存刷新时间
                 self.lastUpdateTime = [NSDate date];
                 
-                [UIView animateWithDuration:HJWRefreshSlowAnimationDuration animations:^{
+                [UIView animateWithDuration:MIARefreshSlowAnimationDuration animations:^{
                     self.scrollView.contentInsetTop = self.scrollViewOriginalInset.top;
                 }];
             } else {
                 // 执行动画
-                [UIView animateWithDuration:HJWRefreshFastAnimationDuration animations:^{
+                [UIView animateWithDuration:MIARefreshFastAnimationDuration animations:^{
                     self.arrowImage.transform = CGAffineTransformIdentity;
                 }];
             }
 			break;
         }
             
-		case HJWRefreshStatePulling: // 松开可立即刷新
+		case MIARefreshStatePulling: // 松开可立即刷新
         {
             // 设置文字
-            self.statusLabel.text = HJWRefreshHeaderReleaseToRefresh;
+            self.statusLabel.text = MIARefreshHeaderReleaseToRefresh;
             // 执行动画
-            [UIView animateWithDuration:HJWRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:MIARefreshFastAnimationDuration animations:^{
                 self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
             }];
 			break;
         }
             
-		case HJWRefreshStateRefreshing: // 正在刷新中
+		case MIARefreshStateRefreshing: // 正在刷新中
         {
             // 设置文字
-            self.statusLabel.text = HJWRefreshHeaderRefreshing;
+            self.statusLabel.text = MIARefreshHeaderRefreshing;
             
             // 执行动画
-            [UIView animateWithDuration:HJWRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:MIARefreshFastAnimationDuration animations:^{
                 // 增加滚动区域
                 CGFloat top = self.scrollViewOriginalInset.top + self.height;
                 self.scrollView.contentInsetTop = top;

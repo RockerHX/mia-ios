@@ -1,36 +1,36 @@
 //
-//  HJWGrowingTextView.h
-//  huanjuwan
+//  MIAGrowingTextView.h
+//  mia
 //
-//  Created by huanjuwan on 14-8-12.
+//  Created by mia on 14-8-12.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@class HJWGrowingTextView;
-@class HJWTextViewInternal;
+@class MIAGrowingTextView;
+@class MIATextViewInternal;
 
-@protocol HJWGrowingTextViewDelegate
+@protocol MIAGrowingTextViewDelegate
 
 @optional
-- (BOOL)growingTextViewShouldBeginEditing:(HJWGrowingTextView *)growingTextView;
-- (BOOL)growingTextViewShouldEndEditing:(HJWGrowingTextView *)growingTextView;
+- (BOOL)growingTextViewShouldBeginEditing:(MIAGrowingTextView *)growingTextView;
+- (BOOL)growingTextViewShouldEndEditing:(MIAGrowingTextView *)growingTextView;
 
-- (void)growingTextViewDidBeginEditing:(HJWGrowingTextView *)growingTextView;
-- (void)growingTextViewDidEndEditing:(HJWGrowingTextView *)growingTextView;
+- (void)growingTextViewDidBeginEditing:(MIAGrowingTextView *)growingTextView;
+- (void)growingTextViewDidEndEditing:(MIAGrowingTextView *)growingTextView;
 
-- (BOOL)growingTextView:(HJWGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text;
-- (void)growingTextViewDidChange:(HJWGrowingTextView *)growingTextView;
+- (BOOL)growingTextView:(MIAGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text;
+- (void)growingTextViewDidChange:(MIAGrowingTextView *)growingTextView;
 
-- (void)growingTextView:(HJWGrowingTextView *)growingTextView willChangeHeight:(float)height;
-- (void)growingTextView:(HJWGrowingTextView *)growingTextView didChangeHeight:(float)height;
+- (void)growingTextView:(MIAGrowingTextView *)growingTextView willChangeHeight:(float)height;
+- (void)growingTextView:(MIAGrowingTextView *)growingTextView didChangeHeight:(float)height;
 
-- (void)growingTextViewDidChangeSelection:(HJWGrowingTextView *)growingTextView;
-- (BOOL)growingTextViewShouldReturn:(HJWGrowingTextView *)growingTextView;
+- (void)growingTextViewDidChangeSelection:(MIAGrowingTextView *)growingTextView;
+- (BOOL)growingTextViewShouldReturn:(MIAGrowingTextView *)growingTextView;
 @end
 
-@interface HJWGrowingTextView : UIView <UITextViewDelegate>{
+@interface MIAGrowingTextView : UIView <UITextViewDelegate>{
 
     int minHeight;
 	int maxHeight;
@@ -55,9 +55,9 @@
 @property int maxNumberOfLines;
 @property int minNumberOfLines;
 @property BOOL animateHeightChange;
-@property (retain, nonatomic) HJWTextViewInternal *internalTextView;
+@property (retain, nonatomic) MIATextViewInternal *internalTextView;
 
-@property (assign) NSObject<HJWGrowingTextViewDelegate> *delegate;
+@property (assign) NSObject<MIAGrowingTextViewDelegate> *delegate;
 @property (copy, nonatomic) NSString *text;
 @property (retain, nonatomic) UIFont *font;
 @property (retain, nonatomic) UIColor *textColor;

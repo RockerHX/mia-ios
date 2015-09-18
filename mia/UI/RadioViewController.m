@@ -13,7 +13,7 @@
 #import "UIImage+Extrude.h"
 #import "MiaAPIHelper.h"
 #import "AAPullToRefresh.h"
-#import "HJWButton.h"
+#import "MIAButton.h"
 
 const CGFloat kTopViewDefaultHeight				= 30.0f;
 const CGFloat kBottomViewDefaultHeight			= 30.0f;
@@ -29,8 +29,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 @end
 
 @implementation RadioViewController {
-	HJWButton *profileButton;
-	HJWButton *shareButton;
+	MIAButton *profileButton;
+	MIAButton *shareButton;
 }
 
 - (void)viewDidLoad {
@@ -135,7 +135,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		.origin.y = kTopButtonMarginTop,
 		.size.width = kTopButtonWidth,
 		.size.height = kTopButtonHeight};
-	profileButton = [[HJWButton alloc] initWithFrame:profileButtonFrame titleString:@"9" titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_normal"]]];
+	profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame titleString:@"9" titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_normal"]]];
 	[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_hover"]] forState:UIControlStateHighlighted];
 	[profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:profileButton];
@@ -144,7 +144,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		.origin.y = kTopButtonMarginTop,
 		.size.width = kTopButtonWidth,
 		.size.height = kTopButtonHeight};
-	shareButton = [[HJWButton alloc] initWithFrame:shareButtonFrame
+	shareButton = [[MIAButton alloc] initWithFrame:shareButtonFrame
 									   titleString:nil
 										titleColor:[UIColor whiteColor]
 											  font:UIFontFromSize(15)

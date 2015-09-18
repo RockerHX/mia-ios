@@ -1,14 +1,14 @@
 //
-//  HJWButton.h
-//  huanjuwan
+//  MIAButton.h
+//  mia
 //
-//  Created by huanjuwan on 14-8-6.
+//  Created by mia on 14-8-6.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface HJWButton : UIButton
+@interface MIAButton : UIButton
 
 /**
  *  初始化自定义按钮

@@ -10,8 +10,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIImage+ColorToImage.h"
-#import "HJWButton.h"
-#import "HJWLabel.h"
+#import "MIAButton.h"
+#import "MIALabel.h"
 #import "MusicPlayerMgr.h"
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
@@ -34,18 +34,18 @@ static const CGFloat kFavoriteHeight = 25;
 	ShareListMgr *shareListMgr;
 	BOOL isLoading;
 	
-	HJWButton *pingButton;
-	HJWButton *loginButton;
-	HJWButton *reconnectButton;
+	MIAButton *pingButton;
+	MIAButton *loginButton;
+	MIAButton *reconnectButton;
 
 	ShareItem *currentShareItem;
 
 	LoopPlayerView *loopPlayerView;
 
-	HJWButton *favoriteButton;
-	HJWLabel *commentLabel;
-	HJWLabel *viewsLabel;
-	HJWLabel *locationLabel;
+	MIAButton *favoriteButton;
+	MIALabel *commentLabel;
+	MIALabel *viewsLabel;
+	MIALabel *locationLabel;
 
 	NSTimer *progressTimer;
 }
@@ -80,7 +80,7 @@ static const CGFloat kFavoriteHeight = 25;
 	loopPlayerView.loopPlayerViewDelegate = self;
 	[self addSubview:loopPlayerView];
 
-	favoriteButton = [[HJWButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
+	favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
 																 self.bounds.size.height - kFavoriteMarginBottom - kFavoriteHeight,
 																 kFavoriteWidth,
 																 kFavoriteHeight)
@@ -100,7 +100,7 @@ static const CGFloat kFavoriteHeight = 25;
 										200,
 										50);
 
-	pingButton = [[HJWButton alloc] initWithFrame:pingButtonFrame
+	pingButton = [[MIAButton alloc] initWithFrame:pingButtonFrame
 									  titleString:@"Ping" titleColor:[UIColor whiteColor]
 											 font:UIFontFromSize(15)
 										  logoImg:nil
@@ -116,7 +116,7 @@ static const CGFloat kFavoriteHeight = 25;
 										200,
 										50);
 
-	loginButton = [[HJWButton alloc] initWithFrame:loginButtonFrame
+	loginButton = [[MIAButton alloc] initWithFrame:loginButtonFrame
 									  titleString:@"Login" titleColor:[UIColor whiteColor]
 											 font:UIFontFromSize(15)
 										  logoImg:nil
@@ -132,7 +132,7 @@ static const CGFloat kFavoriteHeight = 25;
 										 200,
 										 50);
 
-	reconnectButton = [[HJWButton alloc] initWithFrame:reconnectButtonFrame
+	reconnectButton = [[MIAButton alloc] initWithFrame:reconnectButtonFrame
 									   titleString:@"Reconnect" titleColor:[UIColor whiteColor]
 											  font:UIFontFromSize(15)
 										   logoImg:nil
@@ -178,7 +178,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
 	[bottomView addSubview:commentsImageView];
 
-	commentLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
+	commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
 															  bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															  kCommentLabelWidth,
 															  kBottomLabelHeight)
@@ -197,7 +197,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
 	[bottomView addSubview:viewsImageView];
 
-	viewsLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
+	viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
 															bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															kViewsLabelWidth,
 															kBottomLabelHeight)
@@ -216,7 +216,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
 	[bottomView addSubview:locationImageView];
 
-	locationLabel = [[HJWLabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
+	locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
 															   bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															   kLocationLabelWidth,
 															   kBottomLabelHeight)

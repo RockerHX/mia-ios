@@ -1,14 +1,14 @@
 //
-//  HJWLabel.m
-//  huanjuwan
+//  MIALabel.m
+//  mia
 //
-//  Created by huanjuwan on 14-8-4.
+//  Created by mia on 14-8-4.
 //  Copyright (c) 2014年 duowan. All rights reserved.
 //
 
-#import "HJWLabel.h"
+#import "MIALabel.h"
 
-@implementation HJWLabel
+@implementation MIALabel
 
 /**
  *  自定义初始化UILabel
