@@ -31,6 +31,11 @@ NSString * const MiaAPIKey_GUID						= @"guid";
 
 NSString * const UserDefaultsKey_UUID				= @"uuid";
 
+NSString * const MiaAPICommand_User_PostInfectm		= @"User.Post.Infectm";
+NSString * const MiaAPICommand_User_PostSkipm		= @"User.Post.Skipm";
+NSString * const MiaAPIKey_spID						= @"spID";
+NSString * const MiaAPIKey_Address					= @"address";
+
 @interface MiaAPIHelper()
 
 @end
@@ -38,7 +43,7 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 @implementation MiaAPIHelper{
 }
 
-+(id)getUUID {
++ (id)getUUID {
 	NSString *currentUUID = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UUID];
 	if (!currentUUID) {
 		currentUUID = [[NSUUID UUID] UUIDString];
@@ -48,7 +53,7 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 	return currentUUID;
 }
 
-+(void)sendUUID {
++ (void)sendUUID {
 	NSString *currentUUID = [self getUUID];
 	//NSLog(@"%@, %lu", currentUUID, (unsigned long)currentUUID.length);
 
@@ -79,7 +84,7 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 
 }
 
-+(void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item {
++ (void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetNearby forKey:MiaAPIKey_ClientCommand];
     [dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -91,6 +96,66 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 	[dictValues setValue:[NSNumber numberWithFloat:lon] forKey:MiaAPIKey_Longitude];
 	//[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
++ (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostInfectm forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
+	[dictValues setValue:[NSNumber numberWithFloat:lon] forKey:MiaAPIKey_Longitude];
+	[dictValues setValue:address forKey:MiaAPIKey_Address];
+	[dictValues setValue:spID forKey:MiaAPIKey_spID];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
++ (void)SkipMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostSkipm forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
+	[dictValues setValue:[NSNumber numberWithFloat:lon] forKey:MiaAPIKey_Longitude];
+	[dictValues setValue:address forKey:MiaAPIKey_Address];
+	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 

@@ -265,10 +265,16 @@ static const CGFloat kFavoriteHeight = 25;
 
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	NSLog(@"%@", command);
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+
+	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
-		[self handleNearbyFeeds:[notification userInfo]];
+		[self handleGetNearbyFeedsWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostInfectm]) {
+		[self handleInfectMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostSkipm]) {
+		[self handleSkipMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -312,7 +318,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 #pragma mark - received message from websocket
 
-- (void)handleNearbyFeeds:(NSDictionary *) userInfo {
+- (void)handleGetNearbyFeedsWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	NSArray *shareList = userInfo[@"v"][@"data"];
 	if (!shareList)
 		return;
@@ -325,9 +331,29 @@ static const CGFloat kFavoriteHeight = 25;
 	}
 }
 
+- (void)handleInfectMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		NSLog(@"report infect music successed.");
+	} else {
+		NSLog(@"report infect music failed.");
+	}
+}
+
+- (void)handleSkipMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		NSLog(@"report skip music successed.");
+	} else {
+		NSLog(@"report skip music failed.");
+	}
+}
+
+#pragma mark - swip actions
+
 - (void)spreadFeed {
 	NSLog(@"#swipe# up spred");
 	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+	// TODO 使用获取到的经纬度来上报
+	[MiaAPIHelper InfectMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[currentShareItem spID]];
 }
 
 - (void)skipFeed {
@@ -353,6 +379,9 @@ static const CGFloat kFavoriteHeight = 25;
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
+
+		// TODO 使用获取到的经纬度来上报
+		[MiaAPIHelper SkipMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[currentShareItem spID]];
 	} else {
 		NSLog(@"skip feed failed.");
 		// TODO 这种情况应该从界面上禁止他翻页

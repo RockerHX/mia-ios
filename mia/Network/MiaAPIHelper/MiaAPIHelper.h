@@ -12,12 +12,16 @@ extern NSString * const MiaAPIKey_Return;
 
 extern NSString * const MiaAPICommand_Music_GetNearby;
 extern NSString * const MiaAPICommand_User_PostGuest;
+extern NSString * const MiaAPICommand_User_PostInfectm;
+extern NSString * const MiaAPICommand_User_PostSkipm;
 
 
 @interface MiaAPIHelper : NSObject
 
-+(id)getUUID;
-+(void)sendUUID;
-+(void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item;
++ (id)getUUID;
++ (void)sendUUID;
++ (void)getNearbyWithLatitude:(float)lat longitude:(float) lon start:(long) start item:(long) item;
++ (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
++ (void)SkipMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
 
 @end
