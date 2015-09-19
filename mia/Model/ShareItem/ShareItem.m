@@ -26,7 +26,7 @@
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 
-		self.hasViewed = NO;
+		self.unread = YES;
     }
 	
     return self;
@@ -45,7 +45,7 @@
 	[aCoder encodeObject:self.music forKey:@"music"];
 	[aCoder encodeInt:self.cView forKey:@"cView"];
 	[aCoder encodeInt:self.cComm forKey:@"cComm"];
-	[aCoder encodeBool:self.hasViewed forKey:@"hasViewed"];
+	[aCoder encodeBool:self.unread forKey:@"unread"];
 }
 
 //将对象解码(反序列化)
@@ -62,7 +62,7 @@
 		self.music = [aDecoder decodeObjectForKey:@"music"];
 		self.cView = [aDecoder decodeIntForKey:@"cView"];
 		self.cComm = [aDecoder decodeIntForKey:@"cComm"];
-		self.hasViewed = [aDecoder decodeBoolForKey:@"hasViewed"];
+		self.unread = [aDecoder decodeBoolForKey:@"unread"];
 	}
 
 	return (self);

@@ -15,12 +15,17 @@
 //@property (strong, nonatomic) ShareItem *currentShareItem;
 
 + (id)initFromArchive;
-- (NSUInteger)getHasNotViewedCount;
+- (NSUInteger)getUnreadCount;
 
 - (BOOL)isNeedGetNearbyItems;
 - (ShareItem *)getCurrentItem;
 - (ShareItem *)getLeftItem;
 - (ShareItem *)getRightItem;
+
+// 游标向左移动
+- (void)cursorShiftLeft;
+// 游标向右移动
+- (void)cursorShiftRight;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
 //- (ShareItem *)popItemFromRight;

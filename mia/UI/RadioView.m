@@ -241,13 +241,38 @@ static const CGFloat kFavoriteHeight = 25;
 
 	[loopPlayerView getCurrentPlayerView].shareItem = currentItem;
 	[[loopPlayerView getCurrentPlayerView] playMusic];
-	[self setCurrentItem:currentItem];
+	[self updateUIInfo:currentItem];
 
 	[loopPlayerView getLeftPlayerView].shareItem = leftItem;
 	[loopPlayerView getRightPlayerView].shareItem = rightItem;
 }
 
-- (void)setCurrentItem:(ShareItem *)item {
+- (void)showRightShareWithNoncommittal {
+	// 停止当前，并标记为已读
+	[[loopPlayerView getCurrentPlayerView] pauseMusic];
+	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[shareListMgr getCurrentItem].unread = NO;
+
+	// 补充一条右边的卡片
+	[shareListMgr cursorShiftRight];
+	ShareItem *newItem = [shareListMgr getRightItem];
+	[loopPlayerView getRightPlayerView].shareItem = newItem;
+
+	// 播放当前卡片上的歌曲
+	[[loopPlayerView getCurrentPlayerView] playMusic];
+
+	// 检查是否需要获取新的数据
+	[self checkIsNeedToGetNewItems];
+}
+
+- (void)checkIsNeedToGetNewItems {
+	if ([shareListMgr isNeedGetNearbyItems]) {
+		// TODO linyehui
+		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
+	}
+}
+
+- (void)updateUIInfo:(ShareItem *)item {
 	currentShareItem = item;
 	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
@@ -306,12 +331,14 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)notifySwipeLeft {
 	NSLog(@"#swipe# left");
+	// 向左滑动，右侧的卡片需要补充
 
-	//[self showNextShare];
+	[self showRightShareWithNoncommittal];
 }
 
 - (void)notifySwipeRight {
 	NSLog(@"#swipe# right");
+	// 向右滑动，左侧的卡片需要补充
 }
 
 #pragma mark - Actions

@@ -33,10 +33,10 @@ const int kNeedGetNearbyCount					= 1;
 	return self;
 }
 
-- (NSUInteger)getHasNotViewedCount {
+- (NSUInteger)getUnreadCount {
 	NSUInteger count = 0;
 	for (ShareItem *item in _shareList) {
-		if (!item.hasViewed) {
+		if (item.unread) {
 			count++;
 		}
 	}
@@ -66,8 +66,17 @@ const int kNeedGetNearbyCount					= 1;
 	}
 }
 
+- (void)cursorShiftLeft {
+	// TODO
+	//_currentItem--;
+}
+
+- (void)cursorShiftRight {
+	_currentItem++;
+}
+
 - (BOOL)isNeedGetNearbyItems {
-	if ([self getHasNotViewedCount] <= kNeedGetNearbyCount) {
+	if ([self getUnreadCount] <= kNeedGetNearbyCount) {
 		return YES;
 	} else {
 		return NO;
