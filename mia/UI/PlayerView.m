@@ -224,6 +224,11 @@
 	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
+- (void)stopMusic {
+	[[MusicPlayerMgr standard] stop];
+	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+}
+
 - (void)updateProgress:(NSTimer *)timer {
 	float postion = [[MusicPlayerMgr standard] getPlayPosition];
 	[progressView setProgress:postion];

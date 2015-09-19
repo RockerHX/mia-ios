@@ -17,6 +17,7 @@
 
 - (void)playMusic;
 - (void)pauseMusic;
+- (void)stopMusic;
 
 - (void)notifyMusicPlayerMgrDidPlay;
 - (void)notifyMusicPlayerMgrDidPause;

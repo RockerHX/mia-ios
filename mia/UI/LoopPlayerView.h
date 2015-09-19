@@ -13,8 +13,8 @@
 
 @protocol LoopPlayerViewDelegate
 
-- (void)notifySwipeLeft:(NSInteger)lastPage;;
-- (void)notifySwipeRight:(NSInteger)lastPage;
+- (void)notifySwipeLeft;
+- (void)notifySwipeRight;
 
 @end
 

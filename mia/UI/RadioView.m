@@ -281,8 +281,33 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	// TODO
-//	[self notifySwipeLeft];
+	NSLog(@"#swipe# completion");
+	// 播放完成自动下一首，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片
+
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+	[[loopPlayerView getCurrentPlayerView] pauseMusic];
+	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[shareListMgr checkHistoryItemsMaxCount];
+
+	// 用当前的卡片内容替代左边的卡片内容
+	[loopPlayerView getLeftPlayerView].shareItem = [loopPlayerView getCurrentPlayerView].shareItem;
+	// 用右边的卡片内容替代当前的卡片内容
+	[loopPlayerView getCurrentPlayerView].shareItem = [loopPlayerView getRightPlayerView].shareItem;
+	[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+	// 更新右边的卡片内容
+	if ([shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [shareListMgr getRightItem];
+		[loopPlayerView getRightPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		[[loopPlayerView getCurrentPlayerView] playMusic];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"play completion failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
 }
 
 #pragma mark - received message from websocket
@@ -310,7 +335,7 @@ static const CGFloat kFavoriteHeight = 25;
 	// 向上滑动，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片，而且之前的歌曲需要从列表中删除
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	[[loopPlayerView getCurrentPlayerView] pauseMusic];
+	[[loopPlayerView getCurrentPlayerView] stopMusic];
 	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
 	[shareListMgr checkHistoryItemsMaxCount];
 
@@ -336,7 +361,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 #pragma mark - LoopPlayerViewDelegate
 
-- (void)notifySwipeLeft:(NSInteger)lastPage {
+- (void)notifySwipeLeft {
 	NSLog(@"#swipe# left");
 	// 向左滑动，右侧的卡片需要补充
 
@@ -364,7 +389,7 @@ static const CGFloat kFavoriteHeight = 25;
 	}
 }
 
-- (void)notifySwipeRight:(NSInteger)lastPage {
+- (void)notifySwipeRight {
 	NSLog(@"#swipe# right");
 	// 向右滑动，左侧的卡片需要补充
 

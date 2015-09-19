@@ -98,11 +98,11 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 			break;
 		case LoopPlayerViewPagingLeft:
 			NSLog(@"LoopPlayerViewPagingLeft");
-			[_loopPlayerViewDelegate notifySwipeLeft:lastPage];
+			[_loopPlayerViewDelegate notifySwipeLeft];
 			break;
 		case LoopPlayerViewPagingRight:
 			NSLog(@"LoopPlayerViewPagingRight");
-			[_loopPlayerViewDelegate notifySwipeRight:lastPage];
+			[_loopPlayerViewDelegate notifySwipeRight];
 			break;
 		default:
 			NSLog(@"Error PagingDirection!!");

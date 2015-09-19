@@ -111,6 +111,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 }
 
+- (void)stop {
+	[audioStream stop];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
+}
+
 #pragma mark - Notification
 
 /**
