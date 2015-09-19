@@ -34,21 +34,21 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated;
 {
-	//[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[super viewDidAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	//[self.navigationController setNavigationBarHidden:NO animated:animated];
 	[super viewDidDisappear:animated];
 }
 
@@ -63,6 +63,8 @@
 }
 
 - (void)initUI {
+	static NSString *kDetailTitle = @"详情页";
+	self.title = kDetailTitle;
 	[self.view setBackgroundColor:[UIColor redColor]];
 }
 

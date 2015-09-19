@@ -22,10 +22,10 @@
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.radioViewController = [[RadioViewController alloc] init];
 
-	//self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.radioViewController];
-	//[self.navigationController setNavigationBarHidden:YES animated:NO];
-	//[self.window setRootViewController:self.navigationController];
-	[self.window setRootViewController:self.radioViewController];
+	self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.radioViewController];
+	[self.navigationController setNavigationBarHidden:YES animated:NO];
+	[self.window setRootViewController:self.navigationController];
+//	[self.window setRootViewController:self.radioViewController];
 	[self.window makeKeyAndVisible];
 
 	// 设置后台播放模式

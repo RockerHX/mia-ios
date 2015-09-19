@@ -14,6 +14,7 @@
 #import "MiaAPIHelper.h"
 #import "AAPullToRefresh.h"
 #import "MIAButton.h"
+#import "DetailViewController.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -246,6 +247,11 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 }
 
 #pragma mark - RadioViewDelegate
+
+- (void)radioViewDidTouchBottom {
+	DetailViewController *vc = [[DetailViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
+}
 
 - (void)notifyLogin {
 	NSString *testLoginData = @"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}";

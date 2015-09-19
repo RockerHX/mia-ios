@@ -449,6 +449,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)bottomViewTouchAction:(id)sender {
 	NSLog(@"bottomViewTouchAction");
+	[_radioViewDelegate radioViewDidTouchBottom];
 }
 
 @end
