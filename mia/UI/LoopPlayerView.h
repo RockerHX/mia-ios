@@ -9,16 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
 #import "PlayerView.h"
+#import "PXInfiniteScrollView.h"
 
 @protocol LoopPlayerViewDelegate
 
-- (void)notifySwipeLeft;
-- (void)notifySwipeRight;
+- (void)notifySwipeLeft:(NSInteger)lastPage;;
+- (void)notifySwipeRight:(NSInteger)lastPage;
 
 @end
 
 @interface LoopPlayerView : UIView <UIScrollViewDelegate>
 
+@property (strong, nonatomic) PXInfiniteScrollView *playerScrollView;
 @property (weak, nonatomic)id<LoopPlayerViewDelegate> loopPlayerViewDelegate;
 
 - (PlayerView *)getCurrentPlayerView;

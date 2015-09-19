@@ -9,8 +9,8 @@
 #import "ShareListMgr.h"
 
 const int kShareListCapacity					= 25;
-const int kHasViewedItemsMax					= 15;
-const int kNeedGetNearbyCount					= 1;
+const int kHistoryItemsMaxCount					= 5;
+const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下会有两首新歌和界面元素绑定:current, right
 
 @implementation ShareListMgr {
 }
@@ -66,14 +66,25 @@ const int kNeedGetNearbyCount					= 1;
 	}
 }
 
-- (void)cursorShiftLeft {
-	// TODO
-	//_currentItem--;
+- (BOOL)cursorShiftLeft {
+	NSInteger newIndex = _currentItem - 1;
+	if (newIndex <= 0)
+		return NO;
+
+	_currentItem = newIndex;
+	[self saveChanges];
+	return YES;
 }
 
-- (void)cursorShiftRight {
-	_currentItem++;
+- (BOOL)cursorShiftRight {
+	NSInteger newIndex = _currentItem + 1;
+	if (newIndex >= [_shareList count])
+		return  NO;
+
+	_currentItem = newIndex;
 	[self saveChanges];
+
+	return YES;
 }
 
 - (BOOL)isNeedGetNearbyItems {
@@ -133,6 +144,23 @@ const int kNeedGetNearbyCount					= 1;
 
 	return (self);
 
+}
+
+- (void)checkHistoryItemsMaxCount {
+	NSUInteger count = 0;
+	for (ShareItem *item in _shareList) {
+		if (!item.unread) {
+			count++;
+		}
+	}
+
+	NSInteger overCount = count - kHistoryItemsMaxCount;
+	if (overCount > 0) {
+		for (NSInteger i = 0; i < overCount; i++) {
+			[_shareList removeObjectAtIndex:0];
+			_currentItem--;
+		}
+	}
 }
 
 @end

@@ -247,22 +247,49 @@ static const CGFloat kFavoriteHeight = 25;
 	[loopPlayerView getRightPlayerView].shareItem = rightItem;
 }
 
-- (void)showRightShareWithNoncommittal {
-	// 停止当前，并标记为已读
-	[[loopPlayerView getCurrentPlayerView] pauseMusic];
-	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
-	[shareListMgr getCurrentItem].unread = NO;
+- (void)showLeftShareWithNoncommitta:(NSInteger)lastPage {
+	// 停止当前，这个方向的歌曲都是已读的，所以不需要再标记为已读
+	[[loopPlayerView getRightPlayerView] pauseMusic];
+
+	// 补充一条左边的卡片
+	if ([shareListMgr cursorShiftLeft]) {
+		ShareItem *newItem = [shareListMgr getLeftItem];
+		[loopPlayerView getLeftPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		[[loopPlayerView getCurrentPlayerView] playMusic];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"shift cursor to left failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
+}
+
+- (void)showRightShareWithNoncommittal:(NSInteger)lastPage {
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+	[[loopPlayerView getLeftPlayerView] pauseMusic];
+	[loopPlayerView getLeftPlayerView].shareItem.unread = NO;
+	// 这一句是多余的，因为shareItem是对象，引用传值，
+	// loopPlaerView和shareListMgr的对象是同一个，改一次就可以了
+	//[shareListMgr getCurrentItem].unread = NO;
+	[shareListMgr checkHistoryItemsMaxCount];
 
 	// 补充一条右边的卡片
-	[shareListMgr cursorShiftRight];
-	ShareItem *newItem = [shareListMgr getRightItem];
-	[loopPlayerView getRightPlayerView].shareItem = newItem;
+	if ([shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [shareListMgr getRightItem];
+		[loopPlayerView getRightPlayerView].shareItem = newItem;
 
-	// 播放当前卡片上的歌曲
-	[[loopPlayerView getCurrentPlayerView] playMusic];
+		// 播放当前卡片上的歌曲
+		[[loopPlayerView getCurrentPlayerView] playMusic];
 
-	// 检查是否需要获取新的数据
-	[self checkIsNeedToGetNewItems];
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"shift cursor to right failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
 }
 
 - (void)checkIsNeedToGetNewItems {
@@ -299,7 +326,8 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	[self notifySwipeLeft];
+	// TODO
+//	[self notifySwipeLeft];
 }
 
 #pragma mark - received message from websocket
@@ -327,16 +355,18 @@ static const CGFloat kFavoriteHeight = 25;
 
 #pragma mark - LoopPlayerViewDelegate
 
-- (void)notifySwipeLeft {
+- (void)notifySwipeLeft:(NSInteger)lastPage {
 	NSLog(@"#swipe# left");
 	// 向左滑动，右侧的卡片需要补充
 
-	[self showRightShareWithNoncommittal];
+	[self showRightShareWithNoncommittal:lastPage];
 }
 
-- (void)notifySwipeRight {
+- (void)notifySwipeRight:(NSInteger)lastPage {
 	NSLog(@"#swipe# right");
 	// 向右滑动，左侧的卡片需要补充
+
+	[self showLeftShareWithNoncommitta:lastPage];
 }
 
 #pragma mark - Actions

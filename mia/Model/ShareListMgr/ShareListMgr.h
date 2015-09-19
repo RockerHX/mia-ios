@@ -23,12 +23,12 @@
 - (ShareItem *)getRightItem;
 
 // 游标向左移动
-- (void)cursorShiftLeft;
+- (BOOL)cursorShiftLeft;
 // 游标向右移动
-- (void)cursorShiftRight;
+- (BOOL)cursorShiftRight;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
-//- (ShareItem *)popItemFromRight;
+- (void)checkHistoryItemsMaxCount;
 
 //- (BOOL)saveChanges;
 

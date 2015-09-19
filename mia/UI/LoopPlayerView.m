@@ -7,8 +7,6 @@
 //
 
 #import "LoopPlayerView.h"
-#import "PXInfiniteScrollView.h"
-#import "PlayerView.h"
 
 typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	LoopPlayerViewPagingCurrent	 	= 0,
@@ -17,7 +15,6 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 };
 
 @implementation LoopPlayerView {
-	PXInfiniteScrollView *playerScrollView;
 	NSInteger lastPage;
 	//PlayerView *playerView;
 }
@@ -34,12 +31,12 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 }
 
 - (void)initPlayerView {
-	playerScrollView = [[PXInfiniteScrollView alloc] initWithFrame:self.bounds];
-	playerScrollView.delegate = self;
-	//playerScrollView.backgroundColor = [UIColor redColor];
-	[playerScrollView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
-	[playerScrollView setScrollDirection:PXInfiniteScrollViewDirectionHorizontal];
-	[self addSubview:playerScrollView];
+	_playerScrollView = [[PXInfiniteScrollView alloc] initWithFrame:self.bounds];
+	_playerScrollView.delegate = self;
+	//_playerScrollView.backgroundColor = [UIColor redColor];
+	[_playerScrollView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
+	[_playerScrollView setScrollDirection:PXInfiniteScrollViewDirectionHorizontal];
+	[self addSubview:_playerScrollView];
 
 	static const int kPlayerViewNum = 3;
 	NSMutableArray *viewArray = [[NSMutableArray alloc] initWithCapacity:kPlayerViewNum];
@@ -48,24 +45,24 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 		[viewArray addObject:aView];
 	}
 
-	[playerScrollView setPages:viewArray];
-	lastPage = [playerScrollView currentPage];
+	[_playerScrollView setPages:viewArray];
+	lastPage = [_playerScrollView currentPage];
 }
 
 #pragma mark public method
 
 - (PlayerView *)getCurrentPlayerView {
-	return (PlayerView *)[playerScrollView currentPageView];
+	return (PlayerView *)[_playerScrollView currentPageView];
 }
 
 - (PlayerView *)getLeftPlayerView {
-	NSInteger prevIndex = ([playerScrollView currentPage] - 1 + [playerScrollView pageCount]) % [playerScrollView pageCount];
-	return [[playerScrollView pages] objectAtIndex:prevIndex];
+	NSInteger prevIndex = ([_playerScrollView currentPage] - 1 + [_playerScrollView pageCount]) % [_playerScrollView pageCount];
+	return [[_playerScrollView pages] objectAtIndex:prevIndex];
 }
 
 - (PlayerView *)getRightPlayerView {
-	NSInteger nextIndex = ([playerScrollView currentPage] + 1) % [playerScrollView pageCount];
-	return [[playerScrollView pages] objectAtIndex:nextIndex];
+	NSInteger nextIndex = ([_playerScrollView currentPage] + 1) % [_playerScrollView pageCount];
+	return [[_playerScrollView pages] objectAtIndex:nextIndex];
 }
 
 - (void)setShareItem:(ShareItem *)item {
@@ -89,7 +86,7 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 
 // called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-	NSLog(@"scrollViewDidEndDragging========================%d", (int)[playerScrollView currentPage]);
+	NSLog(@"scrollViewDidEndDragging========================%d", (int)[_playerScrollView currentPage]);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollViewSender {
@@ -101,18 +98,18 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 			break;
 		case LoopPlayerViewPagingLeft:
 			NSLog(@"LoopPlayerViewPagingLeft");
-			[_loopPlayerViewDelegate notifySwipeLeft];
+			[_loopPlayerViewDelegate notifySwipeLeft:lastPage];
 			break;
 		case LoopPlayerViewPagingRight:
 			NSLog(@"LoopPlayerViewPagingRight");
-			[_loopPlayerViewDelegate notifySwipeRight];
+			[_loopPlayerViewDelegate notifySwipeRight:lastPage];
 			break;
 		default:
 			NSLog(@"Error PagingDirection!!");
 			break;
 	}
 
-	lastPage = [playerScrollView currentPage];
+	lastPage = [_playerScrollView currentPage];
 }
 
 // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
@@ -124,30 +121,30 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 # pragma mark - 
 
 - (LoopPlayerViewPaging)checkPagingDirection {
-	NSLog(@"lastPage:%d, currentPage:%d", (int)lastPage, (int)[playerScrollView currentPage]);
+	NSLog(@"lastPage:%d, currentPage:%d", (int)lastPage, (int)[_playerScrollView currentPage]);
 
-	if (lastPage == [playerScrollView currentPage]) {
+	if (lastPage == [_playerScrollView currentPage]) {
 		return LoopPlayerViewPagingCurrent;
 	}
 
-	NSInteger maxIndex = MAX(0, [playerScrollView pageCount] - 1);
+	NSInteger maxIndex = MAX(0, [_playerScrollView pageCount] - 1);
 	if (lastPage == 0) {
 		// 第一个，需要判断向右翻页后翻到了最后一页的情况
-		if (maxIndex == [playerScrollView currentPage]) {
+		if (maxIndex == [_playerScrollView currentPage]) {
 			return LoopPlayerViewPagingRight;
 		} else {
 			return LoopPlayerViewPagingLeft;
 		}
 	} else if (lastPage == maxIndex) {
 		// 最后一个，需要判断向左滑动，到了第一页的情况
-		if (0 == [playerScrollView currentPage]) {
+		if (0 == [_playerScrollView currentPage]) {
 			return LoopPlayerViewPagingLeft;
 		} else {
 			return LoopPlayerViewPagingRight;
 		}
 	} else {
 		// 中间页面，直接判断大于小于即可
-		if (lastPage > [playerScrollView currentPage]) {
+		if (lastPage > [_playerScrollView currentPage]) {
 			return LoopPlayerViewPagingRight;
 		} else {
 			return LoopPlayerViewPagingLeft;
