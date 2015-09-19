@@ -16,6 +16,7 @@
 #import "UIImageView+WebCache.h"
 #import "KYCircularView.h"
 #import "PXInfiniteScrollView.h"
+#import "ShareItem.h"
 
 @implementation PlayerView {
 	UIImageView *coverImageView;

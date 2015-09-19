@@ -248,7 +248,10 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 #pragma mark - RadioViewDelegate
 
 - (void)radioViewDidTouchBottom {
-	DetailViewController *vc = [[DetailViewController alloc] init];
+	if (![_radioView currentShareItem])
+		return;
+	
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[_radioView currentShareItem]];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

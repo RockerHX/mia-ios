@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ShareItem;
+
 @interface DetailViewController : UIViewController <UIScrollViewDelegate>
 
+- (id)initWitShareItem:(ShareItem *)item;
 
 @end
 

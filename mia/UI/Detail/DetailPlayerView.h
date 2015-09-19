@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ShareItem.h"
+
+@class ShareItem;
 
 @interface DetailPlayerView : UIView
 

@@ -12,9 +12,11 @@
 - (void)radioViewDidTouchBottom;
 @end
 
+@class ShareItem;
 
 @interface RadioView : UIView
 
+@property (strong, nonatomic) ShareItem *currentShareItem;
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 @property (assign, nonatomic) BOOL isLoading;
 

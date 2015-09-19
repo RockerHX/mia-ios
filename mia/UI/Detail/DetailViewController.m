@@ -18,6 +18,16 @@
 @implementation DetailViewController {
 	UIScrollView *scrollView;
 	DetailPlayerView *playerView;
+	ShareItem *currentItem;
+}
+
+- (id)initWitShareItem:(ShareItem *)item {
+	self = [super init];
+	if (self) {
+		currentItem = item;
+	}
+
+	return self;
 }
 
 - (void)viewDidLoad {
@@ -81,13 +91,13 @@
 	[self.view addSubview:scrollView];
 
 	static const CGFloat kPlayerMarginTop			= 0;
-	static const CGFloat kPlayerHeight				= 375;
+	static const CGFloat kPlayerHeight				= 320;
 
 	playerView = [[DetailPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, scrollView.frame.size.width, kPlayerHeight)];
+	playerView.shareItem = currentItem;
 	[scrollView addSubview:playerView];
 
 	[self initBarButton];
-
 }
 
 - (void)initBarButton {

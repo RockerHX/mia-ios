@@ -16,6 +16,7 @@
 #import "UIImageView+WebCache.h"
 #import "KYCircularView.h"
 #import "PXInfiniteScrollView.h"
+#import "ShareItem.h"
 
 @implementation DetailPlayerView {
 	UIImageView *coverImageView;
@@ -26,6 +27,10 @@
 	MIALabel *musicArtistLabel;
 	MIALabel *sharerLabel;
 	UITextView *noteTextView;
+	MIAButton *favoriteButton;
+	MIALabel *commentLabel;
+	MIALabel *viewsLabel;
+	MIALabel *locationLabel;
 
 	NSTimer *progressTimer;
 }
@@ -34,7 +39,7 @@
 	self = [super initWithFrame:frame];
 	if(self){
 		self.userInteractionEnabled = YES;
-		self.backgroundColor = [UIColor grayColor];
+		self.backgroundColor = [UIColor orangeColor];
 		[self initUI];
 	}
 
@@ -57,6 +62,11 @@
 	static const CGFloat kMusicNameHeight = 20;
 	static const CGFloat kMusicArtistHeight = 20;
 
+	static const CGFloat kFavoriteMarginTop = kMusicNameMarginTop;
+	static const CGFloat kFavoriteMarginRight = 20;
+	static const CGFloat kFavoriteWidth = 25;
+	static const CGFloat kFavoriteHeight = 25;
+
 	static const CGFloat kSharerMarginLeft = 20;
 	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 20;
 	static const CGFloat kSharerHeight = 20;
@@ -64,7 +74,7 @@
 	static const CGFloat kNoteMarginLeft = 5;
 	static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
 	static const CGFloat kNoteMarginRight = 50;
-	static const CGFloat kNoteHeight = 60;
+	static const CGFloat kNoteHeight = 40;
 
 
 	CGRect coverFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
@@ -135,6 +145,22 @@
 	noteTextView.font = UIFontFromSize(9.0f);
 	noteTextView.userInteractionEnabled = NO;
 	[self addSubview:noteTextView];
+
+	favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - kFavoriteMarginRight - kFavoriteWidth,
+																 kFavoriteMarginTop,
+																 kFavoriteWidth,
+																 kFavoriteHeight)
+										  titleString:nil
+										   titleColor:nil
+												 font:nil
+											  logoImg:nil
+									  backgroundImage:nil];
+	[favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
+	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:favoriteButton];
+
+	[self initBottomView]
+;
 }
 
 - (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
@@ -160,6 +186,87 @@
 	[self addSubview:progressView];
 }
 
+- (void)initBottomView {
+	static const CGFloat kBottomViewHeight				= 35;
+	static const CGFloat kBottomButtonMarginBottom		= 5;
+	static const CGFloat kBottomButtonWidth				= 15;
+	static const CGFloat kBottomButtonHeight			= 15;
+	static const CGFloat kCommentImageMarginLeft		= 20;
+	static const CGFloat kViewsImageMarginLeft			= 60;
+	static const CGFloat kLocationImageMarginRight		= 1;
+	static const CGFloat kLocationLabelMarginRight		= 20;
+	static const CGFloat kLocationLabelWidth			= 80;
+
+	static const CGFloat kCommentLabelMarginLeft		= 2;
+	static const CGFloat kBottomLabelMarginBottom		= 5;
+	static const CGFloat kBottomLabelHeight				= 15;
+	static const CGFloat kCommentLabelWidth				= 20;
+
+	static const CGFloat kViewsLabelMarginLeft			= 2;
+	static const CGFloat kViewsLabelWidth				= 20;
+
+	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - kBottomViewHeight, self.bounds.size.width, kBottomViewHeight)];
+	//bottomView.backgroundColor = [UIColor redColor];
+	[self addSubview:bottomView];
+
+	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft,
+																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				   kBottomButtonWidth,
+																				   kBottomButtonHeight)];
+	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
+	[bottomView addSubview:commentsImageView];
+
+	commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
+															  bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															  kCommentLabelWidth,
+															  kBottomLabelHeight)
+											  text:@""
+											  font:UIFontFromSize(8.0f)
+										 textColor:[UIColor grayColor]
+									 textAlignment:NSTextAlignmentLeft
+									   numberLines:1];
+	//commentLabel.backgroundColor = [UIColor redColor];
+	[bottomView addSubview:commentLabel];
+
+	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft,
+																				bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				kBottomButtonWidth,
+																				kBottomButtonHeight)];
+	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
+	[bottomView addSubview:viewsImageView];
+
+	viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
+															bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															kViewsLabelWidth,
+															kBottomLabelHeight)
+											text:@""
+											font:UIFontFromSize(8.0f)
+									   textColor:[UIColor grayColor]
+								   textAlignment:NSTextAlignmentLeft
+									 numberLines:1];
+	//viewsLabel.backgroundColor = [UIColor redColor];
+	[bottomView addSubview:viewsLabel];
+
+	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
+																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				   kBottomButtonWidth,
+																				   kBottomButtonHeight)];
+	[locationImageView setImage:[UIImage imageNamed:@"location"]];
+	[bottomView addSubview:locationImageView];
+
+	locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
+															   bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															   kLocationLabelWidth,
+															   kBottomLabelHeight)
+											   text:@""
+											   font:UIFontFromSize(8.0f)
+									   textColor:[UIColor grayColor]
+								   textAlignment:NSTextAlignmentLeft
+									 numberLines:1];
+	//locationLabel.backgroundColor = [UIColor redColor];
+	[bottomView addSubview:locationLabel];
+}
+
 - (void)setShareItem:(ShareItem *)item {
 	if (!item) {
 		// TODO 允许为空，要看下运行是否正常
@@ -175,6 +282,10 @@
 	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
 	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
 	[noteTextView setText:[item sNote]];
+
+	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
+	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
+	[locationLabel setText:[item sAddress]];
 }
 
 - (void)notifyMusicPlayerMgrDidPlay {
@@ -196,6 +307,10 @@
 	} else {
 		[self playMusic];
 	}
+}
+
+- (void)favoriteButtonAction:(id)sender {
+	NSLog(@"favoriteButtonAction");
 }
 
 #pragma mark - audio operations

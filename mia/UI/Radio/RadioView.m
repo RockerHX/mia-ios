@@ -37,8 +37,6 @@ static const CGFloat kFavoriteHeight = 25;
 	MIAButton *loginButton;
 	MIAButton *reconnectButton;
 
-	ShareItem *currentShareItem;
-
 	LoopPlayerView *loopPlayerView;
 
 	MIAButton *favoriteButton;
@@ -255,7 +253,7 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)updateUIInfo:(ShareItem *)item {
-	currentShareItem = item;
+	_currentShareItem = item;
 	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[locationLabel setText:[item sAddress]];
@@ -353,7 +351,7 @@ static const CGFloat kFavoriteHeight = 25;
 	NSLog(@"#swipe# up spred");
 	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
 	// TODO 使用获取到的经纬度来上报
-	[MiaAPIHelper InfectMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[currentShareItem spID]];
+	[MiaAPIHelper InfectMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[_currentShareItem spID]];
 }
 
 - (void)skipFeed {
@@ -381,7 +379,7 @@ static const CGFloat kFavoriteHeight = 25;
 		[self checkIsNeedToGetNewItems];
 
 		// TODO 使用获取到的经纬度来上报
-		[MiaAPIHelper SkipMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[currentShareItem spID]];
+		[MiaAPIHelper SkipMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[_currentShareItem spID]];
 	} else {
 		NSLog(@"skip feed failed.");
 		// TODO 这种情况应该从界面上禁止他翻页
