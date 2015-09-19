@@ -15,7 +15,7 @@
 #import "AAPullToRefresh.h"
 #import "MIAButton.h"
 
-const CGFloat kTopViewDefaultHeight				= 30.0f;
+const CGFloat kTopViewDefaultHeight				= 60.0f;
 const CGFloat kBottomViewDefaultHeight			= 30.0f;
 
 static NSString * kAlertTitleError			= @"错误提示";
@@ -135,8 +135,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		.origin.y = kTopButtonMarginTop,
 		.size.width = kTopButtonWidth,
 		.size.height = kTopButtonHeight};
-	profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame titleString:@"9" titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_normal"]]];
-	[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_hover"]] forState:UIControlStateHighlighted];
+	profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame titleString:@"" titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]]];
 	[profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:profileButton];
 
@@ -148,9 +147,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 									   titleString:nil
 										titleColor:[UIColor whiteColor]
 											  font:UIFontFromSize(15)
-										   logoImg:[UIImage imageExtrude:[UIImage imageNamed:@"setting_share"]]
-								   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_normal"]]];
-	[shareButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"startButton_hover"]] forState:UIControlStateHighlighted];
+										   logoImg:nil
+								   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"share_music"]]];
 	[shareButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:shareButton];
 
@@ -251,8 +249,12 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 #pragma mark - Actions
 
-- (void)profileButtonAction:(id)sender {}
-- (void)shareButtonAction:(id)sender {}
+- (void)profileButtonAction:(id)sender {
+	NSLog(@"profile button clicked");
+}
+- (void)shareButtonAction:(id)sender {
+	NSLog(@"share button clicked");
+}
 
 - (void)pullReflashFromTop {
 //	NSLog(@"pullReflashFromTop");
