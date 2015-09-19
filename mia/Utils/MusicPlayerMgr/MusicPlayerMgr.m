@@ -181,7 +181,6 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void) setMediaInfo : (UIImage *) img andTitle : (NSString *) title andArtist : (NSString *) artist
 {
-	NSLog(@"begen set album art, to MPNowPlayingInfoCenter.");
 	if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
 		NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
 

@@ -213,7 +213,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	NSLog(@"%@", command);
 
 	if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
-		NSLog(@"without guid, we can do nothing.");
 		id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 		if ([ret intValue] != 0) {
 			// TODO linyehui

@@ -36,11 +36,7 @@
 		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
 		397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F02DF1B9EEEF500C413FE /* Images.xcassets */; };
 		397F02EF1B9EEEF500C413FE /* miaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02EE1B9EEEF500C413FE /* miaTests.m */; };
-		397FA4FB1BAAA989003FD186 /* RadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA4F81BAAA989003FD186 /* RadioView.m */; };
-		397FA4FC1BAAA989003FD186 /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA4FA1BAAA989003FD186 /* RadioViewController.m */; };
 		397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5031BAADBD8003FD186 /* PXInfiniteScrollView.m */; };
-		397FA5071BAAF06E003FD186 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5061BAAF06E003FD186 /* PlayerView.m */; };
-		397FA50A1BAAFA07003FD186 /* LoopPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5091BAAFA07003FD186 /* LoopPlayerView.m */; };
 		397FA52B1BAC0CA7003FD186 /* MIALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA50D1BAC0CA7003FD186 /* MIALabel.m */; };
 		397FA52C1BAC0CA7003FD186 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397FA5101BAC0CA7003FD186 /* arrow@2x.png */; };
 		397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5121BAC0CA7003FD186 /* MIARefreshBaseView.m */; };
@@ -70,7 +66,6 @@
 		39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC31BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m */; };
 		39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC51BA02F3100C6F7F2 /* UIImageView+WebCache.m */; };
 		39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */; };
-		39CA06051BAD64ED0074FD13 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06041BAD64ED0074FD13 /* DetailViewController.m */; };
 		39CA06121BAD67CC0074FD13 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06061BAD67CC0074FD13 /* back.png */; };
 		39CA06131BAD67CC0074FD13 /* comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06071BAD67CC0074FD13 /* comments.png */; };
 		39CA06141BAD67CC0074FD13 /* default_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06081BAD67CC0074FD13 /* default_cover@2x.jpg */; };
@@ -83,6 +78,12 @@
 		39CA061B1BAD67CC0074FD13 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA060F1BAD67CC0074FD13 /* profile.png */; };
 		39CA061C1BAD67CC0074FD13 /* share_music.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06101BAD67CC0074FD13 /* share_music.png */; };
 		39CA061D1BAD67CC0074FD13 /* views.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06111BAD67CC0074FD13 /* views.png */; };
+		39CA062C1BADBD6C0074FD13 /* DetailPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06201BADBD6C0074FD13 /* DetailPlayerView.m */; };
+		39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06221BADBD6C0074FD13 /* DetailViewController.m */; };
+		39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06251BADBD6C0074FD13 /* LoopPlayerView.m */; };
+		39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06271BADBD6C0074FD13 /* PlayerView.m */; };
+		39CA06301BADBD6C0074FD13 /* RadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06291BADBD6C0074FD13 /* RadioView.m */; };
+		39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA062B1BADBD6C0074FD13 /* RadioViewController.m */; };
 		66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE68AFFBF4F159DD2430486 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -153,16 +154,8 @@
 		397F02E81B9EEEF500C413FE /* miaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = miaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02ED1B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02EE1B9EEEF500C413FE /* miaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = miaTests.m; sourceTree = "<group>"; };
-		397FA4F71BAAA989003FD186 /* RadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioView.h; sourceTree = "<group>"; };
-		397FA4F81BAAA989003FD186 /* RadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioView.m; sourceTree = "<group>"; };
-		397FA4F91BAAA989003FD186 /* RadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioViewController.h; sourceTree = "<group>"; };
-		397FA4FA1BAAA989003FD186 /* RadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioViewController.m; sourceTree = "<group>"; };
 		397FA5021BAADBD8003FD186 /* PXInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXInfiniteScrollView.h; sourceTree = "<group>"; };
 		397FA5031BAADBD8003FD186 /* PXInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXInfiniteScrollView.m; sourceTree = "<group>"; };
-		397FA5051BAAF06E003FD186 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
-		397FA5061BAAF06E003FD186 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
-		397FA5081BAAFA07003FD186 /* LoopPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopPlayerView.h; sourceTree = "<group>"; };
-		397FA5091BAAFA07003FD186 /* LoopPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopPlayerView.m; sourceTree = "<group>"; };
 		397FA50C1BAC0CA7003FD186 /* MIALabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIALabel.h; sourceTree = "<group>"; };
 		397FA50D1BAC0CA7003FD186 /* MIALabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIALabel.m; sourceTree = "<group>"; };
 		397FA5101BAC0CA7003FD186 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
@@ -223,8 +216,6 @@
 		39BCADC51BA02F3100C6F7F2 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		39BCADC61BA02F3100C6F7F2 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
-		39CA06031BAD64ED0074FD13 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		39CA06041BAD64ED0074FD13 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		39CA06061BAD67CC0074FD13 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		39CA06071BAD67CC0074FD13 /* comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comments.png; sourceTree = "<group>"; };
 		39CA06081BAD67CC0074FD13 /* default_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default_cover@2x.jpg"; sourceTree = "<group>"; };
@@ -237,6 +228,18 @@
 		39CA060F1BAD67CC0074FD13 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		39CA06101BAD67CC0074FD13 /* share_music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_music.png; sourceTree = "<group>"; };
 		39CA06111BAD67CC0074FD13 /* views.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = views.png; sourceTree = "<group>"; };
+		39CA061F1BADBD6C0074FD13 /* DetailPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailPlayerView.h; sourceTree = "<group>"; };
+		39CA06201BADBD6C0074FD13 /* DetailPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailPlayerView.m; sourceTree = "<group>"; };
+		39CA06211BADBD6C0074FD13 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		39CA06221BADBD6C0074FD13 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		39CA06241BADBD6C0074FD13 /* LoopPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopPlayerView.h; sourceTree = "<group>"; };
+		39CA06251BADBD6C0074FD13 /* LoopPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopPlayerView.m; sourceTree = "<group>"; };
+		39CA06261BADBD6C0074FD13 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
+		39CA06271BADBD6C0074FD13 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
+		39CA06281BADBD6C0074FD13 /* RadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioView.h; sourceTree = "<group>"; };
+		39CA06291BADBD6C0074FD13 /* RadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioView.m; sourceTree = "<group>"; };
+		39CA062A1BADBD6C0074FD13 /* RadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioViewController.h; sourceTree = "<group>"; };
+		39CA062B1BADBD6C0074FD13 /* RadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioViewController.m; sourceTree = "<group>"; };
 		834D0885FF5069CC428F3F54 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8BB1D1E7765FD72A878E7526 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		8FE68AFFBF4F159DD2430486 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -596,16 +599,8 @@
 		397FA4F61BAAA989003FD186 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				39CA06031BAD64ED0074FD13 /* DetailViewController.h */,
-				39CA06041BAD64ED0074FD13 /* DetailViewController.m */,
-				397FA5081BAAFA07003FD186 /* LoopPlayerView.h */,
-				397FA5091BAAFA07003FD186 /* LoopPlayerView.m */,
-				397FA5051BAAF06E003FD186 /* PlayerView.h */,
-				397FA5061BAAF06E003FD186 /* PlayerView.m */,
-				397FA4F71BAAA989003FD186 /* RadioView.h */,
-				397FA4F81BAAA989003FD186 /* RadioView.m */,
-				397FA4F91BAAA989003FD186 /* RadioViewController.h */,
-				397FA4FA1BAAA989003FD186 /* RadioViewController.m */,
+				39CA061E1BADBD6C0074FD13 /* Detail */,
+				39CA06231BADBD6C0074FD13 /* Radio */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -767,6 +762,32 @@
 				39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */,
 			);
 			path = SDWebImage;
+			sourceTree = "<group>";
+		};
+		39CA061E1BADBD6C0074FD13 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				39CA061F1BADBD6C0074FD13 /* DetailPlayerView.h */,
+				39CA06201BADBD6C0074FD13 /* DetailPlayerView.m */,
+				39CA06211BADBD6C0074FD13 /* DetailViewController.h */,
+				39CA06221BADBD6C0074FD13 /* DetailViewController.m */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		39CA06231BADBD6C0074FD13 /* Radio */ = {
+			isa = PBXGroup;
+			children = (
+				39CA06241BADBD6C0074FD13 /* LoopPlayerView.h */,
+				39CA06251BADBD6C0074FD13 /* LoopPlayerView.m */,
+				39CA06261BADBD6C0074FD13 /* PlayerView.h */,
+				39CA06271BADBD6C0074FD13 /* PlayerView.m */,
+				39CA06281BADBD6C0074FD13 /* RadioView.h */,
+				39CA06291BADBD6C0074FD13 /* RadioView.m */,
+				39CA062A1BADBD6C0074FD13 /* RadioViewController.h */,
+				39CA062B1BADBD6C0074FD13 /* RadioViewController.m */,
+			);
+			path = Radio;
 			sourceTree = "<group>";
 		};
 		7A46D70C0C154D948D2217B7 /* Frameworks */ = {
@@ -940,9 +961,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				397E42961BA81836006BE9E7 /* MusicItem.m in Sources */,
-				397FA50A1BAAFA07003FD186 /* LoopPlayerView.m in Sources */,
 				397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */,
-				397FA4FB1BAAA989003FD186 /* RadioView.m in Sources */,
 				397FA5351BAC0CA7003FD186 /* MIATextViewInternal.m in Sources */,
 				39BCADD01BA02F3100C6F7F2 /* SDWebImagePrefetcher.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
@@ -952,14 +971,16 @@
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
-				397FA5071BAAF06E003FD186 /* PlayerView.m in Sources */,
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
+				39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				39BCADD41BA02F3100C6F7F2 /* UIImage+WebP.m in Sources */,
+				39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
+				39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */,
 				39BCADCC1BA02F3100C6F7F2 /* SDWebImageDecoder.m in Sources */,
 				39BCADD31BA02F3100C6F7F2 /* UIImage+MultiFormat.m in Sources */,
 				39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */,
@@ -969,7 +990,7 @@
 				397E42D11BA90812006BE9E7 /* NSString+Emoji.m in Sources */,
 				397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
-				39CA06051BAD64ED0074FD13 /* DetailViewController.m in Sources */,
+				39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
 				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
@@ -980,7 +1001,6 @@
 				397FA52B1BAC0CA7003FD186 /* MIALabel.m in Sources */,
 				39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
-				397FA4FC1BAAA989003FD186 /* RadioViewController.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
 				39BCADC81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m in Sources */,
@@ -990,6 +1010,7 @@
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
 				39BCADC91BA02F3100C6F7F2 /* NSData+ImageContentType.m in Sources */,
+				39CA06301BADBD6C0074FD13 /* RadioView.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
 				397FA52E1BAC0CA7003FD186 /* MIARefreshFooterView.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
@@ -997,6 +1018,7 @@
 				397FA5341BAC0CA7003FD186 /* MIAGrowingTextView.m in Sources */,
 				397E42CE1BA90812006BE9E7 /* NSData+Base64.m in Sources */,
 				39BCADD11BA02F3100C6F7F2 /* UIButton+WebCache.m in Sources */,
+				39CA062C1BADBD6C0074FD13 /* DetailPlayerView.m in Sources */,
 				397FA5331BAC0CA7003FD186 /* MIATexAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
