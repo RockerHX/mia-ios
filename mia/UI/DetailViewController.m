@@ -52,6 +52,16 @@
 	[super viewDidDisappear:animated];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+	return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+	return NO;
+}
+
 - (void)initUI {
 	[self.view setBackgroundColor:[UIColor redColor]];
 }

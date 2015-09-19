@@ -15,8 +15,8 @@
 #import "AAPullToRefresh.h"
 #import "MIAButton.h"
 
-const CGFloat kTopViewDefaultHeight				= 60.0f;
-const CGFloat kBottomViewDefaultHeight			= 30.0f;
+const CGFloat kTopViewDefaultHeight				= 75.0f;
+const CGFloat kBottomViewDefaultHeight			= 35.0f;
 
 static NSString * kAlertTitleError			= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed	= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
@@ -67,6 +67,29 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated;
+{
+	//[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[[WebSocketMgr standard] close];
+	//[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[super viewDidDisappear:animated];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+	return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+	return YES;
 }
 
 - (void)viewWillLayoutSubviews
@@ -125,11 +148,11 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	bv.imageIcon = [UIImage imageNamed:@"launchpad"];
 	bv.borderColor = [UIColor whiteColor];
 
-	static const CGFloat kTopButtonWidth                          = 30.0f;
-	static const CGFloat kTopButtonHeight                         = 30.0f;
-	static const CGFloat kTopButtonMarginTop                      = 18.0f;
-	static const CGFloat kProfileButtonMarginLeft                 = 10.0f;
-	static const CGFloat kShareButtonMarginRight                  = 10.0f;
+	static const CGFloat kTopButtonWidth                          = 40.0f;
+	static const CGFloat kTopButtonHeight                         = 40.0f;
+	static const CGFloat kTopButtonMarginTop                      = 20.0f;
+	static const CGFloat kProfileButtonMarginLeft                 = 15.0f;
+	static const CGFloat kShareButtonMarginRight                  = 15.0f;
 
 	CGRect profileButtonFrame = {.origin.x = kProfileButtonMarginLeft,
 		.origin.y = kTopButtonMarginTop,
@@ -157,19 +180,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)sendPing:(id)sender;
 {
 	[[WebSocketMgr standard] sendPing:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated;
-{
-	//[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[[WebSocketMgr standard] close];
-	//[self.navigationController setNavigationBarHidden:NO animated:animated];
-	[super viewDidDisappear:animated];
 }
 
 - (void)loadData {
