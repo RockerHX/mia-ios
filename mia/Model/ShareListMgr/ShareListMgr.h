@@ -10,15 +10,20 @@
 
 @interface ShareListMgr : NSObject <NSCoding>
 
-@property (strong, nonatomic) NSMutableArray *onlineList;
-@property (strong, nonatomic) NSMutableArray *offlineList;
-@property (strong, nonatomic) ShareItem *currentShareItem;
+@property (strong, nonatomic) NSMutableArray *shareList;
+@property (assign, nonatomic) NSInteger currentItem;
+//@property (strong, nonatomic) ShareItem *currentShareItem;
 
 + (id)initFromArchive;
-- (NSUInteger)getOnlineCount;
+- (NSUInteger)getHasNotViewedCount;
+
+- (BOOL)isNeedGetNearbyItems;
+- (ShareItem *)getCurrentItem;
+- (ShareItem *)getLeftItem;
+- (ShareItem *)getRightItem;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
-- (ShareItem *)popShareItem;
+//- (ShareItem *)popItemFromRight;
 
 - (BOOL)saveChanges;
 

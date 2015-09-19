@@ -175,7 +175,10 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 }
 
 - (void)loadData {
-	[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:3];
+	// TODO load的调用时机还需要考虑本地是否需要重新加载数据，可能可以用isLoading来判断
+	if ([_radioView isLoading]) {
+		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:3];
+	}
 }
 
 #pragma mark - Notification

@@ -23,6 +23,8 @@
 
 @property (strong, nonatomic) MusicItem *music;
 
+@property (assign, nonatomic) BOOL hasViewed;
+
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

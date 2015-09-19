@@ -58,18 +58,19 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	return (PlayerView *)[playerScrollView currentPageView];
 }
 
-- (PlayerView *)getPrevPlayerView {
+- (PlayerView *)getLeftPlayerView {
 	NSInteger prevIndex = ([playerScrollView currentPage] - 1 + [playerScrollView pageCount]) % [playerScrollView pageCount];
 	return [[playerScrollView pages] objectAtIndex:prevIndex];
 }
 
-- (PlayerView *)getNextPlayerView {
+- (PlayerView *)getRightPlayerView {
 	NSInteger nextIndex = ([playerScrollView currentPage] + 1) % [playerScrollView pageCount];
 	return [[playerScrollView pages] objectAtIndex:nextIndex];
 }
 
 - (void)setShareItem:(ShareItem *)item {
-	[[self getCurrentPlayerView] setShareItem:item];
+	[self getCurrentPlayerView].shareItem = item;
+	//[[self getCurrentPlayerView] setShareItem:item];
 }
 
 - (void)notifyMusicPlayerMgrDidPlay {

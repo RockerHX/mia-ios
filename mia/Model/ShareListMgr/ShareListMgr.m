@@ -8,7 +8,9 @@
 
 #import "ShareListMgr.h"
 
-const int kShareListMax							= 10;
+const int kShareListCapacity					= 25;
+const int kHasViewedItemsMax					= 15;
+const int kNeedGetNearbyCount					= 1;
 
 @implementation ShareListMgr {
 }
@@ -25,32 +27,68 @@ const int kShareListMax							= 10;
 - (id)init {
 	self = [super init];
 	if (self) {
-		_onlineList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
-		_offlineList = [[NSMutableArray alloc] initWithCapacity:kShareListMax];
+		_shareList = [[NSMutableArray alloc] initWithCapacity:kShareListCapacity];
 	}
 
 	return self;
 }
 
-- (NSUInteger)getOnlineCount {
-	return [_onlineList count];
+- (NSUInteger)getHasNotViewedCount {
+	NSUInteger count = 0;
+	for (ShareItem *item in _shareList) {
+		if (!item.hasViewed) {
+			count++;
+		}
+	}
+
+	return count;
+}
+
+- (ShareItem *)getCurrentItem {
+	return [_shareList objectAtIndex:_currentItem];
+}
+
+- (ShareItem *)getLeftItem {
+	NSInteger leftIndex = _currentItem - 1;
+	if (leftIndex < 0) {
+		return nil;
+	} else {
+		return [_shareList objectAtIndex:leftIndex];
+	}
+}
+
+- (ShareItem *)getRightItem {
+	NSInteger rightIndex = _currentItem + 1;
+	if (rightIndex >= [_shareList count]) {
+		return nil;
+	} else {
+		return [_shareList objectAtIndex:rightIndex];
+	}
+}
+
+- (BOOL)isNeedGetNearbyItems {
+	if ([self getHasNotViewedCount] <= kNeedGetNearbyCount) {
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);
-		[_onlineList addObject:shareItem];
+		[_shareList addObject:shareItem];
 	}
 }
 
-- (ShareItem *)popShareItem {
-	_currentShareItem = [_onlineList objectAtIndex:0];
-	[_onlineList removeObjectAtIndex:0];
-
-	return _currentShareItem;
-}
-
+//- (ShareItem *)popItemFromRight {
+//	_currentShareItem = [_shareList objectAtIndex:0];
+//	[_shareList removeObjectAtIndex:0];
+//
+//	return _currentShareItem;
+//}
+//
 
 - (BOOL)saveChanges {
 	// TODO
@@ -71,17 +109,15 @@ const int kShareListMax							= 10;
 
 //将对象编码(即:序列化)
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-	[aCoder encodeObject:self.onlineList forKey:@"onlineList"];
-	[aCoder encodeObject:self.offlineList forKey:@"offlineList"];
-	[aCoder encodeObject:self.currentShareItem forKey:@"currentItem"];
+	[aCoder encodeObject:_shareList forKey:@"shareList"];
+	[aCoder encodeInteger:_currentItem forKey:@"currentItem"];
 }
 
 //将对象解码(反序列化)
 -(id) initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
-		self.onlineList = [aDecoder decodeObjectForKey:@"onlineList"];
-		self.offlineList = [aDecoder decodeObjectForKey:@"offlineList"];
-		self.currentShareItem = [aDecoder decodeObjectForKey:@"currentItem"];
+		_shareList = [aDecoder decodeObjectForKey:@"shareList"];
+		_currentItem = [aDecoder decodeIntegerForKey:@"currentItem"];
 	}
 
 	return (self);

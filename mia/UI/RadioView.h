@@ -16,6 +16,7 @@
 @interface RadioView : UIView
 
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
+@property (assign, nonatomic) BOOL isLoading;
 
 - (void)spreadFeed;
 - (void)skipFeed;

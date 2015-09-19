@@ -18,8 +18,6 @@
 #import "PXInfiniteScrollView.h"
 
 @implementation PlayerView {
-	ShareItem *currentShareItem;
-
 	UIImageView *coverImageView;
 	KYCircularView *progressView;
 	MIAButton *playButton;
@@ -164,10 +162,11 @@
 
 - (void)setShareItem:(ShareItem *)item {
 	if (!item) {
-		return;
+		// TODO 允许为空，要看下运行是否正常
+		NSLog(@"debug nil");
 	}
 
-	currentShareItem = item;
+	_shareItem = item;
 
 	[coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
 					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
@@ -176,8 +175,6 @@
 	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
 	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
 	[noteTextView setText:[item sNote]];
-
-	[self playMusic];
 }
 
 - (void)notifyMusicPlayerMgrDidPlay {
@@ -208,9 +205,14 @@
 //	static NSString *defaultMusicTitle = @"贝尔加湖畔";
 //	static NSString *defaultMusicArtist = @"李健";
 
-	NSString *musicUrl = [[currentShareItem music] murl];
-	NSString *musicTitle = [[currentShareItem music] name];
-	NSString *musicArtist = [[currentShareItem music] singerName];
+	NSString *musicUrl = [[_shareItem music] murl];
+	NSString *musicTitle = [[_shareItem music] name];
+	NSString *musicArtist = [[_shareItem music] singerName];
+
+	if (!musicUrl || !musicTitle || !musicArtist) {
+		NSLog(@"Music is nil, stop play it.");
+		return;
+	}
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];

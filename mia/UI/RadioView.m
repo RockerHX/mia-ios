@@ -32,7 +32,6 @@ static const CGFloat kFavoriteHeight = 25;
 
 @implementation RadioView {
 	ShareListMgr *shareListMgr;
-	BOOL isLoading;
 	
 	MIAButton *pingButton;
 	MIAButton *loginButton;
@@ -55,9 +54,9 @@ static const CGFloat kFavoriteHeight = 25;
 	if(self){
 		self.userInteractionEnabled = YES;
 //		self.backgroundColor = [UIColor redColor];
-		[self initUI];
 
-		[self initPlayerData];
+		[self initShareList];
+		[self initUI];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
@@ -229,20 +228,27 @@ static const CGFloat kFavoriteHeight = 25;
 	[bottomView addSubview:locationLabel];
 }
 
-- (void)initPlayerData {
+- (void)initShareList {
 	shareListMgr = [ShareListMgr initFromArchive];
-	isLoading = YES;
+	// TODO 获取当前需要的三个Item，如果能获取到就不需要Loading状态了
+	_isLoading = YES;
 }
 
-- (void)setShareItem:(ShareItem *)item {
-	if (!item) {
-		return;
-	}
+- (void)reloadLoopPlayerData {
+	ShareItem *currentItem = [shareListMgr getCurrentItem];
+	ShareItem *leftItem = [shareListMgr getLeftItem];
+	ShareItem *rightItem = [shareListMgr getRightItem];
 
+	[loopPlayerView getCurrentPlayerView].shareItem = currentItem;
+	[[loopPlayerView getCurrentPlayerView] playMusic];
+	[self setCurrentItem:currentItem];
+
+	[loopPlayerView getLeftPlayerView].shareItem = leftItem;
+	[loopPlayerView getRightPlayerView].shareItem = rightItem;
+}
+
+- (void)setCurrentItem:(ShareItem *)item {
 	currentShareItem = item;
-
-	[loopPlayerView setShareItem:item];
-
 	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[locationLabel setText:[item sAddress]];
@@ -280,24 +286,12 @@ static const CGFloat kFavoriteHeight = 25;
 
 	[shareListMgr addSharesWithArray:shareList];
 
-	if (isLoading) {
-		[self showNextShare];
-		isLoading = NO;
+	if (_isLoading) {
+		[self reloadLoopPlayerData];
+		_isLoading = NO;
 	}
 
 	[shareListMgr saveChanges];
-}
-
-- (ShareItem *)showNextShare {
-	ShareItem *currentItem = [shareListMgr popShareItem];
-	if ([shareListMgr getOnlineCount] == 0) {
-		// TODO linyehui
-		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
-	}
-
-	[self setShareItem:currentItem];
-
-	return currentItem;
 }
 
 - (void)spreadFeed {
@@ -313,7 +307,7 @@ static const CGFloat kFavoriteHeight = 25;
 - (void)notifySwipeLeft {
 	NSLog(@"#swipe# left");
 
-	[self showNextShare];
+	//[self showNextShare];
 }
 
 - (void)notifySwipeRight {

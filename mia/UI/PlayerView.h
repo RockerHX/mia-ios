@@ -11,7 +11,12 @@
 
 @interface PlayerView : UIView
 
-- (void)setShareItem:(ShareItem *)item;
+@property (strong, nonatomic) ShareItem *shareItem;
+
+//- (void)setShareItem:(ShareItem *)item;
+
+- (void)playMusic;
+- (void)pauseMusic;
 
 - (void)notifyMusicPlayerMgrDidPlay;
 - (void)notifyMusicPlayerMgrDidPause;

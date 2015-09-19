@@ -22,8 +22,8 @@
 @property (weak, nonatomic)id<LoopPlayerViewDelegate> loopPlayerViewDelegate;
 
 - (PlayerView *)getCurrentPlayerView;
-- (PlayerView *)getPrevPlayerView;
-- (PlayerView *)getNextPlayerView;
+- (PlayerView *)getLeftPlayerView;
+- (PlayerView *)getRightPlayerView;
 
 - (void)setShareItem:(ShareItem *)item;
 - (void)notifyMusicPlayerMgrDidPlay;
