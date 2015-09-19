@@ -247,51 +247,6 @@ static const CGFloat kFavoriteHeight = 25;
 	[loopPlayerView getRightPlayerView].shareItem = rightItem;
 }
 
-- (void)showLeftShareWithNoncommitta:(NSInteger)lastPage {
-	// 停止当前，这个方向的歌曲都是已读的，所以不需要再标记为已读
-	[[loopPlayerView getRightPlayerView] pauseMusic];
-
-	// 补充一条左边的卡片
-	if ([shareListMgr cursorShiftLeft]) {
-		ShareItem *newItem = [shareListMgr getLeftItem];
-		[loopPlayerView getLeftPlayerView].shareItem = newItem;
-
-		// 播放当前卡片上的歌曲
-		[[loopPlayerView getCurrentPlayerView] playMusic];
-
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	} else {
-		NSLog(@"shift cursor to left failed.");
-		// TODO 这种情况应该从界面上禁止他翻页
-	}
-}
-
-- (void)showRightShareWithNoncommittal:(NSInteger)lastPage {
-	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	[[loopPlayerView getLeftPlayerView] pauseMusic];
-	[loopPlayerView getLeftPlayerView].shareItem.unread = NO;
-	// 这一句是多余的，因为shareItem是对象，引用传值，
-	// loopPlaerView和shareListMgr的对象是同一个，改一次就可以了
-	//[shareListMgr getCurrentItem].unread = NO;
-	[shareListMgr checkHistoryItemsMaxCount];
-
-	// 补充一条右边的卡片
-	if ([shareListMgr cursorShiftRight]) {
-		ShareItem *newItem = [shareListMgr getRightItem];
-		[loopPlayerView getRightPlayerView].shareItem = newItem;
-
-		// 播放当前卡片上的歌曲
-		[[loopPlayerView getCurrentPlayerView] playMusic];
-
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	} else {
-		NSLog(@"shift cursor to right failed.");
-		// TODO 这种情况应该从界面上禁止他翻页
-	}
-}
-
 - (void)checkIsNeedToGetNewItems {
 	if ([shareListMgr isNeedGetNearbyItems]) {
 		// TODO linyehui
@@ -347,10 +302,36 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)spreadFeed {
 	NSLog(@"#swipe# up spred");
+	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
 }
 
 - (void)skipFeed {
 	NSLog(@"#swipe# down");
+	// 向上滑动，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片，而且之前的歌曲需要从列表中删除
+
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+	[[loopPlayerView getCurrentPlayerView] pauseMusic];
+	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[shareListMgr checkHistoryItemsMaxCount];
+
+	// 用右边的卡片替代当前卡片内容
+	[loopPlayerView getCurrentPlayerView].shareItem = [loopPlayerView getRightPlayerView].shareItem;
+	[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+
+	// 删除当前卡片并更新右侧的卡片
+	if ([shareListMgr cursorShiftRightWithRemoveCurrent]) {
+		ShareItem *newItem = [shareListMgr getRightItem];
+		[loopPlayerView getRightPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		[[loopPlayerView getCurrentPlayerView] playMusic];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"skip feed failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
 }
 
 #pragma mark - LoopPlayerViewDelegate
@@ -359,14 +340,51 @@ static const CGFloat kFavoriteHeight = 25;
 	NSLog(@"#swipe# left");
 	// 向左滑动，右侧的卡片需要补充
 
-	[self showRightShareWithNoncommittal:lastPage];
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+	[[loopPlayerView getLeftPlayerView] pauseMusic];
+	[loopPlayerView getLeftPlayerView].shareItem.unread = NO;
+	// 这一句是多余的，因为shareItem是对象，引用传值，
+	// loopPlaerView和shareListMgr的对象是同一个，改一次就可以了
+	//[shareListMgr getCurrentItem].unread = NO;
+	[shareListMgr checkHistoryItemsMaxCount];
+
+	// 补充一条右边的卡片
+	if ([shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [shareListMgr getRightItem];
+		[loopPlayerView getRightPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		[[loopPlayerView getCurrentPlayerView] playMusic];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"shift cursor to right failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
 }
 
 - (void)notifySwipeRight:(NSInteger)lastPage {
 	NSLog(@"#swipe# right");
 	// 向右滑动，左侧的卡片需要补充
 
-	[self showLeftShareWithNoncommitta:lastPage];
+	// 停止当前，这个方向的歌曲都是已读的，所以不需要再标记为已读
+	[[loopPlayerView getRightPlayerView] pauseMusic];
+
+	// 补充一条左边的卡片
+	if ([shareListMgr cursorShiftLeft]) {
+		ShareItem *newItem = [shareListMgr getLeftItem];
+		[loopPlayerView getLeftPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		[[loopPlayerView getCurrentPlayerView] playMusic];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"shift cursor to left failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
 }
 
 #pragma mark - Actions

@@ -26,6 +26,7 @@
 - (BOOL)cursorShiftLeft;
 // 游标向右移动
 - (BOOL)cursorShiftRight;
+- (BOOL)cursorShiftRightWithRemoveCurrent;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
 - (void)checkHistoryItemsMaxCount;

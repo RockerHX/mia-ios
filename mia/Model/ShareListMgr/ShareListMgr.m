@@ -87,6 +87,21 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	return YES;
 }
 
+- (BOOL)cursorShiftRightWithRemoveCurrent {
+	// 简单处理，如果是最后一个元素，不允许删除
+	// 这个逻辑通过及时获取列表来规避
+	if ((_currentItem + 1) >= [_shareList count]) {
+		NSLog(@"no more item at right, you need to request more.");
+		return NO;
+	}
+
+	[_shareList removeObjectAtIndex:_currentItem];
+	[self saveChanges];
+
+	return YES;
+}
+
+
 - (BOOL)isNeedGetNearbyItems {
 	if ([self getUnreadCount] <= kNeedGetNearbyCount) {
 		return YES;
