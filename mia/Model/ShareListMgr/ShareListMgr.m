@@ -73,6 +73,7 @@ const int kNeedGetNearbyCount					= 1;
 
 - (void)cursorShiftRight {
 	_currentItem++;
+	[self saveChanges];
 }
 
 - (BOOL)isNeedGetNearbyItems {
@@ -89,6 +90,7 @@ const int kNeedGetNearbyCount					= 1;
 		//NSLog(@"%@", shareItem);
 		[_shareList addObject:shareItem];
 	}
+	[self saveChanges];
 }
 
 //- (ShareItem *)popItemFromRight {

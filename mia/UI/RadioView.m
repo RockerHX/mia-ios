@@ -268,7 +268,7 @@ static const CGFloat kFavoriteHeight = 25;
 - (void)checkIsNeedToGetNewItems {
 	if ([shareListMgr isNeedGetNearbyItems]) {
 		// TODO linyehui
-		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:1];
+		[MiaAPIHelper getNearbyWithLatitude:-22.1 longitude:33.3 start:1 item:3];
 	}
 }
 
@@ -315,8 +315,6 @@ static const CGFloat kFavoriteHeight = 25;
 		[self reloadLoopPlayerData];
 		_isLoading = NO;
 	}
-
-	[shareListMgr saveChanges];
 }
 
 - (void)spreadFeed {

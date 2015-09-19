@@ -89,7 +89,7 @@ NSString * const UserDefaultsKey_UUID				= @"uuid";
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
 	[dictValues setValue:[NSNumber numberWithFloat:lon] forKey:MiaAPIKey_Longitude];
-	[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
+	//[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];

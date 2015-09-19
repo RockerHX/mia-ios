@@ -30,6 +30,6 @@
 - (void)addSharesWithArray:(NSArray *) shareList;
 //- (ShareItem *)popItemFromRight;
 
-- (BOOL)saveChanges;
+//- (BOOL)saveChanges;
 
 @end
