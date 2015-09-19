@@ -27,7 +27,6 @@
 - (PlayerView *)getLeftPlayerView;
 - (PlayerView *)getRightPlayerView;
 
-- (void)setShareItem:(ShareItem *)item;
 - (void)notifyMusicPlayerMgrDidPlay;
 - (void)notifyMusicPlayerMgrDidPause;
 
