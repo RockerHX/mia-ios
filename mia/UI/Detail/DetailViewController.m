@@ -9,8 +9,9 @@
 #import "DetailViewController.h"
 #import "MIAButton.h"
 #import "DetailPlayerView.h"
+#import "MBProgressHUD.h"
 
-@interface DetailViewController ()
+@interface DetailViewController () <UIActionSheetDelegate>
 
 @end
 
@@ -85,20 +86,68 @@
 	playerView = [[DetailPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, scrollView.frame.size.width, kPlayerHeight)];
 	[scrollView addSubview:playerView];
 
+	[self initBarButton];
+
 }
 
-- (void)initPlayerUI {
+- (void)initBarButton {
+	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
+	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height)
+											 titleString:nil
+											  titleColor:nil
+													font:nil
+												 logoImg:nil
+										 backgroundImage:backButtonImage];
+	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+	self.navigationItem.leftBarButtonItem = leftButton;
+	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
+	UIImage *moreButtonImage = [UIImage imageNamed:@"more"];
+	MIAButton *moreButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, moreButtonImage.size.width, moreButtonImage.size.height)
+											 titleString:nil
+											  titleColor:nil
+													font:nil
+												 logoImg:nil
+										 backgroundImage:moreButtonImage];
+	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
+	self.navigationItem.rightBarButtonItem = rightButton;
+	[moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - delegate
+
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	const NSInteger kButtonIndex_Report = 0;
+	if (kButtonIndex_Report == buttonIndex) {
+		MBProgressHUD *progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
+		[self.view addSubview:progressHUD];
+		progressHUD.labelText = NSLocalizedString(@"举报成功", nil);
+		progressHUD.mode = MBProgressHUDModeText;
+		[progressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(2);
+		} completionBlock:^{
+			[progressHUD removeFromSuperview];
+		}];
+
+	}
 }
 
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
 	NSLog(@"back button clicked.");
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)moreButtonAction:(id)sender {
 	NSLog(@"more button clicked.");
+	UIActionSheet *sheet=[[UIActionSheet alloc] initWithTitle:@"更多操作"
+													 delegate:self
+											cancelButtonTitle:@"取消"
+									   destructiveButtonTitle:@"举报"
+											otherButtonTitles: nil];
+	[sheet showInView:self.view];
 }
 
 
