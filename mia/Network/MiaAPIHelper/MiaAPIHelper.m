@@ -26,6 +26,8 @@ NSString * const MiaAPIKey_Longitude				= @"longitude";
 NSString * const MiaAPIKey_Start					= @"start";
 NSString * const MiaAPIKey_Item						= @"item";
 
+NSString * const MiaAPICommand_Music_GetMcomm		= @"Music.Get.Mcomm";
+
 NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
 NSString * const MiaAPIKey_GUID						= @"guid";
 
@@ -35,6 +37,8 @@ NSString * const MiaAPICommand_User_PostInfectm		= @"User.Post.Infectm";
 NSString * const MiaAPICommand_User_PostSkipm		= @"User.Post.Skipm";
 NSString * const MiaAPIKey_spID						= @"spID";
 NSString * const MiaAPIKey_Address					= @"address";
+
+
 
 @interface MiaAPIHelper()
 

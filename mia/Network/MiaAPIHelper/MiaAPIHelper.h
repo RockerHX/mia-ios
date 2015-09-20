@@ -11,6 +11,7 @@ extern NSString * const MiaAPIKey_Values;
 extern NSString * const MiaAPIKey_Return;
 
 extern NSString * const MiaAPICommand_Music_GetNearby;
+extern NSString * const MiaAPICommand_Music_GetMcomm;
 extern NSString * const MiaAPICommand_User_PostGuest;
 extern NSString * const MiaAPICommand_User_PostInfectm;
 extern NSString * const MiaAPICommand_User_PostSkipm;
