@@ -10,6 +10,7 @@
 #import "MIAButton.h"
 #import "DetailPlayerView.h"
 #import "MBProgressHUD.h"
+#import "CommentTableView.h"
 
 @interface DetailViewController () <UIActionSheetDelegate>
 
@@ -18,6 +19,8 @@
 @implementation DetailViewController {
 	UIScrollView *scrollView;
 	DetailPlayerView *playerView;
+	CommentTableView *commentTableView;
+
 	ShareItem *currentItem;
 }
 
@@ -79,6 +82,8 @@
 	static NSString *kDetailTitle = @"详情页";
 	self.title = kDetailTitle;
 	[self.view setBackgroundColor:[UIColor redColor]];
+	[self initBarButton];
+
 	scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	scrollView.delegate = self;
 	scrollView.maximumZoomScale = 2.0f;
@@ -87,7 +92,7 @@
 	scrollView.alwaysBounceVertical = YES;
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-	scrollView.backgroundColor = [UIColor yellowColor];
+	//scrollView.backgroundColor = [UIColor yellowColor];
 	[self.view addSubview:scrollView];
 
 	static const CGFloat kPlayerMarginTop			= 0;
@@ -97,7 +102,13 @@
 	playerView.shareItem = currentItem;
 	[scrollView addSubview:playerView];
 
-	[self initBarButton];
+	commentTableView = [[CommentTableView alloc] initWithFrame:CGRectMake(0,
+																		  kPlayerMarginTop + kPlayerHeight,
+																		  scrollView.frame.size.width,
+																		  scrollView.frame.size.height - kPlayerHeight - kPlayerMarginTop)
+														 style:UITableViewStylePlain];
+	//commentTableView.backgroundColor = [UIColor redColor];
+	[scrollView addSubview:commentTableView];
 }
 
 - (void)initBarButton {
