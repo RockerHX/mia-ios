@@ -15,6 +15,7 @@
 #import "AAPullToRefresh.h"
 #import "MIAButton.h"
 #import "DetailViewController.h"
+#import "LoginViewController.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -269,7 +270,10 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 - (void)profileButtonAction:(id)sender {
 	NSLog(@"profile button clicked");
+	LoginViewController *vc = [[LoginViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
+
 - (void)shareButtonAction:(id)sender {
 	NSLog(@"share button clicked");
 }
