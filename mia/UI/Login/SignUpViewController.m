@@ -8,6 +8,7 @@
 
 #import "SignUpViewController.h"
 #import "MIAButton.h"
+#import "MIALabel.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
 
@@ -22,6 +23,14 @@
 	UITextField *nickNameTextField;
 	UITextField *firstPasswordTextField;
 	UITextField *secondPasswordTextField;
+	MIAButton *verificationCodeButton;
+
+	UIView *msgView;
+	MIALabel *msgLabel;
+
+	NSTimer *timer;
+	BOOL canRequestVerificationCode;
+	int countdown;
 }
 
 - (void)viewDidLoad {
@@ -73,6 +82,7 @@
 
 	[self initBarButton];
 	[self initInputView];
+	[self initMsgView];
 }
 
 - (void)initBarButton {
@@ -100,6 +110,10 @@
 	static const CGFloat kFirstPasswordMarginTop	= kNickNameMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSecondPasswordMarginTop	= kFirstPasswordMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 45;
+
+	static const CGFloat kVerificationCodeButtonWidthMarginTop	= kVerificationCodeMarginTop + 5;
+ 	static const CGFloat kVerificationCodeButtonWidth			= 80;
+	static const CGFloat kVerificationCodeButtonHeight			= 25;
 
 	UIColor *placeHolderColor = UIColorFromHex(@"#c0c0c0", 1.0);
 	UIColor *textColor = [UIColor blackColor];
@@ -149,6 +163,21 @@
 																				0.5)];
 	verificationCodeLineView.backgroundColor = lineColor;
 	[inputView addSubview:verificationCodeLineView];
+
+	CGRect verificationCodeButtonFrame = CGRectMake(inputView.frame.size.width - kTextFieldMarginLeft - kVerificationCodeButtonWidth,
+											 kVerificationCodeButtonWidthMarginTop,
+											 kVerificationCodeButtonWidth,
+											 kVerificationCodeButtonHeight);
+	verificationCodeButton = [[MIAButton alloc] initWithFrame:verificationCodeButtonFrame
+															   titleString:@"获取验证码"
+																titleColor:[UIColor whiteColor]
+																	  font:textFont
+																   logoImg:nil
+														   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)]];
+	[verificationCodeButton setImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
+	[verificationCodeButton addTarget:self action:@selector(verificationCodeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[inputView addSubview:verificationCodeButton];
+	[self resetCountdown];
 
 	nickNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kNickNameMarginTop,
@@ -236,6 +265,41 @@
 	[inputView addGestureRecognizer:gesture];
 }
 
+- (void)initMsgView {
+	static const CGFloat kMsgViewMarginTop = 64;
+	static const CGFloat kMsgViewHeight = 35;
+	static const CGFloat kLogoMarginLeft = 10;
+	static const CGFloat kLogoMarginTop = 10;
+	static const CGFloat kLogoWidth = 18;
+	static const CGFloat kLogoHeight = 18;
+	static const CGFloat kMsgLabelMarginLeft = 30;
+	static const CGFloat kMsgLabelMarginRight = 15;
+	static const CGFloat kMsgLabelMarginTop = 8;
+	static const CGFloat kMsgLabelHeight = 20;
+
+
+	msgView = [[UIView alloc] initWithFrame:CGRectMake(0, kMsgViewMarginTop, self.view.frame.size.width, kMsgViewHeight)];
+	msgView.backgroundColor = UIColorFromHex(@"#606060", 1.0);
+	[self.view addSubview:msgView];
+
+
+	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kLogoMarginLeft, kLogoMarginTop, kLogoWidth, kLogoHeight)];
+	[logoImageView setImage:[UIImage imageNamed:@"comments"]];
+	[msgView addSubview:logoImageView];
+
+	msgLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMsgLabelMarginLeft,
+															  kMsgLabelMarginTop,
+															  msgView.frame.size.width - kMsgLabelMarginLeft - kMsgLabelMarginRight,
+															  kMsgLabelHeight)
+											  text:@""
+											  font:UIFontFromSize(12.0f)
+										 textColor:[UIColor whiteColor]
+									 textAlignment:NSTextAlignmentLeft
+									   numberLines:1];
+	[msgView addSubview:msgLabel];
+	[msgView setHidden:YES];
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -291,6 +355,42 @@
 	[UIView commitAnimations];
 }
 
+- (void)resetCountdown {
+	static const int kRequestVerificationCodeCountdown = 60;
+	countdown = kRequestVerificationCodeCountdown;
+
+	canRequestVerificationCode = YES;
+	[timer invalidate];
+	[verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+}
+
+- (void)showErrorMsg:(NSString *)msg {
+	[msgLabel setText:msg];
+	[msgView setHidden:NO];
+	static const NSTimeInterval kErrorMsgTimeInterval = 10;
+	timer = [NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
+											 target:self
+										   selector:@selector(errorMsgTimerAction)
+										   userInfo:nil
+											repeats:NO];
+}
+
+# pragma mark - Timer Action
+
+- (void)requestVerificationCodeTimerAction {
+	countdown--;
+	if (countdown > 0) {
+		NSString *title = [[NSString alloc] initWithFormat:@"%ds 重新获取", countdown];
+		[verificationCodeButton setTitle:title forState:UIControlStateNormal];
+	} else {
+		[self resetCountdown];
+	}
+}
+
+- (void)errorMsgTimerAction {
+	[msgView setHidden:YES];
+}
+
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
@@ -298,6 +398,23 @@
 }
 
 - (void)signUpButtonAction:(id)sender {
+	// for test
+	[self showErrorMsg:@"Opps!你输入的验证码错误，请重新获取验证码"];
+}
+
+- (void)verificationCodeButtonAction:(id)sender {
+	if (!canRequestVerificationCode)
+		return;
+
+	[msgView setHidden:YES];
+	canRequestVerificationCode = NO;
+
+	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
+	timer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
+											 target:self
+										   selector:@selector(requestVerificationCodeTimerAction)
+										   userInfo:nil
+											repeats:YES];
 }
 
 -(void)hidenKeyboard
