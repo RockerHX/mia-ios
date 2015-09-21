@@ -22,13 +22,13 @@
 	UITextField *verificationCodeTextField;
 	UITextField *firstPasswordTextField;
 	UITextField *secondPasswordTextField;
+	MIAButton *signUpButton;
 	MIAButton *verificationCodeButton;
 
 	UIView *msgView;
 	MIALabel *msgLabel;
 
 	NSTimer *timer;
-	BOOL canRequestVerificationCode;
 	int countdown;
 }
 
@@ -172,7 +172,7 @@
 																	  font:textFont
 																   logoImg:nil
 														   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)]];
-	[verificationCodeButton setImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
+	[verificationCodeButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
 	[verificationCodeButton addTarget:self action:@selector(verificationCodeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[inputView addSubview:verificationCodeButton];
 	[self resetCountdown];
@@ -227,14 +227,17 @@
 											 kSiginUpMarginTop,
 											 inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 											 kTextFieldHeight);
-	 MIAButton *signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
+	 signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
 													   titleString:@"重置密码"
-														titleColor:[UIColor blackColor]
+														titleColor:[UIColor whiteColor]
 															  font:UIFontFromSize(16)
 														   logoImg:nil
-												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)]];
-	 [signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	 [inputView addSubview:signUpButton];
+												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
+	[signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
+	[signUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
+	[signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[signUpButton setEnabled:NO];
+	[inputView addSubview:signUpButton];
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
@@ -292,6 +295,7 @@
 		[self resumeView];
 	}
 
+	[self checkSignUpButtonStatus];
 	return true;
 }
 
@@ -333,7 +337,7 @@
 	static const int kRequestVerificationCodeCountdown = 60;
 	countdown = kRequestVerificationCodeCountdown;
 
-	canRequestVerificationCode = YES;
+	[verificationCodeButton setEnabled:YES];
 	[timer invalidate];
 	[verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
 }
@@ -347,6 +351,17 @@
 										   selector:@selector(errorMsgTimerAction)
 										   userInfo:nil
 											repeats:NO];
+}
+
+- (void)checkSignUpButtonStatus {
+	if ([userNameTextField.text length] <= 0
+		|| [verificationCodeTextField.text length] <= 0
+		|| [firstPasswordTextField.text length] <= 0
+		|| [secondPasswordTextField.text length] <= 0) {
+		[signUpButton setEnabled:NO];
+	} else {
+		[signUpButton setEnabled:YES];
+	}
 }
 
 # pragma mark - Timer Action
@@ -377,11 +392,8 @@
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
-	if (!canRequestVerificationCode)
-		return;
-
 	[msgView setHidden:YES];
-	canRequestVerificationCode = NO;
+	[verificationCodeButton setEnabled:NO];
 
 	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
 	timer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
@@ -399,6 +411,7 @@
 	[secondPasswordTextField resignFirstResponder];
 
 	[self resumeView];
+	[self checkSignUpButtonStatus];
 }
 
 @end
