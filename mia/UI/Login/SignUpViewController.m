@@ -16,6 +16,7 @@
 @end
 
 @implementation SignUpViewController {
+	UIView *inputView;
 	UITextField *userNameTextField;
 	UITextField *verificationCodeTextField;
 	UITextField *nickNameTextField;
@@ -88,7 +89,7 @@
 }
 
 - (void)initInputView {
-	UIView *inputView = [[UIView alloc] initWithFrame:self.view.frame];
+	inputView = [[UIView alloc] initWithFrame:self.view.frame];
 	[self.view addSubview:inputView];
 
 	static const CGFloat kTextFieldMarginLeft		= 30;
@@ -158,7 +159,7 @@
 	nickNameTextField.textColor = textColor;
 	nickNameTextField.placeholder = @"昵称";
 	[nickNameTextField setFont:textFont];
-	nickNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+	nickNameTextField.keyboardType = UIKeyboardTypeDefault;
 	nickNameTextField.returnKeyType = UIReturnKeyNext;
 	nickNameTextField.delegate = self;
 	[nickNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
@@ -180,7 +181,8 @@
 	firstPasswordTextField.textColor = textColor;
 	firstPasswordTextField.placeholder = @"登录密码";
 	[firstPasswordTextField setFont:textFont];
-	firstPasswordTextField.keyboardType = UIKeyboardTypeNumberPad;
+	firstPasswordTextField.secureTextEntry = YES;
+	firstPasswordTextField.keyboardType = UIKeyboardTypeDefault;
 	firstPasswordTextField.returnKeyType = UIReturnKeyNext;
 	firstPasswordTextField.delegate = self;
 	[firstPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
@@ -202,8 +204,9 @@
 	secondPasswordTextField.textColor = textColor;
 	secondPasswordTextField.placeholder = @"确认密码";
 	[secondPasswordTextField setFont:textFont];
-	secondPasswordTextField.keyboardType = UIKeyboardTypeNumberPad;
-	secondPasswordTextField.returnKeyType = UIReturnKeyNext;
+	secondPasswordTextField.secureTextEntry = YES;
+	secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
+	secondPasswordTextField.returnKeyType = UIReturnKeyDone;
 	secondPasswordTextField.delegate = self;
 	[secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
 	[inputView addSubview:secondPasswordTextField];
@@ -227,33 +230,85 @@
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)]];
 	 [signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	 [inputView addSubview:signUpButton];
+
+	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
+	gesture.numberOfTapsRequired = 1;
+	[inputView addGestureRecognizer:gesture];
 }
 
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-/*
 	if (textField == userNameTextField) {
-		[passwordTextField becomeFirstResponder];
+		[verificationCodeTextField becomeFirstResponder];
 	}
-	else if (textField == passwordTextField) {
-		[passwordTextField resignFirstResponder];
+	else if (textField == verificationCodeTextField) {
+		[nickNameTextField becomeFirstResponder];
+	} else if (textField == nickNameTextField) {
+		[firstPasswordTextField becomeFirstResponder];
+	} else if (textField == firstPasswordTextField) {
+		[secondPasswordTextField becomeFirstResponder];
+	} else if (textField == secondPasswordTextField) {
+		[secondPasswordTextField resignFirstResponder];
+		[self resumeView];
 	}
-*/
+
 	return true;
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	if (textField == secondPasswordTextField) {
+		[self moveUpViewForKeyboard];
+	}
 
+	return YES;
+}
+
+#pragma mark - keyboard
+
+- (void)moveUpViewForKeyboard {
+	NSTimeInterval animationDuration = 0.30f;
+	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+	[UIView setAnimationDuration:animationDuration];
+	float width = inputView.frame.size.width;
+	float height =inputView.frame.size.height;
+
+	static const CGFloat kOffsetForKeyboard = 30;
+	CGRect rect = CGRectMake(0.0f, -kOffsetForKeyboard, width,height);
+	self.view.frame=rect;
+	[UIView commitAnimations];
+}
+
+- (void)resumeView {
+	NSTimeInterval animationDuration = 0.30f;
+	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+	[UIView setAnimationDuration:animationDuration];
+	float width = self.view.frame.size.width;
+	float height = self.view.frame.size.height;
+	CGRect rect = CGRectMake(0.0f, 0, width, height);
+	self.view.frame = rect;
+	[UIView commitAnimations];
+}
 
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
-	NSLog(@"back button clicked.");
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)signUpButtonAction:(id)sender {
+}
+
+-(void)hidenKeyboard
+{
+	[userNameTextField resignFirstResponder];
+	[verificationCodeTextField resignFirstResponder];
+	[nickNameTextField resignFirstResponder];
+	[firstPasswordTextField resignFirstResponder];
+	[secondPasswordTextField resignFirstResponder];
+
+	[self resumeView];
 }
 
 @end
