@@ -18,6 +18,7 @@
 		390BADD01BAFE188006269FD /* button_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADCD1BAFE188006269FD /* button_white@2x.png */; };
 		390BADD11BAFE188006269FD /* login_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADCE1BAFE188006269FD /* login_logo@2x.png */; };
 		390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD31BB00A5E006269FD /* SignUpViewController.m */; };
+		390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD61BB03A3E006269FD /* ResetPwdViewController.m */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -126,6 +127,8 @@
 		390BADCE1BAFE188006269FD /* login_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_logo@2x.png"; sourceTree = "<group>"; };
 		390BADD21BB00A5E006269FD /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		390BADD31BB00A5E006269FD /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		390BADD51BB03A3E006269FD /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
+		390BADD61BB03A3E006269FD /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -299,6 +302,8 @@
 		390BADC61BAFD9FB006269FD /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				390BADD51BB03A3E006269FD /* ResetPwdViewController.h */,
+				390BADD61BB03A3E006269FD /* ResetPwdViewController.m */,
 				390BADD21BB00A5E006269FD /* SignUpViewController.h */,
 				390BADD31BB00A5E006269FD /* SignUpViewController.m */,
 				390BADC71BAFD9FB006269FD /* LoginViewController.h */,
@@ -1077,6 +1082,7 @@
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
+				390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */,
 				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,

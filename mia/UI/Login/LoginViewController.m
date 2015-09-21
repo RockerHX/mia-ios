@@ -12,6 +12,7 @@
 #import "MiaAPIHelper.h"
 #import "MIAButton.h"
 #import "SignUpViewController.h"
+#import "ResetPwdViewController.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
@@ -265,6 +266,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 
 - (void)forgotPwdButtonAction:(id)sender {
+	ResetPwdViewController *vc = [[ResetPwdViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)loginButtonAction:(id)sender {

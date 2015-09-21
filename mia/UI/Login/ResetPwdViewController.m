@@ -1,26 +1,25 @@
 //
-//  SignUpViewController.m
+//  ResetPwdViewController.m
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "SignUpViewController.h"
+#import "ResetPwdViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
 
-@interface SignUpViewController () <UITextFieldDelegate>
+@interface ResetPwdViewController () <UITextFieldDelegate>
 
 @end
 
-@implementation SignUpViewController {
+@implementation ResetPwdViewController {
 	UIView *inputView;
 	UITextField *userNameTextField;
 	UITextField *verificationCodeTextField;
-	UITextField *nickNameTextField;
 	UITextField *firstPasswordTextField;
 	UITextField *secondPasswordTextField;
 	MIAButton *verificationCodeButton;
@@ -76,7 +75,7 @@
 }
 
 - (void)initUI {
-	static NSString *kSignUpTitle = @"注册";
+	static NSString *kSignUpTitle = @"忘记密码";
 	self.title = kSignUpTitle;
 	[self.view setBackgroundColor:[UIColor whiteColor]];
 
@@ -106,8 +105,7 @@
 	static const CGFloat kTextFieldHeight			= 35;
 	static const CGFloat kUserNameMarginTop			= 100;
 	static const CGFloat kVerificationCodeMarginTop	= kUserNameMarginTop + kTextFieldHeight + 5;
-	static const CGFloat kNickNameMarginTop			= kVerificationCodeMarginTop + kTextFieldHeight + 5;
-	static const CGFloat kFirstPasswordMarginTop	= kNickNameMarginTop + kTextFieldHeight + 5;
+	static const CGFloat kFirstPasswordMarginTop	= kVerificationCodeMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSecondPasswordMarginTop	= kFirstPasswordMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 45;
 
@@ -179,28 +177,6 @@
 	[inputView addSubview:verificationCodeButton];
 	[self resetCountdown];
 
-	nickNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
-																	  kNickNameMarginTop,
-																	  inputView.frame.size.width - 2 * kTextFieldMarginLeft,
-																	  kTextFieldHeight)];
-	nickNameTextField.borderStyle = UITextBorderStyleNone;
-	nickNameTextField.backgroundColor = [UIColor clearColor];
-	nickNameTextField.textColor = textColor;
-	nickNameTextField.placeholder = @"昵称";
-	[nickNameTextField setFont:textFont];
-	nickNameTextField.keyboardType = UIKeyboardTypeDefault;
-	nickNameTextField.returnKeyType = UIReturnKeyNext;
-	nickNameTextField.delegate = self;
-	[nickNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[inputView addSubview:nickNameTextField];
-
-	UIView *nickNameLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
-																		kNickNameMarginTop + kTextFieldHeight,
-																		inputView.frame.size.width - 2 * kTextFieldMarginLeft,
-																		0.5)];
-	nickNameLineView.backgroundColor = lineColor;
-	[inputView addSubview:nickNameLineView];
-
 	firstPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																		   kFirstPasswordMarginTop,
 																		   inputView.frame.size.width - 2 * kTextFieldMarginLeft,
@@ -252,7 +228,7 @@
 											 inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 											 kTextFieldHeight);
 	 MIAButton *signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
-													   titleString:@"注册"
+													   titleString:@"重置密码"
 														titleColor:[UIColor blackColor]
 															  font:UIFontFromSize(16)
 														   logoImg:nil
@@ -308,8 +284,6 @@
 		[verificationCodeTextField becomeFirstResponder];
 	}
 	else if (textField == verificationCodeTextField) {
-		[nickNameTextField becomeFirstResponder];
-	} else if (textField == nickNameTextField) {
 		[firstPasswordTextField becomeFirstResponder];
 	} else if (textField == firstPasswordTextField) {
 		[secondPasswordTextField becomeFirstResponder];
@@ -421,7 +395,6 @@
 {
 	[userNameTextField resignFirstResponder];
 	[verificationCodeTextField resignFirstResponder];
-	[nickNameTextField resignFirstResponder];
 	[firstPasswordTextField resignFirstResponder];
 	[secondPasswordTextField resignFirstResponder];
 
