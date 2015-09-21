@@ -11,6 +11,7 @@
 #import "MIALabel.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
+#import "MiaAPIHelper.h"
 
 @interface SignUpViewController () <UITextFieldDelegate>
 
@@ -392,6 +393,16 @@
 	}
 }
 
+- (BOOL)checkPhoneNumber {
+	NSString *str = userNameTextField.text;
+	if (str.length == 11
+		&& [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
+		return YES;
+	}
+
+	return NO;
+}
+
 # pragma mark - Timer Action
 
 - (void)requestVerificationCodeTimerAction {
@@ -416,10 +427,16 @@
 
 - (void)signUpButtonAction:(id)sender {
 	// for test
-	[self showErrorMsg:@"Opps!你输入的验证码错误，请重新获取验证码"];
+	//[self showErrorMsg:@"Opps!你输入的验证码错误，请重新获取验证码"];
+
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
+	if (![self checkPhoneNumber]) {
+		[self showErrorMsg:@"请输入正确的手机号码"];
+		return;
+	}
+
 	[msgView setHidden:YES];
 	[verificationCodeButton setEnabled:NO];
 
@@ -429,6 +446,8 @@
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil
 											repeats:YES];
+
+	[MiaAPIHelper getVerificationCodeWithType:0 phoneNumber:userNameTextField.text];
 }
 
 -(void)hidenKeyboard

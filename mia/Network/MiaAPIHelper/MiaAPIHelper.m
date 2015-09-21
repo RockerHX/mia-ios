@@ -39,7 +39,9 @@ NSString * const MiaAPICommand_User_PostSkipm		= @"User.Post.Skipm";
 NSString * const MiaAPIKey_spID						= @"spID";
 NSString * const MiaAPIKey_Address					= @"address";
 
-
+NSString * const MiaAPICommand_User_PostPauth		= @"User.Post.Pauth";
+NSString * const MiaAPIKey_Type						= @"type";
+NSString * const MiaAPIKey_PhoneNumber				= @"phone";
 
 @interface MiaAPIHelper()
 
@@ -207,6 +209,35 @@ NSString * const MiaAPIKey_Address					= @"address";
 	NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
+}
+
++ (void)getVerificationCodeWithType:(long)type phoneNumber:(NSString *)phoneNumber {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostPauth forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:[NSNumber numberWithLong:type] forKey:MiaAPIKey_Type];
+	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+	
 }
 
 @end
