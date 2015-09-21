@@ -11,6 +11,7 @@
 #import "UIImage+Extrude.h"
 #import "MiaAPIHelper.h"
 #import "MIAButton.h"
+#import "SignUpViewController.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
@@ -232,7 +233,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[loginView addSubview:loginButton];
 }
 
-#pragma mark -delegate
+#pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -242,7 +243,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	else if (textField == passwordTextField) {
 		[passwordTextField resignFirstResponder];
 	}
-	
+
 	return true;
 }
 
@@ -253,6 +254,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 - (void)signUpButtonAction:(id)sender {
+	SignUpViewController *vc = [[SignUpViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)signInButtonAction:(id)sender {
