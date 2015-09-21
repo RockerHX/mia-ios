@@ -41,4 +41,18 @@
 	self.dataSource = result;
 }
 
+- (void)addComments:(NSArray *) comments {
+	NSMutableArray *result = [[NSMutableArray alloc] init];
+	for (id item in comments) {
+		CommentItem *commentItem = [[CommentItem alloc] initWithDictionary:item];
+		[result addObject:commentItem];
+	}
+
+	if (self.dataSource) {
+		[self.dataSource addObjectsFromArray:result];
+	} else {
+		self.dataSource = result;
+	}
+}
+
 @end

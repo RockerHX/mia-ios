@@ -259,6 +259,10 @@ static const CGFloat kFavoriteHeight = 25;
 	[locationLabel setText:[item sAddress]];
 }
 
+- (ShareItem*)currentShareItem {
+	return [loopPlayerView getCurrentPlayerView].shareItem;
+}
+
 #pragma mark - Notification
 
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {

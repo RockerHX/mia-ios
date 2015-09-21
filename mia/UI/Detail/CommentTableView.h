@@ -11,4 +11,6 @@
 
 @interface CommentTableView : UITableView<UITableViewDataSource, UITableViewDelegate>
 
+- (void)addComments:(NSArray *) comments;
+
 @end

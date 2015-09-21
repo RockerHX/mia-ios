@@ -57,6 +57,12 @@ static const CGFloat CELL_HEIGHT                                    = 55.0f;
     return cell;
 }
 
+# pragma mark - public method
+
+- (void)addComments:(NSArray *) comments {
+	[model addComments:comments];
+}
+
 @end
 
 

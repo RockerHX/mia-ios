@@ -48,7 +48,7 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 	_webSocket.delegate = nil;
 	[_webSocket close];
 
-	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://api.miamusic.com"]]];
+	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://api.miamusic.com:81"]]];
 	_webSocket.delegate = self;
 
 	//self.title = @"Opening Connection...";

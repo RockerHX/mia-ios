@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
 - (void)populateDataSource;
+- (void)addComments:(NSArray *) comments;
 
 @end
