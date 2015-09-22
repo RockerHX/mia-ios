@@ -26,6 +26,8 @@ extern NSString * const MusicPlayerMgrNotificationCompletion;
 - (void)play;
 - (void)pause;
 - (void)stop;
+- (void)preload;
+
 - (float)getPlayPosition;
 
 @end

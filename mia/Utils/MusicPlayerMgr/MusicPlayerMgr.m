@@ -51,6 +51,58 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion object:nil];
 		};
 
+		__weak FSAudioStream *weakStream = audioStream;
+		audioStream.onStateChange = ^(FSAudioStreamState state) {
+			NSString *stateName = @"";
+			switch (state) {
+				case kFsAudioStreamRetrievingURL:
+					stateName = @"kFsAudioStreamRetrievingURL";
+					break;
+				case kFsAudioStreamStopped:
+					stateName = @"kFsAudioStreamStopped";
+					break;
+				case kFsAudioStreamBuffering:
+					stateName = @"kFsAudioStreamBuffering";
+					break;
+				case kFsAudioStreamPlaying:
+					stateName = @"kFsAudioStreamPlaying";
+					break;
+				case kFsAudioStreamPaused:
+					stateName = @"kFsAudioStreamPaused";
+					break;
+				case kFsAudioStreamSeeking:
+					stateName = @"kFsAudioStreamSeeking";
+					break;
+				case kFSAudioStreamEndOfFile:
+					stateName = @"kFSAudioStreamEndOfFile";
+					break;
+				case kFsAudioStreamFailed:
+					stateName = @"kFsAudioStreamFailed";
+					break;
+				case kFsAudioStreamRetryingStarted:
+					stateName = @"kFsAudioStreamRetryingStarted";
+					break;
+				case kFsAudioStreamRetryingSucceeded:
+					stateName = @"kFsAudioStreamRetryingSucceeded";
+					break;
+				case kFsAudioStreamRetryingFailed:
+					stateName = @"kFsAudioStreamRetryingFailed";
+					break;
+				case kFsAudioStreamPlaybackCompleted:
+					stateName = @"kFsAudioStreamPlaybackCompleted";
+					break;
+				case kFsAudioStreamUnknownState:
+					stateName = @"kFsAudioStreamUnknownState";
+					break;
+				default:
+					break;
+			}
+			NSLog(@"onStateChange:%@, %@", stateName, weakStream.url);
+		};
+		audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
+			NSLog(@"onFailure:%d, %@, %@", error, errorDescription, weakStream.url);
+		};
+
 		// 设置后台播放模式
 		AVAudioSession *audioSession=[AVAudioSession sharedInstance];
 		[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -77,6 +129,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (void)playWithUrl:url andTitle:title andArtist:artist {
+	NSLog(@"playWithUrl:%@", url);
 	if (![audioStream url]) {
 		// 没有设置过歌曲url，直接播放
 		[audioStream playFromURL:[NSURL URLWithString:url]];
@@ -90,14 +143,15 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	}
 
 	[self setMediaInfo:nil andTitle:title andArtist:artist];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
 }
 
 - (void)play {
 	if ([audioStream url]) {
+		NSLog(@"play:%@", [audioStream url]);
 		[audioStream pause];
 
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
 	}
 }
 
@@ -113,7 +167,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)stop {
 	[audioStream stop];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:nil];
+}
+
+- (void)preload {
+	[audioStream preload];
 }
 
 #pragma mark - Notification
