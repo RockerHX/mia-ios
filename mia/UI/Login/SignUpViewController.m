@@ -31,7 +31,7 @@
 	UIView *msgView;
 	MIALabel *msgLabel;
 
-	NSTimer *timer;
+	NSTimer *verificationCodeTimer;
 	int countdown;
 }
 
@@ -351,6 +351,8 @@
 
 	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
 		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostRegister]) {
+		[self handleRegisterWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -360,6 +362,15 @@
 	} else {
 		[self showErrorMsg:@"验证码发送失败，请重新获取"];
 		[self resetCountdown];
+	}
+}
+
+- (void)handleRegisterWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		[self showErrorMsg:@"注册成功，请登录"];
+	} else {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		[self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
 	}
 }
 
@@ -394,7 +405,7 @@
 	countdown = kRequestVerificationCodeCountdown;
 
 	[verificationCodeButton setEnabled:YES];
-	[timer invalidate];
+	[verificationCodeTimer invalidate];
 	[verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
 }
 
@@ -402,7 +413,7 @@
 	[msgLabel setText:msg];
 	[msgView setHidden:NO];
 	static const NSTimeInterval kErrorMsgTimeInterval = 10;
-	timer = [NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
+	[NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
 											 target:self
 										   selector:@selector(errorMsgTimerAction)
 										   userInfo:nil
@@ -428,7 +439,26 @@
 		return YES;
 	}
 
+	[self showErrorMsg:@"请输入正确的手机号码"];
 	return NO;
+}
+
+- (BOOL)checkPasswordFormat {
+	NSString *str1 = firstPasswordTextField.text;
+	NSString *str2 = secondPasswordTextField.text;
+
+	if (![str1 isEqualToString:str2]) {
+		[self showErrorMsg:@"两次输入的密码不一致，请重新输入"];
+		return NO;
+	}
+
+	static const long kMinPasswordLength = 6;
+	if (str1.length < kMinPasswordLength) {
+		[self showErrorMsg:[NSString stringWithFormat:@"密码长度不能少于%ld位", kMinPasswordLength]];
+		return NO;
+	}
+
+	return YES;
 }
 
 # pragma mark - Timer Action
@@ -454,15 +484,17 @@
 }
 
 - (void)signUpButtonAction:(id)sender {
-	// for test
-	//[self showErrorMsg:@"Opps!你输入的验证码错误，请重新获取验证码"];
+	if (![self checkPasswordFormat])
+		return;
 
-	[self handleGetVerificationCode:1 userInfo:nil];
+	[MiaAPIHelper registerWithPhoneNum:userNameTextField.text
+									 scode:verificationCodeTextField.text
+								  nickName:nickNameTextField.text
+								  password:firstPasswordTextField.text];
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
 	if (![self checkPhoneNumber]) {
-		[self showErrorMsg:@"请输入正确的手机号码"];
 		return;
 	}
 
@@ -470,7 +502,7 @@
 	[verificationCodeButton setEnabled:NO];
 
 	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
-	timer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
+	verificationCodeTimer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
 											 target:self
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil

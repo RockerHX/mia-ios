@@ -30,7 +30,7 @@
 	UIView *msgView;
 	MIALabel *msgLabel;
 
-	NSTimer *timer;
+	NSTimer *verificationCodeTimer;
 	int countdown;
 }
 
@@ -368,7 +368,7 @@
 	countdown = kRequestVerificationCodeCountdown;
 
 	[verificationCodeButton setEnabled:YES];
-	[timer invalidate];
+	[verificationCodeTimer invalidate];
 	[verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
 }
 
@@ -376,7 +376,7 @@
 	[msgLabel setText:msg];
 	[msgView setHidden:NO];
 	static const NSTimeInterval kErrorMsgTimeInterval = 10;
-	timer = [NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
+	[NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
 											 target:self
 										   selector:@selector(errorMsgTimerAction)
 										   userInfo:nil
@@ -441,7 +441,7 @@
 	[verificationCodeButton setEnabled:NO];
 
 	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
-	timer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
+	verificationCodeTimer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
 											 target:self
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil

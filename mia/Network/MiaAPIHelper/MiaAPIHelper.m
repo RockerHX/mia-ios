@@ -10,6 +10,7 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "UserDefaultsUtils.h"
+#import "NSString+MD5.h"
 
 NSString * const MiaAPIProtocolVersion				= @"1";
 
@@ -19,6 +20,7 @@ NSString * const MiaAPIKey_Version					= @"r";
 NSString * const MiaAPIKey_Timestamp				= @"s";
 NSString * const MiaAPIKey_Values					= @"v";
 NSString * const MiaAPIKey_Return					= @"ret";
+NSString * const MiaAPIKey_Error					= @"err";
 
 NSString * const MiaAPICommand_Music_GetNearby		= @"Music.Get.Nearby";
 NSString * const MiaAPIKey_Latitude					= @"latitude";
@@ -43,6 +45,11 @@ NSString * const MiaAPICommand_User_PostPauth		= @"User.Post.Pauth";
 NSString * const MiaAPIKey_Type						= @"type";
 NSString * const MiaAPIKey_PhoneNumber				= @"phone";
 NSString * const MiaAPIKey_IMEI						= @"imei";
+
+NSString * const MiaAPICommand_User_PostRegister	= @"User.Post.Register";
+NSString * const MiaAPIKey_SCode					= @"scode";
+NSString * const MiaAPIKey_NickName					= @"nick";
+NSString * const MiaAPIKey_Password					= @"pass";
 
 @interface MiaAPIHelper()
 
@@ -239,7 +246,38 @@ NSString * const MiaAPIKey_IMEI						= @"imei";
 	//NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
-	
+}
+
++ (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName password:(NSString *)password {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostRegister forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
+	[dictValues setValue:scode forKey:MiaAPIKey_SCode];
+	[dictValues setValue:nickName forKey:MiaAPIKey_NickName];
+
+	NSString *passwordHash = [NSString md5HexDigest:password];
+	[dictValues setValue:passwordHash forKey:MiaAPIKey_Password];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
 }
 
 @end

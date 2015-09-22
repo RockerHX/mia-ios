@@ -16,6 +16,8 @@ extern NSString * const MiaAPICommand_User_PostGuest;
 extern NSString * const MiaAPICommand_User_PostInfectm;
 extern NSString * const MiaAPICommand_User_PostSkipm;
 extern NSString * const MiaAPICommand_User_PostPauth;
+extern NSString * const MiaAPICommand_User_PostRegister;
+extern NSString * const MiaAPIKey_Error;
 
 @interface MiaAPIHelper : NSObject
 
@@ -28,5 +30,5 @@ extern NSString * const MiaAPICommand_User_PostPauth;
 + (void)SkipMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
 
 + (void)getVerificationCodeWithType:(long)type phoneNumber:(NSString *)phoneNumber;
-
++ (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName password:(NSString *)password;
 @end

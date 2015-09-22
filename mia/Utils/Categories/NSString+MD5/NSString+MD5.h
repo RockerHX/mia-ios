@@ -9,4 +9,6 @@
 
 @interface NSString (MD5)
 
++ (NSString*)md5HexDigest:(NSString*)input;
+
 @end
