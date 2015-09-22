@@ -18,6 +18,7 @@
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UserSession.h"
+#import "NSString+MD5.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
@@ -403,7 +404,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[passwordErrorLabel setText:@""];
 
 	[self showMBProgressHUD];
-	[MiaAPIHelper loginWithPhoneNum:userNameTextField.text password:passwordTextField.text];
+	NSString *passwordHash = [NSString md5HexDigest:passwordTextField.text];
+	[MiaAPIHelper loginWithPhoneNum:userNameTextField.text passwordHash:passwordHash];
 }
 
 @end

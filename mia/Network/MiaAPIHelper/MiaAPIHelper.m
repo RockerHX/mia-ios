@@ -10,7 +10,6 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "UserDefaultsUtils.h"
-#import "NSString+MD5.h"
 
 @interface MiaAPIHelper()
 
@@ -209,7 +208,7 @@
 	[[WebSocketMgr standard] send:jsonString];
 }
 
-+ (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName password:(NSString *)password {
++ (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName passwordHash:(NSString *)passwordHash {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostRegister forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -220,8 +219,6 @@
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:scode forKey:MiaAPIKey_SCode];
 	[dictValues setValue:nickName forKey:MiaAPIKey_NickName];
-
-	NSString *passwordHash = [NSString md5HexDigest:password];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Password];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
@@ -241,7 +238,7 @@
 	[[WebSocketMgr standard] send:jsonString];
 }
 
-+ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password scode:(NSString *)scode {
++ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash scode:(NSString *)scode {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -252,7 +249,6 @@
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Type];
 	[dictValues setValue:scode forKey:MiaAPIKey_OldPwd];
-	NSString *passwordHash = [NSString md5HexDigest:password];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_NewPwd];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
@@ -272,7 +268,7 @@
 	[[WebSocketMgr standard] send:jsonString];
 }
 
-+ (void)loginWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password {
++ (void)loginWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostLogin forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -283,8 +279,6 @@
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Dev];
 	[dictValues setValue:MiaAPIDefaultIMEI forKey:MiaAPIKey_IMEI];
-
-	NSString *passwordHash = [NSString md5HexDigest:password];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Pwd];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];

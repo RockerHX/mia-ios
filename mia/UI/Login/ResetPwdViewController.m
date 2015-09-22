@@ -15,6 +15,7 @@
 #import "WebSocketMgr.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
+#import "NSString+MD5.h"
 
 @interface ResetPwdViewController () <UITextFieldDelegate>
 
@@ -502,8 +503,9 @@
 		return;
 
 	[self showMBProgressHUD];
+	NSString *passwordHash = [NSString md5HexDigest:firstPasswordTextField.text];
 	[MiaAPIHelper resetPasswordWithPhoneNum:userNameTextField.text
-							  password:firstPasswordTextField.text
+							  passwordHash:passwordHash
 									   scode:verificationCodeTextField.text];
 }
 

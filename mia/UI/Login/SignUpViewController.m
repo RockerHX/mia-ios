@@ -15,6 +15,7 @@
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
+#import "NSString+MD5.h"
 
 @interface SignUpViewController () <UITextFieldDelegate>
 
@@ -531,10 +532,11 @@
 		return;
 
 	[self showMBProgressHUD];
+	NSString *passwordHash = [NSString md5HexDigest:firstPasswordTextField.text];
 	[MiaAPIHelper registerWithPhoneNum:userNameTextField.text
 									 scode:verificationCodeTextField.text
 								  nickName:nickNameTextField.text
-								  password:firstPasswordTextField.text];
+								  passwordHash:passwordHash];
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
