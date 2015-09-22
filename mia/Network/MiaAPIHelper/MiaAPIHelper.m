@@ -13,6 +13,7 @@
 #import "NSString+MD5.h"
 
 NSString * const MiaAPIProtocolVersion				= @"1";
+NSString * const MiaAPIDefaultIMEI					= @"ios";
 
 NSString * const MiaAPIKey_ServerCommand			= @"C";
 NSString * const MiaAPIKey_ClientCommand			= @"c";
@@ -55,7 +56,9 @@ NSString * const MiaAPICommand_User_PostLogin		= @"User.Post.Login";
 NSString * const MiaAPIKey_Pwd						= @"pwd";
 NSString * const MiaAPIKey_Dev						= @"dev";
 
-NSString * const MiaAPIDefaultIMEI					= @"ios";
+NSString * const MiaAPICommand_User_PostChangePwd	= @"User.Post.Cpwd";
+NSString * const MiaAPIKey_OldPwd					= @"opwd";
+NSString * const MiaAPIKey_NewPwd					= @"npwd";
 
 @interface MiaAPIHelper()
 
@@ -130,7 +133,7 @@ NSString * const MiaAPIDefaultIMEI					= @"ios";
 	}
 
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", jsonString);
+	//NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
 }
@@ -159,7 +162,7 @@ NSString * const MiaAPIDefaultIMEI					= @"ios";
 	}
 
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", jsonString);
+	//NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
 }
@@ -190,7 +193,7 @@ NSString * const MiaAPIDefaultIMEI					= @"ios";
 	}
 
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", jsonString);
+	//NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
 }
@@ -220,7 +223,7 @@ NSString * const MiaAPIDefaultIMEI					= @"ios";
 	}
 
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", jsonString);
+	//NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
 }
@@ -268,6 +271,37 @@ NSString * const MiaAPIDefaultIMEI					= @"ios";
 
 	NSString *passwordHash = [NSString md5HexDigest:password];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Password];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
++ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password scode:(NSString *)scode {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
+	[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Type];
+	[dictValues setValue:scode forKey:MiaAPIKey_OldPwd];
+	NSString *passwordHash = [NSString md5HexDigest:password];
+	[dictValues setValue:passwordHash forKey:MiaAPIKey_NewPwd];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 

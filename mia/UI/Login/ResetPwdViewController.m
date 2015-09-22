@@ -13,6 +13,8 @@
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUDHelp.h"
 
 @interface ResetPwdViewController () <UITextFieldDelegate>
 
@@ -24,7 +26,7 @@
 	UITextField *verificationCodeTextField;
 	UITextField *firstPasswordTextField;
 	UITextField *secondPasswordTextField;
-	MIAButton *signUpButton;
+	MIAButton *resetButton;
 	MIAButton *verificationCodeButton;
 
 	UIView *msgView;
@@ -32,6 +34,8 @@
 
 	NSTimer *verificationCodeTimer;
 	int countdown;
+
+	MBProgressHUD *progressHUD;
 }
 
 -(void)dealloc {
@@ -82,8 +86,8 @@
 }
 
 - (void)initUI {
-	static NSString *kSignUpTitle = @"忘记密码";
-	self.title = kSignUpTitle;
+	static NSString *kResetTitle = @"忘记密码";
+	self.title = kResetTitle;
 	[self.view setBackgroundColor:[UIColor whiteColor]];
 
 	[self initBarButton];
@@ -230,21 +234,21 @@
 	secondPasswordLineView.backgroundColor = lineColor;
 	[inputView addSubview:secondPasswordLineView];
 
-	CGRect signUpButtonFrame = CGRectMake(kTextFieldMarginLeft,
+	CGRect resetButtonFrame = CGRectMake(kTextFieldMarginLeft,
 											 kSiginUpMarginTop,
 											 inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 											 kTextFieldHeight);
-	 signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
+	 resetButton = [[MIAButton alloc] initWithFrame:resetButtonFrame
 													   titleString:@"重置密码"
 														titleColor:[UIColor whiteColor]
 															  font:UIFontFromSize(16)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
-	[signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
-	[signUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
-	[signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[signUpButton setEnabled:NO];
-	[inputView addSubview:signUpButton];
+	[resetButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
+	[resetButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
+	[resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[resetButton setEnabled:NO];
+	[inputView addSubview:resetButton];
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
@@ -286,6 +290,36 @@
 	[msgView setHidden:YES];
 }
 
+- (void)showMBProgressHUD{
+	if(!progressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:progressHUD];
+		progressHUD.dimBackground = YES;
+		progressHUD.labelText = @"正在提交注册";
+		[progressHUD show:YES];
+	}
+}
+
+- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(progressHUD){
+		if(isSuccess){
+			progressHUD.labelText = @"密码重置成功，请登录";
+		}else{
+			progressHUD.labelText = @"密码重置失败，请稍后再试";
+		}
+		progressHUD.mode = MBProgressHUDModeText;
+		[progressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(1);
+		} completionBlock:^{
+			[progressHUD removeFromSuperview];
+			progressHUD = nil;
+			if(removeMBProgressHUDBlock)
+				removeMBProgressHUDBlock();
+		}];
+	}
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -302,7 +336,7 @@
 		[self resumeView];
 	}
 
-	[self checkSignUpButtonStatus];
+	[self checkResetButtonStatus];
 	return true;
 }
 
@@ -324,6 +358,8 @@
 
 	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
 		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostChangePwd]) {
+		[self handlePostResetPwdWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -336,6 +372,23 @@
 	}
 }
 
+- (void)handlePostResetPwdWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+
+	if (isSuccess) {
+
+	}
+	else {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		[self showErrorMsg:[NSString stringWithFormat:@"重置密码失败：%@", error]];
+	}
+
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}];
+}
 
 #pragma mark - keyboard
 
@@ -383,14 +436,14 @@
 											repeats:NO];
 }
 
-- (void)checkSignUpButtonStatus {
+- (void)checkResetButtonStatus {
 	if ([userNameTextField.text length] <= 0
 		|| [verificationCodeTextField.text length] <= 0
 		|| [firstPasswordTextField.text length] <= 0
 		|| [secondPasswordTextField.text length] <= 0) {
-		[signUpButton setEnabled:NO];
+		[resetButton setEnabled:NO];
 	} else {
-		[signUpButton setEnabled:YES];
+		[resetButton setEnabled:YES];
 	}
 }
 
@@ -402,6 +455,24 @@
 	}
 
 	return NO;
+}
+
+- (BOOL)checkPasswordFormat {
+	NSString *str1 = firstPasswordTextField.text;
+	NSString *str2 = secondPasswordTextField.text;
+
+	if (![str1 isEqualToString:str2]) {
+		[self showErrorMsg:@"两次输入的密码不一致，请重新输入"];
+		return NO;
+	}
+
+	static const long kMinPasswordLength = 6;
+	if (str1.length < kMinPasswordLength) {
+		[self showErrorMsg:[NSString stringWithFormat:@"密码长度不能少于%ld位", kMinPasswordLength]];
+		return NO;
+	}
+
+	return YES;
 }
 
 # pragma mark - Timer Action
@@ -426,9 +497,14 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)signUpButtonAction:(id)sender {
-	// for test
-	[self showErrorMsg:@"Opps!你输入的验证码错误，请重新获取验证码"];
+- (void)resetButtonAction:(id)sender {
+	if (![self checkPasswordFormat])
+		return;
+
+	[self showMBProgressHUD];
+	[MiaAPIHelper resetPasswordWithPhoneNum:userNameTextField.text
+							  password:firstPasswordTextField.text
+									   scode:verificationCodeTextField.text];
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
@@ -446,6 +522,7 @@
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil
 											repeats:YES];
+	[MiaAPIHelper getVerificationCodeWithType:1 phoneNumber:userNameTextField.text];
 }
 
 -(void)hidenKeyboard
@@ -456,7 +533,7 @@
 	[secondPasswordTextField resignFirstResponder];
 
 	[self resumeView];
-	[self checkSignUpButtonStatus];
+	[self checkResetButtonStatus];
 }
 
 @end

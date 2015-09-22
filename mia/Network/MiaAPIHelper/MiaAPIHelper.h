@@ -19,6 +19,7 @@ extern NSString * const MiaAPICommand_User_PostSkipm;
 extern NSString * const MiaAPICommand_User_PostPauth;
 extern NSString * const MiaAPICommand_User_PostRegister;
 extern NSString * const MiaAPICommand_User_PostLogin;
+extern NSString * const MiaAPICommand_User_PostChangePwd;
 
 @interface MiaAPIHelper : NSObject
 
@@ -32,6 +33,7 @@ extern NSString * const MiaAPICommand_User_PostLogin;
 
 + (void)getVerificationCodeWithType:(long)type phoneNumber:(NSString *)phoneNumber;
 + (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName password:(NSString *)password;
++ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password scode:(NSString *)scode;
 + (void)loginWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password;
 
 @end
