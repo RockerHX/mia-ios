@@ -16,8 +16,6 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 
-typedef void(^RemoveMBProgressHUDBlock)();
-
 @interface SignUpViewController () <UITextFieldDelegate>
 
 @end
@@ -316,9 +314,6 @@ typedef void(^RemoveMBProgressHUDBlock)();
 	[msgView setHidden:YES];
 }
 
-/**
- *  显示进度条
- */
 - (void)showMBProgressHUD{
 	if(!progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -330,11 +325,6 @@ typedef void(^RemoveMBProgressHUDBlock)();
 	}
 }
 
-/**
- *  移除进度条
- *
- *  @param isSuccess                是否提交成功
- */
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
 	if(progressHUD){
 		if(isSuccess){
@@ -410,21 +400,21 @@ typedef void(^RemoveMBProgressHUDBlock)();
 }
 
 - (void)handleRegisterWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	//BOOL isSuccess = (0 == ret);
-	BOOL isSuccess = YES;
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}];
+	BOOL isSuccess = (0 == ret);
 
 	if (isSuccess) {
-		[_signUpViewControllerDelegate signUpViewControllerDidPop:isSuccess];
+		[_signUpViewControllerDelegate signUpViewControllerDidSuccess];
 	}
 	else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		[self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
 	}
+
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}];
 }
 
 #pragma mark - keyboard

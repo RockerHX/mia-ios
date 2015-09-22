@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^RemoveMBProgressHUDBlock)();
+
 @interface MBProgressHUDHelp : NSObject
 
 +(id)standarMBProgressHUDHelp;

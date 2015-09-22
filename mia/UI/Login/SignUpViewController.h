@@ -10,7 +10,7 @@
 
 @protocol SignUpViewControllerDelegate
 
-- (void)signUpViewControllerDidPop:(BOOL)success;
+- (void)signUpViewControllerDidSuccess;
 
 @end
 

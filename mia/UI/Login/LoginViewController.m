@@ -9,10 +9,14 @@
 #import "LoginViewController.h"
 #import "UIImage+ColorToImage.h"
 #import "UIImage+Extrude.h"
-#import "MiaAPIHelper.h"
 #import "MIAButton.h"
+#import "MIALabel.h"
 #import "SignUpViewController.h"
 #import "ResetPwdViewController.h"
+#import "MiaAPIHelper.h"
+#import "WebSocketMgr.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUDHelp.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
@@ -35,15 +39,21 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	UIView *loginView;		// 输入框和登录按钮的页面
 	UITextField *userNameTextField;
 	UITextField *passwordTextField;
+	MIALabel *userNameErrorLabel;
+	MIALabel *passwordErrorLabel;
+
+	MBProgressHUD *progressHUD;
+}
+
+-(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
-}
-
--(void)dealloc {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -161,6 +171,17 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	static const CGFloat kForgotPwdHeight			= 20;
 	static const CGFloat kLoginMarginTop			= kPasswordMarginTop + kTextEditHeight + 45;
 
+	static const CGFloat kUserNameErrorMarginRight	= kLoginButtonMarginLeft;
+	static const CGFloat kUserNameErrorMarginTop	= kUserNameMarginTop + 12;
+	static const CGFloat kUserNameErrorWidth		= 100;
+	static const CGFloat kUserNameErrorHeight		= 20;
+	static const CGFloat kPasswordErrorMarginRight	= kLoginButtonMarginLeft;
+	static const CGFloat kPasswordErrorMarginTop	= kPasswordMarginTop + 12;
+	static const CGFloat kPasswordErrorWidth		= 100;
+	static const CGFloat kPasswordErrorHeight		= 20;
+
+
+
 	userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	  kUserNameMarginTop,
 																	  loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
@@ -174,7 +195,20 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	userNameTextField.returnKeyType = UIReturnKeyNext;
 	userNameTextField.delegate = self;
 	[userNameTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+	//userNameTextField.backgroundColor = [UIColor redColor];
 	[loginView addSubview:userNameTextField];
+
+	userNameErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(loginView.frame.size.width - kUserNameErrorMarginRight - kUserNameErrorWidth,
+																				  kUserNameErrorMarginTop,
+																				  kUserNameErrorWidth,
+																				  kUserNameErrorHeight)
+																  text:@""
+																  font:UIFontFromSize(12.0f)
+															 textColor:[UIColor whiteColor]
+														 textAlignment:NSTextAlignmentRight
+														   numberLines:1];
+	//userNameErrorLabel.backgroundColor = [UIColor yellowColor];
+	[loginView addSubview:userNameErrorLabel];
 
 	UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	   kUserNameMarginTop + kTextEditHeight,
@@ -198,6 +232,18 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	passwordTextField.delegate = self;
 	[passwordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 	[loginView addSubview:passwordTextField];
+
+	passwordErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(loginView.frame.size.width - kPasswordErrorMarginRight - kPasswordErrorWidth,
+																	kPasswordErrorMarginTop,
+																	kPasswordErrorWidth,
+																	kPasswordErrorHeight)
+													text:@""
+													font:UIFontFromSize(12.0f)
+											   textColor:[UIColor whiteColor]
+										   textAlignment:NSTextAlignmentRight
+											 numberLines:1];
+	//passwordErrorLabel.backgroundColor = [UIColor yellowColor];
+	[loginView addSubview:passwordErrorLabel];
 
 	UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																 kPasswordMarginTop + kTextEditHeight,
@@ -234,6 +280,36 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[loginView addSubview:loginButton];
 }
 
+- (void)showMBProgressHUD{
+	if(!progressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:progressHUD];
+		progressHUD.dimBackground = YES;
+		progressHUD.labelText = @"登录中";
+		[progressHUD show:YES];
+	}
+}
+
+- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(progressHUD){
+		if(isSuccess){
+			progressHUD.labelText = @"登录成功";
+		}else{
+			progressHUD.labelText = @"登录失败，请稍后再试";
+		}
+		progressHUD.mode = MBProgressHUDModeText;
+		[progressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(1);
+		} completionBlock:^{
+			[progressHUD removeFromSuperview];
+			progressHUD = nil;
+			if(removeMBProgressHUDBlock)
+				removeMBProgressHUDBlock();
+		}];
+	}
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -248,12 +324,41 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	return true;
 }
 
-- (void)signUpViewControllerDidPop:(BOOL)success {
-	if (success) {
-		[guidView setHidden:YES];
-		[loginView setHidden:NO];
+- (void)signUpViewControllerDidSuccess{
+	[guidView setHidden:YES];
+	[loginView setHidden:NO];
+}
+
+#pragma mark - Notification
+
+-(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+
+	//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
+
+	if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
+		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
+
+- (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}];
+
+	if (isSuccess) {
+		[_loginViewControllerDelegate loginViewControllerDidSuccess];
+	}
+	else {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		[passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
+	}
+}
+
 
 #pragma mark - Actions
 
@@ -279,6 +384,20 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 - (void)loginButtonAction:(id)sender {
+	if (userNameTextField.text.length <= 0) {
+		[userNameErrorLabel setText:@"手机号码不能为空"];
+		return;
+	}
+	[userNameErrorLabel setText:@""];
+
+	if (passwordTextField.text.length <= 0) {
+		[passwordErrorLabel setText:@"密码不能为空"];
+		return;
+	}
+	[passwordErrorLabel setText:@""];
+
+	[self showMBProgressHUD];
+	[MiaAPIHelper loginWithPhoneNum:userNameTextField.text password:passwordTextField.text];
 }
 
 @end
