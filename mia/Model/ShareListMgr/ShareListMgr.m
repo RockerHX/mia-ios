@@ -128,9 +128,10 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 //
 
 - (BOOL)saveChanges {
-	if (![NSKeyedArchiver archiveRootObject:self toFile:[ShareListMgr archivePath]]) {
+	NSString *fileName = [ShareListMgr archivePath];
+	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
 		NSLog(@"archive share list failed.");
-		if ([[NSFileManager defaultManager] removeItemAtPath:[ShareListMgr archivePath] error:nil]) {
+		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
 			NSLog(@"delete share list archive file.");
 		}
 		return NO;
@@ -143,7 +144,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
 
-	return [documentDirectory stringByAppendingString:@"sharelist.archive"];
+	return [documentDirectory stringByAppendingString:@"/sharelist.archive"];
 }
 
 //将对象编码(即:序列化)
