@@ -304,6 +304,39 @@
 	[[WebSocketMgr standard] send:jsonString];
 }
 
++ (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostFavorite forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:sID forKey:MiaAPIKey_ID];
+	if (isFavorite) {
+		// 期望的状态是已收藏，就添加收藏
+		[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Act];
+	} else {
+		[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Act];
+	}
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
 @end
 
 

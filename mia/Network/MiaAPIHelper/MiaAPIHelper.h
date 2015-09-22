@@ -23,4 +23,9 @@
 + (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password scode:(NSString *)scode;
 + (void)loginWithPhoneNum:(NSString *)phoneNumber password:(NSString *)password;
 
+/**
+* @param isFavorite 期望设置成的收藏状态
+*/
++ (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite;
+
 @end

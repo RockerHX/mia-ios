@@ -88,7 +88,7 @@ static const CGFloat kFavoriteHeight = 25;
 												 font:nil
 											  logoImg:nil
 									  backgroundImage:nil];
-	[favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
+	[favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
 	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:favoriteButton];
 
@@ -265,6 +265,14 @@ static const CGFloat kFavoriteHeight = 25;
 	return [loopPlayerView getCurrentPlayerView].shareItem;
 }
 
+- (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
+	if (isFavorite) {
+		[favoriteButton setImage:[UIImage imageNamed:@"favorite_red"] forState:UIControlStateNormal];
+	} else {
+		[favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
+	}
+}
+
 #pragma mark - Notification
 
 -(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
@@ -279,6 +287,8 @@ static const CGFloat kFavoriteHeight = 25;
 		[self handleInfectMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostSkipm]) {
 		[self handleSkipMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
+		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -346,6 +356,15 @@ static const CGFloat kFavoriteHeight = 25;
 - (void)handleSkipMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
 		NSLog(@"report skip music successed.");
+	} else {
+		NSLog(@"report skip music failed.");
+	}
+}
+
+- (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		_currentShareItem.favorite = !_currentShareItem.favorite;
+		[self updateShareButtonWithIsFavorite:_currentShareItem.favorite];
 	} else {
 		NSLog(@"report skip music failed.");
 	}
@@ -450,6 +469,8 @@ static const CGFloat kFavoriteHeight = 25;
 - (void)favoriteButtonAction:(id)sender {
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"favorite to profile page.");
+
+		[MiaAPIHelper favoriteMusicWithShareID:_currentShareItem.spID isFavorite:!_currentShareItem.favorite];
 	} else {
 		[_radioViewDelegate radioViewShouldLogin];
 	}
