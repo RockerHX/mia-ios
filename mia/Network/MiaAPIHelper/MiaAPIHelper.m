@@ -42,6 +42,7 @@ NSString * const MiaAPIKey_Address					= @"address";
 NSString * const MiaAPICommand_User_PostPauth		= @"User.Post.Pauth";
 NSString * const MiaAPIKey_Type						= @"type";
 NSString * const MiaAPIKey_PhoneNumber				= @"phone";
+NSString * const MiaAPIKey_IMEI						= @"imei";
 
 @interface MiaAPIHelper()
 
@@ -221,6 +222,7 @@ NSString * const MiaAPIKey_PhoneNumber				= @"phone";
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithLong:type] forKey:MiaAPIKey_Type];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
+	[dictValues setValue:@"iOS" forKey:MiaAPIKey_IMEI];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 

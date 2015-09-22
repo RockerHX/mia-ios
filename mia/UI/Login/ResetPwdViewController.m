@@ -11,6 +11,8 @@
 #import "MIALabel.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
+#import "MiaAPIHelper.h"
+#import "WebSocketMgr.h"
 
 @interface ResetPwdViewController () <UITextFieldDelegate>
 
@@ -32,10 +34,15 @@
 	int countdown;
 }
 
+-(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -307,6 +314,29 @@
 	return YES;
 }
 
+#pragma mark - Notification
+
+-(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+
+//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
+
+	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
+		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
+	}
+}
+
+- (void)handleGetVerificationCode:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		[self showErrorMsg:@"验证码已经发送"];
+	} else {
+		[self showErrorMsg:@"验证码发送失败，请重新获取"];
+		[self resetCountdown];
+	}
+}
+
+
 #pragma mark - keyboard
 
 - (void)moveUpViewForKeyboard {
@@ -364,6 +394,16 @@
 	}
 }
 
+- (BOOL)checkPhoneNumber {
+	NSString *str = userNameTextField.text;
+	if (str.length == 11
+		&& [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
+		return YES;
+	}
+
+	return NO;
+}
+
 # pragma mark - Timer Action
 
 - (void)requestVerificationCodeTimerAction {
@@ -392,6 +432,11 @@
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
+	if (![self checkPhoneNumber]) {
+		[self showErrorMsg:@"请输入正确的手机号码"];
+		return;
+	}
+
 	[msgView setHidden:YES];
 	[verificationCodeButton setEnabled:NO];
 

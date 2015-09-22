@@ -45,6 +45,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceivePong:) name:WebSocketMgrNotificationDidReceivePong object:nil];
+
+	[[WebSocketMgr standard] reconnect];
 }
 
 -(void)dealloc {
@@ -63,8 +65,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[[WebSocketMgr standard] reconnect];
-	self.title = @"Opening Connection...";
+//	[[WebSocketMgr standard] reconnect];
+//	self.title = @"Opening Connection...";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -79,7 +81,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[[WebSocketMgr standard] close];
+	//[[WebSocketMgr standard] close];
 	//[self.navigationController setNavigationBarHidden:NO animated:animated];
 	[super viewDidDisappear:animated];
 }

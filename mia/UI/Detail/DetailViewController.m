@@ -354,7 +354,7 @@ static const long kCommentPageItemCount			= 10;
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 
-	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
+//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
 		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];

@@ -269,7 +269,7 @@ static const CGFloat kFavoriteHeight = 25;
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 
-	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
+//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
 		[self handleGetNearbyFeedsWitRet:[ret intValue] userInfo:[notification userInfo]];

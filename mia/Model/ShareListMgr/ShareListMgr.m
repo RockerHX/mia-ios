@@ -128,9 +128,11 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 //
 
 - (BOOL)saveChanges {
-	// TODO
 	if (![NSKeyedArchiver archiveRootObject:self toFile:[ShareListMgr archivePath]]) {
-		NSLog(@"archive online share list failed.");
+		NSLog(@"archive share list failed.");
+		if ([[NSFileManager defaultManager] removeItemAtPath:[ShareListMgr archivePath] error:nil]) {
+			NSLog(@"delete share list archive file.");
+		}
 		return NO;
 	}
 

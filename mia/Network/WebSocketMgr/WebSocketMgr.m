@@ -59,6 +59,7 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 
 - (void)close
 {
+	NSLog(@"WebSocket closing");
 	[timer invalidate];
 
 	_webSocket.delegate = nil;

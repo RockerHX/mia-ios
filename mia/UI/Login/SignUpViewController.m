@@ -12,6 +12,7 @@
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
+#import "WebSocketMgr.h"
 
 @interface SignUpViewController () <UITextFieldDelegate>
 
@@ -34,10 +35,15 @@
 	int countdown;
 }
 
+-(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -335,6 +341,28 @@
 	return YES;
 }
 
+#pragma mark - Notification
+
+-(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+
+//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
+
+	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
+		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
+	}
+}
+
+- (void)handleGetVerificationCode:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		[self showErrorMsg:@"验证码已经发送"];
+	} else {
+		[self showErrorMsg:@"验证码发送失败，请重新获取"];
+		[self resetCountdown];
+	}
+}
+
 #pragma mark - keyboard
 
 - (void)moveUpViewForKeyboard {
@@ -429,6 +457,7 @@
 	// for test
 	//[self showErrorMsg:@"Opps!你输入的验证码错误，请重新获取验证码"];
 
+	[self handleGetVerificationCode:1 userInfo:nil];
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
