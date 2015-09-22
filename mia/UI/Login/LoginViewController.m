@@ -23,7 +23,7 @@ static const CGFloat kGuidButtonMarginLeft		= 30;
 static const CGFloat kSignInMarginBottom		= 50;
 static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHeight + 15;
 
-@interface LoginViewController () <UITextFieldDelegate>
+@interface LoginViewController () <UITextFieldDelegate, SignUpViewControllerDelegate>
 
 @end
 
@@ -248,6 +248,13 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	return true;
 }
 
+- (void)signUpViewControllerDidPop:(BOOL)success {
+	if (success) {
+		[guidView setHidden:YES];
+		[loginView setHidden:NO];
+	}
+}
+
 #pragma mark - Actions
 
 - (void)backButtonAction:(id)sender {
@@ -256,6 +263,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 - (void)signUpButtonAction:(id)sender {
 	SignUpViewController *vc = [[SignUpViewController alloc] init];
+	vc.signUpViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

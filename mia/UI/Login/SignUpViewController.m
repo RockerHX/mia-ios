@@ -9,10 +9,14 @@
 #import "SignUpViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUDHelp.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
+
+typedef void(^RemoveMBProgressHUDBlock)();
 
 @interface SignUpViewController () <UITextFieldDelegate>
 
@@ -33,6 +37,8 @@
 
 	NSTimer *verificationCodeTimer;
 	int countdown;
+
+	MBProgressHUD *progressHUD;
 }
 
 -(void)dealloc {
@@ -310,6 +316,44 @@
 	[msgView setHidden:YES];
 }
 
+/**
+ *  显示进度条
+ */
+- (void)showMBProgressHUD{
+	if(!progressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:progressHUD];
+		progressHUD.dimBackground = YES;
+		progressHUD.labelText = @"正在提交注册";
+		[progressHUD show:YES];
+	}
+}
+
+/**
+ *  移除进度条
+ *
+ *  @param isSuccess                是否提交成功
+ */
+- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(progressHUD){
+		if(isSuccess){
+			progressHUD.labelText = @"注册成功，请登录";
+		}else{
+			progressHUD.labelText = @"注册失败，请稍后再试";
+		}
+		progressHUD.mode = MBProgressHUDModeText;
+		[progressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(1);
+		} completionBlock:^{
+			[progressHUD removeFromSuperview];
+			progressHUD = nil;
+			if(removeMBProgressHUDBlock)
+				removeMBProgressHUDBlock();
+		}];
+	}
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -366,9 +410,18 @@
 }
 
 - (void)handleRegisterWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		[self showErrorMsg:@"注册成功，请登录"];
-	} else {
+	//BOOL isSuccess = (0 == ret);
+	BOOL isSuccess = YES;
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}];
+
+	if (isSuccess) {
+		[_signUpViewControllerDelegate signUpViewControllerDidPop:isSuccess];
+	}
+	else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		[self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
 	}
@@ -487,6 +540,7 @@
 	if (![self checkPasswordFormat])
 		return;
 
+	[self showMBProgressHUD];
 	[MiaAPIHelper registerWithPhoneNum:userNameTextField.text
 									 scode:verificationCodeTextField.text
 								  nickName:nickNameTextField.text

@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SignUpViewControllerDelegate
+
+- (void)signUpViewControllerDidPop:(BOOL)success;
+
+@end
 
 @interface SignUpViewController : UIViewController
+
+@property (weak, nonatomic)id<SignUpViewControllerDelegate> signUpViewControllerDelegate;
 
 @end
 
