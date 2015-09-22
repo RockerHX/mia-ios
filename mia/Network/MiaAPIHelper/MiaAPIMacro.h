@@ -9,6 +9,12 @@
 #ifndef MiaMusicAPIMacro_h
 #define MiaMusicAPIMacro_h
 
+static NSString * const UserDefaultsKey_UUID				= @"uuid";
+static NSString * const UserDefaultsKey_UserName			= @"name";
+static NSString * const UserDefaultsKey_PasswordHash		= @"hash";
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 static NSString * const MiaAPIProtocolVersion				= @"1";
 static NSString * const MiaAPIDefaultIMEI					= @"ios";
 
@@ -31,8 +37,6 @@ static NSString * const MiaAPIKey_ID						= @"id";
 
 static NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
 static NSString * const MiaAPIKey_GUID						= @"guid";
-
-static NSString * const UserDefaultsKey_UUID				= @"uuid";
 
 static NSString * const MiaAPICommand_User_PostInfectm		= @"User.Post.Infectm";
 static NSString * const MiaAPICommand_User_PostSkipm		= @"User.Post.Skipm";

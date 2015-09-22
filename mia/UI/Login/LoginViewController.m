@@ -19,6 +19,7 @@
 #import "MBProgressHUDHelp.h"
 #import "UserSession.h"
 #import "NSString+MD5.h"
+#import "UserDefaultsUtils.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
@@ -312,6 +313,14 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	}
 }
 
+- (void)saveAuthInfo {
+	NSString *userName = userNameTextField.text;
+	NSString *passwordHash = [NSString md5HexDigest:passwordTextField.text];
+
+	[UserDefaultsUtils saveValue:userName forKey:UserDefaultsKey_UserName];
+	[UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -346,11 +355,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 - (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	BOOL isSuccess = (0 == ret);
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}];
 
 	if (isSuccess) {
 		[[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
@@ -359,11 +363,17 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
 		[_loginViewControllerDelegate loginViewControllerDidSuccess];
-	}
-	else {
+	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		[passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
 	}
+
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+			[self saveAuthInfo];
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}];
 }
 
 

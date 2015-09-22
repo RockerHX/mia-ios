@@ -17,6 +17,8 @@
 #import "DetailViewController.h"
 #import "LoginViewController.h"
 #import "UserSession.h"
+#import "UserDefaultsUtils.h"
+#import "NSString+IsNull.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -192,7 +194,10 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	[[WebSocketMgr standard] sendPing:nil];
 }
 
-- (void)loadData {
+- (void)initData {
+	[MiaAPIHelper sendUUID];
+	[self autoLogin];
+
 	// TODO load的调用时机还需要考虑本地是否需要重新加载数据，可能可以用isLoading来判断
 	if ([_radioView isLoading]) {
 		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:3];
@@ -208,14 +213,23 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	}
 }
 
+- (void)autoLogin {
+	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
+	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
+	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+		return;
+	}
+
+	[MiaAPIHelper loginWithPhoneNum:userName passwordHash:passwordHash];
+}
+
 #pragma mark - Notification
 
--(void)notificationWebSocketDidOpen:(NSNotification *)notification {
-	[MiaAPIHelper sendUUID];
-	[self loadData];
-
+- (void)notificationWebSocketDidOpen:(NSNotification *)notification {
+	[self initData];
 }
--(void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
+
+- (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	// TODO linyehui
 	// 长连接初始化失败的时候需要有提示
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
@@ -226,12 +240,12 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	[alertView show];
 }
 
--(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	NSLog(@"%@", command);
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	//NSLog(@"%@", command);
 
 	if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
-		id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 		if ([ret intValue] != 0) {
 			// TODO linyehui
 			// 没有GUID的时候后续的获取信息都会失败
@@ -242,17 +256,34 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 													  otherButtonTitles:nil];
 			[alertView show];
 		}
+	} else if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
+		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 
 }
 
--(void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
+- (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	self.title = @"Connection Closed! (see logs)";
 }
 
--(void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
+- (void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
 //	NSLog(@"RadioViewController Websocket received pong");
 }
+
+- (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+
+	if (isSuccess) {
+		[[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+		[[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+	} else {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"audo login failed!error:%@", error);
+	}
+}
+
 #pragma mark - delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
