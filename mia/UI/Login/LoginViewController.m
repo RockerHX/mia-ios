@@ -17,6 +17,7 @@
 #import "WebSocketMgr.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
+#import "UserSession.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
@@ -351,6 +352,11 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	}];
 
 	if (isSuccess) {
+		[[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+		[[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+
 		[_loginViewControllerDelegate loginViewControllerDidSuccess];
 	}
 	else {

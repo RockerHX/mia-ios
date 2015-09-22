@@ -16,6 +16,7 @@
 #import "MIAButton.h"
 #import "DetailViewController.h"
 #import "LoginViewController.h"
+#import "UserSession.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -24,7 +25,7 @@ static NSString * kAlertTitleError			= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed	= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
 static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID失败），点击确认重新发送";
 
-@interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate>
+@interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) RadioView *radioView;
 
@@ -162,7 +163,12 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		.origin.y = kTopButtonMarginTop,
 		.size.width = kTopButtonWidth,
 		.size.height = kTopButtonHeight};
-	profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame titleString:@"" titleColor:[UIColor whiteColor] font:UIFontFromSize(15) logoImg:nil backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]]];
+	profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame
+										 titleString:@""
+										  titleColor:UIColorFromHex(@"206fff", 1.0)
+												font:UIFontFromSize(15)
+											 logoImg:nil
+									 backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]]];
 	[profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:profileButton];
 
@@ -190,6 +196,15 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	// TODO load的调用时机还需要考虑本地是否需要重新加载数据，可能可以用isLoading来判断
 	if ([_radioView isLoading]) {
 		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:3];
+	}
+}
+
+- (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
+	if (unreadCommentCount <= 0) {
+		[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]] forState:UIControlStateNormal];
+	} else {
+		[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile_with_notification"]] forState:UIControlStateNormal];
+		[profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
 
@@ -248,6 +263,15 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	}
 }
 
+- (void)loginViewControllerDidSuccess {
+	if ([[UserSession standard] isLogined]) {
+		int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+		if (unreadCommentCount > 0) {
+			[self updateProfileButtonWithUnreadCount:unreadCommentCount];
+		}
+	}
+}
+
 #pragma mark - RadioViewDelegate
 
 - (void)radioViewDidTouchBottom {
@@ -273,6 +297,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)profileButtonAction:(id)sender {
 	NSLog(@"profile button clicked");
 	LoginViewController *vc = [[LoginViewController alloc] init];
+	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
