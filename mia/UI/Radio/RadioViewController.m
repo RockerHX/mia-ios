@@ -266,9 +266,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)loginViewControllerDidSuccess {
 	if ([[UserSession standard] isLogined]) {
 		int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
-		if (unreadCommentCount > 0) {
-			[self updateProfileButtonWithUnreadCount:unreadCommentCount];
-		}
+		[self updateProfileButtonWithUnreadCount:unreadCommentCount];
 	}
 }
 
@@ -279,6 +277,12 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		return;
 	
 	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[_radioView currentShareItem]];
+	[self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)radioViewShouldLogin {
+	LoginViewController *vc = [[LoginViewController alloc] init];
+	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -295,10 +299,13 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 #pragma mark - Actions
 
 - (void)profileButtonAction:(id)sender {
-	NSLog(@"profile button clicked");
-	LoginViewController *vc = [[LoginViewController alloc] init];
-	vc.loginViewControllerDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
+	if ([[UserSession standard] isLogined]) {
+		NSLog(@"navigator to profile page.");
+	} else {
+		LoginViewController *vc = [[LoginViewController alloc] init];
+		vc.loginViewControllerDelegate = self;
+		[self.navigationController pushViewController:vc animated:YES];
+	}
 }
 
 - (void)shareButtonAction:(id)sender {

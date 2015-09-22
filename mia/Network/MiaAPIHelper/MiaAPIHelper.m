@@ -12,54 +12,6 @@
 #import "UserDefaultsUtils.h"
 #import "NSString+MD5.h"
 
-NSString * const MiaAPIProtocolVersion				= @"1";
-NSString * const MiaAPIDefaultIMEI					= @"ios";
-
-NSString * const MiaAPIKey_ServerCommand			= @"C";
-NSString * const MiaAPIKey_ClientCommand			= @"c";
-NSString * const MiaAPIKey_Version					= @"r";
-NSString * const MiaAPIKey_Timestamp				= @"s";
-NSString * const MiaAPIKey_Values					= @"v";
-NSString * const MiaAPIKey_Return					= @"ret";
-NSString * const MiaAPIKey_Error					= @"err";
-
-NSString * const MiaAPICommand_Music_GetNearby		= @"Music.Get.Nearby";
-NSString * const MiaAPIKey_Latitude					= @"latitude";
-NSString * const MiaAPIKey_Longitude				= @"longitude";
-NSString * const MiaAPIKey_Start					= @"start";
-NSString * const MiaAPIKey_Item						= @"item";
-
-NSString * const MiaAPICommand_Music_GetMcomm		= @"Music.Get.Mcomm";
-NSString * const MiaAPIKey_ID						= @"id";
-
-NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
-NSString * const MiaAPIKey_GUID						= @"guid";
-
-NSString * const UserDefaultsKey_UUID				= @"uuid";
-
-NSString * const MiaAPICommand_User_PostInfectm		= @"User.Post.Infectm";
-NSString * const MiaAPICommand_User_PostSkipm		= @"User.Post.Skipm";
-NSString * const MiaAPIKey_spID						= @"spID";
-NSString * const MiaAPIKey_Address					= @"address";
-
-NSString * const MiaAPICommand_User_PostPauth		= @"User.Post.Pauth";
-NSString * const MiaAPIKey_Type						= @"type";
-NSString * const MiaAPIKey_PhoneNumber				= @"phone";
-NSString * const MiaAPIKey_IMEI						= @"imei";
-
-NSString * const MiaAPICommand_User_PostRegister	= @"User.Post.Register";
-NSString * const MiaAPIKey_SCode					= @"scode";
-NSString * const MiaAPIKey_NickName					= @"nick";
-NSString * const MiaAPIKey_Password					= @"pass";
-
-NSString * const MiaAPICommand_User_PostLogin		= @"User.Post.Login";
-NSString * const MiaAPIKey_Pwd						= @"pwd";
-NSString * const MiaAPIKey_Dev						= @"dev";
-
-NSString * const MiaAPICommand_User_PostChangePwd	= @"User.Post.Cpwd";
-NSString * const MiaAPIKey_OldPwd					= @"opwd";
-NSString * const MiaAPIKey_NewPwd					= @"npwd";
-
 @interface MiaAPIHelper()
 
 @end

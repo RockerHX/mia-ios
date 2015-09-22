@@ -18,6 +18,8 @@
 #import "WebSocketMgr.h"
 #import "ShareItem.h"
 #import "LoopPlayerView.h"
+#import "UserSession.h"
+#import "LoginViewController.h"
 
 static const CGFloat kPlayerMarginTop			= 90;
 static const CGFloat kPlayerHeight				= 300;
@@ -446,7 +448,11 @@ static const CGFloat kFavoriteHeight = 25;
 #pragma mark - Actions
 
 - (void)favoriteButtonAction:(id)sender {
-	NSLog(@"favoriteButtonAction");
+	if ([[UserSession standard] isLogined]) {
+		NSLog(@"favorite to profile page.");
+	} else {
+		[_radioViewDelegate radioViewShouldLogin];
+	}
 }
 
 - (void)bottomViewTouchAction:(id)sender {

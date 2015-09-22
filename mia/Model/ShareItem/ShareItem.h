@@ -24,6 +24,7 @@
 @property (strong, nonatomic) MusicItem *music;
 
 @property (assign, nonatomic) BOOL unread;
+@property (assign, nonatomic) BOOL favorite;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 

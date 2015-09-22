@@ -6,20 +6,7 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-extern NSString * const MiaAPIKey_ServerCommand;
-extern NSString * const MiaAPIKey_Values;
-extern NSString * const MiaAPIKey_Return;
-extern NSString * const MiaAPIKey_Error;
-
-extern NSString * const MiaAPICommand_Music_GetNearby;
-extern NSString * const MiaAPICommand_Music_GetMcomm;
-extern NSString * const MiaAPICommand_User_PostGuest;
-extern NSString * const MiaAPICommand_User_PostInfectm;
-extern NSString * const MiaAPICommand_User_PostSkipm;
-extern NSString * const MiaAPICommand_User_PostPauth;
-extern NSString * const MiaAPICommand_User_PostRegister;
-extern NSString * const MiaAPICommand_User_PostLogin;
-extern NSString * const MiaAPICommand_User_PostChangePwd;
+#import "MiaAPIMacro.h"
 
 @interface MiaAPIHelper : NSObject
 

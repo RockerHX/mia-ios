@@ -253,6 +253,7 @@
 		39BF8C571BB0F801003AB4FC /* MBProgressHUDHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUDHelp.m; sourceTree = "<group>"; };
 		39BF8C5A1BB13350003AB4FC /* UserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSession.h; sourceTree = "<group>"; };
 		39BF8C5B1BB13350003AB4FC /* UserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSession.m; sourceTree = "<group>"; };
+		39BF8C5D1BB14244003AB4FC /* MiaAPIMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIMacro.h; sourceTree = "<group>"; };
 		39CA06061BAD67CC0074FD13 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		39CA06071BAD67CC0074FD13 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
 		39CA06081BAD67CC0074FD13 /* default_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default_cover@2x.jpg"; sourceTree = "<group>"; };
@@ -351,6 +352,7 @@
 		397E42831BA6EC37006BE9E7 /* MiaAPIHelper */ = {
 			isa = PBXGroup;
 			children = (
+				39BF8C5D1BB14244003AB4FC /* MiaAPIMacro.h */,
 				397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */,
 				397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */,
 			);

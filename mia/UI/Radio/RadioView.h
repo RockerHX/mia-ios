@@ -10,6 +10,7 @@
 
 @protocol RadioViewDelegate
 - (void)radioViewDidTouchBottom;
+- (void)radioViewShouldLogin;
 @end
 
 @class ShareItem;
