@@ -85,7 +85,7 @@
 
 	coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
 	[coverImageView sd_setImageWithURL:nil
-					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
+					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 	[self addSubview:coverImageView];
 
 	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
@@ -276,7 +276,7 @@
 	_shareItem = item;
 
 	[coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
-					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
+					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 
 	[musicNameLabel setText:[[item music] name]];
 	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];

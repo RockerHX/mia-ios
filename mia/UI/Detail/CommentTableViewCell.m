@@ -75,7 +75,7 @@ static const CGFloat kCommentMarginTop									= 25;
 	_titleLabel.text = item.userName;
 	_commentLabel.text = item.comment;
 	[_logoImageView sd_setImageWithURL:[NSURL URLWithString:item.userAvatar]
-					  placeholderImage:[UIImage imageNamed:@"default_cover.jpg"]];
+					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 }
 
 - (void)awakeFromNib
