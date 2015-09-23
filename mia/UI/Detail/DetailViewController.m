@@ -22,7 +22,7 @@ static const CGFloat kEditViewMarginLeft 		= 15;
 static const CGFloat kEditViewMarginRight 		= 15;
 static const CGFloat kEditViewMarginBottom 		= 15;
 static const CGFloat kEditViewHeight			= 41;
-static const CGFloat SUREORCANCLEVIEW_HEIGHT    = 50.0f;
+
 static const long kCommentDefaultStart			= 0;
 static const long kCommentPageItemCount			= 10;
 
@@ -120,7 +120,7 @@ static const long kCommentPageItemCount			= 10;
 	scrollView.alwaysBounceVertical = YES;
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-	//scrollView.backgroundColor = [UIColor yellowColor];
+	scrollView.backgroundColor = [UIColor yellowColor];
 	[self.view addSubview:scrollView];
 
 	static const CGFloat kPlayerMarginTop			= 0;

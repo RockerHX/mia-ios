@@ -19,6 +19,7 @@
 #import "UserSession.h"
 #import "UserDefaultsUtils.h"
 #import "NSString+IsNull.h"
+#import "ProfileViewController.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -337,6 +338,8 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)profileButtonAction:(id)sender {
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"navigator to profile page.");
+		ProfileViewController *vc = [[ProfileViewController alloc] init];
+		[self.navigationController pushViewController:vc animated:YES];
 	} else {
 		LoginViewController *vc = [[LoginViewController alloc] init];
 		vc.loginViewControllerDelegate = self;
