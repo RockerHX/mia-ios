@@ -12,7 +12,6 @@
 #import "UIImage+Extrude.h"
 #import "DetailPlayerView.h"
 #import "CommentTableView.h"
-#import "MIAGrowingTextView.h"
 #import "NSString+Emoji.h"
 #import "NSString+IsNull.h"
 #import "MiaAPIHelper.h"
@@ -27,7 +26,7 @@ static const CGFloat SUREORCANCLEVIEW_HEIGHT    = 50.0f;
 static const long kCommentDefaultStart			= 0;
 static const long kCommentPageItemCount			= 10;
 
-@interface DetailViewController () <UIActionSheetDelegate, MIAGrowingTextViewDelegate>
+@interface DetailViewController () <UIActionSheetDelegate>
 
 @end
 
@@ -36,7 +35,7 @@ static const long kCommentPageItemCount			= 10;
 	DetailPlayerView *playerView;
 	CommentTableView *commentTableView;
 	UIView *editView;
-    MIAGrowingTextView *_customBetTextView;
+	UITextField *commentTextField;
 	MIAButton *commentButton;
 
 	ShareItem *currentItem;
@@ -110,7 +109,7 @@ static const long kCommentPageItemCount			= 10;
 - (void)initUI {
 	static NSString *kDetailTitle = @"详情页";
 	self.title = kDetailTitle;
-	[self.view setBackgroundColor:[UIColor redColor]];
+	//[self.view setBackgroundColor:[UIColor redColor]];
 	[self initBarButton];
 
 	scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
@@ -171,23 +170,8 @@ static const long kCommentPageItemCount			= 10;
 															   scrollView.bounds.size.height - kEditViewMarginBottom - kEditViewHeight,
 															   scrollView.bounds.size.width - kEditViewMarginLeft - kEditViewMarginRight,
 																kEditViewHeight)];
-	//editView.backgroundColor = [UIColor redColor];
+	editView.backgroundColor = [UIColor redColor];
 	[scrollView addSubview:editView];
-
-	_customBetTextView = [[MIAGrowingTextView alloc] initWithFrame:editView.bounds textColor:[UIColor blackColor]];
-	_customBetTextView.minNumberOfLines = 1;
-	_customBetTextView.maxNumberOfLines = 3;
-	_customBetTextView.returnKeyType = UIReturnKeyDone;
-	_customBetTextView.font = [UIFont systemFontOfSize:15.0f];
-	_customBetTextView.delegate = self;
-	_customBetTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	_customBetTextView.layer.cornerRadius = 5.0;
-	_customBetTextView.layer.masksToBounds = YES;
-	_customBetTextView.layer.borderWidth = 1.0f;
-	_customBetTextView.layer.borderColor = [UIColor grayColor].CGColor;
-	_customBetTextView.hidden = YES;
-	[editView addSubview:_customBetTextView];
-
 
 	CGRect commentButtonFrame = editView.bounds;
 	commentButton = [[MIAButton alloc] initWithFrame:commentButtonFrame
@@ -222,130 +206,6 @@ static const long kCommentPageItemCount			= 10;
 		}];
 
 	}
-}
-
-#pragma MIAGrowingTextView delegate
-- (void)growingTextView:(MIAGrowingTextView *)growingTextView willChangeHeight:(float)height{
-
-}
-
-- (BOOL)growingTextView:(MIAGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-	if ([text isEqualToString:@"\n"]) {
-		[self hideKeyBoard];
-		return NO;
-	}
-
-	if (range.location >= 50 || [NSString isContainsEmoji:text])
-		return NO;
-	else
-		return YES;
-}
-
-
-- (void)growingTextViewDidBeginEditing:(MIAGrowingTextView *)growingTextView{
-	if(growingTextView == _customBetTextView){
-		_customBetTextView.minNumberOfLines = 3;
-		//[_betTipLabel setHidden:YES];
-		[UIView animateWithDuration:0.4 animations:^{
-//			allBetPunishsView.alpha = 0.0f;
-//			sureBetButton.alpha = 0.0f;
-			CGRect editViewFrame = editView.frame;
-			// for test
-			editViewFrame.origin.y -= 200;
-			_customBetTextView.frame = editViewFrame;
-		} completion:^(BOOL finished) {
-			if(finished){
-				CGRect textViewFrame = _customBetTextView.frame;
-				textViewFrame.size.height += kEditViewHeight * 2;
-				_customBetTextView.frame = textViewFrame;
-			}
-		}];
-	}
-}
-
-- (void)growingTextViewDidEndEditing:(MIAGrowingTextView *)growingTextView{
-
-}
-
-//- (void)growingTextViewDidChange:(MIAGrowingTextView *)growingTextView{
-//	NSString *text = [growingTextView text];
-//	BOOL isHide = NO;
-//	if([NSString isNull:text] && allBetPunishsView.alpha != 0){
-//		isHide = NO;
-//	}else{
-//		isHide = YES;
-//	}
-//	[_betTipLabel setHidden:isHide];
-//}
-
-/*
- *   处理隐藏键盘
- */
--(void)hideKeyBoard{
-	[_customBetTextView resignFirstResponder];
-	_customBetTextView.minNumberOfLines = 1;
-	[UIView animateWithDuration:0.4f animations:^{
-//		CGRect frame = sureOrCancleView.frame;
-//		frame.origin.y += keyboardSize.height + SUREORCANCLEVIEW_HEIGHT;
-//		sureOrCancleView.frame = frame;
-//
-//		allBetPunishsView.alpha = 1.0;
-//		sureBetButton.alpha = 1.0;
-//
-//		CGRect textFrame = _customBetTextView.frame;
-//		if([NSString isNull:_customBetTextView.text]){
-//			textFrame.origin.y += allBetPunishsView.frame.size.height + 10.0f;
-//		}else{
-//			textFrame.origin.y += allBetPunishsView.frame.size.height - BETBUTTON_SPAC;
-//		}
-//		textFrame.size.height -= TEXTVIEW_HEIGHT * 2;
-//		_customBetTextView.frame = textFrame;
-
-	} completion:^(BOOL finished) {
-		//oldSureOrCancleViewToMove = 0;
-	}];
-}
-
-/*
- *   即将显示键盘的处理
- */
--(void)keyBoardWillShow:(NSNotification *)notification{
-	NSDictionary *info = [notification userInfo];
-	//获取当前显示的键盘高度
-	keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
-	//获取当前键盘与上一次键盘的高度差
-	CGFloat sureOrCancleViewToMove = keyboardSize.height - oldSureOrCancleViewToMove + SUREORCANCLEVIEW_HEIGHT;
-	[self keyboardToMoveView:sureOrCancleViewToMove isUp:YES];
-	oldSureOrCancleViewToMove = sureOrCancleViewToMove;
-
-}
-
--(void)keyboardToMoveView:(int)sureOrCancleViewToMove isUp:(BOOL)isUp{
-	[UIView animateWithDuration:0.3f animations:^{
-		CGRect sureOrCancleViewFrame = [sureOrCancleView frame];
-		if(isUp){
-			sureOrCancleViewFrame.origin.y -= sureOrCancleViewToMove;
-		}else{
-			sureOrCancleViewFrame.origin.y += sureOrCancleViewToMove;
-		}
-		[sureOrCancleView setFrame:sureOrCancleViewFrame];
-	} completion:^(BOOL finished) {
-
-	}];
-}
-
--(void)keyBoardWillHide:(NSNotification *)notification{
-	//    [self resumnView:NO];
-}
-
-
-/*
- *   还原输入框的位置
- */
--(void)resumnView:(BOOL)isReloadTable{
-	CGFloat sureOrCancleViewToMove = keyboardSize.height + SUREORCANCLEVIEW_HEIGHT;
-	[self keyboardToMoveView:sureOrCancleViewToMove isUp:NO];
-	oldSureOrCancleViewToMove = 0;
 }
 
 #pragma mark - Notification
@@ -393,9 +253,6 @@ static const long kCommentPageItemCount			= 10;
 
 - (void)commentButtonAction:(id)sender {
 	NSLog(@"comment button clicked.");
-	[commentButton setHidden:YES];
-	[_customBetTextView setHidden:NO];
-	[_customBetTextView becomeFirstResponder];
 }
 
 @end

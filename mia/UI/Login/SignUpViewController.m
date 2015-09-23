@@ -299,7 +299,7 @@
 
 
 	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kLogoMarginLeft, kLogoMarginTop, kLogoWidth, kLogoHeight)];
-	[logoImageView setImage:[UIImage imageNamed:@"comments"]];
+	[logoImageView setImage:[UIImage imageNamed:@"info"]];
 	[msgView addSubview:logoImageView];
 
 	msgLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMsgLabelMarginLeft,

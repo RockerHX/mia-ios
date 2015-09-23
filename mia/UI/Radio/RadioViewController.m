@@ -195,7 +195,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 }
 
 - (void)initData {
-	[MiaAPIHelper sendUUID];
 	[self autoLogin];
 
 	// TODO load的调用时机还需要考虑本地是否需要重新加载数据，可能可以用isLoading来判断
@@ -226,7 +225,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 #pragma mark - Notification
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
-	[self initData];
+	[MiaAPIHelper sendUUID];
 }
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
@@ -246,16 +245,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	//NSLog(@"%@", command);
 
 	if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
-		if ([ret intValue] != 0) {
-			// TODO linyehui
-			// 没有GUID的时候后续的获取信息都会失败
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-																message:kAlertMsgSendGUIDFailed
-															   delegate:self
-													  cancelButtonTitle:@"确定"
-													  otherButtonTitles:nil];
-			[alertView show];
-		}
+		[self handlePostGuestWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
@@ -268,6 +258,21 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 - (void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
 //	NSLog(@"RadioViewController Websocket received pong");
+}
+
+- (void)handlePostGuestWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (ret != 0) {
+		// TODO linyehui
+		// 没有GUID的时候后续的获取信息都会失败
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+															message:kAlertMsgSendGUIDFailed
+														   delegate:self
+												  cancelButtonTitle:@"确定"
+												  otherButtonTitles:nil];
+		[alertView show];
+	} else {
+		[self initData];
+	}
 }
 
 - (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
