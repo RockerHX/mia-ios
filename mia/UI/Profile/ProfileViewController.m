@@ -10,7 +10,6 @@
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "UIImageView+WebCache.h"
-#import "UIImageView+BlurredImage.h"
 #import "ProfileCollectionViewCell.h"
 #import "ProfileHeaderView.h"
 #import "MiaAPIHelper.h"

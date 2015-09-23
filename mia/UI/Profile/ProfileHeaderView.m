@@ -11,6 +11,7 @@
 #import "MIAButton.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
+#import "UIImage+Extrude.h"
 
 
 @implementation ProfileHeaderView {
@@ -45,8 +46,8 @@
 
 - (void)initCoverView:(UIView *)coverView {
 	UIImageView *coverImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
-	//[coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
-	[coverImageView setImageToBlur:[UIImage imageNamed:@"default_cover"] blurRadius:6.0 completionBlock:nil];
+	UIImage *bannerImage = [self getBannerImageFromCover:[UIImage imageNamed:@"default_cover"] containerSize:coverView.bounds.size];
+	[coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
 	[coverView addSubview:coverImageView];
 	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"profile_banner_mask"]];
@@ -190,6 +191,25 @@
 									   textAlignment:NSTextAlignmentCenter
 												  numberLines:1];
 	[self addSubview:wifiTipsLabel];
+}
+
+- (UIImage *)getBannerImageFromCover:(UIImage *)orgImage containerSize:(CGSize)containerSize {
+
+	NSLog(@"%f, %f, scale:%f", orgImage.size.width, orgImage.size.height, orgImage.scale);
+	CGFloat cutHeight = containerSize.height * orgImage.size.width / containerSize.width;
+	if (cutHeight <= 0.0) {
+		cutHeight = orgImage.size.height / 3;
+	}
+
+	CGFloat cutY = orgImage.size.height / 2 - cutHeight / 2;
+	if (cutY <= 0.0) {
+		cutY = 0.0;
+	}
+
+	return [orgImage getSubImage:CGRectMake(0.0,
+											cutY,
+											orgImage.size.width * orgImage.scale,
+											cutHeight * orgImage.scale)];
 }
 
 #pragma mark - button Actions
