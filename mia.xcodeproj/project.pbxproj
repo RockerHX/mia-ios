@@ -84,9 +84,7 @@
 		39BF8C611BB148DC003AB4FC /* favorite_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C5F1BB148DC003AB4FC /* favorite_white@2x.png */; };
 		39BF8C631BB23517003AB4FC /* default_cover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C621BB23517003AB4FC /* default_cover@2x.png */; };
 		39BF8C651BB24A12003AB4FC /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C641BB24A12003AB4FC /* info@2x.png */; };
-		39BF8C6F1BB268B4003AB4FC /* FavoriteBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C681BB268B4003AB4FC /* FavoriteBarView.m */; };
-		39BF8C701BB268B4003AB4FC /* ProfileTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6A1BB268B4003AB4FC /* ProfileTableView.m */; };
-		39BF8C711BB268B4003AB4FC /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6C1BB268B4003AB4FC /* ProfileTableViewCell.m */; };
+		39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6C1BB268B4003AB4FC /* ProfileCollectionViewCell.m */; };
 		39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6E1BB268B4003AB4FC /* ProfileViewController.m */; };
 		39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C731BB26E92003AB4FC /* setting@2x.png */; };
 		39CA06121BAD67CC0074FD13 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06061BAD67CC0074FD13 /* back@2x.png */; };
@@ -265,12 +263,8 @@
 		39BF8C5F1BB148DC003AB4FC /* favorite_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_white@2x.png"; sourceTree = "<group>"; };
 		39BF8C621BB23517003AB4FC /* default_cover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_cover@2x.png"; sourceTree = "<group>"; };
 		39BF8C641BB24A12003AB4FC /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
-		39BF8C671BB268B4003AB4FC /* FavoriteBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteBarView.h; sourceTree = "<group>"; };
-		39BF8C681BB268B4003AB4FC /* FavoriteBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteBarView.m; sourceTree = "<group>"; };
-		39BF8C691BB268B4003AB4FC /* ProfileTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableView.h; sourceTree = "<group>"; };
-		39BF8C6A1BB268B4003AB4FC /* ProfileTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableView.m; sourceTree = "<group>"; };
-		39BF8C6B1BB268B4003AB4FC /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
-		39BF8C6C1BB268B4003AB4FC /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
+		39BF8C6B1BB268B4003AB4FC /* ProfileCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileCollectionViewCell.h; sourceTree = "<group>"; };
+		39BF8C6C1BB268B4003AB4FC /* ProfileCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCollectionViewCell.m; sourceTree = "<group>"; };
 		39BF8C6D1BB268B4003AB4FC /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		39BF8C6E1BB268B4003AB4FC /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		39BF8C731BB26E92003AB4FC /* setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting@2x.png"; sourceTree = "<group>"; };
@@ -875,12 +869,8 @@
 		39BF8C661BB268B4003AB4FC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				39BF8C671BB268B4003AB4FC /* FavoriteBarView.h */,
-				39BF8C681BB268B4003AB4FC /* FavoriteBarView.m */,
-				39BF8C691BB268B4003AB4FC /* ProfileTableView.h */,
-				39BF8C6A1BB268B4003AB4FC /* ProfileTableView.m */,
-				39BF8C6B1BB268B4003AB4FC /* ProfileTableViewCell.h */,
-				39BF8C6C1BB268B4003AB4FC /* ProfileTableViewCell.m */,
+				39BF8C6B1BB268B4003AB4FC /* ProfileCollectionViewCell.h */,
+				39BF8C6C1BB268B4003AB4FC /* ProfileCollectionViewCell.m */,
 				39BF8C6D1BB268B4003AB4FC /* ProfileViewController.h */,
 				39BF8C6E1BB268B4003AB4FC /* ProfileViewController.m */,
 			);
@@ -1122,7 +1112,6 @@
 				39BCADD01BA02F3100C6F7F2 /* SDWebImagePrefetcher.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				39BCADCE1BA02F3100C6F7F2 /* SDWebImageDownloaderOperation.m in Sources */,
-				39BF8C701BB268B4003AB4FC /* ProfileTableView.m in Sources */,
 				390BADBF1BAEB375006269FD /* CommentTableViewCell.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
@@ -1132,7 +1121,6 @@
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
-				39BF8C6F1BB268B4003AB4FC /* FavoriteBarView.m in Sources */,
 				39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -1185,7 +1173,7 @@
 				397E42CE1BA90812006BE9E7 /* NSData+Base64.m in Sources */,
 				39BCADD11BA02F3100C6F7F2 /* UIButton+WebCache.m in Sources */,
 				39CA062C1BADBD6C0074FD13 /* DetailPlayerView.m in Sources */,
-				39BF8C711BB268B4003AB4FC /* ProfileTableViewCell.m in Sources */,
+				39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */,
 				397FA5331BAC0CA7003FD186 /* MIATexAlertView.m in Sources */,
 				39CA063A1BAEA1A40074FD13 /* CommentItem.m in Sources */,
 			);
