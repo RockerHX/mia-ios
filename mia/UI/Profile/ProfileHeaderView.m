@@ -28,24 +28,34 @@
 
 - (void)initUI {
 	static const CGFloat kCoverMarginTop = 44;
-	static const CGFloat kPlayButtonMarginRight = 76;
-	static const CGFloat kPlayButtonMarginTop = 109;
-	static const CGFloat kPlayButtonWidth = 40;
 
 	CGRect coverFrame = CGRectMake(0,
 								   kCoverMarginTop,
 								   self.frame.size.width,
 								   self.frame.size.height - kCoverMarginTop * 2);
-	UIImageView *coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
+
+	UIView *coverView = [[UIView alloc] initWithFrame:coverFrame];
+	[self initCoverView:coverView];
+	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverMaskTouchAction:)];
+	[coverView addGestureRecognizer:tap];
+	[self addSubview:coverView];
+
+	[self initSubTitles];
+}
+
+- (void)initCoverView:(UIView *)coverView {
+	UIImageView *coverImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
 	//[coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
 	[coverImageView setImageToBlur:[UIImage imageNamed:@"default_cover"] blurRadius:6.0 completionBlock:nil];
-	[self addSubview:coverImageView];
-	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:coverFrame];
+	[coverView addSubview:coverImageView];
+	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"cover_mask"]];
-	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverMaskTouchAction:)];
-	[coverMaskImageView addGestureRecognizer:tap];
-	[self addSubview:coverMaskImageView];
+	[coverView addSubview:coverMaskImageView];
 
+
+	static const CGFloat kPlayButtonMarginRight = 76;
+	static const CGFloat kPlayButtonMarginTop = 65;
+	static const CGFloat kPlayButtonWidth = 40;
 
 	MIAButton *playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
 																		kPlayButtonMarginTop,
@@ -58,19 +68,19 @@
 											 backgroundImage:nil];
 	[playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:playButton];
+	[coverView addSubview:playButton];
 
 	const static CGFloat kFavoriteCountLabelMarginRight		= 220;
-	const static CGFloat kFavoriteCountLabelMarginTop		= 108;
+	const static CGFloat kFavoriteCountLabelMarginTop		= 64;
 	const static CGFloat kFavoriteCountLabelHeight			= 38;
 
 	static const CGFloat kFavoriteMiddleLabelMarginRight 	= 120;
-	static const CGFloat kFavoriteMiddleLabelMarginTop 		= 108;
+	static const CGFloat kFavoriteMiddleLabelMarginTop 		= 64;
 	static const CGFloat kFavoriteMiddleLabelWidth 			= 100;
 	static const CGFloat kFavoriteMiddleLabelHeight 		= 20;
 
 	static const CGFloat kCachedCountLabelMarginRight 		= 120;
-	static const CGFloat kCachedCountLabelMarginTop 		= 130;
+	static const CGFloat kCachedCountLabelMarginTop 		= 86;
 	static const CGFloat kCachedCountLabelWidth 			= 100;
 	static const CGFloat kCachedCountLabelHeight 			= 20;
 
@@ -84,7 +94,7 @@
 													 textAlignment:NSTextAlignmentRight
 													   numberLines:1];
 	//favoriteCountLabel.backgroundColor = [UIColor blueColor];
-	[self addSubview:favoriteCountLabel];
+	[coverView addSubview:favoriteCountLabel];
 
 	MIALabel *favoriteMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kFavoriteMiddleLabelMarginRight - kFavoriteMiddleLabelWidth,
 																			   kFavoriteMiddleLabelMarginTop,
@@ -96,7 +106,7 @@
 													  textAlignment:NSTextAlignmentRight
 														numberLines:1];
 	//favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
-	[self addSubview:favoriteMiddleLabel];
+	[coverView addSubview:favoriteMiddleLabel];
 
 	MIALabel *cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kCachedCountLabelMarginRight - kCachedCountLabelWidth,
 																			kCachedCountLabelMarginTop,
@@ -108,7 +118,10 @@
 													  textAlignment:NSTextAlignmentLeft
 														numberLines:1];
 	//cachedCountLabel.backgroundColor = [UIColor greenColor];
-	[self addSubview:cachedCountLabel];
+	[coverView addSubview:cachedCountLabel];
+}
+
+- (void)initSubTitles {
 
 	const static CGFloat kFavoriteIconMarginLeft	= 15;
 	const static CGFloat kFavoriteIconMarginTop		= 15;
