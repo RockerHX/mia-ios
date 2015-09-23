@@ -49,7 +49,7 @@
 	[coverImageView setImageToBlur:[UIImage imageNamed:@"default_cover"] blurRadius:6.0 completionBlock:nil];
 	[coverView addSubview:coverImageView];
 	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
-	[coverMaskImageView setImage:[UIImage imageNamed:@"cover_mask"]];
+	[coverMaskImageView setImage:[UIImage imageNamed:@"profile_banner_mask"]];
 	[coverView addSubview:coverMaskImageView];
 
 

@@ -35,6 +35,9 @@ static NSString * const MiaAPIKey_Item						= @"item";
 static NSString * const MiaAPICommand_Music_GetMcomm		= @"Music.Get.Mcomm";
 static NSString * const MiaAPIKey_ID						= @"id";
 
+static NSString * const MiaAPICommand_Music_GetShlist		= @"Music.Get.Shlist";
+static NSString * const MiaAPIKey_UID						= @"uid";
+
 static NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
 static NSString * const MiaAPIKey_GUID						= @"guid";
 
@@ -63,5 +66,6 @@ static NSString * const MiaAPIKey_NewPwd					= @"npwd";
 
 static NSString * const MiaAPICommand_User_PostFavorite		= @"User.Post.Star";
 static NSString * const MiaAPIKey_Act						= @"act";
+
 
 #endif // MiaMusicAPIMacro_h

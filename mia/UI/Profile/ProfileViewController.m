@@ -13,12 +13,17 @@
 #import "UIImageView+BlurredImage.h"
 #import "ProfileCollectionViewCell.h"
 #import "ProfileHeaderView.h"
+#import "MiaAPIHelper.h"
+#import "WebSocketMgr.h"
+#import "UserSession.h"
+#import "ProfileShareModel.h"
 
 static NSString * const kProfileCellReuseIdentifier = @"ProfileCellId";
 static NSString * const kProfileHeaderReuseIdentifier = @"ProfileHeaderId";
-static const CGFloat kProfileItemMarginH = 10;
-static const CGFloat kProfileItemMarginV = 10;
-static const CGFloat kProfileHeight = 240;
+
+static const CGFloat kProfileItemMarginH 	= 10;
+static const CGFloat kProfileItemMarginV 	= 10;
+static const CGFloat kProfileHeight 		= 240;
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -26,15 +31,20 @@ static const CGFloat kProfileHeight = 240;
 
 @implementation ProfileViewController {
 	UICollectionView *mainCollectionView;
+	ProfileShareModel *shareListModel;
 }
 
 -(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
+	[self initData];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,8 +84,7 @@ static const CGFloat kProfileHeight = 240;
 }
 
 - (void)initUI {
-	static NSString *kProfileTitle = @"Profile";
-	self.title = kProfileTitle;
+	self.title = [[UserSession standard] nick];
 	[self initBarButton];
 
 //	ProfileTableView *tableView = [[ProfileTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -137,6 +146,17 @@ static const CGFloat kProfileHeight = 240;
 	[headerView addSubview:profileHeaderView];
 }
 
+- (void)initData {
+	static const long kShareListPageStart = 1;
+	static const long kShareListPageCount = 10;
+
+	shareListModel = [[ProfileShareModel alloc] init];
+
+	// for test
+	//[MiaAPIHelper getShareListWithUID:[[UserSession standard] uid] start:kShareListPageStart item:kShareListPageCount];
+	[MiaAPIHelper getShareListWithUID:@"106" start:kShareListPageStart item:kShareListPageCount];
+}
+
 #pragma mark - delegate
 
 #pragma mark collectionView代理方法
@@ -148,14 +168,13 @@ static const CGFloat kProfileHeight = 240;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return 9;
+	return shareListModel.dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
 																											 forIndexPath:indexPath];
-	cell.botlabel.text = [NSString stringWithFormat:@"{%ld,%ld}",(long)indexPath.section,(long)indexPath.row];
-	cell.backgroundColor = [UIColor yellowColor];
+	cell.shareItem = shareListModel.dataSource[indexPath.row];
 
 	return cell;
 }
@@ -207,11 +226,30 @@ static const CGFloat kProfileHeight = 240;
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	NSString *msg = cell.botlabel.text;
+	NSString *msg = cell.shareItem.music.name;
 	NSLog(@"%@",msg);
 }
 
 #pragma mark - Notification
+
+- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	//NSLog(@"%@", command);
+
+	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
+		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
+	}
+}
+
+- (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	NSArray *shareList = userInfo[@"v"][@"info"];
+	if (!shareList)
+		return;
+
+	[shareListModel addSharesWithArray:shareList];
+	[mainCollectionView reloadData];
+}
 
 
 #pragma mark - button Actions

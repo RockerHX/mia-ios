@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShareItem.h"
 
 @interface ProfileCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic) UIImageView *topImage;
-
-@property (strong, nonatomic) UILabel *botlabel;
+@property (strong, nonatomic) ShareItem *shareItem;
 
 @end
