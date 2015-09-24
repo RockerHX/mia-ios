@@ -163,10 +163,14 @@
  *
  */
 -(UIImage *)getSubImage:(CGRect)rect{
-    CGImageRef subImageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
+    CGImageRef subImageRef = CGImageCreateWithImageInRect(self.CGImage,
+														  CGRectMake(rect.origin.x,
+																	 rect.origin.y,
+																	 rect.size.width * self.scale,
+																	 rect.size.height * self.scale));
     CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));
     
-//    UIGraphicsBeginImageContext(smallBounds.size);
+    //UIGraphicsBeginImageContext(smallBounds.size);
     UIGraphicsBeginImageContextWithOptions(smallBounds.size, NO, [UIScreen mainScreen].scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextDrawImage(context, smallBounds, subImageRef);

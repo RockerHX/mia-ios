@@ -11,6 +11,8 @@
 
 @interface ProfileCollectionViewCell : UICollectionViewCell
 
+@property (assign, nonatomic) BOOL isBiggerCell;
+@property (assign, nonatomic) BOOL isMyProfile;
 @property (strong, nonatomic) ShareItem *shareItem;
 
 @end

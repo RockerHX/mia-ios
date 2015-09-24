@@ -208,8 +208,8 @@
 
 	return [orgImage getSubImage:CGRectMake(0.0,
 											cutY,
-											orgImage.size.width * orgImage.scale,
-											cutHeight * orgImage.scale)];
+											orgImage.size.width,
+											cutHeight)];
 }
 
 #pragma mark - button Actions

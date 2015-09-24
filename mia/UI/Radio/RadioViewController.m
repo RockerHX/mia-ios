@@ -185,7 +185,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 											  font:UIFontFromSize(15)
 										   logoImg:nil
 								   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"share_music"]]];
-	[shareButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[shareButton addTarget:self action:@selector(shareButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:shareButton];
 
 }
@@ -338,7 +338,9 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)profileButtonAction:(id)sender {
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"navigator to profile page.");
-		ProfileViewController *vc = [[ProfileViewController alloc] init];
+		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+																	 nickName:[[UserSession standard] nick]
+																  isMyProfile:YES];
 		[self.navigationController pushViewController:vc animated:YES];
 	} else {
 		LoginViewController *vc = [[LoginViewController alloc] init];

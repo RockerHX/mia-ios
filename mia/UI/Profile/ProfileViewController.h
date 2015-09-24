@@ -11,5 +11,7 @@
 
 @interface ProfileViewController : UIViewController
 
+- (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile;
+
 @end
 
