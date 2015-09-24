@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
+#import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "ProfileCollectionViewCell.h"
 #import "ProfileHeaderView.h"
@@ -34,6 +35,7 @@ static const CGFloat kProfileHeight 		= 240;
 	NSString *_nickName;
 	BOOL _isMyProfile;
 
+	long currentPageStart;
 
 	UICollectionView *mainCollectionView;
 	ProfileShareModel *shareListModel;
@@ -48,6 +50,7 @@ static const CGFloat kProfileHeight 		= 240;
 
 		[self initUI];
 		[self initData];
+		[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
@@ -172,14 +175,17 @@ static const CGFloat kProfileHeight 		= 240;
 }
 
 - (void)initData {
-	static const long kShareListPageStart = 1;
-	static const long kShareListPageCount = 10;
-
 	shareListModel = [[ProfileShareModel alloc] init];
 
-	// for test
-	//[MiaAPIHelper getShareListWithUID:_uid start:kShareListPageStart item:kShareListPageCount];
-	[MiaAPIHelper getShareListWithUID:@"106" start:kShareListPageStart item:kShareListPageCount];
+	[self requestShareList];
+}
+
+- (void)requestShareList {
+	static const long kShareListPageCount = 10;
+
+	++currentPageStart;
+	[MiaAPIHelper getShareListWithUID:_uid start:kShareListPageStart item:kShareListPageCount];
+	//[MiaAPIHelper getShareListWithUID:@"106" start:currentPageStart item:kShareListPageCount];
 }
 
 #pragma mark - delegate
@@ -289,6 +295,8 @@ static const CGFloat kProfileHeight 		= 240;
 }
 
 - (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	[mainCollectionView footerEndRefreshing];
+
 	NSArray *shareList = userInfo[@"v"][@"info"];
 	if (!shareList)
 		return;
