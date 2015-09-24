@@ -13,6 +13,7 @@
 #import "MBProgressHUDHelp.h"
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
+#import "UIImage+Extrude.h"
 #import "CommentCollectionViewCell.h"
 #import "DetailHeaderView.h"
 #import "MiaAPIHelper.h"
@@ -23,11 +24,13 @@
 
 static NSString * const kProfileCellReuseIdentifier = @"ProfileCellId";
 static NSString * const kProfileHeaderReuseIdentifier = @"ProfileHeaderId";
+static NSString * const kProfileFooterReuseIdentifier = @"ProfileFooterId";
 
 static const CGFloat kProfileItemMarginH 	= 15;
 static const CGFloat kProfileItemMarginV 	= 20;
 static const CGFloat kProfileHeight 		= 350;
 static const CGFloat kCommentItemHeight 	= 40;
+static const CGFloat kFooterViewHeight 		= 53;
 
 @interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate>
 
@@ -112,6 +115,7 @@ static const CGFloat kCommentItemHeight 	= 40;
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
 	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeight);
+	layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kFooterViewHeight);
 
 	//该方法也可以设置itemSize
 	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
@@ -128,6 +132,7 @@ static const CGFloat kCommentItemHeight 	= 40;
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
 	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
+	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kProfileFooterReuseIdentifier];
 
 	//4.设置代理
 	mainCollectionView.delegate = self;
@@ -158,10 +163,50 @@ static const CGFloat kCommentItemHeight 	= 40;
 	[moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)initHeaderView:(UIView *)headerView {
-	DetailHeaderView *detailHeaderView = [[DetailHeaderView alloc] initWithFrame:headerView.bounds];
+- (void)initHeaderView:(UIView *)contentView {
+	DetailHeaderView *detailHeaderView = [[DetailHeaderView alloc] initWithFrame:contentView.bounds];
 	detailHeaderView.shareItem = shareItem;
-	[headerView addSubview:detailHeaderView];
+	[contentView addSubview:detailHeaderView];
+}
+
+- (void)initFooterView:(UIView *)contentView {
+	static const CGFloat kEditViewMarginLeft 		= 30;
+	static const CGFloat kEditViewMarginTop 		= 5;
+	static const CGFloat kEditViewHeight			= 30;
+
+	static const CGFloat kCommentButtonMarginLeft 	= 15;
+	static const CGFloat kCommentButtonMarginBottom = 15;
+
+	UITextField *commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kEditViewMarginLeft,
+																				   kEditViewMarginTop,
+																				   contentView.bounds.size.width - 2 * kEditViewMarginLeft,
+																				   kEditViewHeight)];
+	commentTextField.borderStyle = UITextBorderStyleNone;
+	commentTextField.backgroundColor = [UIColor clearColor];
+	commentTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	commentTextField.placeholder = @"此刻的想法";
+	[commentTextField setFont:UIFontFromSize(16)];
+	commentTextField.keyboardType = UIKeyboardTypeDefault;
+	commentTextField.returnKeyType = UIReturnKeySend;
+	commentTextField.delegate = self;
+	//commentTextField.backgroundColor = [UIColor yellowColor];
+	[commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+//	[contentView addSubview:commentTextField];
+
+
+	MIAButton *commentButton = [[MIAButton alloc] initWithFrame:CGRectMake(kCommentButtonMarginLeft,
+																		   0,
+																		   contentView.frame.size.width - 2 * kCommentButtonMarginLeft,
+																		   contentView.frame.size.height - kCommentButtonMarginBottom)
+										 titleString:@"此刻的想法"
+										  titleColor:UIColorFromHex(@"#a2a2a2", 1.0)
+												font:UIFontFromSize(15)
+											 logoImg:[UIImage imageExtrude:[UIImage imageNamed:@"edit_logo"]]
+									 backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"edit_bg"]]];
+	[commentButton addTarget:self action:@selector(commentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	commentButton.backgroundColor = [UIColor redColor];
+	//[contentView addSubview:commentButton];
+	[contentView addSubview:commentTextField];
 }
 
 - (void)initData {
@@ -251,11 +296,18 @@ static const CGFloat kCommentItemHeight 	= 40;
 
 //通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
-
-	[self initHeaderView:headerView];
-
-	return headerView;
+	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
+		[self initHeaderView:contentView];
+		return contentView;
+	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kProfileFooterReuseIdentifier forIndexPath:indexPath];
+		[self initFooterView:contentView];
+		return contentView;
+	} else {
+		NSLog(@"It's maybe a bug.");
+		return nil;
+	}
 }
 
 //点击item方法
@@ -306,6 +358,10 @@ static const CGFloat kCommentItemHeight 	= 40;
 									   destructiveButtonTitle:@"举报"
 											otherButtonTitles: nil];
 	[sheet showInView:self.view];
+}
+
+- (void)commentButtonAction:(id)sender {
+	NSLog(@"comment button clicked.");
 }
 
 @end
