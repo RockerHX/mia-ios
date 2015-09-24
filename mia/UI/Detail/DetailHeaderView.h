@@ -1,5 +1,5 @@
 //
-//  DetailPlayerView.h
+//  DetailHeaderView.h
 //  mia
 //
 //  Created by linyehui on 2015/09/09.
@@ -10,11 +10,9 @@
 
 @class ShareItem;
 
-@interface DetailPlayerView : UIView
+@interface DetailHeaderView : UIView
 
 @property (strong, nonatomic) ShareItem *shareItem;
-
-//- (void)setShareItem:(ShareItem *)item;
 
 - (void)playMusic;
 - (void)pauseMusic;

@@ -11,12 +11,13 @@
 
 @implementation CommentModel
 
-- (NSMutableArray *)dataSource
-{
-	if (!_dataSource) {
-		_dataSource = [NSMutableArray new];
+- (id)init {
+	self = [super init];
+	if(self) {
+		_dataSource = [[NSMutableArray alloc] init];
 	}
-	return _dataSource;
+
+	return self;
 }
 
 - (void)populateDataSource {

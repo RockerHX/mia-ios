@@ -13,10 +13,14 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if(self) {
-		self.userName = [dictionary objectForKey:@"name"];
-		self.userAvatar = [dictionary objectForKey:@"avatar"];
-		self.comment = [dictionary objectForKey:@"comment"];
-    }
+		self.cmid = [dictionary objectForKey:@"cmid"];
+		self.uid = [dictionary objectForKey:@"uid"];
+		self.unick = [dictionary objectForKey:@"unick"];
+		self.uimg = [dictionary objectForKey:@"uimg"];
+		self.date = [dictionary objectForKey:@"date"];
+		self.edate = [dictionary objectForKey:@"edate"];
+		self.cinfo = [dictionary objectForKey:@"cinfo"];
+	}
 	
     return self;
 }

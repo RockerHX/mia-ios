@@ -1,5 +1,5 @@
 //
-//  DetailViewController.h
+//  TVDetailViewController.h
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ShareItem.h"
 
-@interface DetailViewController : UIViewController
+@class ShareItem;
+
+@interface TVDetailViewController : UIViewController <UIScrollViewDelegate>
 
 - (id)initWitShareItem:(ShareItem *)item;
 

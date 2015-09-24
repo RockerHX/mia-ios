@@ -29,7 +29,7 @@
 {
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.backgroundColor = [UIColor orangeColor];
+		//self.backgroundColor = [UIColor orangeColor];
 		[self initUI:self.contentView];
 		}
 

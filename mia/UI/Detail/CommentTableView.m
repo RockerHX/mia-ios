@@ -7,7 +7,7 @@
 //
 
 #import "CommentTableView.h"
-#import "CommentTableViewCell.h"
+#import "CommentCollectionViewCell.h"
 #import "MIAButton.h"
 #import "CommentModel.h"
 
@@ -48,13 +48,14 @@ static const CGFloat CELL_HEIGHT                                    = 55.0f;
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CommentTableViewIdentifier = @"CommentTableViewIdentifier";
-    CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CommentTableViewIdentifier];
-    if(!cell){
-        cell = [[CommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CommentTableViewIdentifier];
-    }
-    [cell updateWithCommentItem:[model.dataSource objectAtIndex:indexPath.row]];
-    return cell;
+//    static NSString *CommentTableViewIdentifier = @"CommentTableViewIdentifier";
+//    CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CommentTableViewIdentifier];
+//    if(!cell){
+//        cell = [[CommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CommentTableViewIdentifier];
+//    }
+//    [cell updateWithCommentItem:[model.dataSource objectAtIndex:indexPath.row]];
+//    return cell;
+	return nil;
 }
 
 # pragma mark - public method

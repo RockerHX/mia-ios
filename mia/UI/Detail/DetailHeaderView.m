@@ -1,12 +1,12 @@
 //
-//  DetailPlayerView.m
+//  DetailHeaderView.m
 //  mia
 //
 //  Created by linyehui on 2015/09/09.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "DetailPlayerView.h"
+#import "DetailHeaderView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIImage+ColorToImage.h"
@@ -18,7 +18,7 @@
 #import "PXInfiniteScrollView.h"
 #import "ShareItem.h"
 
-@implementation DetailPlayerView {
+@implementation DetailHeaderView {
 	UIImageView *coverImageView;
 	KYCircularView *progressView;
 	MIAButton *playButton;
@@ -38,8 +38,7 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if(self){
-		self.userInteractionEnabled = YES;
-		self.backgroundColor = [UIColor orangeColor];
+		//self.backgroundColor = [UIColor orangeColor];
 		[self initUI];
 	}
 
@@ -68,7 +67,7 @@
 	static const CGFloat kFavoriteHeight = 25;
 
 	static const CGFloat kSharerMarginLeft = 20;
-	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 20;
+	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 5;
 	static const CGFloat kSharerHeight = 20;
 
 	static const CGFloat kNoteMarginLeft = 5;
@@ -76,6 +75,8 @@
 	static const CGFloat kNoteMarginRight = 50;
 	static const CGFloat kNoteHeight = 40;
 
+	static const CGFloat kBottomViewMarginTop = kNoteMarginTop + kNoteHeight + 5;
+	static const CGFloat kBottomViewHeight = 35;
 
 	CGRect coverFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
 											 kCoverMarginTop,
@@ -159,8 +160,32 @@
 	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:favoriteButton];
 
-	[self initBottomView]
-;
+	static const CGFloat kCommentTitleHeight			= 20;
+	static const CGFloat kCommentTitleWidth				= 50;
+	static const CGFloat kCommentTitleMarginTop			= kBottomViewMarginTop + kBottomViewHeight + 10;
+	static const CGFloat kCommentTitleMarginLeft		= 15;
+
+	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,
+																  kBottomViewMarginTop,
+																  self.bounds.size.width,
+																  kBottomViewHeight)];
+	//bottomView.backgroundColor = [UIColor yellowColor];
+	[self addSubview:bottomView];
+
+	[self initBottomView:bottomView];
+
+	
+	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentTitleMarginLeft,
+																			 kCommentTitleMarginTop,
+																			 kCommentTitleWidth,
+																			 kCommentTitleHeight)
+															 text:@"评论"
+															 font:UIFontFromSize(12.0f)
+														textColor:UIColorFromHex(@"949494", 1.0)
+													textAlignment:NSTextAlignmentLeft
+													  numberLines:1];
+	//commentTitleLabel.backgroundColor = [UIColor redColor];
+	[self addSubview:commentTitleLabel];
 }
 
 - (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
@@ -186,8 +211,7 @@
 	[self addSubview:progressView];
 }
 
-- (void)initBottomView {
-	static const CGFloat kBottomViewHeight				= 35;
+- (void)initBottomView:(UIView *)bottomView {
 	static const CGFloat kBottomButtonMarginBottom		= 5;
 	static const CGFloat kBottomButtonWidth				= 15;
 	static const CGFloat kBottomButtonHeight			= 15;
@@ -204,10 +228,6 @@
 
 	static const CGFloat kViewsLabelMarginLeft			= 2;
 	static const CGFloat kViewsLabelWidth				= 20;
-
-	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - kBottomViewHeight, self.bounds.size.width, kBottomViewHeight)];
-	//bottomView.backgroundColor = [UIColor redColor];
-	[self addSubview:bottomView];
 
 	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft,
 																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,

@@ -1,5 +1,5 @@
 //
-//  CommentTableViewCell.h
+//  CommentCollectionViewCell.h
 //  mia
 //
 //  Created by linyehui on 2015-09-20.
@@ -11,7 +11,7 @@
 
 @class CommentItem;
 
-@interface CommentTableViewCell : UITableViewCell
+@interface CommentCollectionViewCell : UICollectionViewCell
 
 @property (retain, nonatomic) UIImageView *logoImageView;
 @property (retain, nonatomic) MIALabel *titleLabel;
