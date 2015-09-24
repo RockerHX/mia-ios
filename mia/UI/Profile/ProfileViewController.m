@@ -15,6 +15,7 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "ProfileShareModel.h"
+#import "DetailViewController.h"
 
 static NSString * const kProfileCellReuseIdentifier = @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier = @"ProfileBiggerCellId";
@@ -270,8 +271,9 @@ static const CGFloat kProfileHeight 		= 240;
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	NSString *msg = cell.shareItem.music.name;
-	NSLog(@"%@",msg);
+
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:cell.shareItem];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Notification
