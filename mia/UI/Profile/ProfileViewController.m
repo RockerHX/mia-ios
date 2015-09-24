@@ -184,7 +184,7 @@ static const CGFloat kProfileHeight 		= 240;
 	static const long kShareListPageCount = 10;
 
 	++currentPageStart;
-	[MiaAPIHelper getShareListWithUID:_uid start:kShareListPageStart item:kShareListPageCount];
+	[MiaAPIHelper getShareListWithUID:_uid start:currentPageStart item:kShareListPageCount];
 	//[MiaAPIHelper getShareListWithUID:@"106" start:currentPageStart item:kShareListPageCount];
 }
 
