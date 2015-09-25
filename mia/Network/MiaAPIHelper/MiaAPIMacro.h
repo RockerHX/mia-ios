@@ -71,4 +71,6 @@ static NSString * const MiaAPICommand_User_PostComment		= @"User.Post.Pcomm";
 static NSString * const MiaAPIKey_sID						= @"sID";
 static NSString * const MiaAPIKey_Comm						= @"comm";
 
+static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
+
 #endif // MiaMusicAPIMacro_h

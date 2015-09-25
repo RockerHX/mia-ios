@@ -177,6 +177,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	shareListModel = [[ProfileShareModel alloc] init];
 
 	[self requestShareList];
+	[self requestFavoriteList];
 }
 
 - (void)requestShareList {
@@ -185,6 +186,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	++currentPageStart;
 	[MiaAPIHelper getShareListWithUID:_uid start:currentPageStart item:kShareListPageCount];
 	//[MiaAPIHelper getShareListWithUID:@"106" start:currentPageStart item:kShareListPageCount];
+}
+
+- (void)requestFavoriteList {
+	static const long kFavoritePageItemCount	= 10;
+	[MiaAPIHelper getFavoriteListWithStart:0 item:kFavoritePageItemCount];
 }
 
 #pragma mark - delegate
@@ -295,6 +301,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
 		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
+		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -309,6 +317,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[mainCollectionView reloadData];
 }
 
+- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	//BOOL isSuccess = (0 == ret);
+	NSLog(@"%@", userInfo);
+}
 
 #pragma mark - button Actions
 

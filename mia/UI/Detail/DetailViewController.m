@@ -251,7 +251,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)requestComments {
-	static const long kCommentPageItemCount	= 5;
+	static const long kCommentPageItemCount	= 10;
 	NSString *start = commentModel.lastCommentID;
 	if (!start) {
 		start = kLatestCommentStart;
@@ -264,7 +264,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 - (void)requestLatestComments {
 	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:kLatestCommentStart item:1];
 }
-
 
 - (void)checkCommentButtonStatus {
 	if ([commentTextField.text length] <= 0) {
