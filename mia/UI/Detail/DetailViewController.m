@@ -21,10 +21,12 @@
 #import "ProfileShareModel.h"
 #import "DetailViewController.h"
 #import "CommentModel.h"
+#import "CommentItem.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
 static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
+static NSString * const kLatestCommentStart				= @"0";
 
 static const CGFloat kDetailItemMarginH 		= 15;
 static const CGFloat kDetailItemMarginV 		= 20;
@@ -40,14 +42,13 @@ static const CGFloat kDetailItemHeight 			= 40;
 	ShareItem *shareItem;
 	CommentModel *commentModel;
 
-	long currentCommentStart;
-
 	UICollectionView *mainCollectionView;
 	UITextField *commentTextField;
 	MIAButton *commentButton;
 
 	DetailHeaderView *detailHeaderView;
 	UIView *footerView;
+	MBProgressHUD *progressHUD;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
@@ -250,11 +251,20 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)requestComments {
-	static const long kCommentPageItemCount	= 10;
-	//[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.dataSource.count item:kCommentPageItemCount];
-	// for test
-	[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.dataSource.count item:kCommentPageItemCount];
+	static const long kCommentPageItemCount	= 5;
+	NSString *start = commentModel.lastCommentID;
+	if (!start) {
+		start = kLatestCommentStart;
+	}
+
+	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:start item:kCommentPageItemCount];
+	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:start item:kCommentPageItemCount];
 }
+
+- (void)requestLatestComments {
+	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:kLatestCommentStart item:1];
+}
+
 
 - (void)checkCommentButtonStatus {
 	if ([commentTextField.text length] <= 0) {
@@ -264,22 +274,54 @@ static const CGFloat kDetailItemHeight 			= 40;
 	}
 }
 
+- (void)showMBProgressHUD{
+	if(!progressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:progressHUD];
+		progressHUD.dimBackground = YES;
+		progressHUD.labelText = @"正在提交评论";
+		[progressHUD show:YES];
+	}
+}
+
+- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(progressHUD){
+		if(isSuccess){
+			progressHUD.labelText = @"评论成功";
+		}else{
+			progressHUD.labelText = @"评论失败，请稍后再试";
+		}
+		progressHUD.mode = MBProgressHUDModeText;
+		[progressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(1);
+		} completionBlock:^{
+			[progressHUD removeFromSuperview];
+			progressHUD = nil;
+			if(removeMBProgressHUDBlock)
+				removeMBProgressHUDBlock();
+		}];
+	}
+}
+
 #pragma mark - delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 	const NSInteger kButtonIndex_Report = 0;
 	if (kButtonIndex_Report == buttonIndex) {
-		MBProgressHUD *progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
-		[self.view addSubview:progressHUD];
-		progressHUD.labelText = NSLocalizedString(@"举报成功", nil);
-		progressHUD.mode = MBProgressHUDModeText;
-		[progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(2);
-		} completionBlock:^{
-			[progressHUD removeFromSuperview];
-		}];
-
+		if (!progressHUD) {
+			progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
+			[self.view addSubview:progressHUD];
+			progressHUD.labelText = NSLocalizedString(@"举报成功", nil);
+			progressHUD.mode = MBProgressHUDModeText;
+			[progressHUD showAnimated:YES whileExecutingBlock:^{
+				sleep(2);
+			} completionBlock:^{
+				[progressHUD removeFromSuperview];
+				progressHUD = nil;
+			}];
+		}
 	}
 }
 
@@ -312,6 +354,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 	CommentCollectionViewCell *cell = (CommentCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kDetailCellReuseIdentifier
 																											 forIndexPath:indexPath];
 	[cell updateWithCommentItem:commentModel.dataSource[indexPath.row]];
+	CommentItem *item = commentModel.dataSource[indexPath.row];
+	NSLog(@"cell: %@", item.cmid);
 	return cell;
 }
 
@@ -387,6 +431,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
 		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
+		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -401,6 +447,21 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 	[commentModel addComments:commentArray];
 	[mainCollectionView reloadData];
+}
+
+- (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+
+	if (isSuccess) {
+		commentTextField.text = @"";
+		[self requestLatestComments];
+	} else {
+	}
+
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+		}
+	}];
 }
 
 /*
@@ -450,12 +511,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
-	NSLog(@"back button clicked.");
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)moreButtonAction:(id)sender {
-	NSLog(@"more button clicked.");
 	UIActionSheet *sheet=[[UIActionSheet alloc] initWithTitle:@"更多操作"
 													 delegate:self
 											cancelButtonTitle:@"取消"
@@ -466,6 +525,9 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)commentButtonAction:(id)sender {
 	NSLog(@"comment button clicked.");
+	[self showMBProgressHUD];
+	[MiaAPIHelper postCommentWithShareID:shareItem.sID comment:commentTextField.text];
+
 }
 
 @end

@@ -13,7 +13,7 @@
 + (id)getUUID;
 + (void)sendUUID;
 + (void)getNearbyWithLatitude:(float)lat longitude:(float) lon start:(long) start item:(long) item;
-+ (void)getMusicCommentWithShareID:(NSString *)sID start:(long) start item:(long) item;
++ (void)getMusicCommentWithShareID:(NSString *)sID start:(NSString *) start item:(long) item;
 + (void)getShareListWithUID:(NSString *)uID start:(long) start item:(long) item;
 
 + (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
@@ -28,5 +28,7 @@
 * @param isFavorite 期望设置成的收藏状态
 */
 + (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite;
+
++ (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
 
 @end

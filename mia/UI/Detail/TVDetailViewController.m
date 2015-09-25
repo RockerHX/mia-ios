@@ -186,7 +186,7 @@ static const long kCommentPageItemCount			= 10;
 }
 
 - (void)requestCommentsFromStart:(long)start count:(long)count {
-	[MiaAPIHelper getMusicCommentWithShareID:[currentItem sID] start:start item:count];
+	[MiaAPIHelper getMusicCommentWithShareID:[currentItem sID] start:@"0" item:count];
 }
 
 #pragma mark - delegate

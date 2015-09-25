@@ -67,5 +67,8 @@ static NSString * const MiaAPIKey_NewPwd					= @"npwd";
 static NSString * const MiaAPICommand_User_PostFavorite		= @"User.Post.Star";
 static NSString * const MiaAPIKey_Act						= @"act";
 
+static NSString * const MiaAPICommand_User_PostComment		= @"User.Post.Pcomm";
+static NSString * const MiaAPIKey_sID						= @"sID";
+static NSString * const MiaAPIKey_Comm						= @"comm";
 
 #endif // MiaMusicAPIMacro_h
