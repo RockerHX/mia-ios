@@ -25,7 +25,7 @@
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
-static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
+//static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
 static NSString * const kLatestCommentStart				= @"0";
 
 static const CGFloat kDetailItemMarginH 		= 15;
@@ -128,14 +128,14 @@ static const CGFloat kDetailItemHeight 			= 40;
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
 	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailHeaderHeight);
-	layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailFooterViewHeight);
+	//layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailFooterViewHeight);
 
 	//该方法也可以设置itemSize
 	CGFloat itemWidth = self.view.frame.size.width - kDetailItemMarginH * 2;
 	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
 
 	//2.初始化collectionView
-	mainCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
 	[self.view addSubview:mainCollectionView];
 
 	mainCollectionView.backgroundColor = [UIColor whiteColor];
@@ -146,7 +146,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
 	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier];
+	//[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier];
 
 	//4.设置代理
 	mainCollectionView.delegate = self;
@@ -193,10 +193,12 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)initFooterView {
-	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailFooterViewHeight)];
+	//footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailFooterViewHeight)];
+	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight)];
 	footerView.backgroundColor = UIColorFromHex(@"d2d0d0", 1.0);
+	[self.view addSubview:footerView];
 
-	UIView *textBGView = [[UIView alloc] initWithFrame:CGRectInset(footerView.frame, 1, 1)];
+	UIView *textBGView = [[UIView alloc] initWithFrame:CGRectInset(footerView.bounds, 1, 1)];
 	textBGView.backgroundColor = UIColorFromHex(@"f2f2f2", 1.0);
 	[footerView addSubview:textBGView];
 
@@ -401,12 +403,12 @@ static const CGFloat kDetailItemHeight 			= 40;
 			[contentView addSubview:detailHeaderView];
 		}
 		return contentView;
-	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
-		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier forIndexPath:indexPath];
-		if (contentView.subviews.count == 0) {
-			[contentView addSubview:footerView];
-		}
-		return contentView;
+//	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
+//		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier forIndexPath:indexPath];
+//		if (contentView.subviews.count == 0) {
+//			[contentView addSubview:footerView];
+//		}
+//		return contentView;
 	} else {
 		NSLog(@"It's maybe a bug.");
 		return nil;
@@ -483,11 +485,12 @@ static const CGFloat kDetailItemHeight 			= 40;
 	NSTimeInterval animationDuration = 0.30f;
 	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
 	[UIView setAnimationDuration:animationDuration];
-	float width = mainCollectionView.frame.size.width;
-	float height = mainCollectionView.frame.size.height;
-
-	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
-	mainCollectionView.frame = rect;
+//	float width = footerView.frame.size.width;
+//	float height = footerView.frame.size.height;
+//
+//	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
+	CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight - keyboardSize.height, self.view.bounds.size.width, kDetailFooterViewHeight);
+	footerView.frame = rect;
 	[UIView commitAnimations];
 }
 
@@ -495,10 +498,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 	NSTimeInterval animationDuration = 0.30f;
 	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
 	[UIView setAnimationDuration:animationDuration];
-	float width = self.view.frame.size.width;
-	float height = self.view.frame.size.height;
-	CGRect rect = CGRectMake(0.0f, 0, width, height);
-	mainCollectionView.frame = rect;
+//	float width = self.view.frame.size.width;
+//	float height = self.view.frame.size.height;
+	CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
+	footerView.frame = rect;
 	[UIView commitAnimations];
 }
 
