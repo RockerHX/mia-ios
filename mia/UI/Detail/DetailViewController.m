@@ -22,15 +22,15 @@
 #import "DetailViewController.h"
 #import "CommentModel.h"
 
-static NSString * const kProfileCellReuseIdentifier = @"ProfileCellId";
-static NSString * const kProfileHeaderReuseIdentifier = @"ProfileHeaderId";
-static NSString * const kProfileFooterReuseIdentifier = @"ProfileFooterId";
+static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
+static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
+static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
 
-static const CGFloat kProfileItemMarginH 	= 15;
-static const CGFloat kProfileItemMarginV 	= 20;
-static const CGFloat kProfileHeight 		= 350;
-static const CGFloat kCommentItemHeight 	= 40;
-static const CGFloat kFooterViewHeight 		= 53;
+static const CGFloat kDetailItemMarginH 		= 15;
+static const CGFloat kDetailItemMarginV 		= 20;
+static const CGFloat kDetailHeaderHeight 		= 350;
+static const CGFloat kDetailFooterViewHeight 	= 53;
+static const CGFloat kDetailItemHeight 			= 40;
 
 @interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate>
 
@@ -63,7 +63,6 @@ static const CGFloat kFooterViewHeight 		= 53;
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-
 	}
 
 	return self;
@@ -127,12 +126,12 @@ static const CGFloat kFooterViewHeight 		= 53;
 	//设置collectionView滚动方向
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeight);
-	layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kFooterViewHeight);
+	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailHeaderHeight);
+	layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailFooterViewHeight);
 
 	//该方法也可以设置itemSize
-	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
-	layout.itemSize = CGSizeMake(itemWidth, kCommentItemHeight);
+	CGFloat itemWidth = self.view.frame.size.width - kDetailItemMarginH * 2;
+	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
 
 	//2.初始化collectionView
 	mainCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -142,11 +141,11 @@ static const CGFloat kFooterViewHeight 		= 53;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[mainCollectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+	[mainCollectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kDetailCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kProfileFooterReuseIdentifier];
+	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
+	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier];
 
 	//4.设置代理
 	mainCollectionView.delegate = self;
@@ -185,7 +184,7 @@ static const CGFloat kFooterViewHeight 		= 53;
 }
 
 - (void)initHeaderView {
-	detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeight)];
+	detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailHeaderHeight)];
 	detailHeaderView.shareItem = shareItem;
 
 	//NSLog(@"initHeaderView: %f, %f, %f, %f", contentView.bounds.origin.x, contentView.bounds.origin.y, contentView.bounds.size.width, contentView.bounds.size.height);
@@ -193,7 +192,7 @@ static const CGFloat kFooterViewHeight 		= 53;
 }
 
 - (void)initFooterView {
-	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kFooterViewHeight)];
+	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailFooterViewHeight)];
 
 	static const CGFloat kEditViewMarginLeft 		= 28;
 	static const CGFloat kEditViewMarginRight 		= 70;
@@ -307,7 +306,7 @@ static const CGFloat kFooterViewHeight 		= 53;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CommentCollectionViewCell *cell = (CommentCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
+	CommentCollectionViewCell *cell = (CommentCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kDetailCellReuseIdentifier
 																											 forIndexPath:indexPath];
 	[cell updateWithCommentItem:commentModel.dataSource[indexPath.row]];
 	return cell;
@@ -315,8 +314,8 @@ static const CGFloat kFooterViewHeight 		= 53;
 
 //设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
-	return CGSizeMake(itemWidth, kCommentItemHeight);
+	CGFloat itemWidth = self.view.frame.size.width - kDetailItemMarginH * 2;
+	return CGSizeMake(itemWidth, kDetailItemHeight);
 }
 
 //footer的size
@@ -338,26 +337,26 @@ static const CGFloat kFooterViewHeight 		= 53;
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return kProfileItemMarginH;
+	return kDetailItemMarginH;
 }
 
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return kProfileItemMarginV;
+	return kDetailItemMarginV;
 }
 
 
 //通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
-		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
 			[contentView addSubview:detailHeaderView];
 		}
 		return contentView;
 	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
-		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kProfileFooterReuseIdentifier forIndexPath:indexPath];
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
 			[contentView addSubview:footerView];
 		}

@@ -18,13 +18,13 @@
 #import "ProfileShareModel.h"
 #import "DetailViewController.h"
 
-static NSString * const kProfileCellReuseIdentifier = @"ProfileCellId";
-static NSString * const kProfileBiggerCellReuseIdentifier = @"ProfileBiggerCellId";
-static NSString * const kProfileHeaderReuseIdentifier = @"ProfileHeaderId";
+static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
+static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
+static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
 static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
-static const CGFloat kProfileHeight 		= 240;
+static const CGFloat kProfileHeaderHeight 	= 240;
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -114,7 +114,7 @@ static const CGFloat kProfileHeight 		= 240;
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
 	if (_isMyProfile) {
-		layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeight);
+		layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
 	} else {
 		layout.headerReferenceSize = CGSizeZero;
 	}
@@ -170,7 +170,7 @@ static const CGFloat kProfileHeight 		= 240;
 }
 
 - (void)initHeaderView {
-	profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeight)];
+	profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
 }
 
 - (void)initData {
