@@ -29,7 +29,7 @@ static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
 static const CGFloat kDetailItemMarginH 		= 15;
 static const CGFloat kDetailItemMarginV 		= 20;
 static const CGFloat kDetailHeaderHeight 		= 350;
-static const CGFloat kDetailFooterViewHeight 	= 53;
+static const CGFloat kDetailFooterViewHeight 	= 40;
 static const CGFloat kDetailItemHeight 			= 40;
 
 @interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate>
@@ -193,6 +193,11 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)initFooterView {
 	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailFooterViewHeight)];
+	footerView.backgroundColor = UIColorFromHex(@"d2d0d0", 1.0);
+
+	UIView *textBGView = [[UIView alloc] initWithFrame:CGRectInset(footerView.frame, 1, 1)];
+	textBGView.backgroundColor = UIColorFromHex(@"f2f2f2", 1.0);
+	[footerView addSubview:textBGView];
 
 	static const CGFloat kEditViewMarginLeft 		= 28;
 	static const CGFloat kEditViewMarginRight 		= 70;
@@ -218,6 +223,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 	commentTextField.delegate = self;
 	//commentTextField.backgroundColor = [UIColor yellowColor];
 	[commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[commentTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+
 	[footerView addSubview:commentTextField];
 
 
@@ -226,11 +233,13 @@ static const CGFloat kDetailItemHeight 			= 40;
 																		   kCommentButtonWidth,
 																		   kCommentButtonHeight)
 										 titleString:@"发送"
-										  titleColor:UIColorFromHex(@"#236eff", 1.0)
+										  titleColor:UIColorFromHex(@"#ff300f", 1.0)
 												font:UIFontFromSize(15)
 											 logoImg:nil
 									 backgroundImage:nil];
 	[commentButton addTarget:self action:@selector(commentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[commentButton setTitleColor:UIColorFromHex(@"#a2a2a2", 1.0) forState:UIControlStateDisabled];
+	[commentButton setEnabled:NO];
 	//commentButton.backgroundColor = [UIColor redColor];
 	[footerView addSubview:commentButton];
 }
@@ -247,7 +256,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.dataSource.count item:kCommentPageItemCount];
 }
 
-- (void)checkSignUpButtonStatus {
+- (void)checkCommentButtonStatus {
 	if ([commentTextField.text length] <= 0) {
 		[commentButton setEnabled:NO];
 	} else {
@@ -280,17 +289,11 @@ static const CGFloat kDetailItemHeight 			= 40;
 		[textField resignFirstResponder];
 	}
 
-	[self checkSignUpButtonStatus];
-
 	return true;
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-//	if (textField == commentTextField) {
-//		[self moveUpViewForKeyboard];
-//	}
-
-	return YES;
+- (void) textFieldDidChange:(id) sender {
+	[self checkCommentButtonStatus];
 }
 
 #pragma mark collectionView代理方法
@@ -441,7 +444,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)hidenKeyboard {
 	[commentTextField resignFirstResponder];
-	[self checkSignUpButtonStatus];
+	[self checkCommentButtonStatus];
 }
 
 #pragma mark - button Actions
