@@ -38,6 +38,7 @@ static const CGFloat kProfileHeight 		= 240;
 	long currentPageStart;
 
 	UICollectionView *mainCollectionView;
+	ProfileHeaderView *profileHeaderView;
 	ProfileShareModel *shareListModel;
 }
 
@@ -107,9 +108,6 @@ static const CGFloat kProfileHeight 		= 240;
 	self.title = _nickName;
 	[self initBarButton];
 
-//	ProfileTableView *tableView = [[ProfileTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-//	[self.view addSubview:tableView];
-
 	//1.初始化layout
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	//设置collectionView滚动方向
@@ -141,6 +139,8 @@ static const CGFloat kProfileHeight 		= 240;
 	//4.设置代理
 	mainCollectionView.delegate = self;
 	mainCollectionView.dataSource = self;
+
+	[self initHeaderView];
 }
 
 - (void)initBarButton {
@@ -169,9 +169,8 @@ static const CGFloat kProfileHeight 		= 240;
 	}
 }
 
-- (void)initHeaderView:(UIView *)headerView {
-	ProfileHeaderView *profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:headerView.bounds];
-	[headerView addSubview:profileHeaderView];
+- (void)initHeaderView {
+	profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeight)];
 }
 
 - (void)initData {
@@ -267,11 +266,16 @@ static const CGFloat kProfileHeight 		= 240;
 	if (!_isMyProfile)
 		return nil;
 
-	UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
-
-	[self initHeaderView:headerView];
-
-	return headerView;
+	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
+		if (contentView.subviews.count == 0) {
+			[contentView addSubview:profileHeaderView];
+		}
+		return contentView;
+	} else {
+		NSLog(@"It's maybe a bug.");
+		return nil;
+	}
 }
 
 //点击item方法

@@ -32,17 +32,22 @@ static const CGFloat kProfileHeight 		= 350;
 static const CGFloat kCommentItemHeight 	= 40;
 static const CGFloat kFooterViewHeight 		= 53;
 
-@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate>
+@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate>
 
 @end
 
 @implementation DetailViewController {
 	ShareItem *shareItem;
+	CommentModel *commentModel;
 
 	long currentCommentStart;
 
 	UICollectionView *mainCollectionView;
-	CommentModel *commentModel;
+	UITextField *commentTextField;
+	MIAButton *commentButton;
+
+	DetailHeaderView *detailHeaderView;
+	UIView *footerView;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
@@ -54,6 +59,11 @@ static const CGFloat kFooterViewHeight 		= 53;
 		[mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+
+		//添加键盘监听
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+
 	}
 
 	return self;
@@ -61,6 +71,9 @@ static const CGFloat kFooterViewHeight 		= 53;
 
 -(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidLoad {
@@ -124,6 +137,7 @@ static const CGFloat kFooterViewHeight 		= 53;
 	//2.初始化collectionView
 	mainCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
 	[self.view addSubview:mainCollectionView];
+
 	mainCollectionView.backgroundColor = [UIColor whiteColor];
 
 	//3.注册collectionViewCell
@@ -137,6 +151,13 @@ static const CGFloat kFooterViewHeight 		= 53;
 	//4.设置代理
 	mainCollectionView.delegate = self;
 	mainCollectionView.dataSource = self;
+
+	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
+	gesture.numberOfTapsRequired = 1;
+	[mainCollectionView addGestureRecognizer:gesture];
+
+	[self initHeaderView];
+	[self initFooterView];
 }
 
 - (void)initBarButton {
@@ -163,23 +184,30 @@ static const CGFloat kFooterViewHeight 		= 53;
 	[moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)initHeaderView:(UIView *)contentView {
-	DetailHeaderView *detailHeaderView = [[DetailHeaderView alloc] initWithFrame:contentView.bounds];
+- (void)initHeaderView {
+	detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeight)];
 	detailHeaderView.shareItem = shareItem;
-	[contentView addSubview:detailHeaderView];
+
+	//NSLog(@"initHeaderView: %f, %f, %f, %f", contentView.bounds.origin.x, contentView.bounds.origin.y, contentView.bounds.size.width, contentView.bounds.size.height);
+	//[contentView addSubview:detailHeaderView];
 }
 
-- (void)initFooterView:(UIView *)contentView {
-	static const CGFloat kEditViewMarginLeft 		= 30;
+- (void)initFooterView {
+	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kFooterViewHeight)];
+
+	static const CGFloat kEditViewMarginLeft 		= 28;
+	static const CGFloat kEditViewMarginRight 		= 70;
 	static const CGFloat kEditViewMarginTop 		= 5;
 	static const CGFloat kEditViewHeight			= 30;
 
-	static const CGFloat kCommentButtonMarginLeft 	= 15;
-	static const CGFloat kCommentButtonMarginBottom = 15;
+	static const CGFloat kCommentButtonMarginRight 	= 15;
+	static const CGFloat kCommentButtonMarginTop	= 10;
+	static const CGFloat kCommentButtonWidth		= 50;
+	static const CGFloat kCommentButtonHeight		= 20;
 
-	UITextField *commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kEditViewMarginLeft,
+	commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kEditViewMarginLeft,
 																				   kEditViewMarginTop,
-																				   contentView.bounds.size.width - 2 * kEditViewMarginLeft,
+																				   footerView.bounds.size.width - kEditViewMarginLeft - kEditViewMarginRight,
 																				   kEditViewHeight)];
 	commentTextField.borderStyle = UITextBorderStyleNone;
 	commentTextField.backgroundColor = [UIColor clearColor];
@@ -191,22 +219,21 @@ static const CGFloat kFooterViewHeight 		= 53;
 	commentTextField.delegate = self;
 	//commentTextField.backgroundColor = [UIColor yellowColor];
 	[commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
-//	[contentView addSubview:commentTextField];
+	[footerView addSubview:commentTextField];
 
 
-	MIAButton *commentButton = [[MIAButton alloc] initWithFrame:CGRectMake(kCommentButtonMarginLeft,
-																		   0,
-																		   contentView.frame.size.width - 2 * kCommentButtonMarginLeft,
-																		   contentView.frame.size.height - kCommentButtonMarginBottom)
-										 titleString:@"此刻的想法"
-										  titleColor:UIColorFromHex(@"#a2a2a2", 1.0)
+	commentButton = [[MIAButton alloc] initWithFrame:CGRectMake(footerView.frame.size.width - kCommentButtonMarginRight - kCommentButtonWidth,
+																		   kCommentButtonMarginTop,
+																		   kCommentButtonWidth,
+																		   kCommentButtonHeight)
+										 titleString:@"发送"
+										  titleColor:UIColorFromHex(@"#236eff", 1.0)
 												font:UIFontFromSize(15)
-											 logoImg:[UIImage imageExtrude:[UIImage imageNamed:@"edit_logo"]]
-									 backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"edit_bg"]]];
+											 logoImg:nil
+									 backgroundImage:nil];
 	[commentButton addTarget:self action:@selector(commentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	commentButton.backgroundColor = [UIColor redColor];
-	//[contentView addSubview:commentButton];
-	[contentView addSubview:commentTextField];
+	//commentButton.backgroundColor = [UIColor redColor];
+	[footerView addSubview:commentButton];
 }
 
 - (void)initData {
@@ -219,6 +246,14 @@ static const CGFloat kFooterViewHeight 		= 53;
 	//[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.dataSource.count item:kCommentPageItemCount];
 	// for test
 	[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.dataSource.count item:kCommentPageItemCount];
+}
+
+- (void)checkSignUpButtonStatus {
+	if ([commentTextField.text length] <= 0) {
+		[commentButton setEnabled:NO];
+	} else {
+		[commentButton setEnabled:YES];
+	}
 }
 
 #pragma mark - delegate
@@ -238,6 +273,25 @@ static const CGFloat kFooterViewHeight 		= 53;
 		}];
 
 	}
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	if (textField == commentTextField) {
+		[textField resignFirstResponder];
+	}
+
+	[self checkSignUpButtonStatus];
+
+	return true;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+//	if (textField == commentTextField) {
+//		[self moveUpViewForKeyboard];
+//	}
+
+	return YES;
 }
 
 #pragma mark collectionView代理方法
@@ -298,11 +352,15 @@ static const CGFloat kFooterViewHeight 		= 53;
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
-		[self initHeaderView:contentView];
+		if (contentView.subviews.count == 0) {
+			[contentView addSubview:detailHeaderView];
+		}
 		return contentView;
 	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kProfileFooterReuseIdentifier forIndexPath:indexPath];
-		[self initFooterView:contentView];
+		if (contentView.subviews.count == 0) {
+			[contentView addSubview:footerView];
+		}
 		return contentView;
 	} else {
 		NSLog(@"It's maybe a bug.");
@@ -341,6 +399,50 @@ static const CGFloat kFooterViewHeight 		= 53;
 
 	[commentModel addComments:commentArray];
 	[mainCollectionView reloadData];
+}
+
+/*
+ *   即将显示键盘的处理
+ */
+- (void)keyBoardWillShow:(NSNotification *)notification{
+	NSDictionary *info = [notification userInfo];
+	//获取当前显示的键盘高度
+	CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
+	[self moveUpViewForKeyboard:keyboardSize];
+}
+
+- (void)keyBoardWillHide:(NSNotification *)notification{
+	[self resumeView];
+}
+
+#pragma mark - keyboard
+
+- (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
+	NSTimeInterval animationDuration = 0.30f;
+	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+	[UIView setAnimationDuration:animationDuration];
+	float width = mainCollectionView.frame.size.width;
+	float height = mainCollectionView.frame.size.height;
+
+	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
+	mainCollectionView.frame = rect;
+	[UIView commitAnimations];
+}
+
+- (void)resumeView {
+	NSTimeInterval animationDuration = 0.30f;
+	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+	[UIView setAnimationDuration:animationDuration];
+	float width = self.view.frame.size.width;
+	float height = self.view.frame.size.height;
+	CGRect rect = CGRectMake(0.0f, 0, width, height);
+	mainCollectionView.frame = rect;
+	[UIView commitAnimations];
+}
+
+- (void)hidenKeyboard {
+	[commentTextField resignFirstResponder];
+	[self checkSignUpButtonStatus];
 }
 
 #pragma mark - button Actions
