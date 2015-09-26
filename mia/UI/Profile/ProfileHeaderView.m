@@ -215,11 +215,11 @@
 #pragma mark - button Actions
 
 - (void)playButtonAction:(id)sender {
-	NSLog(@"play button clicked.");
+	[_profileHeaderViewDelegate profileHeaderViewDidTouchedPlay];
 }
 
 - (void)coverMaskTouchAction:(id)sender {
-	NSLog(@"cover Touch Action");
+	[_profileHeaderViewDelegate profileHeaderViewDidTouchedCover];
 }
 
 @end

@@ -20,6 +20,7 @@
 		390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD31BB00A5E006269FD /* SignUpViewController.m */; };
 		390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD61BB03A3E006269FD /* ResetPwdViewController.m */; };
 		392B3D141BB3D2C000DA87B9 /* TVDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 392B3D131BB3D2C000DA87B9 /* TVDetailViewController.m */; };
+		393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -144,6 +145,8 @@
 		390BADD61BB03A3E006269FD /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
 		392B3D121BB3D2C000DA87B9 /* TVDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVDetailViewController.h; sourceTree = "<group>"; };
 		392B3D131BB3D2C000DA87B9 /* TVDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVDetailViewController.m; sourceTree = "<group>"; };
+		393CE9981BB53B3B00FCF232 /* FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteViewController.h; sourceTree = "<group>"; };
+		393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -888,6 +891,8 @@
 		39BF8C661BB268B4003AB4FC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				393CE9981BB53B3B00FCF232 /* FavoriteViewController.h */,
+				393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */,
 				39BF8C791BB2AC8A003AB4FC /* ProfileHeaderView.h */,
 				39BF8C7A1BB2AC8A003AB4FC /* ProfileHeaderView.m */,
 				39BF8C6B1BB268B4003AB4FC /* ProfileCollectionViewCell.h */,
@@ -1155,6 +1160,7 @@
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
+				393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
 				39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,

@@ -1,38 +1,38 @@
 //
-//  ProfileViewController.m
+//  FavoriteViewController.m
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "ProfileViewController.h"
+#import "FavoriteViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
-#import "UIImage+Extrude.h"
+#import "UIImageView+BlurredImage.h"
 #import "ProfileCollectionViewCell.h"
 #import "ProfileHeaderView.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "ProfileShareModel.h"
 #import "DetailViewController.h"
-#import "FavoriteViewController.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
 static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
+static const CGFloat kFavoriteCVMarginTop	= 200;
 static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
 static const CGFloat kProfileHeaderHeight 	= 240;
 
-@interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ProfileHeaderViewDelegate>
+@interface FavoriteViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @end
 
-@implementation ProfileViewController {
+@implementation FavoriteViewController {
 	NSString * _uid;
 	NSString *_nickName;
 	BOOL _isMyProfile;
@@ -44,15 +44,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	ProfileShareModel *shareListModel;
 }
 
-- (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile {
+- (id)initWitBackground:(UIImage *)backgroundImage {
 	self = [super init];
 	if (self) {
-		_uid = uid;
-		_nickName = nickName;
-		_isMyProfile = isMyProfile;
-
+		[self initBackground:backgroundImage];
 		[self initUI];
-		[self initData];
+		//[self initData];
 		[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
@@ -78,12 +75,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated;
@@ -98,7 +95,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-	return UIStatusBarStyleLightContent;
+	return UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -106,10 +103,16 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	return NO;
 }
 
-- (void)initUI {
-	self.title = _nickName;
-	[self initBarButton];
+- (void)initBackground:(UIImage *)backgroundImage {
+//	self.view.backgroundColor = [UIColor redColor];
+//	NSLog(@"bg: %f, %f %f", backgroundImage.size.width, backgroundImage.size.height, backgroundImage.scale);
+//	NSLog(@"bounds: %@", NSStringFromCGRect(self.view.bounds));
+	UIImageView *bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+	[bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
+	[self.view addSubview:bgView];
+}
 
+- (void)initUI {
 	//1.初始化layout
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	//设置collectionView滚动方向
@@ -126,9 +129,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	layout.itemSize =CGSizeMake(itemWidth, itemWidth);
 
 	//2.初始化collectionView
-	mainCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
+																			kFavoriteCVMarginTop,
+																			self.view.bounds.size.width,
+																			self.view.bounds.size.height - kFavoriteCVMarginTop)
+											collectionViewLayout:layout];
 	[self.view addSubview:mainCollectionView];
 	mainCollectionView.backgroundColor = [UIColor whiteColor];
+	mainCollectionView.alpha = 0.9;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
@@ -173,7 +181,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)initHeaderView {
 	profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
-	profileHeaderView.profileHeaderViewDelegate = self;
 }
 
 - (void)initData {
@@ -187,9 +194,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	static const long kShareListPageCount = 10;
 
 	++currentPageStart;
-	//[MiaAPIHelper getShareListWithUID:_uid start:currentPageStart item:kShareListPageCount];
-	// for test
-	[MiaAPIHelper getShareListWithUID:@"442" start:currentPageStart item:kShareListPageCount];
+	[MiaAPIHelper getShareListWithUID:_uid start:currentPageStart item:kShareListPageCount];
+	//[MiaAPIHelper getShareListWithUID:@"106" start:currentPageStart item:kShareListPageCount];
 }
 
 - (void)requestFavoriteList {
@@ -296,48 +302,31 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)profileHeaderViewDidTouchedCover {
-	NSLog(@"cover button clicked.");
-
-	FavoriteViewController *vc = [[FavoriteViewController alloc] initWitBackground:[UIImage getImageFromView:self.navigationController.view
-																									   frame:self.view.bounds]];
-	[self.navigationController pushViewController:vc animated:YES];
-
-}
-
-- (void)profileHeaderViewDidTouchedPlay {
-	NSLog(@"play button clicked.");
-}
-
 #pragma mark - Notification
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	//id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
-		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
+		//[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
-		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
+		//[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
-- (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[mainCollectionView footerEndRefreshing];
+//- (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+//	[mainCollectionView footerEndRefreshing];
+//
+//	NSArray *shareList = userInfo[@"v"][@"info"];
+//	if (!shareList)
+//		return;
+//
+//	[shareListModel addSharesWithArray:shareList];
+//	[mainCollectionView reloadData];
+//}
 
-	NSArray *shareList = userInfo[@"v"][@"info"];
-	if (!shareList)
-		return;
-
-	[shareListModel addSharesWithArray:shareList];
-	[mainCollectionView reloadData];
-}
-
-- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	//BOOL isSuccess = (0 == ret);
-	//NSLog(@"%@", userInfo);
-}
 
 #pragma mark - button Actions
 

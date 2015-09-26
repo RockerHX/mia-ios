@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ProfileHeaderViewDelegate
+
+- (void)profileHeaderViewDidTouchedCover;
+- (void)profileHeaderViewDidTouchedPlay;
+
+@end
+
 @interface ProfileHeaderView : UIView
+
+@property (weak, nonatomic)id<ProfileHeaderViewDelegate> profileHeaderViewDelegate;
 
 @end
