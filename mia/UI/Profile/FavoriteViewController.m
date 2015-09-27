@@ -15,7 +15,7 @@
 #import "ProfileCollectionViewCell.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "ProfileShareModel.h"
+#import "FavoriteModel.h"
 #import "DetailViewController.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
@@ -40,7 +40,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 	UICollectionView *mainCollectionView;
 	UIView *favoriteHeaderView;
-	ProfileShareModel *shareListModel;
+	FavoriteModel *favoriteModel;
 }
 
 - (id)initWitBackground:(UIImage *)backgroundImage {
@@ -49,7 +49,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 		[self initBackground:backgroundImage];
 		[self initTopView];
 		[self initCollectionView];
-		//[self initData];
+		[self initData];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
@@ -153,7 +153,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 	mainCollectionView.delegate = self;
 	mainCollectionView.dataSource = self;
 
-	[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
+	[mainCollectionView addFooterWithTarget:self action:@selector(requestFavoriteList)];
 
 	[self initHeaderView];
 }
@@ -164,18 +164,9 @@ static const CGFloat kFavoriteItemHeight	= 50;
 }
 
 - (void)initData {
-	shareListModel = [[ProfileShareModel alloc] init];
+	favoriteModel = [[FavoriteModel alloc] init];
 
-	[self requestShareList];
 	[self requestFavoriteList];
-}
-
-- (void)requestShareList {
-	static const long kShareListPageCount = 10;
-
-	++currentPageStart;
-	[MiaAPIHelper getShareListWithUID:_uid start:currentPageStart item:kShareListPageCount];
-	//[MiaAPIHelper getShareListWithUID:@"106" start:currentPageStart item:kShareListPageCount];
 }
 
 - (void)requestFavoriteList {
@@ -194,7 +185,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return shareListModel.dataSource.count;
+	return favoriteModel.dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -203,7 +194,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 																												 forIndexPath:indexPath];
 //	cell.isBiggerCell = NO;
 //	cell.isMyProfile = _isMyProfile;
-//	cell.shareItem = shareListModel.dataSource[indexPath.row];
+//	cell.shareItem = favoriteModel.dataSource[indexPath.row];
 	return cell;
 }
 
@@ -268,26 +259,24 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	//id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
 
-	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
-		//[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
-		//[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
+	if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
+		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
-//- (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-//	[mainCollectionView footerEndRefreshing];
-//
-//	NSArray *shareList = userInfo[@"v"][@"info"];
-//	if (!shareList)
-//		return;
-//
-//	[shareListModel addSharesWithArray:shareList];
-//	[mainCollectionView reloadData];
-//}
+- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	[mainCollectionView footerEndRefreshing];
+
+	NSArray *items = userInfo[@"v"][@"info"];
+	if (!items)
+		return;
+
+	[favoriteModel addItemsWithArray:items];
+	[mainCollectionView reloadData];
+}
 
 
 #pragma mark - button Actions

@@ -254,15 +254,14 @@ static const CGFloat kFavoriteHeight = 25;
 	}
 }
 
+- (ShareItem *)currentShareItem {
+	return [[loopPlayerView getCurrentPlayerView] shareItem];
+}
+
 - (void)updateUIInfo:(ShareItem *)item {
-	_currentShareItem = item;
 	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[locationLabel setText:[item sAddress]];
-}
-
-- (ShareItem*)currentShareItem {
-	return [loopPlayerView getCurrentPlayerView].shareItem;
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
@@ -313,7 +312,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[loopPlayerView getLeftPlayerView].shareItem = [loopPlayerView getCurrentPlayerView].shareItem;
 	// 用右边的卡片内容替代当前的卡片内容
 	[loopPlayerView getCurrentPlayerView].shareItem = [loopPlayerView getRightPlayerView].shareItem;
-	[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+
 	// 更新右边的卡片内容
 	if ([shareListMgr cursorShiftRight]) {
 		ShareItem *newItem = [shareListMgr getRightItem];
@@ -321,6 +320,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 		// 播放当前卡片上的歌曲
 		[[loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -363,8 +363,8 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
-		_currentShareItem.favorite = !_currentShareItem.favorite;
-		[self updateShareButtonWithIsFavorite:_currentShareItem.favorite];
+		[self currentShareItem].favorite = ![self currentShareItem].favorite;
+		[self updateShareButtonWithIsFavorite:[self currentShareItem].favorite];
 	} else {
 		NSLog(@"report skip music failed.");
 	}
@@ -376,7 +376,7 @@ static const CGFloat kFavoriteHeight = 25;
 	NSLog(@"#swipe# up spred");
 	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
 	// TODO 使用获取到的经纬度来上报
-	[MiaAPIHelper InfectMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[_currentShareItem spID]];
+	[MiaAPIHelper InfectMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[[self currentShareItem] spID]];
 }
 
 - (void)skipFeed {
@@ -390,7 +390,6 @@ static const CGFloat kFavoriteHeight = 25;
 
 	// 用右边的卡片替代当前卡片内容
 	[loopPlayerView getCurrentPlayerView].shareItem = [loopPlayerView getRightPlayerView].shareItem;
-	[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
 
 	// 删除当前卡片并更新右侧的卡片
 	if ([shareListMgr cursorShiftRightWithRemoveCurrent]) {
@@ -399,12 +398,13 @@ static const CGFloat kFavoriteHeight = 25;
 
 		// 播放当前卡片上的歌曲
 		[[loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
 
 		// TODO 使用获取到的经纬度来上报
-		[MiaAPIHelper SkipMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[_currentShareItem spID]];
+		[MiaAPIHelper SkipMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[[self currentShareItem] spID]];
 	} else {
 		NSLog(@"skip feed failed.");
 		// TODO 这种情况应该从界面上禁止他翻页
@@ -432,6 +432,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 		// 播放当前卡片上的歌曲
 		[[loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -455,6 +456,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 		// 播放当前卡片上的歌曲
 		[[loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -470,7 +472,7 @@ static const CGFloat kFavoriteHeight = 25;
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"favorite to profile page.");
 
-		[MiaAPIHelper favoriteMusicWithShareID:_currentShareItem.spID isFavorite:!_currentShareItem.favorite];
+		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID isFavorite:![self currentShareItem].favorite];
 	} else {
 		[_radioViewDelegate radioViewShouldLogin];
 	}

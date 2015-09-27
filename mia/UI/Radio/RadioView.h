@@ -17,7 +17,7 @@
 
 @interface RadioView : UIView
 
-@property (strong, nonatomic) ShareItem *currentShareItem;
+@property (strong, nonatomic, readonly) ShareItem *currentShareItem;
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 @property (assign, nonatomic) BOOL isLoading;
 
