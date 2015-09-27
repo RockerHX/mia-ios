@@ -376,6 +376,8 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 - (void)editButtonAction:(id)sender {}
 
-- (void)closeButtonAction:(id)sender {}
+- (void)closeButtonAction:(id)sender {
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

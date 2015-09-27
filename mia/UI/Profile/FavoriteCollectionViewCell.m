@@ -37,17 +37,10 @@
 }
 
 - (void)initUI:(UIView *)contentView {
-	contentView.backgroundColor = [UIColor orangeColor];
-//	coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
-//	[coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
-//	[contentView addSubview:coverImageView];
-//	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
-//	[coverMaskImageView setImage:[UIImage imageNamed:@"cover_mask"]];
-//	[contentView addSubview:coverMaskImageView];
-
+	//contentView.backgroundColor = [UIColor orangeColor];
 	const static CGFloat kFavoriteCellMarginLeft			= 30;
 	const static CGFloat kIndexLabelHeight					= 20;
-	const static CGFloat kIndexLabelMarginTop				= 20;
+	const static CGFloat kIndexLabelMarginTop				= 26;
 
 	MIALabel *indexLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																  kIndexLabelMarginTop,
@@ -58,7 +51,7 @@
 											 textColor:[UIColor blackColor]
 										 textAlignment:NSTextAlignmentCenter
 										   numberLines:1];
-	indexLabel.backgroundColor = [UIColor blueColor];
+	//indexLabel.backgroundColor = [UIColor blueColor];
 	[contentView addSubview:indexLabel];
 
 	const static CGFloat kShareLabelMarginTop				= 0;
@@ -73,7 +66,7 @@
 												 textColor:[UIColor grayColor]
 											 textAlignment:NSTextAlignmentLeft
 											   numberLines:1];
-	sharerLabel.backgroundColor = [UIColor yellowColor];
+	//sharerLabel.backgroundColor = [UIColor yellowColor];
 	[contentView addSubview:sharerLabel];
 
 	const static CGFloat kDownloadStateMarginLeft		= kFavoriteCellMarginLeft;
@@ -89,7 +82,7 @@
 
 	const static CGFloat kSongLabelHeight					= 20;
 	const static CGFloat kSongLabelMarginTop				= kShareLabelMarginTop + kShareLabelHeight + 5;
-	const static CGFloat kSongLabelMarginLeft				= kDownloadStateMarginLeft + kDownloadStateWidth;
+	const static CGFloat kSongLabelMarginLeft				= kDownloadStateMarginLeft + kDownloadStateWidth + 5;
 
 	MIALabel *songLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSongLabelMarginLeft,
 																	  kSongLabelMarginTop,
@@ -100,7 +93,7 @@
 												 textColor:[UIColor blackColor]
 											 textAlignment:NSTextAlignmentLeft
 											   numberLines:1];
-	songLabel.backgroundColor = [UIColor greenColor];
+	//songLabel.backgroundColor = [UIColor greenColor];
 	[contentView addSubview:songLabel];
 }
 
