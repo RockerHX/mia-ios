@@ -12,11 +12,12 @@
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
-#import "ProfileCollectionViewCell.h"
+#import "FavoriteCollectionViewCell.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "FavoriteModel.h"
 #import "DetailViewController.h"
+#import "MIALabel.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -41,6 +42,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 	UICollectionView *mainCollectionView;
 	UIView *favoriteHeaderView;
 	FavoriteModel *favoriteModel;
+	BOOL isEditing;
 }
 
 - (id)initWitBackground:(UIImage *)backgroundImage {
@@ -144,7 +146,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[mainCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+	[mainCollectionView registerClass:[FavoriteCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
 	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
@@ -160,7 +162,59 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 - (void)initHeaderView {
 	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
-	favoriteHeaderView.backgroundColor = [UIColor yellowColor];
+//	favoriteHeaderView.backgroundColor = [UIColor yellowColor];
+
+	static const CGFloat kTitleMarginLeft		= 15;
+	static const CGFloat kTitleMarginTop		= 15;
+	static const CGFloat kTitleWidth			= 100;
+	static const CGFloat kTitleHeight			= 20;
+
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kTitleMarginLeft,
+														  kTitleMarginTop,
+														  kTitleWidth,
+														  kTitleHeight)
+										  text:@"收藏(30首)"
+										  font:UIFontFromSize(16.0f)
+										   textColor:[UIColor blackColor]
+									   textAlignment:NSTextAlignmentLeft
+								   numberLines:1];
+	[favoriteHeaderView addSubview:titleLabel];
+
+	static const CGFloat kPlayButtonMarginLeft		= 105;
+	static const CGFloat kPlayButtonMarginTop		= 15;
+	static const CGFloat kPlayButtonWidth			= 20;
+	static const CGFloat kPlayButtonHeight			= 20;
+
+	MIAButton *playButton = [[MIAButton alloc] initWithFrame:CGRectMake(kPlayButtonMarginLeft,
+																		kPlayButtonMarginTop,
+																		kPlayButtonWidth,
+																		kPlayButtonHeight)
+									  titleString:nil
+									   titleColor:nil
+											 font:nil
+										  logoImg:nil
+								  backgroundImage:nil];
+	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[favoriteHeaderView addSubview:playButton];
+
+	static const CGFloat kEditButtonMarginRight		= 15;
+	static const CGFloat kEditButtonMarginTop		= 15;
+	static const CGFloat kEditButtonWidth			= 40;
+	static const CGFloat kEditButtonHeight			= 20;
+
+	MIAButton *editButton = [[MIAButton alloc] initWithFrame:CGRectMake(favoriteHeaderView.bounds.size.width - kEditButtonMarginRight - kEditButtonWidth,
+																		kEditButtonMarginTop,
+																		kEditButtonWidth,
+																		kEditButtonHeight)
+												 titleString:@"编辑"
+												  titleColor:[UIColor redColor]
+														font:UIFontFromSize(12)
+													 logoImg:nil
+											 backgroundImage:nil];
+	[editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[favoriteHeaderView addSubview:editButton];
+
 }
 
 - (void)initData {
@@ -189,12 +243,10 @@ static const CGFloat kFavoriteItemHeight	= 50;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
-
+	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
 																												 forIndexPath:indexPath];
-//	cell.isBiggerCell = NO;
-//	cell.isMyProfile = _isMyProfile;
-//	cell.shareItem = favoriteModel.dataSource[indexPath.row];
+	cell.rowIndex = indexPath.row;
+	cell.isEditing = isEditing;
 	return cell;
 }
 
@@ -249,10 +301,11 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:cell.shareItem];
-	[self.navigationController pushViewController:vc animated:YES];
+	NSLog(@"selectItemAt:%@", cell.favoriteItem);
+//	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:cell.shareItem];
+//	[self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Notification
@@ -292,5 +345,9 @@ static const CGFloat kFavoriteItemHeight	= 50;
 - (void)touchedTopView {
 	[self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)playButtonAction:(id)sender {}
+
+- (void)editButtonAction:(id)sender {}
 
 @end
