@@ -13,7 +13,6 @@
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
 #import "ProfileCollectionViewCell.h"
-#import "ProfileHeaderView.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "ProfileShareModel.h"
@@ -26,7 +25,8 @@ static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 static const CGFloat kFavoriteCVMarginTop	= 200;
 static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
-static const CGFloat kProfileHeaderHeight 	= 240;
+static const CGFloat kProfileHeaderHeight 	= 64;
+static const CGFloat kFavoriteItemHeight	= 50;
 
 @interface FavoriteViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -35,12 +35,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 @implementation FavoriteViewController {
 	NSString * _uid;
 	NSString *_nickName;
-	BOOL _isMyProfile;
 
 	long currentPageStart;
 
 	UICollectionView *mainCollectionView;
-	ProfileHeaderView *profileHeaderView;
+	UIView *favoriteHeaderView;
 	ProfileShareModel *shareListModel;
 }
 
@@ -48,9 +47,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	self = [super init];
 	if (self) {
 		[self initBackground:backgroundImage];
-		[self initUI];
+		[self initTopView];
+		[self initCollectionView];
 		//[self initData];
-		[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
@@ -112,21 +111,26 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self.view addSubview:bgView];
 }
 
-- (void)initUI {
+- (void)initTopView {
+	UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kFavoriteCVMarginTop)];
+	[self.view addSubview:topView];
+
+	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTopView)];
+	gesture.numberOfTapsRequired = 1;
+	[topView addGestureRecognizer:gesture];
+}
+
+- (void)initCollectionView {
 	//1.初始化layout
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	//设置collectionView滚动方向
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
-	if (_isMyProfile) {
-		layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
-	} else {
-		layout.headerReferenceSize = CGSizeZero;
-	}
+	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
 
 	//该方法也可以设置itemSize
-	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
-	layout.itemSize =CGSizeMake(itemWidth, itemWidth);
+	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
+	layout.itemSize =CGSizeMake(itemWidth, kFavoriteItemHeight);
 
 	//2.初始化collectionView
 	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
@@ -141,7 +145,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
 	[mainCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
-	[mainCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
 	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
@@ -150,37 +153,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	mainCollectionView.delegate = self;
 	mainCollectionView.dataSource = self;
 
+	[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
+
 	[self initHeaderView];
 }
 
-- (void)initBarButton {
-	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
-	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height)
-												 titleString:nil
-												  titleColor:nil
-														font:nil
-													 logoImg:nil
-											 backgroundImage:backButtonImage];
-	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-	self.navigationItem.leftBarButtonItem = leftButton;
-	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-
-	if (_isMyProfile) {
-		UIImage *settingButtonImage = [UIImage imageNamed:@"setting"];
-		MIAButton *settingButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, settingButtonImage.size.width, settingButtonImage.size.height)
-														titleString:nil
-														 titleColor:nil
-															   font:nil
-															logoImg:nil
-													backgroundImage:settingButtonImage];
-		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
-		self.navigationItem.rightBarButtonItem = rightButton;
-		[settingButton addTarget:self action:@selector(settingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	}
-}
-
 - (void)initHeaderView {
-	profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
+	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
+	favoriteHeaderView.backgroundColor = [UIColor yellowColor];
 }
 
 - (void)initData {
@@ -218,34 +198,19 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (!_isMyProfile && indexPath.row == 0) {
-		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier
-																												 forIndexPath:indexPath];
-		cell.isBiggerCell = YES;
-		cell.isMyProfile = _isMyProfile;
-		cell.shareItem = shareListModel.dataSource[indexPath.row];
-		return cell;
-	} else {
-		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
+	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
 
 																												 forIndexPath:indexPath];
-		cell.isBiggerCell = NO;
-		cell.isMyProfile = _isMyProfile;
-		cell.shareItem = shareListModel.dataSource[indexPath.row];
-		return cell;
-	}
+//	cell.isBiggerCell = NO;
+//	cell.isMyProfile = _isMyProfile;
+//	cell.shareItem = shareListModel.dataSource[indexPath.row];
+	return cell;
 }
 
 //设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
-
-	// 如果是客人态的话，第一个cell显示成长方形
-	if (!_isMyProfile && indexPath.row == 0) {
-		return CGSizeMake(self.view.frame.size.width - 2 * kProfileItemMarginH, itemWidth);
-	} else {
-		return CGSizeMake(itemWidth, itemWidth);
-	}
+	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
+	return CGSizeMake(itemWidth, kFavoriteItemHeight);
 }
 
 //footer的size
@@ -279,13 +244,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 //通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	if (!_isMyProfile)
-		return nil;
-
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
-			[contentView addSubview:profileHeaderView];
+			[contentView addSubview:favoriteHeaderView];
 		}
 		return contentView;
 	} else {
@@ -331,7 +293,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
-	NSLog(@"back button clicked.");
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -339,5 +300,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	NSLog(@"setting button clicked.");
 }
 
+- (void)touchedTopView {
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 @end
