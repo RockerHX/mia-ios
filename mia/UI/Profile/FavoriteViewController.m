@@ -270,7 +270,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 - (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	[mainCollectionView footerEndRefreshing];
 
-	NSArray *items = userInfo[@"v"][@"info"];
+	NSArray *items = userInfo[@"v"][@"data"];
 	if (!items)
 		return;
 

@@ -7,7 +7,7 @@
 //
 
 #import "FavoriteModel.h"
-#import "ShareItem.h"
+#import "FavoriteItem.h"
 
 @implementation FavoriteModel
 
@@ -22,9 +22,9 @@
 
 - (void)addItemsWithArray:(NSArray *) items {
 	for(id item in items){
-		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
-		//NSLog(@"%@", shareItem);
-		[_dataSource addObject:shareItem];
+		FavoriteItem *favoriteItem = [[FavoriteItem alloc] initWithDictionary:item];
+		NSLog(@"%@", favoriteItem);
+		[_dataSource addObject:favoriteItem];
 	}
 }
 
