@@ -51,6 +51,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 		[self initBackground:backgroundImage];
 		[self initTopView];
 		[self initCollectionView];
+		[self initBottomView];
 		[self initData];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
@@ -120,6 +121,31 @@ static const CGFloat kFavoriteItemHeight	= 50;
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTopView)];
 	gesture.numberOfTapsRequired = 1;
 	[topView addGestureRecognizer:gesture];
+}
+
+- (void)initBottomView {
+	const static CGFloat kBottomViewHeight = 40;
+	const static CGFloat kLineViewHeight = 1;
+
+	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kBottomViewHeight, self.view.bounds.size.width, kBottomViewHeight)];
+	//bottomView.backgroundColor = [UIColor yellowColor];
+	[self.view addSubview:bottomView];
+
+	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bottomView.bounds.size.width, kLineViewHeight)];
+	lineView.backgroundColor = UIColorFromHex(@"d2d2d2", 1.0);
+	[bottomView addSubview:lineView];
+
+	MIAButton *closeButton = [[MIAButton alloc] initWithFrame:CGRectMake(0,
+																		kLineViewHeight,
+																		bottomView.bounds.size.width,
+																		bottomView.bounds.size.height - kLineViewHeight)
+												 titleString:@"关闭"
+												  titleColor:UIColorFromHex(@"ff300e", 1.0)
+														font:UIFontFromSize(16)
+													 logoImg:nil
+											 backgroundImage:nil];
+	[closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[bottomView addSubview:closeButton];
 }
 
 - (void)initCollectionView {
@@ -349,5 +375,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 - (void)playButtonAction:(id)sender {}
 
 - (void)editButtonAction:(id)sender {}
+
+- (void)closeButtonAction:(id)sender {}
 
 @end
