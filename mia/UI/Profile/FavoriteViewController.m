@@ -18,14 +18,13 @@
 #import "DetailViewController.h"
 #import "MIALabel.h"
 
-static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
-static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
-static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
+static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
+static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
 
 static const CGFloat kFavoriteCVMarginTop	= 200;
-static const CGFloat kProfileItemMarginH 	= 10;
-static const CGFloat kProfileItemMarginV 	= 10;
-static const CGFloat kProfileHeaderHeight 	= 64;
+static const CGFloat kFavoriteItemMarginH 	= 10;
+static const CGFloat kFavoriteItemMarginV 	= 10;
+static const CGFloat kFavoriteHeaderHeight 	= 64;
 static const CGFloat kFavoriteItemHeight	= 50;
 const static CGFloat kBottomViewHeight 		= 40;
 const static CGFloat kFavoriteAlpha 		= 0.9;
@@ -162,10 +161,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	//设置collectionView滚动方向
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
+	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kFavoriteHeaderHeight);
 
 	//该方法也可以设置itemSize
-	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
+	CGFloat itemWidth = self.view.frame.size.width - kFavoriteItemMarginH * 2;
 	layout.itemSize =CGSizeMake(itemWidth, kFavoriteItemHeight);
 
 	//2.初始化collectionView
@@ -180,10 +179,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_favoriteCollectionView registerClass:[FavoriteCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+	[_favoriteCollectionView registerClass:[FavoriteCollectionViewCell class] forCellWithReuseIdentifier:kFavoriteCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[_favoriteCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
+	[_favoriteCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier];
 
 	//4.设置代理
 	_favoriteCollectionView.delegate = self;
@@ -195,7 +194,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)initHeaderView {
-	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
+	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kFavoriteHeaderHeight)];
 //	favoriteHeaderView.backgroundColor = [UIColor yellowColor];
 
 	static const CGFloat kTitleMarginLeft		= 15;
@@ -274,7 +273,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
+	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kFavoriteCellReuseIdentifier
 																												 forIndexPath:indexPath];
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = isEditing;
@@ -285,7 +284,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = self.view.frame.size.width - kProfileItemMarginH * 2;
+	CGFloat itemWidth = self.view.frame.size.width - kFavoriteItemMarginH * 2;
 	return CGSizeMake(itemWidth, kFavoriteItemHeight);
 }
 
@@ -308,20 +307,20 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return kProfileItemMarginH;
+	return kFavoriteItemMarginH;
 }
 
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return kProfileItemMarginV;
+	return kFavoriteItemMarginV;
 }
 
 
 //通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
-		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
 			[contentView addSubview:favoriteHeaderView];
 		}
