@@ -15,6 +15,7 @@
 
 
 @implementation ProfileHeaderView {
+	MIAButton *playButton;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -58,7 +59,7 @@
 	static const CGFloat kPlayButtonMarginTop = 65;
 	static const CGFloat kPlayButtonWidth = 40;
 
-	MIAButton *playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
+	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
 																		kPlayButtonMarginTop,
 																		kPlayButtonWidth,
 																		kPlayButtonWidth)
@@ -191,6 +192,15 @@
 									   textAlignment:NSTextAlignmentCenter
 												  numberLines:1];
 	[self addSubview:wifiTipsLabel];
+}
+
+- (void)setIsPlaying:(BOOL)isPlaying {
+	_isPlaying = isPlaying;
+	if (_isPlaying) {
+		[playButton setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	} else {
+		[playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	}
 }
 
 - (UIImage *)getBannerImageFromCover:(UIImage *)orgImage containerSize:(CGSize)containerSize {

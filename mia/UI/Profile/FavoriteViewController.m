@@ -277,6 +277,9 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 																												 forIndexPath:indexPath];
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = isEditing;
+	if ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row) {
+		cell.isPlaying = YES;
+	}
 	cell.favoriteItem = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
 	
 	return cell;

@@ -109,14 +109,6 @@
 	[contentView addSubview:songLabel];
 }
 
-- (void)setIsEditing:(BOOL)value {
-	_isEditing = value;
-}
-
-- (void)setRowIndex:(NSInteger)value {
-	_rowIndex = value;
-}
-
 - (void)setFavoriteItem:(FavoriteItem *)item {
 	_favoriteItem = item;
 
@@ -124,7 +116,7 @@
 	[sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
 	[songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
 
-	if (_favoriteItem.isPlaying) {
+	if (_isPlaying) {
 		[sharerLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
 		[songLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
 	} else {

@@ -20,6 +20,8 @@
 #import "FavoriteModel.h"
 #import "DetailViewController.h"
 #import "FavoriteViewController.h"
+#import "MusicPlayerMgr.h"
+#import "FavoriteItem.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -37,6 +39,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	NSString * _uid;
 	NSString *_nickName;
 	BOOL _isMyProfile;
+	BOOL playingFavorite;
 
 	long currentPageStart;
 
@@ -308,6 +311,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)profileHeaderViewDidTouchedCover {
+	if (!playingFavorite) {
+		[self playMusic];
+	}
+
 	[favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
 															  frame:self.view.bounds]];
 	[self.navigationController pushViewController:favoriteViewController animated:YES];
@@ -315,7 +322,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)profileHeaderViewDidTouchedPlay {
-	NSLog(@"play button clicked.");
+	if (!playingFavorite) {
+		[self playMusic];
+	} else {
+		[self pauseMusic];
+	}
 }
 
 - (FavoriteModel *)favoriteViewControllerModel {
@@ -362,6 +373,31 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (favoriteViewController) {
 		[favoriteViewController.favoriteCollectionView reloadData];
 	}
+}
+
+#pragma mark - audio operations
+
+- (void)playMusic {
+	playingFavorite = YES;
+
+	FavoriteItem *currentItem = favoriteModel.dataSource[favoriteModel.currentPlaying];
+	NSString *musicUrl = [[currentItem music] murl];
+	NSString *musicTitle = [[currentItem music] name];
+	NSString *musicArtist = [[currentItem music] singerName];
+
+	if (!musicUrl || !musicTitle || !musicArtist) {
+		NSLog(@"Music is nil, stop play it.");
+		return;
+	}
+
+	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[profileHeaderView setIsPlaying:YES];
+
+}
+
+- (void)pauseMusic {
+	[[MusicPlayerMgr standard] pause];
+	[profileHeaderView setIsPlaying:NO];
 }
 
 #pragma mark - button Actions

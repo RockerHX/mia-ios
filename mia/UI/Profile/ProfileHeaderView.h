@@ -18,5 +18,6 @@
 @interface ProfileHeaderView : UIView
 
 @property (weak, nonatomic)id<ProfileHeaderViewDelegate> profileHeaderViewDelegate;
+@property (assign, nonatomic) BOOL isPlaying;
 
 @end
