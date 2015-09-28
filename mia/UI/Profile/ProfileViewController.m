@@ -40,7 +40,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	long currentPageStart;
 
-	UICollectionView *mainCollectionView;
+	UICollectionView *profileCollectionView;
 	ProfileHeaderView *profileHeaderView;
 	FavoriteViewController *favoriteViewController;
 
@@ -57,7 +57,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 		[self initUI];
 		[self initData];
-		[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
+		[profileCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
 
 		favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
 		favoriteViewController.favoriteViewControllerDelegate = self;
@@ -133,21 +133,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	layout.itemSize =CGSizeMake(itemWidth, itemWidth);
 
 	//2.初始化collectionView
-	mainCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-	[self.view addSubview:mainCollectionView];
-	mainCollectionView.backgroundColor = [UIColor whiteColor];
+	profileCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+	[self.view addSubview:profileCollectionView];
+	profileCollectionView.backgroundColor = [UIColor whiteColor];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[mainCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
-	[mainCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
+	[profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+	[profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
+	[profileCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
 
 	//4.设置代理
-	mainCollectionView.delegate = self;
-	mainCollectionView.dataSource = self;
+	profileCollectionView.delegate = self;
+	profileCollectionView.dataSource = self;
 
 	[self initHeaderView];
 }
@@ -341,14 +341,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[mainCollectionView footerEndRefreshing];
+	[profileCollectionView footerEndRefreshing];
 
 	NSArray *shareList = userInfo[@"v"][@"info"];
 	if (!shareList)
 		return;
 
 	[shareListModel addSharesWithArray:shareList];
-	[mainCollectionView reloadData];
+	[profileCollectionView reloadData];
 }
 
 - (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {

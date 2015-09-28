@@ -19,7 +19,6 @@
 		390BADD11BAFE188006269FD /* login_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADCE1BAFE188006269FD /* login_logo@2x.png */; };
 		390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD31BB00A5E006269FD /* SignUpViewController.m */; };
 		390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD61BB03A3E006269FD /* ResetPwdViewController.m */; };
-		392B3D141BB3D2C000DA87B9 /* TVDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 392B3D131BB3D2C000DA87B9 /* TVDetailViewController.m */; };
 		393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */; };
 		393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE99D1BB789C400FCF232 /* FavoriteModel.m */; };
 		393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9A11BB7953E00FCF232 /* FavoriteItem.m */; };
@@ -150,8 +149,6 @@
 		390BADD31BB00A5E006269FD /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		390BADD51BB03A3E006269FD /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
 		390BADD61BB03A3E006269FD /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
-		392B3D121BB3D2C000DA87B9 /* TVDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVDetailViewController.h; sourceTree = "<group>"; };
-		392B3D131BB3D2C000DA87B9 /* TVDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVDetailViewController.m; sourceTree = "<group>"; };
 		393CE9981BB53B3B00FCF232 /* FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteViewController.h; sourceTree = "<group>"; };
 		393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
 		393CE99C1BB789C400FCF232 /* FavoriteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteModel.h; sourceTree = "<group>"; };
@@ -958,8 +955,6 @@
 		39CA061E1BADBD6C0074FD13 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				392B3D121BB3D2C000DA87B9 /* TVDetailViewController.h */,
-				392B3D131BB3D2C000DA87B9 /* TVDetailViewController.m */,
 				390BADBA1BAEB375006269FD /* CommentTableView.h */,
 				390BADBB1BAEB375006269FD /* CommentTableView.m */,
 				390BADBC1BAEB375006269FD /* CommentCollectionViewCell.h */,
@@ -1219,7 +1214,6 @@
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */,
-				392B3D141BB3D2C000DA87B9 /* TVDetailViewController.m in Sources */,
 				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
 				39BCADCC1BA02F3100C6F7F2 /* SDWebImageDecoder.m in Sources */,
 				39BCADD31BA02F3100C6F7F2 /* UIImage+MultiFormat.m in Sources */,
