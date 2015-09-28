@@ -44,6 +44,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	MIAButton *closeButton;
 
 	UIView *favoriteHeaderView;
+	MIAButton *playButton;
+
 	BOOL isEditing;
 }
 
@@ -215,10 +217,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 	static const CGFloat kPlayButtonMarginLeft		= 105;
 	static const CGFloat kPlayButtonMarginTop		= 15;
-	static const CGFloat kPlayButtonWidth			= 20;
-	static const CGFloat kPlayButtonHeight			= 20;
+	static const CGFloat kPlayButtonWidth			= 16;
+	static const CGFloat kPlayButtonHeight			= 16;
 
-	MIAButton *playButton = [[MIAButton alloc] initWithFrame:CGRectMake(kPlayButtonMarginLeft,
+	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(kPlayButtonMarginLeft,
 																		kPlayButtonMarginTop,
 																		kPlayButtonWidth,
 																		kPlayButtonHeight)
@@ -226,9 +228,9 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 									   titleColor:nil
 											 font:nil
 										  logoImg:nil
-								  backgroundImage:nil];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+								  backgroundImage:[UIImage imageNamed:@"play_black"]];
 	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	playButton.backgroundColor = [UIColor yellowColor];
 	[favoriteHeaderView addSubview:playButton];
 
 	static const CGFloat kEditButtonMarginRight		= 15;
@@ -248,6 +250,15 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[favoriteHeaderView addSubview:editButton];
 
+}
+
+- (void)setIsPlaying:(BOOL)isPlaying {
+	_isPlaying = isPlaying;
+	if (isPlaying) {
+		[playButton setBackgroundImage:[UIImage imageNamed:@"puase_black"] forState:UIControlStateNormal];
+	} else {
+		[playButton setBackgroundImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
+	}
 }
 
 - (void)requestFavoriteList {
@@ -278,7 +289,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = isEditing;
 	if ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row) {
+		NSLog(@"-------> %ld", indexPath.row);
 		cell.isPlaying = YES;
+	} else {
+		cell.isPlaying = NO;
 	}
 	cell.favoriteItem = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
 	
@@ -336,9 +350,21 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	NSInteger lastPlayingRow = [_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying;
+	if (lastPlayingRow == indexPath.row)
+		return;
 
-	NSLog(@"selectItemAt:%@", cell.favoriteItem);
+	NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
+	FavoriteCollectionViewCell *lastPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:lastIndexPath];
+	lastPlayingCell.isPlaying = NO;
+
+	FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	currentPlayingCell.isPlaying = YES;
+
+	[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying = indexPath.row;
+	[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];
+
+	[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
 }
 
 #pragma mark - Notification
@@ -375,7 +401,13 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)playButtonAction:(id)sender {}
+- (void)playButtonAction:(id)sender {
+	if (_isPlaying) {
+		[_favoriteViewControllerDelegate favoriteViewControllerPauseMusic];
+	} else {
+		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];
+	}
+}
 
 - (void)editButtonAction:(id)sender {
 	isEditing = !isEditing;

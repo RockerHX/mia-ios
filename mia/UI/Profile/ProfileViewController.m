@@ -312,7 +312,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)profileHeaderViewDidTouchedCover {
 	if (!playingFavorite) {
-		[self playMusic];
+		[self playMusic:favoriteModel.currentPlaying];
 	}
 
 	[favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
@@ -323,7 +323,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)profileHeaderViewDidTouchedPlay {
 	if (!playingFavorite) {
-		[self playMusic];
+		[self playMusic:favoriteModel.currentPlaying];
 	} else {
 		[self pauseMusic];
 	}
@@ -335,6 +335,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)favoriteViewControllerRequestFavoriteList {
 	[self requestFavoriteList];
+}
+
+- (void)favoriteViewControllerPlayMusic:(NSInteger)row {
+	[self playMusic:row];
+}
+
+- (void)favoriteViewControllerPauseMusic {
+	[self pauseMusic];
 }
 
 #pragma mark - Notification
@@ -377,10 +385,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 #pragma mark - audio operations
 
-- (void)playMusic {
+- (void)playMusic:(NSInteger)row {
 	playingFavorite = YES;
 
-	FavoriteItem *currentItem = favoriteModel.dataSource[favoriteModel.currentPlaying];
+	FavoriteItem *currentItem = favoriteModel.dataSource[row];
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];
 	NSString *musicArtist = [[currentItem music] singerName];
@@ -392,12 +400,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 	[profileHeaderView setIsPlaying:YES];
+	[favoriteViewController setIsPlaying:YES];
 
 }
 
 - (void)pauseMusic {
 	[[MusicPlayerMgr standard] pause];
 	[profileHeaderView setIsPlaying:NO];
+	[favoriteViewController setIsPlaying:YES];
 }
 
 #pragma mark - button Actions

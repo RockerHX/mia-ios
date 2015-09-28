@@ -13,7 +13,8 @@
 
 - (FavoriteModel *)favoriteViewControllerModel;
 - (void)favoriteViewControllerRequestFavoriteList;
-
+- (void)favoriteViewControllerPlayMusic:(NSInteger)row;
+- (void)favoriteViewControllerPauseMusic;
 @end
 
 
@@ -21,6 +22,7 @@
 
 @property (weak, nonatomic)id<FavoriteViewControllerDelegate> favoriteViewControllerDelegate;
 @property (strong, nonatomic) UICollectionView *favoriteCollectionView;
+@property (assign, nonatomic) BOOL isPlaying;
 
 - (id)initWitBackground:(UIImage *)backgroundImage;
 - (void)setBackground:(UIImage *)backgroundImage;
