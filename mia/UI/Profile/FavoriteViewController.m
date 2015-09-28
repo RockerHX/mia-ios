@@ -19,7 +19,7 @@
 #import "MIALabel.h"
 
 static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
-static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
+//static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
 
 static const CGFloat kFavoriteCVMarginTop	= 200;
 static const CGFloat kFavoriteItemMarginH 	= 10;
@@ -54,6 +54,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (self) {
 		[self initBackground:backgroundImage];
 		[self initTopView];
+		[self initHeaderView];
 		[self initCollectionView];
 		[self initBottomView];
 
@@ -163,7 +164,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	//设置collectionView滚动方向
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kFavoriteHeaderHeight);
+	//layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kFavoriteHeaderHeight);
 
 	//该方法也可以设置itemSize
 	CGFloat itemWidth = self.view.frame.size.width - kFavoriteItemMarginH * 2;
@@ -171,7 +172,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 	//2.初始化collectionView
 	_favoriteCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
-																			kFavoriteCVMarginTop,
+																			kFavoriteCVMarginTop + kFavoriteHeaderHeight,
 																			self.view.bounds.size.width,
 																			self.view.bounds.size.height - kFavoriteCVMarginTop - kBottomViewHeight)
 											collectionViewLayout:layout];
@@ -184,20 +185,20 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_favoriteCollectionView registerClass:[FavoriteCollectionViewCell class] forCellWithReuseIdentifier:kFavoriteCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[_favoriteCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier];
+//	[_favoriteCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier];
 
 	//4.设置代理
 	_favoriteCollectionView.delegate = self;
 	_favoriteCollectionView.dataSource = self;
 
 	[_favoriteCollectionView addFooterWithTarget:self action:@selector(requestFavoriteList)];
-
-	[self initHeaderView];
 }
 
 - (void)initHeaderView {
-	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kFavoriteHeaderHeight)];
-//	favoriteHeaderView.backgroundColor = [UIColor yellowColor];
+	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, kFavoriteCVMarginTop, self.view.bounds.size.width, kFavoriteHeaderHeight)];
+	favoriteHeaderView.backgroundColor = [UIColor whiteColor];
+	favoriteHeaderView.alpha = kFavoriteAlpha;
+	[self.view addSubview:favoriteHeaderView];
 
 	static const CGFloat kTitleMarginLeft		= 15;
 	static const CGFloat kTitleMarginTop		= 15;
@@ -213,9 +214,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
+	titleLabel.backgroundColor = [UIColor greenColor];
 	[favoriteHeaderView addSubview:titleLabel];
 
-	static const CGFloat kPlayButtonMarginLeft		= 105;
+	static const CGFloat kPlayButtonMarginLeft		= 115;
 	static const CGFloat kPlayButtonMarginTop		= 15;
 	static const CGFloat kPlayButtonWidth			= 16;
 	static const CGFloat kPlayButtonHeight			= 16;
@@ -336,16 +338,16 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
-		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier forIndexPath:indexPath];
-		if (contentView.subviews.count == 0) {
-			[contentView addSubview:favoriteHeaderView];
-		}
-		return contentView;
-	} else {
+//	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
+//		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier forIndexPath:indexPath];
+//		if (contentView.subviews.count == 0) {
+//			[contentView addSubview:favoriteHeaderView];
+//		}
+//		return contentView;
+//	} else {
 		NSLog(@"It's maybe a bug.");
 		return nil;
-	}
+//	}
 }
 
 //点击item方法
