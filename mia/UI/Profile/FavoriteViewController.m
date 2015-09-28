@@ -15,7 +15,6 @@
 #import "FavoriteCollectionViewCell.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "FavoriteModel.h"
 #import "DetailViewController.h"
 #import "MIALabel.h"
 
@@ -41,12 +40,11 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 	long currentPageStart;
 
+	UIImageView *bgView;
 	MIAButton *editButton;
 	MIAButton *closeButton;
 
-	UICollectionView *mainCollectionView;
 	UIView *favoriteHeaderView;
-	FavoriteModel *favoriteModel;
 	BOOL isEditing;
 }
 
@@ -57,7 +55,6 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		[self initTopView];
 		[self initCollectionView];
 		[self initBottomView];
-		[self initData];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
@@ -114,9 +111,15 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 //	self.view.backgroundColor = [UIColor redColor];
 //	NSLog(@"bg: %f, %f %f", backgroundImage.size.width, backgroundImage.size.height, backgroundImage.scale);
 //	NSLog(@"bounds: %@", NSStringFromCGRect(self.view.bounds));
-	UIImageView *bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-	[bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
+	bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+	if (backgroundImage) {
+		[bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
+	}
 	[self.view addSubview:bgView];
+}
+
+- (void)setBackground:(UIImage *)backgroundImage {
+	[bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
 }
 
 - (void)initTopView {
@@ -166,27 +169,27 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	layout.itemSize =CGSizeMake(itemWidth, kFavoriteItemHeight);
 
 	//2.初始化collectionView
-	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
+	_favoriteCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
 																			kFavoriteCVMarginTop,
 																			self.view.bounds.size.width,
 																			self.view.bounds.size.height - kFavoriteCVMarginTop - kBottomViewHeight)
 											collectionViewLayout:layout];
-	[self.view addSubview:mainCollectionView];
-	mainCollectionView.backgroundColor = [UIColor whiteColor];
-	mainCollectionView.alpha = kFavoriteAlpha;
+	[self.view addSubview:_favoriteCollectionView];
+	_favoriteCollectionView.backgroundColor = [UIColor whiteColor];
+	_favoriteCollectionView.alpha = kFavoriteAlpha;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[mainCollectionView registerClass:[FavoriteCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+	[_favoriteCollectionView registerClass:[FavoriteCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
+	[_favoriteCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
 
 	//4.设置代理
-	mainCollectionView.delegate = self;
-	mainCollectionView.dataSource = self;
+	_favoriteCollectionView.delegate = self;
+	_favoriteCollectionView.dataSource = self;
 
-	[mainCollectionView addFooterWithTarget:self action:@selector(requestFavoriteList)];
+	[_favoriteCollectionView addFooterWithTarget:self action:@selector(requestFavoriteList)];
 
 	[self initHeaderView];
 }
@@ -248,15 +251,12 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 }
 
-- (void)initData {
-	favoriteModel = [[FavoriteModel alloc] init];
-
-	[self requestFavoriteList];
+- (void)requestFavoriteList {
+	[_favoriteViewControllerDelegate favoriteViewControllerRequestFavoriteList];
 }
 
-- (void)requestFavoriteList {
-	static const long kFavoritePageItemCount	= 10;
-	[MiaAPIHelper getFavoriteListWithStart:favoriteModel.lastID item:kFavoritePageItemCount];
+- (void)endRequestFavoriteList:(BOOL)isSuccessed {
+	[_favoriteCollectionView footerEndRefreshing];
 }
 
 #pragma mark - delegate
@@ -270,7 +270,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return favoriteModel.dataSource.count;
+	return [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -278,7 +278,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 																												 forIndexPath:indexPath];
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = isEditing;
-	cell.favoriteItem = favoriteModel.dataSource[indexPath.row];
+	cell.favoriteItem = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
 	
 	return cell;
 }
@@ -337,32 +337,26 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
 	NSLog(@"selectItemAt:%@", cell.favoriteItem);
-//	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:cell.shareItem];
-//	[self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Notification
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+//	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+//	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
-		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
 }
 
-- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[mainCollectionView footerEndRefreshing];
-
-	NSArray *items = userInfo[@"v"][@"data"];
-	if (!items)
-		return;
-
-	[favoriteModel addItemsWithArray:items];
-	[mainCollectionView reloadData];
-}
+//- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+//	[_favoriteCollectionView footerEndRefreshing];
+//
+//	NSArray *items = userInfo[@"v"][@"data"];
+//	if (!items)
+//		return;
+//
+//	[[_favoriteViewControllerDelegate favoriteViewControllerModel] addItemsWithArray:items];
+//	[_favoriteCollectionView reloadData];
+//}
 
 
 #pragma mark - button Actions
@@ -383,7 +377,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 - (void)editButtonAction:(id)sender {
 	isEditing = !isEditing;
-	[mainCollectionView reloadData];
+	[_favoriteCollectionView reloadData];
 	if (isEditing) {
 		[editButton setTitle:@"完成" forState:UIControlStateNormal];
 		[closeButton setTitle:@"删除" forState:UIControlStateNormal];
@@ -397,7 +391,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (isEditing) {
 		// TODO delete
 		NSLog(@"del sth.");
-		for (FavoriteItem *it in favoriteModel.dataSource) {
+		for (FavoriteItem *it in [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource) {
 			NSLog(@"------is selected:%d", it.isSelected);
 		}
 	} else {

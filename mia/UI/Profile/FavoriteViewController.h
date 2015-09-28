@@ -7,11 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FavoriteModel.h"
+
+@protocol FavoriteViewControllerDelegate
+
+- (FavoriteModel *)favoriteViewControllerModel;
+- (void)favoriteViewControllerRequestFavoriteList;
+
+@end
 
 
 @interface FavoriteViewController : UIViewController
 
+@property (weak, nonatomic)id<FavoriteViewControllerDelegate> favoriteViewControllerDelegate;
+@property (strong, nonatomic) UICollectionView *favoriteCollectionView;
+
 - (id)initWitBackground:(UIImage *)backgroundImage;
+- (void)setBackground:(UIImage *)backgroundImage;
+- (void)endRequestFavoriteList:(BOOL)isSuccessed;
 
 @end
 

@@ -17,6 +17,7 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "ProfileShareModel.h"
+#import "FavoriteModel.h"
 #import "DetailViewController.h"
 #import "FavoriteViewController.h"
 
@@ -28,7 +29,7 @@ static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
 static const CGFloat kProfileHeaderHeight 	= 240;
 
-@interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ProfileHeaderViewDelegate>
+@interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ProfileHeaderViewDelegate, FavoriteViewControllerDelegate>
 
 @end
 
@@ -41,7 +42,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	UICollectionView *mainCollectionView;
 	ProfileHeaderView *profileHeaderView;
+	FavoriteViewController *favoriteViewController;
+
 	ProfileShareModel *shareListModel;
+	FavoriteModel *favoriteModel;
 }
 
 - (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile {
@@ -54,6 +58,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[self initUI];
 		[self initData];
 		[mainCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
+
+		favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
+		favoriteViewController.favoriteViewControllerDelegate = self;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
@@ -181,6 +188,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	[self requestShareList];
 	[self requestFavoriteList];
+
+	favoriteModel = [[FavoriteModel alloc] init];
+
+	[self requestFavoriteList];
 }
 
 - (void)requestShareList {
@@ -194,7 +205,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)requestFavoriteList {
 	static const long kFavoritePageItemCount	= 10;
-	[MiaAPIHelper getFavoriteListWithStart:0 item:kFavoritePageItemCount];
+	[MiaAPIHelper getFavoriteListWithStart:favoriteModel.lastID item:kFavoritePageItemCount];
 }
 
 #pragma mark - delegate
@@ -297,16 +308,22 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)profileHeaderViewDidTouchedCover {
-	NSLog(@"cover button clicked.");
-
-	FavoriteViewController *vc = [[FavoriteViewController alloc] initWitBackground:[UIImage getImageFromView:self.navigationController.view
-																									   frame:self.view.bounds]];
-	[self.navigationController pushViewController:vc animated:YES];
+	[favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
+															  frame:self.view.bounds]];
+	[self.navigationController pushViewController:favoriteViewController animated:YES];
 
 }
 
 - (void)profileHeaderViewDidTouchedPlay {
 	NSLog(@"play button clicked.");
+}
+
+- (FavoriteModel *)favoriteViewControllerModel {
+	return favoriteModel;
+}
+
+- (void)favoriteViewControllerRequestFavoriteList {
+	[self requestFavoriteList];
 }
 
 #pragma mark - Notification
@@ -335,8 +352,16 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	//BOOL isSuccess = (0 == ret);
-	//NSLog(@"%@", userInfo);
+	[favoriteViewController endRequestFavoriteList:ret == 0];
+
+	NSArray *items = userInfo[@"v"][@"data"];
+	if (!items)
+		return;
+
+	[favoriteModel addItemsWithArray:items];
+	if (favoriteViewController) {
+		[favoriteViewController.favoriteCollectionView reloadData];
+	}
 }
 
 #pragma mark - button Actions
