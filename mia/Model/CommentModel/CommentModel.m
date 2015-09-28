@@ -15,6 +15,7 @@
 	self = [super init];
 	if(self) {
 		_dataSource = [[NSMutableArray alloc] init];
+		_lastCommentID = @"0";
 	}
 
 	return self;

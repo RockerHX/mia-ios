@@ -17,12 +17,10 @@
 @end
 
 @implementation FavoriteCollectionViewCell {
-	UIImageView *coverImageView;
-	MIALabel *unreadCountLabel;
-	MIALabel *unreadWordLabel;
-	MIALabel *viewsLabel;
-	MIALabel *musicNameLabel;
-	MIALabel *artistLabel;
+	MIALabel *indexLabel;
+	MIALabel *sharerLabel;
+	UIImageView *downloadStateImageView;
+	MIALabel *songLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -42,7 +40,7 @@
 	const static CGFloat kIndexLabelHeight					= 20;
 	const static CGFloat kIndexLabelMarginTop				= 26;
 
-	MIALabel *indexLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
+	indexLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																  kIndexLabelMarginTop,
 																  kFavoriteCellMarginLeft,
 																  kIndexLabelHeight)
@@ -57,7 +55,7 @@
 	const static CGFloat kShareLabelMarginTop				= 0;
 	const static CGFloat kShareLabelHeight					= 20;
 
-	MIALabel *sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteCellMarginLeft,
+	sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteCellMarginLeft,
 																	  kShareLabelMarginTop,
 																	  contentView.bounds.size.width - kFavoriteCellMarginLeft,
 																	  kShareLabelHeight)
@@ -73,7 +71,7 @@
 	const static CGFloat kDownloadStateMarginTop		= kShareLabelMarginTop + kShareLabelHeight + 8;
 	const static CGFloat kDownloadStateWidth			= 15;
 
-	UIImageView *downloadStateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kDownloadStateMarginLeft,
+	downloadStateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kDownloadStateMarginLeft,
 																				kDownloadStateMarginTop,
 																				kDownloadStateWidth,
 																				kDownloadStateWidth)];
@@ -84,7 +82,7 @@
 	const static CGFloat kSongLabelMarginTop				= kShareLabelMarginTop + kShareLabelHeight + 5;
 	const static CGFloat kSongLabelMarginLeft				= kDownloadStateMarginLeft + kDownloadStateWidth + 5;
 
-	MIALabel *songLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSongLabelMarginLeft,
+	songLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSongLabelMarginLeft,
 																	  kSongLabelMarginTop,
 																	  contentView.bounds.size.width - kSongLabelMarginLeft,
 																	  kSongLabelHeight)
@@ -97,34 +95,21 @@
 	[contentView addSubview:songLabel];
 }
 
+- (void)setIsEditing:(BOOL)value {
+	_isEditing = value;
+}
+
+- (void)setRowIndex:(NSInteger)value {
+	_rowIndex = value;
+}
+
 - (void)setFavoriteItem:(FavoriteItem *)item {
 	_favoriteItem = item;
-/*
-	[coverImageView sd_setImageWithURL:[NSURL URLWithString:shareItem.music.purl]
-					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	UIImage *cutImage = [self getBannerImageFromCover:coverImageView.image containerSize:coverImageView.bounds.size];
 
-	if (_isBiggerCell) {
-		[coverImageView setImageToBlur:cutImage blurRadius:6.0 completionBlock:nil];
-	}
-
-	unreadCountLabel.text = [NSString stringWithFormat:@"%d", shareItem.newCommCnt];
-	viewsLabel.text = [NSString stringWithFormat:@"%d", shareItem.cView];
-	musicNameLabel.text = shareItem.music.name;
-	artistLabel.text = shareItem.music.singerName;
-
-	if (_shareItem.newCommCnt > 0 && _isMyProfile) {
-		[unreadCountLabel setHidden:NO];
-		[unreadWordLabel setHidden:NO];
-		[musicNameLabel setHidden:YES];
-		[artistLabel setHidden:YES];
-	} else {
-		[unreadCountLabel setHidden:YES];
-		[unreadWordLabel setHidden:YES];
-		[musicNameLabel setHidden:NO];
-		[artistLabel setHidden:NO];
-	}
-*/
+	[indexLabel setText:[NSString stringWithFormat:@"%ld", _rowIndex + 1]];
+	[sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
+	[songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
+	//UIImageView *downloadStateImageView;
 }
 
 @end

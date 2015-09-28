@@ -147,7 +147,7 @@
 	[[WebSocketMgr standard] send:jsonString];
 }
 
-+ (void)getFavoriteListWithStart:(long) start item:(long) item {
++ (void)getFavoriteListWithStart:(NSString *) start item:(long) item {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_GetStart forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -155,7 +155,7 @@
 	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
-	[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
+	[dictValues setValue:start forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];

@@ -28,6 +28,8 @@ static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
 static const CGFloat kProfileHeaderHeight 	= 64;
 static const CGFloat kFavoriteItemHeight	= 50;
+const static CGFloat kBottomViewHeight 		= 40;
+const static CGFloat kFavoriteAlpha 		= 0.9;
 
 @interface FavoriteViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -124,11 +126,11 @@ static const CGFloat kFavoriteItemHeight	= 50;
 }
 
 - (void)initBottomView {
-	const static CGFloat kBottomViewHeight = 40;
 	const static CGFloat kLineViewHeight = 1;
 
 	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kBottomViewHeight, self.view.bounds.size.width, kBottomViewHeight)];
-	//bottomView.backgroundColor = [UIColor yellowColor];
+	bottomView.backgroundColor = [UIColor whiteColor];
+	bottomView.alpha = kFavoriteAlpha;
 	[self.view addSubview:bottomView];
 
 	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bottomView.bounds.size.width, kLineViewHeight)];
@@ -164,11 +166,11 @@ static const CGFloat kFavoriteItemHeight	= 50;
 	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
 																			kFavoriteCVMarginTop,
 																			self.view.bounds.size.width,
-																			self.view.bounds.size.height - kFavoriteCVMarginTop)
+																			self.view.bounds.size.height - kFavoriteCVMarginTop - kBottomViewHeight)
 											collectionViewLayout:layout];
 	[self.view addSubview:mainCollectionView];
 	mainCollectionView.backgroundColor = [UIColor whiteColor];
-	mainCollectionView.alpha = 0.9;
+	mainCollectionView.alpha = kFavoriteAlpha;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
@@ -251,7 +253,7 @@ static const CGFloat kFavoriteItemHeight	= 50;
 
 - (void)requestFavoriteList {
 	static const long kFavoritePageItemCount	= 10;
-	[MiaAPIHelper getFavoriteListWithStart:0 item:kFavoritePageItemCount];
+	[MiaAPIHelper getFavoriteListWithStart:favoriteModel.lastID item:kFavoritePageItemCount];
 }
 
 #pragma mark - delegate
@@ -273,6 +275,8 @@ static const CGFloat kFavoriteItemHeight	= 50;
 																												 forIndexPath:indexPath];
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = isEditing;
+	cell.favoriteItem = favoriteModel.dataSource[indexPath.row];
+	
 	return cell;
 }
 

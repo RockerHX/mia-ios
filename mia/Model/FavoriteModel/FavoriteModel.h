@@ -11,6 +11,7 @@
 @interface FavoriteModel : NSObject
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) NSString *lastID;
 
 - (void)addItemsWithArray:(NSArray *) items;
 

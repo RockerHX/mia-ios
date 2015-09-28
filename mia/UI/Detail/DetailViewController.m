@@ -26,7 +26,6 @@
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
 //static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
-static NSString * const kLatestCommentStart				= @"0";
 
 static const CGFloat kDetailItemMarginH 		= 15;
 static const CGFloat kDetailItemMarginV 		= 20;
@@ -254,17 +253,12 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)requestComments {
 	static const long kCommentPageItemCount	= 10;
-	NSString *start = commentModel.lastCommentID;
-	if (!start) {
-		start = kLatestCommentStart;
-	}
-
-	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:start item:kCommentPageItemCount];
-	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:start item:kCommentPageItemCount];
+	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.lastCommentID item:kCommentPageItemCount];
+	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.lastCommentID item:kCommentPageItemCount];
 }
 
 - (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:kLatestCommentStart item:1];
+	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.lastCommentID item:1];
 }
 
 - (void)checkCommentButtonStatus {
