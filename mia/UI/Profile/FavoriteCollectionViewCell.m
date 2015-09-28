@@ -124,6 +124,14 @@
 	[sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
 	[songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
 
+	if (_favoriteItem.isPlaying) {
+		[sharerLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
+		[songLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
+	} else {
+		[sharerLabel setTextColor:[UIColor grayColor]];
+		[songLabel setTextColor:[UIColor blackColor]];
+	}
+
 	if (_isEditing) {
 		[downloadStateImageView setHidden:YES];
 		[checkBoxButton setHidden:NO];

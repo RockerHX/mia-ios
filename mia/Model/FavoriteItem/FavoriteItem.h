@@ -20,7 +20,7 @@
 @property (strong, nonatomic) MusicItem *music;
 
 @property (assign, nonatomic) BOOL isSelected;
-@property (assign, nonatomic) BOOL hasDownloaded;
+@property (assign, nonatomic) BOOL isPlaying;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
