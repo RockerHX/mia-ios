@@ -41,6 +41,9 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 	long currentPageStart;
 
+	MIAButton *editButton;
+	MIAButton *closeButton;
+
 	UICollectionView *mainCollectionView;
 	UIView *favoriteHeaderView;
 	FavoriteModel *favoriteModel;
@@ -137,7 +140,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	lineView.backgroundColor = UIColorFromHex(@"d2d2d2", 1.0);
 	[bottomView addSubview:lineView];
 
-	MIAButton *closeButton = [[MIAButton alloc] initWithFrame:CGRectMake(0,
+	closeButton = [[MIAButton alloc] initWithFrame:CGRectMake(0,
 																		kLineViewHeight,
 																		bottomView.bounds.size.width,
 																		bottomView.bounds.size.height - kLineViewHeight)
@@ -231,7 +234,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	static const CGFloat kEditButtonWidth			= 40;
 	static const CGFloat kEditButtonHeight			= 20;
 
-	MIAButton *editButton = [[MIAButton alloc] initWithFrame:CGRectMake(favoriteHeaderView.bounds.size.width - kEditButtonMarginRight - kEditButtonWidth,
+	editButton = [[MIAButton alloc] initWithFrame:CGRectMake(favoriteHeaderView.bounds.size.width - kEditButtonMarginRight - kEditButtonWidth,
 																		kEditButtonMarginTop,
 																		kEditButtonWidth,
 																		kEditButtonHeight)
@@ -378,10 +381,26 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 - (void)playButtonAction:(id)sender {}
 
-- (void)editButtonAction:(id)sender {}
+- (void)editButtonAction:(id)sender {
+	isEditing = !isEditing;
+	[mainCollectionView reloadData];
+	if (isEditing) {
+		[editButton setTitle:@"完成" forState:UIControlStateNormal];
+		[closeButton setTitle:@"删除" forState:UIControlStateNormal];
+	} else {
+		[editButton setTitle:@"编辑" forState:UIControlStateNormal];
+		[closeButton setTitle:@"关闭" forState:UIControlStateNormal];
+	}
+}
 
 - (void)closeButtonAction:(id)sender {
-	[self.navigationController popViewControllerAnimated:YES];
+	if (isEditing) {
+		// TODO delete
+		NSLog(@"del sth.");
+	} else {
+		[self.navigationController popViewControllerAnimated:YES];
+	}
+
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "UIImage+Extrude.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
+#import "MIAButton.h"
 
 @interface FavoriteCollectionViewCell()
 
@@ -20,6 +21,7 @@
 	MIALabel *indexLabel;
 	MIALabel *sharerLabel;
 	UIImageView *downloadStateImageView;
+	MIAButton *checkBoxButton;
 	MIALabel *songLabel;
 }
 
@@ -71,12 +73,24 @@
 	const static CGFloat kDownloadStateMarginTop		= kShareLabelMarginTop + kShareLabelHeight + 8;
 	const static CGFloat kDownloadStateWidth			= 15;
 
-	downloadStateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kDownloadStateMarginLeft,
-																				kDownloadStateMarginTop,
-																				kDownloadStateWidth,
-																				kDownloadStateWidth)];
+	CGRect imageFrame = CGRectMake(kDownloadStateMarginLeft,
+								   kDownloadStateMarginTop,
+								   kDownloadStateWidth,
+								   kDownloadStateWidth);
+	downloadStateImageView = [[UIImageView alloc] initWithFrame:imageFrame];
 	[downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloading"]];
 	[contentView addSubview:downloadStateImageView];
+
+	checkBoxButton = [[MIAButton alloc] initWithFrame:imageFrame
+												   titleString:nil
+													titleColor:nil
+														  font:nil
+													   logoImg:nil
+											   backgroundImage:[UIImage imageNamed:@"uncheckbox"]];
+	[checkBoxButton setBackgroundImage:[UIImage imageNamed:@"checkbox"] forState:UIControlStateSelected];
+	[checkBoxButton addTarget:self action:@selector(selectCheckBoxAction:) forControlEvents:UIControlEventTouchUpInside];
+	[checkBoxButton setHidden:YES];
+	[contentView addSubview:checkBoxButton];
 
 	const static CGFloat kSongLabelHeight					= 20;
 	const static CGFloat kSongLabelMarginTop				= kShareLabelMarginTop + kShareLabelHeight + 5;
@@ -109,7 +123,18 @@
 	[indexLabel setText:[NSString stringWithFormat:@"%ld", _rowIndex + 1]];
 	[sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
 	[songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
-	//UIImageView *downloadStateImageView;
+
+	if (_isEditing) {
+		[downloadStateImageView setHidden:YES];
+		[checkBoxButton setHidden:NO];
+	} else {
+		[downloadStateImageView setHidden:NO];
+		[checkBoxButton setHidden:YES];
+	}
+}
+
+- (void)selectCheckBoxAction:(id)sender {
+	[checkBoxButton setSelected:!checkBoxButton.isSelected];
 }
 
 @end
