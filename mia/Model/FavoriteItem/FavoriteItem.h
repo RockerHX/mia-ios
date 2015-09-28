@@ -19,6 +19,9 @@
 
 @property (strong, nonatomic) MusicItem *music;
 
+@property (assign, nonatomic) BOOL isSelected;
+@property (assign, nonatomic) BOOL hasDownloaded;
+
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

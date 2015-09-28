@@ -21,6 +21,10 @@
 		self.fID = [dictionary objectForKey:@"fID"];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
+
+		// 服务器不返回的数据
+		self.isSelected = NO;
+		self.hasDownloaded = NO;
     }
 	
     return self;

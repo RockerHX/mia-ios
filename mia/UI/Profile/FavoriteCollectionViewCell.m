@@ -135,6 +135,7 @@
 
 - (void)selectCheckBoxAction:(id)sender {
 	[checkBoxButton setSelected:!checkBoxButton.isSelected];
+	_favoriteItem.isSelected = checkBoxButton.isSelected;
 }
 
 @end

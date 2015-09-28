@@ -397,6 +397,9 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (isEditing) {
 		// TODO delete
 		NSLog(@"del sth.");
+		for (FavoriteItem *it in favoriteModel.dataSource) {
+			NSLog(@"------is selected:%d", it.isSelected);
+		}
 	} else {
 		[self.navigationController popViewControllerAnimated:YES];
 	}
