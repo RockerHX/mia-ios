@@ -407,7 +407,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)pauseMusic {
 	[[MusicPlayerMgr standard] pause];
 	[profileHeaderView setIsPlaying:NO];
-	[favoriteViewController setIsPlaying:YES];
+	[favoriteViewController setIsPlaying:NO];
 }
 
 #pragma mark - button Actions

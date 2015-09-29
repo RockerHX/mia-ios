@@ -217,8 +217,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	//titleLabel.backgroundColor = [UIColor greenColor];
 	[favoriteHeaderView addSubview:titleLabel];
 
-	static const CGFloat kPlayButtonMarginLeft		= 115;
-	static const CGFloat kPlayButtonMarginTop		= 15;
+	static const CGFloat kPlayButtonMarginLeft		= 112;
+	static const CGFloat kPlayButtonMarginTop		= 18;
 	static const CGFloat kPlayButtonWidth			= 16;
 	static const CGFloat kPlayButtonHeight			= 16;
 
@@ -257,7 +257,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 - (void)setIsPlaying:(BOOL)isPlaying {
 	_isPlaying = isPlaying;
 	if (isPlaying) {
-		[playButton setBackgroundImage:[UIImage imageNamed:@"puase_black"] forState:UIControlStateNormal];
+		[playButton setBackgroundImage:[UIImage imageNamed:@"pause_black"] forState:UIControlStateNormal];
 	} else {
 		[playButton setBackgroundImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
 	}
