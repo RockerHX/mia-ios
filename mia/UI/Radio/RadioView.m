@@ -366,7 +366,7 @@ static const CGFloat kFavoriteHeight = 25;
 		[self currentShareItem].favorite = ![self currentShareItem].favorite;
 		[self updateShareButtonWithIsFavorite:[self currentShareItem].favorite];
 	} else {
-		NSLog(@"report skip music failed.");
+		NSLog(@"favorite music failed.");
 	}
 }
 

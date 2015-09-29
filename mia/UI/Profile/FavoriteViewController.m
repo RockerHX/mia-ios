@@ -174,7 +174,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	_favoriteCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
 																			kFavoriteCVMarginTop + kFavoriteHeaderHeight,
 																			self.view.bounds.size.width,
-																			self.view.bounds.size.height - kFavoriteCVMarginTop - kBottomViewHeight)
+																			self.view.bounds.size.height - kFavoriteCVMarginTop - kBottomViewHeight - kFavoriteHeaderHeight)
 											collectionViewLayout:layout];
 	[self.view addSubview:_favoriteCollectionView];
 	_favoriteCollectionView.backgroundColor = [UIColor whiteColor];
@@ -214,7 +214,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	titleLabel.backgroundColor = [UIColor greenColor];
+	//titleLabel.backgroundColor = [UIColor greenColor];
 	[favoriteHeaderView addSubview:titleLabel];
 
 	static const CGFloat kPlayButtonMarginLeft		= 115;
@@ -232,7 +232,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 										  logoImg:nil
 								  backgroundImage:[UIImage imageNamed:@"play_black"]];
 	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	playButton.backgroundColor = [UIColor yellowColor];
+	//playButton.backgroundColor = [UIColor yellowColor];
 	[favoriteHeaderView addSubview:playButton];
 
 	static const CGFloat kEditButtonMarginRight		= 15;

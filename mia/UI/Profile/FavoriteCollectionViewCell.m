@@ -115,6 +115,7 @@
 	[indexLabel setText:[NSString stringWithFormat:@"%ld", _rowIndex + 1]];
 	[sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
 	[songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
+	[checkBoxButton setSelected:_favoriteItem.isSelected];
 
 	if (_isPlaying) {
 		[sharerLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
