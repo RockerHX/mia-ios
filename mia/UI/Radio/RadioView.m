@@ -55,8 +55,8 @@ static const CGFloat kFavoriteHeight = 25;
 		self.userInteractionEnabled = YES;
 //		self.backgroundColor = [UIColor redColor];
 
-		[self initShareList];
 		[self initUI];
+		[self initShareList];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
@@ -234,6 +234,8 @@ static const CGFloat kFavoriteHeight = 25;
 		[self requestNewShares];
 		// TODO loading应该改成回调
 		_isLoading = YES;
+	} else {
+		[self reloadLoopPlayerData];
 	}
 }
 
@@ -373,8 +375,9 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)requestNewShares {
+	const long kRequestItemCount = 10;
 	[MiaAPIHelper getNearbyWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
-							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude start:1 item:3];
+							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude start:1 item:kRequestItemCount];
 }
 
 #pragma mark - swip actions
