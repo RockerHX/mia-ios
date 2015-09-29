@@ -20,6 +20,7 @@
 #import "UserDefaultsUtils.h"
 #import "NSString+IsNull.h"
 #import "ProfileViewController.h"
+#import "ShareViewController.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -337,7 +338,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 - (void)profileButtonAction:(id)sender {
 	if ([[UserSession standard] isLogined]) {
-		NSLog(@"navigator to profile page.");
 		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
 																	 nickName:[[UserSession standard] nick]
 																  isMyProfile:YES];
@@ -350,7 +350,14 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 }
 
 - (void)shareButtonAction:(id)sender {
-	NSLog(@"share button clicked");
+	if ([[UserSession standard] isLogined]) {
+		ShareViewController *vc = [[ShareViewController alloc] init];
+		[self.navigationController pushViewController:vc animated:YES];
+	} else {
+		LoginViewController *vc = [[LoginViewController alloc] init];
+		vc.loginViewControllerDelegate = self;
+		[self.navigationController pushViewController:vc animated:YES];
+	}
 }
 
 - (void)pullReflashFromTop {

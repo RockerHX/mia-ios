@@ -29,6 +29,8 @@
 		393CE9AD1BB958B000FCF232 /* uncheckbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AB1BB958B000FCF232 /* uncheckbox@2x.png */; };
 		393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */; };
 		393CE9B11BB98D1300FCF232 /* play_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AF1BB98D1300FCF232 /* play_black@2x.png */; };
+		393CE9B71BBA3B4500FCF232 /* ShareHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9B41BBA3B4500FCF232 /* ShareHeaderView.m */; };
+		393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9B61BBA3B4500FCF232 /* ShareViewController.m */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -165,6 +167,10 @@
 		393CE9AB1BB958B000FCF232 /* uncheckbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheckbox@2x.png"; sourceTree = "<group>"; };
 		393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause_black@2x.png"; sourceTree = "<group>"; };
 		393CE9AF1BB98D1300FCF232 /* play_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_black@2x.png"; sourceTree = "<group>"; };
+		393CE9B31BBA3B4500FCF232 /* ShareHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareHeaderView.h; sourceTree = "<group>"; };
+		393CE9B41BBA3B4500FCF232 /* ShareHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareHeaderView.m; sourceTree = "<group>"; };
+		393CE9B51BBA3B4500FCF232 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		393CE9B61BBA3B4500FCF232 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -383,6 +389,17 @@
 				393CE9A11BB7953E00FCF232 /* FavoriteItem.m */,
 			);
 			path = FavoriteItem;
+			sourceTree = "<group>";
+		};
+		393CE9B21BBA3B4500FCF232 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				393CE9B31BBA3B4500FCF232 /* ShareHeaderView.h */,
+				393CE9B41BBA3B4500FCF232 /* ShareHeaderView.m */,
+				393CE9B51BBA3B4500FCF232 /* ShareViewController.h */,
+				393CE9B61BBA3B4500FCF232 /* ShareViewController.m */,
+			);
+			path = Share;
 			sourceTree = "<group>";
 		};
 		397E42741BA126AF006BE9E7 /* Network */ = {
@@ -745,6 +762,7 @@
 		397FA4F61BAAA989003FD186 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				393CE9B21BBA3B4500FCF232 /* Share */,
 				39BF8C661BB268B4003AB4FC /* Profile */,
 				390BADC61BAFD9FB006269FD /* Login */,
 				39CA061E1BADBD6C0074FD13 /* Detail */,
@@ -1239,6 +1257,7 @@
 				390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */,
 				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
+				393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */,
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,
 				39BCADCF1BA02F3100C6F7F2 /* SDWebImageManager.m in Sources */,
 				397E42D21BA90812006BE9E7 /* NSString+IsNull.m in Sources */,
@@ -1252,6 +1271,7 @@
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */,
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
+				393CE9B71BBA3B4500FCF232 /* ShareHeaderView.m in Sources */,
 				39CA063B1BAEA1A40074FD13 /* CommentModel.m in Sources */,
 				39BCADCD1BA02F3100C6F7F2 /* SDWebImageDownloader.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
