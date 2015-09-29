@@ -368,11 +368,11 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (void)initBottomView {
 	UIView *bottomView = [UIView new];
 	[self.view addSubview:bottomView];
-	bottomView.backgroundColor = [UIColor redColor];
+	//bottomView.backgroundColor = [UIColor redColor];
 
 	UIImageView *locationImageView = [[UIImageView alloc] init];
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
-	locationImageView.backgroundColor = [UIColor greenColor];
+	//locationImageView.backgroundColor = [UIColor greenColor];
 	[bottomView addSubview:locationImageView];
 
 	locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -381,7 +381,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	locationLabel.backgroundColor = [UIColor yellowColor];
+	//locationLabel.backgroundColor = [UIColor yellowColor];
 	[bottomView addSubview:locationLabel];
 
 	MIAButton *closeButton = [[MIAButton alloc] initWithFrame:CGRectZero
@@ -391,13 +391,14 @@ const static CGFloat kShareTopViewHeight		= 280;
 											 logoImg:nil
 									 backgroundImage:[UIImage imageNamed:@"close"]];
 	[closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	closeButton.backgroundColor = [UIColor greenColor];
+	//closeButton.backgroundColor = [UIColor greenColor];
 	[bottomView addSubview:closeButton];
 
 	const static CGFloat kShareBottomViewHeight 		= 20;
 	const static CGFloat kShareBottomViewMarginBottom	= 5;
 	const static CGFloat kBottomButtonWidth				= 15;
 	const static CGFloat kBottomButtonHeight			= 15;
+	const static CGFloat kCloseButtonWidth				= 10;
 
 	[bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@(kShareBottomViewHeight));
@@ -411,13 +412,13 @@ const static CGFloat kShareTopViewHeight		= 280;
 		make.centerY.equalTo(bottomView.mas_centerY);
 	}];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(locationImageView.mas_right);
+		make.left.equalTo(locationImageView.mas_right).offset(5);
 		make.right.equalTo(bottomView.mas_right).offset(-kBottomButtonWidth);
 		make.centerY.equalTo(bottomView.mas_centerY);
 		make.height.equalTo(bottomView.mas_height);
 	}];
 	[closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.size.mas_equalTo(CGSizeMake(kBottomButtonWidth, kBottomButtonHeight));
+		make.size.mas_equalTo(CGSizeMake(kCloseButtonWidth, kCloseButtonWidth));
 		//make.left.equalTo(locationLabel.mas_right);
 		make.right.equalTo(bottomView.mas_right);
 		make.centerY.equalTo(bottomView.mas_centerY);
