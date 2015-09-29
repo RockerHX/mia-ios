@@ -450,13 +450,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 	if (isSuccess) {
 		commentTextField.text = @"";
 		[self requestLatestComments];
-	} else {
 	}
 
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-		}
-	}];
+	[commentTextField resignFirstResponder];
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
 }
 
 /*
