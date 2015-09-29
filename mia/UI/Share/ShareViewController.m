@@ -43,6 +43,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	UIView *topView;
 	UIView *playerView;
 	UIView *addMusicView;
+	UIView *bottomView;
 
 	UIImageView *coverImageView;
 	KYCircularView *progressView;
@@ -58,6 +59,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	NSTimer *progressTimer;
 	CLLocationManager *mylocationManager;
+	CLLocationCoordinate2D currentCoordinate;
+	NSString *currentAddress;
 }
 
 - (id)init {
@@ -370,8 +373,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)initBottomView {
-	UIView *bottomView = [UIView new];
+	bottomView = [UIView new];
 	[self.view addSubview:bottomView];
+	bottomView.hidden = YES;
 	//bottomView.backgroundColor = [UIColor redColor];
 
 	UIImageView *locationImageView = [[UIImageView alloc] init];
@@ -380,7 +384,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[bottomView addSubview:locationImageView];
 
 	locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											   text:@"深圳，南山区"
+											   text:@""
 											   font:UIFontFromSize(12.0f)
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
@@ -459,6 +463,14 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 }
 
+- (void)updateLocationInfo:(CLLocationCoordinate2D)coordinate address:(NSString *)address {
+	currentCoordinate = coordinate;
+	currentAddress = address;
+
+	locationLabel.text = address;
+	bottomView.hidden = NO;
+}
+
 - (void)showMBProgressHUD{
 	if(!progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -500,15 +512,12 @@ const static CGFloat kShareTopViewHeight		= 280;
 	return true;
 }
 
-- (void) textFieldDidChange:(id) sender {
+- (void)textFieldDidChange:(id) sender {
 	[self checkSubmitButtonStatus];
 }
 
 // 获取地理位置变化的起始点和终点,didUpdateToLocation：
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
-
-//	CLLocationDegrees latitude=newLocation.coordinate.latitude;
-//	CLLocationDegrees longitude=oldLocation.coordinate.longitude;
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 
 	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	CLLocation * marsLoction =   [location locationMarsFromEarth];
@@ -519,9 +528,12 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
 		if (placemarks.count > 0) {
 			CLPlacemark *placemark = [placemarks objectAtIndex:0];
-			NSLog(@"______%@",placemark.locality);
+			NSLog(@"______%@", placemark.locality);
 			NSLog(@"______%@", placemark.subLocality);
 			NSLog(@"______%@", placemark.name);
+
+			[self updateLocationInfo:marsLoction.coordinate
+							 address:[NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality]];
 		}
 	 }];
 
@@ -635,7 +647,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)closeButtonAction:(id)sender {
-	NSLog(@"close button clicked.");
+	bottomView.hidden = YES;
 }
 
 - (void)playButtonAction:(id)sender {
