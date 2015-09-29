@@ -103,7 +103,8 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 
 - (BOOL)isNeedGetNearbyItems {
-	if ([self getUnreadCount] <= kNeedGetNearbyCount) {
+	if ([self getUnreadCount] <= kNeedGetNearbyCount
+		|| ([_shareList count] - _currentItem) < kNeedGetNearbyCount) {
 		return YES;
 	} else {
 		return NO;

@@ -448,6 +448,8 @@ static const CGFloat kFavoriteHeight = 25;
 		[self checkIsNeedToGetNewItems];
 	} else {
 		NSLog(@"shift cursor to right failed.");
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
 		// TODO 这种情况应该从界面上禁止他翻页
 	}
 }
