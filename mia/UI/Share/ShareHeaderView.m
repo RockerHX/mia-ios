@@ -27,9 +27,6 @@
 	MIALabel *musicArtistLabel;
 	MIALabel *sharerLabel;
 	UITextView *noteTextView;
-//	MIAButton *favoriteButton;
-//	MIALabel *commentLabel;
-//	MIALabel *viewsLabel;
 	MIALabel *locationLabel;
 
 	NSTimer *progressTimer;
