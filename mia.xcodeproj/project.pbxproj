@@ -29,7 +29,6 @@
 		393CE9AD1BB958B000FCF232 /* uncheckbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AB1BB958B000FCF232 /* uncheckbox@2x.png */; };
 		393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */; };
 		393CE9B11BB98D1300FCF232 /* play_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AF1BB98D1300FCF232 /* play_black@2x.png */; };
-		393CE9B71BBA3B4500FCF232 /* ShareHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9B41BBA3B4500FCF232 /* ShareHeaderView.m */; };
 		393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9B61BBA3B4500FCF232 /* ShareViewController.m */; };
 		393CE9BB1BBA768700FCF232 /* add_music_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */; };
 		393CE9BC1BBA768700FCF232 /* add_music_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */; };
@@ -171,8 +170,6 @@
 		393CE9AB1BB958B000FCF232 /* uncheckbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheckbox@2x.png"; sourceTree = "<group>"; };
 		393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause_black@2x.png"; sourceTree = "<group>"; };
 		393CE9AF1BB98D1300FCF232 /* play_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_black@2x.png"; sourceTree = "<group>"; };
-		393CE9B31BBA3B4500FCF232 /* ShareHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareHeaderView.h; sourceTree = "<group>"; };
-		393CE9B41BBA3B4500FCF232 /* ShareHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareHeaderView.m; sourceTree = "<group>"; };
 		393CE9B51BBA3B4500FCF232 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		393CE9B61BBA3B4500FCF232 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_bg@2x.png"; sourceTree = "<group>"; };
@@ -403,8 +400,6 @@
 		393CE9B21BBA3B4500FCF232 /* Share */ = {
 			isa = PBXGroup;
 			children = (
-				393CE9B31BBA3B4500FCF232 /* ShareHeaderView.h */,
-				393CE9B41BBA3B4500FCF232 /* ShareHeaderView.m */,
 				393CE9B51BBA3B4500FCF232 /* ShareViewController.h */,
 				393CE9B61BBA3B4500FCF232 /* ShareViewController.m */,
 			);
@@ -1297,7 +1292,6 @@
 				39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */,
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
 				393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */,
-				393CE9B71BBA3B4500FCF232 /* ShareHeaderView.m in Sources */,
 				39CA063B1BAEA1A40074FD13 /* CommentModel.m in Sources */,
 				39BCADCD1BA02F3100C6F7F2 /* SDWebImageDownloader.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
