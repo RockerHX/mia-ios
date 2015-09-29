@@ -20,7 +20,7 @@
 #import "WebSocketMgr.h"
 #import "MusicPlayerMgr.h"
 
-const static CGFloat kShareTopViewHeight		= 350;
+const static CGFloat kShareTopViewHeight		= 280;
 static const CGFloat kDetailFooterViewHeight 	= 40;
 
 @interface ShareViewController () <UITextFieldDelegate>
@@ -30,7 +30,6 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 @implementation ShareViewController {
 	ShareItem *shareItem;
 
-	UITextField *commentTextField;
 	MIAButton *commentButton;
 
 	UIView *footerView;
@@ -50,7 +49,9 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 	MIALabel *musicNameLabel;
 	MIALabel *musicArtistLabel;
 	MIALabel *sharerLabel;
-	UITextView *noteTextView;
+//	UITextView *noteTextView;
+	UITextField *commentTextField;
+
 	MIALabel *locationLabel;
 
 	NSTimer *progressTimer;
@@ -173,7 +174,7 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 													   StatusBarHeight + self.navigationController.navigationBar.frame.size.height,
 													   self.view.bounds.size.width,
 													   kShareTopViewHeight)];
-	//topView.backgroundColor = [UIColor orangeColor];
+	topView.backgroundColor = [UIColor orangeColor];
 	[self.view addSubview:topView];
 
 	static const CGFloat kCoverWidth = 163;
@@ -189,11 +190,12 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 	static const CGFloat kSharerMarginLeft = 20;
 	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 5;
 	static const CGFloat kSharerHeight = 20;
+	static const CGFloat kSharerLabelWidth = 80;
 
-	static const CGFloat kNoteMarginLeft = 5;
-	static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
-	static const CGFloat kNoteMarginRight = 50;
-	static const CGFloat kNoteHeight = 40;
+	static const CGFloat kNoteMarginLeft = 103;
+	static const CGFloat kNoteMarginTop = kSharerMarginTop + 2;
+	static const CGFloat kNoteWidth = 200;
+	static const CGFloat kNoteHeight = 20;
 
 	CGRect coverFrame = CGRectMake((topView.bounds.size.width - kCoverWidth) / 2,
 								   kCoverMarginTop,
@@ -206,8 +208,8 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 														  kMusicNameMarginTop,
 														  topView.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
-										  text:@""
-										  font:UIFontFromSize(9.0f)
+										  text:@"Castle Walls"
+										  font:UIFontFromSize(15.0f)
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentRight
 								   numberLines:1];
@@ -217,8 +219,8 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 																  kMusicNameMarginTop,
 																  topView.bounds.size.width / 2 - kMusicArtistMarginLeft,
 																  kMusicArtistHeight)
-												  text:@""
-												  font:UIFontFromSize(8.0f)
+												  text:@"-Mercy"
+												  font:UIFontFromSize(15.0f)
 											 textColor:[UIColor grayColor]
 										 textAlignment:NSTextAlignmentLeft
 										   numberLines:1];
@@ -226,26 +228,33 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 
 	sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
 															 kSharerMarginTop,
-															 coverImageView.frame.origin.x - kSharerMarginLeft,
+															 kSharerLabelWidth,
 															 kSharerHeight)
-											 text:@""
-											 font:UIFontFromSize(9.0f)
+											 text:@"Aaronbing:"
+											 font:UIFontFromSize(15.0f)
 										textColor:[UIColor blueColor]
 									textAlignment:NSTextAlignmentRight
 									  numberLines:1];
 	//sharerLabel.backgroundColor = [UIColor yellowColor];
 	[topView addSubview:sharerLabel];
 
-	noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
-																kNoteMarginTop,
-																topView.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
-																kNoteHeight)];
-	noteTextView.text = @"";
-	//noteTextView.backgroundColor = [UIColor redColor];
-	noteTextView.scrollEnabled = NO;
-	noteTextView.font = UIFontFromSize(9.0f);
-	noteTextView.userInteractionEnabled = NO;
-	[topView addSubview:noteTextView];
+	commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kNoteMarginLeft,
+																	 kNoteMarginTop,
+																	 kNoteWidth,
+																	 kNoteHeight)];
+	commentTextField.borderStyle = UITextBorderStyleNone;
+	commentTextField.backgroundColor = [UIColor clearColor];
+	commentTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	commentTextField.placeholder = @"说说此刻的想法";
+	[commentTextField setFont:UIFontFromSize(16)];
+	commentTextField.keyboardType = UIKeyboardTypeDefault;
+	commentTextField.returnKeyType = UIReturnKeySend;
+	commentTextField.delegate = self;
+	//commentTextField.backgroundColor = [UIColor yellowColor];
+	[commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[commentTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+
+	[topView addSubview:commentTextField];
 }
 
 - (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
@@ -450,11 +459,11 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 	[footerView addSubview:commentButton];
 }
 
-- (void)checkCommentButtonStatus {
+- (void)checkSubmitButtonStatus {
 	if ([commentTextField.text length] <= 0) {
-		[commentButton setEnabled:NO];
+		[self.navigationItem.rightBarButtonItem setEnabled:NO];
 	} else {
-		[commentButton setEnabled:YES];
+		[self.navigationItem.rightBarButtonItem setEnabled:YES];
 	}
 }
 
@@ -500,7 +509,7 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 }
 
 - (void) textFieldDidChange:(id) sender {
-	[self checkCommentButtonStatus];
+	[self checkSubmitButtonStatus];
 }
 
 #pragma mark - Notification
@@ -565,12 +574,16 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 	NSTimeInterval animationDuration = 0.30f;
 	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
 	[UIView setAnimationDuration:animationDuration];
-//	float width = footerView.frame.size.width;
-//	float height = footerView.frame.size.height;
-//
-//	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
-	CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight - keyboardSize.height, self.view.bounds.size.width, kDetailFooterViewHeight);
-	footerView.frame = rect;
+
+	CGFloat offset = keyboardSize.height - (self.view.bounds.size.height - topView.frame.origin.y - topView.frame.size.height);
+	if (offset > 0) {
+		CGRect rect = CGRectMake(0,
+						  StatusBarHeight + self.navigationController.navigationBar.frame.size.height - offset,
+						  self.view.bounds.size.width,
+						  kShareTopViewHeight);
+		topView.frame = rect;
+	}
+
 	[UIView commitAnimations];
 }
 
@@ -578,16 +591,17 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 	NSTimeInterval animationDuration = 0.30f;
 	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
 	[UIView setAnimationDuration:animationDuration];
-//	float width = self.view.frame.size.width;
-//	float height = self.view.frame.size.height;
-	CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
-	footerView.frame = rect;
+	CGRect rect = CGRectMake(0,
+							 StatusBarHeight + self.navigationController.navigationBar.frame.size.height,
+							 self.view.bounds.size.width,
+							 kShareTopViewHeight);
+	topView.frame = rect;
 	[UIView commitAnimations];
 }
 
 - (void)hidenKeyboard {
 	[commentTextField resignFirstResponder];
-	[self checkCommentButtonStatus];
+	[self checkSubmitButtonStatus];
 }
 
 - (void)touchedAddMusic {
