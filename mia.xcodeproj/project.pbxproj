@@ -34,6 +34,11 @@
 		393CE9BC1BBA768700FCF232 /* add_music_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */; };
 		393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BD1BBA94BE00FCF232 /* close@2x.png */; };
 		393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */; };
+		3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */; };
+		3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3551BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m */; };
+		3976E35A1BBAC78B006FA5E2 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3571BBAC78B006FA5E2 /* SearchViewController.m */; };
+		3976E35D1BBACB6F006FA5E2 /* SearchSuggestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E35C1BBACB6F006FA5E2 /* SearchSuggestionView.m */; };
+		3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3601BBACDD3006FA5E2 /* SearchSuggestionModel.m */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -177,6 +182,16 @@
 		393CE9BD1BBA94BE00FCF232 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
 		393CE9C01BBAA36700FCF232 /* CLLocation+YCLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+YCLocation.h"; sourceTree = "<group>"; };
 		393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+YCLocation.m"; sourceTree = "<group>"; };
+		3976E3521BBAC78B006FA5E2 /* SearchResultCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCollectionViewCell.h; sourceTree = "<group>"; };
+		3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultCollectionViewCell.m; sourceTree = "<group>"; };
+		3976E3541BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSuggestionCollectionViewCell.h; sourceTree = "<group>"; };
+		3976E3551BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSuggestionCollectionViewCell.m; sourceTree = "<group>"; };
+		3976E3561BBAC78B006FA5E2 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		3976E3571BBAC78B006FA5E2 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		3976E35B1BBACB6F006FA5E2 /* SearchSuggestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSuggestionView.h; sourceTree = "<group>"; };
+		3976E35C1BBACB6F006FA5E2 /* SearchSuggestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSuggestionView.m; sourceTree = "<group>"; };
+		3976E35F1BBACDD3006FA5E2 /* SearchSuggestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSuggestionModel.h; sourceTree = "<group>"; };
+		3976E3601BBACDD3006FA5E2 /* SearchSuggestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSuggestionModel.m; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -400,6 +415,14 @@
 		393CE9B21BBA3B4500FCF232 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				3976E3521BBAC78B006FA5E2 /* SearchResultCollectionViewCell.h */,
+				3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */,
+				3976E3541BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.h */,
+				3976E3551BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m */,
+				3976E35B1BBACB6F006FA5E2 /* SearchSuggestionView.h */,
+				3976E35C1BBACB6F006FA5E2 /* SearchSuggestionView.m */,
+				3976E3561BBAC78B006FA5E2 /* SearchViewController.h */,
+				3976E3571BBAC78B006FA5E2 /* SearchViewController.m */,
 				393CE9B51BBA3B4500FCF232 /* ShareViewController.h */,
 				393CE9B61BBA3B4500FCF232 /* ShareViewController.m */,
 			);
@@ -413,6 +436,15 @@
 				393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */,
 			);
 			path = "CLLocation+YCLocation";
+			sourceTree = "<group>";
+		};
+		3976E35E1BBACDD3006FA5E2 /* SearchSuggestionModel */ = {
+			isa = PBXGroup;
+			children = (
+				3976E35F1BBACDD3006FA5E2 /* SearchSuggestionModel.h */,
+				3976E3601BBACDD3006FA5E2 /* SearchSuggestionModel.m */,
+			);
+			path = SearchSuggestionModel;
 			sourceTree = "<group>";
 		};
 		397E42741BA126AF006BE9E7 /* Network */ = {
@@ -436,6 +468,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3976E35E1BBACDD3006FA5E2 /* SearchSuggestionModel */,
 				393CE99F1BB7953E00FCF232 /* FavoriteItem */,
 				393CE99B1BB789C400FCF232 /* FavoriteModel */,
 				39BF8C7C1BB2C79A003AB4FC /* ProfileShareModel */,
@@ -1247,6 +1280,7 @@
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
+				3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */,
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */,
@@ -1261,6 +1295,7 @@
 				39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */,
 				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
+				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
 				39BCADCC1BA02F3100C6F7F2 /* SDWebImageDecoder.m in Sources */,
 				39BCADD31BA02F3100C6F7F2 /* UIImage+MultiFormat.m in Sources */,
 				39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */,
@@ -1270,6 +1305,7 @@
 				397E42DB1BA90812006BE9E7 /* MusicPlayerMgr.m in Sources */,
 				39BF8C7F1BB2C79A003AB4FC /* ProfileShareModel.m in Sources */,
 				397E42D11BA90812006BE9E7 /* NSString+Emoji.m in Sources */,
+				3976E35D1BBACB6F006FA5E2 /* SearchSuggestionView.m in Sources */,
 				397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */,
@@ -1278,11 +1314,13 @@
 				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */,
+				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,
 				39BCADCF1BA02F3100C6F7F2 /* SDWebImageManager.m in Sources */,
 				397E42D21BA90812006BE9E7 /* NSString+IsNull.m in Sources */,
 				397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */,
 				397FA52B1BAC0CA7003FD186 /* MIALabel.m in Sources */,
+				3976E35A1BBAC78B006FA5E2 /* SearchViewController.m in Sources */,
 				39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,

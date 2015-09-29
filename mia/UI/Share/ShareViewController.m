@@ -22,6 +22,7 @@
 #import "Masonry.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
+#import "SearchViewController.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
@@ -521,8 +522,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	CLLocation * marsLoction =   [location locationMarsFromEarth];
-	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.latitude);
-
+	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.longitude);
 
 	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
 	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
@@ -634,6 +634,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)touchedAddMusic {
 	NSLog(@"touchedAddMusic ...");
+	SearchViewController *vc = [[SearchViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - button Actions

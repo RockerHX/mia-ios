@@ -34,11 +34,6 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 @end
 
 @implementation FavoriteViewController {
-	NSString * _uid;
-	NSString *_nickName;
-
-	long currentPageStart;
-
 	UIImageView *bgView;
 	MIAButton *editButton;
 	MIAButton *closeButton;
