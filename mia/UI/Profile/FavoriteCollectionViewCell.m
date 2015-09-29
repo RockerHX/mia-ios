@@ -112,7 +112,7 @@
 - (void)setFavoriteItem:(FavoriteItem *)item {
 	_favoriteItem = item;
 
-	[indexLabel setText:[NSString stringWithFormat:@"%ld", _rowIndex + 1]];
+	[indexLabel setText:[NSString stringWithFormat:@"%ld", (long)(_rowIndex + 1)]];
 	[sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
 	[songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
 	[checkBoxButton setSelected:_favoriteItem.isSelected];

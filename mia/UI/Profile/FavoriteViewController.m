@@ -291,7 +291,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = isEditing;
 	if ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row) {
-		NSLog(@"-------> %ld", indexPath.row);
+		NSLog(@"-------> %ld", (long)indexPath.row);
 		cell.isPlaying = YES;
 	} else {
 		cell.isPlaying = NO;

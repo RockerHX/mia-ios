@@ -20,10 +20,12 @@
 #import "WebSocketMgr.h"
 #import "MusicPlayerMgr.h"
 #import "Masonry.h"
+#import <CoreLocation/CoreLocation.h>
+#import "CLLocation+YCLocation.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
-@interface ShareViewController () <UITextFieldDelegate>
+@interface ShareViewController () <UITextFieldDelegate, CLLocationManagerDelegate>
 
 @end
 
@@ -55,6 +57,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	MIALabel *locationLabel;
 
 	NSTimer *progressTimer;
+	CLLocationManager *mylocationManager;
 }
 
 - (id)init {
@@ -89,6 +92,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
+	[self initLocationMgr];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -426,6 +430,27 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 }
 
+- (void)initLocationMgr {
+	if (nil == mylocationManager)
+		mylocationManager = [[CLLocationManager alloc] init];
+
+	mylocationManager.delegate = self;
+
+	//设置定位的精度
+	mylocationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+
+	//设置定位服务更新频率
+	mylocationManager.distanceFilter = 500;
+
+	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
+
+		[mylocationManager requestWhenInUseAuthorization];	// 前台定位
+		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
+	}
+
+	[mylocationManager startUpdatingLocation];
+}
+
 - (void)checkSubmitButtonStatus {
 	if ([commentTextField.text length] <= 0) {
 		[self.navigationItem.rightBarButtonItem setEnabled:NO];
@@ -477,6 +502,30 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void) textFieldDidChange:(id) sender {
 	[self checkSubmitButtonStatus];
+}
+
+// 获取地理位置变化的起始点和终点,didUpdateToLocation：
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+
+//	CLLocationDegrees latitude=newLocation.coordinate.latitude;
+//	CLLocationDegrees longitude=oldLocation.coordinate.longitude;
+
+	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	CLLocation * marsLoction =   [location locationMarsFromEarth];
+	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.latitude);
+
+
+	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
+		if (placemarks.count > 0) {
+			CLPlacemark *placemark = [placemarks objectAtIndex:0];
+			NSLog(@"______%@",placemark.locality);
+			NSLog(@"______%@", placemark.subLocality);
+			NSLog(@"______%@", placemark.name);
+		}
+	 }];
+
+	[manager stopUpdatingLocation];
 }
 
 #pragma mark - Notification

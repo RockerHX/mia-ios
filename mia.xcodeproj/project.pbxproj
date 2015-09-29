@@ -34,6 +34,7 @@
 		393CE9BB1BBA768700FCF232 /* add_music_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */; };
 		393CE9BC1BBA768700FCF232 /* add_music_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */; };
 		393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BD1BBA94BE00FCF232 /* close@2x.png */; };
+		393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -177,6 +178,8 @@
 		393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_bg@2x.png"; sourceTree = "<group>"; };
 		393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_logo@2x.png"; sourceTree = "<group>"; };
 		393CE9BD1BBA94BE00FCF232 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		393CE9C01BBAA36700FCF232 /* CLLocation+YCLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+YCLocation.h"; sourceTree = "<group>"; };
+		393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+YCLocation.m"; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -408,6 +411,15 @@
 			path = Share;
 			sourceTree = "<group>";
 		};
+		393CE9BF1BBAA36700FCF232 /* CLLocation+YCLocation */ = {
+			isa = PBXGroup;
+			children = (
+				393CE9C01BBAA36700FCF232 /* CLLocation+YCLocation.h */,
+				393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */,
+			);
+			path = "CLLocation+YCLocation";
+			sourceTree = "<group>";
+		};
 		397E42741BA126AF006BE9E7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,6 +504,7 @@
 		397E429F1BA90812006BE9E7 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				393CE9BF1BBAA36700FCF232 /* CLLocation+YCLocation */,
 				397E42A01BA90812006BE9E7 /* NSData+Base64 */,
 				397E42A31BA90812006BE9E7 /* NSObject+PropertyAndMethods */,
 				397E42A61BA90812006BE9E7 /* NSString+DateFormatter */,
@@ -1283,6 +1296,7 @@
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */,
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
+				393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */,
 				393CE9B71BBA3B4500FCF232 /* ShareHeaderView.m in Sources */,
 				39CA063B1BAEA1A40074FD13 /* CommentModel.m in Sources */,
 				39BCADCD1BA02F3100C6F7F2 /* SDWebImageDownloader.m in Sources */,
