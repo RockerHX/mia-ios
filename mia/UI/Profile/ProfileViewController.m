@@ -413,7 +413,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
-	[[MusicPlayerMgr standard] stop];
+	if (playingFavorite) {
+		[[MusicPlayerMgr standard] stop];
+	}
+
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
