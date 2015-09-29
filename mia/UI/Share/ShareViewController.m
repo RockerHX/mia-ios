@@ -11,36 +11,23 @@
 #import "MIALabel.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
-#import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+Extrude.h"
 #import "CommentCollectionViewCell.h"
 #import "DetailHeaderView.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "ProfileShareModel.h"
-#import "CommentModel.h"
-#import "CommentItem.h"
 
-static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
-static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
-//static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
-
-static const CGFloat kDetailItemMarginH 		= 15;
-static const CGFloat kDetailItemMarginV 		= 20;
 static const CGFloat kDetailHeaderHeight 		= 350;
 static const CGFloat kDetailFooterViewHeight 	= 40;
-static const CGFloat kDetailItemHeight 			= 40;
 
-@interface ShareViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate>
+@interface ShareViewController () <UITextFieldDelegate>
 
 @end
 
 @implementation ShareViewController {
 	ShareItem *shareItem;
-	CommentModel *commentModel;
 
-	UICollectionView *mainCollectionView;
 	UITextField *commentTextField;
 	MIAButton *commentButton;
 
@@ -55,8 +42,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 	self = [super init];
 	if (self) {
 		[self initUI];
-		[self initData];
-		[mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 
@@ -121,39 +106,9 @@ static const CGFloat kDetailItemHeight 			= 40;
 	self.title = kDetailTitle;
 	[self initBarButton];
 
-	//1.初始化layout
-	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-	//设置collectionView滚动方向
-	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailHeaderHeight);
-	//layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailFooterViewHeight);
-
-	//该方法也可以设置itemSize
-	CGFloat itemWidth = self.view.frame.size.width - kDetailItemMarginH * 2;
-	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
-
-	//2.初始化collectionView
-	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
-	[self.view addSubview:mainCollectionView];
-
-	mainCollectionView.backgroundColor = [UIColor whiteColor];
-
-	//3.注册collectionViewCell
-	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[mainCollectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kDetailCellReuseIdentifier];
-
-	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
-	//[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier];
-
-	//4.设置代理
-	mainCollectionView.delegate = self;
-	mainCollectionView.dataSource = self;
-
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
-	[mainCollectionView addGestureRecognizer:gesture];
+	[self.view addGestureRecognizer:gesture];
 
 	[self initHeaderView];
 	[self initFooterView];
@@ -222,7 +177,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 	commentTextField.borderStyle = UITextBorderStyleNone;
 	commentTextField.backgroundColor = [UIColor clearColor];
 	commentTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
-	commentTextField.placeholder = @"此刻的想法";
+	commentTextField.placeholder = @"说说此刻的想法";
 	[commentTextField setFont:UIFontFromSize(16)];
 	commentTextField.keyboardType = UIKeyboardTypeDefault;
 	commentTextField.returnKeyType = UIReturnKeySend;
@@ -248,21 +203,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[commentButton setEnabled:NO];
 	//commentButton.backgroundColor = [UIColor redColor];
 	[footerView addSubview:commentButton];
-}
-
-- (void)initData {
-	commentModel = [[CommentModel alloc] init];
-	[self requestComments];
-}
-
-- (void)requestComments {
-	static const long kCommentPageItemCount	= 10;
-	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.lastCommentID item:kCommentPageItemCount];
-	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.lastCommentID item:kCommentPageItemCount];
-}
-
-- (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.lastCommentID item:1];
 }
 
 - (void)checkCommentButtonStatus {
@@ -318,128 +258,32 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[self checkCommentButtonStatus];
 }
 
-#pragma mark collectionView代理方法
-
-//返回section个数
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-	return 1;
-}
-
-//每个section的item个数
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return commentModel.dataSource.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CommentCollectionViewCell *cell = (CommentCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kDetailCellReuseIdentifier
-																											 forIndexPath:indexPath];
-	[cell updateWithCommentItem:commentModel.dataSource[indexPath.row]];
-	CommentItem *item = commentModel.dataSource[indexPath.row];
-	NSLog(@"cell: %@", item.cmid);
-	return cell;
-}
-
-//设置每个item的尺寸
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = self.view.frame.size.width - kDetailItemMarginH * 2;
-	return CGSizeMake(itemWidth, kDetailItemHeight);
-}
-
-//footer的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//header的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//设置每个item的UIEdgeInsets
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	return UIEdgeInsetsMake(10, 10, 10, 10);
-}
-
-//设置每个item水平间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return kDetailItemMarginH;
-}
-
-
-//设置每个item垂直间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return kDetailItemMarginV;
-}
-
-
-//通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
-		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier forIndexPath:indexPath];
-		if (contentView.subviews.count == 0) {
-			[contentView addSubview:detailHeaderView];
-		}
-		return contentView;
-//	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
-//		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier forIndexPath:indexPath];
-//		if (contentView.subviews.count == 0) {
-//			[contentView addSubview:footerView];
-//		}
-//		return contentView;
-	} else {
-		NSLog(@"It's maybe a bug.");
-		return nil;
-	}
-}
-
-//点击item方法
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-}
-
 #pragma mark - Notification
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
+//	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+//	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+//	NSLog(@"%@", command);
 
-	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
-		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
-		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
+//	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
+//		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
+//	}
 }
 
-- (void)handleGetMusicCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[mainCollectionView footerEndRefreshing];
-
-	if (0 != ret)
-		return;
-	NSArray *commentArray = userInfo[@"v"][@"info"];
-	if (!commentArray || [commentArray count] <= 0)
-		return;
-
-	[commentModel addComments:commentArray];
-	[mainCollectionView reloadData];
-}
-
-- (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-
-	if (isSuccess) {
-		commentTextField.text = @"";
-		[self requestLatestComments];
-	} else {
-	}
-
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-		}
-	}];
-}
+//- (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+//	BOOL isSuccess = (0 == ret);
+//
+//	if (isSuccess) {
+//		commentTextField.text = @"";
+//		[self requestLatestComments];
+//	} else {
+//	}
+//
+//	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+//		if (isSuccess) {
+//		}
+//	}];
+//}
 
 /*
  *   即将显示键盘的处理

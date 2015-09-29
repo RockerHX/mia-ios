@@ -27,9 +27,9 @@
 	MIALabel *musicArtistLabel;
 	MIALabel *sharerLabel;
 	UITextView *noteTextView;
-	MIAButton *favoriteButton;
-	MIALabel *commentLabel;
-	MIALabel *viewsLabel;
+//	MIAButton *favoriteButton;
+//	MIALabel *commentLabel;
+//	MIALabel *viewsLabel;
 	MIALabel *locationLabel;
 
 	NSTimer *progressTimer;
@@ -60,11 +60,6 @@
 	static const CGFloat kMusicArtistMarginLeft = 10;
 	static const CGFloat kMusicNameHeight = 20;
 	static const CGFloat kMusicArtistHeight = 20;
-
-	static const CGFloat kFavoriteMarginTop = kMusicNameMarginTop;
-	static const CGFloat kFavoriteMarginRight = 20;
-	static const CGFloat kFavoriteWidth = 25;
-	static const CGFloat kFavoriteHeight = 25;
 
 	static const CGFloat kSharerMarginLeft = 20;
 	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 5;
@@ -147,45 +142,13 @@
 	noteTextView.userInteractionEnabled = NO;
 	[self addSubview:noteTextView];
 
-	favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - kFavoriteMarginRight - kFavoriteWidth,
-																 kFavoriteMarginTop,
-																 kFavoriteWidth,
-																 kFavoriteHeight)
-										  titleString:nil
-										   titleColor:nil
-												 font:nil
-											  logoImg:nil
-									  backgroundImage:nil];
-	[favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
-	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:favoriteButton];
-
-	static const CGFloat kCommentTitleHeight			= 20;
-	static const CGFloat kCommentTitleWidth				= 50;
-	static const CGFloat kCommentTitleMarginTop			= kBottomViewMarginTop + kBottomViewHeight + 10;
-	static const CGFloat kCommentTitleMarginLeft		= 15;
-
 	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,
 																  kBottomViewMarginTop,
 																  self.bounds.size.width,
 																  kBottomViewHeight)];
 	//bottomView.backgroundColor = [UIColor yellowColor];
 	[self addSubview:bottomView];
-
 	[self initBottomView:bottomView];
-
-	
-	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentTitleMarginLeft,
-																			 kCommentTitleMarginTop,
-																			 kCommentTitleWidth,
-																			 kCommentTitleHeight)
-															 text:@"评论"
-															 font:UIFontFromSize(12.0f)
-														textColor:UIColorFromHex(@"949494", 1.0)
-													textAlignment:NSTextAlignmentLeft
-													  numberLines:1];
-	//commentTitleLabel.backgroundColor = [UIColor redColor];
-	[self addSubview:commentTitleLabel];
 }
 
 - (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
@@ -215,57 +178,13 @@
 	static const CGFloat kBottomButtonMarginBottom		= 5;
 	static const CGFloat kBottomButtonWidth				= 15;
 	static const CGFloat kBottomButtonHeight			= 15;
-	static const CGFloat kCommentImageMarginLeft		= 20;
-	static const CGFloat kViewsImageMarginLeft			= 60;
 	static const CGFloat kLocationImageMarginRight		= 1;
 	static const CGFloat kLocationLabelMarginRight		= 20;
 	static const CGFloat kLocationLabelWidth			= 80;
 
-	static const CGFloat kCommentLabelMarginLeft		= 2;
 	static const CGFloat kBottomLabelMarginBottom		= 5;
 	static const CGFloat kBottomLabelHeight				= 15;
-	static const CGFloat kCommentLabelWidth				= 20;
 
-	static const CGFloat kViewsLabelMarginLeft			= 2;
-	static const CGFloat kViewsLabelWidth				= 20;
-
-	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft,
-																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
-																				   kBottomButtonWidth,
-																				   kBottomButtonHeight)];
-	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
-	[bottomView addSubview:commentsImageView];
-
-	commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
-															  bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
-															  kCommentLabelWidth,
-															  kBottomLabelHeight)
-											  text:@""
-											  font:UIFontFromSize(8.0f)
-										 textColor:[UIColor grayColor]
-									 textAlignment:NSTextAlignmentLeft
-									   numberLines:1];
-	//commentLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:commentLabel];
-
-	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft,
-																				bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
-																				kBottomButtonWidth,
-																				kBottomButtonHeight)];
-	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
-	[bottomView addSubview:viewsImageView];
-
-	viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
-															bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
-															kViewsLabelWidth,
-															kBottomLabelHeight)
-											text:@""
-											font:UIFontFromSize(8.0f)
-									   textColor:[UIColor grayColor]
-								   textAlignment:NSTextAlignmentLeft
-									 numberLines:1];
-	//viewsLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
 																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
@@ -302,9 +221,6 @@
 	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
 	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
 	[noteTextView setText:[item sNote]];
-
-	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
-	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[locationLabel setText:[item sAddress]];
 }
 
