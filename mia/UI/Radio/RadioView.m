@@ -230,8 +230,11 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)initShareList {
 	shareListMgr = [ShareListMgr initFromArchive];
-	// TODO 获取当前需要的三个Item，如果能获取到就不需要Loading状态了
-	_isLoading = YES;
+	if ([shareListMgr isNeedGetNearbyItems]) {
+		[self requestNewShares];
+		// TODO loading应该改成回调
+		_isLoading = YES;
+	}
 }
 
 - (void)reloadLoopPlayerData {
@@ -249,8 +252,7 @@ static const CGFloat kFavoriteHeight = 25;
 
 - (void)checkIsNeedToGetNewItems {
 	if ([shareListMgr isNeedGetNearbyItems]) {
-		// TODO linyehui
-		[MiaAPIHelper getNearbyWithLatitude:-22.1 longitude:33.3 start:1 item:3];
+		[self requestNewShares];
 	}
 }
 
@@ -368,6 +370,11 @@ static const CGFloat kFavoriteHeight = 25;
 	} else {
 		NSLog(@"favorite music failed.");
 	}
+}
+
+- (void)requestNewShares {
+	[MiaAPIHelper getNearbyWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
+							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude start:1 item:3];
 }
 
 #pragma mark - swip actions

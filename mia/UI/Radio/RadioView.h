@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @protocol RadioViewDelegate
 - (void)radioViewDidTouchBottom;
 - (void)radioViewShouldLogin;
+- (CLLocationCoordinate2D)radioViewCurrentCoordinate;
+
 @end
 
 @class ShareItem;
@@ -21,6 +24,7 @@
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 @property (assign, nonatomic) BOOL isLoading;
 
+- (void)checkIsNeedToGetNewItems;
 - (void)spreadFeed;
 - (void)skipFeed;
 

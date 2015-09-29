@@ -21,6 +21,8 @@
 #import "NSString+IsNull.h"
 #import "ProfileViewController.h"
 #import "ShareViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import "CLLocation+YCLocation.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -29,7 +31,7 @@ static NSString * kAlertTitleError			= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed	= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
 static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID失败），点击确认重新发送";
 
-@interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate>
+@interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate, CLLocationManagerDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) RadioView *radioView;
 
@@ -38,12 +40,17 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 @implementation RadioViewController {
 	MIAButton *profileButton;
 	MIAButton *shareButton;
+
+	CLLocationManager *mylocationManager;
+	CLLocationCoordinate2D currentCoordinate;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
+	[self initLocationMgr];
+	
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
@@ -191,18 +198,30 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 }
 
+- (void)initLocationMgr {
+	if (nil == mylocationManager)
+		mylocationManager = [[CLLocationManager alloc] init];
+
+	mylocationManager.delegate = self;
+
+	//设置定位的精度
+	mylocationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+
+	//设置定位服务更新频率
+	mylocationManager.distanceFilter = 500;
+
+	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
+
+		[mylocationManager requestWhenInUseAuthorization];	// 前台定位
+		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
+	}
+
+	[mylocationManager startUpdatingLocation];
+}
+
 - (void)sendPing:(id)sender;
 {
 	[[WebSocketMgr standard] sendPing:nil];
-}
-
-- (void)initData {
-	[self autoLogin];
-
-	// TODO load的调用时机还需要考虑本地是否需要重新加载数据，可能可以用isLoading来判断
-	if ([_radioView isLoading]) {
-		[MiaAPIHelper getNearbyWithLatitude:-22 longitude:33 start:1 item:3];
-	}
 }
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
@@ -273,7 +292,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 												  otherButtonTitles:nil];
 		[alertView show];
 	} else {
-		[self initData];
+		[self autoLogin];
 	}
 }
 
@@ -308,6 +327,30 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	}
 }
 
+// 获取地理位置变化的起始点和终点,didUpdateToLocation：
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+
+	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	CLLocation * marsLoction =   [location locationMarsFromEarth];
+	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.latitude);
+
+
+	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
+		if (placemarks.count > 0) {
+			CLPlacemark *placemark = [placemarks objectAtIndex:0];
+			NSLog(@"______%@", placemark.locality);
+			NSLog(@"______%@", placemark.subLocality);
+			NSLog(@"______%@", placemark.name);
+
+			currentCoordinate = marsLoction.coordinate;
+			[_radioView checkIsNeedToGetNewItems];
+		}
+	}];
+
+	[manager stopUpdatingLocation];
+}
+
 #pragma mark - RadioViewDelegate
 
 - (void)radioViewDidTouchBottom {
@@ -322,6 +365,10 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	LoginViewController *vc = [[LoginViewController alloc] init];
 	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
+}
+
+- (CLLocationCoordinate2D)radioViewCurrentCoordinate {
+	return currentCoordinate;
 }
 
 - (void)notifyLogin {
