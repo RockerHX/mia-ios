@@ -19,9 +19,9 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "MusicPlayerMgr.h"
+#import "Masonry.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
-static const CGFloat kDetailFooterViewHeight 	= 40;
 
 @interface ShareViewController () <UITextFieldDelegate>
 
@@ -174,7 +174,7 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 													   StatusBarHeight + self.navigationController.navigationBar.frame.size.height,
 													   self.view.bounds.size.width,
 													   kShareTopViewHeight)];
-	topView.backgroundColor = [UIColor orangeColor];
+//	topView.backgroundColor = [UIColor orangeColor];
 	[self.view addSubview:topView];
 
 	static const CGFloat kCoverWidth = 163;
@@ -366,97 +366,63 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 }
 
 - (void)initBottomView {
-	const static CGFloat kShareBottomViewHeight = 60;
-	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,
-																  self.view.bounds.size.height - kShareBottomViewHeight,
-																  self.view.bounds.size.width,
-																  kShareBottomViewHeight)];
+	UIView *bottomView = [UIView new];
 	[self.view addSubview:bottomView];
+	bottomView.backgroundColor = [UIColor redColor];
 
-	static const CGFloat kBottomButtonMarginBottom		= 5;
-	static const CGFloat kBottomButtonWidth				= 15;
-	static const CGFloat kBottomButtonHeight			= 15;
-	static const CGFloat kLocationImageMarginRight		= 1;
-	static const CGFloat kLocationLabelMarginRight		= 20;
-	static const CGFloat kLocationLabelWidth			= 80;
-
-	static const CGFloat kBottomLabelMarginBottom		= 5;
-	static const CGFloat kBottomLabelHeight				= 15;
-
-
-	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
-																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
-																				   kBottomButtonWidth,
-																				   kBottomButtonHeight)];
+	UIImageView *locationImageView = [[UIImageView alloc] init];
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
+	locationImageView.backgroundColor = [UIColor greenColor];
 	[bottomView addSubview:locationImageView];
 
-	locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
-															   bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
-															   kLocationLabelWidth,
-															   kBottomLabelHeight)
-											   text:@""
-											   font:UIFontFromSize(8.0f)
+	locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											   text:@"深圳，南山区"
+											   font:UIFontFromSize(12.0f)
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	//locationLabel.backgroundColor = [UIColor redColor];
+	locationLabel.backgroundColor = [UIColor yellowColor];
 	[bottomView addSubview:locationLabel];
-}
 
-- (void)initFooterView {
-	//footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailFooterViewHeight)];
-	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight)];
-	footerView.backgroundColor = UIColorFromHex(@"d2d0d0", 1.0);
-	[self.view addSubview:footerView];
-
-	UIView *textBGView = [[UIView alloc] initWithFrame:CGRectInset(footerView.bounds, 1, 1)];
-	textBGView.backgroundColor = UIColorFromHex(@"f2f2f2", 1.0);
-	[footerView addSubview:textBGView];
-
-	static const CGFloat kEditViewMarginLeft 		= 28;
-	static const CGFloat kEditViewMarginRight 		= 70;
-	static const CGFloat kEditViewMarginTop 		= 5;
-	static const CGFloat kEditViewHeight			= 30;
-
-	static const CGFloat kCommentButtonMarginRight 	= 15;
-	static const CGFloat kCommentButtonMarginTop	= 10;
-	static const CGFloat kCommentButtonWidth		= 50;
-	static const CGFloat kCommentButtonHeight		= 20;
-
-	commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kEditViewMarginLeft,
-																				   kEditViewMarginTop,
-																				   footerView.bounds.size.width - kEditViewMarginLeft - kEditViewMarginRight,
-																				   kEditViewHeight)];
-	commentTextField.borderStyle = UITextBorderStyleNone;
-	commentTextField.backgroundColor = [UIColor clearColor];
-	commentTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
-	commentTextField.placeholder = @"说说此刻的想法";
-	[commentTextField setFont:UIFontFromSize(16)];
-	commentTextField.keyboardType = UIKeyboardTypeDefault;
-	commentTextField.returnKeyType = UIReturnKeySend;
-	commentTextField.delegate = self;
-	//commentTextField.backgroundColor = [UIColor yellowColor];
-	[commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
-	[commentTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-
-	[footerView addSubview:commentTextField];
-
-
-	commentButton = [[MIAButton alloc] initWithFrame:CGRectMake(footerView.frame.size.width - kCommentButtonMarginRight - kCommentButtonWidth,
-																		   kCommentButtonMarginTop,
-																		   kCommentButtonWidth,
-																		   kCommentButtonHeight)
-										 titleString:@"发送"
-										  titleColor:UIColorFromHex(@"#ff300f", 1.0)
-												font:UIFontFromSize(15)
+	MIAButton *closeButton = [[MIAButton alloc] initWithFrame:CGRectZero
+										 titleString:nil
+										  titleColor:nil
+												font:nil
 											 logoImg:nil
-									 backgroundImage:nil];
-	[commentButton addTarget:self action:@selector(commentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[commentButton setTitleColor:UIColorFromHex(@"#a2a2a2", 1.0) forState:UIControlStateDisabled];
-	[commentButton setEnabled:NO];
-	//commentButton.backgroundColor = [UIColor redColor];
-	[footerView addSubview:commentButton];
+									 backgroundImage:[UIImage imageNamed:@"close"]];
+	[closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	closeButton.backgroundColor = [UIColor greenColor];
+	[bottomView addSubview:closeButton];
+
+	const static CGFloat kShareBottomViewHeight 		= 20;
+	const static CGFloat kShareBottomViewMarginBottom	= 5;
+	const static CGFloat kBottomButtonWidth				= 15;
+	const static CGFloat kBottomButtonHeight			= 15;
+
+	[bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@(kShareBottomViewHeight));
+		make.centerX.equalTo(self.view.mas_centerX);
+		make.bottom.equalTo(self.view.mas_bottom).offset(-kShareBottomViewMarginBottom);
+	}];
+
+	[locationImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonWidth, kBottomButtonHeight));
+		make.left.equalTo(bottomView.mas_left);
+		make.centerY.equalTo(bottomView.mas_centerY);
+	}];
+	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(locationImageView.mas_right);
+		make.right.equalTo(bottomView.mas_right).offset(-kBottomButtonWidth);
+		make.centerY.equalTo(bottomView.mas_centerY);
+		make.height.equalTo(bottomView.mas_height);
+	}];
+	[closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonWidth, kBottomButtonHeight));
+		//make.left.equalTo(locationLabel.mas_right);
+		make.right.equalTo(bottomView.mas_right);
+		make.centerY.equalTo(bottomView.mas_centerY);
+	}];
+
 }
 
 - (void)checkSubmitButtonStatus {
@@ -618,11 +584,8 @@ static const CGFloat kDetailFooterViewHeight 	= 40;
 	NSLog(@"send button clicked.");
 }
 
-- (void)commentButtonAction:(id)sender {
-	NSLog(@"comment button clicked.");
-	[self showMBProgressHUD];
-	[MiaAPIHelper postCommentWithShareID:shareItem.sID comment:commentTextField.text];
-
+- (void)closeButtonAction:(id)sender {
+	NSLog(@"close button clicked.");
 }
 
 - (void)playButtonAction:(id)sender {

@@ -33,6 +33,7 @@
 		393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9B61BBA3B4500FCF232 /* ShareViewController.m */; };
 		393CE9BB1BBA768700FCF232 /* add_music_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */; };
 		393CE9BC1BBA768700FCF232 /* add_music_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */; };
+		393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BD1BBA94BE00FCF232 /* close@2x.png */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -175,6 +176,7 @@
 		393CE9B61BBA3B4500FCF232 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_bg@2x.png"; sourceTree = "<group>"; };
 		393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_logo@2x.png"; sourceTree = "<group>"; };
+		393CE9BD1BBA94BE00FCF232 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 		397E42DD1BA90CBC006BE9E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				393CE9BD1BBA94BE00FCF232 /* close@2x.png */,
 				393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */,
 				393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */,
 				393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */,
@@ -1143,6 +1146,7 @@
 				39BF8C781BB29FA0003AB4FC /* cover_mask@2x.png in Resources */,
 				39BF8C631BB23517003AB4FC /* default_cover@2x.png in Resources */,
 				39BF8C811BB2CDD5003AB4FC /* profile_banner_mask@2x.png in Resources */,
+				393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */,
 				393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */,
 				397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */,
 				39BF8C601BB148DC003AB4FC /* favorite_red@2x.png in Resources */,
