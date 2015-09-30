@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */; };
+		3908F37E1BBB811F00BACFD3 /* AFNHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F37D1BBB811F00BACFD3 /* AFNHttpClient.m */; };
+		3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3811BBB9FF300BACFD3 /* SuggestionItem.m */; };
+		3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3851BBBA1C200BACFD3 /* XiamiHelper.m */; };
 		390BADBE1BAEB375006269FD /* CommentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADBB1BAEB375006269FD /* CommentTableView.m */; };
 		390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADBD1BAEB375006269FD /* CommentCollectionViewCell.m */; };
 		390BADC11BAEBDEA006269FD /* default_avatar@2x.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC01BAEBDEA006269FD /* default_avatar@2x.jpeg */; };
@@ -146,6 +149,12 @@
 
 /* Begin PBXFileReference section */
 		3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_icon@2x.png"; sourceTree = "<group>"; };
+		3908F37C1BBB811F00BACFD3 /* AFNHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNHttpClient.h; sourceTree = "<group>"; };
+		3908F37D1BBB811F00BACFD3 /* AFNHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNHttpClient.m; sourceTree = "<group>"; };
+		3908F3801BBB9FF300BACFD3 /* SuggestionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionItem.h; sourceTree = "<group>"; };
+		3908F3811BBB9FF300BACFD3 /* SuggestionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionItem.m; sourceTree = "<group>"; };
+		3908F3841BBBA1C200BACFD3 /* XiamiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XiamiHelper.h; sourceTree = "<group>"; };
+		3908F3851BBBA1C200BACFD3 /* XiamiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XiamiHelper.m; sourceTree = "<group>"; };
 		390BADBA1BAEB375006269FD /* CommentTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableView.h; sourceTree = "<group>"; };
 		390BADBB1BAEB375006269FD /* CommentTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableView.m; sourceTree = "<group>"; };
 		390BADBC1BAEB375006269FD /* CommentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCollectionViewCell.h; sourceTree = "<group>"; };
@@ -383,6 +392,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3908F37B1BBB811F00BACFD3 /* AFNHttpClient */ = {
+			isa = PBXGroup;
+			children = (
+				3908F37C1BBB811F00BACFD3 /* AFNHttpClient.h */,
+				3908F37D1BBB811F00BACFD3 /* AFNHttpClient.m */,
+			);
+			path = AFNHttpClient;
+			sourceTree = "<group>";
+		};
+		3908F37F1BBB9FF300BACFD3 /* SuggestionItem */ = {
+			isa = PBXGroup;
+			children = (
+				3908F3801BBB9FF300BACFD3 /* SuggestionItem.h */,
+				3908F3811BBB9FF300BACFD3 /* SuggestionItem.m */,
+			);
+			path = SuggestionItem;
+			sourceTree = "<group>";
+		};
+		3908F3831BBBA1C200BACFD3 /* XiamiHelper */ = {
+			isa = PBXGroup;
+			children = (
+				3908F3841BBBA1C200BACFD3 /* XiamiHelper.h */,
+				3908F3851BBBA1C200BACFD3 /* XiamiHelper.m */,
+			);
+			path = XiamiHelper;
+			sourceTree = "<group>";
+		};
 		390BADC61BAFD9FB006269FD /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +488,8 @@
 		397E42741BA126AF006BE9E7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				3908F3831BBBA1C200BACFD3 /* XiamiHelper */,
+				3908F37B1BBB811F00BACFD3 /* AFNHttpClient */,
 				397E42831BA6EC37006BE9E7 /* MiaAPIHelper */,
 				397E42751BA126AF006BE9E7 /* WebSocketMgr */,
 			);
@@ -470,6 +508,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3908F37F1BBB9FF300BACFD3 /* SuggestionItem */,
 				3976E35E1BBACDD3006FA5E2 /* SearchSuggestionModel */,
 				393CE99F1BB7953E00FCF232 /* FavoriteItem */,
 				393CE99B1BB789C400FCF232 /* FavoriteModel */,
@@ -1271,6 +1310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				397E42961BA81836006BE9E7 /* MusicItem.m in Sources */,
+				3908F37E1BBB811F00BACFD3 /* AFNHttpClient.m in Sources */,
 				390BADBE1BAEB375006269FD /* CommentTableView.m in Sources */,
 				397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */,
 				397FA5351BAC0CA7003FD186 /* MIATextViewInternal.m in Sources */,
@@ -1281,6 +1321,7 @@
 				390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
+				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
@@ -1315,6 +1356,7 @@
 				39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
 				390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */,
+				3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */,
 				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */,

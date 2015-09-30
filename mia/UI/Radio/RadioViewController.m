@@ -24,6 +24,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
 
+#import "XiamiHelper.h"
+#import "SuggestionItem.h"
+
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
 
@@ -51,7 +54,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 	[self initUI];
 	[self initLocationMgr];
 	
-
+	[self testXiami];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
@@ -414,6 +417,58 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)pullReflashFromBottom {
 //	NSLog(@"pullReflashFromBottom");
 	[_radioView spreadFeed];
+}
+
+#pragma mark - test
+
+- (void)testXiami {
+	[XiamiHelper requestSearchIndex:^(id responseObject) {
+		NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
+		NSString *parten = @"www.xiami.com/song/(\\d+).*?title=\"(.*?)\".*?span>(.*?)</strong>";
+
+		NSError* error = NULL;
+		NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:0 error:&error];
+		NSArray* match = [reg matchesInString:responseText options:NSMatchingReportCompletion range:NSMakeRange(0, [responseText length])];
+
+		NSMutableArray *suggestionArray = [[NSMutableArray alloc] initWithCapacity:4];
+		if (match.count != 0) {
+			for (NSTextCheckingResult *matc in match) {
+				NSRange range = [matc range];
+				NSLog(@"%@", [responseText substringWithRange:range]);
+				NSString* group1 = [responseText substringWithRange:[matc rangeAtIndex:1]];
+				NSString* group2 = [responseText substringWithRange:[matc rangeAtIndex:2]];
+				NSString* group3 = [responseText substringWithRange:[matc rangeAtIndex:3]];
+
+				SuggestionItem *item = [[SuggestionItem alloc] init];
+				item.songID = [self removeBoldTag:group1];
+				item.title = [self removeBoldTag:group2];
+				item.artist = [self removeBoldTag:group3];
+				[suggestionArray addObject:item];
+			}
+		}
+	} failedBlock:^(NSError *error) {
+		NSLog(@"%@", error);
+	}];
+}
+
+- (NSString *)removeBoldTag:(NSString *)html {
+	if (nil == html || html.length == 0) {
+		return html;
+	}
+
+	NSRange boldTagRange = [html rangeOfString:@"</b>"];
+	if (boldTagRange.length > 0) {
+		NSString *left = [html substringWithRange:NSMakeRange(0, boldTagRange.location)];
+		NSString *right = [html substringFromIndex:(boldTagRange.location + boldTagRange.length)];
+		NSRange boldLeftTag = [left rangeOfString:@">"];
+		if (boldLeftTag.length > 0) {
+			left = [left substringFromIndex:(boldLeftTag.location + boldLeftTag.length)];
+		}
+
+		return [NSString stringWithFormat:@"%@%@", left, right];
+	} else {
+		return html;
+	}
 }
 
 @end
