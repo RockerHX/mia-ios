@@ -456,19 +456,12 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		return html;
 	}
 
-	NSRange boldTagRange = [html rangeOfString:@"</b>"];
-	if (boldTagRange.length > 0) {
-		NSString *left = [html substringWithRange:NSMakeRange(0, boldTagRange.location)];
-		NSString *right = [html substringFromIndex:(boldTagRange.location + boldTagRange.length)];
-		NSRange boldLeftTag = [left rangeOfString:@">"];
-		if (boldLeftTag.length > 0) {
-			left = [left substringFromIndex:(boldLeftTag.location + boldLeftTag.length)];
-		}
+	NSString *parten = @"</?b.*?>";
+	NSError* error = NULL;
+	NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:0 error:&error];
 
-		return [NSString stringWithFormat:@"%@%@", left, right];
-	} else {
-		return html;
-	}
+	NSString *result = [reg stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, html.length) withTemplate:@""];
+	return result;
 }
 
 @end
