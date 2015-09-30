@@ -143,5 +143,54 @@
 	return result;
 }
 
++ (NSString *)decodeXiamiUrl:(NSString *)encodeUrl {
+	NSString* mess = @"8h2fmF16225%k%8bcd45EtFii33532E3e5af3f4E-t%l.22654_FyEb%e33%np2ec44568la%%a52e65u%F.o%%%4%.u355E%45El3mxm22265mtDEd9547-lA5i%FFF_Ephef88E-6%%.a21712%3_8d67a1%5";
+
+	int rows = [[mess substringToIndex:1] intValue];
+	NSString *url = [mess substringFromIndex:1];
+	int len_url = url.length;
+	int cols = len_url / rows;
+	int re_col = len_url % rows;
+	NSMutableArray *l = [[NSMutableArray alloc] init];
+	for (int row = 0; row < rows; row++) {
+		int ln;
+		if (row < re_col) {
+			ln = cols;
+		} else {
+			ln = cols + 1;
+		}
+
+		[l addObject:[url substringToIndex:ln]];
+		url = [url substringFromIndex:ln];
+	}
+
+	NSMutableString *durl = [NSMutableString stringWithString:@""];
+	for (int i = 0; i < len_url; i++) {
+		NSString *item = [l[i%rows] substringWithRange:NSMakeRange(i/rows, 1)];
+		[durl appendString:item];
+	}
+
+
+
+/*
+	rows = int(mess[0])
+	url = mess[1:]
+	len_url = len(url)
+	cols = len_url / rows
+	re_col = len_url % rows
+
+	l = []
+	for row in xrange(rows):
+		ln = cols + 1 if row < re_col else cols
+			l.append(url[:ln])
+			url = url[ln:]
+
+			durl = ''
+			for i in xrange(len_url):
+    durl += l[i%rows][i/rows]
+*/
+
+	return nil;
+}
 @end
 

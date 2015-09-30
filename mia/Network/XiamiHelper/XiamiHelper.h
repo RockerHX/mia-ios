@@ -13,5 +13,6 @@
 
 + (void)requestSearchSuggestion:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
 + (void)requestSearchResult:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
++ (NSString *)decodeXiamiUrl:(NSString *)encodeUrl;
 
 @end
