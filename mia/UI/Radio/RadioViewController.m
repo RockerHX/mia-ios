@@ -421,11 +421,11 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 #pragma mark - test
 
 - (void)testXiami {
-	[XiamiHelper requestSearchSuggestion:^(id suggestions) {
-		NSLog(@"%@", suggestions);
-	} failedBlock:^(NSError *error) {
-		NSLog(@"%@", error);
-	}];
+//	[XiamiHelper requestSearchSuggestion:^(id suggestions) {
+//		NSLog(@"%@", suggestions);
+//	} failedBlock:^(NSError *error) {
+//		NSLog(@"%@", error);
+//	}];
 
 	[XiamiHelper requestSearchResult:^(id results) {
 		NSLog(@"%@", results);

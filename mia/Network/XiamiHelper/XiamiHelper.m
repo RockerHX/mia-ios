@@ -70,7 +70,7 @@
 		NSString *requestUrl = @"http://www.xiami.com/search/song/page/1?key=wangfei";
 		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
-			NSString *parten = @"/<td class=\"song_name\">[\\s\\S]*?<a target=\"_blank\" href=\"http://www.xiami.com/song/(\\d+)\".*?>(.*?)</a>[\\s\\S]*?<td class=\"song_artist\"><a.*?>(.*?)</a>[\\s\\S]*?<td class=\"song_album\"><a.*?>(.*?)</a>";
+			NSString *parten = @"<td class=\"song_name\">[\\s\\S]*?<a target=\"_blank\" href=\"http://www.xiami.com/song/(\\d+)\".*?>(.*?)</a>[\\s\\S]*?<td class=\"song_artist\"><a.*?>(.*?)</a>[\\s\\S]*?<td class=\"song_album\"><a.*?>(.*?)</a>";
 
 			NSError* error = NULL;
 			NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:0 error:&error];
@@ -92,6 +92,8 @@
 					item.artist = group3;
 					item.albumName = group4;
 
+					// TODO
+					[self requestSongInfoWithResultItem:item successBlock:nil failedBlock:nil];
 					[resultArray addObject:item];
 				}
 			}
@@ -106,6 +108,27 @@
 		}];
 	});
 }
+
++ (void)requestSongInfoWithResultItem:(SearchResultItem *)item successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock{
+	dispatch_queue_t queue = dispatch_queue_create("RequestSongInfo", NULL);
+	dispatch_async(queue, ^(){
+		NSString *requestUrl = [NSString stringWithFormat:@"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json", item.songID];
+		[AFNHttpClient requestWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, NSDictionary *jsonServerConfig) {
+			NSLog(@"%@", jsonServerConfig);
+			item.songUrl = jsonServerConfig[@"data"][@"trackList"][0][@"location"];
+			item.albumPic = jsonServerConfig[@"data"][@"trackList"][0][@"pic"];
+
+			if(successBlock){
+				successBlock(jsonServerConfig);
+			}
+		} failBlock:^(id task, NSError *error) {
+			if(failedBlock){
+				failedBlock(error);
+			}
+		}];
+	});
+}
+
 
 + (NSString *)removeBoldTag:(NSString *)html {
 	if (nil == html || html.length == 0) {
