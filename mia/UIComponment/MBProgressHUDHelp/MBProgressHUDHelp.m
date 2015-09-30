@@ -1,9 +1,9 @@
 //
 //  MBProgressHUDHelp.m
-//  huanjuwan
+//  mia
 //
 //  Created by HongBin Lin on 14-9-17.
-//  Copyright (c) 2014年 duowan. All rights reserved.
+//  Copyright (c) 2014年 Mia Music. All rights reserved.
 //
 
 #import "MBProgressHUDHelp.h"

@@ -3,7 +3,7 @@
 //  mia
 //
 //  Created by mia on 14-8-4.
-//  Copyright (c) 2014年 duowan. All rights reserved.
+//  Copyright (c) 2014年 Mia Music. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
