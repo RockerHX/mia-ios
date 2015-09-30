@@ -103,6 +103,10 @@ const static CGFloat kSearchVCHeight = 60;
 	editBgView.layer.masksToBounds = YES;
 	[topView addSubview:editBgView];
 
+	UIImageView *searchIconImageView = [[UIImageView alloc] init];
+	[searchIconImageView setImage:[UIImage imageNamed:@"search_icon"]];
+	[editBgView addSubview:searchIconImageView];
+
 	searchTextField = [[UITextField alloc] init];
 	searchTextField.borderStyle = UITextBorderStyleNone;
 	searchTextField.backgroundColor = [UIColor clearColor];
@@ -132,9 +136,15 @@ const static CGFloat kSearchVCHeight = 60;
 		make.right.equalTo(topView.mas_right).offset(-60);
 	}];
 
+	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(16, 16));
+		make.centerY.equalTo(editBgView.mas_centerY);
+		make.left.equalTo(editBgView.mas_left).with.offset(5);
+	}];
+
 	[searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(editBgView.mas_top).with.offset(5);
-		make.left.equalTo(editBgView.mas_left).with.offset(40);
+		make.left.equalTo(editBgView.mas_left).with.offset(25);
 		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-5);
 		make.right.equalTo(editBgView.mas_right).with.offset(-5);
 	}];
