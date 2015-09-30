@@ -55,13 +55,13 @@
  *  @param failBlock    返回失败的block
  *
  */
-+ (id)requestLoginWithURL:(NSString *)url
++ (id)requestHTMLWithURL:(NSString *)url
               requestType:(AFNHttpRequestType )requestTypes
                parameters:(id )parameters
                   timeOut:(NSTimeInterval )timeOut
              successBlock:(void (^)(id task, id responseObject))successBlock
                 failBlock:(void (^)(id task, NSError *error))failBlock{
-    AFNHttpClient *client = [[self alloc] initLoginWithURL:url
+    AFNHttpClient *client = [[self alloc] initUsingHTMLWithURL:url
                                                requestType:requestTypes
                                                 parameters:parameters
                                                    timeOut:timeOut
@@ -159,7 +159,7 @@
 }
 
 
-- (id)initLoginWithURL:(NSString *)url requestType:(AFNHttpRequestType )requestTypes
+- (id)initUsingHTMLWithURL:(NSString *)url requestType:(AFNHttpRequestType )requestTypes
             parameters:(id )parameters
                timeOut:(NSTimeInterval )timeOut
           successBlock:(void (^)(id task, id responseObject))successBlock

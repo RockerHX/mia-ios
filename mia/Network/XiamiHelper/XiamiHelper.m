@@ -26,7 +26,7 @@
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchIndex", NULL);
 	dispatch_async(queue, ^(){
 		NSString *requestUrl = @"http://www.xiami.com/ajax/search-index?key=w";
-		[AFNHttpClient requestLoginWithURL:requestUrl requestType:AFNHttpRequestPost parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
+		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestPost parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
 			if(successBlock){
 				successBlock(responseObject);
 			}

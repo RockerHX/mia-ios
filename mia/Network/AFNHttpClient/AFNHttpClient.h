@@ -41,7 +41,7 @@ typedef void (^FailedBlock)(NSError *error);
  *  @param failBlock    返回失败的block
  *
  */
-+ (id)requestLoginWithURL:(NSString *)url
++ (id)requestHTMLWithURL:(NSString *)url
               requestType:(AFNHttpRequestType )requestTypes
                parameters:(id )parameters
                   timeOut:(NSTimeInterval )timeOut
