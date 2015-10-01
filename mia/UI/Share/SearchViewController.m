@@ -23,18 +23,24 @@
 #import "XiamiHelper.h"
 #import "NSString+IsNull.h"
 #import "SuggestionItem.h"
+#import "SearchResultView.h"
+#import "SearchResultModel.h"
+#import "SearchResultItem.h"
 
 const static CGFloat kSearchVCHeight = 60;
 
-@interface SearchViewController () <UITextFieldDelegate, SearchSuggestionViewDelegate>
+@interface SearchViewController () <UITextFieldDelegate, SearchSuggestionViewDelegate, SearchResultViewDelegate>
 
 @end
 
 @implementation SearchViewController {
 	SearchSuggestionModel *suggestionModel;
+	SearchResultModel *resultModel;
 
 	MIAButton *cancelButton;
 	SearchSuggestionView *suggestView;
+	SearchResultView *resultView;
+
 	UITextField *searchTextField;
 }
 
@@ -121,7 +127,7 @@ const static CGFloat kSearchVCHeight = 60;
 	searchTextField.placeholder = @"搜索你感兴趣的歌曲名或歌手名";
 	[searchTextField setFont:UIFontFromSize(13)];
 	searchTextField.keyboardType = UIKeyboardTypeDefault;
-	searchTextField.returnKeyType = UIReturnKeyDone;
+	searchTextField.returnKeyType = UIReturnKeySearch;
 	searchTextField.delegate = self;
 	[searchTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
 	[searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -165,12 +171,19 @@ const static CGFloat kSearchVCHeight = 60;
 
 - (void)initCollectionView {
 	suggestionModel = [[SearchSuggestionModel alloc] init];
-	suggestView = [[SearchSuggestionView alloc] initWithFrame:CGRectMake(0,
-																		 kSearchVCHeight,
-																		 self.view.bounds.size.width,
-																		 self.view.bounds.size.height - kSearchVCHeight)];
+	CGRect collectionViewFrame = CGRectMake(0,
+											kSearchVCHeight,
+											self.view.bounds.size.width,
+											self.view.bounds.size.height - kSearchVCHeight);
+	suggestView = [[SearchSuggestionView alloc] initWithFrame:collectionViewFrame];
 	suggestView.searchSuggestionViewDelegate = self;
 	[self.view addSubview:suggestView];
+
+	resultModel = [[SearchResultModel alloc] init];
+	resultView = [[SearchResultView alloc] initWithFrame:collectionViewFrame];
+	resultView.searchResultViewDelegate = self;
+	[self.view addSubview:resultView];
+	[resultView setHidden:YES];
 }
 
 #pragma mark - delegate
@@ -179,13 +192,14 @@ const static CGFloat kSearchVCHeight = 60;
 {
 	if (textField == searchTextField) {
 		[textField resignFirstResponder];
+		// TODO hide and show
 	}
 
 	return true;
 }
 
 - (void)textFieldDidChange:(id) sender {
-	//[self checkSubmitButtonStatus];
+	// TODO hide and show
 	[suggestionModel.dataSource removeAllObjects];
 	if ([NSString isNull:searchTextField.text]) {
 		[suggestView.suggestionCollectionView reloadData];
@@ -208,6 +222,15 @@ const static CGFloat kSearchVCHeight = 60;
 - (void)searchSuggestionViewDidSelectedItem:(SuggestionItem *)item {
 	NSLog(@"%@ %@", item.title, item.artist);
 }
+
+- (SearchResultModel *)searchResultViewModel {
+	return resultModel;
+}
+
+- (void)searchResultViewDidSelectedItem:(SearchResultItem *)item {
+	NSLog(@"%@ %@", item.title, item.artist);
+}
+
 
 #pragma mark - Notification
 
@@ -241,7 +264,6 @@ const static CGFloat kSearchVCHeight = 60;
 
 - (void)hidenKeyboard {
 	[searchTextField resignFirstResponder];
-	//[self checkSubmitButtonStatus];
 }
 
 

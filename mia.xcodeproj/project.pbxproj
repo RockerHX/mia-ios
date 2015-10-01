@@ -12,6 +12,8 @@
 		3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3811BBB9FF300BACFD3 /* SuggestionItem.m */; };
 		3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3851BBBA1C200BACFD3 /* XiamiHelper.m */; };
 		3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3891BBBE97700BACFD3 /* SearchResultItem.m */; };
+		3908F38D1BBD00EA00BACFD3 /* SearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F38C1BBD00EA00BACFD3 /* SearchResultView.m */; };
+		3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3901BBD025500BACFD3 /* SearchResultModel.m */; };
 		390BADBE1BAEB375006269FD /* CommentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADBB1BAEB375006269FD /* CommentTableView.m */; };
 		390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADBD1BAEB375006269FD /* CommentCollectionViewCell.m */; };
 		390BADC11BAEBDEA006269FD /* default_avatar@2x.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC01BAEBDEA006269FD /* default_avatar@2x.jpeg */; };
@@ -158,6 +160,10 @@
 		3908F3851BBBA1C200BACFD3 /* XiamiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XiamiHelper.m; sourceTree = "<group>"; };
 		3908F3881BBBE97700BACFD3 /* SearchResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultItem.h; sourceTree = "<group>"; };
 		3908F3891BBBE97700BACFD3 /* SearchResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultItem.m; sourceTree = "<group>"; };
+		3908F38B1BBD00EA00BACFD3 /* SearchResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultView.h; sourceTree = "<group>"; };
+		3908F38C1BBD00EA00BACFD3 /* SearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultView.m; sourceTree = "<group>"; };
+		3908F38F1BBD025500BACFD3 /* SearchResultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultModel.h; sourceTree = "<group>"; };
+		3908F3901BBD025500BACFD3 /* SearchResultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultModel.m; sourceTree = "<group>"; };
 		390BADBA1BAEB375006269FD /* CommentTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableView.h; sourceTree = "<group>"; };
 		390BADBB1BAEB375006269FD /* CommentTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableView.m; sourceTree = "<group>"; };
 		390BADBC1BAEB375006269FD /* CommentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCollectionViewCell.h; sourceTree = "<group>"; };
@@ -431,6 +437,15 @@
 			path = SearchResultItem;
 			sourceTree = "<group>";
 		};
+		3908F38E1BBD025500BACFD3 /* SearchResultModel */ = {
+			isa = PBXGroup;
+			children = (
+				3908F38F1BBD025500BACFD3 /* SearchResultModel.h */,
+				3908F3901BBD025500BACFD3 /* SearchResultModel.m */,
+			);
+			path = SearchResultModel;
+			sourceTree = "<group>";
+		};
 		390BADC61BAFD9FB006269FD /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +480,8 @@
 		393CE9B21BBA3B4500FCF232 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				3908F38B1BBD00EA00BACFD3 /* SearchResultView.h */,
+				3908F38C1BBD00EA00BACFD3 /* SearchResultView.m */,
 				3976E3521BBAC78B006FA5E2 /* SearchResultCollectionViewCell.h */,
 				3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */,
 				3976E3541BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.h */,
@@ -520,6 +537,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3908F38E1BBD025500BACFD3 /* SearchResultModel */,
 				3908F3871BBBE97700BACFD3 /* SearchResultItem */,
 				3908F37F1BBB9FF300BACFD3 /* SuggestionItem */,
 				3976E35E1BBACDD3006FA5E2 /* SearchSuggestionModel */,
@@ -1329,6 +1347,7 @@
 				397FA5351BAC0CA7003FD186 /* MIATextViewInternal.m in Sources */,
 				39BCADD01BA02F3100C6F7F2 /* SDWebImagePrefetcher.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
+				3908F38D1BBD00EA00BACFD3 /* SearchResultView.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
 				39BCADCE1BA02F3100C6F7F2 /* SDWebImageDownloaderOperation.m in Sources */,
 				390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */,
@@ -1385,6 +1404,7 @@
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
+				3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */,
 				39BCADC81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m in Sources */,
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */,

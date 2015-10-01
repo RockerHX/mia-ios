@@ -9,6 +9,7 @@
 #import "SearchSuggestionCollectionViewCell.h"
 #import "MIALabel.h"
 #import "Masonry.h"
+#import "SuggestionItem.h"
 
 @interface SearchSuggestionCollectionViewCell()
 
@@ -55,8 +56,8 @@
 	}];
 }
 
-- (void)setSuggestionItem:(SuggestionItem *)item {
-	_suggestionItem = item;
+- (void)setDataItem:(SuggestionItem *)item {
+	_dataItem = item;
 
 	[titleLabel setText:[NSString stringWithFormat:@"%@ - %@", item.title, item.artist]];
 

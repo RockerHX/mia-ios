@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SuggestionItem.h"
+
+@class SuggestionItem;
 
 @interface SearchSuggestionCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic) SuggestionItem *suggestionItem;
+@property (strong, nonatomic) SuggestionItem *dataItem;
 
 @end

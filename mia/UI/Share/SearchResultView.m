@@ -1,27 +1,27 @@
 //
-//  SearchSuggestionView.m
+//  SearchResultView.m
 //  mia
 //
 //  Created by linyehui on 2015/09/29.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "SearchSuggestionView.h"
-#import "SearchSuggestionCollectionViewCell.h"
-#import "SearchSuggestionModel.h"
+#import "SearchResultView.h"
+#import "SearchResultCollectionViewCell.h"
+#import "SearchResultModel.h"
 
-static NSString * const kSuggestionCellReuseIdentifier 		= @"SuggestionCellId";
+static NSString * const kSearchResultCellReuseIdentifier 		= @"SearchResultCellId";
 
-static const CGFloat kSuggestionItemMarginH 	= 10;
-static const CGFloat kSuggestionItemMarginV 	= 10;
-static const CGFloat kSuggestionItemHeight		= 50;
+static const CGFloat kSearchResultItemMarginH 	= 10;
+static const CGFloat kSearchResultItemMarginV 	= 10;
+static const CGFloat kSearchResultItemHeight		= 50;
 
-@interface SearchSuggestionView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface SearchResultView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @end
 
 
-@implementation SearchSuggestionView {
+@implementation SearchResultView {
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -38,8 +38,8 @@ static const CGFloat kSuggestionItemHeight		= 50;
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 
 	//该方法也可以设置itemSize
-	CGFloat itemWidth = self.frame.size.width - kSuggestionItemMarginH * 2;
-	layout.itemSize =CGSizeMake(itemWidth, kSuggestionItemHeight);
+	CGFloat itemWidth = self.frame.size.width - kSearchResultItemMarginH * 2;
+	layout.itemSize =CGSizeMake(itemWidth, kSearchResultItemHeight);
 
 	//2.初始化collectionView
 	_suggestionCollectionView = [[UICollectionView alloc] initWithFrame:self.bounds
@@ -49,7 +49,7 @@ static const CGFloat kSuggestionItemHeight		= 50;
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_suggestionCollectionView registerClass:[SearchSuggestionCollectionViewCell class] forCellWithReuseIdentifier:kSuggestionCellReuseIdentifier];
+	[_suggestionCollectionView registerClass:[SearchResultCollectionViewCell class] forCellWithReuseIdentifier:kSearchResultCellReuseIdentifier];
 
 	//4.设置代理
 	_suggestionCollectionView.delegate = self;
@@ -66,21 +66,21 @@ static const CGFloat kSuggestionItemHeight		= 50;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return [_searchSuggestionViewDelegate searchSuggestionViewModel].dataSource.count;
+	return [_searchResultViewDelegate searchResultViewModel].dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	SearchSuggestionCollectionViewCell *cell = (SearchSuggestionCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSuggestionCellReuseIdentifier
+	SearchResultCollectionViewCell *cell = (SearchResultCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchResultCellReuseIdentifier
 																											   forIndexPath:indexPath];
-	cell.dataItem = [_searchSuggestionViewDelegate searchSuggestionViewModel].dataSource[indexPath.row];
+	cell.dataItem = [_searchResultViewDelegate searchResultViewModel].dataSource[indexPath.row];
 
 	return cell;
 }
 
 //设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = self.frame.size.width - kSuggestionItemMarginH * 2;
-	return CGSizeMake(itemWidth, kSuggestionItemHeight);
+	CGFloat itemWidth = self.frame.size.width - kSearchResultItemMarginH * 2;
+	return CGSizeMake(itemWidth, kSearchResultItemHeight);
 }
 
 //设置每个item的UIEdgeInsets
@@ -90,19 +90,19 @@ static const CGFloat kSuggestionItemHeight		= 50;
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return kSuggestionItemMarginH;
+	return kSearchResultItemMarginH;
 }
 
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return kSuggestionItemMarginV;
+	return kSearchResultItemMarginV;
 }
 
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	SearchSuggestionCollectionViewCell *cell = (SearchSuggestionCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	[_searchSuggestionViewDelegate searchSuggestionViewDidSelectedItem:cell.dataItem];
+	SearchResultCollectionViewCell *cell = (SearchResultCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	[_searchResultViewDelegate searchResultViewDidSelectedItem:cell.dataItem];
 }
 
 @end
