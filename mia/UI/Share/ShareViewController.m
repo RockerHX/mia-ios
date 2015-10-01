@@ -546,6 +546,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[musicNameLabel setText:item.title];
 	[musicArtistLabel setText:item.artist];
 
+	[MiaAPIHelper getMusicById:item.songID];
 	[commentTextField becomeFirstResponder];
 }
 
@@ -558,6 +559,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	if ([command isEqualToString:MiaAPICommand_User_PostShare]) {
 		[self handlePostShareWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_Music_GetByid]) {
+		[self handleGetMusicByIDWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -568,6 +571,12 @@ const static CGFloat kShareTopViewHeight		= 280;
 			[self.navigationController popViewControllerAnimated:YES];
 		}
 	}];
+}
+
+- (void)handleGetMusicByIDWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+	NSLog(@"GetMusicById %d", isSuccess);
+	// TODO 失败或者成功后应该把信息更新
 }
 
 /*
