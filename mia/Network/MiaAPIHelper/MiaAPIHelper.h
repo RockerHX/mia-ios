@@ -32,4 +32,10 @@
 
 + (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
 
++ (void)postShareWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+					   songID:(NSString *)songID
+						 note:(NSString *)note;
+
 @end

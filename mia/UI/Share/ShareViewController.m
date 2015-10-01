@@ -473,7 +473,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 		progressHUD = [[MBProgressHUD alloc] initWithView:window];
 		[window addSubview:progressHUD];
 		progressHUD.dimBackground = YES;
-		progressHUD.labelText = @"正在提交评论";
+		progressHUD.labelText = @"正在提交分享";
 		[progressHUD show:YES];
 	}
 }
@@ -481,9 +481,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
 	if(progressHUD){
 		if(isSuccess){
-			progressHUD.labelText = @"评论成功";
+			progressHUD.labelText = @"分享成功";
 		}else{
-			progressHUD.labelText = @"评论失败，请稍后再试";
+			progressHUD.labelText = @"分享失败，请稍后再试";
 		}
 		progressHUD.mode = MBProgressHUDModeText;
 		[progressHUD showAnimated:YES whileExecutingBlock:^{
@@ -553,29 +553,23 @@ const static CGFloat kShareTopViewHeight		= 280;
 #pragma mark - Notification
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-//	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-//	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-//	NSLog(@"%@", command);
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	NSLog(@"%@", command);
 
-//	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
-//		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-//	}
+	if ([command isEqualToString:MiaAPICommand_User_PostShare]) {
+		[self handlePostShareWitRet:[ret intValue] userInfo:[notification userInfo]];
+	}
 }
 
-//- (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-//	BOOL isSuccess = (0 == ret);
-//
-//	if (isSuccess) {
-//		commentTextField.text = @"";
-//		[self requestLatestComments];
-//	} else {
-//	}
-//
-//	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-//		if (isSuccess) {
-//		}
-//	}];
-//}
+- (void)handlePostShareWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
+		if (isSuccess) {
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}];
+}
 
 /*
  *   即将显示键盘的处理
@@ -661,7 +655,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 		comment = @"我要推荐这首歌曲";
 	}
 
-	// TODO send to server
+	[self showMBProgressHUD];
+	[MiaAPIHelper postShareWithLatitude:currentCoordinate.latitude longitude:currentCoordinate.longitude address:currentAddress songID:dataItem.songID note:comment];
 }
 
 - (void)closeButtonAction:(id)sender {
