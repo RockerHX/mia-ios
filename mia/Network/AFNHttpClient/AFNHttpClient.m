@@ -8,6 +8,7 @@
 
 #import "AFNHttpClient.h"
 #import "AFHTTPSessionManager.h"
+#import "AFHTTPRequestOperation.h"
 #include <netdb.h>
 
 @interface AFNHttpClient()
@@ -99,6 +100,36 @@
     return client;
 }
 
+
++ (NSDictionary *)requestWaitUntilFinishedWithURL:(NSString *)url
+									  requestType:(AFNHttpRequestType )requestType
+									   parameters:(id)parameters
+{
+	NSString *method = (requestType == AFNHttpRequestGet) ? @"GET" : @"POST";
+	NSError *error = nil;
+
+	AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+	NSMutableURLRequest *request = [requestSerializer requestWithMethod:method URLString:url parameters:parameters error:&error];
+
+	/* 最终继承自 NSOperation，看到这个，大家可能就知道了怎么实现同步的了，也就是利用 NSOperation 来做的同步请求 */
+	AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+	AFHTTPResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+
+	[requestOperation setResponseSerializer:responseSerializer];
+
+	[requestOperation start];
+
+	[requestOperation waitUntilFinished];
+
+	/* 请求结果 */
+	NSDictionary *result = (NSDictionary *)[requestOperation responseObject];
+
+	if (result != nil) {
+
+		return result;
+	}
+	return nil;
+}
 
 - (id)initWithURL:(NSString *)url requestType:(AFNHttpRequestType )requestTypes
        parameters:(id )parameters

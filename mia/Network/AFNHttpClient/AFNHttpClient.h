@@ -86,6 +86,21 @@ typedef void (^FailedBlock)(NSError *error);
              timeOut:(NSTimeInterval )timeOut
         successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
            failBlock:(void (^)(id task, NSError *error))failBlock;
+
+/**
+ *  封装同步请求
+ *
+ *  @param url          发送请求的url路径
+ *  @param requestTypes 请求的类型
+ *  @param parameters   发送请求的参数
+ *  @param timeOut      设置连接超时
+ *
+ */
++ (NSDictionary *)requestWaitUntilFinishedWithURL:(NSString *)url
+									  requestType:(AFNHttpRequestType )requestType
+									   parameters:(id)parameters;
+
+
 @end
 
 

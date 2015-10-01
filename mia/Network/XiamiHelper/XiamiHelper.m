@@ -92,9 +92,14 @@
 					item.artist = group3;
 					item.albumName = group4;
 
-					// TODO
-					[self requestSongInfoWithResultItem:item successBlock:nil failedBlock:nil];
-					[resultArray addObject:item];
+					NSString *requestInfoUrl = [NSString stringWithFormat:@"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json", item.songID];
+					NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl requestType:AFNHttpRequestGet parameters:nil];
+					if (nil != songInfo) {
+						item.songUrl = [self decodeXiamiUrl:songInfo[@"data"][@"trackList"][0][@"location"]];
+						item.albumPic = songInfo[@"data"][@"trackList"][0][@"pic"];
+						[resultArray addObject:item];
+					}
+
 				}
 			}
 
@@ -108,27 +113,6 @@
 		}];
 	});
 }
-
-+ (void)requestSongInfoWithResultItem:(SearchResultItem *)item successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock{
-	dispatch_queue_t queue = dispatch_queue_create("RequestSongInfo", NULL);
-	dispatch_async(queue, ^(){
-		NSString *requestUrl = [NSString stringWithFormat:@"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json", item.songID];
-		[AFNHttpClient requestWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, NSDictionary *jsonServerConfig) {
-			NSLog(@"%@", jsonServerConfig);
-			item.songUrl = jsonServerConfig[@"data"][@"trackList"][0][@"location"];
-			item.albumPic = jsonServerConfig[@"data"][@"trackList"][0][@"pic"];
-
-			if(successBlock){
-				successBlock(jsonServerConfig);
-			}
-		} failBlock:^(id task, NSError *error) {
-			if(failedBlock){
-				failedBlock(error);
-			}
-		}];
-	});
-}
-
 
 + (NSString *)removeBoldTag:(NSString *)html {
 	if (nil == html || html.length == 0) {
@@ -170,7 +154,6 @@
 	for (int j = 0; j < [sections[0] length]; j++) {
 		for (int k = 0; k < [sections count]; k++) {
 			NSString *curSession = sections[k];
-			NSLog(@"%d, %d", j, k);
 			if (j < curSession.length) {
 				[url_with_escape appendFormat:@"%C", [curSession characterAtIndex:j]];
 			}
@@ -185,5 +168,6 @@
 
 	return result_url;
 }
+
 @end
 
