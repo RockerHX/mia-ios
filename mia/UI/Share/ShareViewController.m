@@ -13,7 +13,6 @@
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UIImageView+WebCache.h"
-#import "UIImage+Extrude.h"
 #import "CommentCollectionViewCell.h"
 #import "DetailHeaderView.h"
 #import "MiaAPIHelper.h"

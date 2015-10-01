@@ -11,8 +11,8 @@
 #import "MIALabel.h"
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
-#import "UIImageView+BlurredImage.h"
-#import "FavoriteCollectionViewCell.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "DetailViewController.h"
@@ -42,6 +42,7 @@ const static CGFloat kSearchVCHeight = 60;
 	SearchResultView *resultView;
 
 	UITextField *searchTextField;
+	MBProgressHUD *progressHUD;
 }
 
 - (id)init {
@@ -186,6 +187,36 @@ const static CGFloat kSearchVCHeight = 60;
 	[resultView setHidden:YES];
 }
 
+- (void)showMBProgressHUD{
+	if(!progressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:progressHUD];
+		progressHUD.dimBackground = YES;
+		progressHUD.labelText = @"正在搜索";
+		[progressHUD show:YES];
+	}
+}
+
+- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(progressHUD){
+		if(isSuccess){
+			progressHUD.labelText = @"搜索成功";
+		}else{
+			progressHUD.labelText = @"搜索失败，请稍后再试";
+		}
+		progressHUD.mode = MBProgressHUDModeText;
+		[progressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(1);
+		} completionBlock:^{
+			[progressHUD removeFromSuperview];
+			progressHUD = nil;
+			if(removeMBProgressHUDBlock)
+				removeMBProgressHUDBlock();
+		}];
+	}
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -203,12 +234,14 @@ const static CGFloat kSearchVCHeight = 60;
 		[resultModel reset];
 
 
+		[self showMBProgressHUD];
 		[XiamiHelper requestSearchResultWithKey:searchTextField.text page:resultModel.currentPage successBlock:^(id responseObject) {
 			[resultModel addItemsWithArray:responseObject];
 			[resultView.collectionView reloadData];
-
+			[self removeMBProgressHUD:YES removeMBProgressHUDBlock:nil];
 		} failedBlock:^(NSError *error) {
 			NSLog(@"%@", error);
+			[self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 		}];
 
 	}
@@ -249,12 +282,15 @@ const static CGFloat kSearchVCHeight = 60;
 
 	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
 	searchTextField.text = key;
+
+	[self showMBProgressHUD];
 	[XiamiHelper requestSearchResultWithKey:key page:resultModel.currentPage successBlock:^(id responseObject) {
 		[resultModel addItemsWithArray:responseObject];
 		[resultView.collectionView reloadData];
-
+		[self removeMBProgressHUD:YES removeMBProgressHUDBlock:nil];
 	} failedBlock:^(NSError *error) {
 		NSLog(@"%@", error);
+		[self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 	}];
 }
 

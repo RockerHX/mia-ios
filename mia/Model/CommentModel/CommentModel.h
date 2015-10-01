@@ -13,7 +13,6 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSString *lastCommentID;
 
-- (void)populateDataSource;
 - (void)addComments:(NSArray *) comments;
 
 @end
