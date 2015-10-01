@@ -200,7 +200,7 @@ const static CGFloat kSearchVCHeight = 60;
 		[suggestView setHidden:YES];
 		[resultView setHidden:NO];
 		[suggestionModel.dataSource removeAllObjects];
-		[resultModel.dataSource removeAllObjects];
+		[resultModel reset];
 
 
 		[XiamiHelper requestSearchResultWithKey:searchTextField.text page:resultModel.currentPage successBlock:^(id responseObject) {
@@ -220,7 +220,7 @@ const static CGFloat kSearchVCHeight = 60;
 	[suggestView setHidden:NO];
 	[resultView setHidden:YES];
 	[suggestionModel.dataSource removeAllObjects];
-	[resultModel.dataSource removeAllObjects];
+	[resultModel reset];
 
 	if ([NSString isNull:searchTextField.text]) {
 		[suggestView.collectionView reloadData];
@@ -245,7 +245,7 @@ const static CGFloat kSearchVCHeight = 60;
 	[suggestView setHidden:YES];
 	[resultView setHidden:NO];
 	[suggestionModel.dataSource removeAllObjects];
-	[resultModel.dataSource removeAllObjects];
+	[resultModel reset];
 
 	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
 	searchTextField.text = key;

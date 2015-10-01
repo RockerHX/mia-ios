@@ -8,13 +8,15 @@
 
 #import "SearchResultModel.h"
 
+const NSUInteger kXiamiDefaultPage = 1;
+
 @implementation SearchResultModel
 
 - (id)init {
 	self = [super init];
 	if(self) {
 		_dataSource = [[NSMutableArray alloc] init];
-		_currentPage = 1;
+		_currentPage = kXiamiDefaultPage;
 	}
 
 	return self;
@@ -24,4 +26,8 @@
 	[_dataSource addObjectsFromArray:items];
 }
 
+- (void)reset {
+	[_dataSource removeAllObjects];
+	_currentPage = kXiamiDefaultPage;
+}
 @end

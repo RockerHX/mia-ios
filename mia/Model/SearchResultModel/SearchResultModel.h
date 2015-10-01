@@ -14,5 +14,6 @@
 @property (nonatomic, assign) NSUInteger currentPage;
 
 - (void)addItemsWithArray:(NSArray *) items;
+- (void)reset;
 
 @end
