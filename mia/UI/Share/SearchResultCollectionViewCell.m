@@ -8,6 +8,7 @@
 
 #import "SearchResultCollectionViewCell.h"
 #import "MIALabel.h"
+#import "UIImageView+WebCache.h"
 #import "Masonry.h"
 #import "SearchResultItem.h"
 
@@ -16,7 +17,9 @@
 @end
 
 @implementation SearchResultCollectionViewCell {
+	UIImageView *coverImageView;
 	MIALabel *titleLabel;
+	MIALabel *albumLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -30,18 +33,43 @@
 }
 
 - (void)initUI:(UIView *)contentView {
+
+	coverImageView = [[UIImageView alloc] init];
+	[coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
+	[contentView addSubview:coverImageView];
+
 	titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											text:@"匆匆那年 - 王菲"
+											text:@"匆匆那年"
 											font:UIFontFromSize(16.0f)
 									   textColor:[UIColor blackColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	[contentView addSubview:titleLabel];
 
+	albumLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											text:@"王菲 - 匆匆那年"
+											font:UIFontFromSize(12.0f)
+									   textColor:UIColorFromHex(@"a2a2a2", 1.0)
+								   textAlignment:NSTextAlignmentLeft
+									 numberLines:1];
+	[contentView addSubview:albumLabel];
+
+	[coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(70, 70));
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-15);
+	}];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@20);
-		make.centerY.equalTo(contentView.mas_centerY);
-		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_centerY);
+		make.left.equalTo(coverImageView.mas_right).offset(15);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
+	[albumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@20);
+		make.top.equalTo(contentView.mas_centerY);
+		make.left.equalTo(coverImageView.mas_right).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-15);
 	}];
 
@@ -59,7 +87,11 @@
 - (void)setDataItem:(SearchResultItem *)item {
 	_dataItem = item;
 
-	[titleLabel setText:[NSString stringWithFormat:@"%@ - %@", item.title, item.artist]];
+	[coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
+					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
+
+	[titleLabel setText:item.title];
+	[albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
 
 }
 
