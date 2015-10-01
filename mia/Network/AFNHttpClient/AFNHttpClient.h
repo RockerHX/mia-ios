@@ -98,7 +98,8 @@ typedef void (^FailedBlock)(NSError *error);
  */
 + (NSDictionary *)requestWaitUntilFinishedWithURL:(NSString *)url
 									  requestType:(AFNHttpRequestType )requestType
-									   parameters:(id)parameters;
+									   parameters:(id)parameters
+										  timeOut:(NSTimeInterval )timeOut;
 
 
 @end

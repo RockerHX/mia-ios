@@ -93,7 +93,10 @@
 					item.albumName = group4;
 
 					NSString *requestInfoUrl = [NSString stringWithFormat:@"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json", item.songID];
-					NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl requestType:AFNHttpRequestGet parameters:nil];
+					NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl
+																				requestType:AFNHttpRequestGet
+																				 parameters:nil
+																					timeOut:TIMEOUT];
 					if (nil != songInfo) {
 						item.songUrl = [self decodeXiamiUrl:songInfo[@"data"][@"trackList"][0][@"location"]];
 						item.albumPic = songInfo[@"data"][@"trackList"][0][@"pic"];
