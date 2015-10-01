@@ -23,15 +23,16 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
 #import "SearchViewController.h"
+#import "SearchResultItem.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
-@interface ShareViewController () <UITextFieldDelegate, CLLocationManagerDelegate>
+@interface ShareViewController () <UITextFieldDelegate, CLLocationManagerDelegate, SearchViewControllerDelegate>
 
 @end
 
 @implementation ShareViewController {
-	ShareItem *shareItem;
+	SearchResultItem *dataItem;
 
 	MBProgressHUD *progressHUD;
 	MIAButton *sendButton;
@@ -451,7 +452,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)checkSubmitButtonStatus {
-	if ([commentTextField.text length] <= 0) {
+	if ([playerView isHidden]) {
 		[self.navigationItem.rightBarButtonItem setEnabled:NO];
 	} else {
 		[self.navigationItem.rightBarButtonItem setEnabled:YES];
@@ -532,6 +533,21 @@ const static CGFloat kShareTopViewHeight		= 280;
 	 }];
 
 	[manager stopUpdatingLocation];
+}
+
+- (void)searchViewControllerDisSelectedItem:(SearchResultItem *)item {
+	dataItem = item;
+
+	[addMusicView setHidden:YES];
+	[playerView setHidden:NO];
+
+	[coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
+					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
+
+	[musicNameLabel setText:item.title];
+	[musicArtistLabel setText:item.artist];
+
+	[commentTextField becomeFirstResponder];
 }
 
 #pragma mark - Notification
@@ -627,8 +643,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)touchedAddMusic {
-	NSLog(@"touchedAddMusic ...");
 	SearchViewController *vc = [[SearchViewController alloc] init];
+	vc.searchViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -640,6 +656,12 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)sendButtonAction:(id)sender {
 	NSLog(@"send button clicked.");
+	NSString *comment = commentTextField.text;
+	if ([comment length] <= 0) {
+		comment = @"我要推荐这首歌曲";
+	}
+
+	// TODO send to server
 }
 
 - (void)closeButtonAction:(id)sender {

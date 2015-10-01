@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "FavoriteModel.h"
 
+@class SearchResultItem;
+
 @protocol SearchViewControllerDelegate
+
+- (void)searchViewControllerDisSelectedItem:(SearchResultItem *)item;
 
 @end
 

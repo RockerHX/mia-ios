@@ -263,7 +263,8 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)searchResultViewDidSelectedItem:(SearchResultItem *)item {
-	NSLog(@"%@ %@", item.title, item.artist);
+	[_searchViewControllerDelegate searchViewControllerDisSelectedItem:item];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)searchResultViewRequestMoreItems {
