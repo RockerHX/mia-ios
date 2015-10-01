@@ -386,6 +386,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 #pragma mark - audio operations
 
 - (void)playMusic:(NSInteger)row {
+	if (favoriteModel.dataSource.count <= 0) {
+		return;
+	}
+
 	playingFavorite = YES;
 
 	FavoriteItem *currentItem = favoriteModel.dataSource[row];
