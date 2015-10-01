@@ -11,6 +11,17 @@
 #import "SuggestionItem.h"
 #import "SearchResultItem.h"
 
+
+static NSString * const kSearchSuggestionParten 	= @"www.xiami.com/song/(\\d+).*?title=\"(.*?)\".*?span>(.*?)</strong>";
+static NSString * const kSearchSuggestionURLFormat 	= @"http://www.xiami.com/ajax/search-index?key=%@";
+
+static NSString * const kSearchResultParten 		= @"<td class=\"song_name\">[\\s\\S]*?<a target=\"_blank\" href=\"http://www.xiami.com/song/(\\d+)\".*?>(.*?)</a>[\\s\\S]*?<td class=\"song_artist\"><a.*?>(.*?)</a>[\\s\\S]*?<td class=\"song_album\"><a.*?>(.*?)</a>";
+static NSString * const kSearchResultURLFormat 		= @"http://www.xiami.com/search/song/page/%d?key=%@";
+
+static NSString * const kSearchSongInfoURLFormat 	= @"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json";
+
+const static NSTimeInterval kSearchSyncTimeout		= 10;
+
 @interface XiamiHelper()
 
 @end
@@ -24,16 +35,19 @@
  *  @param successBlock 请求成功的回调
  *  @param failedBlock  请求失败的回调
  */
-+ (void)requestSearchSuggestion:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock{
++ (void)requestSearchSuggestion:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchSuggestion", NULL);
 	dispatch_async(queue, ^(){
-		NSString *requestUrl = @"http://www.xiami.com/ajax/search-index?key=w";
-		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
+		NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, @"wangfei"];
+		[AFNHttpClient requestHTMLWithURL:requestUrl
+							  requestType:AFNHttpRequestGet
+							   parameters:nil
+								  timeOut:TIMEOUT
+							 successBlock:^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
-			NSString *parten = @"www.xiami.com/song/(\\d+).*?title=\"(.*?)\".*?span>(.*?)</strong>";
 
 			NSError* error = NULL;
-			NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:0 error:&error];
+			NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:kSearchSuggestionParten options:0 error:&error];
 			NSArray* match = [reg matchesInString:responseText options:NSMatchingReportCompletion range:NSMakeRange(0, [responseText length])];
 
 			NSMutableArray *suggestionArray = [[NSMutableArray alloc] initWithCapacity:4];
@@ -64,16 +78,15 @@
 	});
 }
 
-+ (void)requestSearchResult:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock{
++ (void)requestSearchResult:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchResult", NULL);
 	dispatch_async(queue, ^(){
-		NSString *requestUrl = @"http://www.xiami.com/search/song/page/1?key=wangfei";
+		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, 1, @"wangfei"];
 		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
-			NSString *parten = @"<td class=\"song_name\">[\\s\\S]*?<a target=\"_blank\" href=\"http://www.xiami.com/song/(\\d+)\".*?>(.*?)</a>[\\s\\S]*?<td class=\"song_artist\"><a.*?>(.*?)</a>[\\s\\S]*?<td class=\"song_album\"><a.*?>(.*?)</a>";
 
 			NSError* error = NULL;
-			NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:0 error:&error];
+			NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:kSearchResultParten options:0 error:&error];
 			NSArray* match = [reg matchesInString:responseText options:NSMatchingReportCompletion range:NSMakeRange(0, [responseText length])];
 
 			NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:4];
@@ -92,11 +105,11 @@
 					item.artist = group3;
 					item.albumName = group4;
 
-					NSString *requestInfoUrl = [NSString stringWithFormat:@"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json", item.songID];
+					NSString *requestInfoUrl = [NSString stringWithFormat:kSearchSongInfoURLFormat, item.songID];
 					NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl
 																				requestType:AFNHttpRequestGet
 																				 parameters:nil
-																					timeOut:TIMEOUT];
+																					timeOut:kSearchSyncTimeout];
 					if (nil != songInfo) {
 						item.songUrl = [self decodeXiamiUrl:songInfo[@"data"][@"trackList"][0][@"location"]];
 						item.albumPic = songInfo[@"data"][@"trackList"][0][@"pic"];
