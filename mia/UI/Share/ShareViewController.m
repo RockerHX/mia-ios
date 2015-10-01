@@ -684,18 +684,16 @@ const static CGFloat kShareTopViewHeight		= 280;
 #pragma mark - audio operations
 
 - (void)playMusic {
-	// todo
+	NSString *musicUrl = [dataItem songUrl];
+	NSString *musicTitle = [dataItem title];
+	NSString *musicArtist = [dataItem artist];
 
-//	NSString *musicUrl = [[_shareItem music] murl];
-//	NSString *musicTitle = [[_shareItem music] name];
-//	NSString *musicArtist = [[_shareItem music] singerName];
-//
-//	if (!musicUrl || !musicTitle || !musicArtist) {
-//		NSLog(@"Music is nil, stop play it.");
-//		return;
-//	}
-//
-//	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	if (!musicUrl || !musicTitle || !musicArtist) {
+		NSLog(@"Music is nil, stop play it.");
+		return;
+	}
+
+	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
