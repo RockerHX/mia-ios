@@ -21,6 +21,6 @@
 @interface SearchSuggestionView : UIView
 
 @property (weak, nonatomic)id<SearchSuggestionViewDelegate> searchSuggestionViewDelegate;
-@property (strong, nonatomic) UICollectionView *suggestionCollectionView;
+@property (strong, nonatomic) UICollectionView *collectionView;
 
 @end

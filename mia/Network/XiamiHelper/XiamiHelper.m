@@ -104,10 +104,10 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 					NSString* group4 = [responseText substringWithRange:[matchItem rangeAtIndex:4]];
 
 					SearchResultItem *item = [[SearchResultItem alloc] init];
-					item.songID = group1;
-					item.title = group2;
-					item.artist = group3;
-					item.albumName = group4;
+					item.songID = [self removeBoldTag:group1];
+					item.title = [self removeBoldTag:group2];
+					item.artist = [self removeBoldTag:group3];
+					item.albumName = [self removeBoldTag:group4];
 
 					NSString *requestInfoUrl = [NSString stringWithFormat:kSearchSongInfoURLFormat, item.songID];
 					NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl

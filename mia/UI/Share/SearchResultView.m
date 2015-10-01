@@ -42,18 +42,18 @@ static const CGFloat kSearchResultItemHeight		= 50;
 	layout.itemSize =CGSizeMake(itemWidth, kSearchResultItemHeight);
 
 	//2.初始化collectionView
-	_suggestionCollectionView = [[UICollectionView alloc] initWithFrame:self.bounds
+	_collectionView = [[UICollectionView alloc] initWithFrame:self.bounds
 												 collectionViewLayout:layout];
-	_suggestionCollectionView.backgroundColor = [UIColor whiteColor];
-	[self addSubview:_suggestionCollectionView];
+	_collectionView.backgroundColor = [UIColor whiteColor];
+	[self addSubview:_collectionView];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_suggestionCollectionView registerClass:[SearchResultCollectionViewCell class] forCellWithReuseIdentifier:kSearchResultCellReuseIdentifier];
+	[_collectionView registerClass:[SearchResultCollectionViewCell class] forCellWithReuseIdentifier:kSearchResultCellReuseIdentifier];
 
 	//4.设置代理
-	_suggestionCollectionView.delegate = self;
-	_suggestionCollectionView.dataSource = self;
+	_collectionView.delegate = self;
+	_collectionView.dataSource = self;
 }
 
 

@@ -192,27 +192,47 @@ const static CGFloat kSearchVCHeight = 60;
 {
 	if (textField == searchTextField) {
 		[textField resignFirstResponder];
-		// TODO hide and show
+
+		if ([NSString isNull:searchTextField.text]) {
+			YES;
+		}
+
+		[suggestView setHidden:YES];
+		[resultView setHidden:NO];
+		[suggestionModel.dataSource removeAllObjects];
+		[resultModel.dataSource removeAllObjects];
+
+
+		[XiamiHelper requestSearchResultWithKey:searchTextField.text page:resultModel.currentPage successBlock:^(id responseObject) {
+			[resultModel addItemsWithArray:responseObject];
+			[resultView.collectionView reloadData];
+
+		} failedBlock:^(NSError *error) {
+			NSLog(@"%@", error);
+		}];
+
 	}
 
-	return true;
+	return YES;
 }
 
 - (void)textFieldDidChange:(id) sender {
-	// TODO hide and show
+	[suggestView setHidden:NO];
+	[resultView setHidden:YES];
 	[suggestionModel.dataSource removeAllObjects];
+	[resultModel.dataSource removeAllObjects];
+
 	if ([NSString isNull:searchTextField.text]) {
-		[suggestView.suggestionCollectionView reloadData];
+		[suggestView.collectionView reloadData];
 		return;
 	}
 
 	[XiamiHelper requestSearchSuggestionWithKey:searchTextField.text successBlock:^(id responseObject) {
 		[suggestionModel addItemsWithArray:responseObject];
-		[suggestView.suggestionCollectionView reloadData];
+		[suggestView.collectionView reloadData];
 	} failedBlock:^(NSError *error) {
 		NSLog(@"%@", error);
 	}];
-
 }
 
 - (SearchSuggestionModel *)searchSuggestionViewModel {
@@ -221,6 +241,20 @@ const static CGFloat kSearchVCHeight = 60;
 
 - (void)searchSuggestionViewDidSelectedItem:(SuggestionItem *)item {
 	NSLog(@"%@ %@", item.title, item.artist);
+
+	[suggestView setHidden:YES];
+	[resultView setHidden:NO];
+	[suggestionModel.dataSource removeAllObjects];
+	[resultModel.dataSource removeAllObjects];
+
+	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
+	[XiamiHelper requestSearchResultWithKey:key page:resultModel.currentPage successBlock:^(id responseObject) {
+		[resultModel addItemsWithArray:responseObject];
+		[resultView.collectionView reloadData];
+
+	} failedBlock:^(NSError *error) {
+		NSLog(@"%@", error);
+	}];
 }
 
 - (SearchResultModel *)searchResultViewModel {
