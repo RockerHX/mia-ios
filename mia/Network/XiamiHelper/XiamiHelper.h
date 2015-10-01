@@ -11,8 +11,8 @@
 
 @interface XiamiHelper : NSObject
 
-+ (void)requestSearchSuggestion:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
-+ (void)requestSearchResult:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
++ (void)requestSearchSuggestionWithKey:(NSString *)key successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
++ (void)requestSearchResultWithKey:(NSString *)key page:(NSUInteger)page successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
 + (NSString *)decodeXiamiUrl:(NSString *)encodeUrl;
 
 @end

@@ -16,7 +16,7 @@ static NSString * const kSearchSuggestionParten 	= @"www.xiami.com/song/(\\d+).*
 static NSString * const kSearchSuggestionURLFormat 	= @"http://www.xiami.com/ajax/search-index?key=%@";
 
 static NSString * const kSearchResultParten 		= @"<td class=\"song_name\">[\\s\\S]*?<a target=\"_blank\" href=\"http://www.xiami.com/song/(\\d+)\".*?>(.*?)</a>[\\s\\S]*?<td class=\"song_artist\"><a.*?>(.*?)</a>[\\s\\S]*?<td class=\"song_album\"><a.*?>(.*?)</a>";
-static NSString * const kSearchResultURLFormat 		= @"http://www.xiami.com/search/song/page/%d?key=%@";
+static NSString * const kSearchResultURLFormat 		= @"http://www.xiami.com/search/song/page/%lu?key=%@";
 
 static NSString * const kSearchSongInfoURLFormat 	= @"http://www.xiami.com/song/playlist/id/%@/type/0/cat/json";
 
@@ -35,10 +35,10 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
  *  @param successBlock 请求成功的回调
  *  @param failedBlock  请求失败的回调
  */
-+ (void)requestSearchSuggestion:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
++ (void)requestSearchSuggestionWithKey:(NSString *)key successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchSuggestion", NULL);
 	dispatch_async(queue, ^(){
-		NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, @"wangfei"];
+		NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, key];
 		[AFNHttpClient requestHTMLWithURL:requestUrl
 							  requestType:AFNHttpRequestGet
 							   parameters:nil
@@ -78,10 +78,10 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 	});
 }
 
-+ (void)requestSearchResult:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
++ (void)requestSearchResultWithKey:(NSString *)key page:(NSUInteger)page successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchResult", NULL);
 	dispatch_async(queue, ^(){
-		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, 1, @"wangfei"];
+		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, page, key];
 		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
 
