@@ -37,8 +37,10 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
  */
 + (void)requestSearchSuggestionWithKey:(NSString *)key successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchSuggestion", NULL);
-	dispatch_async(queue, ^(){
-		NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, key];
+	dispatch_async(queue, ^() {
+		NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:
+													  NSUTF8StringEncoding];
+		NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, encodeKey];
 		[AFNHttpClient requestHTMLWithURL:requestUrl
 							  requestType:AFNHttpRequestGet
 							   parameters:nil
@@ -80,8 +82,10 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 
 + (void)requestSearchResultWithKey:(NSString *)key page:(NSUInteger)page successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
 	dispatch_queue_t queue = dispatch_queue_create("RequestSearchResult", NULL);
-	dispatch_async(queue, ^(){
-		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, page, key];
+	dispatch_async(queue, ^() {
+		NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:
+							   NSUTF8StringEncoding];
+		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, page, encodeKey];
 		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
 

@@ -33,12 +33,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 @implementation ShareViewController {
 	ShareItem *shareItem;
 
-	MIAButton *commentButton;
-
-	UIView *footerView;
 	MBProgressHUD *progressHUD;
-
-	/// new++++++++++++++++++++++++++
 	MIAButton *sendButton;
 
 	UIView *topView;
@@ -53,7 +48,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 	MIALabel *musicNameLabel;
 	MIALabel *musicArtistLabel;
 	MIALabel *sharerLabel;
-//	UITextView *noteTextView;
 	UITextField *commentTextField;
 
 	MIALabel *locationLabel;

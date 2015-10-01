@@ -21,7 +21,7 @@ typedef void (^CompleteBlock)();
 /**
  *  Handler处理成功时调用的Block
  */
-typedef void (^SuccessBlock)(id jsonServerConfig);
+typedef void (^SuccessBlock)(id responseObject);
 
 /**
  *  Handler处理失败时调用的Block

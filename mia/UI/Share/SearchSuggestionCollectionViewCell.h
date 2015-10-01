@@ -7,13 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FavoriteItem.h"
+#import "SuggestionItem.h"
 
 @interface SearchSuggestionCollectionViewCell : UICollectionViewCell
 
-@property (assign, nonatomic) BOOL isEditing;
-@property (assign, nonatomic) BOOL isPlaying;
-@property(assign, nonatomic) NSInteger rowIndex;
-@property (strong, nonatomic) FavoriteItem *favoriteItem;
+@property (strong, nonatomic) SuggestionItem *suggestionItem;
 
 @end

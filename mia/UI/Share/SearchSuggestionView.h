@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class SearchSuggestionModel;
+@class SuggestionItem;
+
+@protocol SearchSuggestionViewDelegate
+
+- (SearchSuggestionModel *)searchSuggestionViewModel;
+- (void)searchSuggestionViewDidSelectedItem:(SuggestionItem *)item;
+
+@end
+
 @interface SearchSuggestionView : UIView
+
+@property (weak, nonatomic)id<SearchSuggestionViewDelegate> searchSuggestionViewDelegate;
+@property (strong, nonatomic) UICollectionView *suggestionCollectionView;
 
 @end

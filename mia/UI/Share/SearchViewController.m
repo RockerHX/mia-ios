@@ -19,14 +19,20 @@
 #import "MIALabel.h"
 #import "SearchSuggestionView.h"
 #import "Masonry.h"
+#import "SearchSuggestionModel.h"
+#import "XiamiHelper.h"
+#import "NSString+IsNull.h"
+#import "SuggestionItem.h"
 
 const static CGFloat kSearchVCHeight = 60;
 
-@interface SearchViewController () <UITextFieldDelegate>
+@interface SearchViewController () <UITextFieldDelegate, SearchSuggestionViewDelegate>
 
 @end
 
 @implementation SearchViewController {
+	SearchSuggestionModel *suggestionModel;
+
 	MIAButton *cancelButton;
 	SearchSuggestionView *suggestView;
 	UITextField *searchTextField;
@@ -50,6 +56,7 @@ const static CGFloat kSearchVCHeight = 60;
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initTopView];
 	[self initCollectionView];
+	[searchTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,7 +102,7 @@ const static CGFloat kSearchVCHeight = 60;
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
-	[self.view addGestureRecognizer:gesture];
+	[topView addGestureRecognizer:gesture];
 
 	UIView *editBgView = [[UIView alloc] init];
 	editBgView.backgroundColor = UIColorFromHex(@"f4f4f4", 1.0);
@@ -157,11 +164,12 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)initCollectionView {
+	suggestionModel = [[SearchSuggestionModel alloc] init];
 	suggestView = [[SearchSuggestionView alloc] initWithFrame:CGRectMake(0,
 																		 kSearchVCHeight,
 																		 self.view.bounds.size.width,
 																		 self.view.bounds.size.height - kSearchVCHeight)];
-	suggestView.backgroundColor = [UIColor orangeColor];
+	suggestView.searchSuggestionViewDelegate = self;
 	[self.view addSubview:suggestView];
 }
 
@@ -178,8 +186,28 @@ const static CGFloat kSearchVCHeight = 60;
 
 - (void)textFieldDidChange:(id) sender {
 	//[self checkSubmitButtonStatus];
+	[suggestionModel.dataSource removeAllObjects];
+	if ([NSString isNull:searchTextField.text]) {
+		[suggestView.suggestionCollectionView reloadData];
+		return;
+	}
+
+	[XiamiHelper requestSearchSuggestionWithKey:searchTextField.text successBlock:^(id responseObject) {
+		[suggestionModel addItemsWithArray:responseObject];
+		[suggestView.suggestionCollectionView reloadData];
+	} failedBlock:^(NSError *error) {
+		NSLog(@"%@", error);
+	}];
+
 }
 
+- (SearchSuggestionModel *)searchSuggestionViewModel {
+	return suggestionModel;
+}
+
+- (void)searchSuggestionViewDidSelectedItem:(SuggestionItem *)item {
+	NSLog(@"%@ %@", item.title, item.artist);
+}
 
 #pragma mark - Notification
 

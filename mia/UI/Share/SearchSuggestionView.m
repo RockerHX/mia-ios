@@ -14,10 +14,9 @@
 
 static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 
-static const CGFloat kFavoriteItemMarginH 	= 10;
-static const CGFloat kFavoriteItemMarginV 	= 10;
-static const CGFloat kFavoriteItemHeight	= 50;
-const static CGFloat kFavoriteAlpha 		= 0.9;
+static const CGFloat kSuggestionItemMarginH 	= 10;
+static const CGFloat kSuggestionItemMarginV 	= 10;
+static const CGFloat kSuggestionItemHeight		= 50;
 
 @interface SearchSuggestionView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -25,12 +24,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 
 @implementation SearchSuggestionView {
-	SearchSuggestionModel *model;
-	UICollectionView *_favoriteCollectionView;
 }
 
-- (id)init {
-	self = [super init];
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
 	if (self) {
 		[self initCollectionView];
 
@@ -45,23 +42,22 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 
 	//该方法也可以设置itemSize
-	CGFloat itemWidth = self.frame.size.width - kFavoriteItemMarginH * 2;
-	layout.itemSize =CGSizeMake(itemWidth, kFavoriteItemHeight);
+	CGFloat itemWidth = self.frame.size.width - kSuggestionItemMarginH * 2;
+	layout.itemSize =CGSizeMake(itemWidth, kSuggestionItemHeight);
 
 	//2.初始化collectionView
-	_favoriteCollectionView = [[UICollectionView alloc] initWithFrame:self.bounds
+	_suggestionCollectionView = [[UICollectionView alloc] initWithFrame:self.bounds
 												 collectionViewLayout:layout];
-	[self addSubview:_favoriteCollectionView];
-	_favoriteCollectionView.backgroundColor = [UIColor whiteColor];
-	_favoriteCollectionView.alpha = kFavoriteAlpha;
+	_suggestionCollectionView.backgroundColor = [UIColor whiteColor];
+	[self addSubview:_suggestionCollectionView];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_favoriteCollectionView registerClass:[SearchSuggestionCollectionViewCell class] forCellWithReuseIdentifier:kFavoriteCellReuseIdentifier];
+	[_suggestionCollectionView registerClass:[SearchSuggestionCollectionViewCell class] forCellWithReuseIdentifier:kFavoriteCellReuseIdentifier];
 
 	//4.设置代理
-	_favoriteCollectionView.delegate = self;
-	_favoriteCollectionView.dataSource = self;
+	_suggestionCollectionView.delegate = self;
+	_suggestionCollectionView.dataSource = self;
 }
 
 
@@ -74,35 +70,22 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return model.dataSource.count;
+	return [_searchSuggestionViewDelegate searchSuggestionViewModel].dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	SearchSuggestionCollectionViewCell *cell = (SearchSuggestionCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kFavoriteCellReuseIdentifier
 																											   forIndexPath:indexPath];
-	cell.rowIndex = indexPath.row;
-	cell.favoriteItem = model.dataSource[indexPath.row];
+	cell.suggestionItem = [_searchSuggestionViewDelegate searchSuggestionViewModel].dataSource[indexPath.row];
 
 	return cell;
 }
 
 //设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = self.frame.size.width - kFavoriteItemMarginH * 2;
-	return CGSizeMake(itemWidth, kFavoriteItemHeight);
+	CGFloat itemWidth = self.frame.size.width - kSuggestionItemMarginH * 2;
+	return CGSizeMake(itemWidth, kSuggestionItemHeight);
 }
-
-//footer的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//header的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
 
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -111,32 +94,19 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return kFavoriteItemMarginH;
+	return kSuggestionItemMarginH;
 }
 
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return kFavoriteItemMarginV;
-}
-
-
-//通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	//	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
-	//		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFavoriteHeaderReuseIdentifier forIndexPath:indexPath];
-	//		if (contentView.subviews.count == 0) {
-	//			[contentView addSubview:favoriteHeaderView];
-	//		}
-	//		return contentView;
-	//	} else {
-	NSLog(@"It's maybe a bug.");
-	return nil;
-	//	}
+	return kSuggestionItemMarginV;
 }
 
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	SearchSuggestionCollectionViewCell *cell = (SearchSuggestionCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	[_searchSuggestionViewDelegate searchSuggestionViewDidSelectedItem:cell.suggestionItem];
 }
 
 #pragma mark - Notification

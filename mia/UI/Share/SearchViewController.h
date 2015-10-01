@@ -10,6 +10,7 @@
 #import "FavoriteModel.h"
 
 @protocol SearchViewControllerDelegate
+
 @end
 
 
