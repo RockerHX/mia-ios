@@ -248,6 +248,7 @@ const static CGFloat kSearchVCHeight = 60;
 	[resultModel.dataSource removeAllObjects];
 
 	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
+	searchTextField.text = key;
 	[XiamiHelper requestSearchResultWithKey:key page:resultModel.currentPage successBlock:^(id responseObject) {
 		[resultModel addItemsWithArray:responseObject];
 		[resultView.collectionView reloadData];
@@ -265,6 +266,18 @@ const static CGFloat kSearchVCHeight = 60;
 	NSLog(@"%@ %@", item.title, item.artist);
 }
 
+- (void)searchResultViewRequestMoreItems {
+	resultModel.currentPage++;
+	[XiamiHelper requestSearchResultWithKey:searchTextField.text page:resultModel.currentPage successBlock:^(id responseObject) {
+		[resultModel addItemsWithArray:responseObject];
+		[resultView.collectionView reloadData];
+		[resultView endRefreshing];
+	} failedBlock:^(NSError *error) {
+		NSLog(@"%@", error);
+		[resultView endRefreshing];
+	}];
+
+}
 
 #pragma mark - Notification
 

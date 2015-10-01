@@ -9,6 +9,7 @@
 #import "SearchResultView.h"
 #import "SearchResultCollectionViewCell.h"
 #import "SearchResultModel.h"
+#import "UIScrollView+MIARefresh.h"
 
 static NSString * const kSearchResultCellReuseIdentifier 		= @"SearchResultCellId";
 
@@ -54,8 +55,17 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	//4.设置代理
 	_collectionView.delegate = self;
 	_collectionView.dataSource = self;
+
+	[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
 }
 
+- (void)requestMoreItems {
+	[_searchResultViewDelegate searchResultViewRequestMoreItems];
+}
+
+- (void)endRefreshing {
+	[_collectionView footerEndRefreshing];
+}
 
 #pragma mark collectionView代理方法
 

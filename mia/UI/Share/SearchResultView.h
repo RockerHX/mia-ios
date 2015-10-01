@@ -15,6 +15,7 @@
 
 - (SearchResultModel *)searchResultViewModel;
 - (void)searchResultViewDidSelectedItem:(SearchResultItem *)item;
+- (void)searchResultViewRequestMoreItems;
 
 @end
 
@@ -22,5 +23,7 @@
 
 @property (weak, nonatomic)id<SearchResultViewDelegate> searchResultViewDelegate;
 @property (strong, nonatomic) UICollectionView *collectionView;
+
+- (void)endRefreshing;
 
 @end
