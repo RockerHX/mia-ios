@@ -16,7 +16,7 @@
 @end
 
 @implementation SearchSuggestionCollectionViewCell {
-	MIALabel *titleLabel;
+	MIALabel *_titleLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -30,15 +30,15 @@
 }
 
 - (void)initUI:(UIView *)contentView {
-	titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+	_titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											   text:@"匆匆那年 - 王菲"
 											   font:UIFontFromSize(16.0f)
 									   textColor:[UIColor blackColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	[contentView addSubview:titleLabel];
+	[contentView addSubview:_titleLabel];
 
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@20);
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.left.equalTo(contentView.mas_left).offset(15);
@@ -59,7 +59,7 @@
 - (void)setDataItem:(SuggestionItem *)item {
 	_dataItem = item;
 
-	[titleLabel setText:[NSString stringWithFormat:@"%@ - %@", item.title, item.artist]];
+	[_titleLabel setText:[NSString stringWithFormat:@"%@ - %@", item.title, item.artist]];
 
 }
 

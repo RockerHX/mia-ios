@@ -83,31 +83,26 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 	[super viewWillDisappear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated;
-{
+- (void)viewDidAppear:(BOOL)animated {
 	//[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[super viewDidAppear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
 	//[[WebSocketMgr standard] close];
 	//[self.navigationController setNavigationBarHidden:NO animated:animated];
 	[super viewDidDisappear:animated];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleLightContent;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
 	return YES;
 }
 
-- (void)viewWillLayoutSubviews
-{
+- (void)viewWillLayoutSubviews {
 	CGRect rect = self.scrollView.bounds;
 	rect.size.height = self.scrollView.contentSize.height;
 	rect.origin.y += kTopViewDefaultHeight;

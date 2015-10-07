@@ -2,7 +2,7 @@
 //  MIATexAlertView.h
 //  mia
 //
-//  Created by HongBin Lin on 14-10-8.
+//  Created by linyehui on 14-10-8.
 //  Copyright (c) 2014年 Mia Music. All rights reserved.
 //
 

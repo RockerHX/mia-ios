@@ -84,23 +84,19 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated;
-{
+- (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleDefault;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
 	return NO;
 }
 

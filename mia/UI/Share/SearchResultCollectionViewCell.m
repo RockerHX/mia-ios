@@ -17,9 +17,9 @@
 @end
 
 @implementation SearchResultCollectionViewCell {
-	UIImageView *coverImageView;
-	MIALabel *titleLabel;
-	MIALabel *albumLabel;
+	UIImageView *_coverImageView;
+	MIALabel 	*_titleLabel;
+	MIALabel 	*_albumLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -34,42 +34,42 @@
 
 - (void)initUI:(UIView *)contentView {
 
-	coverImageView = [[UIImageView alloc] init];
-	[coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
-	[contentView addSubview:coverImageView];
+	_coverImageView = [[UIImageView alloc] init];
+	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
+	[contentView addSubview:_coverImageView];
 
-	titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+	_titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@"匆匆那年"
 											font:UIFontFromSize(16.0f)
 									   textColor:[UIColor blackColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	[contentView addSubview:titleLabel];
+	[contentView addSubview:_titleLabel];
 
-	albumLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+	_albumLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@"王菲 - 匆匆那年"
 											font:UIFontFromSize(12.0f)
 									   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	[contentView addSubview:albumLabel];
+	[contentView addSubview:_albumLabel];
 
-	[coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.size.mas_equalTo(CGSizeMake(70, 70));
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-15);
 	}];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@20);
 		make.bottom.equalTo(contentView.mas_centerY);
-		make.left.equalTo(coverImageView.mas_right).offset(15);
+		make.left.equalTo(_coverImageView.mas_right).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-15);
 	}];
-	[albumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_albumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@20);
 		make.top.equalTo(contentView.mas_centerY);
-		make.left.equalTo(coverImageView.mas_right).offset(15);
+		make.left.equalTo(_coverImageView.mas_right).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-15);
 	}];
 
@@ -87,11 +87,11 @@
 - (void)setDataItem:(SearchResultItem *)item {
 	_dataItem = item;
 
-	[coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
+	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 
-	[titleLabel setText:item.title];
-	[albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
+	[_titleLabel setText:item.title];
+	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
 
 }
 

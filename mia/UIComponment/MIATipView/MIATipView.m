@@ -2,7 +2,7 @@
 //  MIATipView.m
 //  mia
 //
-//  Created by HongBin Lin on 14-8-15.
+//  Created by linyehui on 14-8-15.
 //  Copyright (c) 2014年 Mia Music. All rights reserved.
 //
 

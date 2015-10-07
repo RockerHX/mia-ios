@@ -2,7 +2,7 @@
 //  MBProgressHUDHelp.m
 //  mia
 //
-//  Created by HongBin Lin on 14-9-17.
+//  Created by linyehui on 14-9-17.
 //  Copyright (c) 2014年 Mia Music. All rights reserved.
 //
 

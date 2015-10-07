@@ -34,15 +34,15 @@ const static CGFloat kSearchVCHeight = 60;
 @end
 
 @implementation SearchViewController {
-	SearchSuggestionModel *suggestionModel;
-	SearchResultModel *resultModel;
+	SearchSuggestionModel	*_suggestionModel;
+	SearchResultModel 		*_resultModel;
 
-	MIAButton *cancelButton;
-	SearchSuggestionView *suggestView;
-	SearchResultView *resultView;
+	MIAButton 				*_cancelButton;
+	SearchSuggestionView 	*_suggestView;
+	SearchResultView 		*_resultView;
 
-	UITextField *searchTextField;
-	MBProgressHUD *progressHUD;
+	UITextField 			*_searchTextField;
+	MBProgressHUD 			*_progressHUD;
 }
 
 - (id)init {
@@ -63,7 +63,7 @@ const static CGFloat kSearchVCHeight = 60;
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initTopView];
 	[self initCollectionView];
-	[searchTextField becomeFirstResponder];
+	[_searchTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,23 +82,19 @@ const static CGFloat kSearchVCHeight = 60;
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated;
-{
+- (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleDefault;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
 	return YES;
 }
 
@@ -121,27 +117,27 @@ const static CGFloat kSearchVCHeight = 60;
 	[searchIconImageView setImage:[UIImage imageNamed:@"search_icon"]];
 	[editBgView addSubview:searchIconImageView];
 
-	searchTextField = [[UITextField alloc] init];
-	searchTextField.borderStyle = UITextBorderStyleNone;
-	searchTextField.backgroundColor = [UIColor clearColor];
-	searchTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
-	searchTextField.placeholder = @"搜索你感兴趣的歌曲名或歌手名";
-	[searchTextField setFont:UIFontFromSize(13)];
-	searchTextField.keyboardType = UIKeyboardTypeDefault;
-	searchTextField.returnKeyType = UIReturnKeySearch;
-	searchTextField.delegate = self;
-	[searchTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
-	[searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-	[editBgView addSubview:searchTextField];
+	_searchTextField = [[UITextField alloc] init];
+	_searchTextField.borderStyle = UITextBorderStyleNone;
+	_searchTextField.backgroundColor = [UIColor clearColor];
+	_searchTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	_searchTextField.placeholder = @"搜索你感兴趣的歌曲名或歌手名";
+	[_searchTextField setFont:UIFontFromSize(13)];
+	_searchTextField.keyboardType = UIKeyboardTypeDefault;
+	_searchTextField.returnKeyType = UIReturnKeySearch;
+	_searchTextField.delegate = self;
+	[_searchTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[_searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+	[editBgView addSubview:_searchTextField];
 
-	cancelButton = [[MIAButton alloc] initWithFrame:CGRectZero
+	_cancelButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									  titleString:@"取消"
 									   titleColor:[UIColor redColor]
 											 font:UIFontFromSize(15)
 										  logoImg:nil
 								  backgroundImage:nil];
-	[cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[topView addSubview:cancelButton];
+	[_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[topView addSubview:_cancelButton];
 
 	[editBgView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@30);
@@ -156,14 +152,14 @@ const static CGFloat kSearchVCHeight = 60;
 		make.left.equalTo(editBgView.mas_left).with.offset(5);
 	}];
 
-	[searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(editBgView.mas_top).with.offset(5);
 		make.left.equalTo(editBgView.mas_left).with.offset(25);
 		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-5);
 		make.right.equalTo(editBgView.mas_right).with.offset(-5);
 	}];
 
-	[cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(40, 18));
 		make.top.equalTo(topView.mas_top).offset(25);
 		make.right.equalTo(topView.mas_right).offset(-15);
@@ -171,46 +167,46 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)initCollectionView {
-	suggestionModel = [[SearchSuggestionModel alloc] init];
+	_suggestionModel = [[SearchSuggestionModel alloc] init];
 	CGRect collectionViewFrame = CGRectMake(0,
 											kSearchVCHeight,
 											self.view.bounds.size.width,
 											self.view.bounds.size.height - kSearchVCHeight);
-	suggestView = [[SearchSuggestionView alloc] initWithFrame:collectionViewFrame];
-	suggestView.searchSuggestionViewDelegate = self;
-	[self.view addSubview:suggestView];
+	_suggestView = [[SearchSuggestionView alloc] initWithFrame:collectionViewFrame];
+	_suggestView.searchSuggestionViewDelegate = self;
+	[self.view addSubview:_suggestView];
 
-	resultModel = [[SearchResultModel alloc] init];
-	resultView = [[SearchResultView alloc] initWithFrame:collectionViewFrame];
-	resultView.searchResultViewDelegate = self;
-	[self.view addSubview:resultView];
-	[resultView setHidden:YES];
+	_resultModel = [[SearchResultModel alloc] init];
+	_resultView = [[SearchResultView alloc] initWithFrame:collectionViewFrame];
+	_resultView.searchResultViewDelegate = self;
+	[self.view addSubview:_resultView];
+	[_resultView setHidden:YES];
 }
 
 - (void)showMBProgressHUD{
-	if(!progressHUD){
+	if(!_progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:progressHUD];
-		progressHUD.dimBackground = YES;
-		progressHUD.labelText = @"正在搜索";
-		[progressHUD show:YES];
+		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_progressHUD];
+		_progressHUD.dimBackground = YES;
+		_progressHUD.labelText = @"正在搜索";
+		[_progressHUD show:YES];
 	}
 }
 
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(progressHUD){
+	if(_progressHUD){
 		if(isSuccess){
-			progressHUD.labelText = @"搜索成功";
+			_progressHUD.labelText = @"搜索成功";
 		}else{
-			progressHUD.labelText = @"搜索失败，请稍后再试";
+			_progressHUD.labelText = @"搜索失败，请稍后再试";
 		}
-		progressHUD.mode = MBProgressHUDModeText;
-		[progressHUD showAnimated:YES whileExecutingBlock:^{
+		_progressHUD.mode = MBProgressHUDModeText;
+		[_progressHUD showAnimated:YES whileExecutingBlock:^{
 			sleep(1);
 		} completionBlock:^{
-			[progressHUD removeFromSuperview];
-			progressHUD = nil;
+			[_progressHUD removeFromSuperview];
+			_progressHUD = nil;
 			if(removeMBProgressHUDBlock)
 				removeMBProgressHUDBlock();
 		}];
@@ -221,23 +217,23 @@ const static CGFloat kSearchVCHeight = 60;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	if (textField == searchTextField) {
+	if (textField == _searchTextField) {
 		[textField resignFirstResponder];
 
-		if ([NSString isNull:searchTextField.text]) {
+		if ([NSString isNull:_searchTextField.text]) {
 			YES;
 		}
 
-		[suggestView setHidden:YES];
-		[resultView setHidden:NO];
-		[suggestionModel.dataSource removeAllObjects];
-		[resultModel reset];
+		[_suggestView setHidden:YES];
+		[_resultView setHidden:NO];
+		[_suggestionModel.dataSource removeAllObjects];
+		[_resultModel reset];
 
 
 		[self showMBProgressHUD];
-		[XiamiHelper requestSearchResultWithKey:searchTextField.text page:resultModel.currentPage successBlock:^(id responseObject) {
-			[resultModel addItemsWithArray:responseObject];
-			[resultView.collectionView reloadData];
+		[XiamiHelper requestSearchResultWithKey:_searchTextField.text page:_resultModel.currentPage successBlock:^(id responseObject) {
+			[_resultModel addItemsWithArray:responseObject];
+			[_resultView.collectionView reloadData];
 			[self removeMBProgressHUD:YES removeMBProgressHUDBlock:nil];
 		} failedBlock:^(NSError *error) {
 			NSLog(@"%@", error);
@@ -250,43 +246,43 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)textFieldDidChange:(id) sender {
-	[suggestView setHidden:NO];
-	[resultView setHidden:YES];
-	[suggestionModel.dataSource removeAllObjects];
-	[resultModel reset];
+	[_suggestView setHidden:NO];
+	[_resultView setHidden:YES];
+	[_suggestionModel.dataSource removeAllObjects];
+	[_resultModel reset];
 
-	if ([NSString isNull:searchTextField.text]) {
-		[suggestView.collectionView reloadData];
+	if ([NSString isNull:_searchTextField.text]) {
+		[_suggestView.collectionView reloadData];
 		return;
 	}
 
-	[XiamiHelper requestSearchSuggestionWithKey:searchTextField.text successBlock:^(id responseObject) {
-		[suggestionModel addItemsWithArray:responseObject];
-		[suggestView.collectionView reloadData];
+	[XiamiHelper requestSearchSuggestionWithKey:_searchTextField.text successBlock:^(id responseObject) {
+		[_suggestionModel addItemsWithArray:responseObject];
+		[_suggestView.collectionView reloadData];
 	} failedBlock:^(NSError *error) {
 		NSLog(@"%@", error);
 	}];
 }
 
 - (SearchSuggestionModel *)searchSuggestionViewModel {
-	return suggestionModel;
+	return _suggestionModel;
 }
 
 - (void)searchSuggestionViewDidSelectedItem:(SuggestionItem *)item {
 	NSLog(@"%@ %@", item.title, item.artist);
 
-	[suggestView setHidden:YES];
-	[resultView setHidden:NO];
-	[suggestionModel.dataSource removeAllObjects];
-	[resultModel reset];
+	[_suggestView setHidden:YES];
+	[_resultView setHidden:NO];
+	[_suggestionModel.dataSource removeAllObjects];
+	[_resultModel reset];
 
 	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
-	searchTextField.text = key;
+	_searchTextField.text = key;
 
 	[self showMBProgressHUD];
-	[XiamiHelper requestSearchResultWithKey:key page:resultModel.currentPage successBlock:^(id responseObject) {
-		[resultModel addItemsWithArray:responseObject];
-		[resultView.collectionView reloadData];
+	[XiamiHelper requestSearchResultWithKey:key page:_resultModel.currentPage successBlock:^(id responseObject) {
+		[_resultModel addItemsWithArray:responseObject];
+		[_resultView.collectionView reloadData];
 		[self removeMBProgressHUD:YES removeMBProgressHUDBlock:nil];
 	} failedBlock:^(NSError *error) {
 		NSLog(@"%@", error);
@@ -295,7 +291,7 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (SearchResultModel *)searchResultViewModel {
-	return resultModel;
+	return _resultModel;
 }
 
 - (void)searchResultViewDidSelectedItem:(SearchResultItem *)item {
@@ -304,14 +300,14 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)searchResultViewRequestMoreItems {
-	resultModel.currentPage++;
-	[XiamiHelper requestSearchResultWithKey:searchTextField.text page:resultModel.currentPage successBlock:^(id responseObject) {
-		[resultModel addItemsWithArray:responseObject];
-		[resultView.collectionView reloadData];
-		[resultView endRefreshing];
+	_resultModel.currentPage++;
+	[XiamiHelper requestSearchResultWithKey:_searchTextField.text page:_resultModel.currentPage successBlock:^(id responseObject) {
+		[_resultModel addItemsWithArray:responseObject];
+		[_resultView.collectionView reloadData];
+		[_resultView endRefreshing];
 	} failedBlock:^(NSError *error) {
 		NSLog(@"%@", error);
-		[resultView endRefreshing];
+		[_resultView endRefreshing];
 	}];
 
 }
@@ -347,7 +343,7 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)hidenKeyboard {
-	[searchTextField resignFirstResponder];
+	[_searchTextField resignFirstResponder];
 }
 
 
