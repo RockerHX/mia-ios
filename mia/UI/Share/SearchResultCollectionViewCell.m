@@ -8,6 +8,7 @@
 
 #import "SearchResultCollectionViewCell.h"
 #import "MIALabel.h"
+#import "MIAButton.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
 #import "SearchResultItem.h"
@@ -20,6 +21,7 @@
 	UIImageView *_coverImageView;
 	MIALabel 	*_titleLabel;
 	MIALabel 	*_albumLabel;
+	MIAButton 	*_playButton;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -37,6 +39,17 @@
 	_coverImageView = [[UIImageView alloc] init];
 	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
 	[contentView addSubview:_coverImageView];
+
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
+									   titleString:nil
+										titleColor:nil
+											  font:nil
+										   logoImg:nil
+								   backgroundImage:nil];
+	[_playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[contentView addSubview:_playButton];
+
 
 	_titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@"匆匆那年"
@@ -59,6 +72,11 @@
 		make.size.mas_equalTo(CGSizeMake(70, 70));
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-15);
+	}];
+	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(20, 20));
+		make.right.equalTo(_coverImageView.mas_right).offset(-5);
+		make.bottom.equalTo(_coverImageView.mas_bottom).offset(-5);
 	}];
 	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@20);
@@ -93,14 +111,22 @@
 	[_titleLabel setText:item.title];
 	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
 
+	[self setIsPlaying:_dataItem.isPlaying];
+}
+
+- (void)setIsPlaying:(BOOL)isPlaying {
+	_dataItem.isPlaying = isPlaying;
+	if (isPlaying) {
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	} else {
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	}
+}
+
+#pragma mark - Actions
+
+- (void)playButtonAction:(id)sender {
+	[_cellDelegate searchResultCellDidPlayItemAtIndexPath:_indexPath];
 }
 
 @end
-
-
-
-
-
-
-
-

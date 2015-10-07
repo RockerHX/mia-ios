@@ -16,6 +16,7 @@
 - (SearchResultModel *)searchResultViewModel;
 - (void)searchResultViewDidSelectedItem:(SearchResultItem *)item;
 - (void)searchResultViewRequestMoreItems;
+- (void)searchResultViewDidPlayItem:(SearchResultItem *)item;
 
 @end
 

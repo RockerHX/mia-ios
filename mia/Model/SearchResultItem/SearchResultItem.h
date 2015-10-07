@@ -16,4 +16,6 @@
 @property (strong, nonatomic) NSString * albumPic;
 @property (strong, nonatomic) NSString * songUrl;
 
+@property (assign, nonatomic) BOOL isPlaying;
+
 @end

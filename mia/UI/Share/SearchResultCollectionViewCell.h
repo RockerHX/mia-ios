@@ -10,8 +10,15 @@
 
 @class SearchResultItem;
 
+@protocol SearchResultCellDelegate
+- (void)searchResultCellDidPlayItemAtIndexPath:(NSIndexPath *)indexPath;
+@end
+	
 @interface SearchResultCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) SearchResultItem *dataItem;
+@property (strong, nonatomic) NSIndexPath *indexPath;
+
+@property (weak, nonatomic)id<SearchResultCellDelegate> cellDelegate;
 
 @end

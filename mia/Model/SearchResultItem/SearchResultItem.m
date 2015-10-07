@@ -13,6 +13,7 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if(self) {
+		_isPlaying = NO;
     }
 	
     return self;

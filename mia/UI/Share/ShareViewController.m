@@ -550,6 +550,15 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_commentTextField becomeFirstResponder];
 }
 
+- (void)searchViewControllerDidPlayedItem:(SearchResultItem *)item {
+	if (_dataItem && [item.songUrl isEqualToString:_dataItem.songUrl]) {
+		[self pauseMusic];
+	} else {
+		_dataItem = item;
+		[self playMusic];
+	}
+}
+
 #pragma mark - Notification
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
@@ -690,14 +699,17 @@ const static CGFloat kShareTopViewHeight		= 280;
 	NSString *musicUrl = [_dataItem songUrl];
 	NSString *musicTitle = [_dataItem title];
 	NSString *musicArtist = [_dataItem artist];
+	[self playMusicWithUrl:musicUrl title:musicTitle artist:musicArtist];
+}
 
-	if (!musicUrl || !musicTitle || !musicArtist) {
+- (void)playMusicWithUrl:(NSString *)url title:(NSString *)title artist:(NSString *)artist {
+	if (!url || !title || !artist) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}
 
 	_isPlayingSearchResult = YES;
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[[MusicPlayerMgr standard] playWithUrl:url andTitle:title andArtist:artist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 

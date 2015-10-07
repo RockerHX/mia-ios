@@ -9,6 +9,7 @@
 #import "SearchResultView.h"
 #import "SearchResultCollectionViewCell.h"
 #import "SearchResultModel.h"
+#import "SearchResultItem.h"
 #import "UIScrollView+MIARefresh.h"
 
 static NSString * const kSearchResultCellReuseIdentifier 		= @"SearchResultCellId";
@@ -17,7 +18,7 @@ static const CGFloat kSearchResultItemMarginH 	= 10;
 static const CGFloat kSearchResultItemMarginV 	= 10;
 static const CGFloat kSearchResultItemHeight	= 100;
 
-@interface SearchResultView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface SearchResultView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, SearchResultCellDelegate>
 
 @end
 
@@ -83,6 +84,8 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	SearchResultCollectionViewCell *cell = (SearchResultCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchResultCellReuseIdentifier
 																											   forIndexPath:indexPath];
 	cell.dataItem = [_searchResultViewDelegate searchResultViewModel].dataSource[indexPath.row];
+	cell.indexPath = indexPath;
+	cell.cellDelegate = self;
 
 	return cell;
 }
@@ -113,6 +116,38 @@ static const CGFloat kSearchResultItemHeight	= 100;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	SearchResultCollectionViewCell *cell = (SearchResultCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 	[_searchResultViewDelegate searchResultViewDidSelectedItem:cell.dataItem];
+}
+
+#pragma mark - delegate 
+
+- (void)searchResultCellDidPlayItemAtIndexPath:(NSIndexPath *)indexPath {
+	if (!indexPath) {
+		return;
+	}
+
+	NSLog(@"%ld", indexPath.row);
+
+	NSInteger lastPlayingRow = [_searchResultViewDelegate searchResultViewModel].currentPlaying;
+	if (lastPlayingRow == indexPath.row) {
+		NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
+		SearchResultCollectionViewCell *lastPlayingCell = (SearchResultCollectionViewCell *)[_collectionView cellForItemAtIndexPath:lastIndexPath];
+		lastPlayingCell.dataItem.isPlaying = !lastPlayingCell.dataItem.isPlaying;
+		[_searchResultViewDelegate searchResultViewDidPlayItem:lastPlayingCell.dataItem];
+		[_collectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, nil]];
+
+	} else {
+		NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
+		SearchResultCollectionViewCell *lastPlayingCell = (SearchResultCollectionViewCell *)[_collectionView cellForItemAtIndexPath:lastIndexPath];
+		lastPlayingCell.dataItem.isPlaying = NO;
+
+		SearchResultCollectionViewCell *currentPlayingCell = (SearchResultCollectionViewCell *)[_collectionView cellForItemAtIndexPath:indexPath];
+		currentPlayingCell.dataItem.isPlaying = YES;
+
+		[_searchResultViewDelegate searchResultViewModel].currentPlaying = indexPath.row;
+		[_searchResultViewDelegate searchResultViewDidPlayItem:currentPlayingCell.dataItem];
+
+		[_collectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
+	}
 }
 
 @end

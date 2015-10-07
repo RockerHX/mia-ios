@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, assign) NSUInteger currentPage;
+@property (nonatomic, assign) NSInteger currentPlaying;
 
 - (void)addItemsWithArray:(NSArray *) items;
 - (void)reset;
