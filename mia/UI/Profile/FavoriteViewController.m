@@ -34,14 +34,14 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 @end
 
 @implementation FavoriteViewController {
-	UIImageView *bgView;
-	MIAButton *editButton;
-	MIAButton *closeButton;
+	UIImageView	*_bgView;
+	MIAButton 	*_editButton;
+	MIAButton 	*_closeButton;
 
-	UIView *favoriteHeaderView;
-	MIAButton *playButton;
+	UIView 		*_favoriteHeaderView;
+	MIAButton 	*_playButton;
 
-	BOOL isEditing;
+	BOOL 		_isEditing;
 }
 
 - (id)initWitBackground:(UIImage *)backgroundImage {
@@ -108,15 +108,15 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 //	self.view.backgroundColor = [UIColor redColor];
 //	NSLog(@"bg: %f, %f %f", backgroundImage.size.width, backgroundImage.size.height, backgroundImage.scale);
 //	NSLog(@"bounds: %@", NSStringFromCGRect(self.view.bounds));
-	bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+	_bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
 	if (backgroundImage) {
-		[bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
+		[_bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
 	}
-	[self.view addSubview:bgView];
+	[self.view addSubview:_bgView];
 }
 
 - (void)setBackground:(UIImage *)backgroundImage {
-	[bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
+	[_bgView setImageToBlur:backgroundImage blurRadius:3.0 completionBlock:nil];
 }
 
 - (void)initTopView {
@@ -140,7 +140,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	lineView.backgroundColor = UIColorFromHex(@"d2d2d2", 1.0);
 	[bottomView addSubview:lineView];
 
-	closeButton = [[MIAButton alloc] initWithFrame:CGRectMake(0,
+	_closeButton = [[MIAButton alloc] initWithFrame:CGRectMake(0,
 																		kLineViewHeight,
 																		bottomView.bounds.size.width,
 																		bottomView.bounds.size.height - kLineViewHeight)
@@ -149,8 +149,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 														font:UIFontFromSize(16)
 													 logoImg:nil
 											 backgroundImage:nil];
-	[closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[bottomView addSubview:closeButton];
+	[_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[bottomView addSubview:_closeButton];
 }
 
 - (void)initCollectionView {
@@ -190,10 +190,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)initHeaderView {
-	favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, kFavoriteCVMarginTop, self.view.bounds.size.width, kFavoriteHeaderHeight)];
-	favoriteHeaderView.backgroundColor = [UIColor whiteColor];
-	favoriteHeaderView.alpha = kFavoriteAlpha;
-	[self.view addSubview:favoriteHeaderView];
+	_favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, kFavoriteCVMarginTop, self.view.bounds.size.width, kFavoriteHeaderHeight)];
+	_favoriteHeaderView.backgroundColor = [UIColor whiteColor];
+	_favoriteHeaderView.alpha = kFavoriteAlpha;
+	[self.view addSubview:_favoriteHeaderView];
 
 	static const CGFloat kTitleMarginLeft		= 15;
 	static const CGFloat kTitleMarginTop		= 15;
@@ -210,14 +210,14 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
 	//titleLabel.backgroundColor = [UIColor greenColor];
-	[favoriteHeaderView addSubview:titleLabel];
+	[_favoriteHeaderView addSubview:titleLabel];
 
 	static const CGFloat kPlayButtonMarginLeft		= 112;
 	static const CGFloat kPlayButtonMarginTop		= 18;
 	static const CGFloat kPlayButtonWidth			= 16;
 	static const CGFloat kPlayButtonHeight			= 16;
 
-	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(kPlayButtonMarginLeft,
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(kPlayButtonMarginLeft,
 																		kPlayButtonMarginTop,
 																		kPlayButtonWidth,
 																		kPlayButtonHeight)
@@ -226,16 +226,16 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 											 font:nil
 										  logoImg:nil
 								  backgroundImage:[UIImage imageNamed:@"play_black"]];
-	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	//playButton.backgroundColor = [UIColor yellowColor];
-	[favoriteHeaderView addSubview:playButton];
+	[_favoriteHeaderView addSubview:_playButton];
 
 	static const CGFloat kEditButtonMarginRight		= 15;
 	static const CGFloat kEditButtonMarginTop		= 15;
 	static const CGFloat kEditButtonWidth			= 40;
 	static const CGFloat kEditButtonHeight			= 20;
 
-	editButton = [[MIAButton alloc] initWithFrame:CGRectMake(favoriteHeaderView.bounds.size.width - kEditButtonMarginRight - kEditButtonWidth,
+	_editButton = [[MIAButton alloc] initWithFrame:CGRectMake(_favoriteHeaderView.bounds.size.width - kEditButtonMarginRight - kEditButtonWidth,
 																		kEditButtonMarginTop,
 																		kEditButtonWidth,
 																		kEditButtonHeight)
@@ -244,17 +244,17 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 														font:UIFontFromSize(12)
 													 logoImg:nil
 											 backgroundImage:nil];
-	[editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[favoriteHeaderView addSubview:editButton];
+	[_editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[_favoriteHeaderView addSubview:_editButton];
 
 }
 
 - (void)setIsPlaying:(BOOL)isPlaying {
 	_isPlaying = isPlaying;
 	if (isPlaying) {
-		[playButton setBackgroundImage:[UIImage imageNamed:@"pause_black"] forState:UIControlStateNormal];
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"pause_black"] forState:UIControlStateNormal];
 	} else {
-		[playButton setBackgroundImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
 	}
 }
 
@@ -284,7 +284,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	FavoriteCollectionViewCell *cell = (FavoriteCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kFavoriteCellReuseIdentifier
 																												 forIndexPath:indexPath];
 	cell.rowIndex = indexPath.row;
-	cell.isEditing = isEditing;
+	cell.isEditing = _isEditing;
 	if ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row) {
 		NSLog(@"-------> %ld", (long)indexPath.row);
 		cell.isPlaying = YES;
@@ -407,19 +407,19 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)editButtonAction:(id)sender {
-	isEditing = !isEditing;
+	_isEditing = !_isEditing;
 	[_favoriteCollectionView reloadData];
-	if (isEditing) {
-		[editButton setTitle:@"完成" forState:UIControlStateNormal];
-		[closeButton setTitle:@"删除" forState:UIControlStateNormal];
+	if (_isEditing) {
+		[_editButton setTitle:@"完成" forState:UIControlStateNormal];
+		[_closeButton setTitle:@"删除" forState:UIControlStateNormal];
 	} else {
-		[editButton setTitle:@"编辑" forState:UIControlStateNormal];
-		[closeButton setTitle:@"关闭" forState:UIControlStateNormal];
+		[_editButton setTitle:@"编辑" forState:UIControlStateNormal];
+		[_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
 	}
 }
 
 - (void)closeButtonAction:(id)sender {
-	if (isEditing) {
+	if (_isEditing) {
 		// TODO delete
 		NSLog(@"del sth.");
 		for (FavoriteItem *it in [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource) {

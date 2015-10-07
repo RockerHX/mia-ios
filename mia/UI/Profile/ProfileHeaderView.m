@@ -15,7 +15,7 @@
 
 
 @implementation ProfileHeaderView {
-	MIAButton *playButton;
+	MIAButton *_playButton;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -59,7 +59,7 @@
 	static const CGFloat kPlayButtonMarginTop = 65;
 	static const CGFloat kPlayButtonWidth = 40;
 
-	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
 																		kPlayButtonMarginTop,
 																		kPlayButtonWidth,
 																		kPlayButtonWidth)
@@ -68,9 +68,9 @@
 														font:nil
 													 logoImg:nil
 											 backgroundImage:nil];
-	[playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[coverView addSubview:playButton];
+	[_playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[coverView addSubview:_playButton];
 
 	const static CGFloat kFavoriteCountLabelMarginRight		= 220;
 	const static CGFloat kFavoriteCountLabelMarginTop		= 64;
@@ -197,9 +197,9 @@
 - (void)setIsPlaying:(BOOL)isPlaying {
 	_isPlaying = isPlaying;
 	if (_isPlaying) {
-		[playButton setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	} else {
-		[playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	}
 }
 

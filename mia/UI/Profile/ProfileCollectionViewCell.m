@@ -17,16 +17,15 @@
 @end
 
 @implementation ProfileCollectionViewCell {
-	UIImageView *coverImageView;
-	MIALabel *unreadCountLabel;
-	MIALabel *unreadWordLabel;
-	MIALabel *viewsLabel;
-	MIALabel *musicNameLabel;
-	MIALabel *artistLabel;
+	UIImageView	*_coverImageView;
+	MIALabel 	*_unreadCountLabel;
+	MIALabel 	*_unreadWordLabel;
+	MIALabel 	*_viewsLabel;
+	MIALabel 	*_musicNameLabel;
+	MIALabel 	*_artistLabel;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
 		//self.backgroundColor = [UIColor orangeColor];
@@ -37,9 +36,9 @@
 }
 
 - (void)initUI:(UIView *)contentView {
-	coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
-	[coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
-	[contentView addSubview:coverImageView];
+	_coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
+	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
+	[contentView addSubview:_coverImageView];
 	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"cover_mask"]];
 	[contentView addSubview:coverMaskImageView];
@@ -49,7 +48,7 @@
 	const static CGFloat kUnreadWordLabelMarginTop			= 9;
 	const static CGFloat kUnreadWordLabelHeight				= 20;
 
-	unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
+	_unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																  contentView.frame.size.height / 2 - kUnreadCountLabelHeight,
 																  contentView.frame.size.width,
 																  kUnreadCountLabelHeight)
@@ -59,9 +58,9 @@
 										 textAlignment:NSTextAlignmentCenter
 										   numberLines:1];
 	//unreadCountLabel.backgroundColor = [UIColor blueColor];
-	[contentView addSubview:unreadCountLabel];
+	[contentView addSubview:_unreadCountLabel];
 
-	unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
+	_unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																 contentView.frame.size.height / 2 + kUnreadWordLabelMarginTop,
 																 contentView.frame.size.width,
 																 kUnreadWordLabelHeight)
@@ -71,7 +70,7 @@
 										textAlignment:NSTextAlignmentCenter
 										  numberLines:1];
 	//unreadWordLabel.backgroundColor = [UIColor greenColor];
-	[contentView addSubview:unreadWordLabel];
+	[contentView addSubview:_unreadWordLabel];
 
 	static const CGFloat kViewsIconMarginMiddle 	= 2;
 	static const CGFloat kViewsIconMarginBottom		= 12;
@@ -88,7 +87,7 @@
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
 	[contentView addSubview:viewsImageView];
 
-	viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle + kViewsLabelMarginMiddle,
+	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle + kViewsLabelMarginMiddle,
 															contentView.frame.size.height - kViewsLabelMarginBottom - kViewsLabelHeight,
 															contentView.frame.size.width / 2 - kViewsIconMarginMiddle - kViewsLabelMarginMiddle,
 															kViewsLabelHeight)
@@ -98,13 +97,13 @@
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//viewsLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:viewsLabel];
+	[contentView addSubview:_viewsLabel];
 
 	static const CGFloat kMusicNameLabelMarginLeft		= 16;
 	static const CGFloat kMusicNameLabelHeight			= 40;
 	static const CGFloat kArtistLabelHeight				= 20;
 
-	musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameLabelMarginLeft,
+	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameLabelMarginLeft,
 																contentView.frame.size.height / 2 - kMusicNameLabelHeight / 2,
 																contentView.frame.size.width - 2 * kMusicNameLabelMarginLeft,
 																kMusicNameLabelHeight)
@@ -114,9 +113,9 @@
 											 textAlignment:NSTextAlignmentCenter
 										 numberLines:2];
 	//musicNameLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:musicNameLabel];
+	[contentView addSubview:_musicNameLabel];
 
-	artistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
+	_artistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 															 contentView.frame.size.height / 2 + kMusicNameLabelHeight / 2,
 															 contentView.frame.size.width,
 															 kArtistLabelHeight)
@@ -126,36 +125,36 @@
 									textAlignment:NSTextAlignmentCenter
 									  numberLines:1];
 	//artistLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:artistLabel];
+	[contentView addSubview:_artistLabel];
 
 }
 
 - (void)setShareItem:(ShareItem *)shareItem {
 	_shareItem = shareItem;
 
-	[coverImageView sd_setImageWithURL:[NSURL URLWithString:shareItem.music.purl]
+	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:shareItem.music.purl]
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	UIImage *cutImage = [self getBannerImageFromCover:coverImageView.image containerSize:coverImageView.bounds.size];
+	UIImage *cutImage = [self getBannerImageFromCover:_coverImageView.image containerSize:_coverImageView.bounds.size];
 
 	if (_isBiggerCell) {
-		[coverImageView setImageToBlur:cutImage blurRadius:6.0 completionBlock:nil];
+		[_coverImageView setImageToBlur:cutImage blurRadius:6.0 completionBlock:nil];
 	}
 
-	unreadCountLabel.text = [NSString stringWithFormat:@"%d", shareItem.newCommCnt];
-	viewsLabel.text = [NSString stringWithFormat:@"%d", shareItem.cView];
-	musicNameLabel.text = shareItem.music.name;
-	artistLabel.text = shareItem.music.singerName;
+	_unreadCountLabel.text = [NSString stringWithFormat:@"%d", shareItem.newCommCnt];
+	_viewsLabel.text = [NSString stringWithFormat:@"%d", shareItem.cView];
+	_musicNameLabel.text = shareItem.music.name;
+	_artistLabel.text = shareItem.music.singerName;
 
 	if (_shareItem.newCommCnt > 0 && _isMyProfile) {
-		[unreadCountLabel setHidden:NO];
-		[unreadWordLabel setHidden:NO];
-		[musicNameLabel setHidden:YES];
-		[artistLabel setHidden:YES];
+		[_unreadCountLabel setHidden:NO];
+		[_unreadWordLabel setHidden:NO];
+		[_musicNameLabel setHidden:YES];
+		[_artistLabel setHidden:YES];
 	} else {
-		[unreadCountLabel setHidden:YES];
-		[unreadWordLabel setHidden:YES];
-		[musicNameLabel setHidden:NO];
-		[artistLabel setHidden:NO];
+		[_unreadCountLabel setHidden:YES];
+		[_unreadWordLabel setHidden:YES];
+		[_musicNameLabel setHidden:NO];
+		[_artistLabel setHidden:NO];
 	}
 }
 

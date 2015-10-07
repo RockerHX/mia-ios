@@ -36,19 +36,19 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 @end
 
 @implementation ProfileViewController {
-	NSString * _uid;
-	NSString *_nickName;
-	BOOL _isMyProfile;
-	BOOL playingFavorite;
+	NSString 				*_uid;
+	NSString 				*_nickName;
+	BOOL 					_isMyProfile;
+	BOOL 					_playingFavorite;
 
-	long currentPageStart;
+	long 					_currentPageStart;
 
-	UICollectionView *profileCollectionView;
-	ProfileHeaderView *profileHeaderView;
-	FavoriteViewController *favoriteViewController;
+	UICollectionView 		*_profileCollectionView;
+	ProfileHeaderView 		*_profileHeaderView;
+	FavoriteViewController	*_favoriteViewController;
 
-	ProfileShareModel *shareListModel;
-	FavoriteModel *favoriteModel;
+	ProfileShareModel 		*_shareListModel;
+	FavoriteModel 			*_favoriteModel;
 }
 
 - (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile {
@@ -60,10 +60,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 		[self initUI];
 		[self initData];
-		[profileCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
+		[_profileCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
 
-		favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
-		favoriteViewController.favoriteViewControllerDelegate = self;
+		_favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
+		_favoriteViewController.favoriteViewControllerDelegate = self;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
@@ -136,21 +136,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	layout.itemSize =CGSizeMake(itemWidth, itemWidth);
 
 	//2.初始化collectionView
-	profileCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-	[self.view addSubview:profileCollectionView];
-	profileCollectionView.backgroundColor = [UIColor whiteColor];
+	_profileCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+	[self.view addSubview:_profileCollectionView];
+	_profileCollectionView.backgroundColor = [UIColor whiteColor];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
-	[profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
+	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[profileCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
+	[_profileCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
 
 	//4.设置代理
-	profileCollectionView.delegate = self;
-	profileCollectionView.dataSource = self;
+	_profileCollectionView.delegate = self;
+	_profileCollectionView.dataSource = self;
 
 	[self initHeaderView];
 }
@@ -182,17 +182,17 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)initHeaderView {
-	profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
-	profileHeaderView.profileHeaderViewDelegate = self;
+	_profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
+	_profileHeaderView.profileHeaderViewDelegate = self;
 }
 
 - (void)initData {
-	shareListModel = [[ProfileShareModel alloc] init];
+	_shareListModel = [[ProfileShareModel alloc] init];
 
 	[self requestShareList];
 	[self requestFavoriteList];
 
-	favoriteModel = [[FavoriteModel alloc] init];
+	_favoriteModel = [[FavoriteModel alloc] init];
 
 	[self requestFavoriteList];
 }
@@ -200,15 +200,15 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)requestShareList {
 	static const long kShareListPageCount = 10;
 
-	++currentPageStart;
-	[MiaAPIHelper getShareListWithUID:_uid start:currentPageStart item:kShareListPageCount];
+	++_currentPageStart;
+	[MiaAPIHelper getShareListWithUID:_uid start:_currentPageStart item:kShareListPageCount];
 //	// for test
 //	[MiaAPIHelper getShareListWithUID:@"442" start:currentPageStart item:kShareListPageCount];
 }
 
 - (void)requestFavoriteList {
 	static const long kFavoritePageItemCount	= 10;
-	[MiaAPIHelper getFavoriteListWithStart:favoriteModel.lastID item:kFavoritePageItemCount];
+	[MiaAPIHelper getFavoriteListWithStart:_favoriteModel.lastID item:kFavoritePageItemCount];
 }
 
 #pragma mark - delegate
@@ -222,7 +222,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return shareListModel.dataSource.count;
+	return _shareListModel.dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -231,7 +231,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 																												 forIndexPath:indexPath];
 		cell.isBiggerCell = YES;
 		cell.isMyProfile = _isMyProfile;
-		cell.shareItem = shareListModel.dataSource[indexPath.row];
+		cell.shareItem = _shareListModel.dataSource[indexPath.row];
 		return cell;
 	} else {
 		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
@@ -239,7 +239,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 																												 forIndexPath:indexPath];
 		cell.isBiggerCell = NO;
 		cell.isMyProfile = _isMyProfile;
-		cell.shareItem = shareListModel.dataSource[indexPath.row];
+		cell.shareItem = _shareListModel.dataSource[indexPath.row];
 		return cell;
 	}
 }
@@ -293,7 +293,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
-			[contentView addSubview:profileHeaderView];
+			[contentView addSubview:_profileHeaderView];
 		}
 		return contentView;
 	} else {
@@ -311,26 +311,26 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)profileHeaderViewDidTouchedCover {
-	if (!playingFavorite) {
-		[self playMusic:favoriteModel.currentPlaying];
+	if (!_playingFavorite) {
+		[self playMusic:_favoriteModel.currentPlaying];
 	}
 
-	[favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
+	[_favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
 															  frame:self.view.bounds]];
-	[self.navigationController pushViewController:favoriteViewController animated:YES];
+	[self.navigationController pushViewController:_favoriteViewController animated:YES];
 
 }
 
 - (void)profileHeaderViewDidTouchedPlay {
-	if (!playingFavorite) {
-		[self playMusic:favoriteModel.currentPlaying];
+	if (!_playingFavorite) {
+		[self playMusic:_favoriteModel.currentPlaying];
 	} else {
 		[self pauseMusic];
 	}
 }
 
 - (FavoriteModel *)favoriteViewControllerModel {
-	return favoriteModel;
+	return _favoriteModel;
 }
 
 - (void)favoriteViewControllerRequestFavoriteList {
@@ -360,39 +360,39 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[profileCollectionView footerEndRefreshing];
+	[_profileCollectionView footerEndRefreshing];
 
 	NSArray *shareList = userInfo[@"v"][@"info"];
 	if (!shareList)
 		return;
 
-	[shareListModel addSharesWithArray:shareList];
-	[profileCollectionView reloadData];
+	[_shareListModel addSharesWithArray:shareList];
+	[_profileCollectionView reloadData];
 }
 
 - (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[favoriteViewController endRequestFavoriteList:ret == 0];
+	[_favoriteViewController endRequestFavoriteList:ret == 0];
 
 	NSArray *items = userInfo[@"v"][@"data"];
 	if (!items)
 		return;
 
-	[favoriteModel addItemsWithArray:items];
-	if (favoriteViewController) {
-		[favoriteViewController.favoriteCollectionView reloadData];
+	[_favoriteModel addItemsWithArray:items];
+	if (_favoriteViewController) {
+		[_favoriteViewController.favoriteCollectionView reloadData];
 	}
 }
 
 #pragma mark - audio operations
 
 - (void)playMusic:(NSInteger)row {
-	if (favoriteModel.dataSource.count <= 0) {
+	if (_favoriteModel.dataSource.count <= 0) {
 		return;
 	}
 
-	playingFavorite = YES;
+	_playingFavorite = YES;
 
-	FavoriteItem *currentItem = favoriteModel.dataSource[row];
+	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];
 	NSString *musicArtist = [[currentItem music] singerName];
@@ -403,21 +403,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
-	[profileHeaderView setIsPlaying:YES];
-	[favoriteViewController setIsPlaying:YES];
+	[_profileHeaderView setIsPlaying:YES];
+	[_favoriteViewController setIsPlaying:YES];
 
 }
 
 - (void)pauseMusic {
 	[[MusicPlayerMgr standard] pause];
-	[profileHeaderView setIsPlaying:NO];
-	[favoriteViewController setIsPlaying:NO];
+	[_profileHeaderView setIsPlaying:NO];
+	[_favoriteViewController setIsPlaying:NO];
 }
 
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
-	if (playingFavorite) {
+	if (_playingFavorite) {
 		[[MusicPlayerMgr standard] stop];
 	}
 
