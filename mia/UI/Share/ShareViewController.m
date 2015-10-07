@@ -31,27 +31,27 @@ const static CGFloat kShareTopViewHeight		= 280;
 @end
 
 @implementation ShareViewController {
-	SearchResultItem 	*_dataItem;
+	SearchResultItem 		*_dataItem;
 
-	MBProgressHUD 		*_progressHUD;
-	MIAButton 			*_sendButton;
+	MBProgressHUD 			*_progressHUD;
+	MIAButton 				*_sendButton;
 
-	UIView 				*_topView;
-	UIView 				*_playerView;
-	UIView 				*_addMusicView;
-	UIView 				*_bottomView;
+	UIView 					*_topView;
+	UIView 					*_playerView;
+	UIView 					*_addMusicView;
+	UIView 					*_bottomView;
 
-	UIImageView 		*_coverImageView;
-	KYCircularView 		*_progressView;
-	MIAButton 			*_playButton;
+	UIImageView 			*_coverImageView;
+	KYCircularView 			*_progressView;
+	MIAButton 				*_playButton;
 
-	MIALabel 			*_musicNameLabel;
-	MIALabel 			*_musicArtistLabel;
-	MIALabel 			*_sharerLabel;
-	UITextField 		*_commentTextField;
+	MIALabel 				*_musicNameLabel;
+	MIALabel 				*_musicArtistLabel;
+	MIALabel 				*_sharerLabel;
+	UITextField 			*_commentTextField;
 
-	MIALabel 			*_locationLabel;
-	NSTimer 			*_progressTimer;
+	MIALabel 				*_locationLabel;
+	NSTimer 				*_progressTimer;
 
 	CLLocationManager 		*_locationManager;
 	CLLocationCoordinate2D	_currentCoordinate;
