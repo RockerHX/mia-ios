@@ -10,13 +10,12 @@
 
 typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	LoopPlayerViewPagingCurrent	 	= 0,
-	LoopPlayerViewPagingLeft	= 1,
+	LoopPlayerViewPagingLeft		= 1,
 	LoopPlayerViewPagingRight		= 2,
 };
 
 @implementation LoopPlayerView {
-	NSInteger lastPage;
-	//PlayerView *playerView;
+	NSInteger _lastPage;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -46,7 +45,7 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	}
 
 	[_playerScrollView setPages:viewArray];
-	lastPage = [_playerScrollView currentPage];
+	_lastPage = [_playerScrollView currentPage];
 }
 
 #pragma mark public method
@@ -104,7 +103,7 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 			break;
 	}
 
-	lastPage = [_playerScrollView currentPage];
+	_lastPage = [_playerScrollView currentPage];
 }
 
 // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
@@ -116,21 +115,21 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 # pragma mark - 
 
 - (LoopPlayerViewPaging)checkPagingDirection {
-	NSLog(@"lastPage:%d, currentPage:%d", (int)lastPage, (int)[_playerScrollView currentPage]);
+	NSLog(@"lastPage:%d, currentPage:%d", (int)_lastPage, (int)[_playerScrollView currentPage]);
 
-	if (lastPage == [_playerScrollView currentPage]) {
+	if (_lastPage == [_playerScrollView currentPage]) {
 		return LoopPlayerViewPagingCurrent;
 	}
 
 	NSInteger maxIndex = MAX(0, [_playerScrollView pageCount] - 1);
-	if (lastPage == 0) {
+	if (_lastPage == 0) {
 		// 第一个，需要判断向右翻页后翻到了最后一页的情况
 		if (maxIndex == [_playerScrollView currentPage]) {
 			return LoopPlayerViewPagingRight;
 		} else {
 			return LoopPlayerViewPagingLeft;
 		}
-	} else if (lastPage == maxIndex) {
+	} else if (_lastPage == maxIndex) {
 		// 最后一个，需要判断向左滑动，到了第一页的情况
 		if (0 == [_playerScrollView currentPage]) {
 			return LoopPlayerViewPagingLeft;
@@ -139,7 +138,7 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 		}
 	} else {
 		// 中间页面，直接判断大于小于即可
-		if (lastPage > [_playerScrollView currentPage]) {
+		if (_lastPage > [_playerScrollView currentPage]) {
 			return LoopPlayerViewPagingRight;
 		} else {
 			return LoopPlayerViewPagingLeft;

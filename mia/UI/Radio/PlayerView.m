@@ -19,16 +19,14 @@
 #import "ShareItem.h"
 
 @implementation PlayerView {
-	UIImageView *coverImageView;
-	KYCircularView *progressView;
-	MIAButton *playButton;
-
-	MIALabel *musicNameLabel;
-	MIALabel *musicArtistLabel;
-	MIALabel *sharerLabel;
-	UITextView *noteTextView;
-
-	NSTimer *progressTimer;
+	UIImageView 	*_coverImageView;
+	KYCircularView 	*_progressView;
+	MIAButton 		*_playButton;
+	MIALabel 		*_musicNameLabel;
+	MIALabel 		*_musicArtistLabel;
+	MIALabel 		*_sharerLabel;
+	UITextView 		*_noteTextView;
+	NSTimer 		*_progressTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -74,12 +72,12 @@
 											 kCoverHeight);
 	[self initProgressViewWithCoverFrame:coverFrame];
 
-	coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
-	[coverImageView sd_setImageWithURL:nil
+	_coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
+	[_coverImageView sd_setImageWithURL:nil
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[self addSubview:coverImageView];
+	[self addSubview:_coverImageView];
 
-	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
 															 coverFrame.origin.y + coverFrame.size.height - kPlayButtonMarginBottom - kPlayButtonHeight,
 															 kPlayButtonWidth,
 															 kPlayButtonHeight)
@@ -88,11 +86,11 @@
 											 font:nil
 										  logoImg:nil
 								  backgroundImage:nil];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:playButton];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:_playButton];
 
-	musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
+	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
@@ -101,9 +99,9 @@
 									 textColor:[UIColor blackColor]
 								 textAlignment:NSTextAlignmentRight
 								   numberLines:1];
-	[self addSubview:musicNameLabel];
+	[self addSubview:_musicNameLabel];
 
-	musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
+	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
 														  kMusicArtistHeight)
@@ -112,11 +110,11 @@
 										   textColor:[UIColor grayColor]
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	[self addSubview:musicArtistLabel];
+	[self addSubview:_musicArtistLabel];
 
-	sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
+	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
 																  kSharerMarginTop,
-																  coverImageView.frame.origin.x - kSharerMarginLeft,
+																  _coverImageView.frame.origin.x - kSharerMarginLeft,
 																  kSharerHeight)
 												  text:@""
 												  font:UIFontFromSize(9.0f)
@@ -124,29 +122,29 @@
 										 textAlignment:NSTextAlignmentRight
 										   numberLines:1];
 	//sharerLabel.backgroundColor = [UIColor yellowColor];
-	[self addSubview:sharerLabel];
+	[self addSubview:_sharerLabel];
 
-	noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
+	_noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(_coverImageView.frame.origin.x + kNoteMarginLeft,
 															   kNoteMarginTop,
-															   self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
+															   self.bounds.size.width - _coverImageView.frame.origin.x - kNoteMarginRight,
 																kNoteHeight)];
-	noteTextView.text = @"";
+	_noteTextView.text = @"";
 	//noteTextView.backgroundColor = [UIColor redColor];
-	noteTextView.scrollEnabled = NO;
-	noteTextView.font = UIFontFromSize(9.0f);
-	noteTextView.userInteractionEnabled = NO;
-	[self addSubview:noteTextView];
+	_noteTextView.scrollEnabled = NO;
+	_noteTextView.font = UIFontFromSize(9.0f);
+	_noteTextView.userInteractionEnabled = NO;
+	[self addSubview:_noteTextView];
 }
 
 - (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
 {
-	progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
-	progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
-	progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
-	progressView.lineWidth = 8.0;
+	_progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
+	_progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
+	_progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
+	_progressView.lineWidth = 8.0;
 
-	CGFloat pathWidth = progressView.frame.size.width;
-	CGFloat pathHeight = progressView.frame.size.height;
+	CGFloat pathWidth = _progressView.frame.size.width;
+	CGFloat pathHeight = _progressView.frame.size.height;
 	UIBezierPath *path = [UIBezierPath bezierPath];
 	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
 	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
@@ -156,9 +154,9 @@
 	[path addLineToPoint:CGPointMake(pathWidth / 2, pathHeight)];
 	[path closePath];
 
-	progressView.path = path;
+	_progressView.path = path;
 
-	[self addSubview:progressView];
+	[self addSubview:_progressView];
 }
 
 - (void)setShareItem:(ShareItem *)item {
@@ -169,23 +167,23 @@
 
 	_shareItem = item;
 
-	[coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
+	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 
-	[musicNameLabel setText:[[item music] name]];
-	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
-	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
-	[noteTextView setText:[item sNote]];
+	[_musicNameLabel setText:[[item music] name]];
+	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
+	[_sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
+	[_noteTextView setText:[item sNote]];
 }
 
 - (void)notifyMusicPlayerMgrDidPlay {
-	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
+	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)notifyMusicPlayerMgrDidPause {
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[progressTimer invalidate];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_progressTimer invalidate];
 }
 
 #pragma mark - Actions
@@ -216,23 +214,23 @@
 	}
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
-	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
 	[[MusicPlayerMgr standard] pause];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
 	[[MusicPlayerMgr standard] stop];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)updateProgress:(NSTimer *)timer {
 	float postion = [[MusicPlayerMgr standard] getPlayPosition];
-	[progressView setProgress:postion];
+	[_progressView setProgress:postion];
 }
 
 @end

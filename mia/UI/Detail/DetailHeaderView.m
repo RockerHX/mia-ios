@@ -19,20 +19,18 @@
 #import "ShareItem.h"
 
 @implementation DetailHeaderView {
-	UIImageView *coverImageView;
-	KYCircularView *progressView;
-	MIAButton *playButton;
-
-	MIALabel *musicNameLabel;
-	MIALabel *musicArtistLabel;
-	MIALabel *sharerLabel;
-	UITextView *noteTextView;
-	MIAButton *favoriteButton;
-	MIALabel *commentLabel;
-	MIALabel *viewsLabel;
-	MIALabel *locationLabel;
-
-	NSTimer *progressTimer;
+	UIImageView 	*_coverImageView;
+	KYCircularView	*_progressView;
+	MIAButton 		*_playButton;
+	MIALabel 		*_musicNameLabel;
+	MIALabel 		*_musicArtistLabel;
+	MIALabel 		*_sharerLabel;
+	UITextView 		*_noteTextView;
+	MIAButton 		*_favoriteButton;
+	MIALabel 		*_commentLabel;
+	MIALabel 		*_viewsLabel;
+	MIALabel 		*_locationLabel;
+	NSTimer 		*_progressTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -46,37 +44,37 @@
 }
 
 - (void)initUI {
-	static const CGFloat kCoverWidth = 163;
-	static const CGFloat kCoverHeight = 163;
-	static const CGFloat kCoverMarginTop = 35;
+	static const CGFloat kCoverWidth 				= 163;
+	static const CGFloat kCoverHeight 				= 163;
+	static const CGFloat kCoverMarginTop 			= 35;
 
 	static const CGFloat kPlayButtonWidth			= 35;
 	static const CGFloat kPlayButtonHeight			= 35;
 	static const CGFloat kPlayButtonMarginBottom	= 12;
 	static const CGFloat kPlayButtonMarginRight		= 12;
 
-	static const CGFloat kMusicNameMarginTop = kCoverMarginTop + kCoverHeight + 20;
-	static const CGFloat kMusicNameMarginLeft = 20;
-	static const CGFloat kMusicArtistMarginLeft = 10;
-	static const CGFloat kMusicNameHeight = 20;
-	static const CGFloat kMusicArtistHeight = 20;
+	static const CGFloat kMusicNameMarginTop 		= kCoverMarginTop + kCoverHeight + 20;
+	static const CGFloat kMusicNameMarginLeft 		= 20;
+	static const CGFloat kMusicArtistMarginLeft 	= 10;
+	static const CGFloat kMusicNameHeight 			= 20;
+	static const CGFloat kMusicArtistHeight 		= 20;
 
-	static const CGFloat kFavoriteMarginTop = kMusicNameMarginTop;
-	static const CGFloat kFavoriteMarginRight = 20;
-	static const CGFloat kFavoriteWidth = 25;
-	static const CGFloat kFavoriteHeight = 25;
+	static const CGFloat kFavoriteMarginTop 		= kMusicNameMarginTop;
+	static const CGFloat kFavoriteMarginRight 		= 20;
+	static const CGFloat kFavoriteWidth 			= 25;
+	static const CGFloat kFavoriteHeight 			= 25;
 
-	static const CGFloat kSharerMarginLeft = 20;
-	static const CGFloat kSharerMarginTop = kMusicNameMarginTop + kMusicNameHeight + 5;
-	static const CGFloat kSharerHeight = 20;
+	static const CGFloat kSharerMarginLeft 			= 20;
+	static const CGFloat kSharerMarginTop 			= kMusicNameMarginTop + kMusicNameHeight + 5;
+	static const CGFloat kSharerHeight 				= 20;
 
-	static const CGFloat kNoteMarginLeft = 5;
-	static const CGFloat kNoteMarginTop = kSharerMarginTop - 3;
-	static const CGFloat kNoteMarginRight = 50;
-	static const CGFloat kNoteHeight = 40;
+	static const CGFloat kNoteMarginLeft 			= 5;
+	static const CGFloat kNoteMarginTop 			= kSharerMarginTop - 3;
+	static const CGFloat kNoteMarginRight 			= 50;
+	static const CGFloat kNoteHeight 				= 40;
 
-	static const CGFloat kBottomViewMarginTop = kNoteMarginTop + kNoteHeight + 5;
-	static const CGFloat kBottomViewHeight = 35;
+	static const CGFloat kBottomViewMarginTop 		= kNoteMarginTop + kNoteHeight + 5;
+	static const CGFloat kBottomViewHeight 			= 35;
 
 	CGRect coverFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
 											 kCoverMarginTop,
@@ -84,12 +82,12 @@
 											 kCoverHeight);
 	[self initProgressViewWithCoverFrame:coverFrame];
 
-	coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
-	[coverImageView sd_setImageWithURL:nil
+	_coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
+	[_coverImageView sd_setImageWithURL:nil
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[self addSubview:coverImageView];
+	[self addSubview:_coverImageView];
 
-	playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
 															 coverFrame.origin.y + coverFrame.size.height - kPlayButtonMarginBottom - kPlayButtonHeight,
 															 kPlayButtonWidth,
 															 kPlayButtonHeight)
@@ -98,11 +96,11 @@
 											 font:nil
 										  logoImg:nil
 								  backgroundImage:nil];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:playButton];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:_playButton];
 
-	musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
+	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
@@ -111,9 +109,9 @@
 									 textColor:[UIColor blackColor]
 								 textAlignment:NSTextAlignmentRight
 								   numberLines:1];
-	[self addSubview:musicNameLabel];
+	[self addSubview:_musicNameLabel];
 
-	musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
+	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
 														  kMusicNameMarginTop,
 														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
 														  kMusicArtistHeight)
@@ -122,11 +120,11 @@
 										   textColor:[UIColor grayColor]
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	[self addSubview:musicArtistLabel];
+	[self addSubview:_musicArtistLabel];
 
-	sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
+	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
 																  kSharerMarginTop,
-																  coverImageView.frame.origin.x - kSharerMarginLeft,
+																  _coverImageView.frame.origin.x - kSharerMarginLeft,
 																  kSharerHeight)
 												  text:@""
 												  font:UIFontFromSize(9.0f)
@@ -134,20 +132,20 @@
 										 textAlignment:NSTextAlignmentRight
 										   numberLines:1];
 	//sharerLabel.backgroundColor = [UIColor yellowColor];
-	[self addSubview:sharerLabel];
+	[self addSubview:_sharerLabel];
 
-	noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(coverImageView.frame.origin.x + kNoteMarginLeft,
+	_noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(_coverImageView.frame.origin.x + kNoteMarginLeft,
 															   kNoteMarginTop,
-															   self.bounds.size.width - coverImageView.frame.origin.x - kNoteMarginRight,
+															   self.bounds.size.width - _coverImageView.frame.origin.x - kNoteMarginRight,
 																kNoteHeight)];
-	noteTextView.text = @"";
+	_noteTextView.text = @"";
 	//noteTextView.backgroundColor = [UIColor redColor];
-	noteTextView.scrollEnabled = NO;
-	noteTextView.font = UIFontFromSize(9.0f);
-	noteTextView.userInteractionEnabled = NO;
-	[self addSubview:noteTextView];
+	_noteTextView.scrollEnabled = NO;
+	_noteTextView.font = UIFontFromSize(9.0f);
+	_noteTextView.userInteractionEnabled = NO;
+	[self addSubview:_noteTextView];
 
-	favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - kFavoriteMarginRight - kFavoriteWidth,
+	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - kFavoriteMarginRight - kFavoriteWidth,
 																 kFavoriteMarginTop,
 																 kFavoriteWidth,
 																 kFavoriteHeight)
@@ -156,9 +154,9 @@
 												 font:nil
 											  logoImg:nil
 									  backgroundImage:nil];
-	[favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
-	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:favoriteButton];
+	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
+	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:_favoriteButton];
 
 	static const CGFloat kCommentTitleHeight			= 20;
 	static const CGFloat kCommentTitleWidth				= 50;
@@ -188,15 +186,14 @@
 	[self addSubview:commentTitleLabel];
 }
 
-- (void)initProgressViewWithCoverFrame:(CGRect) coverFrame
-{
-	progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
-	progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
-	progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
-	progressView.lineWidth = 8.0;
+- (void)initProgressViewWithCoverFrame:(CGRect) coverFrame {
+	_progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
+	_progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
+	_progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
+	_progressView.lineWidth = 8.0;
 
-	CGFloat pathWidth = progressView.frame.size.width;
-	CGFloat pathHeight = progressView.frame.size.height;
+	CGFloat pathWidth = _progressView.frame.size.width;
+	CGFloat pathHeight = _progressView.frame.size.height;
 	UIBezierPath *path = [UIBezierPath bezierPath];
 	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
 	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
@@ -206,9 +203,9 @@
 	[path addLineToPoint:CGPointMake(pathWidth / 2, pathHeight)];
 	[path closePath];
 
-	progressView.path = path;
+	_progressView.path = path;
 
-	[self addSubview:progressView];
+	[self addSubview:_progressView];
 }
 
 - (void)initBottomView:(UIView *)bottomView {
@@ -236,7 +233,7 @@
 	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
 	[bottomView addSubview:commentsImageView];
 
-	commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
+	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
 															  bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															  kCommentLabelWidth,
 															  kBottomLabelHeight)
@@ -246,7 +243,7 @@
 									 textAlignment:NSTextAlignmentLeft
 									   numberLines:1];
 	//commentLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:commentLabel];
+	[bottomView addSubview:_commentLabel];
 
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft,
 																				bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
@@ -255,7 +252,7 @@
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
 	[bottomView addSubview:viewsImageView];
 
-	viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
+	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
 															bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															kViewsLabelWidth,
 															kBottomLabelHeight)
@@ -265,7 +262,7 @@
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//viewsLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:viewsLabel];
+	[bottomView addSubview:_viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
 																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
@@ -274,7 +271,7 @@
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
 	[bottomView addSubview:locationImageView];
 
-	locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
+	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
 															   bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															   kLocationLabelWidth,
 															   kBottomLabelHeight)
@@ -284,7 +281,7 @@
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//locationLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:locationLabel];
+	[bottomView addSubview:_locationLabel];
 }
 
 - (void)setShareItem:(ShareItem *)item {
@@ -295,27 +292,27 @@
 
 	_shareItem = item;
 
-	[coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
+	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:[[item music] purl]]
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 
-	[musicNameLabel setText:[[item music] name]];
-	[musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
-	[sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
-	[noteTextView setText:[item sNote]];
+	[_musicNameLabel setText:[[item music] name]];
+	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
+	[_sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
+	[_noteTextView setText:[item sNote]];
 
-	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
-	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
-	[locationLabel setText:[item sAddress]];
+	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
+	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
+	[_locationLabel setText:[item sAddress]];
 }
 
 - (void)notifyMusicPlayerMgrDidPlay {
-	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
+	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)notifyMusicPlayerMgrDidPause {
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[progressTimer invalidate];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_progressTimer invalidate];
 }
 
 #pragma mark - Actions
@@ -350,23 +347,23 @@
 	}
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
-	[playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
 	[[MusicPlayerMgr standard] pause];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
 	[[MusicPlayerMgr standard] stop];
-	[playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)updateProgress:(NSTimer *)timer {
 	float postion = [[MusicPlayerMgr standard] getPlayPosition];
-	[progressView setProgress:postion];
+	[_progressView setProgress:postion];
 }
 
 @end

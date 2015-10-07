@@ -22,22 +22,22 @@
 @end
 
 @implementation SignUpViewController {
-	UIView *inputView;
-	UITextField *userNameTextField;
-	UITextField *verificationCodeTextField;
-	UITextField *nickNameTextField;
-	UITextField *firstPasswordTextField;
-	UITextField *secondPasswordTextField;
-	MIAButton *signUpButton;
-	MIAButton *verificationCodeButton;
+	UIView 			*_inputView;
+	UITextField 	*_userNameTextField;
+	UITextField 	*_verificationCodeTextField;
+	UITextField 	*_nickNameTextField;
+	UITextField 	*_firstPasswordTextField;
+	UITextField 	*_secondPasswordTextField;
+	MIAButton 		*_signUpButton;
+	MIAButton 		*_verificationCodeButton;
 
-	UIView *msgView;
-	MIALabel *msgLabel;
+	UIView 			*_msgView;
+	MIALabel 		*_msgLabel;
 
-	NSTimer *verificationCodeTimer;
-	int countdown;
+	NSTimer 		*_verificationCodeTimer;
+	int 			_countdown;
 
-	MBProgressHUD *progressHUD;
+	MBProgressHUD 	*_progressHUD;
 }
 
 -(void)dealloc {
@@ -56,8 +56,7 @@
 	// Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
@@ -67,23 +66,19 @@
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated;
-{
+- (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleLightContent;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
 	return NO;
 }
 
@@ -111,8 +106,8 @@
 }
 
 - (void)initInputView {
-	inputView = [[UIView alloc] initWithFrame:self.view.frame];
-	[self.view addSubview:inputView];
+	_inputView = [[UIView alloc] initWithFrame:self.view.frame];
+	[self.view addSubview:_inputView];
 
 	static const CGFloat kTextFieldMarginLeft		= 30;
 	static const CGFloat kTextFieldHeight			= 35;
@@ -132,152 +127,152 @@
 	UIColor *lineColor = UIColorFromHex(@"#eaeaea", 1.0);
 	UIFont *textFont = UIFontFromSize(12);
 
-	userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kUserNameMarginTop,
 																	  self.view.frame.size.width - 2 * kTextFieldMarginLeft,
 																	  kTextFieldHeight)];
-	userNameTextField.borderStyle = UITextBorderStyleNone;
-	userNameTextField.backgroundColor = [UIColor clearColor];
-	userNameTextField.textColor = textColor;
-	userNameTextField.placeholder = @"输入手机号";
-	[userNameTextField setFont:textFont];
-	userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
-	userNameTextField.returnKeyType = UIReturnKeyNext;
-	userNameTextField.delegate = self;
-	[userNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[inputView addSubview:userNameTextField];
+	_userNameTextField.borderStyle = UITextBorderStyleNone;
+	_userNameTextField.backgroundColor = [UIColor clearColor];
+	_userNameTextField.textColor = textColor;
+	_userNameTextField.placeholder = @"输入手机号";
+	[_userNameTextField setFont:textFont];
+	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_userNameTextField.returnKeyType = UIReturnKeyNext;
+	_userNameTextField.delegate = self;
+	[_userNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_userNameTextField];
 
 	UIView *userNameLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																		kUserNameMarginTop + kTextFieldHeight,
-																		inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																		_inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																		0.5)];
 	userNameLineView.backgroundColor = lineColor;
-	[inputView addSubview:userNameLineView];
+	[_inputView addSubview:userNameLineView];
 
-	verificationCodeTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_verificationCodeTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																			  kVerificationCodeMarginTop,
-																			  inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																			  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																			  kTextFieldHeight)];
-	verificationCodeTextField.borderStyle = UITextBorderStyleNone;
-	verificationCodeTextField.backgroundColor = [UIColor clearColor];
-	verificationCodeTextField.textColor = textColor;
-	verificationCodeTextField.placeholder = @"验证码";
-	[verificationCodeTextField setFont:textFont];
-	verificationCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
-	verificationCodeTextField.returnKeyType = UIReturnKeyNext;
-	verificationCodeTextField.delegate = self;
-	[verificationCodeTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[inputView addSubview:verificationCodeTextField];
+	_verificationCodeTextField.borderStyle = UITextBorderStyleNone;
+	_verificationCodeTextField.backgroundColor = [UIColor clearColor];
+	_verificationCodeTextField.textColor = textColor;
+	_verificationCodeTextField.placeholder = @"验证码";
+	[_verificationCodeTextField setFont:textFont];
+	_verificationCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_verificationCodeTextField.returnKeyType = UIReturnKeyNext;
+	_verificationCodeTextField.delegate = self;
+	[_verificationCodeTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_verificationCodeTextField];
 
 	UIView *verificationCodeLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																				kVerificationCodeMarginTop + kTextFieldHeight,
-																				inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																				_inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																				0.5)];
 	verificationCodeLineView.backgroundColor = lineColor;
-	[inputView addSubview:verificationCodeLineView];
+	[_inputView addSubview:verificationCodeLineView];
 
-	CGRect verificationCodeButtonFrame = CGRectMake(inputView.frame.size.width - kTextFieldMarginLeft - kVerificationCodeButtonWidth,
+	CGRect verificationCodeButtonFrame = CGRectMake(_inputView.frame.size.width - kTextFieldMarginLeft - kVerificationCodeButtonWidth,
 											 kVerificationCodeButtonWidthMarginTop,
 											 kVerificationCodeButtonWidth,
 											 kVerificationCodeButtonHeight);
-	verificationCodeButton = [[MIAButton alloc] initWithFrame:verificationCodeButtonFrame
+	_verificationCodeButton = [[MIAButton alloc] initWithFrame:verificationCodeButtonFrame
 															   titleString:@"获取验证码"
 																titleColor:[UIColor whiteColor]
 																	  font:textFont
 																   logoImg:nil
 														   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)]];
-	[verificationCodeButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
-	[verificationCodeButton addTarget:self action:@selector(verificationCodeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[inputView addSubview:verificationCodeButton];
+	[_verificationCodeButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
+	[_verificationCodeButton addTarget:self action:@selector(verificationCodeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[_inputView addSubview:_verificationCodeButton];
 	[self resetCountdown];
 
-	nickNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_nickNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kNickNameMarginTop,
-																	  inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																	  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																	  kTextFieldHeight)];
-	nickNameTextField.borderStyle = UITextBorderStyleNone;
-	nickNameTextField.backgroundColor = [UIColor clearColor];
-	nickNameTextField.textColor = textColor;
-	nickNameTextField.placeholder = @"昵称";
-	[nickNameTextField setFont:textFont];
-	nickNameTextField.keyboardType = UIKeyboardTypeDefault;
-	nickNameTextField.returnKeyType = UIReturnKeyNext;
-	nickNameTextField.delegate = self;
-	[nickNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[inputView addSubview:nickNameTextField];
+	_nickNameTextField.borderStyle = UITextBorderStyleNone;
+	_nickNameTextField.backgroundColor = [UIColor clearColor];
+	_nickNameTextField.textColor = textColor;
+	_nickNameTextField.placeholder = @"昵称";
+	[_nickNameTextField setFont:textFont];
+	_nickNameTextField.keyboardType = UIKeyboardTypeDefault;
+	_nickNameTextField.returnKeyType = UIReturnKeyNext;
+	_nickNameTextField.delegate = self;
+	[_nickNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_nickNameTextField];
 
 	UIView *nickNameLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																		kNickNameMarginTop + kTextFieldHeight,
-																		inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																		_inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																		0.5)];
 	nickNameLineView.backgroundColor = lineColor;
-	[inputView addSubview:nickNameLineView];
+	[_inputView addSubview:nickNameLineView];
 
-	firstPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_firstPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																		   kFirstPasswordMarginTop,
-																		   inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																		   _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																		   kTextFieldHeight)];
-	firstPasswordTextField.borderStyle = UITextBorderStyleNone;
-	firstPasswordTextField.backgroundColor = [UIColor clearColor];
-	firstPasswordTextField.textColor = textColor;
-	firstPasswordTextField.placeholder = @"登录密码";
-	[firstPasswordTextField setFont:textFont];
-	firstPasswordTextField.secureTextEntry = YES;
-	firstPasswordTextField.keyboardType = UIKeyboardTypeDefault;
-	firstPasswordTextField.returnKeyType = UIReturnKeyNext;
-	firstPasswordTextField.delegate = self;
-	[firstPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[inputView addSubview:firstPasswordTextField];
+	_firstPasswordTextField.borderStyle = UITextBorderStyleNone;
+	_firstPasswordTextField.backgroundColor = [UIColor clearColor];
+	_firstPasswordTextField.textColor = textColor;
+	_firstPasswordTextField.placeholder = @"登录密码";
+	[_firstPasswordTextField setFont:textFont];
+	_firstPasswordTextField.secureTextEntry = YES;
+	_firstPasswordTextField.keyboardType = UIKeyboardTypeDefault;
+	_firstPasswordTextField.returnKeyType = UIReturnKeyNext;
+	_firstPasswordTextField.delegate = self;
+	[_firstPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_firstPasswordTextField];
 
 	UIView *firstPasswordLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																			 kFirstPasswordMarginTop + kTextFieldHeight,
-																			 inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																			 _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																			 0.5)];
 	firstPasswordLineView.backgroundColor = lineColor;
-	[inputView addSubview:firstPasswordLineView];
+	[_inputView addSubview:firstPasswordLineView];
 
-	secondPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_secondPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kSecondPasswordMarginTop,
-																	  inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																	  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																	  kTextFieldHeight)];
-	secondPasswordTextField.borderStyle = UITextBorderStyleNone;
-	secondPasswordTextField.backgroundColor = [UIColor clearColor];
-	secondPasswordTextField.textColor = textColor;
-	secondPasswordTextField.placeholder = @"确认密码";
-	[secondPasswordTextField setFont:textFont];
-	secondPasswordTextField.secureTextEntry = YES;
-	secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
-	secondPasswordTextField.returnKeyType = UIReturnKeyDone;
-	secondPasswordTextField.delegate = self;
-	[secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[inputView addSubview:secondPasswordTextField];
+	_secondPasswordTextField.borderStyle = UITextBorderStyleNone;
+	_secondPasswordTextField.backgroundColor = [UIColor clearColor];
+	_secondPasswordTextField.textColor = textColor;
+	_secondPasswordTextField.placeholder = @"确认密码";
+	[_secondPasswordTextField setFont:textFont];
+	_secondPasswordTextField.secureTextEntry = YES;
+	_secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
+	_secondPasswordTextField.returnKeyType = UIReturnKeyDone;
+	_secondPasswordTextField.delegate = self;
+	[_secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_secondPasswordTextField];
 
 	UIView *secondPasswordLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																			  kSecondPasswordMarginTop + kTextFieldHeight,
-																			  inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																			  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																			  0.5)];
 	secondPasswordLineView.backgroundColor = lineColor;
-	[inputView addSubview:secondPasswordLineView];
+	[_inputView addSubview:secondPasswordLineView];
 
 	CGRect signUpButtonFrame = CGRectMake(kTextFieldMarginLeft,
 											 kSiginUpMarginTop,
-											 inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+											 _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 											 kTextFieldHeight);
-	 signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
+	 _signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
 													   titleString:@"注册"
 														titleColor:[UIColor whiteColor]
 															  font:UIFontFromSize(16)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
-	[signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
-	[signUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
-	[signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[signUpButton setEnabled:NO];
-	[inputView addSubview:signUpButton];
+	[_signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
+	[_signUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
+	[_signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[_signUpButton setEnabled:NO];
+	[_inputView addSubview:_signUpButton];
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
-	[inputView addGestureRecognizer:gesture];
+	[_inputView addGestureRecognizer:gesture];
 }
 
 - (void)initMsgView {
@@ -293,52 +288,52 @@
 	static const CGFloat kMsgLabelHeight = 20;
 
 
-	msgView = [[UIView alloc] initWithFrame:CGRectMake(0, kMsgViewMarginTop, self.view.frame.size.width, kMsgViewHeight)];
-	msgView.backgroundColor = UIColorFromHex(@"#606060", 1.0);
-	[self.view addSubview:msgView];
+	_msgView = [[UIView alloc] initWithFrame:CGRectMake(0, kMsgViewMarginTop, self.view.frame.size.width, kMsgViewHeight)];
+	_msgView.backgroundColor = UIColorFromHex(@"#606060", 1.0);
+	[self.view addSubview:_msgView];
 
 
 	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kLogoMarginLeft, kLogoMarginTop, kLogoWidth, kLogoHeight)];
 	[logoImageView setImage:[UIImage imageNamed:@"info"]];
-	[msgView addSubview:logoImageView];
+	[_msgView addSubview:logoImageView];
 
-	msgLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMsgLabelMarginLeft,
+	_msgLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMsgLabelMarginLeft,
 															  kMsgLabelMarginTop,
-															  msgView.frame.size.width - kMsgLabelMarginLeft - kMsgLabelMarginRight,
+															  _msgView.frame.size.width - kMsgLabelMarginLeft - kMsgLabelMarginRight,
 															  kMsgLabelHeight)
 											  text:@""
 											  font:UIFontFromSize(12.0f)
 										 textColor:[UIColor whiteColor]
 									 textAlignment:NSTextAlignmentLeft
 									   numberLines:1];
-	[msgView addSubview:msgLabel];
-	[msgView setHidden:YES];
+	[_msgView addSubview:_msgLabel];
+	[_msgView setHidden:YES];
 }
 
-- (void)showMBProgressHUD{
-	if(!progressHUD){
+- (void)showMBProgressHUD {
+	if(!_progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:progressHUD];
-		progressHUD.dimBackground = YES;
-		progressHUD.labelText = @"正在提交注册";
-		[progressHUD show:YES];
+		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_progressHUD];
+		_progressHUD.dimBackground = YES;
+		_progressHUD.labelText = @"正在提交注册";
+		[_progressHUD show:YES];
 	}
 }
 
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(progressHUD){
+- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock {
+	if(_progressHUD){
 		if(isSuccess){
-			progressHUD.labelText = @"注册成功，请登录";
+			_progressHUD.labelText = @"注册成功，请登录";
 		}else{
-			progressHUD.labelText = @"注册失败，请稍后再试";
+			_progressHUD.labelText = @"注册失败，请稍后再试";
 		}
-		progressHUD.mode = MBProgressHUDModeText;
-		[progressHUD showAnimated:YES whileExecutingBlock:^{
+		_progressHUD.mode = MBProgressHUDModeText;
+		[_progressHUD showAnimated:YES whileExecutingBlock:^{
 			sleep(1);
 		} completionBlock:^{
-			[progressHUD removeFromSuperview];
-			progressHUD = nil;
+			[_progressHUD removeFromSuperview];
+			_progressHUD = nil;
 			if(removeMBProgressHUDBlock)
 				removeMBProgressHUDBlock();
 		}];
@@ -349,17 +344,17 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	if (textField == userNameTextField) {
-		[verificationCodeTextField becomeFirstResponder];
+	if (textField == _userNameTextField) {
+		[_verificationCodeTextField becomeFirstResponder];
 	}
-	else if (textField == verificationCodeTextField) {
-		[nickNameTextField becomeFirstResponder];
-	} else if (textField == nickNameTextField) {
-		[firstPasswordTextField becomeFirstResponder];
-	} else if (textField == firstPasswordTextField) {
-		[secondPasswordTextField becomeFirstResponder];
-	} else if (textField == secondPasswordTextField) {
-		[secondPasswordTextField resignFirstResponder];
+	else if (textField == _verificationCodeTextField) {
+		[_nickNameTextField becomeFirstResponder];
+	} else if (textField == _nickNameTextField) {
+		[_firstPasswordTextField becomeFirstResponder];
+	} else if (textField == _firstPasswordTextField) {
+		[_secondPasswordTextField becomeFirstResponder];
+	} else if (textField == _secondPasswordTextField) {
+		[_secondPasswordTextField resignFirstResponder];
 		[self resumeView];
 	}
 
@@ -369,7 +364,7 @@
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-	if (textField == secondPasswordTextField) {
+	if (textField == _secondPasswordTextField) {
 		[self moveUpViewForKeyboard];
 	}
 
@@ -424,12 +419,12 @@
 	NSTimeInterval animationDuration = 0.30f;
 	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
 	[UIView setAnimationDuration:animationDuration];
-	float width = inputView.frame.size.width;
-	float height = inputView.frame.size.height;
+	float width = _inputView.frame.size.width;
+	float height = _inputView.frame.size.height;
 
 	static const CGFloat kOffsetForKeyboard = 30;
 	CGRect rect = CGRectMake(0.0f, -kOffsetForKeyboard, width,height);
-	inputView.frame = rect;
+	_inputView.frame = rect;
 	[UIView commitAnimations];
 }
 
@@ -440,22 +435,22 @@
 	float width = self.view.frame.size.width;
 	float height = self.view.frame.size.height;
 	CGRect rect = CGRectMake(0.0f, 0, width, height);
-	inputView.frame = rect;
+	_inputView.frame = rect;
 	[UIView commitAnimations];
 }
 
 - (void)resetCountdown {
 	static const int kRequestVerificationCodeCountdown = 60;
-	countdown = kRequestVerificationCodeCountdown;
+	_countdown = kRequestVerificationCodeCountdown;
 
-	[verificationCodeButton setEnabled:YES];
-	[verificationCodeTimer invalidate];
-	[verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+	[_verificationCodeButton setEnabled:YES];
+	[_verificationCodeTimer invalidate];
+	[_verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
 }
 
 - (void)showErrorMsg:(NSString *)msg {
-	[msgLabel setText:msg];
-	[msgView setHidden:NO];
+	[_msgLabel setText:msg];
+	[_msgView setHidden:NO];
 	static const NSTimeInterval kErrorMsgTimeInterval = 10;
 	[NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
 											 target:self
@@ -465,19 +460,19 @@
 }
 
 - (void)checkSignUpButtonStatus {
-	if ([userNameTextField.text length] <= 0
-	|| [verificationCodeTextField.text length] <= 0
-	|| [nickNameTextField.text length] <= 0
-	|| [firstPasswordTextField.text length] <= 0
-		|| [secondPasswordTextField.text length] <= 0) {
-		[signUpButton setEnabled:NO];
+	if ([_userNameTextField.text length] <= 0
+	|| [_verificationCodeTextField.text length] <= 0
+	|| [_nickNameTextField.text length] <= 0
+	|| [_firstPasswordTextField.text length] <= 0
+		|| [_secondPasswordTextField.text length] <= 0) {
+		[_signUpButton setEnabled:NO];
 	} else {
-		[signUpButton setEnabled:YES];
+		[_signUpButton setEnabled:YES];
 	}
 }
 
 - (BOOL)checkPhoneNumber {
-	NSString *str = userNameTextField.text;
+	NSString *str = _userNameTextField.text;
 	if (str.length == 11
 		&& [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
 		return YES;
@@ -488,8 +483,8 @@
 }
 
 - (BOOL)checkPasswordFormat {
-	NSString *str1 = firstPasswordTextField.text;
-	NSString *str2 = secondPasswordTextField.text;
+	NSString *str1 = _firstPasswordTextField.text;
+	NSString *str2 = _secondPasswordTextField.text;
 
 	if (![str1 isEqualToString:str2]) {
 		[self showErrorMsg:@"两次输入的密码不一致，请重新输入"];
@@ -508,17 +503,17 @@
 # pragma mark - Timer Action
 
 - (void)requestVerificationCodeTimerAction {
-	countdown--;
-	if (countdown > 0) {
-		NSString *title = [[NSString alloc] initWithFormat:@"%ds 重新获取", countdown];
-		[verificationCodeButton setTitle:title forState:UIControlStateNormal];
+	_countdown--;
+	if (_countdown > 0) {
+		NSString *title = [[NSString alloc] initWithFormat:@"%ds 重新获取", _countdown];
+		[_verificationCodeButton setTitle:title forState:UIControlStateNormal];
 	} else {
 		[self resetCountdown];
 	}
 }
 
 - (void)errorMsgTimerAction {
-	[msgView setHidden:YES];
+	[_msgView setHidden:YES];
 }
 
 #pragma mark - button Actions
@@ -532,10 +527,10 @@
 		return;
 
 	[self showMBProgressHUD];
-	NSString *passwordHash = [NSString md5HexDigest:firstPasswordTextField.text];
-	[MiaAPIHelper registerWithPhoneNum:userNameTextField.text
-									 scode:verificationCodeTextField.text
-								  nickName:nickNameTextField.text
+	NSString *passwordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
+	[MiaAPIHelper registerWithPhoneNum:_userNameTextField.text
+									 scode:_verificationCodeTextField.text
+								  nickName:_nickNameTextField.text
 								  passwordHash:passwordHash];
 }
 
@@ -544,26 +539,25 @@
 		return;
 	}
 
-	[msgView setHidden:YES];
-	[verificationCodeButton setEnabled:NO];
+	[_msgView setHidden:YES];
+	[_verificationCodeButton setEnabled:NO];
 
 	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
-	verificationCodeTimer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
+	_verificationCodeTimer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
 											 target:self
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil
 											repeats:YES];
 
-	[MiaAPIHelper getVerificationCodeWithType:0 phoneNumber:userNameTextField.text];
+	[MiaAPIHelper getVerificationCodeWithType:0 phoneNumber:_userNameTextField.text];
 }
 
--(void)hidenKeyboard
-{
-	[userNameTextField resignFirstResponder];
-	[verificationCodeTextField resignFirstResponder];
-	[nickNameTextField resignFirstResponder];
-	[firstPasswordTextField resignFirstResponder];
-	[secondPasswordTextField resignFirstResponder];
+- (void)hidenKeyboard {
+	[_userNameTextField resignFirstResponder];
+	[_verificationCodeTextField resignFirstResponder];
+	[_nickNameTextField resignFirstResponder];
+	[_firstPasswordTextField resignFirstResponder];
+	[_secondPasswordTextField resignFirstResponder];
 
 	[self resumeView];
 	[self checkSignUpButtonStatus];

@@ -35,17 +35,17 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 @end
 
 @implementation LoginViewController {
-	MIAButton *backButton;
+	MIAButton 		*_backButton;
 
-	UIView *guidView;		// 注册或者登录两个按钮
+	UIView 			*_guidView;			// 注册或者登录两个按钮
+	UIView 			*_loginView;		// 输入框和登录按钮的页面
 
-	UIView *loginView;		// 输入框和登录按钮的页面
-	UITextField *userNameTextField;
-	UITextField *passwordTextField;
-	MIALabel *userNameErrorLabel;
-	MIALabel *passwordErrorLabel;
+	UITextField 	*_userNameTextField;
+	UITextField 	*_passwordTextField;
+	MIALabel 		*_userNameErrorLabel;
+	MIALabel 		*_passwordErrorLabel;
 
-	MBProgressHUD *progressHUD;
+	MBProgressHUD 	*_progressHUD;
 }
 
 -(void)dealloc {
@@ -109,31 +109,31 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 		.origin.y = kBackButtonMarginTop,
 		.size.width = backButtonImage.size.width,
 		.size.height = backButtonImage.size.height};
-	backButton = [[MIAButton alloc] initWithFrame:backButtonFrame
+	_backButton = [[MIAButton alloc] initWithFrame:backButtonFrame
 									  titleString:@""
 									   titleColor:[UIColor whiteColor]
 											 font:UIFontFromSize(15)
 										  logoImg:nil
 								  backgroundImage:backButtonImage];
-	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:backButton];
+	[_backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_backButton];
 }
 
 - (void)initGuidView {
-	guidView = [[UIView alloc] initWithFrame:self.view.bounds];
-	[self.view addSubview:guidView];
+	_guidView = [[UIView alloc] initWithFrame:self.view.bounds];
+	[self.view addSubview:_guidView];
 
 	UIImage *logoImage = [UIImage imageNamed:@"login_logo"];
-	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((guidView.frame.size.width - logoImage.size.width) / 2,
+	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((_guidView.frame.size.width - logoImage.size.width) / 2,
 																			   kLogoMarginTop,
 																			   logoImage.size.width,
 																			   logoImage.size.height)];
 	[logoImageView setImage:logoImage];
-	[guidView addSubview:logoImageView];
+	[_guidView addSubview:logoImageView];
 
 	CGRect signUpButtonFrame = {.origin.x = kGuidButtonMarginLeft,
-		.origin.y = guidView.frame.size.height - kSignUpMarginBottom - kGuidButtonHeight,
-		.size.width = guidView.frame.size.width - 2 * kGuidButtonMarginLeft,
+		.origin.y = _guidView.frame.size.height - kSignUpMarginBottom - kGuidButtonHeight,
+		.size.width = _guidView.frame.size.width - 2 * kGuidButtonMarginLeft,
 		.size.height = kGuidButtonHeight};
 	MIAButton *signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
 												   titleString:@"注册"
@@ -142,11 +142,11 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 													   logoImg:nil
 											   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"button_white"]]];
 	[signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[guidView addSubview:signUpButton];
+	[_guidView addSubview:signUpButton];
 
 	CGRect signInButtonFrame = {.origin.x = kGuidButtonMarginLeft,
-		.origin.y = guidView.frame.size.height - kSignInMarginBottom - kGuidButtonHeight,
-		.size.width = guidView.frame.size.width - 2 * kGuidButtonMarginLeft,
+		.origin.y = _guidView.frame.size.height - kSignInMarginBottom - kGuidButtonHeight,
+		.size.width = _guidView.frame.size.width - 2 * kGuidButtonMarginLeft,
 		.size.height = kGuidButtonHeight};
 	MIAButton *signInButton = [[MIAButton alloc] initWithFrame:signInButtonFrame
 												   titleString:@"登录"
@@ -155,14 +155,14 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 													   logoImg:nil
 											   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"button_blue"]]];
 	[signInButton addTarget:self action:@selector(signInButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[guidView addSubview:signInButton];
+	[_guidView addSubview:signInButton];
 }
 
 - (void)initLoginView {
-	loginView = [[UIView alloc] initWithFrame:self.view.bounds];
+	_loginView = [[UIView alloc] initWithFrame:self.view.bounds];
 	//loginView.backgroundColor = [UIColor yellowColor];
-	loginView.hidden = YES;
-	[self.view addSubview:loginView];
+	_loginView.hidden = YES;
+	[self.view addSubview:_loginView];
 
 	static const CGFloat kLoginButtonMarginLeft		= 30;
 	static const CGFloat kTextEditHeight			= 40;
@@ -185,23 +185,23 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 
 
-	userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
+	_userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	  kUserNameMarginTop,
-																	  loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
+																	  _loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
 																	  kTextEditHeight)];
-	userNameTextField.borderStyle = UITextBorderStyleNone;
-	userNameTextField.backgroundColor = [UIColor clearColor];
-	userNameTextField.textColor = [UIColor whiteColor];
-	userNameTextField.placeholder = @"输入手机号";
-	[userNameTextField setFont:UIFontFromSize(16)];
-	userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
-	userNameTextField.returnKeyType = UIReturnKeyNext;
-	userNameTextField.delegate = self;
-	[userNameTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+	_userNameTextField.borderStyle = UITextBorderStyleNone;
+	_userNameTextField.backgroundColor = [UIColor clearColor];
+	_userNameTextField.textColor = [UIColor whiteColor];
+	_userNameTextField.placeholder = @"输入手机号";
+	[_userNameTextField setFont:UIFontFromSize(16)];
+	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_userNameTextField.returnKeyType = UIReturnKeyNext;
+	_userNameTextField.delegate = self;
+	[_userNameTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 	//userNameTextField.backgroundColor = [UIColor redColor];
-	[loginView addSubview:userNameTextField];
+	[_loginView addSubview:_userNameTextField];
 
-	userNameErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(loginView.frame.size.width - kUserNameErrorMarginRight - kUserNameErrorWidth,
+	_userNameErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(_loginView.frame.size.width - kUserNameErrorMarginRight - kUserNameErrorWidth,
 																				  kUserNameErrorMarginTop,
 																				  kUserNameErrorWidth,
 																				  kUserNameErrorHeight)
@@ -211,32 +211,32 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 														 textAlignment:NSTextAlignmentRight
 														   numberLines:1];
 	//userNameErrorLabel.backgroundColor = [UIColor yellowColor];
-	[loginView addSubview:userNameErrorLabel];
+	[_loginView addSubview:_userNameErrorLabel];
 
 	UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	   kUserNameMarginTop + kTextEditHeight,
-																	   loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
+																	   _loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
 																	   0.5)];
 	lineView1.backgroundColor = [UIColor grayColor];
-	[loginView addSubview:lineView1];
+	[_loginView addSubview:lineView1];
 
-	passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
+	_passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	  kPasswordMarginTop,
-																	  loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
+																	  _loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
 																	  kTextEditHeight)];
-	passwordTextField.borderStyle = UITextBorderStyleNone;
-	passwordTextField.backgroundColor = [UIColor clearColor];
-	passwordTextField.textColor = [UIColor whiteColor];
-	passwordTextField.placeholder = @"密码";
-	passwordTextField.secureTextEntry = YES;
-	[passwordTextField setFont:UIFontFromSize(16)];
-	passwordTextField.keyboardType = UIKeyboardTypeDefault;
-	passwordTextField.returnKeyType = UIReturnKeyDone;
-	passwordTextField.delegate = self;
-	[passwordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-	[loginView addSubview:passwordTextField];
+	_passwordTextField.borderStyle = UITextBorderStyleNone;
+	_passwordTextField.backgroundColor = [UIColor clearColor];
+	_passwordTextField.textColor = [UIColor whiteColor];
+	_passwordTextField.placeholder = @"密码";
+	_passwordTextField.secureTextEntry = YES;
+	[_passwordTextField setFont:UIFontFromSize(16)];
+	_passwordTextField.keyboardType = UIKeyboardTypeDefault;
+	_passwordTextField.returnKeyType = UIReturnKeyDone;
+	_passwordTextField.delegate = self;
+	[_passwordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+	[_loginView addSubview:_passwordTextField];
 
-	passwordErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(loginView.frame.size.width - kPasswordErrorMarginRight - kPasswordErrorWidth,
+	_passwordErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(_loginView.frame.size.width - kPasswordErrorMarginRight - kPasswordErrorWidth,
 																	kPasswordErrorMarginTop,
 																	kPasswordErrorWidth,
 																	kPasswordErrorHeight)
@@ -246,16 +246,16 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 										   textAlignment:NSTextAlignmentRight
 											 numberLines:1];
 	//passwordErrorLabel.backgroundColor = [UIColor yellowColor];
-	[loginView addSubview:passwordErrorLabel];
+	[_loginView addSubview:_passwordErrorLabel];
 
 	UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																 kPasswordMarginTop + kTextEditHeight,
-																 loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
+																 _loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
 																 0.5)];
 	lineView2.backgroundColor = [UIColor grayColor];
-	[loginView addSubview:lineView2];
+	[_loginView addSubview:lineView2];
 
-	CGRect forgotPwdButtonFrame = {.origin.x = loginView.frame.size.width - kForgotPwdMarginRight - kForgotPwdWidth,
+	CGRect forgotPwdButtonFrame = {.origin.x = _loginView.frame.size.width - kForgotPwdMarginRight - kForgotPwdWidth,
 		.origin.y = kForgotPwdMarginTop,
 		.size.width = kForgotPwdWidth,
 		.size.height = kForgotPwdHeight};
@@ -266,12 +266,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 													  logoImg:nil
 											  backgroundImage:nil];
 	[forgotPwdButton addTarget:self action:@selector(forgotPwdButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[loginView addSubview:forgotPwdButton];
+	[_loginView addSubview:forgotPwdButton];
 
 
 	CGRect loginButtonFrame = {.origin.x = kLoginButtonMarginLeft,
 		.origin.y = kLoginMarginTop,
-		.size.width = loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
+		.size.width = _loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
 		.size.height = kGuidButtonHeight};
 	MIAButton *loginButton = [[MIAButton alloc] initWithFrame:loginButtonFrame
 												   titleString:@"登录"
@@ -280,33 +280,33 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 													   logoImg:nil
 											   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"button_blue"]]];
 	[loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[loginView addSubview:loginButton];
+	[_loginView addSubview:loginButton];
 }
 
 - (void)showMBProgressHUD{
-	if(!progressHUD){
+	if(!_progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:progressHUD];
-		progressHUD.dimBackground = YES;
-		progressHUD.labelText = @"登录中";
-		[progressHUD show:YES];
+		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_progressHUD];
+		_progressHUD.dimBackground = YES;
+		_progressHUD.labelText = @"登录中";
+		[_progressHUD show:YES];
 	}
 }
 
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(progressHUD){
+	if(_progressHUD){
 		if(isSuccess){
-			progressHUD.labelText = @"登录成功";
+			_progressHUD.labelText = @"登录成功";
 		}else{
-			progressHUD.labelText = @"登录失败，请稍后再试";
+			_progressHUD.labelText = @"登录失败，请稍后再试";
 		}
-		progressHUD.mode = MBProgressHUDModeText;
-		[progressHUD showAnimated:YES whileExecutingBlock:^{
+		_progressHUD.mode = MBProgressHUDModeText;
+		[_progressHUD showAnimated:YES whileExecutingBlock:^{
 			sleep(1);
 		} completionBlock:^{
-			[progressHUD removeFromSuperview];
-			progressHUD = nil;
+			[_progressHUD removeFromSuperview];
+			_progressHUD = nil;
 			if(removeMBProgressHUDBlock)
 				removeMBProgressHUDBlock();
 		}];
@@ -314,8 +314,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 - (void)saveAuthInfo {
-	NSString *userName = userNameTextField.text;
-	NSString *passwordHash = [NSString md5HexDigest:passwordTextField.text];
+	NSString *userName = _userNameTextField.text;
+	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
 
 	[UserDefaultsUtils saveValue:userName forKey:UserDefaultsKey_UserName];
 	[UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
@@ -325,19 +325,19 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	if (textField == userNameTextField) {
-		[passwordTextField becomeFirstResponder];
+	if (textField == _userNameTextField) {
+		[_passwordTextField becomeFirstResponder];
 	}
-	else if (textField == passwordTextField) {
-		[passwordTextField resignFirstResponder];
+	else if (textField == _passwordTextField) {
+		[_passwordTextField resignFirstResponder];
 	}
 
 	return true;
 }
 
 - (void)signUpViewControllerDidSuccess{
-	[guidView setHidden:YES];
-	[loginView setHidden:NO];
+	[_guidView setHidden:YES];
+	[_loginView setHidden:NO];
 }
 
 #pragma mark - Notification
@@ -365,7 +365,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 		[_loginViewControllerDelegate loginViewControllerDidSuccess];
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		[passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
+		[_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
 	}
 
 	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
@@ -390,8 +390,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 - (void)signInButtonAction:(id)sender {
-	[guidView setHidden:YES];
-	[loginView setHidden:NO];
+	[_guidView setHidden:YES];
+	[_loginView setHidden:NO];
 }
 
 
@@ -401,21 +401,21 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 - (void)loginButtonAction:(id)sender {
-	if (userNameTextField.text.length <= 0) {
-		[userNameErrorLabel setText:@"手机号码不能为空"];
+	if (_userNameTextField.text.length <= 0) {
+		[_userNameErrorLabel setText:@"手机号码不能为空"];
 		return;
 	}
-	[userNameErrorLabel setText:@""];
+	[_userNameErrorLabel setText:@""];
 
-	if (passwordTextField.text.length <= 0) {
-		[passwordErrorLabel setText:@"密码不能为空"];
+	if (_passwordTextField.text.length <= 0) {
+		[_passwordErrorLabel setText:@"密码不能为空"];
 		return;
 	}
-	[passwordErrorLabel setText:@""];
+	[_passwordErrorLabel setText:@""];
 
 	[self showMBProgressHUD];
-	NSString *passwordHash = [NSString md5HexDigest:passwordTextField.text];
-	[MiaAPIHelper loginWithPhoneNum:userNameTextField.text passwordHash:passwordHash];
+	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
+	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text passwordHash:passwordHash];
 }
 
 @end

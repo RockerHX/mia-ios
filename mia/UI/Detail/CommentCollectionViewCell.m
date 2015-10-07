@@ -12,8 +12,6 @@
 
 @interface CommentCollectionViewCell()
 
-@property (retain,nonatomic) UIView *lineView;                                      //分割线
-
 @end
 
 @implementation CommentCollectionViewCell

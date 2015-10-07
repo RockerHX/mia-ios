@@ -38,25 +38,24 @@ static const CGFloat kDetailItemHeight 			= 40;
 @end
 
 @implementation DetailViewController {
-	ShareItem *shareItem;
-	CommentModel *commentModel;
+	ShareItem 			*_shareItem;
+	CommentModel 		*_dataModel;
 
-	UICollectionView *mainCollectionView;
-	UITextField *commentTextField;
-	MIAButton *commentButton;
-
-	DetailHeaderView *detailHeaderView;
-	UIView *footerView;
-	MBProgressHUD *progressHUD;
+	UICollectionView 	*_mainCollectionView;
+	UITextField 		*_commentTextField;
+	MIAButton 			*_commentButton;
+	DetailHeaderView 	*_detailHeaderView;
+	UIView 				*_footerView;
+	MBProgressHUD 		*_progressHUD;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
 	self = [super init];
 	if (self) {
-		shareItem = item;
+		_shareItem = item;
 		[self initUI];
 		[self initData];
-		[mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
+		[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 
@@ -134,26 +133,26 @@ static const CGFloat kDetailItemHeight 			= 40;
 	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
 
 	//2.初始化collectionView
-	mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
-	[self.view addSubview:mainCollectionView];
+	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
+	[self.view addSubview:_mainCollectionView];
 
-	mainCollectionView.backgroundColor = [UIColor whiteColor];
+	_mainCollectionView.backgroundColor = [UIColor whiteColor];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[mainCollectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kDetailCellReuseIdentifier];
+	[_mainCollectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kDetailCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
+	[_mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
 	//[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier];
 
 	//4.设置代理
-	mainCollectionView.delegate = self;
-	mainCollectionView.dataSource = self;
+	_mainCollectionView.delegate = self;
+	_mainCollectionView.dataSource = self;
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
-	[mainCollectionView addGestureRecognizer:gesture];
+	[_mainCollectionView addGestureRecognizer:gesture];
 
 	[self initHeaderView];
 	[self initFooterView];
@@ -184,8 +183,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)initHeaderView {
-	detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailHeaderHeight)];
-	detailHeaderView.shareItem = shareItem;
+	_detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailHeaderHeight)];
+	_detailHeaderView.shareItem = _shareItem;
 
 	//NSLog(@"initHeaderView: %f, %f, %f, %f", contentView.bounds.origin.x, contentView.bounds.origin.y, contentView.bounds.size.width, contentView.bounds.size.height);
 	//[contentView addSubview:detailHeaderView];
@@ -193,13 +192,13 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)initFooterView {
 	//footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailFooterViewHeight)];
-	footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight)];
-	footerView.backgroundColor = UIColorFromHex(@"d2d0d0", 1.0);
-	[self.view addSubview:footerView];
+	_footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight)];
+	_footerView.backgroundColor = UIColorFromHex(@"d2d0d0", 1.0);
+	[self.view addSubview:_footerView];
 
-	UIView *textBGView = [[UIView alloc] initWithFrame:CGRectInset(footerView.bounds, 1, 1)];
+	UIView *textBGView = [[UIView alloc] initWithFrame:CGRectInset(_footerView.bounds, 1, 1)];
 	textBGView.backgroundColor = UIColorFromHex(@"f2f2f2", 1.0);
-	[footerView addSubview:textBGView];
+	[_footerView addSubview:textBGView];
 
 	static const CGFloat kEditViewMarginLeft 		= 28;
 	static const CGFloat kEditViewMarginRight 		= 70;
@@ -211,26 +210,26 @@ static const CGFloat kDetailItemHeight 			= 40;
 	static const CGFloat kCommentButtonWidth		= 50;
 	static const CGFloat kCommentButtonHeight		= 20;
 
-	commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kEditViewMarginLeft,
+	_commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(kEditViewMarginLeft,
 																				   kEditViewMarginTop,
-																				   footerView.bounds.size.width - kEditViewMarginLeft - kEditViewMarginRight,
+																				   _footerView.bounds.size.width - kEditViewMarginLeft - kEditViewMarginRight,
 																				   kEditViewHeight)];
-	commentTextField.borderStyle = UITextBorderStyleNone;
-	commentTextField.backgroundColor = [UIColor clearColor];
-	commentTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
-	commentTextField.placeholder = @"此刻的想法";
-	[commentTextField setFont:UIFontFromSize(16)];
-	commentTextField.keyboardType = UIKeyboardTypeDefault;
-	commentTextField.returnKeyType = UIReturnKeySend;
-	commentTextField.delegate = self;
+	_commentTextField.borderStyle = UITextBorderStyleNone;
+	_commentTextField.backgroundColor = [UIColor clearColor];
+	_commentTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	_commentTextField.placeholder = @"此刻的想法";
+	[_commentTextField setFont:UIFontFromSize(16)];
+	_commentTextField.keyboardType = UIKeyboardTypeDefault;
+	_commentTextField.returnKeyType = UIReturnKeySend;
+	_commentTextField.delegate = self;
 	//commentTextField.backgroundColor = [UIColor yellowColor];
-	[commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
-	[commentTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+	[_commentTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[_commentTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
-	[footerView addSubview:commentTextField];
+	[_footerView addSubview:_commentTextField];
 
 
-	commentButton = [[MIAButton alloc] initWithFrame:CGRectMake(footerView.frame.size.width - kCommentButtonMarginRight - kCommentButtonWidth,
+	_commentButton = [[MIAButton alloc] initWithFrame:CGRectMake(_footerView.frame.size.width - kCommentButtonMarginRight - kCommentButtonWidth,
 																		   kCommentButtonMarginTop,
 																		   kCommentButtonWidth,
 																		   kCommentButtonHeight)
@@ -239,60 +238,60 @@ static const CGFloat kDetailItemHeight 			= 40;
 												font:UIFontFromSize(15)
 											 logoImg:nil
 									 backgroundImage:nil];
-	[commentButton addTarget:self action:@selector(commentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[commentButton setTitleColor:UIColorFromHex(@"#a2a2a2", 1.0) forState:UIControlStateDisabled];
-	[commentButton setEnabled:NO];
+	[_commentButton addTarget:self action:@selector(commentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[_commentButton setTitleColor:UIColorFromHex(@"#a2a2a2", 1.0) forState:UIControlStateDisabled];
+	[_commentButton setEnabled:NO];
 	//commentButton.backgroundColor = [UIColor redColor];
-	[footerView addSubview:commentButton];
+	[_footerView addSubview:_commentButton];
 }
 
 - (void)initData {
-	commentModel = [[CommentModel alloc] init];
+	_dataModel = [[CommentModel alloc] init];
 	[self requestComments];
 }
 
 - (void)requestComments {
 	static const long kCommentPageItemCount	= 10;
-	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.lastCommentID item:kCommentPageItemCount];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:kCommentPageItemCount];
 	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.lastCommentID item:kCommentPageItemCount];
 }
 
 - (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:shareItem.sID start:commentModel.lastCommentID item:1];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:1];
 }
 
 - (void)checkCommentButtonStatus {
-	if ([commentTextField.text length] <= 0) {
-		[commentButton setEnabled:NO];
+	if ([_commentTextField.text length] <= 0) {
+		[_commentButton setEnabled:NO];
 	} else {
-		[commentButton setEnabled:YES];
+		[_commentButton setEnabled:YES];
 	}
 }
 
 - (void)showMBProgressHUD{
-	if(!progressHUD){
+	if(!_progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:progressHUD];
-		progressHUD.dimBackground = YES;
-		progressHUD.labelText = @"正在提交评论";
-		[progressHUD show:YES];
+		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_progressHUD];
+		_progressHUD.dimBackground = YES;
+		_progressHUD.labelText = @"正在提交评论";
+		[_progressHUD show:YES];
 	}
 }
 
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(progressHUD){
+	if(_progressHUD){
 		if(isSuccess){
-			progressHUD.labelText = @"评论成功";
+			_progressHUD.labelText = @"评论成功";
 		}else{
-			progressHUD.labelText = @"评论失败，请稍后再试";
+			_progressHUD.labelText = @"评论失败，请稍后再试";
 		}
-		progressHUD.mode = MBProgressHUDModeText;
-		[progressHUD showAnimated:YES whileExecutingBlock:^{
+		_progressHUD.mode = MBProgressHUDModeText;
+		[_progressHUD showAnimated:YES whileExecutingBlock:^{
 			sleep(1);
 		} completionBlock:^{
-			[progressHUD removeFromSuperview];
-			progressHUD = nil;
+			[_progressHUD removeFromSuperview];
+			_progressHUD = nil;
 			if(removeMBProgressHUDBlock)
 				removeMBProgressHUDBlock();
 		}];
@@ -305,16 +304,16 @@ static const CGFloat kDetailItemHeight 			= 40;
 {
 	const NSInteger kButtonIndex_Report = 0;
 	if (kButtonIndex_Report == buttonIndex) {
-		if (!progressHUD) {
-			progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
-			[self.view addSubview:progressHUD];
-			progressHUD.labelText = NSLocalizedString(@"举报成功", nil);
-			progressHUD.mode = MBProgressHUDModeText;
-			[progressHUD showAnimated:YES whileExecutingBlock:^{
+		if (!_progressHUD) {
+			_progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
+			[self.view addSubview:_progressHUD];
+			_progressHUD.labelText = NSLocalizedString(@"举报成功", nil);
+			_progressHUD.mode = MBProgressHUDModeText;
+			[_progressHUD showAnimated:YES whileExecutingBlock:^{
 				sleep(2);
 			} completionBlock:^{
-				[progressHUD removeFromSuperview];
-				progressHUD = nil;
+				[_progressHUD removeFromSuperview];
+				_progressHUD = nil;
 			}];
 		}
 	}
@@ -322,7 +321,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	if (textField == commentTextField) {
+	if (textField == _commentTextField) {
 		[textField resignFirstResponder];
 	}
 
@@ -342,14 +341,14 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return commentModel.dataSource.count;
+	return _dataModel.dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	CommentCollectionViewCell *cell = (CommentCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kDetailCellReuseIdentifier
 																											 forIndexPath:indexPath];
-	[cell updateWithCommentItem:commentModel.dataSource[indexPath.row]];
-	CommentItem *item = commentModel.dataSource[indexPath.row];
+	[cell updateWithCommentItem:_dataModel.dataSource[indexPath.row]];
+	CommentItem *item = _dataModel.dataSource[indexPath.row];
 	NSLog(@"cell: %@", item.cmid);
 	return cell;
 }
@@ -394,7 +393,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
-			[contentView addSubview:detailHeaderView];
+			[contentView addSubview:_detailHeaderView];
 		}
 		return contentView;
 //	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
@@ -432,7 +431,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)handleGetMusicCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[mainCollectionView footerEndRefreshing];
+	[_mainCollectionView footerEndRefreshing];
 
 	if (0 != ret)
 		return;
@@ -440,19 +439,19 @@ static const CGFloat kDetailItemHeight 			= 40;
 	if (!commentArray || [commentArray count] <= 0)
 		return;
 
-	[commentModel addComments:commentArray];
-	[mainCollectionView reloadData];
+	[_dataModel addComments:commentArray];
+	[_mainCollectionView reloadData];
 }
 
 - (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	BOOL isSuccess = (0 == ret);
 
 	if (isSuccess) {
-		commentTextField.text = @"";
+		_commentTextField.text = @"";
 		[self requestLatestComments];
 	}
 
-	[commentTextField resignFirstResponder];
+	[_commentTextField resignFirstResponder];
 	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
 }
 
@@ -481,7 +480,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 //
 //	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
 	CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight - keyboardSize.height, self.view.bounds.size.width, kDetailFooterViewHeight);
-	footerView.frame = rect;
+	_footerView.frame = rect;
 	[UIView commitAnimations];
 }
 
@@ -492,12 +491,12 @@ static const CGFloat kDetailItemHeight 			= 40;
 //	float width = self.view.frame.size.width;
 //	float height = self.view.frame.size.height;
 	CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
-	footerView.frame = rect;
+	_footerView.frame = rect;
 	[UIView commitAnimations];
 }
 
 - (void)hidenKeyboard {
-	[commentTextField resignFirstResponder];
+	[_commentTextField resignFirstResponder];
 	[self checkCommentButtonStatus];
 }
 
@@ -519,7 +518,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 - (void)commentButtonAction:(id)sender {
 	NSLog(@"comment button clicked.");
 	[self showMBProgressHUD];
-	[MiaAPIHelper postCommentWithShareID:shareItem.sID comment:commentTextField.text];
+	[MiaAPIHelper postCommentWithShareID:_shareItem.sID comment:_commentTextField.text];
 
 }
 
