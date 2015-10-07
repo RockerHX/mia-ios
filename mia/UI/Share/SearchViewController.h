@@ -13,8 +13,8 @@
 
 @protocol SearchViewControllerDelegate
 
-- (void)searchViewControllerDisSelectedItem:(SearchResultItem *)item;
-- (void)searchViewControllerDidPlayedItem:(SearchResultItem *)item;
+- (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item;
+- (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item;
 
 @end
 

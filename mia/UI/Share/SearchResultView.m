@@ -120,7 +120,7 @@ static const CGFloat kSearchResultItemHeight	= 100;
 
 #pragma mark - delegate 
 
-- (void)searchResultCellDidPlayItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)searchResultCellClickedPlayButtonAtIndexPath:(NSIndexPath *)indexPath {
 	if (!indexPath) {
 		return;
 	}

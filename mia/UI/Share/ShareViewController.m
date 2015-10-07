@@ -534,7 +534,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[manager stopUpdatingLocation];
 }
 
-- (void)searchViewControllerDisSelectedItem:(SearchResultItem *)item {
+- (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item {
 	_dataItem = item;
 
 	[_addMusicView setHidden:YES];
@@ -550,7 +550,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_commentTextField becomeFirstResponder];
 }
 
-- (void)searchViewControllerDidPlayedItem:(SearchResultItem *)item {
+- (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item {
 	if (_dataItem && [item.songUrl isEqualToString:_dataItem.songUrl]) {
 		[self pauseMusic];
 	} else {
@@ -696,13 +696,10 @@ const static CGFloat kShareTopViewHeight		= 280;
 #pragma mark - audio operations
 
 - (void)playMusic {
-	NSString *musicUrl = [_dataItem songUrl];
-	NSString *musicTitle = [_dataItem title];
-	NSString *musicArtist = [_dataItem artist];
-	[self playMusicWithUrl:musicUrl title:musicTitle artist:musicArtist];
-}
+	NSString *url = [_dataItem songUrl];
+	NSString *title = [_dataItem title];
+	NSString *artist = [_dataItem artist];
 
-- (void)playMusicWithUrl:(NSString *)url title:(NSString *)title artist:(NSString *)artist {
 	if (!url || !title || !artist) {
 		NSLog(@"Music is nil, stop play it.");
 		return;

@@ -126,7 +126,7 @@
 #pragma mark - Actions
 
 - (void)playButtonAction:(id)sender {
-	[_cellDelegate searchResultCellDidPlayItemAtIndexPath:_indexPath];
+	[_cellDelegate searchResultCellClickedPlayButtonAtIndexPath:_indexPath];
 }
 
 @end

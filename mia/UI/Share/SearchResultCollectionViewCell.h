@@ -11,7 +11,7 @@
 @class SearchResultItem;
 
 @protocol SearchResultCellDelegate
-- (void)searchResultCellDidPlayItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)searchResultCellClickedPlayButtonAtIndexPath:(NSIndexPath *)indexPath;
 @end
 	
 @interface SearchResultCollectionViewCell : UICollectionViewCell

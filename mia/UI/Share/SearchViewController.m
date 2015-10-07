@@ -295,7 +295,7 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)searchResultViewDidSelectedItem:(SearchResultItem *)item {
-	[_searchViewControllerDelegate searchViewControllerDisSelectedItem:item];
+	[_searchViewControllerDelegate searchViewControllerDidSelectedItem:item];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -313,7 +313,7 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 - (void)searchResultViewDidPlayItem:(SearchResultItem *)item {
-	[_searchViewControllerDelegate searchViewControllerDidPlayedItem:item];
+	[_searchViewControllerDelegate searchViewControllerClickedPlayButtonAtItem:item];
 }
 
 #pragma mark - Notification
