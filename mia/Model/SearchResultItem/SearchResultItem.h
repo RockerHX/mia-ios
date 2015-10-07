@@ -12,6 +12,7 @@
 @property (strong, nonatomic) NSString * title;
 @property (strong, nonatomic) NSString * artist;
 @property (strong, nonatomic) NSString * albumName;
+@property (strong, nonatomic) NSString * pic;
 @property (strong, nonatomic) NSString * albumPic;
 @property (strong, nonatomic) NSString * songUrl;
 

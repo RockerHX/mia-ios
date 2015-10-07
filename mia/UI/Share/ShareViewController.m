@@ -32,6 +32,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 @implementation ShareViewController {
 	SearchResultItem 		*_dataItem;
+	BOOL 					_isPlayingSearchResult;
 
 	MBProgressHUD 			*_progressHUD;
 	MIAButton 				*_sendButton;
@@ -107,6 +108,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	if (_isPlayingSearchResult) {
+		[self stopMusic];
+	}
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -692,6 +696,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 		return;
 	}
 
+	_isPlayingSearchResult = YES;
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
