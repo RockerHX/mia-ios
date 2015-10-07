@@ -24,14 +24,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
 
-#import "XiamiHelper.h"
-
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
 
-static NSString * kAlertTitleError			= @"错误提示";
-static NSString * kAlertMsgWebSocketFailed	= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
-static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID失败），点击确认重新发送";
+static NSString * kAlertTitleError				= @"错误提示";
+static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
+static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUID失败），点击确认重新发送";
 
 @interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate, CLLocationManagerDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -40,11 +38,10 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 @end
 
 @implementation RadioViewController {
-	MIAButton *profileButton;
-	MIAButton *shareButton;
-
-	CLLocationManager *mylocationManager;
-	CLLocationCoordinate2D currentCoordinate;
+	MIAButton 				*_profileButton;
+	MIAButton 				*_shareButton;
+	CLLocationManager 		*_locationManager;
+	CLLocationCoordinate2D 	_lastCoordinate;
 }
 
 - (void)viewDidLoad {
@@ -175,62 +172,58 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 		.origin.y = kTopButtonMarginTop,
 		.size.width = kTopButtonWidth,
 		.size.height = kTopButtonHeight};
-	profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame
+	_profileButton = [[MIAButton alloc] initWithFrame:profileButtonFrame
 										 titleString:@""
 										  titleColor:UIColorFromHex(@"206fff", 1.0)
 												font:UIFontFromSize(15)
 											 logoImg:nil
 									 backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]]];
-	[profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:profileButton];
+	[_profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_profileButton];
 
 	CGRect shareButtonFrame = {.origin.x = SCREEN_WIDTH - kShareButtonMarginRight - kTopButtonWidth,
 		.origin.y = kTopButtonMarginTop,
 		.size.width = kTopButtonWidth,
 		.size.height = kTopButtonHeight};
-	shareButton = [[MIAButton alloc] initWithFrame:shareButtonFrame
+	_shareButton = [[MIAButton alloc] initWithFrame:shareButtonFrame
 									   titleString:nil
 										titleColor:[UIColor whiteColor]
 											  font:UIFontFromSize(15)
 										   logoImg:nil
 								   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"share_music"]]];
-	[shareButton addTarget:self action:@selector(shareButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:shareButton];
+	[_shareButton addTarget:self action:@selector(shareButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_shareButton];
 
 }
 
 - (void)initLocationMgr {
-	if (nil == mylocationManager)
-		mylocationManager = [[CLLocationManager alloc] init];
+	if (nil == _locationManager) {
+		_locationManager = [[CLLocationManager alloc] init];
+	}
 
-	mylocationManager.delegate = self;
+	_locationManager.delegate = self;
 
 	//设置定位的精度
-	mylocationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 
 	//设置定位服务更新频率
-	mylocationManager.distanceFilter = 500;
+	_locationManager.distanceFilter = 500;
 
 	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
 
-		[mylocationManager requestWhenInUseAuthorization];	// 前台定位
+		[_locationManager requestWhenInUseAuthorization];	// 前台定位
 		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
 	}
 
-	[mylocationManager startUpdatingLocation];
-}
-
-- (void)sendPing:(id)sender;
-{
-	[[WebSocketMgr standard] sendPing:nil];
+	[_locationManager startUpdatingLocation];
 }
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
 	if (unreadCommentCount <= 0) {
-		[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]] forState:UIControlStateNormal];
+		[_profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]] forState:UIControlStateNormal];
 	} else {
-		[profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile_with_notification"]] forState:UIControlStateNormal];
-		[profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
+		[_profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile_with_notification"]] forState:UIControlStateNormal];
+		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
 
@@ -315,7 +308,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if ([alertView.message isEqual:kAlertMsgWebSocketFailed]) {
-		[self notifyReconnect];
+		[[WebSocketMgr standard] reconnect];
 	} else if ([alertView.message isEqual:kAlertMsgSendGUIDFailed]) {
 		[MiaAPIHelper sendUUID];
 	}
@@ -343,7 +336,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 			NSLog(@"______%@", placemark.subLocality);
 			NSLog(@"______%@", placemark.name);
 
-			currentCoordinate = marsLoction.coordinate;
+			_lastCoordinate = marsLoction.coordinate;
 			[_radioView checkIsNeedToGetNewItems];
 		}
 	}];
@@ -368,17 +361,7 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 }
 
 - (CLLocationCoordinate2D)radioViewCurrentCoordinate {
-	return currentCoordinate;
-}
-
-- (void)notifyLogin {
-	NSString *testLoginData = @"{\"c\":\"User.Post.Login\",\"r\":\"1\",\"s\":\"123456789\",\"v\":{\"phone\":\"13267189403\",\"pwd\":\"e10adc3949ba59abbe56e057f20f883e\",\"imei\":\"1223333\",\"dev\":\"1\"}}";
-	[[WebSocketMgr standard] send:testLoginData];
-}
-
-- (void)notifyReconnect {
-	[[WebSocketMgr standard] reconnect];
-	self.title = @"Opening Connection...";
+	return _lastCoordinate;
 }
 
 #pragma mark - Actions
@@ -415,26 +398,6 @@ static NSString * kAlertMsgSendGUIDFailed	= @"服务器连接错误（发送GUID
 - (void)pullReflashFromBottom {
 //	NSLog(@"pullReflashFromBottom");
 	[_radioView spreadFeed];
-}
-
-#pragma mark - test
-
-- (void)testXiami {
-	[XiamiHelper requestSearchSuggestionWithKey:@"w"
-								   successBlock:^(id suggestions) {
-									   NSLog(@"%@", suggestions);
-								   } failedBlock:^(NSError *error) {
-									   NSLog(@"%@", error);
-								   }];
-
-	[XiamiHelper requestSearchResultWithKey:@"wangfei"
-									   page:1
-							   successBlock:^(id results) {
-								   NSLog(@"%@", results);
-							   } failedBlock:^(NSError *error) {
-								   NSLog(@"%@", error);
-							   }];
-
 }
 
 @end

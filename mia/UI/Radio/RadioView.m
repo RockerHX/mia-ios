@@ -24,29 +24,22 @@
 static const CGFloat kPlayerMarginTop			= 90;
 static const CGFloat kPlayerHeight				= 300;
 
-static const CGFloat kFavoriteMarginBottom = 80;
-static const CGFloat kFavoriteWidth = 25;
-static const CGFloat kFavoriteHeight = 25;
+static const CGFloat kFavoriteMarginBottom 		= 80;
+static const CGFloat kFavoriteWidth 			= 25;
+static const CGFloat kFavoriteHeight 			= 25;
 
 @interface RadioView () <LoopPlayerViewDelegate>
 
 @end
 
 @implementation RadioView {
-	ShareListMgr *shareListMgr;
-	
-	MIAButton *pingButton;
-	MIAButton *loginButton;
-	MIAButton *reconnectButton;
-
-	LoopPlayerView *loopPlayerView;
-
-	MIAButton *favoriteButton;
-	MIALabel *commentLabel;
-	MIALabel *viewsLabel;
-	MIALabel *locationLabel;
-
-	NSTimer *progressTimer;
+	ShareListMgr 	*_shareListMgr;
+	LoopPlayerView	*_loopPlayerView;
+	MIAButton		*_favoriteButton;
+	MIALabel		*_commentLabel;
+	MIALabel		*_viewsLabel;
+	MIALabel		*_locationLabel;
+	NSTimer			*_progressTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -75,11 +68,11 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)initUI {
-	loopPlayerView = [[LoopPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
-	loopPlayerView.loopPlayerViewDelegate = self;
-	[self addSubview:loopPlayerView];
+	_loopPlayerView = [[LoopPlayerView alloc] initWithFrame:CGRectMake(0, kPlayerMarginTop, self.frame.size.width, kPlayerHeight)];
+	_loopPlayerView.loopPlayerViewDelegate = self;
+	[self addSubview:_loopPlayerView];
 
-	favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
+	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - kFavoriteWidth / 2,
 																 self.bounds.size.height - kFavoriteMarginBottom - kFavoriteHeight,
 																 kFavoriteWidth,
 																 kFavoriteHeight)
@@ -88,61 +81,11 @@ static const CGFloat kFavoriteHeight = 25;
 												 font:nil
 											  logoImg:nil
 									  backgroundImage:nil];
-	[favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
-	[favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:favoriteButton];
+	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
+	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:_favoriteButton];
 
 	[self initBottomView];
-/*
-	CGRect pingButtonFrame = CGRectMake(60,
-										50.0f,
-										200,
-										50);
-
-	pingButton = [[MIAButton alloc] initWithFrame:pingButtonFrame
-									  titleString:@"Ping" titleColor:[UIColor whiteColor]
-											 font:UIFontFromSize(15)
-										  logoImg:nil
-								  backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
-
-	pingButton.layer.masksToBounds = YES;
-	pingButton.layer.cornerRadius = 5.0f;
-	[pingButton addTarget:self action:@selector(onClickPingButton:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:pingButton];
-
-	CGRect loginButtonFrame = CGRectMake(60,
-										130.0f,
-										200,
-										50);
-
-	loginButton = [[MIAButton alloc] initWithFrame:loginButtonFrame
-									  titleString:@"Login" titleColor:[UIColor whiteColor]
-											 font:UIFontFromSize(15)
-										  logoImg:nil
-								  backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
-
-	loginButton.layer.masksToBounds = YES;
-	loginButton.layer.cornerRadius = 5.0f;
-	[loginButton addTarget:self action:@selector(onClickLoginButton:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:loginButton];
-	
-	CGRect reconnectButtonFrame = CGRectMake(60,
-										 210.0f,
-										 200,
-										 50);
-
-	reconnectButton = [[MIAButton alloc] initWithFrame:reconnectButtonFrame
-									   titleString:@"Reconnect" titleColor:[UIColor whiteColor]
-											  font:UIFontFromSize(15)
-										   logoImg:nil
-								   backgroundImage:[UIImage createImageWithColor:DADU_DEFAULT_COLOR]];
-
-	reconnectButton.layer.masksToBounds = YES;
-	reconnectButton.layer.cornerRadius = 5.0f;
-	[reconnectButton addTarget:self action:@selector(onClickReconnectButton:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:reconnectButton];
-
-*/
 }
 
 - (void)initBottomView {
@@ -177,7 +120,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
 	[bottomView addSubview:commentsImageView];
 
-	commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
+	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
 															  bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															  kCommentLabelWidth,
 															  kBottomLabelHeight)
@@ -187,7 +130,7 @@ static const CGFloat kFavoriteHeight = 25;
 									 textAlignment:NSTextAlignmentLeft
 									   numberLines:1];
 	//commentLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:commentLabel];
+	[bottomView addSubview:_commentLabel];
 
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft,
 																				bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
@@ -196,7 +139,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
 	[bottomView addSubview:viewsImageView];
 
-	viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
+	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
 															bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															kViewsLabelWidth,
 															kBottomLabelHeight)
@@ -206,7 +149,7 @@ static const CGFloat kFavoriteHeight = 25;
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//viewsLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:viewsLabel];
+	[bottomView addSubview:_viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
 																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
@@ -215,7 +158,7 @@ static const CGFloat kFavoriteHeight = 25;
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
 	[bottomView addSubview:locationImageView];
 
-	locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
+	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
 															   bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															   kLocationLabelWidth,
 															   kBottomLabelHeight)
@@ -225,12 +168,12 @@ static const CGFloat kFavoriteHeight = 25;
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//locationLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:locationLabel];
+	[bottomView addSubview:_locationLabel];
 }
 
 - (void)initShareList {
-	shareListMgr = [ShareListMgr initFromArchive];
-	if ([shareListMgr isNeedGetNearbyItems]) {
+	_shareListMgr = [ShareListMgr initFromArchive];
+	if ([_shareListMgr isNeedGetNearbyItems]) {
 		[self requestNewShares];
 		// TODO loading应该改成回调
 		_isLoading = YES;
@@ -240,39 +183,39 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)reloadLoopPlayerData {
-	ShareItem *currentItem = [shareListMgr getCurrentItem];
-	ShareItem *leftItem = [shareListMgr getLeftItem];
-	ShareItem *rightItem = [shareListMgr getRightItem];
+	ShareItem *currentItem = [_shareListMgr getCurrentItem];
+	ShareItem *leftItem = [_shareListMgr getLeftItem];
+	ShareItem *rightItem = [_shareListMgr getRightItem];
 
-	[loopPlayerView getCurrentPlayerView].shareItem = currentItem;
-	[[loopPlayerView getCurrentPlayerView] playMusic];
+	[_loopPlayerView getCurrentPlayerView].shareItem = currentItem;
+	[[_loopPlayerView getCurrentPlayerView] playMusic];
 	[self updateUIInfo:currentItem];
 
-	[loopPlayerView getLeftPlayerView].shareItem = leftItem;
-	[loopPlayerView getRightPlayerView].shareItem = rightItem;
+	[_loopPlayerView getLeftPlayerView].shareItem = leftItem;
+	[_loopPlayerView getRightPlayerView].shareItem = rightItem;
 }
 
 - (void)checkIsNeedToGetNewItems {
-	if ([shareListMgr isNeedGetNearbyItems]) {
+	if ([_shareListMgr isNeedGetNearbyItems]) {
 		[self requestNewShares];
 	}
 }
 
 - (ShareItem *)currentShareItem {
-	return [[loopPlayerView getCurrentPlayerView] shareItem];
+	return [[_loopPlayerView getCurrentPlayerView] shareItem];
 }
 
 - (void)updateUIInfo:(ShareItem *)item {
-	[commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
-	[viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
-	[locationLabel setText:[item sAddress]];
+	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
+	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
+	[_locationLabel setText:[item sAddress]];
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
 	if (isFavorite) {
-		[favoriteButton setImage:[UIImage imageNamed:@"favorite_red"] forState:UIControlStateNormal];
+		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_red"] forState:UIControlStateNormal];
 	} else {
-		[favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
+		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
 	}
 }
 
@@ -296,11 +239,11 @@ static const CGFloat kFavoriteHeight = 25;
 }
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	[loopPlayerView notifyMusicPlayerMgrDidPlay];
+	[_loopPlayerView notifyMusicPlayerMgrDidPlay];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	[loopPlayerView notifyMusicPlayerMgrDidPause];
+	[_loopPlayerView notifyMusicPlayerMgrDidPause];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
@@ -308,23 +251,23 @@ static const CGFloat kFavoriteHeight = 25;
 	// 播放完成自动下一首，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	[[loopPlayerView getCurrentPlayerView] pauseMusic];
-	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
-	[shareListMgr checkHistoryItemsMaxCount];
+	[[_loopPlayerView getCurrentPlayerView] pauseMusic];
+	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[_shareListMgr checkHistoryItemsMaxCount];
 
 	// 用当前的卡片内容替代左边的卡片内容
-	[loopPlayerView getLeftPlayerView].shareItem = [loopPlayerView getCurrentPlayerView].shareItem;
+	[_loopPlayerView getLeftPlayerView].shareItem = [_loopPlayerView getCurrentPlayerView].shareItem;
 	// 用右边的卡片内容替代当前的卡片内容
-	[loopPlayerView getCurrentPlayerView].shareItem = [loopPlayerView getRightPlayerView].shareItem;
+	[_loopPlayerView getCurrentPlayerView].shareItem = [_loopPlayerView getRightPlayerView].shareItem;
 
 	// 更新右边的卡片内容
-	if ([shareListMgr cursorShiftRight]) {
-		ShareItem *newItem = [shareListMgr getRightItem];
-		[loopPlayerView getRightPlayerView].shareItem = newItem;
+	if ([_shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [_shareListMgr getRightItem];
+		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+		[[_loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -341,7 +284,7 @@ static const CGFloat kFavoriteHeight = 25;
 	if (!shareList)
 		return;
 
-	[shareListMgr addSharesWithArray:shareList];
+	[_shareListMgr addSharesWithArray:shareList];
 
 	if (_isLoading) {
 		[self reloadLoopPlayerData];
@@ -394,21 +337,21 @@ static const CGFloat kFavoriteHeight = 25;
 	// 向上滑动，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片，而且之前的歌曲需要从列表中删除
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	[[loopPlayerView getCurrentPlayerView] stopMusic];
-	[loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
-	[shareListMgr checkHistoryItemsMaxCount];
+	[[_loopPlayerView getCurrentPlayerView] stopMusic];
+	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[_shareListMgr checkHistoryItemsMaxCount];
 
 	// 用右边的卡片替代当前卡片内容
-	[loopPlayerView getCurrentPlayerView].shareItem = [loopPlayerView getRightPlayerView].shareItem;
+	[_loopPlayerView getCurrentPlayerView].shareItem = [_loopPlayerView getRightPlayerView].shareItem;
 
 	// 删除当前卡片并更新右侧的卡片
-	if ([shareListMgr cursorShiftRightWithRemoveCurrent]) {
-		ShareItem *newItem = [shareListMgr getRightItem];
-		[loopPlayerView getRightPlayerView].shareItem = newItem;
+	if ([_shareListMgr cursorShiftRightWithRemoveCurrent]) {
+		ShareItem *newItem = [_shareListMgr getRightItem];
+		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+		[[_loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -428,21 +371,21 @@ static const CGFloat kFavoriteHeight = 25;
 	// 向左滑动，右侧的卡片需要补充
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	[[loopPlayerView getLeftPlayerView] pauseMusic];
-	[loopPlayerView getLeftPlayerView].shareItem.unread = NO;
+	[[_loopPlayerView getLeftPlayerView] pauseMusic];
+	[_loopPlayerView getLeftPlayerView].shareItem.unread = NO;
 	// 这一句是多余的，因为shareItem是对象，引用传值，
 	// loopPlaerView和shareListMgr的对象是同一个，改一次就可以了
 	//[shareListMgr getCurrentItem].unread = NO;
-	[shareListMgr checkHistoryItemsMaxCount];
+	[_shareListMgr checkHistoryItemsMaxCount];
 
 	// 补充一条右边的卡片
-	if ([shareListMgr cursorShiftRight]) {
-		ShareItem *newItem = [shareListMgr getRightItem];
-		[loopPlayerView getRightPlayerView].shareItem = newItem;
+	if ([_shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [_shareListMgr getRightItem];
+		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+		[[_loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -459,16 +402,16 @@ static const CGFloat kFavoriteHeight = 25;
 	// 向右滑动，左侧的卡片需要补充
 
 	// 停止当前，这个方向的歌曲都是已读的，所以不需要再标记为已读
-	[[loopPlayerView getRightPlayerView] pauseMusic];
+	[[_loopPlayerView getRightPlayerView] pauseMusic];
 
 	// 补充一条左边的卡片
-	if ([shareListMgr cursorShiftLeft]) {
-		ShareItem *newItem = [shareListMgr getLeftItem];
-		[loopPlayerView getLeftPlayerView].shareItem = newItem;
+	if ([_shareListMgr cursorShiftLeft]) {
+		ShareItem *newItem = [_shareListMgr getLeftItem];
+		[_loopPlayerView getLeftPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[loopPlayerView getCurrentPlayerView].shareItem];
+		[[_loopPlayerView getCurrentPlayerView] playMusic];
+		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
