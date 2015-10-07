@@ -281,13 +281,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 																												 forIndexPath:indexPath];
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = _isEditing;
-	if ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row) {
-		NSLog(@"-------> %ld", (long)indexPath.row);
-		cell.isPlaying = YES;
-	} else {
-		cell.isPlaying = NO;
-	}
-	cell.favoriteItem = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
+	cell.dataItem = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
 	
 	return cell;
 }
@@ -349,10 +343,12 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 	NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
 	FavoriteCollectionViewCell *lastPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:lastIndexPath];
-	lastPlayingCell.isPlaying = NO;
+	lastPlayingCell.dataItem.isPlaying = NO;
+	[lastPlayingCell updatePlayingState];
 
 	FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	currentPlayingCell.isPlaying = YES;
+	currentPlayingCell.dataItem.isPlaying = YES;
+	[currentPlayingCell updatePlayingState];
 
 	[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying = indexPath.row;
 	[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];

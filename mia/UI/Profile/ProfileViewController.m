@@ -389,6 +389,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	_playingFavorite = YES;
 
 	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
+	currentItem.isPlaying = YES;
+	
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];
 	NSString *musicArtist = [[currentItem music] singerName];

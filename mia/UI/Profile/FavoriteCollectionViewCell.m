@@ -109,21 +109,15 @@
 	[contentView addSubview:_songLabel];
 }
 
-- (void)setFavoriteItem:(FavoriteItem *)item {
-	_favoriteItem = item;
+- (void)setDataItem:(FavoriteItem *)item {
+	_dataItem = item;
 
 	[_indexLabel setText:[NSString stringWithFormat:@"%ld", (long)(_rowIndex + 1)]];
-	[_sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _favoriteItem.sNick]];
-	[_songLabel setText:[NSString stringWithFormat:@"%@-%@", _favoriteItem.music.name, _favoriteItem.music.singerName]];
-	[_checkBoxButton setSelected:_favoriteItem.isSelected];
+	[_sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _dataItem.sNick]];
+	[_songLabel setText:[NSString stringWithFormat:@"%@-%@", _dataItem.music.name, _dataItem.music.singerName]];
+	[_checkBoxButton setSelected:_dataItem.isSelected];
 
-	if (_isPlaying) {
-		[_sharerLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
-		[_songLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
-	} else {
-		[_sharerLabel setTextColor:[UIColor grayColor]];
-		[_songLabel setTextColor:[UIColor blackColor]];
-	}
+	[self updatePlayingState];
 
 	if (_isEditing) {
 		[_downloadStateImageView setHidden:YES];
@@ -136,7 +130,17 @@
 
 - (void)selectCheckBoxAction:(id)sender {
 	[_checkBoxButton setSelected:!_checkBoxButton.isSelected];
-	_favoriteItem.isSelected = _checkBoxButton.isSelected;
+	_dataItem.isSelected = _checkBoxButton.isSelected;
+}
+
+- (void)updatePlayingState {
+	if (_dataItem.isPlaying) {
+		[_sharerLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
+		[_songLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
+	} else {
+		[_sharerLabel setTextColor:[UIColor grayColor]];
+		[_songLabel setTextColor:[UIColor blackColor]];
+	}
 }
 
 @end
