@@ -25,6 +25,7 @@
 + (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName passwordHash:(NSString *)passwordHash;
 + (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash scode:(NSString *)scode;
 + (void)loginWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash;
++ (void)logout;
 
 /**
 * @param isFavorite 期望设置成的收藏状态

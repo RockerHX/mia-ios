@@ -74,11 +74,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	//[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[super viewDidAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
 	[super viewDidDisappear:animated];
 }
 

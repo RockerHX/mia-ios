@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "Masonry.h"
+#import "UserSession.h"
 
 @interface SettingViewController ()
 
@@ -246,7 +247,7 @@
 		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
 		[window addSubview:_progressHUD];
 		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交注册";
+		_progressHUD.labelText = @"退出登录中...";
 		[_progressHUD show:YES];
 	}
 }
@@ -254,9 +255,9 @@
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
 	if(_progressHUD){
 		if(isSuccess){
-			_progressHUD.labelText = @"密码重置成功，请登录";
+			_progressHUD.labelText = @"成功退出登录，请重新登录";
 		}else{
-			_progressHUD.labelText = @"密码重置失败，请稍后再试";
+			_progressHUD.labelText = @"退出登录失败，请稍后再试";
 		}
 		_progressHUD.mode = MBProgressHUDModeText;
 		[_progressHUD showAnimated:YES whileExecutingBlock:^{
@@ -281,17 +282,20 @@
 
 //	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
-	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
-		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
+	if ([command isEqualToString:MiaAPICommand_User_PostLogout]) {
+		[self handleLogoutWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
-- (void)handleGetVerificationCode:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		//[self showErrorMsg:@"验证码已经发送"];
-	} else {
-		//[self showErrorMsg:@"验证码发送失败，请重新获取"];
+- (void)handleLogoutWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+
+	BOOL isSuccess = (0 == ret);
+	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
+	if (isSuccess) {
+		[[UserSession standard] logout];
+		[self.navigationController popToRootViewControllerAnimated:YES];
 	}
+
 }
 
 #pragma mark - button Actions
@@ -308,7 +312,8 @@
 }
 
 - (void)logoutTouchAction:(id)sender {
-	NSLog(@"logoutTouchAction");
+	[self showMBProgressHUD];
+	[MiaAPIHelper logout];
 }
 
 @end

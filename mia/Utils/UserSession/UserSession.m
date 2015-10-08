@@ -8,6 +8,7 @@
 //
 
 #import "UserSession.h"
+#import "UserDefaultsUtils.h"
 
 @interface UserSession()
 
@@ -48,12 +49,14 @@
 	return YES;
 }
 
-- (void)clear {
+- (void)logout {
 	_uid = nil;
 	_nick = nil;
 	_utype = nil;
 	_unreadCommCnt = nil;
 
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
 }
 @end
 

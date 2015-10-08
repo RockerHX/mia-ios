@@ -19,6 +19,7 @@
 }
 
 + (id)getUUID {
+	static NSString * const UserDefaultsKey_UUID = @"uuid";
 	NSString *currentUUID = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UUID];
 	if (!currentUUID) {
 		currentUUID = [[NSUUID UUID] UUIDString];
@@ -364,6 +365,31 @@
 	[dictValues setValue:MiaAPIDefaultIMEI forKey:MiaAPIKey_IMEI];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Pwd];
 
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
++ (void)logout {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostLogout forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 
 	NSError *error = nil;

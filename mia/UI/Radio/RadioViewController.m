@@ -84,13 +84,13 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	//[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[super viewDidAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	//[[WebSocketMgr standard] close];
-	//[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
 	[super viewDidDisappear:animated];
 }
 
