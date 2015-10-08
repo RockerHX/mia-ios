@@ -10,9 +10,12 @@
 #import <CoreLocation/CoreLocation.h>
 
 @protocol RadioViewDelegate
+
 - (void)radioViewDidTouchBottom;
 - (void)radioViewShouldLogin;
+- (void)radioViewStartPlayItem;
 - (CLLocationCoordinate2D)radioViewCurrentCoordinate;
+- (NSString *)radioViewCurrentAddress;
 
 @end
 

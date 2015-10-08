@@ -49,6 +49,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 	DetailHeaderView 	*_detailHeaderView;
 	UIView 				*_footerView;
 	MBProgressHUD 		*_progressHUD;
+	NSTimer 			*_reportViewsTimer;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
@@ -90,11 +91,19 @@ static const CGFloat kDetailItemHeight 			= 40;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
+
+	const NSTimeInterval kReportViewsTimeInterval = 15;
+	_reportViewsTimer = [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval
+															  target:self
+															selector:@selector(reportViewsTimerAction)
+															userInfo:nil
+															 repeats:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[_reportViewsTimer invalidate];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -421,9 +430,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 //	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-//
-//	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:cell.shareItem];
-//	[self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Notification
@@ -530,6 +536,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[self showMBProgressHUD];
 	[MiaAPIHelper postCommentWithShareID:_shareItem.sID comment:_commentTextField.text];
 
+}
+
+- (void)reportViewsTimerAction {
+	// TODO linyehui
 }
 
 @end

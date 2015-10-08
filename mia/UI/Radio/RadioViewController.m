@@ -42,6 +42,7 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 	MIAButton 				*_shareButton;
 	CLLocationManager 		*_locationManager;
 	CLLocationCoordinate2D 	_currentCoordinate;
+	NSString				*_currentAddress;
 }
 
 - (void)viewDidLoad {
@@ -332,6 +333,8 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 			NSLog(@"______%@", placemark.name);
 
 			_currentCoordinate = marsLoction.coordinate;
+			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
+
 			[_radioView checkIsNeedToGetNewItems];
 		}
 	}];
@@ -355,8 +358,16 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)radioViewStartPlayItem {
+	[_locationManager startUpdatingLocation];
+}
+
 - (CLLocationCoordinate2D)radioViewCurrentCoordinate {
 	return _currentCoordinate;
+}
+
+- (NSString *)radioViewCurrentAddress {
+	return _currentAddress;
 }
 
 #pragma mark - Actions

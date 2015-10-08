@@ -40,6 +40,7 @@ static NSString * const MiaAPIKey_GUID						= @"guid";
 
 static NSString * const MiaAPICommand_User_PostInfectm		= @"User.Post.Infectm";
 static NSString * const MiaAPICommand_User_PostSkipm		= @"User.Post.Skipm";
+static NSString * const MiaAPICommand_User_PostViewm		= @"User.Post.Viewm";
 static NSString * const MiaAPIKey_spID						= @"spID";
 static NSString * const MiaAPIKey_Address					= @"address";
 
