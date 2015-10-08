@@ -22,6 +22,8 @@
 #import "DetailViewController.h"
 #import "CommentModel.h"
 #import "CommentItem.h"
+#import "UserSession.h"
+#import "LoginViewController.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -312,6 +314,18 @@ static const CGFloat kDetailItemHeight 			= 40;
 				_progressHUD = nil;
 			}];
 		}
+	}
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	if ([[UserSession standard] isLogined]) {
+		return YES;
+	} else {
+		LoginViewController *vc = [[LoginViewController alloc] init];
+		//vc.loginViewControllerDelegate = self;
+		[self.navigationController pushViewController:vc animated:YES];
+
+		return NO;
 	}
 }
 
