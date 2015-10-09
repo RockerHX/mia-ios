@@ -27,8 +27,12 @@ const static CGFloat kProgressLineWidth = 8.0;
 	UIImageView 	*_coverImageView;
 	KYCircularView	*_progressView;
 	MIAButton 		*_playButton;
+
+	UIView 			*_songView;
 	MIALabel 		*_musicNameLabel;
 	MIALabel 		*_musicArtistLabel;
+
+	UIView			*_noteView;
 	MIALabel 		*_sharerLabel;
 	UITextView 		*_noteTextView;
 	MIAButton 		*_favoriteButton;
@@ -65,13 +69,9 @@ const static CGFloat kProgressLineWidth = 8.0;
 	static const CGFloat kMusicNameMarginTop 		= kCoverMarginTop + kCoverHeight + 20;
 	static const CGFloat kMusicNameHeight 			= 20;
 
-	static const CGFloat kSharerMarginLeft 			= 20;
 	static const CGFloat kSharerMarginTop 			= kMusicNameMarginTop + kMusicNameHeight + 5;
-	static const CGFloat kSharerHeight 				= 20;
 
-	static const CGFloat kNoteMarginLeft 			= 5;
 	static const CGFloat kNoteMarginTop 			= kSharerMarginTop - 3;
-	static const CGFloat kNoteMarginRight 			= 50;
 	static const CGFloat kNoteHeight 				= 40;
 
 	static const CGFloat kBottomViewMarginTop 		= kNoteMarginTop + kNoteHeight + 5;
@@ -79,30 +79,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 	[self initCoverView];
 	[self initSongView];
-
-	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
-																  kSharerMarginTop,
-																  _coverImageView.frame.origin.x - kSharerMarginLeft,
-																  kSharerHeight)
-												  text:@""
-												  font:UIFontFromSize(9.0f)
-											 textColor:[UIColor blueColor]
-										 textAlignment:NSTextAlignmentRight
-										   numberLines:1];
-	//sharerLabel.backgroundColor = [UIColor yellowColor];
-	[self addSubview:_sharerLabel];
-
-	_noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(_coverImageView.frame.origin.x + kNoteMarginLeft,
-															   kNoteMarginTop,
-															   self.bounds.size.width - _coverImageView.frame.origin.x - kNoteMarginRight,
-																kNoteHeight)];
-	_noteTextView.text = @"";
-	//noteTextView.backgroundColor = [UIColor redColor];
-	_noteTextView.scrollEnabled = NO;
-	_noteTextView.font = UIFontFromSize(9.0f);
-	_noteTextView.userInteractionEnabled = NO;
-	[self addSubview:_noteTextView];
-
+	[self initNoteView];
 
 	static const CGFloat kCommentTitleHeight			= 20;
 	static const CGFloat kCommentTitleWidth				= 50;
@@ -172,9 +149,9 @@ const static CGFloat kProgressLineWidth = 8.0;
 }
 
 - (void)initSongView {
-	UIView *songView = [[UIView alloc] init];
+	_songView = [[UIView alloc] init];
 	//songView.backgroundColor = [UIColor greenColor];
-	[self addSubview:songView];
+	[self addSubview:_songView];
 
 	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												 text:@""
@@ -182,7 +159,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 											textColor:[UIColor blackColor]
 										textAlignment:NSTextAlignmentLeft
 										  numberLines:1];
-	[songView addSubview:_musicNameLabel];
+	[_songView addSubview:_musicNameLabel];
 
 	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												   text:@""
@@ -190,7 +167,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	[songView addSubview:_musicArtistLabel];
+	[_songView addSubview:_musicArtistLabel];
 
 	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectZero
 										   titleString:nil
@@ -200,31 +177,72 @@ const static CGFloat kProgressLineWidth = 8.0;
 									   backgroundImage:nil];
 	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
 	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[songView addSubview:_favoriteButton];
+	[_songView addSubview:_favoriteButton];
 
-	[songView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_songView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.mas_centerX);
 		make.top.equalTo(_coverImageView.mas_bottom).with.offset(20);
 		make.width.lessThanOrEqualTo(self.mas_width);
 	}];
 
 	[_musicNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(songView.mas_left);
+		make.left.equalTo(_songView.mas_left);
 		make.right.equalTo(_musicArtistLabel.mas_left);
-		make.top.equalTo(songView.mas_top);
-		make.bottom.equalTo(songView.mas_bottom);
+		make.top.equalTo(_songView.mas_top);
+		make.bottom.equalTo(_songView.mas_bottom);
 	}];
 	[_musicArtistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_musicNameLabel.mas_right);
 		make.right.equalTo(_favoriteButton.mas_left).with.offset(-15);
-		make.top.equalTo(songView.mas_top);
-		make.bottom.equalTo(songView.mas_bottom);
+		make.top.equalTo(_songView.mas_top);
+		make.bottom.equalTo(_songView.mas_bottom);
 	}];
 	[_favoriteButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_musicArtistLabel.mas_right).with.offset(15);
-		make.right.equalTo(songView.mas_right);
+		make.right.equalTo(_songView.mas_right);
 		make.size.mas_equalTo(CGSizeMake(15, 15));
-		make.centerY.equalTo(songView.mas_centerY);
+		make.centerY.equalTo(_songView.mas_centerY);
+	}];
+}
+
+- (void)initNoteView {
+	_noteView = [[UIView alloc] init];
+	_noteView.backgroundColor = [UIColor greenColor];
+	[self addSubview:_noteView];
+
+	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											  text:@""
+											  font:UIFontFromSize(9.0f)
+										 textColor:[UIColor blueColor]
+									 textAlignment:NSTextAlignmentRight
+									   numberLines:1];
+	_sharerLabel.backgroundColor = [UIColor yellowColor];
+	[_noteView addSubview:_sharerLabel];
+
+	_noteTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+	_noteTextView.text = @"";
+	_noteTextView.backgroundColor = [UIColor redColor];
+	_noteTextView.scrollEnabled = NO;
+	_noteTextView.font = UIFontFromSize(9.0f);
+	_noteTextView.userInteractionEnabled = NO;
+	[_noteView addSubview:_noteTextView];
+
+	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_songView.mas_bottom).with.offset(20);
+		make.left.equalTo(self.mas_left).with.offset(30);
+		make.right.equalTo(self.mas_right).with.offset(-30);
+	}];
+
+	[_sharerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_noteView.mas_left);
+		make.top.equalTo(_noteView.mas_top);
+		make.width.greaterThanOrEqualTo(@30);
+		make.width.lessThanOrEqualTo(@60);
+	}];
+	[_noteTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_sharerLabel.mas_right);
+		make.right.equalTo(_noteView.mas_right);
+		make.top.equalTo(_noteView.mas_top);
 	}];
 }
 
