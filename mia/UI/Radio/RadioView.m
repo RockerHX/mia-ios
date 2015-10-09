@@ -454,6 +454,10 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 - (void)reportViewsTimerAction {
+	[MiaAPIHelper viewShareWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
+							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
+								address:[_radioViewDelegate radioViewCurrentAddress]
+								   spID:[[self currentShareItem] spID]];
 }
 
 @end
