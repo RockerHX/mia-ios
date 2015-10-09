@@ -32,6 +32,7 @@ static NSString * const MiaAPIKey_ID						= @"id";
 static NSString * const MiaAPICommand_Music_GetShlist		= @"Music.Get.Shlist";
 static NSString * const MiaAPIKey_UID						= @"uid";
 
+static NSString * const MiaAPICommand_Music_GetSharem		= @"Music.Get.Sharem";
 static NSString * const MiaAPICommand_Music_GetByid			= @"Music.Get.Byid";
 static NSString * const MiaAPIKey_MID						= @"mid";
 
