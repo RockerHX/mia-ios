@@ -26,7 +26,7 @@
 		self.newCommCnt = [[dictionary objectForKey:@"newCommCnt"] intValue];
 		self.favorite = [[dictionary objectForKey:@"star"] intValue];
 
-		self.music = 65[[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
+		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 
 		self.unread = YES;
     }
