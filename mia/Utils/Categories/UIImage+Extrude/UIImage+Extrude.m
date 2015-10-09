@@ -149,18 +149,22 @@
 	if (image.size.height == image.size.width)
 		return image;
 
+	float newX = 0.0f;
+	float newY = 0.0f;
 	float newHeight = 0.0f;
 	float newWidth = 0.0f;
 	if(image.size.height > image.size.width){
+		//newY = (image.size.height - newHeight) / 2;
 		newHeight = image.size.width;
 		newWidth = image.size.width;
 	} else {
+		//newX = (image.size.width - newWidth) / 2;
 		newHeight = image.size.height;
 		newWidth = image.size.height;
 	}
 	CGSize newSize = CGSizeMake(newWidth , newHeight );
 	CGImageRef imageRef = image.CGImage;
-	CGRect rect = CGRectMake(0, 0, newSize.width, newSize.height);
+	CGRect rect = CGRectMake(newX, newY, newSize.width, newSize.height);
 	CGImageRef cutImageRef = CGImageCreateWithImageInRect(imageRef, rect);
 	UIImage *cutImage = [UIImage imageWithCGImage:cutImageRef scale:image.scale orientation:UIImageOrientationUp];
 	//    UIImage *cutImage = [[UIImage alloc] initWithCGImage:cutImageRef];
