@@ -10,9 +10,16 @@
 
 @class ShareItem;
 
+@protocol DetailHeaderViewDelegate
+
+- (void)detailHeaderViewShouldLogin;
+
+@end
+
 @interface DetailHeaderView : UIView
 
 @property (strong, nonatomic) ShareItem *shareItem;
+@property (weak, nonatomic)id<DetailHeaderViewDelegate> customDelegate;
 
 - (void)playMusic;
 - (void)pauseMusic;

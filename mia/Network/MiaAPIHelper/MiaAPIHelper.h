@@ -15,6 +15,7 @@
 + (void)getNearbyWithLatitude:(float)lat longitude:(float) lon start:(long) start item:(long) item;
 + (void)getMusicCommentWithShareID:(NSString *)sID start:(NSString *) start item:(long) item;
 + (void)getShareListWithUID:(NSString *)uID start:(long) start item:(long) item;
++ (void)getShareById:(NSString *)sID;
 + (void)getMusicById:(NSString *)mid;
 + (void)getFavoriteListWithStart:(NSString *) start item:(long) item;
 

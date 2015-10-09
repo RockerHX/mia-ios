@@ -24,6 +24,8 @@
 #import "CommentItem.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import "CLLocation+YCLocation.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -35,21 +37,25 @@ static const CGFloat kDetailHeaderHeight 		= 350;
 static const CGFloat kDetailFooterViewHeight 	= 40;
 static const CGFloat kDetailItemHeight 			= 40;
 
-@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate>
+@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate, CLLocationManagerDelegate>
 
 @end
 
 @implementation DetailViewController {
-	ShareItem 			*_shareItem;
-	CommentModel 		*_dataModel;
+	ShareItem 				*_shareItem;
+	CommentModel 			*_dataModel;
 
-	UICollectionView 	*_mainCollectionView;
-	UITextField 		*_commentTextField;
-	MIAButton 			*_commentButton;
-	DetailHeaderView 	*_detailHeaderView;
-	UIView 				*_footerView;
-	MBProgressHUD 		*_progressHUD;
-	NSTimer 			*_reportViewsTimer;
+	UICollectionView 		*_mainCollectionView;
+	UITextField 			*_commentTextField;
+	MIAButton 				*_commentButton;
+	DetailHeaderView 		*_detailHeaderView;
+	UIView 					*_footerView;
+	MBProgressHUD 			*_progressHUD;
+	NSTimer 				*_reportViewsTimer;
+
+	CLLocationManager 		*_locationManager;
+	CLLocationCoordinate2D 	_currentCoordinate;
+	NSString				*_currentAddress;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
@@ -59,6 +65,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 		[self initUI];
 		[self initData];
 		[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
+
+		[self initLocationMgr];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 
@@ -257,6 +265,28 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[self requestComments];
 }
 
+- (void)initLocationMgr {
+	if (nil == _locationManager) {
+		_locationManager = [[CLLocationManager alloc] init];
+	}
+
+	_locationManager.delegate = self;
+
+	//设置定位的精度
+	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+
+	//设置定位服务更新频率
+	_locationManager.distanceFilter = 500;
+
+	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
+
+		[_locationManager requestWhenInUseAuthorization];	// 前台定位
+		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
+	}
+
+	[_locationManager startUpdatingLocation];
+}
+
 - (void)requestComments {
 	static const long kCommentPageItemCount	= 10;
 	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:kCommentPageItemCount];
@@ -351,6 +381,35 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[self checkCommentButtonStatus];
 }
 
+// 获取地理位置变化的起始点和终点,didUpdateToLocation：
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+
+	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	CLLocation * marsLoction =   [location locationMarsFromEarth];
+	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.longitude);
+
+	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
+		if (placemarks.count > 0) {
+			CLPlacemark *placemark = [placemarks objectAtIndex:0];
+			NSLog(@"______%@", placemark.locality);
+			NSLog(@"______%@", placemark.subLocality);
+			NSLog(@"______%@", placemark.name);
+
+			_currentCoordinate = marsLoction.coordinate;
+			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
+		}
+	}];
+
+	[manager stopUpdatingLocation];
+}
+
+- (void)detailHeaderViewShouldLogin {
+	LoginViewController *vc = [[LoginViewController alloc] init];
+	//vc.loginViewControllerDelegate = self;
+	[self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark collectionView代理方法
 
 //返回section个数
@@ -443,6 +502,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
 		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
+		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
+		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -469,6 +532,36 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 	[_commentTextField resignFirstResponder];
 	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
+}
+
+- (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		[MiaAPIHelper getShareById:[_shareItem sID]];
+	} else {
+		NSLog(@"handlePostViewmWitRet failed.");
+	}
+}
+
+- (void)handleGetSharemWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
+		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
+		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+
+		if ([sID isEqualToString:_shareItem.sID]) {
+			_shareItem.cComm = [cComm intValue];
+			_shareItem.cView = [cView intValue];
+			_shareItem.favorite = start;
+
+			_detailHeaderView.shareItem = _shareItem;
+		}
+
+		//NSLog(@"%@, %ld, %@, %@", sID, start, cComm, cView);
+	} else {
+		NSLog(@"handleGetSharemWitRet failed.");
+	}
 }
 
 /*
@@ -539,7 +632,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)reportViewsTimerAction {
-	// TODO linyehui
+	[MiaAPIHelper viewShareWithLatitude:_currentCoordinate.latitude
+							  longitude:_currentCoordinate.longitude
+								address:_currentAddress
+								   spID:_shareItem.spID];
 }
 
 @end

@@ -138,6 +138,41 @@
 }
 
 /**
+ *  裁剪图片为正方形，新的图片从左上角截取
+ *
+ *  @param image 原图
+ *
+ */
++ (UIImage *)imageWithCutImageToSquare:(UIImage *)image {
+	if(!image)
+		return image;
+	if (image.size.height == image.size.width)
+		return image;
+
+	float newX = 0.0f;
+	float newY = 0.0f;
+	float newHeight = 0.0f;
+	float newWidth = 0.0f;
+	if(image.size.height > image.size.width){
+		//newY = (image.size.height - newHeight) / 2;
+		newHeight = image.size.width;
+		newWidth = image.size.width;
+	} else {
+		//newX = (image.size.width - newWidth) / 2;
+		newHeight = image.size.height;
+		newWidth = image.size.height;
+	}
+	CGSize newSize = CGSizeMake(newWidth , newHeight );
+	CGImageRef imageRef = image.CGImage;
+	CGRect rect = CGRectMake(newX, newY, newSize.width, newSize.height);
+	CGImageRef cutImageRef = CGImageCreateWithImageInRect(imageRef, rect);
+	UIImage *cutImage = [UIImage imageWithCGImage:cutImageRef scale:image.scale orientation:UIImageOrientationUp];
+	//    UIImage *cutImage = [[UIImage alloc] initWithCGImage:cutImageRef];
+
+	return cutImage;
+}
+
+/**
  *  获取当前屏幕视图的UIImage(相当屏幕截图)
  *
  *  @param view     当前视图

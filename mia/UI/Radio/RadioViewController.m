@@ -55,7 +55,6 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceivePong:) name:WebSocketMgrNotificationDidReceivePong object:nil];
 
 	[[WebSocketMgr standard] reconnect];
 }
@@ -65,7 +64,6 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceivePong object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -264,11 +262,7 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 }
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
-	self.title = @"Connection Closed! (see logs)";
-}
-
-- (void)notificationWebSocketDidReceivePong:(NSNotification *)notification {
-//	NSLog(@"RadioViewController Websocket received pong");
+	NSLog(@"Connection Closed! (see logs)");
 }
 
 - (void)handlePostGuestWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
@@ -283,6 +277,7 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 		[alertView show];
 	} else {
 		[self autoLogin];
+		[_radioView checkIsNeedToGetNewItems];
 	}
 }
 
