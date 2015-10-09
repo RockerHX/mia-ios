@@ -19,6 +19,9 @@
 #import "ShareItem.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
+#import "Masonry.h"
+
+const static CGFloat kProgressLineWidth = 8.0;
 
 @implementation DetailHeaderView {
 	UIImageView 	*_coverImageView;
@@ -40,20 +43,24 @@
 	if(self){
 		//self.backgroundColor = [UIColor orangeColor];
 		[self initUI];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 	}
 
 	return self;
 }
 
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+}
+
 - (void)initUI {
-	static const CGFloat kCoverWidth 				= 163;
 	static const CGFloat kCoverHeight 				= 163;
 	static const CGFloat kCoverMarginTop 			= 35;
-
-	static const CGFloat kPlayButtonWidth			= 35;
-	static const CGFloat kPlayButtonHeight			= 35;
-	static const CGFloat kPlayButtonMarginBottom	= 12;
-	static const CGFloat kPlayButtonMarginRight		= 12;
 
 	static const CGFloat kMusicNameMarginTop 		= kCoverMarginTop + kCoverHeight + 20;
 	static const CGFloat kMusicNameMarginLeft 		= 20;
@@ -78,29 +85,7 @@
 	static const CGFloat kBottomViewMarginTop 		= kNoteMarginTop + kNoteHeight + 5;
 	static const CGFloat kBottomViewHeight 			= 35;
 
-	CGRect coverFrame = CGRectMake((self.bounds.size.width - kCoverWidth) / 2,
-											 kCoverMarginTop,
-											 kCoverWidth,
-											 kCoverHeight);
-	[self initProgressViewWithCoverFrame:coverFrame];
-
-	_coverImageView = [[UIImageView alloc] initWithFrame:coverFrame];
-	[_coverImageView sd_setImageWithURL:nil
-					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[self addSubview:_coverImageView];
-
-	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(coverFrame.origin.x + coverFrame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
-															 coverFrame.origin.y + coverFrame.size.height - kPlayButtonMarginBottom - kPlayButtonHeight,
-															 kPlayButtonWidth,
-															 kPlayButtonHeight)
-									  titleString:nil
-									   titleColor:nil
-											 font:nil
-										  logoImg:nil
-								  backgroundImage:nil];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:_playButton];
+	[self initCoverView];
 
 	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
 														  kMusicNameMarginTop,
@@ -188,14 +173,55 @@
 	[self addSubview:commentTitleLabel];
 }
 
-- (void)initProgressViewWithCoverFrame:(CGRect) coverFrame {
-	_progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
+- (void)initCoverView {
+	static const CGFloat kCoverWidth 				= 163;
+	static const CGFloat kCoverHeight 				= 163;
+
+	[self initProgressViewWithCoverSize:CGSizeMake(kCoverWidth + kProgressLineWidth, kCoverHeight + kProgressLineWidth)];
+
+	_coverImageView = [[UIImageView alloc] init];
+	[_coverImageView sd_setImageWithURL:nil
+					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
+	[self addSubview:_coverImageView];
+
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
+									   titleString:nil
+										titleColor:nil
+											  font:nil
+										   logoImg:nil
+								   backgroundImage:nil];
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:_playButton];
+
+	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.mas_centerX);
+		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
+		make.top.equalTo(self.mas_top).with.offset(35);
+	}];
+
+	[_progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(_coverImageView).with.insets(UIEdgeInsetsMake(-4, -4, -4, -4));
+	}];
+
+	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(35, 35));
+		make.right.equalTo(_coverImageView.mas_right).with.offset(-12);
+		make.bottom.equalTo(_coverImageView.mas_bottom).with.offset(-12);
+	}];
+
+}
+
+- (void)initProgressViewWithCoverSize:(CGSize)coverSize {
+	//_progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
+	_progressView = [[KYCircularView alloc] initWithFrame:CGRectMake(0, 0, coverSize.width, coverSize.height)];
+	//_progressView = [[KYCircularView alloc] init];
 	_progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
 	_progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
-	_progressView.lineWidth = 8.0;
+	_progressView.lineWidth = kProgressLineWidth;
 
-	CGFloat pathWidth = _progressView.frame.size.width;
-	CGFloat pathHeight = _progressView.frame.size.height;
+	CGFloat pathWidth = coverSize.width;//_progressView.frame.size.width;
+	CGFloat pathHeight = coverSize.height;//_progressView.frame.size.height;
 	UIBezierPath *path = [UIBezierPath bezierPath];
 	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
 	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
@@ -319,12 +345,17 @@
 
 #pragma mark - notification
 
-- (void)notifyMusicPlayerMgrDidPlay {
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
-- (void)notifyMusicPlayerMgrDidPause {
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_progressTimer invalidate];
+}
+
+- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[_progressTimer invalidate];
 }
