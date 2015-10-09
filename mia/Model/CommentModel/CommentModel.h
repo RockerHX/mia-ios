@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSString *lastCommentID;
+@property (nonatomic, strong) NSString *latestCommentID;
 
 - (void)addComments:(NSArray *) comments;
 

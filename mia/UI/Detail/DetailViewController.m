@@ -148,7 +148,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
 
 	//2.初始化collectionView
-	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
+	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
+																			 0,
+																			 self.view.bounds.size.width,
+																			 self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
 	[self.view addSubview:_mainCollectionView];
 
 	_mainCollectionView.backgroundColor = [UIColor whiteColor];
@@ -294,7 +297,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:1];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.latestCommentID item:1];
 }
 
 - (void)checkCommentButtonStatus {
