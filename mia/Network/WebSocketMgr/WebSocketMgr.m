@@ -76,6 +76,11 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 }
 
 - (void)send:(id)data {
+	if (_webSocket.readyState != SR_OPEN) {
+		NSLog(@"websocket has not opened!");
+		return;
+	}
+
 	[_webSocket send:data];
 }
 

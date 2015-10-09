@@ -36,6 +36,8 @@ const static CGFloat kProgressLineWidth = 8.0;
 	MIALabel 		*_sharerLabel;
 	MIALabel 		*_noteLabel;
 	MIAButton 		*_favoriteButton;
+
+	UIView 			*_bottomView;
 	MIALabel 		*_commentLabel;
 	MIALabel 		*_viewsLabel;
 	MIALabel 		*_locationLabel;
@@ -63,50 +65,10 @@ const static CGFloat kProgressLineWidth = 8.0;
 }
 
 - (void)initUI {
-	static const CGFloat kCoverHeight 				= 163;
-	static const CGFloat kCoverMarginTop 			= 35;
-
-	static const CGFloat kMusicNameMarginTop 		= kCoverMarginTop + kCoverHeight + 20;
-	static const CGFloat kMusicNameHeight 			= 20;
-
-	static const CGFloat kSharerMarginTop 			= kMusicNameMarginTop + kMusicNameHeight + 5;
-
-	static const CGFloat kNoteMarginTop 			= kSharerMarginTop - 3;
-	static const CGFloat kNoteHeight 				= 40;
-
-	static const CGFloat kBottomViewMarginTop 		= kNoteMarginTop + kNoteHeight + 5;
-	static const CGFloat kBottomViewHeight 			= 35;
-
 	[self initCoverView];
 	[self initSongView];
 	[self initNoteView];
-
-	static const CGFloat kCommentTitleHeight			= 20;
-	static const CGFloat kCommentTitleWidth				= 50;
-	static const CGFloat kCommentTitleMarginTop			= kBottomViewMarginTop + kBottomViewHeight + 10;
-	static const CGFloat kCommentTitleMarginLeft		= 15;
-
-	UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,
-																  kBottomViewMarginTop,
-																  self.bounds.size.width,
-																  kBottomViewHeight)];
-	//bottomView.backgroundColor = [UIColor yellowColor];
-	[self addSubview:bottomView];
-
-	[self initBottomView:bottomView];
-
-	
-	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentTitleMarginLeft,
-																			 kCommentTitleMarginTop,
-																			 kCommentTitleWidth,
-																			 kCommentTitleHeight)
-															 text:@"评论"
-															 font:UIFontFromSize(12.0f)
-														textColor:UIColorFromHex(@"949494", 1.0)
-													textAlignment:NSTextAlignmentLeft
-													  numberLines:1];
-	//commentTitleLabel.backgroundColor = [UIColor redColor];
-	[self addSubview:commentTitleLabel];
+	[self initBottomView];
 }
 
 - (void)initCoverView {
@@ -271,7 +233,41 @@ const static CGFloat kProgressLineWidth = 8.0;
 	[self addSubview:_progressView];
 }
 
-- (void)initBottomView:(UIView *)bottomView {
+- (void)initBottomView {
+	static const CGFloat kCoverHeight 				= 163;
+	static const CGFloat kCoverMarginTop 			= 35;
+
+	static const CGFloat kMusicNameMarginTop 		= kCoverMarginTop + kCoverHeight + 20;
+	static const CGFloat kMusicNameHeight 			= 20;
+
+	static const CGFloat kSharerMarginTop 			= kMusicNameMarginTop + kMusicNameHeight + 5;
+
+	static const CGFloat kNoteMarginTop 			= kSharerMarginTop - 3;
+	static const CGFloat kNoteHeight 				= 40;
+
+	static const CGFloat kBottomViewMarginTop 		= kNoteMarginTop + kNoteHeight + 5;
+	static const CGFloat kBottomViewHeight 			= 35;
+
+	static const CGFloat kCommentTitleHeight			= 20;
+	static const CGFloat kCommentTitleWidth				= 50;
+	static const CGFloat kCommentTitleMarginTop			= kBottomViewMarginTop + kBottomViewHeight + 10;
+	static const CGFloat kCommentTitleMarginLeft		= 15;
+
+	_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,
+														   kBottomViewMarginTop,
+														   self.bounds.size.width,
+														   kBottomViewHeight)];
+	//_bottomView.backgroundColor = [UIColor greenColor];
+	[self addSubview:_bottomView];
+
+	UIView *infoView = [[UIView alloc] init];
+	//infoView.backgroundColor = [UIColor redColor];
+	[_bottomView addSubview:infoView];
+
+	UIView *collectionHeaderView = [[UIView alloc] init];
+	//collectionHeaderView.backgroundColor = [UIColor yellowColor];
+	[_bottomView addSubview:collectionHeaderView];
+
 	static const CGFloat kBottomButtonMarginBottom		= 5;
 	static const CGFloat kBottomButtonWidth				= 15;
 	static const CGFloat kBottomButtonHeight			= 15;
@@ -290,61 +286,138 @@ const static CGFloat kProgressLineWidth = 8.0;
 	static const CGFloat kViewsLabelWidth				= 20;
 
 	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft,
-																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				   _bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
 																				   kBottomButtonWidth,
 																				   kBottomButtonHeight)];
 	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
-	[bottomView addSubview:commentsImageView];
+	[infoView addSubview:commentsImageView];
 
 	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentImageMarginLeft + kBottomButtonWidth + kCommentLabelMarginLeft,
-															  bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															  infoView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															  kCommentLabelWidth,
 															  kBottomLabelHeight)
 											  text:@""
-											  font:UIFontFromSize(8.0f)
+											  font:UIFontFromSize(10.0f)
 										 textColor:[UIColor grayColor]
 									 textAlignment:NSTextAlignmentLeft
 									   numberLines:1];
 	//commentLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:_commentLabel];
+	[infoView addSubview:_commentLabel];
 
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft,
-																				bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+																				infoView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
 																				kBottomButtonWidth,
 																				kBottomButtonHeight)];
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
-	[bottomView addSubview:viewsImageView];
+	[infoView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kViewsImageMarginLeft + kBottomButtonWidth + kViewsLabelMarginLeft,
-															bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+															infoView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															kViewsLabelWidth,
 															kBottomLabelHeight)
 											text:@""
-											font:UIFontFromSize(8.0f)
+											font:UIFontFromSize(10.0f)
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//viewsLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:_viewsLabel];
+	[infoView addSubview:_viewsLabel];
 
-	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
-																				   bottomView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
+	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(infoView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth - kLocationImageMarginRight - kBottomButtonWidth,
+																				   infoView.bounds.size.height - kBottomButtonMarginBottom - kBottomButtonHeight,
 																				   kBottomButtonWidth,
 																				   kBottomButtonHeight)];
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
-	[bottomView addSubview:locationImageView];
+	[infoView addSubview:locationImageView];
 
-	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(bottomView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
-															   bottomView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
+	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectMake(infoView.bounds.size.width - kLocationLabelMarginRight - kLocationLabelWidth,
+															   infoView.bounds.size.height - kBottomLabelMarginBottom - kBottomLabelHeight,
 															   kLocationLabelWidth,
 															   kBottomLabelHeight)
 											   text:@""
-											   font:UIFontFromSize(8.0f)
+											   font:UIFontFromSize(10.0f)
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//locationLabel.backgroundColor = [UIColor redColor];
-	[bottomView addSubview:_locationLabel];
+	[infoView addSubview:_locationLabel];
+
+	// TODO linyehui
+	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kCommentTitleMarginLeft,
+																			 kCommentTitleMarginTop,
+																			 kCommentTitleWidth,
+																			 kCommentTitleHeight)
+															 text:@"评论"
+															 font:UIFontFromSize(12.0f)
+														textColor:UIColorFromHex(@"949494", 1.0)
+													textAlignment:NSTextAlignmentLeft
+													  numberLines:1];
+	//commentTitleLabel.backgroundColor = [UIColor redColor];
+	[collectionHeaderView addSubview:commentTitleLabel];
+
+	[_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(self.mas_left).offset(30);
+		make.right.equalTo(self.mas_right).offset(-30);
+		make.bottom.equalTo(self.mas_bottom);
+	}];
+	[infoView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_bottomView.mas_left);
+		make.right.equalTo(_bottomView.mas_right);
+		make.top.equalTo(_bottomView.mas_top);
+		make.bottom.equalTo(collectionHeaderView.mas_top).offset(-20);
+		make.height.equalTo(@20);
+	}];
+	[collectionHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_bottomView.mas_left);
+		make.right.equalTo(_bottomView.mas_right);
+		make.top.equalTo(infoView.mas_bottom).offset(20);
+		make.bottom.equalTo(_bottomView.mas_bottom);
+	}];
+
+	// infoView items
+	static const CGFloat kBottomButtonSize = 12;
+	[commentsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(infoView.mas_centerY);
+		make.left.equalTo(infoView.mas_left);
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
+	}];
+	[_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(commentsImageView.mas_right).offset(5);
+		make.centerY.equalTo(infoView.mas_centerY);
+//		make.top.equalTo(infoView.mas_bottom);
+//		make.bottom.equalTo(infoView.mas_bottom);
+		make.width.greaterThanOrEqualTo(@15);
+	}];
+	[viewsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_commentLabel.mas_right).offset(15);
+		make.centerY.equalTo(infoView.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
+	}];
+	[_viewsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(viewsImageView.mas_right).offset(5);
+		make.centerY.equalTo(infoView.mas_centerY);
+		make.width.greaterThanOrEqualTo(@15);
+	}];
+
+	[_locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(infoView.mas_right);
+		make.centerY.equalTo(infoView.mas_centerY);
+		make.width.greaterThanOrEqualTo(@15);
+	}];
+
+	[locationImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(_locationLabel.mas_left).offset(-5);
+		make.centerY.equalTo(infoView.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
+	}];
+
+	[commentTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(collectionHeaderView.mas_left);
+		make.right.equalTo(collectionHeaderView.mas_right);
+		make.top.equalTo(collectionHeaderView.mas_top);
+		make.bottom.equalTo(collectionHeaderView.mas_bottom);
+	}];
+
 }
 
 - (void)setShareItem:(ShareItem *)item {
