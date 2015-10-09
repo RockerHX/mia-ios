@@ -63,15 +63,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 	static const CGFloat kCoverMarginTop 			= 35;
 
 	static const CGFloat kMusicNameMarginTop 		= kCoverMarginTop + kCoverHeight + 20;
-	static const CGFloat kMusicNameMarginLeft 		= 20;
-	static const CGFloat kMusicArtistMarginLeft 	= 10;
 	static const CGFloat kMusicNameHeight 			= 20;
-	static const CGFloat kMusicArtistHeight 		= 20;
-
-	static const CGFloat kFavoriteMarginTop 		= kMusicNameMarginTop;
-	static const CGFloat kFavoriteMarginRight 		= 20;
-	static const CGFloat kFavoriteWidth 			= 25;
-	static const CGFloat kFavoriteHeight 			= 25;
 
 	static const CGFloat kSharerMarginLeft 			= 20;
 	static const CGFloat kSharerMarginTop 			= kMusicNameMarginTop + kMusicNameHeight + 5;
@@ -86,28 +78,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 	static const CGFloat kBottomViewHeight 			= 35;
 
 	[self initCoverView];
-
-	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameMarginLeft,
-														  kMusicNameMarginTop,
-														  self.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
-														  kMusicNameHeight)
-										  text:@""
-										  font:UIFontFromSize(9.0f)
-									 textColor:[UIColor blackColor]
-								 textAlignment:NSTextAlignmentRight
-								   numberLines:1];
-	[self addSubview:_musicNameLabel];
-
-	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 + kMusicArtistMarginLeft,
-														  kMusicNameMarginTop,
-														  self.bounds.size.width / 2 - kMusicArtistMarginLeft,
-														  kMusicArtistHeight)
-										  text:@""
-										  font:UIFontFromSize(8.0f)
-										   textColor:[UIColor grayColor]
-									   textAlignment:NSTextAlignmentLeft
-								   numberLines:1];
-	[self addSubview:_musicArtistLabel];
+	[self initSongView];
 
 	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSharerMarginLeft,
 																  kSharerMarginTop,
@@ -132,18 +103,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 	_noteTextView.userInteractionEnabled = NO;
 	[self addSubview:_noteTextView];
 
-	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - kFavoriteMarginRight - kFavoriteWidth,
-																 kFavoriteMarginTop,
-																 kFavoriteWidth,
-																 kFavoriteHeight)
-										  titleString:nil
-										   titleColor:nil
-												 font:nil
-											  logoImg:nil
-									  backgroundImage:nil];
-	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
-	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[self addSubview:_favoriteButton];
 
 	static const CGFloat kCommentTitleHeight			= 20;
 	static const CGFloat kCommentTitleWidth				= 50;
@@ -212,16 +171,73 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 }
 
+- (void)initSongView {
+	UIView *songView = [[UIView alloc] init];
+	//songView.backgroundColor = [UIColor greenColor];
+	[self addSubview:songView];
+
+	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												 text:@""
+												 font:UIFontFromSize(9.0f)
+											textColor:[UIColor blackColor]
+										textAlignment:NSTextAlignmentLeft
+										  numberLines:1];
+	[songView addSubview:_musicNameLabel];
+
+	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												   text:@""
+												   font:UIFontFromSize(8.0f)
+										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
+									   textAlignment:NSTextAlignmentLeft
+								   numberLines:1];
+	[songView addSubview:_musicArtistLabel];
+
+	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectZero
+										   titleString:nil
+											titleColor:nil
+												  font:nil
+											   logoImg:nil
+									   backgroundImage:nil];
+	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
+	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[songView addSubview:_favoriteButton];
+
+	[songView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.mas_centerX);
+		make.top.equalTo(_coverImageView.mas_bottom).with.offset(20);
+		make.width.lessThanOrEqualTo(self.mas_width);
+	}];
+
+	[_musicNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(songView.mas_left);
+		make.right.equalTo(_musicArtistLabel.mas_left);
+		make.top.equalTo(songView.mas_top);
+		make.bottom.equalTo(songView.mas_bottom);
+	}];
+	[_musicArtistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_musicNameLabel.mas_right);
+		make.right.equalTo(_favoriteButton.mas_left).with.offset(-15);
+		make.top.equalTo(songView.mas_top);
+		make.bottom.equalTo(songView.mas_bottom);
+	}];
+	[_favoriteButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_musicArtistLabel.mas_right).with.offset(15);
+		make.right.equalTo(songView.mas_right);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+		make.centerY.equalTo(songView.mas_centerY);
+	}];
+}
+
 - (void)initProgressViewWithCoverSize:(CGSize)coverSize {
-	//_progressView = [[KYCircularView alloc] initWithFrame:CGRectInset(coverFrame, -4, -4)];
+	// 这个控件需要初始化的时候就给他一个大小，否则画图会有问题
+	// linyehui 2015-10-09 16:57
 	_progressView = [[KYCircularView alloc] initWithFrame:CGRectMake(0, 0, coverSize.width, coverSize.height)];
-	//_progressView = [[KYCircularView alloc] init];
 	_progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
 	_progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
 	_progressView.lineWidth = kProgressLineWidth;
 
-	CGFloat pathWidth = coverSize.width;//_progressView.frame.size.width;
-	CGFloat pathHeight = coverSize.height;//_progressView.frame.size.height;
+	CGFloat pathWidth = coverSize.width;
+	CGFloat pathHeight = coverSize.height;
 	UIBezierPath *path = [UIBezierPath bezierPath];
 	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
 	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
