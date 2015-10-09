@@ -175,8 +175,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 - (void)initShareList {
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
-		[self requestNewShares];
-		// TODO loading应该改成回调
 		_isLoading = YES;
 	} else {
 		[self reloadLoopPlayerData];
