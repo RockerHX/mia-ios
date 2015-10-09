@@ -418,14 +418,8 @@ const static CGFloat kProgressLineWidth = 8.0;
 }
 
 - (void)favoriteButtonAction:(id)sender {
-	NSLog(@"favoriteButtonAction");
-	if ([[UserSession standard] isLogined]) {
-		NSLog(@"favorite to profile page.");
-
-		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID isFavorite:!_shareItem.favorite];
-	} else {
-		[_customDelegate detailHeaderViewShouldLogin];
-	}
+	[_customDelegate detailHeaderViewClickedFavoritor];
+	[self updateShareButtonWithIsFavorite:!_shareItem.favorite];
 }
 
 #pragma mark - audio operations

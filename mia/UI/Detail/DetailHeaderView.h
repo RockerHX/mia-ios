@@ -12,7 +12,8 @@
 
 @protocol DetailHeaderViewDelegate
 
-- (void)detailHeaderViewShouldLogin;
+- (void)detailHeaderViewClickedFavoritor;
+- (void)detailHeaderViewClickedSharer;
 
 @end
 
@@ -20,6 +21,8 @@
 
 @property (strong, nonatomic) ShareItem *shareItem;
 @property (weak, nonatomic)id<DetailHeaderViewDelegate> customDelegate;
+
+- (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite;
 
 - (void)playMusic;
 - (void)pauseMusic;
