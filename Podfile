@@ -1,6 +1,21 @@
 platform :ios, '7.0'
-pod 'MBProgressHUD', '~> 0.9'
-pod "AFNetworking", "~> 2.0"
-pod 'SocketRocket', '~> 0.4.1'
-pod 'FreeStreamer', '~> 2.13.6'
-pod 'Masonry', '~> 0.6.3'
+
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
+# Networking
+pod 'AFNetworking'
+pod 'SocketRocket'
+
+# Audio
+pod 'FreeStreamer'
+
+# Utility
+pod 'Masonry'
+
+# Tool
+pod 'IQKeyboardManager'
+
+# View
+pod 'MBProgressHUD'
+pod 'iCarousel'
