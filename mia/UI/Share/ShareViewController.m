@@ -697,10 +697,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 }
 
-- (void)favoriteButtonAction:(id)sender {
-	NSLog(@"favoriteButtonAction");
-}
-
 #pragma mark - audio operations
 
 - (void)playMusic {

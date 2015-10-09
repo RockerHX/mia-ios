@@ -582,8 +582,12 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
-		_shareItem.favorite = !_shareItem.favorite;
-		[_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
+		id act = userInfo[MiaAPIKey_Values][@"act"];
+		id sID = userInfo[MiaAPIKey_Values][@"id"];
+		if ([_shareItem.sID integerValue] == [sID intValue]) {
+			_shareItem.favorite = [act intValue];
+			[_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
+		}
 	} else {
 		NSLog(@"favorite music failed.");
 	}
