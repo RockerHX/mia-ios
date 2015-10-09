@@ -224,6 +224,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[_locationLabel setText:[item sAddress]];
+	[self updateShareButtonWithIsFavorite:item.favorite];
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
