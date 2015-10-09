@@ -50,6 +50,14 @@
 + (UIImage *)imageWithCutImage:(UIImage *)image moduleSize:(CGSize)size;
 
 /**
+ *  裁剪图片为正方形，新的图片从左上角截取
+ *
+ *  @param image 原图
+ *
+ */
++ (UIImage *)imageWithCutImageToSquare:(UIImage *)image;
+
+/**
  *  获取当前屏幕视图的UIImage(相当屏幕截图)
  *
  *  @param view     当前视图

@@ -13,6 +13,7 @@
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UIImageView+WebCache.h"
+#import "UIImage+Extrude.h"
 #import "CommentCollectionViewCell.h"
 #import "DetailHeaderView.h"
 #import "MiaAPIHelper.h"
@@ -540,7 +541,15 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_playerView setHidden:NO];
 
 	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
-					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
+					  placeholderImage:[UIImage imageNamed:@"default_cover"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+						  if (image) {
+							  UIImage *newImage = [UIImage imageWithCutImageToSquare:image];
+							  //NSLog(@"%f,%f --> %f, %F", image.size.width, image.size.height, newImage.size.width, newImage.size.height);
+
+							  [_coverImageView setImage:newImage];
+						  }
+
+					  }];
 
 	[_musicNameLabel setText:item.title];
 	[_musicArtistLabel setText:item.artist];

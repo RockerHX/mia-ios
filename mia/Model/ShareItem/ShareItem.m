@@ -24,11 +24,11 @@
 		self.cView = [[dictionary objectForKey:@"cView"] intValue];
 		self.cComm = [[dictionary objectForKey:@"cComm"] intValue];
 		self.newCommCnt = [[dictionary objectForKey:@"newCommCnt"] intValue];
+		self.favorite = [[dictionary objectForKey:@"star"] intValue];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 
 		self.unread = YES;
-		self.favorite = NO;
     }
 	
     return self;

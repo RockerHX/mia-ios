@@ -17,6 +17,8 @@
 #import "KYCircularView.h"
 #import "PXInfiniteScrollView.h"
 #import "ShareItem.h"
+#import "UserSession.h"
+#import "MiaAPIHelper.h"
 
 @implementation DetailHeaderView {
 	UIImageView 	*_coverImageView;
@@ -303,7 +305,19 @@
 	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[_locationLabel setText:[item sAddress]];
+
+	[self updateShareButtonWithIsFavorite:item.favorite];
 }
+
+- (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
+	if (isFavorite) {
+		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_red"] forState:UIControlStateNormal];
+	} else {
+		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
+	}
+}
+
+#pragma mark - notification
 
 - (void)notifyMusicPlayerMgrDidPlay {
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
@@ -328,6 +342,13 @@
 
 - (void)favoriteButtonAction:(id)sender {
 	NSLog(@"favoriteButtonAction");
+	if ([[UserSession standard] isLogined]) {
+		NSLog(@"favorite to profile page.");
+
+		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID isFavorite:!_shareItem.favorite];
+	} else {
+		[_customDelegate detailHeaderViewShouldLogin];
+	}
 }
 
 #pragma mark - audio operations

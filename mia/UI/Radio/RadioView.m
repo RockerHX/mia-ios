@@ -175,8 +175,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 - (void)initShareList {
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
-		[self requestNewShares];
-		// TODO loading应该改成回调
 		_isLoading = YES;
 	} else {
 		[self reloadLoopPlayerData];
@@ -189,8 +187,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 	ShareItem *rightItem = [_shareListMgr getRightItem];
 
 	[_loopPlayerView getCurrentPlayerView].shareItem = currentItem;
-	[[_loopPlayerView getCurrentPlayerView] playMusic];
-	[self updateUIInfo:currentItem];
+	[self playCurrentItem:currentItem];
 
 	[_loopPlayerView getLeftPlayerView].shareItem = leftItem;
 	[_loopPlayerView getRightPlayerView].shareItem = rightItem;
@@ -206,7 +203,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 	return [[_loopPlayerView getCurrentPlayerView] shareItem];
 }
 
-- (void)updateUIInfo:(ShareItem *)item {
+- (void)playCurrentItem:(ShareItem *)item {
+	[[_loopPlayerView getCurrentPlayerView] playMusic];
 	[_radioViewDelegate radioViewStartPlayItem];
 
 	[_reportViewsTimer invalidate];
@@ -217,9 +215,14 @@ static const CGFloat kFavoriteHeight 			= 25;
 													   userInfo:nil
 														repeats:NO];
 
+	[self updateStatusWithItem:item];
+}
+
+- (void)updateStatusWithItem:(ShareItem *)item {
 	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[_locationLabel setText:[item sAddress]];
+	[self updateShareButtonWithIsFavorite:item.favorite];
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
@@ -246,6 +249,10 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[self handleSkipMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
 		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
+		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
+		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -277,8 +284,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[_loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
+		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -328,6 +334,36 @@ static const CGFloat kFavoriteHeight 			= 25;
 	}
 }
 
+- (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		[MiaAPIHelper getShareById:[[self currentShareItem] sID]];
+	} else {
+		NSLog(@"handlePostViewmWitRet failed.");
+	}
+}
+
+- (void)handleGetSharemWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
+		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
+		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+
+		ShareItem *currentItem = [_loopPlayerView getCurrentPlayerView].shareItem;
+		if ([sID isEqualToString:currentItem.sID]) {
+			currentItem.cComm = [cComm intValue];
+			currentItem.cView = [cView intValue];
+			currentItem.favorite = start;
+			[self updateStatusWithItem:currentItem];
+		}
+
+		//NSLog(@"%@, %ld, %@, %@", sID, start, cComm, cView);
+	} else {
+		NSLog(@"handleGetSharemWitRet failed.");
+	}
+}
+
 - (void)requestNewShares {
 	const long kRequestItemCount = 10;
 	[MiaAPIHelper getNearbyWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
@@ -363,8 +399,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[_loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
+		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -399,8 +434,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[_loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
+		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -425,8 +459,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[_loopPlayerView getLeftPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
-		[[_loopPlayerView getCurrentPlayerView] playMusic];
-		[self updateUIInfo:[_loopPlayerView getCurrentPlayerView].shareItem];
+		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
 
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
@@ -454,6 +487,10 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 - (void)reportViewsTimerAction {
+	[MiaAPIHelper viewShareWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
+							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
+								address:[_radioViewDelegate radioViewCurrentAddress]
+								   spID:[[self currentShareItem] spID]];
 }
 
 @end
