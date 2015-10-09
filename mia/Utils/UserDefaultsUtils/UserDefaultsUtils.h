@@ -9,12 +9,14 @@
 
 @interface UserDefaultsUtils : NSObject
 
-+(void)saveValue:(id) value forKey:(NSString *)key;
++ (void)saveValue:(id) value forKey:(NSString *)key;
 
-+(id)valueWithKey:(NSString *)key;
++ (id)valueWithKey:(NSString *)key;
 
-+(BOOL)boolValueWithKey:(NSString *)key;
++ (BOOL)boolValueWithKey:(NSString *)key;
 
-+(void)saveBoolValue:(BOOL)value withKey:(NSString *)key;
++ (void)saveBoolValue:(BOOL)value withKey:(NSString *)key;
+
++ (void)removeObjectForKey:(NSString *)defaultName;
 
 @end

@@ -458,11 +458,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 }
 
-- (void)updateLocationInfo:(CLLocationCoordinate2D)coordinate address:(NSString *)address {
-	_currentCoordinate = coordinate;
-	_currentAddress = address;
-
-	_locationLabel.text = address;
+- (void)updateLocationInfo {
+	_locationLabel.text = _currentAddress;
 	_bottomView.hidden = NO;
 }
 
@@ -526,8 +523,10 @@ const static CGFloat kShareTopViewHeight		= 280;
 			NSLog(@"______%@", placemark.subLocality);
 			NSLog(@"______%@", placemark.name);
 
-			[self updateLocationInfo:marsLoction.coordinate
-							 address:[NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality]];
+			_currentCoordinate = marsLoction.coordinate;
+			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
+
+			[self updateLocationInfo];
 		}
 	 }];
 

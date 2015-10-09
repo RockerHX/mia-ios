@@ -40,6 +40,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 	MIALabel		*_viewsLabel;
 	MIALabel		*_locationLabel;
 	NSTimer			*_progressTimer;
+	NSTimer 		*_reportViewsTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -206,6 +207,16 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 - (void)updateUIInfo:(ShareItem *)item {
+	[_radioViewDelegate radioViewStartPlayItem];
+
+	[_reportViewsTimer invalidate];
+	const NSTimeInterval kReportViewsTimeInterval = 15;
+	_reportViewsTimer = [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval
+														 target:self
+													   selector:@selector(reportViewsTimerAction)
+													   userInfo:nil
+														repeats:NO];
+
 	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[_locationLabel setText:[item sAddress]];
@@ -328,8 +339,10 @@ static const CGFloat kFavoriteHeight 			= 25;
 - (void)spreadFeed {
 	NSLog(@"#swipe# up spred");
 	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-	// TODO 使用获取到的经纬度来上报
-	[MiaAPIHelper InfectMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[[self currentShareItem] spID]];
+	[MiaAPIHelper InfectMusicWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
+								longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
+								  address:[_radioViewDelegate radioViewCurrentAddress]
+									 spID:[[self currentShareItem] spID]];
 }
 
 - (void)skipFeed {
@@ -356,8 +369,10 @@ static const CGFloat kFavoriteHeight 			= 25;
 		// 检查是否需要获取新的数据
 		[self checkIsNeedToGetNewItems];
 
-		// TODO 使用获取到的经纬度来上报
-		[MiaAPIHelper SkipMusicWithLatitude:-22.3 longitude:33.6 address:@"深圳,南山区" spID:[[self currentShareItem] spID]];
+		[MiaAPIHelper SkipMusicWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
+								  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
+									address:[_radioViewDelegate radioViewCurrentAddress]
+									   spID:[[self currentShareItem] spID]];
 	} else {
 		NSLog(@"skip feed failed.");
 		// TODO 这种情况应该从界面上禁止他翻页
@@ -436,6 +451,9 @@ static const CGFloat kFavoriteHeight 			= 25;
 - (void)bottomViewTouchAction:(id)sender {
 	NSLog(@"bottomViewTouchAction");
 	[_radioViewDelegate radioViewDidTouchBottom];
+}
+
+- (void)reportViewsTimerAction {
 }
 
 @end

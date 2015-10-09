@@ -22,6 +22,7 @@
 #import "FavoriteViewController.h"
 #import "MusicPlayerMgr.h"
 #import "FavoriteItem.h"
+#import "SettingViewController.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -424,6 +425,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)settingButtonAction:(id)sender {
 	NSLog(@"setting button clicked.");
+	SettingViewController *vc = [[SettingViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 

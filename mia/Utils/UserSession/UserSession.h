@@ -10,6 +10,9 @@
  "{"C":"User.Post.Login","s":"1442905599693","v":{"ret":0,"uid":"291","nick":"eden","utype":"1","unreadCommCnt":"0"}}"
  */
 
+static NSString * const UserDefaultsKey_UserName			= @"name";
+static NSString * const UserDefaultsKey_PasswordHash		= @"hash";
+
 @interface UserSession : NSObject
 
 @property (assign, nonatomic) BOOL isLogined;
@@ -24,6 +27,6 @@
  */
 + (id)standard;
 
-- (void)clear;
+- (void)logout;
 
 @end

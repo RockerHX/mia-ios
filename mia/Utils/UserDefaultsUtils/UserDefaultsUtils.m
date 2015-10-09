@@ -9,28 +9,34 @@
 
 @implementation UserDefaultsUtils
 
-+(void)saveValue:(id) value forKey:(NSString *)key{
++ (void)saveValue:(id) value forKey:(NSString *)key{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:value forKey:key];
     [userDefaults synchronize];
 }
 
-+(id)valueWithKey:(NSString *)key{
++ (id)valueWithKey:(NSString *)key{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults objectForKey:key];
 }
 
-+(BOOL)boolValueWithKey:(NSString *)key
++ (BOOL)boolValueWithKey:(NSString *)key
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults boolForKey:key];
 }
 
-+(void)saveBoolValue:(BOOL)value withKey:(NSString *)key
++ (void)saveBoolValue:(BOOL)value withKey:(NSString *)key
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:value forKey:key];
     [userDefaults synchronize];
+}
+
++ (void)removeObjectForKey:(NSString *)defaultName {
+	 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults removeObjectForKey:defaultName];
+	[userDefaults synchronize];
 }
 
 @end
