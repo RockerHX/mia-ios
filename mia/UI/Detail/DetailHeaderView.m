@@ -34,7 +34,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 	UIView			*_noteView;
 	MIALabel 		*_sharerLabel;
-	UITextView 		*_noteTextView;
+	MIALabel 		*_noteLabel;
 	MIAButton 		*_favoriteButton;
 	MIALabel 		*_commentLabel;
 	MIALabel 		*_viewsLabel;
@@ -207,7 +207,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 - (void)initNoteView {
 	_noteView = [[UIView alloc] init];
-	_noteView.backgroundColor = [UIColor greenColor];
+	//_noteView.backgroundColor = [UIColor greenColor];
 	[self addSubview:_noteView];
 
 	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -216,16 +216,17 @@ const static CGFloat kProgressLineWidth = 8.0;
 										 textColor:[UIColor blueColor]
 									 textAlignment:NSTextAlignmentRight
 									   numberLines:1];
-	_sharerLabel.backgroundColor = [UIColor yellowColor];
+	//_sharerLabel.backgroundColor = [UIColor yellowColor];
 	[_noteView addSubview:_sharerLabel];
 
-	_noteTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-	_noteTextView.text = @"";
-	_noteTextView.backgroundColor = [UIColor redColor];
-	_noteTextView.scrollEnabled = NO;
-	_noteTextView.font = UIFontFromSize(9.0f);
-	_noteTextView.userInteractionEnabled = NO;
-	[_noteView addSubview:_noteTextView];
+	_noteLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											  text:@""
+											  font:UIFontFromSize(9.0f)
+										 textColor:[UIColor blackColor]
+									 textAlignment:NSTextAlignmentLeft
+									   numberLines:0];
+	//_noteLabel.backgroundColor = [UIColor redColor];
+	[_noteView addSubview:_noteLabel];
 
 	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(_songView.mas_bottom).with.offset(20);
@@ -239,8 +240,8 @@ const static CGFloat kProgressLineWidth = 8.0;
 		make.width.greaterThanOrEqualTo(@30);
 		make.width.lessThanOrEqualTo(@60);
 	}];
-	[_noteTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_sharerLabel.mas_right);
+	[_noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_sharerLabel.mas_right).with.offset(2);
 		make.right.equalTo(_noteView.mas_right);
 		make.top.equalTo(_noteView.mas_top);
 	}];
@@ -360,7 +361,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 	[_musicNameLabel setText:[[item music] name]];
 	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
 	[_sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
-	[_noteTextView setText:[item sNote]];
+	[_noteLabel setText:[item sNote]];
 
 	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
