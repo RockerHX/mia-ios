@@ -10,4 +10,7 @@
 
 @interface HXRadioViewController : UIViewController
 
+- (IBAction)profileButtonPressed;
+- (IBAction)shareButtonPressed;
+
 @end
