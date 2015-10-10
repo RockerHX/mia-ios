@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ucJ-HY-yrT">
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
@@ -28,11 +28,17 @@
                                 <rect key="frame" x="20" y="28" width="46" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="profileButtonPressed" destination="ucJ-HY-yrT" eventType="touchUpInside" id="IXh-pf-ZKG"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Pr-yp-6yH">
                                 <rect key="frame" x="254" y="28" width="46" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="shareButtonPressed" destination="ucJ-HY-yrT" eventType="touchUpInside" id="Bbi-Jz-8SW"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -75,18 +81,28 @@
                                     <outlet property="delegate" destination="ln9-6M-WL7" id="gTj-zC-iQB"/>
                                 </connections>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ebP-kf-eFX">
+                                <rect key="frame" x="0.0" y="408" width="320" height="80"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="VeE-1u-rzQ"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="W8o-h5-qi0" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="7k6-iM-IzX"/>
                             <constraint firstAttribute="trailing" secondItem="W8o-h5-qi0" secondAttribute="trailing" id="BXS-HQ-B0i"/>
+                            <constraint firstItem="wcV-VL-v9l" firstAttribute="top" secondItem="ebP-kf-eFX" secondAttribute="bottom" id="Vdp-h5-n4K"/>
                             <constraint firstAttribute="bottom" secondItem="W8o-h5-qi0" secondAttribute="bottom" id="ZGQ-14-XtP"/>
+                            <constraint firstAttribute="trailing" secondItem="ebP-kf-eFX" secondAttribute="trailing" id="tzE-vp-fUy"/>
                             <constraint firstItem="W8o-h5-qi0" firstAttribute="top" secondItem="l7K-UV-bBP" secondAttribute="bottom" id="vbP-hl-lfA"/>
+                            <constraint firstItem="ebP-kf-eFX" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="z2K-I0-8Uv"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="carousel" destination="W8o-h5-qi0" id="ldq-6s-GDn"/>
+                        <outlet property="stackView" destination="ebP-kf-eFX" id="H3A-9w-4Kl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zeR-tz-v1f" userLabel="First Responder" sceneMemberID="firstResponder"/>

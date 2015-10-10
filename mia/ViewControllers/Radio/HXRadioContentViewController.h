@@ -11,6 +11,7 @@
 
 @interface HXRadioContentViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
 
-@property (nonatomic, strong) IBOutlet iCarousel *carousel;
+@property (nonatomic, weak) IBOutlet iCarousel *carousel;
+@property (nonatomic, weak) IBOutlet UIStackView *stackView;
 
 @end
