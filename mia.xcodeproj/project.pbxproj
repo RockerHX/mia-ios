@@ -138,6 +138,9 @@
 		39CA063A1BAEA1A40074FD13 /* CommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06361BAEA1A40074FD13 /* CommentItem.m */; };
 		39CA063B1BAEA1A40074FD13 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06391BAEA1A40074FD13 /* CommentModel.m */; };
 		66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE68AFFBF4F159DD2430486 /* libPods.a */; };
+		CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */; settings = {ASSET_TAGS = (); }; };
+		CD221FD61BC7A3F000FCD4E7 /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -264,7 +267,7 @@
 		397F02D31B9EEEF500C413FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		397F02D41B9EEEF500C413FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		397F02D71B9EEEF500C413FE /* mia.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mia.xcdatamodel; sourceTree = "<group>"; };
-		397F02DF1B9EEEF500C413FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		397F02DF1B9EEEF500C413FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		397F02E81B9EEEF500C413FE /* miaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = miaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02ED1B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397F02EE1B9EEEF500C413FE /* miaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = miaTests.m; sourceTree = "<group>"; };
@@ -380,6 +383,10 @@
 		834D0885FF5069CC428F3F54 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8BB1D1E7765FD72A878E7526 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		8FE68AFFBF4F159DD2430486 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD221FCC1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Radio.storyboard; sourceTree = "<group>"; };
+		CD221FD41BC7A3F000FCD4E7 /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
+		CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -777,6 +784,10 @@
 		397E42DD1BA90CBC006BE9E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CD221FD11BC79FEE00FCD4E7 /* UI */,
+				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
+				397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */,
+				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
 				3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */,
 				393CE9BD1BBA94BE00FCF232 /* close@2x.png */,
 				393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */,
@@ -854,8 +865,9 @@
 				39BCADA51BA02F3100C6F7F2 /* Vendors */,
 				39BCAD771BA02AFE00C6F7F2 /* UIComponment */,
 				39BCAD3D1B9F141B00C6F7F2 /* Utils */,
-				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
-				397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */,
+				CD221FC61BC79F0300FCD4E7 /* ViewControllers */,
+				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
+				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
 				397E42DD1BA90CBC006BE9E7 /* Resources */,
 				397F02CF1B9EEEF500C413FE /* Supporting Files */,
 			);
@@ -866,8 +878,6 @@
 			isa = PBXGroup;
 			children = (
 				39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */,
-				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
-				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
 				397F02D01B9EEEF500C413FE /* Info.plist */,
 				397F02D11B9EEEF500C413FE /* main.m */,
 			);
@@ -1163,6 +1173,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CD221FC61BC79F0300FCD4E7 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CD221FD31BC7A3F000FCD4E7 /* Radio */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CD221FD21BC79FF800FCD4E7 /* Radio */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		CD221FD21BC79FF800FCD4E7 /* Radio */ = {
+			isa = PBXGroup;
+			children = (
+				CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */,
+			);
+			name = Radio;
+			sourceTree = "<group>";
+		};
+		CD221FD31BC7A3F000FCD4E7 /* Radio */ = {
+			isa = PBXGroup;
+			children = (
+				CD221FD41BC7A3F000FCD4E7 /* HXRadioViewController.h */,
+				CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */,
+			);
+			path = Radio;
+			sourceTree = "<group>";
+		};
 		D6C14994FCE56A99A6316EBF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1261,6 +1304,7 @@
 			files = (
 				390BADC51BAECA73006269FD /* edit_logo@2x.png in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
+				CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */,
 				393CE9AD1BB958B000FCF232 /* uncheckbox@2x.png in Resources */,
 				39BF8C611BB148DC003AB4FC /* favorite_white@2x.png in Resources */,
 				39CA06121BAD67CC0074FD13 /* back@2x.png in Resources */,
@@ -1292,6 +1336,7 @@
 				3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */,
 				39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */,
 				397FA52C1BAC0CA7003FD186 /* arrow@2x.png in Resources */,
+				CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */,
 				39CA061C1BAD67CC0074FD13 /* share_music@2x.png in Resources */,
 				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
 				390BADC41BAECA73006269FD /* edit_bg@2x.png in Resources */,
@@ -1370,6 +1415,7 @@
 				393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
 				39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */,
+				CD221FD61BC7A3F000FCD4E7 /* HXRadioViewController.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				39BCADD41BA02F3100C6F7F2 /* UIImage+WebP.m in Sources */,
@@ -1458,6 +1504,27 @@
 			targetProxy = 397F02E91B9EEEF500C413FE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD221FCC1BC79FD400FCD4E7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD221FCE1BC79FD400FCD4E7 /* Base */,
+			);
+			name = Radio.storyboard;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		397F02F01B9EEEF500C413FE /* Debug */ = {
@@ -1645,7 +1712,8 @@
 				397F02D71B9EEEF500C413FE /* mia.xcdatamodel */,
 			);
 			currentVersion = 397F02D71B9EEEF500C413FE /* mia.xcdatamodel */;
-			path = mia.xcdatamodeld;
+			name = mia.xcdatamodeld;
+			path = ../mia.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
