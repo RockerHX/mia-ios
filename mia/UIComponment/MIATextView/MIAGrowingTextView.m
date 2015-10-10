@@ -344,10 +344,6 @@
 	return self.internalTextView.textColor;
 }
 
--(void)setTextAlignment:(NSTextAlignment )aligment{
-	self.internalTextView.textAlignment = aligment;
-}
-
 -(NSTextAlignment)textAlignment{
 	return self.internalTextView.textAlignment;
 }

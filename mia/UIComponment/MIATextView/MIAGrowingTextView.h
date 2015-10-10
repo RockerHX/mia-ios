@@ -43,7 +43,6 @@
 	NSString *text;
 	UIFont *font;
 	UIColor *textColor;
-	UITextAlignment textAlignment;
 	NSRange selectedRange;
 	BOOL editable;
 	UIDataDetectorTypes dataDetectorTypes;
