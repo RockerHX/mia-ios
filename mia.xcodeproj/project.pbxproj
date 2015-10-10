@@ -142,6 +142,14 @@
 		CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */; settings = {ASSET_TAGS = (); }; };
 		CD221FD61BC7A3F000FCD4E7 /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CD47D1DC1BC9072000BFB81C /* HXRadioContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E41BC9188200E33121 /* FDStackView.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F21BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E61BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F31BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E81BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F41BC9188200E33121 /* FDStackViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -390,6 +398,22 @@
 		CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioViewController.m; sourceTree = "<group>"; };
 		CD47D1DA1BC9072000BFB81C /* HXRadioContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioContentViewController.h; sourceTree = "<group>"; };
 		CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioContentViewController.m; sourceTree = "<group>"; };
+		CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDGapLayoutGuide.h; sourceTree = "<group>"; };
+		CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDGapLayoutGuide.m; sourceTree = "<group>"; };
+		CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLayoutSpacer.h; sourceTree = "<group>"; };
+		CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDLayoutSpacer.m; sourceTree = "<group>"; };
+		CD4F62E31BC9188200E33121 /* FDStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackView.h; sourceTree = "<group>"; };
+		CD4F62E41BC9188200E33121 /* FDStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackView.m; sourceTree = "<group>"; };
+		CD4F62E51BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewAlignmentLayoutArrangement.h; sourceTree = "<group>"; };
+		CD4F62E61BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewAlignmentLayoutArrangement.m; sourceTree = "<group>"; };
+		CD4F62E71BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewDistributionLayoutArrangement.h; sourceTree = "<group>"; };
+		CD4F62E81BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewDistributionLayoutArrangement.m; sourceTree = "<group>"; };
+		CD4F62E91BC9188200E33121 /* FDStackViewExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewExtensions.h; sourceTree = "<group>"; };
+		CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewExtensions.m; sourceTree = "<group>"; };
+		CD4F62EB1BC9188200E33121 /* FDStackViewLayoutArrangement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewLayoutArrangement.h; sourceTree = "<group>"; };
+		CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewLayoutArrangement.m; sourceTree = "<group>"; };
+		CD4F62ED1BC9188200E33121 /* FDTransformLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTransformLayer.h; sourceTree = "<group>"; };
+		CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTransformLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1016,6 +1040,7 @@
 		39BCAD771BA02AFE00C6F7F2 /* UIComponment */ = {
 			isa = PBXGroup;
 			children = (
+				CD4F62DE1BC9188200E33121 /* FDStackView */,
 				39BF8C551BB0F801003AB4FC /* MBProgressHUDHelp */,
 				397FA50B1BAC0CA7003FD186 /* MIALabel */,
 				397FA50E1BAC0CA7003FD186 /* MIARefresh */,
@@ -1209,6 +1234,29 @@
 				CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */,
 			);
 			path = Radio;
+			sourceTree = "<group>";
+		};
+		CD4F62DE1BC9188200E33121 /* FDStackView */ = {
+			isa = PBXGroup;
+			children = (
+				CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */,
+				CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */,
+				CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */,
+				CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */,
+				CD4F62E31BC9188200E33121 /* FDStackView.h */,
+				CD4F62E41BC9188200E33121 /* FDStackView.m */,
+				CD4F62E51BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.h */,
+				CD4F62E61BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m */,
+				CD4F62E71BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.h */,
+				CD4F62E81BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m */,
+				CD4F62E91BC9188200E33121 /* FDStackViewExtensions.h */,
+				CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */,
+				CD4F62EB1BC9188200E33121 /* FDStackViewLayoutArrangement.h */,
+				CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */,
+				CD4F62ED1BC9188200E33121 /* FDTransformLayer.h */,
+				CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */,
+			);
+			path = FDStackView;
 			sourceTree = "<group>";
 		};
 		D6C14994FCE56A99A6316EBF /* Pods */ = {
@@ -1411,6 +1459,7 @@
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
+				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
@@ -1429,6 +1478,7 @@
 				39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */,
+				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */,
 				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
@@ -1436,6 +1486,7 @@
 				39BCADD31BA02F3100C6F7F2 /* UIImage+MultiFormat.m in Sources */,
 				39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */,
 				39BF8C7B1BB2AC8A003AB4FC /* ProfileHeaderView.m in Sources */,
+				CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */,
 				397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */,
 				397E42D31BA90812006BE9E7 /* NSString+MD5.m in Sources */,
 				397E42DB1BA90812006BE9E7 /* MusicPlayerMgr.m in Sources */,
@@ -1443,6 +1494,7 @@
 				397E42D11BA90812006BE9E7 /* NSString+Emoji.m in Sources */,
 				3976E35D1BBACB6F006FA5E2 /* SearchSuggestionView.m in Sources */,
 				397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */,
+				CD4F62F21BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
@@ -1451,12 +1503,15 @@
 				397E429E1BA8EBE6006BE9E7 /* ShareListMgr.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */,
+				CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */,
 				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,
+				CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */,
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,
 				39BCADCF1BA02F3100C6F7F2 /* SDWebImageManager.m in Sources */,
 				397E42D21BA90812006BE9E7 /* NSString+IsNull.m in Sources */,
 				397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */,
 				397FA52B1BAC0CA7003FD186 /* MIALabel.m in Sources */,
+				CD4F62F41BC9188200E33121 /* FDStackViewExtensions.m in Sources */,
 				3976E35A1BBAC78B006FA5E2 /* SearchViewController.m in Sources */,
 				390963EB1BC652FF00E427BA /* SettingViewController.m in Sources */,
 				39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */,
@@ -1480,6 +1535,7 @@
 				39BF8C5C1BB13350003AB4FC /* UserSession.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
 				393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */,
+				CD4F62F31BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m in Sources */,
 				397FA52E1BAC0CA7003FD186 /* MIARefreshFooterView.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
 				397FA5321BAC0CA7003FD186 /* UIView+Extension.m in Sources */,
