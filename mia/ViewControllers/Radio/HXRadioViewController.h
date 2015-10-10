@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iCarousel/iCarousel.h>
 
-@interface HXRadioViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
-
-@property (nonatomic, strong) IBOutlet iCarousel *carousel;
+@interface HXRadioViewController : UIViewController
 
 @end

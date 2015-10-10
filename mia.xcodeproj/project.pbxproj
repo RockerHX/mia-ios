@@ -141,6 +141,7 @@
 		CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */; settings = {ASSET_TAGS = (); }; };
 		CD221FD61BC7A3F000FCD4E7 /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
+		CD47D1DC1BC9072000BFB81C /* HXRadioContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -387,6 +388,8 @@
 		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Radio.storyboard; sourceTree = "<group>"; };
 		CD221FD41BC7A3F000FCD4E7 /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
 		CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioViewController.m; sourceTree = "<group>"; };
+		CD47D1DA1BC9072000BFB81C /* HXRadioContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioContentViewController.h; sourceTree = "<group>"; };
+		CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioContentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1202,6 +1205,8 @@
 			children = (
 				CD221FD41BC7A3F000FCD4E7 /* HXRadioViewController.h */,
 				CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */,
+				CD47D1DA1BC9072000BFB81C /* HXRadioContentViewController.h */,
+				CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */,
 			);
 			path = Radio;
 			sourceTree = "<group>";
@@ -1459,6 +1464,7 @@
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
 				3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */,
+				CD47D1DC1BC9072000BFB81C /* HXRadioContentViewController.m in Sources */,
 				39BCADC81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m in Sources */,
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */,
