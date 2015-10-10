@@ -557,6 +557,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	[MiaAPIHelper getMusicById:item.songID];
 	[_commentTextField becomeFirstResponder];
+	[self checkSubmitButtonStatus];
 }
 
 - (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item {
