@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <AVFoundation/AVFoundation.h>
 #import "MusicPlayerMgr.h"
+#import "RadioViewController.h"
 #import "HXRadioViewController.h"
 
 @interface AppDelegate ()
@@ -32,7 +33,8 @@
     
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    HXRadioViewController *radioViewController = [[UIStoryboard storyboardWithName:@"Radio" bundle:nil] instantiateViewControllerWithIdentifier:@"HXRadioViewController"];
+	RadioViewController *radioViewController = [[RadioViewController alloc] init];
+//    HXRadioViewController *radioViewController = [[UIStoryboard storyboardWithName:@"Radio" bundle:nil] instantiateViewControllerWithIdentifier:@"HXRadioViewController"];
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:radioViewController];
 	[navigationController setNavigationBarHidden:YES animated:NO];
 	[self.window setRootViewController:navigationController];
