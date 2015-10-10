@@ -320,8 +320,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 #pragma mark - delegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	if (textField == _userNameTextField) {
 		[_passwordTextField becomeFirstResponder];
 	}

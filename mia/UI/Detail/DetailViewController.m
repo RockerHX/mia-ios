@@ -37,7 +37,7 @@ static const CGFloat kDetailHeaderHeight 		= 350;
 static const CGFloat kDetailFooterViewHeight 	= 40;
 static const CGFloat kDetailItemHeight 			= 40;
 
-@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate, CLLocationManagerDelegate>
+@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate, CLLocationManagerDelegate, DetailHeaderViewDelegate>
 
 @end
 
@@ -148,7 +148,10 @@ static const CGFloat kDetailItemHeight 			= 40;
 	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
 
 	//2.初始化collectionView
-	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
+	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
+																			 0,
+																			 self.view.bounds.size.width,
+																			 self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
 	[self.view addSubview:_mainCollectionView];
 
 	_mainCollectionView.backgroundColor = [UIColor whiteColor];
@@ -199,6 +202,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 
 - (void)initHeaderView {
 	_detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailHeaderHeight)];
+	_detailHeaderView.customDelegate = self;
 	_detailHeaderView.shareItem = _shareItem;
 
 	//NSLog(@"initHeaderView: %f, %f, %f, %f", contentView.bounds.origin.x, contentView.bounds.origin.y, contentView.bounds.size.width, contentView.bounds.size.height);
@@ -294,7 +298,7 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:1];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.latestCommentID item:1];
 }
 
 - (void)checkCommentButtonStatus {
@@ -404,11 +408,21 @@ static const CGFloat kDetailItemHeight 			= 40;
 	[manager stopUpdatingLocation];
 }
 
-- (void)detailHeaderViewShouldLogin {
-	LoginViewController *vc = [[LoginViewController alloc] init];
-	//vc.loginViewControllerDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
+- (void)detailHeaderViewClickedFavoritor {
+	if ([[UserSession standard] isLogined]) {
+		NSLog(@"favorite to profile page.");
+
+		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID isFavorite:!_shareItem.favorite];
+	} else {
+		LoginViewController *vc = [[LoginViewController alloc] init];
+		//vc.loginViewControllerDelegate = self;
+		[self.navigationController pushViewController:vc animated:YES];
+	}
 }
+
+- (void)detailHeaderViewClickedSharer {
+}
+
 
 #pragma mark collectionView代理方法
 
@@ -506,6 +520,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
 		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
+		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -561,6 +577,19 @@ static const CGFloat kDetailItemHeight 			= 40;
 		//NSLog(@"%@, %ld, %@, %@", sID, start, cComm, cView);
 	} else {
 		NSLog(@"handleGetSharemWitRet failed.");
+	}
+}
+
+- (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 == ret) {
+		id act = userInfo[MiaAPIKey_Values][@"act"];
+		id sID = userInfo[MiaAPIKey_Values][@"id"];
+		if ([_shareItem.sID integerValue] == [sID intValue]) {
+			_shareItem.favorite = [act intValue];
+			[_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
+		}
+	} else {
+		NSLog(@"favorite music failed.");
 	}
 }
 
