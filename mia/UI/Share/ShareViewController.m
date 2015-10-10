@@ -24,6 +24,7 @@
 #import "CLLocation+YCLocation.h"
 #import "SearchViewController.h"
 #import "SearchResultItem.h"
+#import "UserSession.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
@@ -196,7 +197,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	static const CGFloat kSharerLabelWidth = 80;
 
 	static const CGFloat kNoteMarginLeft = 103;
-	static const CGFloat kNoteMarginTop = kSharerMarginTop + 2;
+	static const CGFloat kNoteMarginTop = kSharerMarginTop + 1;
 	static const CGFloat kNoteWidth = 200;
 	static const CGFloat kNoteHeight = 20;
 
@@ -233,7 +234,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 															 kSharerMarginTop,
 															 kSharerLabelWidth,
 															 kSharerHeight)
-											 text:@"Aaronbing:"
+											  text:[NSString stringWithFormat:@"%@:", [[UserSession standard] nick]]
 											 font:UIFontFromSize(15.0f)
 										textColor:[UIColor blueColor]
 									textAlignment:NSTextAlignmentRight
@@ -556,6 +557,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	[MiaAPIHelper getMusicById:item.songID];
 	[_commentTextField becomeFirstResponder];
+	[self checkSubmitButtonStatus];
 }
 
 - (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item {

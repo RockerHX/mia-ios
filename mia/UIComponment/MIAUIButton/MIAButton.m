@@ -22,7 +22,7 @@
  *
  */
 - (id)initWithFrame:(CGRect)frame imageUrl:(NSString *)imageUrl{
-    self = [UIButton buttonWithType:UIButtonTypeCustom];
+    self = [MIAButton buttonWithType:UIButtonTypeCustom];
     if(self){
         self.frame = frame;
         [self sd_setBackgroundImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -55,7 +55,7 @@
  *
  */
 - (id)initWithFrame:(CGRect)frame imageUrl:(NSString *)imageUrl placeholderImage:(UIImage *)placeholderImage{
-    self = [UIButton buttonWithType:UIButtonTypeCustom];
+    self = [MIAButton buttonWithType:UIButtonTypeCustom];
     if(self){
         self.frame = frame;
         [self sd_setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal placeholderImage:placeholderImage];
@@ -75,7 +75,7 @@
  *
  */
 - (id)initWithFrame:(CGRect)frame titleString:(NSString *)titleString titleColor:(UIColor *)titleColor font:(UIFont *)font logoImg:(UIImage *)logoImg backgroundImage:(UIImage *)backgroundImage{
-    self = [UIButton buttonWithType:UIButtonTypeCustom];
+    self = [MIAButton buttonWithType:UIButtonTypeCustom];
     if(self){
         self.frame = frame;
         [self setTitle:titleString forState:UIControlStateNormal];
