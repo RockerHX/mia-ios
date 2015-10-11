@@ -23,6 +23,7 @@
 #import "MusicPlayerMgr.h"
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
+#import "FavoriteMgr.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -32,7 +33,13 @@ static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
 static const CGFloat kProfileHeaderHeight 	= 240;
 
-@interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ProfileHeaderViewDelegate, FavoriteViewControllerDelegate>
+@interface ProfileViewController ()
+<UICollectionViewDataSource
+, UICollectionViewDelegate
+, UICollectionViewDelegateFlowLayout
+, ProfileHeaderViewDelegate
+, FavoriteViewControllerDelegate
+, FavoriteMgrDelegate>
 
 @end
 
@@ -185,13 +192,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)initData {
 	_shareListModel = [[ProfileShareModel alloc] init];
-
 	[self requestShareList];
-	[self requestFavoriteList];
 
+	[[FavoriteMgr standard] setCustomDelegate:self];
+	[[FavoriteMgr standard] syncFavoriteList];
 	_favoriteModel = [[FavoriteModel alloc] init];
-
-	[self requestFavoriteList];
 }
 
 - (void)requestShareList {
@@ -201,21 +206,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[MiaAPIHelper getShareListWithUID:_uid start:_currentPageStart item:kShareListPageCount];
 }
 
-- (void)requestFavoriteList {
-	static const long kFavoritePageItemCount	= 10;
-	[MiaAPIHelper getFavoriteListWithStart:_favoriteModel.lastID item:kFavoritePageItemCount];
-}
-
 #pragma mark - delegate
 
-#pragma mark collectionView代理方法
-
-// 返回section个数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 	return 1;
 }
 
-// 每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 	return _shareListModel.dataSource.count;
 }
@@ -239,7 +235,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
-// 设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
 
@@ -251,24 +246,18 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
-// 设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
-// 设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginH;
 }
 
-
-// 设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginV;
 }
 
-
-// 通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	if (!_isMyProfile)
 		return nil;
@@ -285,7 +274,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
-// 点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
@@ -312,12 +300,22 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
+- (void)favoriteMgrDidFinishSync {
+	[_profileHeaderView updateFavoriteCount];
+
+	NSArray *items = [self favoriteViewControllerGetFavoriteList];
+	[_favoriteModel addItemsWithArray:items];
+	if (_favoriteViewController) {
+		[_favoriteViewController.favoriteCollectionView reloadData];
+	}
+}
+
 - (FavoriteModel *)favoriteViewControllerModel {
 	return _favoriteModel;
 }
 
-- (void)favoriteViewControllerRequestFavoriteList {
-	[self requestFavoriteList];
+- (NSArray *)favoriteViewControllerGetFavoriteList {
+	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
 }
 
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row {
@@ -337,8 +335,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
 		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
-		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -351,19 +347,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	[_shareListModel addSharesWithArray:shareList];
 	[_profileCollectionView reloadData];
-}
-
-- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[_favoriteViewController endRequestFavoriteList:ret == 0];
-
-	NSArray *items = userInfo[@"v"][@"data"];
-	if (!items)
-		return;
-
-	[_favoriteModel addItemsWithArray:items];
-	if (_favoriteViewController) {
-		[_favoriteViewController.favoriteCollectionView reloadData];
-	}
 }
 
 #pragma mark - audio operations

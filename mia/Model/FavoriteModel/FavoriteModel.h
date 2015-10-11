@@ -11,7 +11,6 @@
 @interface FavoriteModel : NSObject
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, strong) NSString *lastID;
 @property (nonatomic, assign) NSInteger currentPlaying;
 
 - (void)addItemsWithArray:(NSArray *) items;

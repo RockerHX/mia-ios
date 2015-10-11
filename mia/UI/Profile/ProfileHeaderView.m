@@ -15,7 +15,9 @@
 #import "FavoriteMgr.h"
 
 @implementation ProfileHeaderView {
-	MIAButton *_playButton;
+	MIAButton	*_playButton;
+	MIALabel 	*_favoriteCountLabel;
+	MIALabel 	*_cachedCountLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -86,7 +88,7 @@
 	static const CGFloat kCachedCountLabelWidth 			= 100;
 	static const CGFloat kCachedCountLabelHeight 			= 20;
 
-	MIALabel *favoriteCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
+	_favoriteCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																			  kFavoriteCountLabelMarginTop,
 																			  self.frame.size.width - kFavoriteCountLabelMarginRight,
 																			  kFavoriteCountLabelHeight)
@@ -96,8 +98,7 @@
 													 textAlignment:NSTextAlignmentRight
 													   numberLines:1];
 	//favoriteCountLabel.backgroundColor = [UIColor blueColor];
-	[coverView addSubview:favoriteCountLabel];
-
+	[coverView addSubview:_favoriteCountLabel];
 	MIALabel *favoriteMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kFavoriteMiddleLabelMarginRight - kFavoriteMiddleLabelWidth,
 																			   kFavoriteMiddleLabelMarginTop,
 																			   kFavoriteMiddleLabelWidth,
@@ -110,17 +111,17 @@
 	//favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
 	[coverView addSubview:favoriteMiddleLabel];
 
-	MIALabel *cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kCachedCountLabelMarginRight - kCachedCountLabelWidth,
+	_cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kCachedCountLabelMarginRight - kCachedCountLabelWidth,
 																			kCachedCountLabelMarginTop,
 																			kCachedCountLabelWidth,
 																			kCachedCountLabelHeight)
-															text:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] favoriteCount]]
+															text:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]
 															font:UIFontFromSize(12.0f)
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentLeft
 														numberLines:1];
 	//cachedCountLabel.backgroundColor = [UIColor greenColor];
-	[coverView addSubview:cachedCountLabel];
+	[coverView addSubview:_cachedCountLabel];
 }
 
 - (void)initSubTitles {
@@ -220,6 +221,11 @@
 											cutY,
 											orgImage.size.width,
 											cutHeight)];
+}
+
+- (void)updateFavoriteCount {
+	[_favoriteCountLabel setText:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]];
+	[_cachedCountLabel setText:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]];
 }
 
 #pragma mark - button Actions

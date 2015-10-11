@@ -20,4 +20,6 @@
 @property (weak, nonatomic)id<ProfileHeaderViewDelegate> profileHeaderViewDelegate;
 @property (assign, nonatomic) BOOL isPlaying;
 
+- (void)updateFavoriteCount;
+
 @end
