@@ -17,6 +17,7 @@
 #import "WebSocketMgr.h"
 #import "DetailViewController.h"
 #import "MIALabel.h"
+#import "FavoriteModel.h"
 
 static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 //static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";

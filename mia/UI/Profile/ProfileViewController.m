@@ -199,8 +199,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	++_currentPageStart;
 	[MiaAPIHelper getShareListWithUID:_uid start:_currentPageStart item:kShareListPageCount];
-//	// for test
-//	[MiaAPIHelper getShareListWithUID:@"442" start:currentPageStart item:kShareListPageCount];
 }
 
 - (void)requestFavoriteList {
@@ -212,12 +210,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 #pragma mark collectionView代理方法
 
-//返回section个数
+// 返回section个数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 	return 1;
 }
 
-//每个section的item个数
+// 每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 	return _shareListModel.dataSource.count;
 }
@@ -241,7 +239,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
-//设置每个item的尺寸
+// 设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
 
@@ -253,36 +251,24 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
-//footer的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//header的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//设置每个item的UIEdgeInsets
+// 设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
-//设置每个item水平间距
+// 设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginH;
 }
 
 
-//设置每个item垂直间距
+// 设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginV;
 }
 
 
-//通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
+// 通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	if (!_isMyProfile)
 		return nil;
@@ -299,7 +285,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
-//点击item方法
+// 点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 

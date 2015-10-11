@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FavoriteModel.h"
+
+@class FavoriteModel;
 
 @protocol FavoriteViewControllerDelegate
 

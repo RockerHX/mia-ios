@@ -12,7 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
 #import "UIImage+Extrude.h"
-
+#import "FavoriteMgr.h"
 
 @implementation ProfileHeaderView {
 	MIAButton *_playButton;
@@ -90,7 +90,7 @@
 																			  kFavoriteCountLabelMarginTop,
 																			  self.frame.size.width - kFavoriteCountLabelMarginRight,
 																			  kFavoriteCountLabelHeight)
-															  text:@"30"
+															  text:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]
 															  font:UIFontFromSize(35.0f)
 														 textColor:[UIColor whiteColor]
 													 textAlignment:NSTextAlignmentRight
@@ -114,7 +114,7 @@
 																			kCachedCountLabelMarginTop,
 																			kCachedCountLabelWidth,
 																			kCachedCountLabelHeight)
-															text:@"28首已下载到本地"
+															text:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] favoriteCount]]
 															font:UIFontFromSize(12.0f)
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentLeft
