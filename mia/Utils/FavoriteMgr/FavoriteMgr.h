@@ -12,7 +12,7 @@
 
 @end
 
-@interface FavoriteMgr : NSObject
+@interface FavoriteMgr : NSObject <NSCoding>
 
 /**
  *  使用单例初始化

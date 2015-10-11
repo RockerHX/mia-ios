@@ -19,9 +19,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 @end
 
 @implementation FavoriteMgr {
-	NSMutableArray *_dataSource;
-	long			_lastID;
-	long			_latestID;
+	NSMutableArray *_favoriteItems;
+	NSMutableArray *_tempItems;
 }
 
 /**
@@ -40,9 +39,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 - (id)init {
 	self = [super init];
 	if (self) {
-		_dataSource = [[NSMutableArray alloc] init];
-		_lastID = 0;
-		_latestID = 0;
+		[self loadData];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
 	return self;
@@ -54,7 +51,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 - (long)favoriteCount {
 	// TODO linyehui fav
-	return [_dataSource count];
+	return [_favoriteItems count];
 }
 
 - (long)cachedCount {
@@ -66,10 +63,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 - (void)syncFavoriteList {
 	// TODO linyehui fav
 	// 跟服务器进行同步，这里的同步需要处理：新增，删除，修改等操作
-	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%ld", _lastID] item:kFavoriteRequestItemCountPerPage];
+	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
 }
 
 - (void)syncFinished {
+	_favoriteItems = _tempItems;
+	_tempItems = nil;
+
+	[self saveData];
 	if (_customDelegate) {
 		[_customDelegate favoriteMgrDidFinishSync];
 	}
@@ -78,8 +79,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
 	const static long kFavoriteListItemCountPerPage = 10;
 	NSMutableArray * items = [[NSMutableArray alloc] init];
-	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _dataSource.count; i++) {
-		[items addObject:_dataSource[i + lastIndex]];
+	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _favoriteItems.count; i++) {
+		[items addObject:_favoriteItems[i + lastIndex]];
 	}
 
 	return items;
@@ -109,16 +110,64 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		return;
 	}
 
+	if (nil == _tempItems) {
+		_tempItems = [[NSMutableArray alloc] init];
+	}
+	
 	for(id item in items){
 		FavoriteItem *favoriteItem = [[FavoriteItem alloc] initWithDictionary:item];
-		[_dataSource addObject:favoriteItem];
+		[_tempItems addObject:favoriteItem];
 	}
 
 	if ([items count] == kFavoriteRequestItemCountPerPage) {
-		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%ld", _lastID] item:kFavoriteRequestItemCountPerPage];
+		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%ld", [_tempItems count]] item:kFavoriteRequestItemCountPerPage];
 	} else {
 		[self syncFinished];
 	}
+}
+
+- (void)loadData {
+	_favoriteItems = [NSKeyedUnarchiver unarchiveObjectWithFile:[self archivePath]];
+	if (!_favoriteItems) {
+		_favoriteItems = [[NSMutableArray alloc] init];
+	}
+}
+
+- (BOOL)saveData {
+	NSString *fileName = [self archivePath];
+	if (![NSKeyedArchiver archiveRootObject:_favoriteItems toFile:fileName]) {
+		NSLog(@"archive share list failed.");
+		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
+			NSLog(@"delete share list archive file.");
+		}
+		return NO;
+	}
+
+	return YES;
+}
+
+- (NSString *)archivePath {
+	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
+
+	// TODO linyehui fav
+	// add user id to path
+	return [documentDirectory stringByAppendingString:@"/favorite.archive"];
+}
+
+//将对象编码(即:序列化)
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+	[aCoder encodeObject:_favoriteItems forKey:@"favoriteItems"];
+}
+
+//将对象解码(反序列化)
+-(id) initWithCoder:(NSCoder *)aDecoder {
+	if (self=[super init]) {
+		_favoriteItems = [aDecoder decodeObjectForKey:@"favoriteItems"];
+	}
+
+	return (self);
+	
 }
 
 @end

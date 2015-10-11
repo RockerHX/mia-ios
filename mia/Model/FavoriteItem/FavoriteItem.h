@@ -8,7 +8,7 @@
 
 #import "MusicItem.h"
 
-@interface FavoriteItem : NSObject
+@interface FavoriteItem : NSObject <NSCoding>
 
 @property (strong, nonatomic) NSString * uID;
 @property (strong, nonatomic) NSString * sNick;
@@ -21,6 +21,8 @@
 
 @property (assign, nonatomic) BOOL isSelected;
 @property (assign, nonatomic) BOOL isPlaying;
+@property (assign, nonatomic) BOOL isCached;
+
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
