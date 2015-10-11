@@ -281,6 +281,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (FavoriteModel *)profileHeaderViewModel {
+	return _favoriteModel;
+}
+
 - (void)profileHeaderViewDidTouchedCover {
 	if (!_playingFavorite) {
 		[self playMusic:_favoriteModel.currentPlaying];
@@ -301,13 +305,13 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)favoriteMgrDidFinishSync {
-	[_profileHeaderView updateFavoriteCount];
-
 	NSArray *items = [self favoriteViewControllerGetFavoriteList];
 	[_favoriteModel addItemsWithArray:items];
 	if (_favoriteViewController) {
 		[_favoriteViewController.favoriteCollectionView reloadData];
 	}
+
+	[_profileHeaderView updateFavoriteCount];
 }
 
 - (FavoriteModel *)favoriteViewControllerModel {

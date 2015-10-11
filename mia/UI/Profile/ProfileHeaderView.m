@@ -13,8 +13,12 @@
 #import "UIImageView+BlurredImage.h"
 #import "UIImage+Extrude.h"
 #import "FavoriteMgr.h"
+#import "FavoriteModel.h"
+#import "FavoriteItem.h"
 
 @implementation ProfileHeaderView {
+	UIView 		*_coverView;
+	UIImageView *_coverImageView;
 	MIAButton	*_playButton;
 	MIALabel 	*_favoriteCountLabel;
 	MIALabel 	*_cachedCountLabel;
@@ -38,23 +42,24 @@
 								   self.frame.size.width,
 								   self.frame.size.height - kCoverMarginTop * 2);
 
-	UIView *coverView = [[UIView alloc] initWithFrame:coverFrame];
-	[self initCoverView:coverView];
+	_coverView = [[UIView alloc] initWithFrame:coverFrame];
+	[self initCoverView];
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverMaskTouchAction:)];
-	[coverView addGestureRecognizer:tap];
-	[self addSubview:coverView];
+	[_coverView addGestureRecognizer:tap];
+	[self addSubview:_coverView];
 
 	[self initSubTitles];
 }
 
-- (void)initCoverView:(UIView *)coverView {
-	UIImageView *coverImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
-	UIImage *bannerImage = [self getBannerImageFromCover:[UIImage imageNamed:@"default_cover"] containerSize:coverView.bounds.size];
-	[coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
-	[coverView addSubview:coverImageView];
-	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:coverView.bounds];
+- (void)initCoverView {
+	_coverImageView = [[UIImageView alloc] initWithFrame:_coverView.bounds];
+	UIImage *bannerImage = [self getBannerImageFromCover:[UIImage imageNamed:@"default_cover"] containerSize:_coverView.bounds.size];
+	[_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+	[_coverView addSubview:_coverImageView];
+
+	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:_coverView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"profile_banner_mask"]];
-	[coverView addSubview:coverMaskImageView];
+	[_coverView addSubview:coverMaskImageView];
 
 
 	static const CGFloat kPlayButtonMarginRight = 76;
@@ -72,7 +77,7 @@
 											 backgroundImage:nil];
 	[_playButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[coverView addSubview:_playButton];
+	[_coverView addSubview:_playButton];
 
 	const static CGFloat kFavoriteCountLabelMarginRight		= 220;
 	const static CGFloat kFavoriteCountLabelMarginTop		= 64;
@@ -98,7 +103,7 @@
 													 textAlignment:NSTextAlignmentRight
 													   numberLines:1];
 	//favoriteCountLabel.backgroundColor = [UIColor blueColor];
-	[coverView addSubview:_favoriteCountLabel];
+	[_coverView addSubview:_favoriteCountLabel];
 	MIALabel *favoriteMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kFavoriteMiddleLabelMarginRight - kFavoriteMiddleLabelWidth,
 																			   kFavoriteMiddleLabelMarginTop,
 																			   kFavoriteMiddleLabelWidth,
@@ -109,7 +114,7 @@
 													  textAlignment:NSTextAlignmentRight
 														numberLines:1];
 	//favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
-	[coverView addSubview:favoriteMiddleLabel];
+	[_coverView addSubview:favoriteMiddleLabel];
 
 	_cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kCachedCountLabelMarginRight - kCachedCountLabelWidth,
 																			kCachedCountLabelMarginTop,
@@ -121,7 +126,7 @@
 													  textAlignment:NSTextAlignmentLeft
 														numberLines:1];
 	//cachedCountLabel.backgroundColor = [UIColor greenColor];
-	[coverView addSubview:_cachedCountLabel];
+	[_coverView addSubview:_cachedCountLabel];
 }
 
 - (void)initSubTitles {
@@ -226,6 +231,18 @@
 - (void)updateFavoriteCount {
 	[_favoriteCountLabel setText:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]];
 	[_cachedCountLabel setText:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]];
+
+	if ([[_profileHeaderViewDelegate profileHeaderViewModel].dataSource count] > 0) {
+		FavoriteItem *item = [[_profileHeaderViewDelegate profileHeaderViewModel] dataSource][0];
+
+		[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.music.purl]
+						   placeholderImage:_coverImageView.image
+								  completed:
+		 ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+			UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
+			[_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+		}];
+	}
 }
 
 #pragma mark - button Actions
