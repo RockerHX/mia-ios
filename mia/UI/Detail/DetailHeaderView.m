@@ -285,7 +285,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 	//locationLabel.backgroundColor = [UIColor redColor];
 	[infoView addSubview:_locationLabel];
 
-	// TODO linyehui
 	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															 text:@"评论"
 															 font:UIFontFromSize(12.0f)

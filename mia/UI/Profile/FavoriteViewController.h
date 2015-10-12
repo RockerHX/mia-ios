@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FavoriteModel.h"
+
+@class FavoriteModel;
 
 @protocol FavoriteViewControllerDelegate
 
 - (FavoriteModel *)favoriteViewControllerModel;
-- (void)favoriteViewControllerRequestFavoriteList;
+- (NSArray *)favoriteViewControllerGetFavoriteList;
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row;
 - (void)favoriteViewControllerPauseMusic;
 @end

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class FavoriteModel;
+
 @protocol ProfileHeaderViewDelegate
 
+- (FavoriteModel *)profileHeaderViewModel;
 - (void)profileHeaderViewDidTouchedCover;
 - (void)profileHeaderViewDidTouchedPlay;
 
@@ -19,5 +22,7 @@
 
 @property (weak, nonatomic)id<ProfileHeaderViewDelegate> profileHeaderViewDelegate;
 @property (assign, nonatomic) BOOL isPlaying;
+
+- (void)updateFavoriteCount;
 
 @end

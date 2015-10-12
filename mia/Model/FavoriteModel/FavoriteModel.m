@@ -15,19 +15,17 @@
 	self = [super init];
 	if(self) {
 		_dataSource = [[NSMutableArray alloc] init];
-		_lastID = @"0";
 	}
 
 	return self;
 }
 
 - (void)addItemsWithArray:(NSArray *) items {
-	for(id item in items){
-		FavoriteItem *favoriteItem = [[FavoriteItem alloc] initWithDictionary:item];
-		//NSLog(@"%@", favoriteItem);
-		_lastID = favoriteItem.fID;
-		[_dataSource addObject:favoriteItem];
+	if (items.count <= 0) {
+		return;
 	}
+	
+	[_dataSource addObjectsFromArray:items];
 }
 
 @end

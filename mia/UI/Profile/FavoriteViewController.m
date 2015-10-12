@@ -17,6 +17,8 @@
 #import "WebSocketMgr.h"
 #import "DetailViewController.h"
 #import "MIALabel.h"
+#import "FavoriteModel.h"
+#import "FavoriteMgr.h"
 
 static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 //static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
@@ -39,6 +41,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	MIAButton 	*_closeButton;
 
 	UIView 		*_favoriteHeaderView;
+	MIALabel	*_titleLabel;
 	MIAButton 	*_playButton;
 
 	BOOL 		_isEditing;
@@ -77,6 +80,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[_titleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -196,17 +200,17 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	static const CGFloat kTitleWidth			= 100;
 	static const CGFloat kTitleHeight			= 20;
 
-	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kTitleMarginLeft,
+	_titleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kTitleMarginLeft,
 														  kTitleMarginTop,
 														  kTitleWidth,
 														  kTitleHeight)
-										  text:@"收藏(30首)"
+										  text:@"收藏"
 										  font:UIFontFromSize(16.0f)
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
 	//titleLabel.backgroundColor = [UIColor greenColor];
-	[_favoriteHeaderView addSubview:titleLabel];
+	[_favoriteHeaderView addSubview:_titleLabel];
 
 	static const CGFloat kPlayButtonMarginLeft		= 112;
 	static const CGFloat kPlayButtonMarginTop		= 18;
@@ -255,7 +259,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)requestFavoriteList {
-	[_favoriteViewControllerDelegate favoriteViewControllerRequestFavoriteList];
+	NSArray *items = [_favoriteViewControllerDelegate favoriteViewControllerGetFavoriteList];
+	[[_favoriteViewControllerDelegate favoriteViewControllerModel] addItemsWithArray:items];
+	[_favoriteCollectionView reloadData];
+	[self endRequestFavoriteList:YES];
 }
 
 - (void)endRequestFavoriteList:(BOOL)isSuccessed {
