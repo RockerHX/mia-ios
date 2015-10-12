@@ -66,13 +66,17 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (long)favoriteCount {
-	// TODO linyehui fav
 	return [_favoriteItems count];
 }
 
 - (long)cachedCount {
-	// TODO linyehui fav
-	return 0;
+	long count = 0;
+	for (FavoriteItem *item in _favoriteItems) {
+		if (item.isCached) {
+			count++;
+		}
+	}
+	return count;
 }
 
 
@@ -83,9 +87,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	_isSyncing = YES;
-
-	// TODO linyehui fav
-	// 跟服务器进行同步，这里的同步需要处理：新增，删除，修改等操作
 	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
 }
 
@@ -113,13 +114,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)mergeItems {
-	// TODO linyehui fav
-	// 合并，找到新增和删除的，对文件进行操作，修改的暂定不做改动
-
 	// 寻找删除的元素
 	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (![self isItemInArray:item array:_tempItems]) {
+			[self deleteCacheFileWithUrl:item.music.murl];
+			item.isCached = NO;
 			[_favoriteItems removeObject:item];
 		}
 	}
@@ -133,6 +133,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	_tempItems = nil;
+}
+
+- (void)deleteCacheFileWithUrl:(NSString *)url {
+	NSString *filename = [self genMusicFilenameWithUrl:url];
+	NSError *error;
+	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
 }
 
 - (void)downloadFavorite {
