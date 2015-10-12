@@ -56,6 +56,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 		__weak FSAudioStream *weakStream = audioStream;
 		audioStream.onStateChange = ^(FSAudioStreamState state) {
+			/*
 			NSString *stateName = @"";
 			switch (state) {
 				case kFsAudioStreamRetrievingURL:
@@ -101,6 +102,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 					break;
 			}
 			NSLog(@"onStateChange:%@, %@", stateName, weakStream.url);
+			*/
 		};
 		audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			NSLog(@"onFailure:%d, %@, %@", error, errorDescription, weakStream.url);

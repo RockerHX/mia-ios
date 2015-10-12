@@ -16,13 +16,14 @@ NSString * const WebSocketMgrNotificationKey_Msg				= @"msg";
 NSString * const WebSocketMgrNotificationKey_Command			= @"cmd";
 NSString * const WebSocketMgrNotificationKey_Values				= @"values";
 
-NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotificationReachabilityStatusChange";
-
 NSString * const WebSocketMgrNotificationDidOpen			 	= @"WebSocketMgrNotificationDidOpen";
 NSString * const WebSocketMgrNotificationDidFailWithError		= @"WebSocketMgrNotificationDidFailWithError";
 NSString * const WebSocketMgrNotificationDidReceiveMessage		= @"WebSocketMgrNotificationDidReceiveMessage";
 NSString * const WebSocketMgrNotificationDidCloseWithCode		= @"WebSocketMgrNotificationDidCloseWithCode";
 NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotificationDidReceivePong";
+
+NSString * const NetworkNotificationKey_Status					= @"status";
+NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotificationReachabilityStatusChange";
 
 @interface WebSocketMgr() <SRWebSocketDelegate>
 
@@ -48,8 +49,9 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
     return webSocketMgr;
 }
 
-- (void)watchNetworkStatus
-{
+- (void)watchNetworkStatus {
+	_networkStatus = AFNetworkReachabilityStatusUnknown;
+	
 	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:
 	 ^(AFNetworkReachabilityStatus status) {
@@ -57,7 +59,7 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 		_networkStatus = status;
 
 		 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-								   [NSNumber numberWithInteger:status], @"status",
+								   [NSNumber numberWithInteger:status], NetworkNotificationKey_Status,
 								   nil];
 		 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self userInfo:userInfo];
 	}];

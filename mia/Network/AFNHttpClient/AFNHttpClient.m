@@ -128,6 +128,33 @@
 	return nil;
 }
 
++ (NSURLSessionDownloadTask *)downloadWithURL:(NSString *)url
+			   savePath:(NSString *)savePath
+		  completeBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completeBlock {
+	NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+	AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+	NSURL *requestUrl = [NSURL URLWithString:url];
+	NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
+
+	NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request
+																	 progress:nil
+																  destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+		return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@", savePath]];
+	} completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+		if (completeBlock) {
+			completeBlock(response, filePath, error);
+		}
+
+		NSLog(@"File downloaded to: %@", filePath);
+	}];
+	[downloadTask resume];
+
+	return downloadTask;
+}
+
+#pragma mark - private method
+
 - (id)initWithURL:(NSString *)url requestType:(AFNHttpRequestType )requestTypes
        parameters:(id )parameters
        imageArray:(NSArray *)imageArray

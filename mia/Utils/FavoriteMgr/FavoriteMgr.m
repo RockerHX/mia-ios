@@ -13,6 +13,10 @@
 #import "FavoriteItem.h"
 #import "PathHelper.h"
 #import "UserSession.h"
+#import "AFNetworking.h"
+#import "AFNHttpClient.h"
+#import "NSString+MD5.h"
+#import "NSString+IsNull.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -21,9 +25,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 @end
 
 @implementation FavoriteMgr {
-	NSMutableArray *_favoriteItems;
-	NSMutableArray *_tempItems;
-	BOOL			_isSyncing;
+	NSMutableArray 				*_favoriteItems;
+	NSMutableArray 				*_tempItems;
+	BOOL						_isSyncing;
+
+	NSURLSessionDownloadTask 	*_downloadTask;
+	long						_currentDownloadIndex;
 }
 
 /**
@@ -44,12 +51,18 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	if (self) {
 		[self loadData];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	}
 	return self;
 }
 
 - (void)dealloc {
+	if (_downloadTask) {
+		[_downloadTask cancel];
+	}
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
 - (long)favoriteCount {
@@ -85,6 +98,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	_isSyncing = NO;
+
+	[self downloadFavorite];
 }
 
 - (void)mergeItems {
@@ -93,6 +108,52 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	_favoriteItems = _tempItems;
 	_tempItems = nil;
+}
+
+- (void)downloadFavorite {
+	// TODO linyehui fav
+	// 多线程下载收藏的歌曲
+	dispatch_queue_t queue = dispatch_queue_create("DownloadFavoriteQueue", NULL);
+	dispatch_async(queue, ^() {
+		FavoriteItem *item = [self getNextDownloadItem];
+		if (!item
+			|| [NSString isNull:item.music.murl]
+			|| ![[WebSocketMgr standard] isWifiNetwork]) {
+			// 断网后也会从0重新开始查找需要下载的歌曲
+			_currentDownloadIndex = 0;
+			return;
+		}
+
+		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
+											  savePath:[self genMusicFilenameWithUrl:item.music.murl]
+										 completeBlock:
+						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+							 if (nil == error) {
+								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
+								 [self saveData];
+							 }
+
+							 _downloadTask = nil;
+							 _currentDownloadIndex++;
+							 [self downloadFavorite];
+						 }];
+	});
+}
+
+- (FavoriteItem *)getNextDownloadItem {
+	FavoriteItem *item = nil;
+	for (; _currentDownloadIndex < _favoriteItems.count; _currentDownloadIndex++) {
+		item = _favoriteItems[_currentDownloadIndex];
+		if (item && !item.isCached) {
+			return item;
+		}
+	}
+
+	return nil;
+}
+
+- (NSString *)genMusicFilenameWithUrl:(NSString *)url {
+	return [NSString stringWithFormat:@"%@/%@", [PathHelper favoriteCacheDir], [NSString md5HexDigest:url]];
 }
 
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
@@ -114,6 +175,16 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
 		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
+	}
+}
+
+- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
+	id status = [notification userInfo][NetworkNotificationKey_Status];
+	if ([status intValue] != AFNetworkReachabilityStatusReachableViaWiFi) {
+		if (_downloadTask) {
+			NSLog(@"cancel current download");
+			[_downloadTask cancel];
+		}
 	}
 }
 

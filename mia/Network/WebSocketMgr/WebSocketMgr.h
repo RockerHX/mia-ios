@@ -12,13 +12,15 @@ extern NSString * const WebSocketMgrNotificationKey_Msg;
 extern NSString * const WebSocketMgrNotificationKey_Command;
 extern NSString * const WebSocketMgrNotificationKey_Values;
 
-extern NSString * const NetworkNotificationReachabilityStatusChange;
-
 extern NSString * const WebSocketMgrNotificationDidOpen;
 extern NSString * const WebSocketMgrNotificationDidFailWithError;
 extern NSString * const WebSocketMgrNotificationDidReceiveMessage;
 extern NSString * const WebSocketMgrNotificationDidCloseWithCode;
 extern NSString * const WebSocketMgrNotificationDidReceivePong;
+
+extern NSString * const NetworkNotificationKey_Status;
+extern NSString * const NetworkNotificationReachabilityStatusChange;
+
 
 @interface WebSocketMgr : NSObject
 
