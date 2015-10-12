@@ -11,6 +11,8 @@
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
 #import "FavoriteItem.h"
+#import "PathHelper.h"
+#import "UserSession.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -21,6 +23,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 @implementation FavoriteMgr {
 	NSMutableArray *_favoriteItems;
 	NSMutableArray *_tempItems;
+	BOOL			_isSyncing;
 }
 
 /**
@@ -61,19 +64,35 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 
 - (void)syncFavoriteList {
+	if (_isSyncing) {
+		NSLog(@"favorite list is still syncing");
+		return;
+	}
+
+	_isSyncing = YES;
+
 	// TODO linyehui fav
 	// 跟服务器进行同步，这里的同步需要处理：新增，删除，修改等操作
 	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
 }
 
 - (void)syncFinished {
-	_favoriteItems = _tempItems;
-	_tempItems = nil;
-
+	[self mergeItems];
 	[self saveData];
+
 	if (_customDelegate) {
 		[_customDelegate favoriteMgrDidFinishSync];
 	}
+
+	_isSyncing = NO;
+}
+
+- (void)mergeItems {
+	// TODO linyehui fav
+	// 合并，找到新增和删除的，对文件进行操作，修改的暂定不做改动
+
+	_favoriteItems = _tempItems;
+	_tempItems = nil;
 }
 
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
@@ -127,14 +146,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)loadData {
-	_favoriteItems = [NSKeyedUnarchiver unarchiveObjectWithFile:[self archivePath]];
+	_favoriteItems = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]]];
 	if (!_favoriteItems) {
 		_favoriteItems = [[NSMutableArray alloc] init];
 	}
 }
 
 - (BOOL)saveData {
-	NSString *fileName = [self archivePath];
+	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]];
 	if (![NSKeyedArchiver archiveRootObject:_favoriteItems toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
@@ -144,15 +163,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	return YES;
-}
-
-- (NSString *)archivePath {
-	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
-
-	// TODO linyehui fav
-	// add user id to path
-	return [documentDirectory stringByAppendingString:@"/favorite.archive"];
 }
 
 //将对象编码(即:序列化)

@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "FSAudioStream.h"
+#import "PathHelper.h"
 
 NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 
@@ -44,7 +45,9 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	self = [super init];
 	if (self) {
 		// init audioStream
-		audioStream = [[FSAudioStream alloc] init];
+		FSStreamConfiguration *defaultConfiguration = [[FSStreamConfiguration alloc] init];
+		defaultConfiguration.cacheDirectory = [PathHelper playCacheDir];
+		audioStream = [[FSAudioStream alloc] initWithConfiguration:defaultConfiguration];
 		audioStream.strictContentTypeChecking = NO;
 		audioStream.defaultContentType = @"audio/mpeg";
 		audioStream.onCompletion = ^() {
