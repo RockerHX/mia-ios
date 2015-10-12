@@ -102,11 +102,36 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	[self downloadFavorite];
 }
 
+- (BOOL)isItemInArray:(FavoriteItem *)item array:(NSArray *)array {
+	for (FavoriteItem *it in array) {
+		if ([[item fID] isEqualToString:[it fID]]) {
+			return YES;
+		}
+	}
+
+	return NO;
+}
+
 - (void)mergeItems {
 	// TODO linyehui fav
 	// 合并，找到新增和删除的，对文件进行操作，修改的暂定不做改动
 
-	_favoriteItems = _tempItems;
+	// 寻找删除的元素
+	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
+	for (FavoriteItem *item in enumerator) {
+		if (![self isItemInArray:item array:_tempItems]) {
+			[_favoriteItems removeObject:item];
+		}
+	}
+
+	for (FavoriteItem *newItem in _tempItems) {
+		if (![self isItemInArray:newItem array:_favoriteItems]) {
+			// TODO linyehui fav
+			// 插入时的排序
+			[_favoriteItems addObject:newItem];
+		}
+	}
+
 	_tempItems = nil;
 }
 
