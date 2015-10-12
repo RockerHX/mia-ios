@@ -12,6 +12,8 @@ extern NSString * const WebSocketMgrNotificationKey_Msg;
 extern NSString * const WebSocketMgrNotificationKey_Command;
 extern NSString * const WebSocketMgrNotificationKey_Values;
 
+extern NSString * const NetworkNotificationReachabilityStatusChange;
+
 extern NSString * const WebSocketMgrNotificationDidOpen;
 extern NSString * const WebSocketMgrNotificationDidFailWithError;
 extern NSString * const WebSocketMgrNotificationDidReceiveMessage;
@@ -25,6 +27,9 @@ extern NSString * const WebSocketMgrNotificationDidReceivePong;
  *
  */
 +(id)standard;
+
+- (BOOL)isNetworkEnable;
+- (BOOL)isWifiNetwork;
 
 - (void)reconnect;
 - (void)close;
