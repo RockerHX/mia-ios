@@ -59,7 +59,7 @@
             </objects>
             <point key="canvasLocation" x="222" y="409"/>
         </scene>
-        <!--Data Source-->
+        <!--Radio Content View Controller-->
         <scene sceneID="H02-C6-wcy">
             <objects>
                 <viewController storyboardIdentifier="HXRadioContentViewController" id="ln9-6M-WL7" customClass="HXRadioContentViewController" sceneMemberID="viewController">
@@ -71,38 +71,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8o-h5-qi0" customClass="iCarousel">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F49-bH-9BK">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8o-h5-qi0" customClass="iCarousel">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="368"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outlet property="dataSource" destination="ln9-6M-WL7" id="dia-hV-JWL"/>
-                                    <outlet property="delegate" destination="ln9-6M-WL7" id="gTj-zC-iQB"/>
-                                </connections>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ebP-kf-eFX">
-                                <rect key="frame" x="0.0" y="408" width="320" height="80"/>
+                                <rect key="frame" x="100" y="448" width="120" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="VeE-1u-rzQ"/>
+                                    <constraint firstAttribute="width" constant="120" id="5fS-z0-HBZ"/>
+                                    <constraint firstAttribute="height" constant="40" id="VeE-1u-rzQ"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <animations/>
                         <constraints>
-                            <constraint firstItem="W8o-h5-qi0" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="7k6-iM-IzX"/>
-                            <constraint firstAttribute="trailing" secondItem="W8o-h5-qi0" secondAttribute="trailing" id="BXS-HQ-B0i"/>
-                            <constraint firstItem="wcV-VL-v9l" firstAttribute="top" secondItem="ebP-kf-eFX" secondAttribute="bottom" id="Vdp-h5-n4K"/>
-                            <constraint firstAttribute="bottom" secondItem="W8o-h5-qi0" secondAttribute="bottom" id="ZGQ-14-XtP"/>
-                            <constraint firstAttribute="trailing" secondItem="ebP-kf-eFX" secondAttribute="trailing" id="tzE-vp-fUy"/>
-                            <constraint firstItem="W8o-h5-qi0" firstAttribute="top" secondItem="l7K-UV-bBP" secondAttribute="bottom" id="vbP-hl-lfA"/>
-                            <constraint firstItem="ebP-kf-eFX" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="z2K-I0-8Uv"/>
+                            <constraint firstItem="W8o-h5-qi0" firstAttribute="top" secondItem="mYa-hk-Nog" secondAttribute="top" id="3yn-6y-zj6"/>
+                            <constraint firstItem="F49-bH-9BK" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="APT-WH-mWw"/>
+                            <constraint firstItem="W8o-h5-qi0" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="Os9-um-XnM"/>
+                            <constraint firstItem="ebP-kf-eFX" firstAttribute="centerX" secondItem="mYa-hk-Nog" secondAttribute="centerX" id="SP1-Uz-vw2"/>
+                            <constraint firstAttribute="trailing" secondItem="W8o-h5-qi0" secondAttribute="trailing" id="TMe-gv-kvC"/>
+                            <constraint firstItem="wcV-VL-v9l" firstAttribute="top" secondItem="ebP-kf-eFX" secondAttribute="bottom" id="U4z-hi-S1d"/>
+                            <constraint firstItem="F49-bH-9BK" firstAttribute="top" secondItem="mYa-hk-Nog" secondAttribute="top" id="drk-BI-WCQ"/>
+                            <constraint firstAttribute="bottom" secondItem="W8o-h5-qi0" secondAttribute="bottom" constant="120" id="pP9-HX-7Tl"/>
+                            <constraint firstAttribute="trailing" secondItem="F49-bH-9BK" secondAttribute="trailing" id="qLV-5l-Iwm"/>
+                            <constraint firstAttribute="bottom" secondItem="F49-bH-9BK" secondAttribute="bottom" id="sJy-if-FCY"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="carousel" destination="W8o-h5-qi0" id="ldq-6s-GDn"/>
                         <outlet property="stackView" destination="ebP-kf-eFX" id="H3A-9w-4Kl"/>
+                        <outlet property="stackViewBottomConstraint" destination="U4z-hi-S1d" id="S3P-Ag-MwF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zeR-tz-v1f" userLabel="First Responder" sceneMemberID="firstResponder"/>

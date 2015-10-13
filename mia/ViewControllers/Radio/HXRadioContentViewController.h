@@ -6,12 +6,12 @@
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <iCarousel/iCarousel.h>
 
-@interface HXRadioContentViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
+@interface HXRadioContentViewController : UIViewController
 
 @property (nonatomic, weak) IBOutlet iCarousel *carousel;
 @property (nonatomic, weak) IBOutlet UIStackView *stackView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *stackViewBottomConstraint;
 
 @end
