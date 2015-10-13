@@ -11,6 +11,12 @@
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
 #import "FavoriteItem.h"
+#import "PathHelper.h"
+#import "UserSession.h"
+#import "AFNetworking.h"
+#import "AFNHttpClient.h"
+#import "NSString+MD5.h"
+#import "NSString+IsNull.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -19,8 +25,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 @end
 
 @implementation FavoriteMgr {
-	NSMutableArray *_favoriteItems;
-	NSMutableArray *_tempItems;
+	NSMutableArray 				*_favoriteItems;
+	NSMutableArray 				*_tempItems;
+	BOOL						_isSyncing;
+
+	NSURLSessionDownloadTask 	*_downloadTask;
+	long						_currentDownloadIndex;
 }
 
 /**
@@ -41,39 +51,140 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	if (self) {
 		[self loadData];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	}
 	return self;
 }
 
 - (void)dealloc {
+	if (_downloadTask) {
+		[_downloadTask cancel];
+	}
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
 - (long)favoriteCount {
-	// TODO linyehui fav
 	return [_favoriteItems count];
 }
 
 - (long)cachedCount {
-	// TODO linyehui fav
-	return 0;
+	long count = 0;
+	for (FavoriteItem *item in _favoriteItems) {
+		if (item.isCached) {
+			count++;
+		}
+	}
+	return count;
 }
 
 
 - (void)syncFavoriteList {
-	// TODO linyehui fav
-	// 跟服务器进行同步，这里的同步需要处理：新增，删除，修改等操作
+	if (_isSyncing) {
+		NSLog(@"favorite list is still syncing");
+		return;
+	}
+
+	_isSyncing = YES;
 	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
 }
 
 - (void)syncFinished {
-	_favoriteItems = _tempItems;
-	_tempItems = nil;
-
+	[self mergeItems];
 	[self saveData];
+
 	if (_customDelegate) {
 		[_customDelegate favoriteMgrDidFinishSync];
 	}
+
+	_isSyncing = NO;
+
+	[self downloadFavorite];
+}
+
+- (BOOL)isItemInArray:(FavoriteItem *)item array:(NSArray *)array {
+	for (FavoriteItem *it in array) {
+		if ([[item fID] isEqualToString:[it fID]]) {
+			return YES;
+		}
+	}
+
+	return NO;
+}
+
+- (void)mergeItems {
+	// 寻找删除的元素
+	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
+	for (FavoriteItem *item in enumerator) {
+		if (![self isItemInArray:item array:_tempItems]) {
+			[self deleteCacheFileWithUrl:item.music.murl];
+			item.isCached = NO;
+			[_favoriteItems removeObject:item];
+		}
+	}
+
+	for (FavoriteItem *newItem in _tempItems) {
+		if (![self isItemInArray:newItem array:_favoriteItems]) {
+			// TODO linyehui fav
+			// 插入时的排序
+			[_favoriteItems addObject:newItem];
+		}
+	}
+
+	_tempItems = nil;
+}
+
+- (void)deleteCacheFileWithUrl:(NSString *)url {
+	NSString *filename = [self genMusicFilenameWithUrl:url];
+	NSError *error;
+	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
+}
+
+- (void)downloadFavorite {
+	// TODO linyehui fav
+	// 多线程下载收藏的歌曲
+	dispatch_queue_t queue = dispatch_queue_create("DownloadFavoriteQueue", NULL);
+	dispatch_async(queue, ^() {
+		FavoriteItem *item = [self getNextDownloadItem];
+		if (!item
+			|| [NSString isNull:item.music.murl]
+			|| ![[WebSocketMgr standard] isWifiNetwork]) {
+			// 断网后也会从0重新开始查找需要下载的歌曲
+			_currentDownloadIndex = 0;
+			return;
+		}
+
+		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
+											  savePath:[self genMusicFilenameWithUrl:item.music.murl]
+										 completeBlock:
+						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+							 if (nil == error) {
+								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
+								 [self saveData];
+							 }
+
+							 _downloadTask = nil;
+							 _currentDownloadIndex++;
+							 [self downloadFavorite];
+						 }];
+	});
+}
+
+- (FavoriteItem *)getNextDownloadItem {
+	FavoriteItem *item = nil;
+	for (; _currentDownloadIndex < _favoriteItems.count; _currentDownloadIndex++) {
+		item = _favoriteItems[_currentDownloadIndex];
+		if (item && !item.isCached) {
+			return item;
+		}
+	}
+
+	return nil;
+}
+
+- (NSString *)genMusicFilenameWithUrl:(NSString *)url {
+	return [NSString stringWithFormat:@"%@/%@", [PathHelper favoriteCacheDir], [NSString md5HexDigest:url]];
 }
 
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
@@ -95,6 +206,16 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
 		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
+	}
+}
+
+- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
+	id status = [notification userInfo][NetworkNotificationKey_Status];
+	if ([status intValue] != AFNetworkReachabilityStatusReachableViaWiFi) {
+		if (_downloadTask) {
+			NSLog(@"cancel current download");
+			[_downloadTask cancel];
+		}
 	}
 }
 
@@ -127,14 +248,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)loadData {
-	_favoriteItems = [NSKeyedUnarchiver unarchiveObjectWithFile:[self archivePath]];
+	_favoriteItems = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]]];
 	if (!_favoriteItems) {
 		_favoriteItems = [[NSMutableArray alloc] init];
 	}
 }
 
 - (BOOL)saveData {
-	NSString *fileName = [self archivePath];
+	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]];
 	if (![NSKeyedArchiver archiveRootObject:_favoriteItems toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
@@ -144,15 +265,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	return YES;
-}
-
-- (NSString *)archivePath {
-	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
-
-	// TODO linyehui fav
-	// add user id to path
-	return [documentDirectory stringByAppendingString:@"/favorite.archive"];
 }
 
 //将对象编码(即:序列化)

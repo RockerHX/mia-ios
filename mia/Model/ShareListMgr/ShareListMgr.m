@@ -7,6 +7,8 @@
 //
 
 #import "ShareListMgr.h"
+#import "PathHelper.h"
+#import "UserSession.h"
 
 const int kShareListCapacity					= 25;
 const int kHistoryItemsMaxCount					= 5;
@@ -16,7 +18,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 + (id)initFromArchive {
-	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[self archivePath]];
+	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper shareArchivePathWithUID:[[UserSession standard] uid]]];
 	if (!aMgr) {
 	    aMgr = [[self alloc] init];
 	}
@@ -120,16 +122,8 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	[self saveChanges];
 }
 
-//- (ShareItem *)popItemFromRight {
-//	_currentShareItem = [_shareList objectAtIndex:0];
-//	[_shareList removeObjectAtIndex:0];
-//
-//	return _currentShareItem;
-//}
-//
-
 - (BOOL)saveChanges {
-	NSString *fileName = [ShareListMgr archivePath];
+	NSString *fileName = [PathHelper shareArchivePathWithUID:[[UserSession standard] uid]];
 	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
@@ -139,13 +133,6 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	}
 
 	return YES;
-}
-
-+ (NSString *)archivePath {
-	NSArray *documentDirectores = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentDirectory = [documentDirectores objectAtIndex:0];
-
-	return [documentDirectory stringByAppendingString:@"/sharelist.archive"];
 }
 
 //将对象编码(即:序列化)
