@@ -7,9 +7,13 @@
 //
 
 #import "HXRadioContentViewController.h"
+#import "HXRadioCarouselHelper.h"
 
 @interface HXRadioContentViewController () {
     NSMutableArray *_items;
+    HXRadioCarouselHelper *_helper;
+    
+    CGAffineTransform _transform;
 }
 
 @end
@@ -32,9 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //configure carousel
-    _carousel.type          = iCarouselTypeLinear;
-    _carousel.pagingEnabled = YES;
+    [self viewConfig];
 }
 
 #pragma mark - Config Methods
@@ -43,66 +45,80 @@
     for (int i = 0; i < 3; i++) {
         [_items addObject:@(i)];
     }
+    
+    [self setUpHelper];
+}
+
+- (void)setUpHelper {
+    _helper = [[HXRadioCarouselHelper alloc] init];
+    _helper.items = _items;
+}
+
+- (void)viewConfig {
+    [self carouselConfig];
+    [self stackViewConfig];
+    [self gestureConfig];
+    
+    _transform = _stackView.transform;
+}
+
+- (void)carouselConfig {
+    //configure carousel
+    _carousel.type = iCarouselTypeLinear;
+    _carousel.pagingEnabled = YES;
+    
+    _carousel.dataSource = _helper;
+    _carousel.delegate = _helper;
+}
+
+- (void)stackViewConfig {
+    for (int i = 0; i < 3; i++) {
+        UIImageView *star = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star"]];
+        star.contentMode = UIViewContentModeScaleAspectFit;
+        [_stackView addArrangedSubview:star];
+    }
+}
+
+- (void)gestureConfig {
+    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
+    swipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
+    panGesture.minimumNumberOfTouches = 1;
+    panGesture.maximumNumberOfTouches = 1;
+    [panGesture requireGestureRecognizerToFail:swipeGesture];
+//    [self.view addGestureRecognizer:swipeGesture];
+    [self.view addGestureRecognizer:panGesture];
 }
 
 #pragma mark - Event Response
-
-#pragma mark - iCarousel Data Source Methods
-- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    //return the total number of items in the carousel
-    return [_items count];
-}
-
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    UILabel *label = nil;
-    //create new view if no view is available for recycling
-    if (!view){
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300.0f, 320.0f)];
-        view.backgroundColor = [UIColor darkGrayColor];
-        label = [[UILabel alloc] initWithFrame:view.bounds];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [label.font fontWithSize:50];
-        label.tag = 1;
-        [view addSubview:label];
-    } else {
-        //get a reference to the label in the recycled view
-        label = (UILabel *)[view viewWithTag:1];
-    }
-    
-    //set item label
-    //remember to always set any properties of your carousel item
-    //views outside of the `if (view == nil) {...}` check otherwise
-    //you'll get weird issues with carousel item content appearing
-    //in the wrong place in the carousel
-    label.text = [_items[index] stringValue];
-    
-    return view;
-}
-
-#pragma mark - iCarousel Delegate Methods
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-    NSLog(@"Current Page:%@", @(carousel.currentItemIndex));
-}
-
-- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    NSLog(@"Selected Index:%@", @(index));
-}
-
-- (CGFloat)carousel:(__unused iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
-    //customize carousel display
-    switch (option) {
-        case iCarouselOptionWrap: {
-            return YES;
-            break;
-        }
-        case iCarouselOptionSpacing: {
-            //add a bit of spacing between the item views
-            return value * 1.02f;
-            break;
-        }
-        default: {
-            return value;
+static CGFloat Threshold = 0.0f;
+static CGFloat AnimateDuration = 0.5f;
+static CGFloat TransformScaleMultiple = 1.5f;
+static CGFloat StackViewBottomMaxConstraint = 60.0f;
+- (void)gestureRecognizer:(UIGestureRecognizer *)gesture {
+    __weak __typeof__(self)weakSelf = self;
+    if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        [UIView animateWithDuration:AnimateDuration animations:^{
+            __strong __typeof__(self)strongSelf = weakSelf;
+            if (strongSelf.stackViewBottomConstraint.constant < StackViewBottomMaxConstraint) {
+                strongSelf.stackViewBottomConstraint.constant = StackViewBottomMaxConstraint;
+                strongSelf.stackView.transform = CGAffineTransformScale(strongSelf.stackView.transform, TransformScaleMultiple, TransformScaleMultiple);
+                [strongSelf.view layoutIfNeeded];
+            }
+        }];
+    } else if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+        UIPanGestureRecognizer *panGesture = (UIPanGestureRecognizer *)gesture;
+//        NSLog(@"translationInView:%@", NSStringFromCGPoint([panGesture translationInView:self.view]));
+//        NSLog(@"velocityInView:%@", NSStringFromCGPoint([panGesture velocityInView:self.view]));
+        CGFloat offsetY = [panGesture translationInView:self.view].y;
+        CGFloat rate = fabs(offsetY)/(self.view.frame.size.height/2);
+        // 手指向上滑动
+        if (offsetY < Threshold) {
+            if (self.stackViewBottomConstraint.constant < StackViewBottomMaxConstraint) {
+                _stackViewBottomConstraint.constant = StackViewBottomMaxConstraint*rate;
+                _stackView.transform = CGAffineTransformScale(_transform, 1+0.5*rate, 1+0.5*rate);
+                [self.view layoutIfNeeded];
+            }
         }
     }
 }

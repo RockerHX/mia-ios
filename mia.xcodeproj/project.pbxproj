@@ -151,6 +151,7 @@
 		CD4F62F41BC9188200E33121 /* FDStackViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */; settings = {ASSET_TAGS = (); }; };
+		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -417,6 +418,8 @@
 		CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewLayoutArrangement.m; sourceTree = "<group>"; };
 		CD4F62ED1BC9188200E33121 /* FDTransformLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTransformLayer.h; sourceTree = "<group>"; };
 		CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTransformLayer.m; sourceTree = "<group>"; };
+		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
+		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -904,6 +907,7 @@
 				39BCADA51BA02F3100C6F7F2 /* Vendors */,
 				39BCAD771BA02AFE00C6F7F2 /* UIComponment */,
 				39BCAD3D1B9F141B00C6F7F2 /* Utils */,
+				CD4F62F71BCB4E3400E33121 /* Helper */,
 				CD221FC61BC79F0300FCD4E7 /* ViewControllers */,
 				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
 				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
@@ -1272,6 +1276,23 @@
 			path = FDStackView;
 			sourceTree = "<group>";
 		};
+		CD4F62F71BCB4E3400E33121 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				CD4F62F81BCB4E5400E33121 /* Radio */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		CD4F62F81BCB4E5400E33121 /* Radio */ = {
+			isa = PBXGroup;
+			children = (
+				CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */,
+				CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */,
+			);
+			path = Radio;
+			sourceTree = "<group>";
+		};
 		D6C14994FCE56A99A6316EBF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1486,6 +1507,7 @@
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				39BCADD41BA02F3100C6F7F2 /* UIImage+WebP.m in Sources */,
+				CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */,
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
 				390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */,
 				39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */,
