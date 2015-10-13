@@ -44,7 +44,6 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         webSocketMgr = [[self alloc] init];
-		[webSocketMgr watchNetworkStatus];
     });
     return webSocketMgr;
 }
@@ -61,14 +60,14 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 		 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 								   [NSNumber numberWithInteger:status], NetworkNotificationKey_Status,
 								   nil];
-		 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self userInfo:userInfo];
+		 [[NSNotificationCenter defaultCenter] postNotificationName:NetworkNotificationReachabilityStatusChange object:self userInfo:userInfo];
 	}];
 }
 
 - (BOOL)isNetworkEnable {
 	if (_networkStatus == AFNetworkReachabilityStatusReachableViaWWAN
 		|| _networkStatus == AFNetworkReachabilityStatusReachableViaWiFi) {
-		YES;
+		return YES;
 	}
 
 	return NO;

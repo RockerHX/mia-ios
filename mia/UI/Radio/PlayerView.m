@@ -200,10 +200,6 @@
 #pragma mark - audio operations
 
 - (void)playMusic {
-//	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
-//	static NSString *defaultMusicTitle = @"贝尔加湖畔";
-//	static NSString *defaultMusicArtist = @"李健";
-
 	NSString *musicUrl = [[_shareItem music] murl];
 	NSString *musicTitle = [[_shareItem music] name];
 	NSString *musicArtist = [[_shareItem music] singerName];
@@ -214,6 +210,7 @@
 	}
 
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 }
 

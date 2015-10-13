@@ -30,6 +30,8 @@ extern NSString * const NetworkNotificationReachabilityStatusChange;
  */
 +(id)standard;
 
+- (void)watchNetworkStatus;
+
 - (BOOL)isNetworkEnable;
 - (BOOL)isWifiNetwork;
 

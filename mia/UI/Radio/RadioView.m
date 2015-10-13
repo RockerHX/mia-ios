@@ -55,8 +55,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
-
-		[self initShareList];
 }
 
 	return self;
@@ -173,7 +171,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[bottomView addSubview:_locationLabel];
 }
 
-- (void)initShareList {
+- (void)loadShareList {
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
 		_isLoading = YES;
