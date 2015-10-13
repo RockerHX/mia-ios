@@ -213,19 +213,18 @@
 		return;
 	}
 
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-
+	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
 }
 
 - (void)pauseMusic {
-	[[MusicPlayerMgr standard] pause];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[[MusicPlayerMgr standard] pause];
 }
 
 - (void)stopMusic {
-	[[MusicPlayerMgr standard] stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[[MusicPlayerMgr standard] stop];
 }
 
 - (void)updateProgress:(NSTimer *)timer {

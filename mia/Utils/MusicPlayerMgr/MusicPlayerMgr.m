@@ -12,6 +12,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "FSAudioStream.h"
 #import "PathHelper.h"
+#import "UserSetting.h"
 
 NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 
@@ -135,6 +136,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)playWithUrl:url andTitle:title andArtist:artist {
 	NSLog(@"playWithUrl:%@", url);
+	if (![UserSetting isAllowedToPlayNow]) {
+		[self notifiNotAllowToPlayWith3G];
+		return;
+	}
+
 	if (![audioStream url]) {
 		// 没有设置过歌曲url，直接播放
 		[audioStream playFromURL:[NSURL URLWithString:url]];
@@ -158,6 +164,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (void)play {
+	if (![UserSetting isAllowedToPlayNow]) {
+		[self notifiNotAllowToPlayWith3G];
+		return;
+	}
+
 	if ([audioStream url]) {
 		NSLog(@"play:%@", [audioStream url]);
 		[audioStream pause];
@@ -169,9 +180,9 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 - (void)pause {
 	[audioStream pause];
 	if ([audioStream isPlaying]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:nil];
 	}
 
 }
@@ -183,6 +194,21 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)preload {
 	[audioStream preload];
+}
+
+#pragma mark -private method
+- (void)notifiNotAllowToPlayWith3G {
+	static NSString *kAlertTitleError = @"网络流量保护";
+	static NSString *kAlertMsgNotAllowToPlayWith3G = @"为保护您的流量，需要在设置中打开开关才能在2G/3G/4G网络下播放。";
+
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+														message:kAlertMsgNotAllowToPlayWith3G
+													   delegate:nil
+											  cancelButtonTitle:@"确定"
+											  otherButtonTitles:nil];
+	[alertView show];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
 }
 
 #pragma mark - Notification
