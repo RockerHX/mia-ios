@@ -422,6 +422,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		if (_favoriteViewControllerDelegate) {
 			if ([_favoriteViewControllerDelegate favoriteViewControllerDeleteMusics]) {
 				[_favoriteCollectionView reloadData];
+				[_titleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
 			}
 		}
 	} else {

@@ -33,6 +33,7 @@
 * @param isFavorite 期望设置成的收藏状态
 */
 + (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite;
++ (void)deleteFavoritesWithIDs:(NSArray *)idArray;
 
 + (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
 

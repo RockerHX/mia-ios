@@ -10,6 +10,7 @@
 
 @interface FavoriteItem : NSObject <NSCoding>
 
+@property (strong, nonatomic) NSString * sID;
 @property (strong, nonatomic) NSString * uID;
 @property (strong, nonatomic) NSString * sNick;
 @property (strong, nonatomic) NSString * sDate;

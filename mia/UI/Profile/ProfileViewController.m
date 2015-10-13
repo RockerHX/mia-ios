@@ -331,9 +331,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (BOOL)favoriteViewControllerDeleteMusics {
 	BOOL isChanged = NO;
+	NSMutableArray *idArray = [[NSMutableArray alloc] init];
 	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (item.isSelected) {
+			[idArray addObject:item.sID];
 			[_favoriteModel.dataSource removeObject:item];
 			isChanged = YES;
 		}
@@ -343,6 +345,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (isChanged) {
 		[_profileHeaderView updateFavoriteCount];
 	}
+
+	[MiaAPIHelper deleteFavoritesWithIDs:idArray];
 
 	return isChanged;
 }
@@ -364,6 +368,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
 		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
+		[self handleDeleteFavoritesWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -376,6 +382,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	[_shareListModel addSharesWithArray:shareList];
 	[_profileCollectionView reloadData];
+}
+
+- (void)handleDeleteFavoritesWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	NSLog(@"delete favorites ret: %d", ret);
 }
 
 #pragma mark - audio operations
