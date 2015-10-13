@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "FSAudioStream.h"
+#import "PathHelper.h"
 
 NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 
@@ -44,7 +45,9 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	self = [super init];
 	if (self) {
 		// init audioStream
-		audioStream = [[FSAudioStream alloc] init];
+		FSStreamConfiguration *defaultConfiguration = [[FSStreamConfiguration alloc] init];
+		defaultConfiguration.cacheDirectory = [PathHelper playCacheDir];
+		audioStream = [[FSAudioStream alloc] initWithConfiguration:defaultConfiguration];
 		audioStream.strictContentTypeChecking = NO;
 		audioStream.defaultContentType = @"audio/mpeg";
 		audioStream.onCompletion = ^() {
@@ -53,6 +56,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 		__weak FSAudioStream *weakStream = audioStream;
 		audioStream.onStateChange = ^(FSAudioStreamState state) {
+			/*
 			NSString *stateName = @"";
 			switch (state) {
 				case kFsAudioStreamRetrievingURL:
@@ -98,6 +102,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 					break;
 			}
 			NSLog(@"onStateChange:%@, %@", stateName, weakStream.url);
+			*/
 		};
 		audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			NSLog(@"onFailure:%d, %@, %@", error, errorDescription, weakStream.url);

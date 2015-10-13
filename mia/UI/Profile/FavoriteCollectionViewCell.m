@@ -123,6 +123,12 @@
 		[_downloadStateImageView setHidden:YES];
 		[_checkBoxButton setHidden:NO];
 	} else {
+		if (item.isCached) {
+			[_downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloaded"]];
+		} else {
+			[_downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloading"]];
+		}
+
 		[_downloadStateImageView setHidden:NO];
 		[_checkBoxButton setHidden:YES];
 	}

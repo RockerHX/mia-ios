@@ -28,6 +28,8 @@ typedef void (^SuccessBlock)(id responseObject);
  */
 typedef void (^FailedBlock)(NSError *error);
 
+typedef void (^DownloadCompleteBlock)(NSURLResponse *response, NSURL *filePath, NSError *error);
+
 @interface AFNHttpClient : NSObject
 
 /**
@@ -101,6 +103,9 @@ typedef void (^FailedBlock)(NSError *error);
 									   parameters:(id)parameters
 										  timeOut:(NSTimeInterval )timeOut;
 
++ (NSURLSessionDownloadTask *)downloadWithURL:(NSString *)url
+			   savePath:(NSString *)savePath
+		  completeBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completeBlock;
 
 @end
 
