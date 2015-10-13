@@ -75,6 +75,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 	}
 
 	return self;
@@ -82,6 +85,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 -(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 - (void)viewDidLoad {
@@ -362,6 +368,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 #pragma mark - Notification
+
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	[_profileHeaderView setIsPlaying:YES];
+}
+
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	[_profileHeaderView setIsPlaying:NO];
+}
+
+- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	if (_playingFavorite) {
+		_favoriteModel.currentPlaying++;
+		[self playMusic:_favoriteModel.currentPlaying];
+	}
+}
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];

@@ -77,6 +77,25 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 	return (_networkStatus == AFNetworkReachabilityStatusReachableViaWiFi);
 }
 
+- (BOOL)isOpen {
+	if ([_webSocket readyState] == SR_OPEN) {
+		return YES;
+	}
+
+	return NO;
+}
+
+- (BOOL)isClosed {
+	if (!_webSocket)
+		return YES;
+
+	if ([_webSocket readyState] == SR_CLOSED) {
+		return YES;
+	}
+
+	return NO;
+}
+
 - (void)reconnect {
 	_webSocket.delegate = nil;
 	[_webSocket close];
@@ -85,7 +104,6 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kMIAAPIUrl]]];
 	_webSocket.delegate = self;
 
-	//self.title = @"Opening Connection...";
 	NSLog(@"WebSocket opening");
 	[_webSocket open];
 	
@@ -101,7 +119,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 }
 
 - (void)sendPing:(id)sender {
-	if (_webSocket.readyState != SR_OPEN) {
+	if (![self isOpen]) {
 		NSLog(@"sendPing failed, websocket is not opening!");
 		return;
 	}
@@ -110,7 +128,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 }
 
 - (void)send:(id)data {
-	if (_webSocket.readyState != SR_OPEN) {
+	if (![self isOpen]) {
 		NSLog(@"send failed, websocket is not opening!");
 		return;
 	}

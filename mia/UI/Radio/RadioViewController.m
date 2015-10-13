@@ -245,7 +245,9 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 												  otherButtonTitles:nil];
 		[alertView show];
 	} else {
-		[[WebSocketMgr standard] reconnect];
+		if ([[WebSocketMgr standard] isClosed]) {
+			[[WebSocketMgr standard] reconnect];
+		}
 	}
 }
 
