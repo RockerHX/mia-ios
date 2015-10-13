@@ -77,5 +77,6 @@ static NSString * const MiaAPIKey_Note						= @"note";
 
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
 
+static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
 
 #endif // MiaMusicAPIMacro_h

@@ -276,6 +276,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[self handlePostGuestWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
+		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 
 }
@@ -311,6 +313,17 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"audo login failed!error:%@", error);
+	}
+}
+
+- (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+
+	if (isSuccess) {
+		[self updateProfileButtonWithUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
+	} else {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"unread comment failed! error:%@", error);
 	}
 }
 
