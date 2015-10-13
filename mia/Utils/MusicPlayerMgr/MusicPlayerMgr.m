@@ -13,6 +13,7 @@
 #import "FSAudioStream.h"
 #import "PathHelper.h"
 #import "UserSetting.h"
+#import "WebSocketMgr.h"
 
 NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 
@@ -117,6 +118,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		// 添加通知，拔出耳机后暂停播放
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicPlayerMgrNotificationRemoteControlEvent object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 
 	}
 	return self;
@@ -124,6 +126,8 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationRemoteControlEvent object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
 - (BOOL)isPlaying {
@@ -197,6 +201,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 #pragma mark -private method
+
 - (void)notifiNotAllowToPlayWith3G {
 	static NSString *kAlertTitleError = @"网络流量保护";
 	static NSString *kAlertMsgNotAllowToPlayWith3G = @"为保护您的流量，需要在设置中打开开关才能在2G/3G/4G网络下播放。";
@@ -270,6 +275,18 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 				break;
 		}
 	}
+}
+
+- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
+	if (![audioStream isPlaying]) {
+		return;
+	}
+	if ([UserSetting isAllowedToPlayNow]) {
+		return;
+	}
+
+	[self stop];
+	[self notifiNotAllowToPlayWith3G];
 }
 
 #pragma mark - audio operations

@@ -47,6 +47,11 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 - (ShareItem *)getCurrentItem {
+	if ([_shareList count] == 0
+		|| _currentItem > [_shareList count]) {
+		return nil;
+	}
+
 	return [_shareList objectAtIndex:_currentItem];
 }
 
