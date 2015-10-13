@@ -314,12 +314,37 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[_profileHeaderView updateFavoriteCount];
 }
 
+- (void)favoriteMgrDidFinishDownload {
+	if (_favoriteViewController) {
+		[_favoriteViewController.favoriteCollectionView reloadData];
+	}
+	[_profileHeaderView updateFavoriteCount];
+}
+
 - (FavoriteModel *)favoriteViewControllerModel {
 	return _favoriteModel;
 }
 
 - (NSArray *)favoriteViewControllerGetFavoriteList {
 	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
+}
+
+- (BOOL)favoriteViewControllerDeleteMusics {
+	BOOL isChanged = NO;
+	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
+	for (FavoriteItem *item in enumerator) {
+		if (item.isSelected) {
+			[_favoriteModel.dataSource removeObject:item];
+			isChanged = YES;
+		}
+	}
+
+	[[FavoriteMgr standard] removeSelectedItems];
+	if (isChanged) {
+		[_profileHeaderView updateFavoriteCount];
+	}
+
+	return isChanged;
 }
 
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row {

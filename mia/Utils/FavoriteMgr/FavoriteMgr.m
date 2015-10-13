@@ -90,6 +90,30 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
 }
 
+- (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
+	const static long kFavoriteListItemCountPerPage = 10;
+	NSMutableArray * items = [[NSMutableArray alloc] init];
+	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _favoriteItems.count; i++) {
+		[items addObject:_favoriteItems[i + lastIndex]];
+	}
+
+	return items;
+}
+
+- (void)removeSelectedItems {
+	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
+	for (FavoriteItem *item in enumerator) {
+		if (item.isSelected) {
+			[self deleteCacheFileWithUrl:item.music.murl];
+			[_favoriteItems removeObject:item];
+		}
+	}
+	
+	[self saveData];
+}
+
+#pragma mark - private method
+
 - (void)syncFinished {
 	[self mergeItems];
 	[self saveData];
@@ -152,6 +176,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			|| ![[WebSocketMgr standard] isWifiNetwork]) {
 			// 断网后也会从0重新开始查找需要下载的歌曲
 			_currentDownloadIndex = 0;
+			if (_customDelegate) {
+				[_customDelegate favoriteMgrDidFinishDownload];
+			}
+
 			return;
 		}
 
@@ -185,16 +213,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 - (NSString *)genMusicFilenameWithUrl:(NSString *)url {
 	return [NSString stringWithFormat:@"%@/%@", [PathHelper favoriteCacheDir], [NSString md5HexDigest:url]];
-}
-
-- (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
-	const static long kFavoriteListItemCountPerPage = 10;
-	NSMutableArray * items = [[NSMutableArray alloc] init];
-	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _favoriteItems.count; i++) {
-		[items addObject:_favoriteItems[i + lastIndex]];
-	}
-
-	return items;
 }
 
 #pragma mark - Notification
