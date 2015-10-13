@@ -104,6 +104,13 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (item.isSelected) {
+
+			// 如果删除的是当前正在下载的任务
+			if (_downloadTask
+				&& [[[[_downloadTask originalRequest] URL] absoluteString] isEqualToString:item.music.murl]) {
+				[_downloadTask cancel];
+			}
+
 			[self deleteCacheFileWithUrl:item.music.murl];
 			[_favoriteItems removeObject:item];
 		}
@@ -190,6 +197,9 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 							 if (nil == error) {
 								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
 								 [self saveData];
+							 } else {
+								 NSError *fileError;
+								 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
 							 }
 
 							 _downloadTask = nil;
@@ -203,12 +213,29 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	FavoriteItem *item = nil;
 	for (; _currentDownloadIndex < _favoriteItems.count; _currentDownloadIndex++) {
 		item = _favoriteItems[_currentDownloadIndex];
-		if (item && !item.isCached) {
+		if (![self isItemCached:item]) {
 			return item;
 		}
 	}
 
 	return nil;
+}
+
+- (BOOL)isItemCached:(FavoriteItem *)item {
+	if (nil == item) {
+		return NO;
+	}
+	if (!item.isCached) {
+		return NO;
+	}
+
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if(![fileManager fileExistsAtPath:[self genMusicFilenameWithUrl:item.music.murl]]) {
+		item.isCached = NO;
+		return NO;
+	}
+
+	return YES;
 }
 
 - (NSString *)genMusicFilenameWithUrl:(NSString *)url {
