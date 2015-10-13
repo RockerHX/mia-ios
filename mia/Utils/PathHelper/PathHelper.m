@@ -9,6 +9,7 @@
 
 #import "PathHelper.h"
 #import "NSString+IsNull.h"
+#import "NSString+MD5.h"
 
 @interface PathHelper()
 
@@ -64,6 +65,9 @@
 	return [NSString stringWithFormat:@"%@/favorite.archive", [self userDirWithUID:uid]];
 }
 
++ (NSString *)genMusicFilenameWithUrl:(NSString *)url {
+	return [NSString stringWithFormat:@"%@/%@", [self favoriteCacheDir], [NSString md5HexDigest:url]];
+}
 @end
 
 

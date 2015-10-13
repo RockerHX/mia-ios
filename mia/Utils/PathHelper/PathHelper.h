@@ -43,4 +43,5 @@
  */
 + (NSString *)favoriteArchivePathWithUID:(NSString *)uid;
 
++ (NSString *)genMusicFilenameWithUrl:(NSString *)url;
 @end

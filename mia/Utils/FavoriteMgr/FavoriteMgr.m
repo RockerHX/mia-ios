@@ -15,7 +15,6 @@
 #import "UserSession.h"
 #import "AFNetworking.h"
 #import "AFNHttpClient.h"
-#import "NSString+MD5.h"
 #import "NSString+IsNull.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
@@ -167,7 +166,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)deleteCacheFileWithUrl:(NSString *)url {
-	NSString *filename = [self genMusicFilenameWithUrl:url];
+	NSString *filename = [PathHelper genMusicFilenameWithUrl:url];
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
 }
@@ -191,7 +190,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		}
 
 		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
-											  savePath:[self genMusicFilenameWithUrl:item.music.murl]
+											  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
 										 completeBlock:
 						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
 							 if (nil == error) {
@@ -230,16 +229,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if(![fileManager fileExistsAtPath:[self genMusicFilenameWithUrl:item.music.murl]]) {
+	if(![fileManager fileExistsAtPath:[PathHelper genMusicFilenameWithUrl:item.music.murl]]) {
 		item.isCached = NO;
 		return NO;
 	}
 
 	return YES;
-}
-
-- (NSString *)genMusicFilenameWithUrl:(NSString *)url {
-	return [NSString stringWithFormat:@"%@/%@", [PathHelper favoriteCacheDir], [NSString md5HexDigest:url]];
 }
 
 #pragma mark - Notification

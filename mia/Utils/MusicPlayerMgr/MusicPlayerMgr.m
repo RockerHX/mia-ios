@@ -140,7 +140,13 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		[audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
-		[audioStream pause];
+		if ([audioStream isPlaying]) {
+			NSLog(@"resume music from pause error, stop and play again.");
+			[audioStream stop];
+			[audioStream playFromURL:[NSURL URLWithString:url]];
+		} else {
+			[audioStream pause];
+		}
 	} else {
 		// 切换歌曲
 		[audioStream stop];

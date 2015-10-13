@@ -30,5 +30,6 @@
 - (void)syncFavoriteList;
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex;
 - (void)removeSelectedItems;
+- (BOOL)isItemCached:(FavoriteItem *)item;
 
 @end

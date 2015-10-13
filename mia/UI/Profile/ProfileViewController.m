@@ -24,6 +24,7 @@
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
 #import "FavoriteMgr.h"
+#import "PathHelper.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -400,7 +401,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
 	currentItem.isPlaying = YES;
-	
+
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];
 	NSString *musicArtist = [[currentItem music] singerName];
@@ -408,6 +409,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (!musicUrl || !musicTitle || !musicArtist) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
+	}
+
+	if ([[FavoriteMgr standard] isItemCached:currentItem]) {
+		musicUrl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicUrl]];
 	}
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
