@@ -45,6 +45,8 @@ static NSString * const MiaAPICommand_User_PostViewm		= @"User.Post.Viewm";
 static NSString * const MiaAPIKey_spID						= @"spID";
 static NSString * const MiaAPIKey_Address					= @"address";
 
+static NSString * const MiaAPICommand_User_PostRcomm		= @"User.Post.Rcomm";
+
 static NSString * const MiaAPICommand_User_PostPauth		= @"User.Post.Pauth";
 static NSString * const MiaAPIKey_Type						= @"type";
 static NSString * const MiaAPIKey_PhoneNumber				= @"phone";
@@ -77,5 +79,6 @@ static NSString * const MiaAPIKey_Note						= @"note";
 
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
 
+static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
 
 #endif // MiaMusicAPIMacro_h

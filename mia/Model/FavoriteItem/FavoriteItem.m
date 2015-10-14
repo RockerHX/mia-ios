@@ -13,6 +13,7 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if(self) {
+		self.sID = [dictionary objectForKey:@"sID"];
 		self.uID = [dictionary objectForKey:@"uID"];
 		self.sNick = [dictionary objectForKey:@"sNick"];
 		self.sDate = [dictionary objectForKey:@"sDate"];
@@ -33,6 +34,7 @@
 
 //将对象编码(即:序列化)
 - (void) encodeWithCoder:(NSCoder *)aCoder {
+	[aCoder encodeObject:self.sID forKey:@"sID"];
 	[aCoder encodeObject:self.uID forKey:@"uID"];
 	[aCoder encodeObject:self.sNick forKey:@"sNick"];
 	[aCoder encodeObject:self.sDate forKey:@"sDate"];
@@ -47,6 +49,7 @@
 //将对象解码(反序列化)
 -(id) initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
+		self.sID = [aDecoder decodeObjectForKey:@"sID"];
 		self.uID = [aDecoder decodeObjectForKey:@"uID"];
 		self.sNick = [aDecoder decodeObjectForKey:@"sNick"];
 		self.sDate = [aDecoder decodeObjectForKey:@"sDate"];

@@ -24,6 +24,7 @@
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
 #import "FavoriteMgr.h"
+#import "PathHelper.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -74,6 +75,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 	}
 
 	return self;
@@ -81,6 +85,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 -(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 - (void)viewDidLoad {
@@ -277,7 +284,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:cell.shareItem];
+	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]];
+
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem]];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -314,12 +323,42 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[_profileHeaderView updateFavoriteCount];
 }
 
+- (void)favoriteMgrDidFinishDownload {
+	if (_favoriteViewController) {
+		[_favoriteViewController.favoriteCollectionView reloadData];
+	}
+	[_profileHeaderView updateFavoriteCount];
+}
+
 - (FavoriteModel *)favoriteViewControllerModel {
 	return _favoriteModel;
 }
 
 - (NSArray *)favoriteViewControllerGetFavoriteList {
 	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
+}
+
+- (BOOL)favoriteViewControllerDeleteMusics {
+	BOOL isChanged = NO;
+	NSMutableArray *idArray = [[NSMutableArray alloc] init];
+	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
+	for (FavoriteItem *item in enumerator) {
+		if (item.isSelected) {
+			[idArray addObject:item.sID];
+			[_favoriteModel.dataSource removeObject:item];
+			isChanged = YES;
+		}
+	}
+
+	[[FavoriteMgr standard] removeSelectedItems];
+	if (isChanged) {
+		[self playMusic:[_favoriteModel currentPlaying]];
+		[_profileHeaderView updateFavoriteCount];
+	}
+
+	[MiaAPIHelper deleteFavoritesWithIDs:idArray];
+
+	return isChanged;
 }
 
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row {
@@ -332,6 +371,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 #pragma mark - Notification
 
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	[_profileHeaderView setIsPlaying:YES];
+}
+
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	[_profileHeaderView setIsPlaying:NO];
+}
+
+- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	if (_playingFavorite) {
+		_favoriteModel.currentPlaying++;
+		[self playMusic:_favoriteModel.currentPlaying];
+	}
+}
+
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
@@ -339,6 +393,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
 		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
+		[self handleDeleteFavoritesWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostRcomm]) {
+		[self handlePostRCommWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -353,6 +411,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[_profileCollectionView reloadData];
 }
 
+- (void)handleDeleteFavoritesWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	NSLog(@"delete favorites ret: %d", ret);
+}
+
+- (void)handlePostRCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	NSLog(@"post read comment ret: %d", ret);
+}
+
 #pragma mark - audio operations
 
 - (void)playMusic:(NSInteger)row {
@@ -364,7 +430,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
 	currentItem.isPlaying = YES;
-	
+
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];
 	NSString *musicArtist = [[currentItem music] singerName];
@@ -372,6 +438,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (!musicUrl || !musicTitle || !musicArtist) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
+	}
+
+	if ([[FavoriteMgr standard] isItemCached:currentItem]) {
+		musicUrl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicUrl]];
 	}
 
 	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];

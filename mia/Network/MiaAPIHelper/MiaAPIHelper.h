@@ -16,6 +16,7 @@
 + (void)getMusicCommentWithShareID:(NSString *)sID start:(NSString *) start item:(long) item;
 + (void)getShareListWithUID:(NSString *)uID start:(long) start item:(long) item;
 + (void)getShareById:(NSString *)sID;
++ (void)postReadCommentWithsID:(NSString *)sID;
 + (void)getMusicById:(NSString *)mid;
 + (void)getFavoriteListWithStart:(NSString *) start item:(long) item;
 
@@ -33,6 +34,7 @@
 * @param isFavorite 期望设置成的收藏状态
 */
 + (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite;
++ (void)deleteFavoritesWithIDs:(NSArray *)idArray;
 
 + (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
 

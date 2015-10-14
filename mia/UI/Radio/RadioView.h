@@ -27,6 +27,7 @@
 @property (weak, nonatomic)id<RadioViewDelegate> radioViewDelegate;
 @property (assign, nonatomic) BOOL isLoading;
 
+- (void)loadShareList;
 - (void)checkIsNeedToGetNewItems;
 - (void)spreadFeed;
 - (void)skipFeed;

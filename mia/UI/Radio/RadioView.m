@@ -50,13 +50,12 @@ static const CGFloat kFavoriteHeight 			= 25;
 //		self.backgroundColor = [UIColor redColor];
 
 		[self initUI];
-		[self initShareList];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
-	}
+}
 
 	return self;
 }
@@ -172,7 +171,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[bottomView addSubview:_locationLabel];
 }
 
-- (void)initShareList {
+- (void)loadShareList {
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
 		_isLoading = YES;

@@ -176,6 +176,33 @@
 	[[WebSocketMgr standard] send:jsonString];
 }
 
++ (void)postReadCommentWithsID:(NSString *)sID {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostRcomm forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:sID forKey:MiaAPIKey_sID];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
 + (void)getMusicById:(NSString *)mid {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetByid forKey:MiaAPIKey_ClientCommand];
@@ -487,6 +514,42 @@
 		[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Act];
 	}
 
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	[[WebSocketMgr standard] send:jsonString];
+}
+
++ (void)deleteFavoritesWithIDs:(NSArray *)idArray {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostFavorite forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
+	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+
+	// 拼接id字符串
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	NSMutableString *ids = [[NSMutableString alloc] init];
+	for (NSString *item in idArray) {
+		if (ids.length > 0) {
+			[ids appendString:@","];
+		}
+		[ids appendString:item];
+	}
+	[dictValues setValue:ids forKey:MiaAPIKey_ID];
+
+	[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Act];
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 
 	NSError *error = nil;

@@ -11,6 +11,7 @@
 #import "MusicPlayerMgr.h"
 #import "RadioViewController.h"
 #import "HXRadioViewController.h"
+#import "UserSetting.h"
 
 @interface AppDelegate ()
 
@@ -41,7 +42,9 @@
     
     
 	[self.window makeKeyAndVisible];
-	
+
+	[self registerUserDefaults];
+
 	return YES;
 }
 
@@ -51,5 +54,12 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
 }
 
+- (void)registerUserDefaults {
+	NSDictionary *defaultValues = [NSDictionary dictionaryWithObjectsAndKeys:
+								   [NSNumber numberWithBool:NO], UserDefaultsKey_PlayWith3G,
+								   [NSNumber numberWithBool:YES], UserDefaultsKey_AutoPlay,
+								   nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+}
 
 @end

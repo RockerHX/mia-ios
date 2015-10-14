@@ -28,4 +28,12 @@
 	[_dataSource addObjectsFromArray:items];
 }
 
+- (NSInteger)currentPlaying {
+	if (_currentPlaying < 0 || _currentPlaying >= _dataSource.count) {
+		_currentPlaying = 0;
+	}
+
+	return _currentPlaying;
+}
+
 @end
