@@ -249,9 +249,14 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 //	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
 		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
-		[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
-											forState:UIControlStateNormal
-									placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
+		if ([NSString isNull:newAvatarUrl]) {
+			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+		} else {
+			[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
+												forState:UIControlStateNormal
+										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+		}
+
 	}
 }
 

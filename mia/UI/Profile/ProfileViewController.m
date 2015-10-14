@@ -26,6 +26,7 @@
 #import "FavoriteMgr.h"
 #import "PathHelper.h"
 #import "UserSession.h"
+#import "NSString+IsNull.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -384,7 +385,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 //	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
 	if ([keyPath isEqualToString:UserSessionKey_NickName]) {
 		NSString *newNickName = change[NSKeyValueChangeNewKey];
-		self.title = newNickName;
+		self.title = [NSString isNull:newNickName] ? @"" : newNickName;
 	}
 }
 

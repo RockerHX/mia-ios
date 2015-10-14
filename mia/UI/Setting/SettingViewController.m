@@ -818,7 +818,6 @@ UITextFieldDelegate>
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
 								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-	[[UserSession standard] setAvatar:avatarUrlWithTime];
 	[self updateGenderLabel:gender];
 }
 
