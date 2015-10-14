@@ -127,18 +127,22 @@
 
 	UIView *avatarView = [[UIView alloc] init];
 	//avatarView.backgroundColor = [UIColor yellowColor];
+	[avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarTouchAction:)]];
 	[_userInfoView addSubview:avatarView];
 
 	UIView *nickNameView = [[UIView alloc] init];
 	//avatarView.backgroundColor = [UIColor greenColor];
+	[nickNameView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nickNameTouchAction:)]];
 	[_userInfoView addSubview:nickNameView];
 
 	UIView *genderView = [[UIView alloc] init];
 	//genderView.backgroundColor = [UIColor yellowColor];
+	[genderView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(genderTouchAction:)]];
 	[_userInfoView addSubview:genderView];
 
 	UIView *changePasswordView = [[UIView alloc] init];
 	//changePasswordView.backgroundColor = [UIColor greenColor];
+	[changePasswordView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changePasswordTouchAction:)]];
 	[_userInfoView addSubview:changePasswordView];
 
 	[_userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -346,6 +350,7 @@
 
 	UIView *cleanCacheView = [[UIView alloc] init];
 	//cleanCacheView.backgroundColor = [UIColor yellowColor];
+	[cleanCacheView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cleanCacheTouchAction:)]];
 	[_playSettingView addSubview:cleanCacheView];
 
 	[_playSettingView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -387,6 +392,7 @@
 												textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
 	[contentView addSubview:autoPlayLabel];
+
 	_autoPlaySwitch = [[UISwitch alloc] init];
 	[_autoPlaySwitch setOn:[UserSetting autoPlay]];
 	[_autoPlaySwitch addTarget:self action:@selector(autoPlaySwitchAction:) forControlEvents:UIControlEventValueChanged];
@@ -423,10 +429,15 @@
 												  textAlignment:NSTextAlignmentLeft
 													numberLines:1];
 	[contentView addSubview:playWith3GLabel];
+
 	_playWith3GSwitch = [[UISwitch alloc] init];
 	[_playWith3GSwitch setOn:[UserSetting playWith3G]];
 	[_playWith3GSwitch addTarget:self action:@selector(playWith3GSwitchAction:) forControlEvents:UIControlEventValueChanged];
 	[contentView addSubview:_playWith3GSwitch];
+
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:lineView];
 
 	[playWith3GLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@200);
@@ -439,6 +450,12 @@
 		make.right.equalTo(contentView.mas_right).offset(-15);
 		make.top.equalTo(contentView.mas_top).offset(10);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-10);
+	}];
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@1);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 }
 
@@ -508,8 +525,7 @@
 	_logoutView.backgroundColor = [UIColor whiteColor];
 	[_scrollContentView addSubview:_logoutView];
 
-	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutTouchAction:)];
-	[_logoutView addGestureRecognizer:tap];
+	[_logoutView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutTouchAction:)]];
 
 	MIALabel *logoutTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															 text:@"退出登录"
@@ -605,5 +621,27 @@
 	[self showMBProgressHUD];
 	[MiaAPIHelper logout];
 }
+
+- (void)avatarTouchAction:(id)sender {
+	NSLog(@"avatarTouchAction");
+}
+
+- (void)nickNameTouchAction:(id)sender {
+	NSLog(@"nickNameTouchAction");
+}
+
+- (void)genderTouchAction:(id)sender {
+	NSLog(@"genderTouchAction");
+}
+
+- (void)changePasswordTouchAction:(id)sender {
+	NSLog(@"changePasswordTouchAction");
+}
+
+- (void)cleanCacheTouchAction:(id)sender {
+	NSLog(@"cleanCacheTouchAction");
+}
+
+
 
 @end
