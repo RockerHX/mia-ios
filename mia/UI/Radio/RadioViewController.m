@@ -222,9 +222,9 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
 	if (unreadCommentCount <= 0) {
-		[_profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]] forState:UIControlStateNormal];
+		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
 	} else {
-		[_profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile_with_notification"]] forState:UIControlStateNormal];
+		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile_with_notification"] forState:UIControlStateNormal];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
@@ -343,7 +343,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	}
 
 	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-	[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrl]
+	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+	[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
 										forState:UIControlStateNormal
 								placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
 }

@@ -18,6 +18,7 @@
 #import "UserSession.h"
 #import "UserSetting.h"
 #import "GenderPickerView.h"
+#import "UIImage+Extrude.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
@@ -44,6 +45,9 @@ GenderPickerViewDelegate>
 	MBProgressHUD 	*_progressHUD;
 
 	MIAGender		_gender;
+
+	UIImage 		*_uploadingImage;
+	long			_uploadTimeOutCount;
 }
 
 -(void)dealloc {
@@ -606,12 +610,58 @@ GenderPickerViewDelegate>
 	}
 }
 
+- (void)uploadAvatarWithUrl:(NSString *)url
+					   auth:(NSString *)auth
+				contentType:(NSString *)contentType
+				   filename:(NSString *)filename
+					  image:(UIImage *)image
+{
+	// 压缩图片，放线程中进行
+	dispatch_queue_t queue = dispatch_queue_create("RequestUploadPhoto", NULL);
+	dispatch_async(queue, ^(){
+		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url ]];
+		request.HTTPMethod = @"PUT";
+		[request setValue:auth forHTTPHeaderField:@"Authorization"];
+		[request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+
+		float compressionQuality = 0.9f;
+		NSData *imageData;
+
+		const static CGFloat kUploadAvatarMaxSize = 200;
+		UIImage *squareImage = [UIImage imageWithCutImage:image moduleSize:CGSizeMake(kUploadAvatarMaxSize, kUploadAvatarMaxSize)];
+		imageData = UIImageJPEGRepresentation(squareImage, compressionQuality);
+		[request setValue:[NSString stringWithFormat:@"%ld", imageData.length] forHTTPHeaderField:@"Content-Length"];
+
+		NSURLSession *session = [NSURLSession sharedSession];
+		[[session uploadTaskWithRequest:request
+							   fromData:imageData
+					  completionHandler:
+		  ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+			  BOOL isSuccessed = (!error && [data length] == 0);
+			  dispatch_async(dispatch_get_main_queue(), ^{
+				  [self updateAvatarWith:squareImage isSuccessed:isSuccessed];
+			  });
+		  }] resume];
+	});
+}
+
+- (void)updateAvatarWith:(UIImage *)avatarImage isSuccessed:(BOOL)isSuccessed {
+	if (!isSuccessed) {
+		static NSString * kErrorInfo = @"上传头像失败，请稍后重试";
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+		return;
+	}
+
+	[_avatarImageView setImage:avatarImage];
+}
+
 #pragma mark - delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker
 		didFinishPickingImage:(UIImage *)image
 				  editingInfo:(NSDictionary *)editingInfo {
 	[picker dismissViewControllerAnimated:YES completion:nil];
+	_uploadingImage = image;
 	[MiaAPIHelper getUploadAvatarAuth];
 }
 
@@ -666,7 +716,9 @@ GenderPickerViewDelegate>
 	long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
 
 	[_nickNameLabel setText:nickName];
-	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrl]
+
+	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
 								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 	[self updateGenderLabel:gender];
 }
@@ -680,13 +732,12 @@ GenderPickerViewDelegate>
 		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", error);
 	}
 
-//	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
-//	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
-//	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
-//	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
+	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
+	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
+	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
+	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
 
-	NSLog(@"TODO linyehui");
-
+	[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
 }
 
 - (void)handleChangeNickNameWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
