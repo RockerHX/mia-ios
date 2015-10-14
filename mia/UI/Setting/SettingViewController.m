@@ -44,7 +44,8 @@ UITextFieldDelegate>
 	UISwitch 		*_autoPlaySwitch;
 	UISwitch 		*_playWith3GSwitch;
 
-	MBProgressHUD 	*_progressHUD;
+	MBProgressHUD 	*_logoutProgressHUD;
+	MBProgressHUD 	*_uploadAvatarProgressHUD;
 
 	MIAGender		_gender;
 
@@ -598,30 +599,60 @@ UITextFieldDelegate>
 }
 
 
-- (void)showMBProgressHUD{
-	if(!_progressHUD){
+- (void)showLogoutMBProgressHUD{
+	if(!_logoutProgressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"退出登录中...";
-		[_progressHUD show:YES];
+		_logoutProgressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_logoutProgressHUD];
+		_logoutProgressHUD.dimBackground = YES;
+		_logoutProgressHUD.labelText = @"退出登录中...";
+		[_logoutProgressHUD show:YES];
 	}
 }
 
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_progressHUD){
+- (void)removeLogoutMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(_logoutProgressHUD){
 		if(isSuccess){
-			_progressHUD.labelText = @"成功退出登录，请重新登录";
+			_logoutProgressHUD.labelText = @"成功退出登录，请重新登录";
 		}else{
-			_progressHUD.labelText = @"退出登录失败，请稍后再试";
+			_logoutProgressHUD.labelText = @"退出登录失败，请稍后再试";
 		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
+		_logoutProgressHUD.mode = MBProgressHUDModeText;
+		[_logoutProgressHUD showAnimated:YES whileExecutingBlock:^{
 			sleep(1);
 		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
+			[_logoutProgressHUD removeFromSuperview];
+			_logoutProgressHUD = nil;
+			if(removeMBProgressHUDBlock)
+				removeMBProgressHUDBlock();
+		}];
+	}
+}
+
+- (void)showUploadAvatarMBProgressHUD{
+	if(!_uploadAvatarProgressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		_uploadAvatarProgressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_uploadAvatarProgressHUD];
+		_uploadAvatarProgressHUD.dimBackground = YES;
+		_uploadAvatarProgressHUD.labelText = @"上传头像中...";
+		[_uploadAvatarProgressHUD show:YES];
+	}
+}
+
+- (void)removeUploadAvatarMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
+	if(_uploadAvatarProgressHUD){
+		if(isSuccess){
+			_uploadAvatarProgressHUD.labelText = @"头像上传成功";
+		}else{
+			_uploadAvatarProgressHUD.labelText = @"头像上传失败，请稍后再试";
+		}
+		_uploadAvatarProgressHUD.mode = MBProgressHUDModeText;
+		[_uploadAvatarProgressHUD showAnimated:YES whileExecutingBlock:^{
+			sleep(1);
+		} completionBlock:^{
+			[_uploadAvatarProgressHUD removeFromSuperview];
+			_uploadAvatarProgressHUD = nil;
 			if(removeMBProgressHUDBlock)
 				removeMBProgressHUDBlock();
 		}];
@@ -665,14 +696,14 @@ UITextFieldDelegate>
 
 - (void)updateAvatarWith:(UIImage *)avatarImage isSuccessed:(BOOL)isSuccessed url:(NSString *)url{
 	if (!isSuccessed) {
-		static NSString * kErrorInfo = @"上传头像失败，请稍后重试";
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 		return;
 	}
 
 	[_avatarImageView setImage:avatarImage];
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
 	[[UserSession standard] setAvatar:avatarUrlWithTime];
+	[self removeUploadAvatarMBProgressHUD:YES removeMBProgressHUDBlock:nil];
 }
 
 - (BOOL)isNickNameTooLong:(NSString *)nick {
@@ -702,6 +733,8 @@ UITextFieldDelegate>
 				  editingInfo:(NSDictionary *)editingInfo {
 	[picker dismissViewControllerAnimated:YES completion:nil];
 	_uploadingImage = image;
+
+	[self showUploadAvatarMBProgressHUD];
 	[MiaAPIHelper getUploadAvatarAuth];
 }
 
@@ -763,7 +796,7 @@ UITextFieldDelegate>
 
 - (void)handleLogoutWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	BOOL isSuccess = (0 == ret);
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
+	[self removeLogoutMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
 	if (isSuccess) {
 		[[UserSession standard] logout];
 		[self.navigationController popToRootViewControllerAnimated:YES];
@@ -791,8 +824,7 @@ UITextFieldDelegate>
 
 - (void)handleGetUploadAvatarAuthWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 != ret) {
-		static NSString * kGetUserInfoError = @"上传头像失败，请稍后重试";
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kGetUserInfoError];
+		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", error);
@@ -843,7 +875,7 @@ UITextFieldDelegate>
 }
 
 - (void)logoutTouchAction:(id)sender {
-	[self showMBProgressHUD];
+	[self showLogoutMBProgressHUD];
 	[MiaAPIHelper logout];
 }
 
