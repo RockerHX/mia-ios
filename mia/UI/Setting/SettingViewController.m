@@ -275,6 +275,7 @@ UITextFieldDelegate>
 	_nickNameTextField.returnKeyType = UIReturnKeyDone;
 	_nickNameTextField.delegate = self;
 	[_nickNameTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[_nickNameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 	[contentView addSubview:_nickNameTextField];
 	//[_nickNameTextField setHidden:YES];
 
@@ -720,12 +721,15 @@ UITextFieldDelegate>
 	return true;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+- (void)textFieldDidChange:(UITextField *)textField {
 	const static int kNickNameMaxLength = 15;
-	if (range.location > kNickNameMaxLength)
-		return NO; // return NO to not change text
-	return YES;
+	if (textField == _nickNameTextField) {
+		if (textField.text.length > kNickNameMaxLength) {
+			textField.text = [textField.text substringToIndex:kNickNameMaxLength];
+		}
+	}
 }
+
 
 #pragma mark - Notification
 
