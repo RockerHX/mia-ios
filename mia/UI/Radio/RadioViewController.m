@@ -23,6 +23,7 @@
 #import "ShareViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
+#import "UIButton+WebCache.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -175,6 +176,10 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 												font:UIFontFromSize(15)
 											 logoImg:nil
 									 backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]]];
+	_profileButton.layer.cornerRadius = _profileButton.frame.size.width / 2;
+	_profileButton.clipsToBounds = YES;
+	_profileButton.layer.borderWidth = 1.0f;
+	_profileButton.layer.borderColor = [UIColor whiteColor].CGColor;
 	[_profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_profileButton];
 
@@ -278,6 +283,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
 		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
+		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 
 }
@@ -310,6 +317,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
 		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+
+		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"audo login failed!error:%@", error);
@@ -325,6 +334,18 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"unread comment failed! error:%@", error);
 	}
+}
+
+- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 != ret) {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"get user info failed! error:%@", error);
+	}
+
+	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+	[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrl]
+										forState:UIControlStateNormal
+								placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
 }
 
 #pragma mark - delegate

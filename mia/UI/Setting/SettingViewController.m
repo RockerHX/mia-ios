@@ -10,6 +10,7 @@
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "MiaAPIHelper.h"
+#import "UIImageView+WebCache.h"
 #import "WebSocketMgr.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
@@ -17,7 +18,7 @@
 #import "UserSession.h"
 #import "UserSetting.h"
 
-@interface SettingViewController ()
+@interface SettingViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @end
 
@@ -30,6 +31,9 @@
 	UIView			*_versionView;
 	UIView			*_logoutView;
 
+	UIImageView 	*_avatarImageView;
+	MIALabel 		*_nickNameLabel;
+	MIALabel 		*_genderLabel;
 	UISwitch 		*_autoPlaySwitch;
 	UISwitch 		*_playWith3GSwitch;
 
@@ -46,6 +50,8 @@
 
 	[self initUI];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+
+	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -187,6 +193,7 @@
 }
 
 - (void)initAvatarView:(UIView *)contentView {
+	static const CGFloat avatarWidth = 45;
 
 	MIALabel *avatarTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"头像"
@@ -196,9 +203,13 @@
 													 numberLines:1];
 	[contentView addSubview:avatarTitleLabel];
 
-	UIImageView *avatarImageView = [[UIImageView alloc] init];
-	[avatarImageView setImage:[UIImage imageNamed:@"default_avatar"]];
-	[contentView addSubview:avatarImageView];
+	_avatarImageView = [[UIImageView alloc] init];
+	_avatarImageView.layer.cornerRadius = avatarWidth / 2;
+	_avatarImageView.clipsToBounds = YES;
+	_avatarImageView.layer.borderWidth = 1.0f;
+	_avatarImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+	[_avatarImageView setImage:[UIImage imageNamed:@"default_avatar"]];
+	[contentView addSubview:_avatarImageView];
 
 	UIView *avatarLineView = [[UIView alloc] init];
 	avatarLineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
@@ -210,8 +221,8 @@
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
 	}];
-	[avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.size.mas_equalTo(CGSizeMake(45, 45));
+	[_avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(avatarWidth, avatarWidth));
 		make.right.equalTo(contentView.mas_right).offset(-15);
 		make.centerY.equalTo(contentView.mas_centerY);
 	}];
@@ -232,13 +243,13 @@
 													 numberLines:1];
 	[contentView addSubview:titleLabel];
 
-	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-															text:@"simon"
+	_nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:[[UserSession standard] nick]
 															font:UIFontFromSize(15.0f)
 													   textColor:[UIColor blackColor]
 												   textAlignment:NSTextAlignmentRight
 													 numberLines:1];
-	[contentView addSubview:nickNameLabel];
+	[contentView addSubview:_nickNameLabel];
 
 	UIView *lineView = [[UIView alloc] init];
 	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
@@ -250,7 +261,7 @@
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
 	}];
-	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_top);
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.width.equalTo(@200);
@@ -273,13 +284,13 @@
 													 numberLines:1];
 	[contentView addSubview:titleLabel];
 
-	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+	_genderLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"请选择"
 															font:UIFontFromSize(15.0f)
 													textColor:UIColorFromHex(@"a2a2a2", 1.0)
 												textAlignment:NSTextAlignmentRight
 													 numberLines:1];
-	[contentView addSubview:nickNameLabel];
+	[contentView addSubview:_genderLabel];
 
 	UIView *lineView = [[UIView alloc] init];
 	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
@@ -291,7 +302,7 @@
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
 	}];
-	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_genderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_top);
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.width.equalTo(@200);
@@ -313,13 +324,13 @@
 													 numberLines:1];
 	[contentView addSubview:titleLabel];
 
-	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+	MIALabel *changePasswordNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"修改密码"
 															font:UIFontFromSize(15.0f)
 													textColor:UIColorFromHex(@"a2a2a2", 1.0)
 												textAlignment:NSTextAlignmentRight
 													 numberLines:1];
-	[contentView addSubview:nickNameLabel];
+	[contentView addSubview:changePasswordNameLabel];
 
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@200);
@@ -327,7 +338,7 @@
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
 	}];
-	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[changePasswordNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_top);
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.width.equalTo(@200);
@@ -580,6 +591,16 @@
 
 #pragma mark - delegate
 
+- (void)imagePickerController:(UIImagePickerController *)picker
+		didFinishPickingImage:(UIImage *)image
+				  editingInfo:(NSDictionary *)editingInfo {
+	[picker dismissViewControllerAnimated:YES completion:nil];
+	[MiaAPIHelper getUploadAvatarAuth];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+	[picker dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - Notification
 
@@ -591,6 +612,10 @@
 
 	if ([command isEqualToString:MiaAPICommand_User_PostLogout]) {
 		[self handleLogoutWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
+		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_GetClogo]) {
+		[self handleGetUploadAvatarAuthWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -601,6 +626,48 @@
 		[[UserSession standard] logout];
 		[self.navigationController popToRootViewControllerAnimated:YES];
 	}
+}
+
+- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 != ret) {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"get user info failed! error:%@", error);
+	}
+
+	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+	NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
+	long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
+
+	[_nickNameLabel setText:nickName];
+	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrl]
+								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+	if (1 == gender) {
+		[_genderLabel setText:@"男"];
+	} else if (2 == gender) {
+		[_genderLabel setText:@"女"];
+	} else {
+		[_genderLabel setText:@"请选择"];
+	}
+
+}
+
+- (void)handleGetUploadAvatarAuthWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 != ret) {
+		static NSString * kGetUserInfoError = @"上传头像失败，请稍后重试";
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kGetUserInfoError];
+
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", error);
+	}
+
+	// TODO linyehui setting
+	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"url"];
+	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][0][@"auth"];
+	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][0][@"ctype"];
+	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][0][@"fname"];
+
+	NSLog(@"TODO linyehui");
+
 }
 
 #pragma mark - button Actions
@@ -623,7 +690,14 @@
 }
 
 - (void)avatarTouchAction:(id)sender {
-	NSLog(@"avatarTouchAction");
+	UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+		ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
+		ipc.mediaTypes =[UIImagePickerController availableMediaTypesForSourceType:ipc.sourceType];
+	}
+	ipc.delegate = self;
+	ipc.allowsEditing = NO;
+	[self presentViewController:ipc animated:YES completion:nil];
 }
 
 - (void)nickNameTouchAction:(id)sender {
