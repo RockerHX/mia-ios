@@ -22,6 +22,9 @@
 @end
 
 @implementation SettingViewController {
+	UIScrollView	*_scrollView;
+	UIView 			*_scrollContentView;
+
 	UIView			*_userInfoView;
 	UIView			*_playSettingView;
 	UIView			*_versionView;
@@ -40,6 +43,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+
 	[self initUI];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
@@ -68,6 +72,11 @@
 	[super viewDidDisappear:animated];
 }
 
+- (void)viewDidLayoutSubviews {
+	[super viewDidLayoutSubviews];
+	_scrollView.contentSize = _scrollContentView.frame.size;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleDefault;
 }
@@ -79,7 +88,17 @@
 - (void)initUI {
 	static NSString *kSettingTitle = @"设置";
 	self.title = kSettingTitle;
-	[self.view setBackgroundColor:UIColorFromHex(@"f0eff5", 1.0)];
+
+	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	_scrollView.backgroundColor = UIColorFromHex(@"f0eff5", 1.0);
+	_scrollView.scrollEnabled = YES;
+	_scrollView.pagingEnabled = NO;
+	_scrollView.showsVerticalScrollIndicator = YES;
+	_scrollView.showsHorizontalScrollIndicator = NO;
+	[self.view addSubview:_scrollView];
+
+	_scrollContentView = [[UIView alloc] initWithFrame:_scrollView.bounds];
+	[_scrollView addSubview:_scrollContentView];
 
 	[self initBarButton];
 	[self initUserInfoView];
@@ -104,7 +123,7 @@
 - (void)initUserInfoView {
 	_userInfoView = [[UIView alloc] init];
 	_userInfoView.backgroundColor = [UIColor whiteColor];
-	[self.view addSubview:_userInfoView];
+	[_scrollContentView addSubview:_userInfoView];
 
 	UIView *avatarView = [[UIView alloc] init];
 	//avatarView.backgroundColor = [UIColor yellowColor];
@@ -124,9 +143,9 @@
 
 	[_userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@220);
-		make.left.equalTo(self.view.mas_left);
-		make.top.equalTo(self.view.mas_top).offset(StatusBarHeight + self.navigationController.navigationBar.frame.size.height + 15);
-		make.right.equalTo(self.view.mas_right);
+		make.left.equalTo(_scrollContentView.mas_left);
+		make.top.equalTo(_scrollContentView.mas_top).offset(15);
+		make.right.equalTo(_scrollContentView.mas_right);
 	}];
 
 	[avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -315,7 +334,7 @@
 - (void)initPlaySettingView {
 	_playSettingView = [[UIView alloc] init];
 	_playSettingView.backgroundColor = [UIColor whiteColor];
-	[self.view addSubview:_playSettingView];
+	[_scrollContentView addSubview:_playSettingView];
 
 	MIALabel *autoPlayLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											 text:@"启动后自动播放"
@@ -347,9 +366,9 @@
 
 	[_playSettingView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@100);
-		make.left.equalTo(self.view.mas_left);
+		make.left.equalTo(_scrollContentView.mas_left);
 		make.top.equalTo(_userInfoView.mas_bottom).offset(15);
-		make.right.equalTo(self.view.mas_right);
+		make.right.equalTo(_scrollContentView.mas_right);
 	}];
 	[autoPlayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@200);
@@ -387,7 +406,7 @@
 - (void)initVersionView {
 	_versionView = [[UIView alloc] init];
 	_versionView.backgroundColor = [UIColor whiteColor];
-	[self.view addSubview:_versionView];
+	[_scrollContentView addSubview:_versionView];
 
 	MIALabel *versionTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"当前版本"
@@ -410,27 +429,31 @@
 	[_versionView addSubview:versionLabel];
 
 	[_versionView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.view.mas_left);
-		make.right.equalTo(self.view.mas_right);
+		make.left.equalTo(_scrollContentView.mas_left);
+		make.right.equalTo(_scrollContentView.mas_right);
 		make.height.equalTo(@50);
 		make.top.equalTo(_playSettingView.mas_bottom).offset(15);
 	}];
+
 	[versionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(_versionView.mas_centerY);
-		make.left.equalTo(_versionView.mas_left).offset(15);
 		make.width.equalTo(@200);
+		make.height.equalTo(@20);
+		make.left.equalTo(_versionView.mas_left).offset(15);
+		make.bottom.equalTo(_versionView.mas_bottom).offset(-17);
 	}];
 	[versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(_versionView.mas_centerY);
-		make.right.equalTo(_versionView.mas_right).offset(-15);
+		make.top.equalTo(_versionView.mas_top);
+		make.bottom.equalTo(_versionView.mas_bottom);
 		make.width.equalTo(@200);
+		make.right.equalTo(_versionView.mas_right).offset(-15);
 	}];
+
 }
 
 - (void)initLogoutView {
 	_logoutView = [[UIView alloc] init];
 	_logoutView.backgroundColor = [UIColor whiteColor];
-	[self.view addSubview:_logoutView];
+	[_scrollContentView addSubview:_logoutView];
 
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutTouchAction:)];
 	[_logoutView addGestureRecognizer:tap];
@@ -444,10 +467,10 @@
 	[_logoutView addSubview:logoutTitleLabel];
 
 	[_logoutView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.view.mas_left);
-		make.right.equalTo(self.view.mas_right);
+		make.left.equalTo(_scrollContentView.mas_left);
+		make.right.equalTo(_scrollContentView.mas_right);
 		make.height.equalTo(@50);
-		make.top.equalTo(_playSettingView.mas_bottom).offset(15);
+		make.top.equalTo(_versionView.mas_bottom).offset(15);
 	}];
 	[logoutTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(_logoutView.mas_centerY);
