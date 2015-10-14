@@ -6,9 +6,12 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+@class FavoriteItem;
+
 @protocol FavoriteMgrDelegate
 
 - (void)favoriteMgrDidFinishSync;
+- (void)favoriteMgrDidFinishDownload;
 
 @end
 
@@ -26,5 +29,7 @@
 - (long)cachedCount;
 - (void)syncFavoriteList;
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex;
+- (void)removeSelectedItems;
+- (BOOL)isItemCached:(FavoriteItem *)item;
 
 @end

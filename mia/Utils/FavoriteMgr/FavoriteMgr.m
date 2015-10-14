@@ -15,7 +15,6 @@
 #import "UserSession.h"
 #import "AFNetworking.h"
 #import "AFNHttpClient.h"
-#import "NSString+MD5.h"
 #import "NSString+IsNull.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
@@ -90,6 +89,37 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
 }
 
+- (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
+	const static long kFavoriteListItemCountPerPage = 10;
+	NSMutableArray * items = [[NSMutableArray alloc] init];
+	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _favoriteItems.count; i++) {
+		[items addObject:_favoriteItems[i + lastIndex]];
+	}
+
+	return items;
+}
+
+- (void)removeSelectedItems {
+	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
+	for (FavoriteItem *item in enumerator) {
+		if (item.isSelected) {
+
+			// 如果删除的是当前正在下载的任务
+			if (_downloadTask
+				&& [[[[_downloadTask originalRequest] URL] absoluteString] isEqualToString:item.music.murl]) {
+				[_downloadTask cancel];
+			}
+
+			[self deleteCacheFileWithUrl:item.music.murl];
+			[_favoriteItems removeObject:item];
+		}
+	}
+	
+	[self saveData];
+}
+
+#pragma mark - private method
+
 - (void)syncFinished {
 	[self mergeItems];
 	[self saveData];
@@ -136,7 +166,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)deleteCacheFileWithUrl:(NSString *)url {
-	NSString *filename = [self genMusicFilenameWithUrl:url];
+	NSString *filename = [PathHelper genMusicFilenameWithUrl:url];
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
 }
@@ -152,16 +182,23 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			|| ![[WebSocketMgr standard] isWifiNetwork]) {
 			// 断网后也会从0重新开始查找需要下载的歌曲
 			_currentDownloadIndex = 0;
+			if (_customDelegate) {
+				[_customDelegate favoriteMgrDidFinishDownload];
+			}
+
 			return;
 		}
 
 		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
-											  savePath:[self genMusicFilenameWithUrl:item.music.murl]
+											  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
 										 completeBlock:
 						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
 							 if (nil == error) {
 								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
 								 [self saveData];
+							 } else {
+								 NSError *fileError;
+								 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
 							 }
 
 							 _downloadTask = nil;
@@ -175,7 +212,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	FavoriteItem *item = nil;
 	for (; _currentDownloadIndex < _favoriteItems.count; _currentDownloadIndex++) {
 		item = _favoriteItems[_currentDownloadIndex];
-		if (item && !item.isCached) {
+		if (![self isItemCached:item]) {
 			return item;
 		}
 	}
@@ -183,18 +220,21 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	return nil;
 }
 
-- (NSString *)genMusicFilenameWithUrl:(NSString *)url {
-	return [NSString stringWithFormat:@"%@/%@", [PathHelper favoriteCacheDir], [NSString md5HexDigest:url]];
-}
-
-- (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
-	const static long kFavoriteListItemCountPerPage = 10;
-	NSMutableArray * items = [[NSMutableArray alloc] init];
-	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _favoriteItems.count; i++) {
-		[items addObject:_favoriteItems[i + lastIndex]];
+- (BOOL)isItemCached:(FavoriteItem *)item {
+	if (nil == item) {
+		return NO;
+	}
+	if (!item.isCached) {
+		return NO;
 	}
 
-	return items;
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if(![fileManager fileExistsAtPath:[PathHelper genMusicFilenameWithUrl:item.music.murl]]) {
+		item.isCached = NO;
+		return NO;
+	}
+
+	return YES;
 }
 
 #pragma mark - Notification

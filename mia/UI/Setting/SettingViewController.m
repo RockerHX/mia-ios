@@ -15,6 +15,7 @@
 #import "MBProgressHUDHelp.h"
 #import "Masonry.h"
 #import "UserSession.h"
+#import "UserSetting.h"
 
 @interface SettingViewController ()
 
@@ -25,6 +26,9 @@
 	UIView			*_playSettingView;
 	UIView			*_versionView;
 	UIView			*_logoutView;
+
+	UISwitch 		*_autoPlaySwitch;
+	UISwitch 		*_playWith3GSwitch;
 
 	MBProgressHUD 	*_progressHUD;
 }
@@ -109,10 +113,10 @@
 									textAlignment:NSTextAlignmentLeft
 									  numberLines:1];
 	[_playSettingView addSubview:autoPlayLabel];
-	UISwitch *autoPlaySwitch = [[UISwitch alloc] init];
-	[autoPlaySwitch setOn:YES];
-	[autoPlaySwitch addTarget:self action:@selector(autoPlaySwitchAction:) forControlEvents:UIControlEventValueChanged];
-	[_playSettingView addSubview:autoPlaySwitch];
+	_autoPlaySwitch = [[UISwitch alloc] init];
+	[_autoPlaySwitch setOn:[UserSetting autoPlay]];
+	[_autoPlaySwitch addTarget:self action:@selector(autoPlaySwitchAction:) forControlEvents:UIControlEventValueChanged];
+	[_playSettingView addSubview:_autoPlaySwitch];
 
 	MIALabel *playWith3GLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"在2G/3G/4G网络下播放"
@@ -121,10 +125,10 @@
 												textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
 	[_playSettingView addSubview:playWith3GLabel];
-	UISwitch *playWith3GSwitch = [[UISwitch alloc] init];
-	[playWith3GSwitch setOn:NO];
-	[playWith3GSwitch addTarget:self action:@selector(playWith3GSwitchAction:) forControlEvents:UIControlEventValueChanged];
-	[_playSettingView addSubview:playWith3GSwitch];
+	_playWith3GSwitch = [[UISwitch alloc] init];
+	[_playWith3GSwitch setOn:[UserSetting playWith3G]];
+	[_playWith3GSwitch addTarget:self action:@selector(playWith3GSwitchAction:) forControlEvents:UIControlEventValueChanged];
+	[_playSettingView addSubview:_playWith3GSwitch];
 
 	UIView *lineView = [[UIView alloc] init];
 	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
@@ -142,7 +146,7 @@
 		make.top.equalTo(_playSettingView.mas_top).offset(15);
 		make.bottom.equalTo(_playSettingView.mas_centerY).offset(-15);
 	}];
-	[autoPlaySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_autoPlaySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@50);
 		make.right.equalTo(_playSettingView.mas_right).offset(-15);
 		make.top.equalTo(_playSettingView.mas_top).offset(10);
@@ -154,7 +158,7 @@
 		make.top.equalTo(_playSettingView.mas_centerY).offset(15);
 		make.bottom.equalTo(_playSettingView.mas_bottom).offset(-15);
 	}];
-	[playWith3GSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_playWith3GSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@50);
 		make.right.equalTo(_playSettingView.mas_right).offset(-15);
 		make.top.equalTo(_playSettingView.mas_centerY).offset(10);
@@ -276,7 +280,7 @@
 
 #pragma mark - Notification
 
--(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 
@@ -288,14 +292,12 @@
 }
 
 - (void)handleLogoutWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-
 	BOOL isSuccess = (0 == ret);
 	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
 	if (isSuccess) {
 		[[UserSession standard] logout];
 		[self.navigationController popToRootViewControllerAnimated:YES];
 	}
-
 }
 
 #pragma mark - button Actions
@@ -305,10 +307,11 @@
 }
 
 - (void)autoPlaySwitchAction:(id)sender {
-	NSLog(@"playWith3GSwitchAction");
+	[UserSetting setAutoPlay:_autoPlaySwitch.isOn];
 }
+
 - (void)playWith3GSwitchAction:(id)sender {
-	NSLog(@"autoPlaySwitchAction");
+	[UserSetting setPlayWith3G:_playWith3GSwitch.isOn];
 }
 
 - (void)logoutTouchAction:(id)sender {

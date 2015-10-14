@@ -91,6 +91,7 @@
 		397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5271BAC0CA7003FD186 /* MIATipView.m */; };
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
+		3990B1E11BCCD94C00D8B54B /* UserSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3990B1E01BCCD94C00D8B54B /* UserSetting.m */; settings = {ASSET_TAGS = (); }; };
 		39BCADC81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADA81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m */; };
 		39BCADC91BA02F3100C6F7F2 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADAA1BA02F3100C6F7F2 /* NSData+ImageContentType.m */; };
 		39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADAC1BA02F3100C6F7F2 /* SDImageCache.m */; };
@@ -314,6 +315,8 @@
 		397FA52A1BAC0CA7003FD186 /* MIAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAButton.m; sourceTree = "<group>"; };
 		397FA5381BAC0CF3003FD186 /* UIScrollView+MIARefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MIARefresh.h"; sourceTree = "<group>"; };
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
+		3990B1DF1BCCD94C00D8B54B /* UserSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSetting.h; sourceTree = "<group>"; };
+		3990B1E01BCCD94C00D8B54B /* UserSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSetting.m; sourceTree = "<group>"; };
 		39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mia-Prefix.pch"; sourceTree = "<group>"; };
 		39BCAD3E1B9F141B00C6F7F2 /* AppMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		39BCADA71BA02F3100C6F7F2 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -1053,9 +1056,19 @@
 			path = MIAUIButton;
 			sourceTree = "<group>";
 		};
+		3990B1DE1BCCD94C00D8B54B /* UserSetting */ = {
+			isa = PBXGroup;
+			children = (
+				3990B1DF1BCCD94C00D8B54B /* UserSetting.h */,
+				3990B1E01BCCD94C00D8B54B /* UserSetting.m */,
+			);
+			path = UserSetting;
+			sourceTree = "<group>";
+		};
 		39BCAD3D1B9F141B00C6F7F2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3990B1DE1BCCD94C00D8B54B /* UserSetting */,
 				395C727C1BCB94D900897734 /* PathHelper */,
 				395C72781BC9FAD900897734 /* FavoriteMgr */,
 				39BF8C591BB13350003AB4FC /* UserSession */,
@@ -1501,6 +1514,7 @@
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				395C727F1BCB94D900897734 /* PathHelper.m in Sources */,
 				3908F38D1BBD00EA00BACFD3 /* SearchResultView.m in Sources */,
+				3990B1E11BCCD94C00D8B54B /* UserSetting.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
 				39BCADCE1BA02F3100C6F7F2 /* SDWebImageDownloaderOperation.m in Sources */,
 				390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */,

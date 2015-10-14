@@ -12,6 +12,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "FSAudioStream.h"
 #import "PathHelper.h"
+#import "UserSetting.h"
+#import "WebSocketMgr.h"
 
 NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 
@@ -116,6 +118,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		// 添加通知，拔出耳机后暂停播放
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicPlayerMgrNotificationRemoteControlEvent object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 
 	}
 	return self;
@@ -123,6 +126,8 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationRemoteControlEvent object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
 - (BOOL)isPlaying {
@@ -135,12 +140,23 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)playWithUrl:url andTitle:title andArtist:artist {
 	NSLog(@"playWithUrl:%@", url);
+	if (![UserSetting isAllowedToPlayNow]) {
+		[self notifiNotAllowToPlayWith3G];
+		return;
+	}
+
 	if (![audioStream url]) {
 		// 没有设置过歌曲url，直接播放
 		[audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
-		[audioStream pause];
+		if ([audioStream isPlaying]) {
+			NSLog(@"resume music from pause error, stop and play again.");
+			[audioStream stop];
+			[audioStream playFromURL:[NSURL URLWithString:url]];
+		} else {
+			[audioStream pause];
+		}
 	} else {
 		// 切换歌曲
 		[audioStream stop];
@@ -152,6 +168,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (void)play {
+	if (![UserSetting isAllowedToPlayNow]) {
+		[self notifiNotAllowToPlayWith3G];
+		return;
+	}
+
 	if ([audioStream url]) {
 		NSLog(@"play:%@", [audioStream url]);
 		[audioStream pause];
@@ -163,9 +184,9 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 - (void)pause {
 	[audioStream pause];
 	if ([audioStream isPlaying]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:nil];
 	}
 
 }
@@ -177,6 +198,22 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)preload {
 	[audioStream preload];
+}
+
+#pragma mark -private method
+
+- (void)notifiNotAllowToPlayWith3G {
+	static NSString *kAlertTitleError = @"网络流量保护";
+	static NSString *kAlertMsgNotAllowToPlayWith3G = @"为保护您的流量，需要在设置中打开开关才能在2G/3G/4G网络下播放。";
+
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+														message:kAlertMsgNotAllowToPlayWith3G
+													   delegate:nil
+											  cancelButtonTitle:@"确定"
+											  otherButtonTitles:nil];
+	[alertView show];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
 }
 
 #pragma mark - Notification
@@ -238,6 +275,18 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 				break;
 		}
 	}
+}
+
+- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
+	if (![audioStream isPlaying]) {
+		return;
+	}
+	if ([UserSetting isAllowedToPlayNow]) {
+		return;
+	}
+
+	[self stop];
+	[self notifiNotAllowToPlayWith3G];
 }
 
 #pragma mark - audio operations

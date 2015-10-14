@@ -44,7 +44,6 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         webSocketMgr = [[self alloc] init];
-		[webSocketMgr watchNetworkStatus];
     });
     return webSocketMgr;
 }
@@ -61,14 +60,14 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 		 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 								   [NSNumber numberWithInteger:status], NetworkNotificationKey_Status,
 								   nil];
-		 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self userInfo:userInfo];
+		 [[NSNotificationCenter defaultCenter] postNotificationName:NetworkNotificationReachabilityStatusChange object:self userInfo:userInfo];
 	}];
 }
 
 - (BOOL)isNetworkEnable {
 	if (_networkStatus == AFNetworkReachabilityStatusReachableViaWWAN
 		|| _networkStatus == AFNetworkReachabilityStatusReachableViaWiFi) {
-		YES;
+		return YES;
 	}
 
 	return NO;
@@ -76,6 +75,25 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 
 - (BOOL)isWifiNetwork {
 	return (_networkStatus == AFNetworkReachabilityStatusReachableViaWiFi);
+}
+
+- (BOOL)isOpen {
+	if ([_webSocket readyState] == SR_OPEN) {
+		return YES;
+	}
+
+	return NO;
+}
+
+- (BOOL)isClosed {
+	if (!_webSocket)
+		return YES;
+
+	if ([_webSocket readyState] == SR_CLOSED) {
+		return YES;
+	}
+
+	return NO;
 }
 
 - (void)reconnect {
@@ -86,7 +104,6 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kMIAAPIUrl]]];
 	_webSocket.delegate = self;
 
-	//self.title = @"Opening Connection...";
 	NSLog(@"WebSocket opening");
 	[_webSocket open];
 	
@@ -102,7 +119,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 }
 
 - (void)sendPing:(id)sender {
-	if (_webSocket.readyState != SR_OPEN) {
+	if (![self isOpen]) {
 		NSLog(@"sendPing failed, websocket is not opening!");
 		return;
 	}
@@ -111,7 +128,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 }
 
 - (void)send:(id)data {
-	if (_webSocket.readyState != SR_OPEN) {
+	if (![self isOpen]) {
 		NSLog(@"send failed, websocket is not opening!");
 		return;
 	}

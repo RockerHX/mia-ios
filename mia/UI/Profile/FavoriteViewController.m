@@ -419,10 +419,11 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 - (void)closeButtonAction:(id)sender {
 	if (_isEditing) {
-		// TODO delete
-		NSLog(@"del sth.");
-		for (FavoriteItem *it in [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource) {
-			NSLog(@"------is selected:%d", it.isSelected);
+		if (_favoriteViewControllerDelegate) {
+			if ([_favoriteViewControllerDelegate favoriteViewControllerDeleteMusics]) {
+				[_favoriteCollectionView reloadData];
+				[_titleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
+			}
 		}
 	} else {
 		[self.navigationController popViewControllerAnimated:YES];

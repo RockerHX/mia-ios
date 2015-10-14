@@ -30,6 +30,7 @@ const CGFloat kBottomViewDefaultHeight			= 35.0f;
 static NSString * kAlertTitleError				= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
 static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUID失败），点击确认重新发送";
+static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
 @interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate, CLLocationManagerDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -48,18 +49,20 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	[[WebSocketMgr standard] watchNetworkStatus];
+	
 	[self initUI];
 	[self initLocationMgr];
-	
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
-
-	[[WebSocketMgr standard] reconnect];
 }
 
 -(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
@@ -233,8 +236,24 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 
 #pragma mark - Notification
 
+- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
+	if (![[WebSocketMgr standard] isNetworkEnable]) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+															message:kAlertMsgNoNetwork
+														   delegate:self
+												  cancelButtonTitle:@"确定"
+												  otherButtonTitles:nil];
+		[alertView show];
+	} else {
+		if ([[WebSocketMgr standard] isClosed]) {
+			[[WebSocketMgr standard] reconnect];
+		}
+	}
+}
+
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
 	[MiaAPIHelper sendUUID];
+	[_radioView loadShareList];
 }
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
@@ -257,6 +276,8 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 		[self handlePostGuestWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
+		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 
 }
@@ -292,6 +313,17 @@ static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUI
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"audo login failed!error:%@", error);
+	}
+}
+
+- (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+
+	if (isSuccess) {
+		[self updateProfileButtonWithUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
+	} else {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"unread comment failed! error:%@", error);
 	}
 }
 
