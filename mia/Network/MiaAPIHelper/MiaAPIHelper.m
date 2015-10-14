@@ -496,7 +496,7 @@
 
 + (void)changeNickName:(NSString *)nick {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPICommand_User_PostCnick forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
 	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
 	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
@@ -523,13 +523,13 @@
 
 + (void)changeGender:(long)gender {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPICommand_User_PostGender forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
 	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
 	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
-	[dictValues setValue:[NSNumber numberWithLong:gender] forKey:MiaAPIKey_NickName];
+	[dictValues setValue:[NSNumber numberWithLong:gender] forKey:MiaAPIKey_Gender];
 
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 

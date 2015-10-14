@@ -108,6 +108,7 @@
 		39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC31BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m */; };
 		39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC51BA02F3100C6F7F2 /* UIImageView+WebCache.m */; };
 		39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */; };
+		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; settings = {ASSET_TAGS = (); }; };
 		39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C571BB0F801003AB4FC /* MBProgressHUDHelp.m */; };
 		39BF8C5C1BB13350003AB4FC /* UserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C5B1BB13350003AB4FC /* UserSession.m */; };
 		39BF8C601BB148DC003AB4FC /* favorite_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C5E1BB148DC003AB4FC /* favorite_red@2x.png */; };
@@ -352,6 +353,8 @@
 		39BCADC51BA02F3100C6F7F2 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		39BCADC61BA02F3100C6F7F2 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		39BCADC71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		39BD86EC1BCE47AC00EF0E65 /* GenderPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenderPickerView.h; sourceTree = "<group>"; };
+		39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenderPickerView.m; sourceTree = "<group>"; };
 		39BF8C561BB0F801003AB4FC /* MBProgressHUDHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUDHelp.h; sourceTree = "<group>"; };
 		39BF8C571BB0F801003AB4FC /* MBProgressHUDHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUDHelp.m; sourceTree = "<group>"; };
 		39BF8C5A1BB13350003AB4FC /* UserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSession.h; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 		390963DD1BC6427C00E427BA /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				39BD86EC1BCE47AC00EF0E65 /* GenderPickerView.h */,
+				39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */,
 				390963E91BC652FF00E427BA /* SettingViewController.h */,
 				390963EA1BC652FF00E427BA /* SettingViewController.m */,
 			);
@@ -1519,6 +1524,7 @@
 				39BCADCE1BA02F3100C6F7F2 /* SDWebImageDownloaderOperation.m in Sources */,
 				390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
+				39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
 				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,

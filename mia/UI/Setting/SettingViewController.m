@@ -17,8 +17,12 @@
 #import "Masonry.h"
 #import "UserSession.h"
 #import "UserSetting.h"
+#import "GenderPickerView.h"
 
-@interface SettingViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface SettingViewController ()
+<UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+GenderPickerViewDelegate>
 
 @end
 
@@ -38,6 +42,8 @@
 	UISwitch 		*_playWith3GSwitch;
 
 	MBProgressHUD 	*_progressHUD;
+
+	MIAGender		_gender;
 }
 
 -(void)dealloc {
@@ -559,6 +565,17 @@
 	}];
 }
 
+- (void)updateGenderLabel:(MIAGender)gender {
+	if (1 == gender) {
+		[_genderLabel setText:@"男"];
+	} else if (2 == gender) {
+		[_genderLabel setText:@"女"];
+	} else {
+		[_genderLabel setText:@"请选择"];
+	}
+}
+
+
 - (void)showMBProgressHUD{
 	if(!_progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -598,8 +615,14 @@
 	[MiaAPIHelper getUploadAvatarAuth];
 }
 
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)genderPickerDidSelected:(MIAGender)gender {
+	_gender = gender;
+	[self updateGenderLabel:gender];
+	[MiaAPIHelper changeGender:gender];
 }
 
 #pragma mark - Notification
@@ -616,6 +639,10 @@
 		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_GetClogo]) {
 		[self handleGetUploadAvatarAuthWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_PostCnick]) {
+		[self handleChangeNickNameWithRet:[ret intValue] userInfo:[notification userInfo]];
+	}  else if ([command isEqualToString:MiaAPICommand_User_PostGender]) {
+		[self handleChangeGenderWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -641,14 +668,7 @@
 	[_nickNameLabel setText:nickName];
 	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrl]
 								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-	if (1 == gender) {
-		[_genderLabel setText:@"男"];
-	} else if (2 == gender) {
-		[_genderLabel setText:@"女"];
-	} else {
-		[_genderLabel setText:@"请选择"];
-	}
-
+	[self updateGenderLabel:gender];
 }
 
 - (void)handleGetUploadAvatarAuthWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
@@ -660,14 +680,33 @@
 		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", error);
 	}
 
-	// TODO linyehui setting
-	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"url"];
-	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][0][@"auth"];
-	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][0][@"ctype"];
-	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][0][@"fname"];
+//	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
+//	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
+//	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
+//	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
 
 	NSLog(@"TODO linyehui");
 
+}
+
+- (void)handleChangeNickNameWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 != ret) {
+		static NSString * kErrorInfo = @"修改昵称失败，请稍后重试";
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"handleChangeNickNameWithRet failed! error:%@", error);
+	}
+}
+
+- (void)handleChangeGenderWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 != ret) {
+		static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"handleChangeGenderWithRet failed! error:%@", error);
+	}
 }
 
 #pragma mark - button Actions
@@ -702,10 +741,13 @@
 
 - (void)nickNameTouchAction:(id)sender {
 	NSLog(@"nickNameTouchAction");
+	//[MiaAPIHelper changeNickName:@"教授"];
 }
 
 - (void)genderTouchAction:(id)sender {
-	NSLog(@"genderTouchAction");
+	GenderPickerView *pickerView = [[GenderPickerView alloc] initWithFrame:self.view.bounds];
+	pickerView.customDelegate = self;
+	[self.view addSubview:pickerView];
 }
 
 - (void)changePasswordTouchAction:(id)sender {
@@ -715,7 +757,5 @@
 - (void)cleanCacheTouchAction:(id)sender {
 	NSLog(@"cleanCacheTouchAction");
 }
-
-
 
 @end
