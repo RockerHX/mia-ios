@@ -60,6 +60,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+
+	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)dealloc {
@@ -68,6 +70,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -240,6 +244,16 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 }
 
 #pragma mark - Notification
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+//	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
+	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
+		NSString *newAvatarUrl = change[@"new"];
+		[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
+											forState:UIControlStateNormal
+									placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
+	}
+}
 
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
 	if (![[WebSocketMgr standard] isNetworkEnable]) {

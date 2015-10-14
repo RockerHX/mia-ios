@@ -25,6 +25,7 @@
 #import "SettingViewController.h"
 #import "FavoriteMgr.h"
 #import "PathHelper.h"
+#import "UserSession.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -78,6 +79,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+
+		if (_isMyProfile) {
+			[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NickName options:NSKeyValueObservingOptionNew context:nil];
+		}
 	}
 
 	return self;
@@ -88,6 +93,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+
+	if (_isMyProfile) {
+		[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NickName context:nil];
+	}
 }
 
 - (void)viewDidLoad {
@@ -370,6 +379,14 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 #pragma mark - Notification
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+//	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
+	if ([keyPath isEqualToString:UserSessionKey_NickName]) {
+		NSString *newNickName = change[@"new"];
+		self.title = newNickName;
+	}
+}
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[_profileHeaderView setIsPlaying:YES];

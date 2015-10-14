@@ -657,13 +657,13 @@ UITextFieldDelegate>
 		  ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 			  BOOL isSuccessed = (!error && [data length] == 0);
 			  dispatch_async(dispatch_get_main_queue(), ^{
-				  [self updateAvatarWith:squareImage isSuccessed:isSuccessed];
+				  [self updateAvatarWith:squareImage isSuccessed:isSuccessed url:url];
 			  });
 		  }] resume];
 	});
 }
 
-- (void)updateAvatarWith:(UIImage *)avatarImage isSuccessed:(BOOL)isSuccessed {
+- (void)updateAvatarWith:(UIImage *)avatarImage isSuccessed:(BOOL)isSuccessed url:(NSString *)url{
 	if (!isSuccessed) {
 		static NSString * kErrorInfo = @"上传头像失败，请稍后重试";
 		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
@@ -671,6 +671,8 @@ UITextFieldDelegate>
 	}
 
 	[_avatarImageView setImage:avatarImage];
+	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
+	[[UserSession standard] setAvatar:avatarUrlWithTime];
 }
 
 - (BOOL)isNickNameTooLong:(NSString *)nick {
@@ -783,6 +785,7 @@ UITextFieldDelegate>
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
 								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+	[[UserSession standard] setAvatar:avatarUrlWithTime];
 	[self updateGenderLabel:gender];
 }
 
@@ -810,6 +813,8 @@ UITextFieldDelegate>
 
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"handleChangeNickNameWithRet failed! error:%@", error);
+	} else {
+		[[UserSession standard] setNick:_nickNameTextField.text];
 	}
 }
 
