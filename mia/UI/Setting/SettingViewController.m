@@ -336,71 +336,124 @@
 	_playSettingView.backgroundColor = [UIColor whiteColor];
 	[_scrollContentView addSubview:_playSettingView];
 
-	MIALabel *autoPlayLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											 text:@"启动后自动播放"
-											 font:UIFontFromSize(15.0f)
-										textColor:[UIColor blackColor]
-									textAlignment:NSTextAlignmentLeft
-									  numberLines:1];
-	[_playSettingView addSubview:autoPlayLabel];
-	_autoPlaySwitch = [[UISwitch alloc] init];
-	[_autoPlaySwitch setOn:[UserSetting autoPlay]];
-	[_autoPlaySwitch addTarget:self action:@selector(autoPlaySwitchAction:) forControlEvents:UIControlEventValueChanged];
-	[_playSettingView addSubview:_autoPlaySwitch];
+	UIView *autoPlayView = [[UIView alloc] init];
+	//autoPlayView.backgroundColor = [UIColor orangeColor];
+	[_playSettingView addSubview:autoPlayView];
 
-	MIALabel *playWith3GLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-														 text:@"在2G/3G/4G网络下播放"
-														 font:UIFontFromSize(15.0f)
-													textColor:[UIColor blackColor]
-												textAlignment:NSTextAlignmentLeft
-												  numberLines:1];
-	[_playSettingView addSubview:playWith3GLabel];
-	_playWith3GSwitch = [[UISwitch alloc] init];
-	[_playWith3GSwitch setOn:[UserSetting playWith3G]];
-	[_playWith3GSwitch addTarget:self action:@selector(playWith3GSwitchAction:) forControlEvents:UIControlEventValueChanged];
-	[_playSettingView addSubview:_playWith3GSwitch];
+	UIView *playWith3GView = [[UIView alloc] init];
+	//playWith3GView.backgroundColor = [UIColor greenColor];
+	[_playSettingView addSubview:playWith3GView];
 
-	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
-	[_playSettingView addSubview:lineView];
+	UIView *cleanCacheView = [[UIView alloc] init];
+	//cleanCacheView.backgroundColor = [UIColor yellowColor];
+	[_playSettingView addSubview:cleanCacheView];
 
 	[_playSettingView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@100);
+		make.height.equalTo(@150);
 		make.left.equalTo(_scrollContentView.mas_left);
 		make.top.equalTo(_userInfoView.mas_bottom).offset(15);
 		make.right.equalTo(_scrollContentView.mas_right);
 	}];
+
+	[autoPlayView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_playSettingView.mas_left);
+		make.top.equalTo(_playSettingView.mas_top);
+		make.right.equalTo(_playSettingView.mas_right);
+	}];
+	[playWith3GView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_playSettingView.mas_left);
+		make.top.equalTo(autoPlayView.mas_bottom);
+		make.right.equalTo(_playSettingView.mas_right);
+	}];
+	[cleanCacheView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_playSettingView.mas_left);
+		make.top.equalTo(playWith3GView.mas_bottom);
+		make.right.equalTo(_playSettingView.mas_right);
+	}];
+
+	[self initAutoPlayView:autoPlayView];
+	[self initPlayWith3GView:playWith3GView];
+	[self initCleanCache:cleanCacheView];
+}
+
+- (void)initAutoPlayView:(UIView *)contentView {
+	MIALabel *autoPlayLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+														 text:@"启动后自动播放"
+														 font:UIFontFromSize(15.0f)
+													textColor:[UIColor blackColor]
+												textAlignment:NSTextAlignmentLeft
+												  numberLines:1];
+	[contentView addSubview:autoPlayLabel];
+	_autoPlaySwitch = [[UISwitch alloc] init];
+	[_autoPlaySwitch setOn:[UserSetting autoPlay]];
+	[_autoPlaySwitch addTarget:self action:@selector(autoPlaySwitchAction:) forControlEvents:UIControlEventValueChanged];
+	[contentView addSubview:_autoPlaySwitch];
+
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:lineView];
+
 	[autoPlayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@200);
-		make.left.equalTo(_playSettingView.mas_left).offset(15);
-		make.top.equalTo(_playSettingView.mas_top).offset(15);
-		make.bottom.equalTo(_playSettingView.mas_centerY).offset(-15);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 	[_autoPlaySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@50);
-		make.right.equalTo(_playSettingView.mas_right).offset(-15);
-		make.top.equalTo(_playSettingView.mas_top).offset(10);
-		make.bottom.equalTo(_playSettingView.mas_centerY).offset(-10);
-	}];
-	[playWith3GLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.width.equalTo(@200);
-		make.left.equalTo(_playSettingView.mas_left).offset(15);
-		make.top.equalTo(_playSettingView.mas_centerY).offset(15);
-		make.bottom.equalTo(_playSettingView.mas_bottom).offset(-15);
-	}];
-	[_playWith3GSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.width.equalTo(@50);
-		make.right.equalTo(_playSettingView.mas_right).offset(-15);
-		make.top.equalTo(_playSettingView.mas_centerY).offset(10);
-		make.bottom.equalTo(_playSettingView.mas_bottom).offset(-10);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.top.equalTo(contentView.mas_top).offset(10);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-10);
 	}];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@1);
-		make.left.equalTo(_playSettingView.mas_left).offset(15);
-		make.right.equalTo(_playSettingView.mas_right);
-		make.centerY.equalTo(_playSettingView.mas_centerY);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
+}
+- (void)initPlayWith3GView:(UIView *)contentView {
+	MIALabel *playWith3GLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+														   text:@"在2G/3G/4G网络下播放"
+														   font:UIFontFromSize(15.0f)
+													  textColor:[UIColor blackColor]
+												  textAlignment:NSTextAlignmentLeft
+													numberLines:1];
+	[contentView addSubview:playWith3GLabel];
+	_playWith3GSwitch = [[UISwitch alloc] init];
+	[_playWith3GSwitch setOn:[UserSetting playWith3G]];
+	[_playWith3GSwitch addTarget:self action:@selector(playWith3GSwitchAction:) forControlEvents:UIControlEventValueChanged];
+	[contentView addSubview:_playWith3GSwitch];
 
+	[playWith3GLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@200);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
+	}];
+	[_playWith3GSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@50);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.top.equalTo(contentView.mas_top).offset(10);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-10);
+	}];
+}
+
+- (void)initCleanCache:(UIView *)contentView {
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"清除缓存"
+															font:UIFontFromSize(15.0f)
+												 textColor:[UIColor blackColor]
+											 textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:titleLabel];
+
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(contentView).insets(UIEdgeInsetsMake(15, 15, 15, 15));
+	}];
 }
 
 - (void)initVersionView {
