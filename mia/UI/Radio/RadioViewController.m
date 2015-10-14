@@ -248,7 +248,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 //	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
-		NSString *newAvatarUrl = change[@"new"];
+		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
 		[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
 											forState:UIControlStateNormal
 									placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];

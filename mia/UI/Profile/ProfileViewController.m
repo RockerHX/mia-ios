@@ -383,7 +383,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 //	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
 	if ([keyPath isEqualToString:UserSessionKey_NickName]) {
-		NSString *newNickName = change[@"new"];
+		NSString *newNickName = change[NSKeyValueChangeNewKey];
 		self.title = newNickName;
 	}
 }
