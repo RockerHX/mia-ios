@@ -12,8 +12,6 @@
 @interface HXRadioContentViewController () {
     NSMutableArray *_items;
     HXRadioCarouselHelper *_helper;
-    
-    CGAffineTransform _transform;
 }
 
 @end
@@ -58,8 +56,6 @@
     [self carouselConfig];
     [self stackViewConfig];
     [self gestureConfig];
-    
-    _transform = _stackView.transform;
 }
 
 - (void)carouselConfig {
@@ -116,7 +112,7 @@ static CGFloat StackViewBottomMaxConstraint = 60.0f;
         if (offsetY < Threshold) {
             if (self.stackViewBottomConstraint.constant < StackViewBottomMaxConstraint) {
                 _stackViewBottomConstraint.constant = StackViewBottomMaxConstraint*rate;
-                _stackView.transform = CGAffineTransformScale(_transform, 1+0.5*rate, 1+0.5*rate);
+                _stackView.transform = CGAffineTransformMakeScale(1+0.5*rate, 1+0.5*rate);
                 [self.view layoutIfNeeded];
             }
         }
