@@ -103,29 +103,24 @@
 
 - (void)initUserInfoView {
 	_userInfoView = [[UIView alloc] init];
-	_userInfoView.backgroundColor = [UIColor redColor];
+	_userInfoView.backgroundColor = [UIColor whiteColor];
 	[self.view addSubview:_userInfoView];
 
 	UIView *avatarView = [[UIView alloc] init];
-	avatarView.backgroundColor = [UIColor yellowColor];
+	//avatarView.backgroundColor = [UIColor yellowColor];
 	[_userInfoView addSubview:avatarView];
 
-	MIALabel *avatarTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-															 text:@"头像"
-															 font:UIFontFromSize(15.0f)
-														textColor:[UIColor blackColor]
-													textAlignment:NSTextAlignmentLeft
-													  numberLines:1];
-	[avatarView addSubview:avatarTitleLabel];
+	UIView *nickNameView = [[UIView alloc] init];
+	//avatarView.backgroundColor = [UIColor greenColor];
+	[_userInfoView addSubview:nickNameView];
 
-	UIImageView *avatarImageView = [[UIImageView alloc] init];
-	[avatarImageView setImage:[UIImage imageNamed:@"default_avatar"]];
-	[avatarView addSubview:avatarImageView];
+	UIView *genderView = [[UIView alloc] init];
+	//genderView.backgroundColor = [UIColor yellowColor];
+	[_userInfoView addSubview:genderView];
 
-	UIView *avatarLineView = [[UIView alloc] init];
-	avatarLineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
-	[avatarView addSubview:avatarLineView];
-
+	UIView *changePasswordView = [[UIView alloc] init];
+	//changePasswordView.backgroundColor = [UIColor greenColor];
+	[_userInfoView addSubview:changePasswordView];
 
 	[_userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@220);
@@ -133,30 +128,188 @@
 		make.top.equalTo(self.view.mas_top).offset(StatusBarHeight + self.navigationController.navigationBar.frame.size.height + 15);
 		make.right.equalTo(self.view.mas_right);
 	}];
+
 	[avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@70);
 		make.left.equalTo(_userInfoView.mas_left);
 		make.top.equalTo(_userInfoView.mas_top);
 		make.right.equalTo(_userInfoView.mas_right);
 	}];
+
+	[nickNameView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_userInfoView.mas_left);
+		make.top.equalTo(avatarView.mas_bottom);
+		make.right.equalTo(_userInfoView.mas_right);
+	}];
+
+	[genderView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_userInfoView.mas_left);
+		make.top.equalTo(nickNameView.mas_bottom);
+		make.right.equalTo(_userInfoView.mas_right);
+	}];
+
+	[changePasswordView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_userInfoView.mas_left);
+		make.top.equalTo(genderView.mas_bottom);
+		make.right.equalTo(_userInfoView.mas_right);
+	}];
+
+	[self initAvatarView:avatarView];
+	[self initNickNameView:nickNameView];
+	[self initGenderView:genderView];
+	[self initChangePasswordView:changePasswordView];
+}
+
+- (void)initAvatarView:(UIView *)contentView {
+
+	MIALabel *avatarTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"头像"
+															font:UIFontFromSize(15.0f)
+													   textColor:[UIColor blackColor]
+												   textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:avatarTitleLabel];
+
+	UIImageView *avatarImageView = [[UIImageView alloc] init];
+	[avatarImageView setImage:[UIImage imageNamed:@"default_avatar"]];
+	[contentView addSubview:avatarImageView];
+
+	UIView *avatarLineView = [[UIView alloc] init];
+	avatarLineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:avatarLineView];
+
 	[avatarTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@200);
 		make.height.equalTo(@20);
-		make.left.equalTo(avatarView.mas_left).offset(15);
-		make.bottom.equalTo(avatarView.mas_bottom).offset(-17);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
 	}];
 	[avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(45, 45));
-		make.right.equalTo(avatarView.mas_right).offset(-15);
-		make.centerY.equalTo(avatarView.mas_centerY);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.centerY.equalTo(contentView.mas_centerY);
 	}];
 	[avatarLineView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@1);
-		make.left.equalTo(avatarView.mas_left).offset(15);
-		make.right.equalTo(avatarView.mas_right);
-		make.bottom.equalTo(avatarView.mas_bottom);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
+}
 
+- (void)initNickNameView:(UIView *)contentView {
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"昵称"
+															font:UIFontFromSize(15.0f)
+													   textColor:[UIColor blackColor]
+												   textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:titleLabel];
+
+	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"simon"
+															font:UIFontFromSize(15.0f)
+													   textColor:[UIColor blackColor]
+												   textAlignment:NSTextAlignmentRight
+													 numberLines:1];
+	[contentView addSubview:nickNameLabel];
+
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:lineView];
+
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@200);
+		make.height.equalTo(@20);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
+	}];
+	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.width.equalTo(@200);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@1);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
+	}];
+}
+
+- (void)initGenderView:(UIView *)contentView {
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"性别"
+															font:UIFontFromSize(15.0f)
+												 textColor:[UIColor blackColor]
+											 textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:titleLabel];
+
+	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"请选择"
+															font:UIFontFromSize(15.0f)
+													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+												textAlignment:NSTextAlignmentRight
+													 numberLines:1];
+	[contentView addSubview:nickNameLabel];
+
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:lineView];
+
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@200);
+		make.height.equalTo(@20);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
+	}];
+	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.width.equalTo(@200);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@1);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
+	}];
+}
+- (void)initChangePasswordView:(UIView *)contentView {
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"密码"
+															font:UIFontFromSize(15.0f)
+												 textColor:[UIColor blackColor]
+											 textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:titleLabel];
+
+	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"修改密码"
+															font:UIFontFromSize(15.0f)
+													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+												textAlignment:NSTextAlignmentRight
+													 numberLines:1];
+	[contentView addSubview:nickNameLabel];
+
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@200);
+		make.height.equalTo(@20);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
+	}];
+	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.width.equalTo(@200);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
 }
 
 - (void)initPlaySettingView {
