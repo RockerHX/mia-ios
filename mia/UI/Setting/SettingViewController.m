@@ -19,11 +19,13 @@
 #import "UserSetting.h"
 #import "GenderPickerView.h"
 #import "UIImage+Extrude.h"
+#import "NSString+IsNull.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
-GenderPickerViewDelegate>
+GenderPickerViewDelegate,
+UITextFieldDelegate>
 
 @end
 
@@ -37,7 +39,7 @@ GenderPickerViewDelegate>
 	UIView			*_logoutView;
 
 	UIImageView 	*_avatarImageView;
-	MIALabel 		*_nickNameLabel;
+	UITextField 	*_nickNameTextField;
 	MIALabel 		*_genderLabel;
 	UISwitch 		*_autoPlaySwitch;
 	UISwitch 		*_playWith3GSwitch;
@@ -52,6 +54,9 @@ GenderPickerViewDelegate>
 
 -(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidLoad {
@@ -59,7 +64,11 @@ GenderPickerViewDelegate>
 	// Do any additional setup after loading the view, typically from a nib.
 
 	[self initUI];
+
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
 	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]];
 }
@@ -114,6 +123,7 @@ GenderPickerViewDelegate>
 	[self.view addSubview:_scrollView];
 
 	_scrollContentView = [[UIView alloc] initWithFrame:_scrollView.bounds];
+	[_scrollContentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTouchAction:)]];
 	[_scrollView addSubview:_scrollContentView];
 
 	[self initBarButton];
@@ -253,13 +263,20 @@ GenderPickerViewDelegate>
 													 numberLines:1];
 	[contentView addSubview:titleLabel];
 
-	_nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-															text:[[UserSession standard] nick]
-															font:UIFontFromSize(15.0f)
-													   textColor:[UIColor blackColor]
-												   textAlignment:NSTextAlignmentRight
-													 numberLines:1];
-	[contentView addSubview:_nickNameLabel];
+	_nickNameTextField = [[UITextField alloc] init];
+	_nickNameTextField.borderStyle = UITextBorderStyleNone;
+	_nickNameTextField.backgroundColor = [UIColor clearColor];
+	_nickNameTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	_nickNameTextField.placeholder = @"请输入昵称";
+	_nickNameTextField.text = [[UserSession standard] nick];
+	[_nickNameTextField setFont:UIFontFromSize(16)];
+	_nickNameTextField.textAlignment = NSTextAlignmentRight;
+	_nickNameTextField.keyboardType = UIKeyboardTypeDefault;
+	_nickNameTextField.returnKeyType = UIReturnKeyDone;
+	_nickNameTextField.delegate = self;
+	[_nickNameTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[contentView addSubview:_nickNameTextField];
+	//[_nickNameTextField setHidden:YES];
 
 	UIView *lineView = [[UIView alloc] init];
 	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
@@ -271,7 +288,7 @@ GenderPickerViewDelegate>
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-17);
 	}];
-	[_nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_nickNameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_top);
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.width.equalTo(@200);
@@ -655,6 +672,26 @@ GenderPickerViewDelegate>
 	[_avatarImageView setImage:avatarImage];
 }
 
+- (BOOL)isNickNameTooLong:(NSString *)nick {
+	if (!nick) {
+		return NO;
+	}
+
+	const int kNickNameMaxLength = 15;
+	if ([nick length] > kNickNameMaxLength)
+		return YES;
+
+	return NO;
+}
+
+- (void)postNickNameChange:(NSString *)nick {
+	if ([NSString isNull:nick]) {
+		return;
+	}
+
+	[MiaAPIHelper changeNickName:nick];
+}
+
 #pragma mark - delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker
@@ -675,7 +712,29 @@ GenderPickerViewDelegate>
 	[MiaAPIHelper changeGender:gender];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+	if (textField == _nickNameTextField) {
+		[textField resignFirstResponder];
+	}
+
+	return true;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	const static int kNickNameMaxLength = 15;
+	if (range.location > kNickNameMaxLength)
+		return NO; // return NO to not change text
+	return YES;
+}
+
 #pragma mark - Notification
+
+- (void)keyBoardWillShow:(NSNotification *)notification {
+}
+
+- (void)keyBoardWillHide:(NSNotification *)notification {
+	[self postNickNameChange:_nickNameTextField.text];
+}
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
 	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
@@ -715,7 +774,7 @@ GenderPickerViewDelegate>
 	NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
 	long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
 
-	[_nickNameLabel setText:nickName];
+	[_nickNameTextField setText:nickName];
 
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
@@ -779,6 +838,10 @@ GenderPickerViewDelegate>
 	[MiaAPIHelper logout];
 }
 
+- (void)contentViewTouchAction:(id)sender {
+	[_nickNameTextField resignFirstResponder];
+}
+
 - (void)avatarTouchAction:(id)sender {
 	UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
 	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
@@ -791,11 +854,12 @@ GenderPickerViewDelegate>
 }
 
 - (void)nickNameTouchAction:(id)sender {
-	NSLog(@"nickNameTouchAction");
-	//[MiaAPIHelper changeNickName:@"教授"];
+	[_nickNameTextField becomeFirstResponder];
 }
 
 - (void)genderTouchAction:(id)sender {
+	[_nickNameTextField resignFirstResponder];
+
 	GenderPickerView *pickerView = [[GenderPickerView alloc] initWithFrame:self.view.bounds];
 	pickerView.customDelegate = self;
 	[self.view addSubview:pickerView];
