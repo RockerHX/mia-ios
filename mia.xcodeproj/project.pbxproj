@@ -16,7 +16,6 @@
 		3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3901BBD025500BACFD3 /* SearchResultModel.m */; };
 		390963EB1BC652FF00E427BA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390963EA1BC652FF00E427BA /* SettingViewController.m */; };
 		390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADBD1BAEB375006269FD /* CommentCollectionViewCell.m */; };
-		390BADC11BAEBDEA006269FD /* default_avatar@2x.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC01BAEBDEA006269FD /* default_avatar@2x.jpeg */; };
 		390BADC41BAECA73006269FD /* edit_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC21BAECA73006269FD /* edit_bg@2x.png */; };
 		390BADC51BAECA73006269FD /* edit_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC31BAECA73006269FD /* edit_logo@2x.png */; };
 		390BADC91BAFD9FB006269FD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADC81BAFD9FB006269FD /* LoginViewController.m */; };
@@ -92,6 +91,7 @@
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
 		3990B1E11BCCD94C00D8B54B /* UserSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3990B1E01BCCD94C00D8B54B /* UserSetting.m */; settings = {ASSET_TAGS = (); }; };
+		3990B1E31BCDF5C100D8B54B /* default_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */; settings = {ASSET_TAGS = (); }; };
 		39BCADC81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADA81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m */; };
 		39BCADC91BA02F3100C6F7F2 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADAA1BA02F3100C6F7F2 /* NSData+ImageContentType.m */; };
 		39BCADCA1BA02F3100C6F7F2 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BCADAC1BA02F3100C6F7F2 /* SDImageCache.m */; };
@@ -183,7 +183,6 @@
 		390963EA1BC652FF00E427BA /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		390BADBC1BAEB375006269FD /* CommentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCollectionViewCell.h; sourceTree = "<group>"; };
 		390BADBD1BAEB375006269FD /* CommentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCollectionViewCell.m; sourceTree = "<group>"; };
-		390BADC01BAEBDEA006269FD /* default_avatar@2x.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default_avatar@2x.jpeg"; sourceTree = "<group>"; };
 		390BADC21BAECA73006269FD /* edit_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit_bg@2x.png"; sourceTree = "<group>"; };
 		390BADC31BAECA73006269FD /* edit_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit_logo@2x.png"; sourceTree = "<group>"; };
 		390BADC71BAFD9FB006269FD /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -316,6 +315,7 @@
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
 		3990B1DF1BCCD94C00D8B54B /* UserSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSetting.h; sourceTree = "<group>"; };
 		3990B1E01BCCD94C00D8B54B /* UserSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSetting.m; sourceTree = "<group>"; };
+		3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar@2x.png"; sourceTree = "<group>"; };
 		39BCAD3C1B9F13A800C6F7F2 /* mia-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mia-Prefix.pch"; sourceTree = "<group>"; };
 		39BCAD3E1B9F141B00C6F7F2 /* AppMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		39BCADA71BA02F3100C6F7F2 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -842,6 +842,7 @@
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
 				397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */,
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
+				3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */,
 				3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */,
 				393CE9BD1BBA94BE00FCF232 /* close@2x.png */,
 				393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */,
@@ -866,7 +867,6 @@
 				390BADCA1BAFDDC3006269FD /* login_bg@2x.png */,
 				390BADC21BAECA73006269FD /* edit_bg@2x.png */,
 				390BADC31BAECA73006269FD /* edit_logo@2x.png */,
-				390BADC01BAEBDEA006269FD /* default_avatar@2x.jpeg */,
 				39CA06321BADC7390074FD13 /* more@2x.png */,
 				39CA06061BAD67CC0074FD13 /* back@2x.png */,
 				39CA06071BAD67CC0074FD13 /* comments@2x.png */,
@@ -1434,7 +1434,7 @@
 				390BADC41BAECA73006269FD /* edit_bg@2x.png in Resources */,
 				39CA061B1BAD67CC0074FD13 /* profile@2x.png in Resources */,
 				393CE9B11BB98D1300FCF232 /* play_black@2x.png in Resources */,
-				390BADC11BAEBDEA006269FD /* default_avatar@2x.jpeg in Resources */,
+				3990B1E31BCDF5C100D8B54B /* default_avatar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

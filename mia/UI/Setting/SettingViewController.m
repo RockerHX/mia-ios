@@ -22,7 +22,7 @@
 @end
 
 @implementation SettingViewController {
-	UIView			*_userSettingView;
+	UIView			*_userInfoView;
 	UIView			*_playSettingView;
 	UIView			*_versionView;
 	UIView			*_logoutView;
@@ -82,7 +82,7 @@
 	[self.view setBackgroundColor:UIColorFromHex(@"f0eff5", 1.0)];
 
 	[self initBarButton];
-	//[self initUserSettingView];
+	[self initUserInfoView];
 	[self initPlaySettingView];
 	[self initVersionView];
 	[self initLogoutView];
@@ -99,6 +99,64 @@
 	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 	self.navigationItem.leftBarButtonItem = leftButton;
 	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)initUserInfoView {
+	_userInfoView = [[UIView alloc] init];
+	_userInfoView.backgroundColor = [UIColor redColor];
+	[self.view addSubview:_userInfoView];
+
+	UIView *avatarView = [[UIView alloc] init];
+	avatarView.backgroundColor = [UIColor yellowColor];
+	[_userInfoView addSubview:avatarView];
+
+	MIALabel *avatarTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															 text:@"头像"
+															 font:UIFontFromSize(15.0f)
+														textColor:[UIColor blackColor]
+													textAlignment:NSTextAlignmentLeft
+													  numberLines:1];
+	[avatarView addSubview:avatarTitleLabel];
+
+	UIImageView *avatarImageView = [[UIImageView alloc] init];
+	[avatarImageView setImage:[UIImage imageNamed:@"default_avatar"]];
+	[avatarView addSubview:avatarImageView];
+
+	UIView *avatarLineView = [[UIView alloc] init];
+	avatarLineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[avatarView addSubview:avatarLineView];
+
+
+	[_userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@220);
+		make.left.equalTo(self.view.mas_left);
+		make.top.equalTo(self.view.mas_top).offset(StatusBarHeight + self.navigationController.navigationBar.frame.size.height + 15);
+		make.right.equalTo(self.view.mas_right);
+	}];
+	[avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@70);
+		make.left.equalTo(_userInfoView.mas_left);
+		make.top.equalTo(_userInfoView.mas_top);
+		make.right.equalTo(_userInfoView.mas_right);
+	}];
+	[avatarTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@200);
+		make.height.equalTo(@20);
+		make.left.equalTo(avatarView.mas_left).offset(15);
+		make.bottom.equalTo(avatarView.mas_bottom).offset(-17);
+	}];
+	[avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(45, 45));
+		make.right.equalTo(avatarView.mas_right).offset(-15);
+		make.centerY.equalTo(avatarView.mas_centerY);
+	}];
+	[avatarLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@1);
+		make.left.equalTo(avatarView.mas_left).offset(15);
+		make.right.equalTo(avatarView.mas_right);
+		make.bottom.equalTo(avatarView.mas_bottom);
+	}];
+
 }
 
 - (void)initPlaySettingView {
@@ -137,7 +195,7 @@
 	[_playSettingView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@100);
 		make.left.equalTo(self.view.mas_left);
-		make.top.equalTo(self.view.mas_top).offset(StatusBarHeight + self.navigationController.navigationBar.frame.size.height + 15);
+		make.top.equalTo(_userInfoView.mas_bottom).offset(15);
 		make.right.equalTo(self.view.mas_right);
 	}];
 	[autoPlayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
