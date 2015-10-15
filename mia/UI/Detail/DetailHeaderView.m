@@ -20,9 +20,11 @@
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
 #import "Masonry.h"
+#import "InfectUserItem.h"
 
 static const CGFloat kCoverWidth 				= 163;
 static const CGFloat kCoverHeight 				= 163;
+static const CGFloat kInfectUserAvatarSize		= 22;
 
 @interface DetailHeaderView()
 @end
@@ -48,6 +50,8 @@ static const CGFloat kCoverHeight 				= 163;
 	MIALabel 		*_viewsLabel;
 	MIALabel 		*_locationLabel;
 	UIImageView 	*_commentsImageView;
+
+	long			_lastInfectUsersCount;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -70,7 +74,7 @@ static const CGFloat kCoverHeight 				= 163;
 }
 
 - (void)initUI {
-	self.backgroundColor = [UIColor blueColor];
+//	self.backgroundColor = [UIColor blueColor];
 	_coverImageView = [[UIImageView alloc] init];
 	[self addSubview:_coverImageView];
 
@@ -79,15 +83,15 @@ static const CGFloat kCoverHeight 				= 163;
 	[self addSubview:_songView];
 
 	_noteView = [[UIView alloc] init];
-	_noteView.backgroundColor = [UIColor greenColor];
+//	_noteView.backgroundColor = [UIColor greenColor];
 	[self addSubview:_noteView];
 
 	_infectUsersView = [[UIView alloc] init];
-	_infectUsersView.backgroundColor = [UIColor yellowColor];
+//	_infectUsersView.backgroundColor = [UIColor yellowColor];
 	[self addSubview:_infectUsersView];
 
 	_bottomView = [[UIView alloc] init];
-	_bottomView.backgroundColor = UIColorFromHex(@"00ff00", 0.8);
+//	_bottomView.backgroundColor = UIColorFromHex(@"00ff00", 0.8);
 	[self addSubview:_bottomView];
 
 	[self initCoverView:_coverImageView];
@@ -120,9 +124,8 @@ static const CGFloat kCoverHeight 				= 163;
 
 	[_infectUsersView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(_noteView.mas_bottom).with.offset(20);
-		make.height.equalTo(@23);
-		make.left.equalTo(self.mas_left).with.offset(30);
-		make.right.equalTo(self.mas_right).with.offset(-30);
+		make.height.mas_equalTo(kInfectUserAvatarSize);
+		make.centerX.mas_equalTo(self.mas_centerX);
 	}];
 }
 
@@ -369,6 +372,69 @@ static const CGFloat kCoverHeight 				= 163;
 }
 
 - (void)updateInfectUsers {
+	long currentUsersCount = [_shareItem.infectUsers count];
+	// 判断是否需要刷新布局
+	BOOL isNeedUpdateLayout = YES;
+	if ((_lastInfectUsersCount == 0 && currentUsersCount == 0)
+		|| (_lastInfectUsersCount > 0 && currentUsersCount > 0)) {
+		isNeedUpdateLayout = NO;
+	}
+
+	if (currentUsersCount > 0) {
+		for (UIView *subView in _infectUsersView.subviews) {
+			[subView removeFromSuperview];
+		}
+
+		UIView *prevView = nil;
+		for (long i = 0; i < currentUsersCount; i++) {
+			InfectUserItem *item = _shareItem.infectUsers[i];
+
+			UIImageView *imageView = [[UIImageView alloc] init];
+			imageView.layer.cornerRadius = kInfectUserAvatarSize / 2;
+			imageView.clipsToBounds = YES;
+			imageView.layer.borderWidth = 1.0f;
+			imageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+			[imageView sd_setImageWithURL:[NSURL URLWithString:item.avatar] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+			[_infectUsersView addSubview:imageView];
+			[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+				if (nil == prevView) {
+					make.left.equalTo(_infectUsersView.mas_left);
+				} else {
+					make.left.equalTo(prevView.mas_right).offset(5);
+				}
+
+				make.size.mas_equalTo(CGSizeMake(kInfectUserAvatarSize, kInfectUserAvatarSize));
+				make.centerY.equalTo(_infectUsersView.mas_centerY);
+			}];
+			prevView = imageView;
+		} // for
+
+		MIALabel *coutLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+													 text:@"妙推 4"
+													 font:UIFontFromSize(9.0f)
+												textColor:UIColorFromHex(@"a2a2a2", 1.0)
+											textAlignment:NSTextAlignmentLeft
+											  numberLines:1];
+		[_infectUsersView addSubview:coutLabel];
+		[coutLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(prevView.mas_right).offset(5);
+			make.width.greaterThanOrEqualTo(@30);
+			make.centerY.equalTo(_infectUsersView.mas_centerY);
+			make.right.equalTo(_infectUsersView.mas_right);
+		}];
+		[_infectUsersView mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(coutLabel.mas_right);
+		}];
+	}
+
+	if (isNeedUpdateLayout) {
+		[self updateLayoutForInfectUsers];
+	}
+
+	_lastInfectUsersCount = currentUsersCount;
+}
+
+- (void)updateLayoutForInfectUsers {
 	if ([_shareItem.infectUsers count] > 0) {
 		[_infectUsersView setHidden:NO];
 		[_bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
