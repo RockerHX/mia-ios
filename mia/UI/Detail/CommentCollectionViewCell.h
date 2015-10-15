@@ -11,12 +11,15 @@
 
 @class CommentItem;
 
+@protocol CommentCellDelegate
+
+- (void)commentCellAvatarTouched:(CommentItem *)item;
+
+@end
+
 @interface CommentCollectionViewCell : UICollectionViewCell
 
-@property (retain, nonatomic) UIImageView *logoImageView;
-@property (retain, nonatomic) MIALabel *titleLabel;
-@property (retain, nonatomic) MIALabel *commentLabel;
-
-- (void)updateWithCommentItem:(CommentItem *)item;
+@property (weak, nonatomic)id<CommentCellDelegate> delegate;
+@property (strong, nonatomic)CommentItem *dataItem;
 
 @end

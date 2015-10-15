@@ -23,6 +23,9 @@
 
 const static CGFloat kProgressLineWidth = 8.0;
 
+@interface DetailHeaderView()
+@end
+
 @implementation DetailHeaderView {
 	UIImageView 	*_coverImageView;
 	KYCircularView	*_progressView;
@@ -47,7 +50,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if(self){
-		//self.backgroundColor = [UIColor orangeColor];
 		[self initUI];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
@@ -179,6 +181,8 @@ const static CGFloat kProgressLineWidth = 8.0;
 									 textAlignment:NSTextAlignmentRight
 									   numberLines:1];
 	//_sharerLabel.backgroundColor = [UIColor yellowColor];
+	[_sharerLabel setUserInteractionEnabled:YES];
+	[_sharerLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sharerLabelTouchAction:)]];
 	[_noteView addSubview:_sharerLabel];
 
 	_noteLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -192,6 +196,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(_songView.mas_bottom).with.offset(20);
+		make.height.equalTo(_noteLabel.mas_height);
 		make.left.equalTo(self.mas_left).with.offset(30);
 		make.right.equalTo(self.mas_right).with.offset(-30);
 	}];
@@ -388,6 +393,9 @@ const static CGFloat kProgressLineWidth = 8.0;
 	}
 }
 
+#pragma mark - delegate 
+
+
 #pragma mark - notification
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
@@ -417,8 +425,17 @@ const static CGFloat kProgressLineWidth = 8.0;
 }
 
 - (void)favoriteButtonAction:(id)sender {
-	[_customDelegate detailHeaderViewClickedFavoritor];
+	if (_customDelegate) {
+		[_customDelegate detailHeaderViewClickedFavoritor];
+	}
+
 	[self updateShareButtonWithIsFavorite:!_shareItem.favorite];
+}
+
+- (void)sharerLabelTouchAction:(id)sender {
+	if (_customDelegate) {
+		[_customDelegate detailHeaderViewClickedSharer];
+	}
 }
 
 #pragma mark - audio operations

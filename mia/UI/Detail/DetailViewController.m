@@ -26,6 +26,7 @@
 #import "LoginViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
+#import "ProfileViewController.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -37,7 +38,15 @@ static const CGFloat kDetailHeaderHeight 		= 350;
 static const CGFloat kDetailFooterViewHeight 	= 40;
 static const CGFloat kDetailItemHeight 			= 40;
 
-@interface DetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UITextFieldDelegate, CLLocationManagerDelegate, DetailHeaderViewDelegate>
+@interface DetailViewController ()
+<UICollectionViewDataSource,
+UICollectionViewDelegate,
+UICollectionViewDelegateFlowLayout,
+UIActionSheetDelegate,
+UITextFieldDelegate,
+CLLocationManagerDelegate,
+DetailHeaderViewDelegate,
+CommentCellDelegate>
 
 @end
 
@@ -62,10 +71,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 	self = [super init];
 	if (self) {
 		_shareItem = item;
-		[self initUI];
-		[self initData];
-		[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
-
 		[self initLocationMgr];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
@@ -88,6 +93,9 @@ static const CGFloat kDetailItemHeight 			= 40;
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	[self initUI];
+	[self initData];
+	[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -421,10 +429,20 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)detailHeaderViewClickedSharer {
+	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:_shareItem.uID
+																 nickName:_shareItem.sNick
+															  isMyProfile:NO];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)commentCellAvatarTouched:(CommentItem *)item {
+	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:item.uid
+																 nickName:item.unick
+															  isMyProfile:NO];
+	[self.navigationController pushViewController:vc animated:YES];
+}
 
-#pragma mark collectionView代理方法
+#pragma mark - collectionView代理方法
 
 //返回section个数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -439,9 +457,8 @@ static const CGFloat kDetailItemHeight 			= 40;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	CommentCollectionViewCell *cell = (CommentCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kDetailCellReuseIdentifier
 																											 forIndexPath:indexPath];
-	[cell updateWithCommentItem:_dataModel.dataSource[indexPath.row]];
-	CommentItem *item = _dataModel.dataSource[indexPath.row];
-	NSLog(@"cell: %@", item.cmid);
+	[cell setDelegate:self];
+	[cell setDataItem:_dataModel.dataSource[indexPath.row]];
 	return cell;
 }
 
@@ -450,18 +467,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 	CGFloat itemWidth = self.view.frame.size.width - kDetailItemMarginH * 2;
 	return CGSizeMake(itemWidth, kDetailItemHeight);
 }
-
-//footer的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//header的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
 
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -478,7 +483,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return kDetailItemMarginV;
 }
-
 
 //通过设置SupplementaryViewOfKind 来设置头部或者底部的view，其中 ReuseIdentifier 的值必须和 注册是填写的一致，本例都为 “reusableView”
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {

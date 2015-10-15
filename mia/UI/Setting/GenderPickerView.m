@@ -10,6 +10,7 @@
 #import "Masonry.h"
 
 const static NSInteger kGenderPickerComponentCount = 1;
+const static NSInteger kGenderPickerComponentIndex = 0;
 
 @interface GenderPickerView () <UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -17,7 +18,6 @@ const static NSInteger kGenderPickerComponentCount = 1;
 
 @implementation GenderPickerView {
 	UIPickerView 	*_genderPicker;
-	NSInteger 		_selectedIndex;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -51,8 +51,15 @@ const static NSInteger kGenderPickerComponentCount = 1;
 		make.bottom.equalTo(self.mas_bottom);
 		make.right.equalTo(self.mas_right);
 	}];
+}
 
-	_selectedIndex = 0;
+- (void)setGender:(NSInteger)gender {
+	_gender = gender;
+	if (_gender == MIAGenderMale) {
+		[_genderPicker selectRow:0 inComponent:kGenderPickerComponentIndex animated:NO];
+	} else {
+		[_genderPicker selectRow:1 inComponent:kGenderPickerComponentIndex animated:NO];
+	}
 }
 
 #pragma mark - delegate 
@@ -73,15 +80,11 @@ const static NSInteger kGenderPickerComponentCount = 1;
 	}
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	_selectedIndex = row;
-}
-
 #pragma mark - action
 
 - (void)blankTouchAction:(id)sender {
 	MIAGender result = MIAGenderUnknown;
-	if (0 == _selectedIndex) {
+	if (0 == [_genderPicker selectedRowInComponent:kGenderPickerComponentIndex]) {
 		result = MIAGenderMale;
 	} else {
 		result = MIAGenderFemale;
