@@ -340,12 +340,12 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
 		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
-
-		[_radioView loadShareList];
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"audo login failed!error:%@", error);
 	}
+
+	[_radioView loadShareList];
 }
 
 - (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
