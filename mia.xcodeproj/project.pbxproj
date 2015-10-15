@@ -1392,7 +1392,7 @@
 		397F02C41B9EEEF500C413FE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Mia Music";
 				TargetAttributes = {
 					397F02CB1B9EEEF500C413FE = {
