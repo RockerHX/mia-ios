@@ -233,14 +233,15 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	}
 }
 
-- (void)autoLogin {
+- (BOOL)autoLogin {
 	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
 	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
 	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
-		return;
+		return NO;
 	}
 
 	[MiaAPIHelper loginWithPhoneNum:userName passwordHash:passwordHash];
+	return YES;
 }
 
 #pragma mark - Notification
@@ -277,7 +278,6 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
 	[MiaAPIHelper sendUUID];
-	[_radioView loadShareList];
 }
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
@@ -323,8 +323,10 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 												  otherButtonTitles:nil];
 		[alertView show];
 	} else {
-		[self autoLogin];
-		[_radioView checkIsNeedToGetNewItems];
+		if (![self autoLogin]) {
+			[_radioView loadShareList];
+			[_radioView checkIsNeedToGetNewItems];
+		}
 	}
 }
 
@@ -338,6 +340,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
 		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
+
+		[_radioView loadShareList];
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"audo login failed!error:%@", error);

@@ -7,6 +7,7 @@
 //
 
 #import "ShareItem.h"
+#import "InfectUserItem.h"
 
 @implementation ShareItem
 
@@ -27,11 +28,26 @@
 		self.favorite = [[dictionary objectForKey:@"star"] intValue];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
+		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
 
 		self.unread = YES;
     }
 	
     return self;
+}
+
+- (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray {
+	NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:[jsonArray count]];
+	if (!jsonArray || [jsonArray count] == 0) {
+		return;
+	}
+
+	for (NSDictionary *dicItem in jsonArray) {
+		InfectUserItem *userItem = [[InfectUserItem alloc] initWithDictionary:dicItem];
+		[resultArray addObject:userItem];
+	}
+
+	_infectUsers = resultArray;
 }
 
 //将对象编码(即:序列化)
@@ -45,6 +61,7 @@
 	[aCoder encodeObject:self.sLongitude forKey:@"sLongitude"];
 	[aCoder encodeObject:self.sLatitude forKey:@"sLatitude"];
 	[aCoder encodeObject:self.music forKey:@"music"];
+	[aCoder encodeObject:self.infectUsers forKey:@"infectUsers"];
 	[aCoder encodeInt:self.cView forKey:@"cView"];
 	[aCoder encodeInt:self.cComm forKey:@"cComm"];
 	[aCoder encodeInt:self.newCommCnt forKey:@"newCommCnt"];
@@ -64,6 +81,7 @@
 		self.sLongitude = [aDecoder decodeObjectForKey:@"sLongitude"];
 		self.sLatitude = [aDecoder decodeObjectForKey:@"sLatitude"];
 		self.music = [aDecoder decodeObjectForKey:@"music"];
+		self.infectUsers = [aDecoder decodeObjectForKey:@"infectUsers"];
 		self.cView = [aDecoder decodeIntForKey:@"cView"];
 		self.cComm = [aDecoder decodeIntForKey:@"cComm"];
 		self.newCommCnt = [aDecoder decodeIntForKey:@"newCommCnt"];

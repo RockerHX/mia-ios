@@ -23,10 +23,12 @@
 @property (strong, nonatomic) NSString *sLatitude;
 
 @property (strong, nonatomic) MusicItem *music;
+@property (strong, nonatomic) NSArray *infectUsers;
 
 @property (assign, nonatomic) BOOL unread;
 @property (assign, nonatomic) BOOL favorite;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
+- (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;
 
 @end
