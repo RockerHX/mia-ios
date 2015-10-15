@@ -21,8 +21,6 @@
 #import "MiaAPIHelper.h"
 #import "Masonry.h"
 
-const static CGFloat kProgressLineWidth = 8.0;
-
 @interface DetailHeaderView()
 @end
 
@@ -40,11 +38,12 @@ const static CGFloat kProgressLineWidth = 8.0;
 	MIALabel 		*_noteLabel;
 	MIAButton 		*_favoriteButton;
 
+	UIView			*_infectUsersView;
+
 	UIView 			*_bottomView;
 	MIALabel 		*_commentLabel;
 	MIALabel 		*_viewsLabel;
 	MIALabel 		*_locationLabel;
-	NSTimer 		*_progressTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -77,8 +76,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 	static const CGFloat kCoverWidth 				= 163;
 	static const CGFloat kCoverHeight 				= 163;
 
-	[self initProgressViewWithCoverSize:CGSizeMake(kCoverWidth + kProgressLineWidth, kCoverHeight + kProgressLineWidth)];
-
 	_coverImageView = [[UIImageView alloc] init];
 	[_coverImageView sd_setImageWithURL:nil
 					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
@@ -98,10 +95,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 		make.centerX.equalTo(self.mas_centerX);
 		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
 		make.top.equalTo(self.mas_top).with.offset(35);
-	}];
-
-	[_progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(_coverImageView).with.insets(UIEdgeInsetsMake(-4, -4, -4, -4));
 	}];
 
 	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -212,30 +205,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 		make.right.equalTo(_noteView.mas_right);
 		make.top.equalTo(_noteView.mas_top);
 	}];
-}
-
-- (void)initProgressViewWithCoverSize:(CGSize)coverSize {
-	// 这个控件需要初始化的时候就给他一个大小，否则画图会有问题
-	// linyehui 2015-10-09 16:57
-	_progressView = [[KYCircularView alloc] initWithFrame:CGRectMake(0, 0, coverSize.width, coverSize.height)];
-	_progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
-	_progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
-	_progressView.lineWidth = kProgressLineWidth;
-
-	CGFloat pathWidth = coverSize.width;
-	CGFloat pathHeight = coverSize.height;
-	UIBezierPath *path = [UIBezierPath bezierPath];
-	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth, 0)];
-	[path addLineToPoint:CGPointMake(0, 0)];
-	[path addLineToPoint:CGPointMake(0, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth / 2, pathHeight)];
-	[path closePath];
-
-	_progressView.path = path;
-
-	[self addSubview:_progressView];
 }
 
 - (void)initBottomView {
@@ -400,17 +369,14 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_progressTimer invalidate];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_progressTimer invalidate];
 }
 
 #pragma mark - Actions
@@ -467,11 +433,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 - (void)stopMusic {
 	[[MusicPlayerMgr standard] stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-}
-
-- (void)updateProgress:(NSTimer *)timer {
-	float postion = [[MusicPlayerMgr standard] getPlayPosition];
-	[_progressView setProgress:postion];
 }
 
 @end
