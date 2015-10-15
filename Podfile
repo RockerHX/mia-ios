@@ -14,7 +14,7 @@ pod 'FreeStreamer'
 pod 'Masonry'
 
 # Tool
-pod 'IQKeyboardManager'
+#pod 'IQKeyboardManager'
 
 # View
 pod 'MBProgressHUD'
