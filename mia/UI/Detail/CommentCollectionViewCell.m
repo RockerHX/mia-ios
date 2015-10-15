@@ -39,6 +39,10 @@ static const CGFloat kCommentMarginTop									= 25;
 	//Logo
 	CGRect imageFrame = {.origin.x = LOGO_X, .origin.y = LOGO_Y, .size.width = LOGO_SIZE, .size.height = LOGO_SIZE};
 	self.logoImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+	self.logoImageView.layer.cornerRadius = LOGO_SIZE / 2;
+	self.logoImageView.clipsToBounds = YES;
+	self.logoImageView.layer.borderWidth = 1.0f;
+	self.logoImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
 	[self.contentView addSubview:self.logoImageView];
 
 	//title
