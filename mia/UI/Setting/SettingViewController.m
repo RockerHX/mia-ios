@@ -589,6 +589,8 @@ UITextFieldDelegate>
 }
 
 - (void)updateGenderLabel:(MIAGender)gender {
+	_gender = gender;
+
 	if (1 == gender) {
 		[_genderLabel setText:@"男"];
 	} else if (2 == gender) {
@@ -743,7 +745,6 @@ UITextFieldDelegate>
 }
 
 - (void)genderPickerDidSelected:(MIAGender)gender {
-	_gender = gender;
 	[self updateGenderLabel:gender];
 	[MiaAPIHelper changeGender:gender];
 }
@@ -901,6 +902,7 @@ UITextFieldDelegate>
 	[_nickNameTextField resignFirstResponder];
 
 	GenderPickerView *pickerView = [[GenderPickerView alloc] initWithFrame:self.view.bounds];
+	pickerView.gender = _gender;
 	pickerView.customDelegate = self;
 	[self.view addSubview:pickerView];
 }
