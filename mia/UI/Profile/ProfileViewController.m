@@ -217,8 +217,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)requestShareList {
+	// 客人态第一个卡片占一行，为了保持最后一行有两个卡片，第一页的请求个数需要加一
+	// 当如果这样的话，第二页的个数如果不一样的话，会导致数据重复
+	// 第一页11个的最后一个，第二页10个的第一个
+	// 解决方案：服务端的start不是分页，而是上一个id
 	static const long kShareListPageCount = 10;
-
 	++_currentPageStart;
 	[MiaAPIHelper getShareListWithUID:_uid start:_currentPageStart item:kShareListPageCount];
 }

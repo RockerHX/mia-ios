@@ -26,6 +26,7 @@
 #import "LoginViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
+#import "ProfileViewController.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -62,10 +63,6 @@ static const CGFloat kDetailItemHeight 			= 40;
 	self = [super init];
 	if (self) {
 		_shareItem = item;
-		[self initUI];
-		[self initData];
-		[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
-
 		[self initLocationMgr];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
@@ -88,6 +85,9 @@ static const CGFloat kDetailItemHeight 			= 40;
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	[self initUI];
+	[self initData];
+	[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -421,10 +421,15 @@ static const CGFloat kDetailItemHeight 			= 40;
 }
 
 - (void)detailHeaderViewClickedSharer {
+	BOOL isMyProfile = [_shareItem.uID isEqualToString:[[UserSession standard] uid]];
+	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:_shareItem.uID
+																 nickName:_shareItem.sNick
+															  isMyProfile:isMyProfile];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 
-#pragma mark collectionView代理方法
+#pragma mark - collectionView代理方法
 
 //返回section个数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
