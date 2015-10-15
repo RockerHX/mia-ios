@@ -27,6 +27,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
 #import "ProfileViewController.h"
+#import "Masonry.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -34,9 +35,6 @@ static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
 
 static const CGFloat kDetailItemMarginH 				= 15;
 static const CGFloat kDetailItemMarginV 				= 20;
-
-static const CGFloat kDetailHeaderHeight 				= 350;
-static const CGFloat kDetailHeaderHeightWithInfectUsers	= 400;
 
 static const CGFloat kDetailFooterViewHeight 			= 40;
 static const CGFloat kDetailItemHeight 					= 40;
@@ -152,7 +150,7 @@ CommentCellDelegate>
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = [self headerViewSize];
+	//layout.headerReferenceSize = [self headerViewSize];
 	//layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailFooterViewHeight);
 
 	//该方法也可以设置itemSize
@@ -213,15 +211,8 @@ CommentCellDelegate>
 	[moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (CGSize)headerViewSize {
-	if ([_shareItem.infectUsers count] > 0) {
-		return CGSizeMake(self.view.frame.size.width, kDetailHeaderHeightWithInfectUsers);
-	}
-
-	return CGSizeMake(self.view.frame.size.width, kDetailHeaderHeight);
-}
-
 - (void)initHeaderView {
+	static const CGFloat kDetailHeaderHeight = 350;
 	_detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailHeaderHeight)];
 	_detailHeaderView.customDelegate = self;
 	_detailHeaderView.shareItem = _shareItem;
@@ -450,6 +441,10 @@ CommentCellDelegate>
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)detailHeaderViewChangeHeight {
+	[[_collectionView collectionViewLayout] invalidateLayout];
+}
+
 - (void)commentCellAvatarTouched:(CommentItem *)item {
 	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:item.uid
 																 nickName:item.unick
@@ -491,7 +486,8 @@ CommentCellDelegate>
 
 //header的size
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return [self headerViewSize];
+	NSLog(@"headerSize, %@", NSStringFromCGRect(_detailHeaderView.frame));
+    return _detailHeaderView.frame.size;
 }
 
 //设置每个item的UIEdgeInsets
@@ -516,7 +512,13 @@ CommentCellDelegate>
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
 			[contentView addSubview:_detailHeaderView];
+			[_detailHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.width.equalTo(contentView.mas_width);
+				make.centerX.equalTo(contentView.mas_centerX);
+				make.top.equalTo(contentView.mas_top);
+			}];
 		}
+
 		return contentView;
 //	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
 //		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier forIndexPath:indexPath];
@@ -531,9 +533,9 @@ CommentCellDelegate>
 }
 
 //点击item方法
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 //	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-}
+//}
 
 #pragma mark - Notification
 

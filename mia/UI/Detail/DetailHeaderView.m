@@ -47,6 +47,7 @@ static const CGFloat kCoverHeight 				= 163;
 	MIALabel 		*_commentLabel;
 	MIALabel 		*_viewsLabel;
 	MIALabel 		*_locationLabel;
+	UIImageView 	*_commentsImageView;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -69,17 +70,59 @@ static const CGFloat kCoverHeight 				= 163;
 }
 
 - (void)initUI {
+	self.backgroundColor = [UIColor blueColor];
 	_coverImageView = [[UIImageView alloc] init];
+	[self addSubview:_coverImageView];
+
+	_songView = [[UIView alloc] init];
+	//songView.backgroundColor = [UIColor greenColor];
+	[self addSubview:_songView];
+
+	_noteView = [[UIView alloc] init];
+	_noteView.backgroundColor = [UIColor greenColor];
+	[self addSubview:_noteView];
+
+	_infectUsersView = [[UIView alloc] init];
+	_infectUsersView.backgroundColor = [UIColor yellowColor];
+	[self addSubview:_infectUsersView];
+
+	_bottomView = [[UIView alloc] init];
+	_bottomView.backgroundColor = UIColorFromHex(@"00ff00", 0.8);
+	[self addSubview:_bottomView];
 
 	[self initCoverView:_coverImageView];
-	[self initSongView];
-	[self initNoteView];
-	[self initBottomView];
+	[self initSongView:_songView];
+	[self initNoteView:_noteView];
+	[self initBottomView:_bottomView];
+
+	[self mas_updateConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(_bottomView.mas_bottom);
+	}];
 
 	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.mas_centerX);
 		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
 		make.top.equalTo(self.mas_top).with.offset(35);
+	}];
+
+	[_songView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.mas_centerX);
+		make.top.equalTo(_coverImageView.mas_bottom).with.offset(20);
+		make.width.lessThanOrEqualTo(self.mas_width);
+	}];
+
+	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_songView.mas_bottom).with.offset(20);
+		make.height.equalTo(_noteLabel.mas_height);
+		make.left.equalTo(self.mas_left).with.offset(30);
+		make.right.equalTo(self.mas_right).with.offset(-30);
+	}];
+
+	[_infectUsersView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_noteView.mas_bottom).with.offset(20);
+		make.height.equalTo(@23);
+		make.left.equalTo(self.mas_left).with.offset(30);
+		make.right.equalTo(self.mas_right).with.offset(-30);
 	}];
 }
 
@@ -91,7 +134,6 @@ static const CGFloat kCoverHeight 				= 163;
 
 	[contentView sd_setImageWithURL:nil
 					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[self addSubview:contentView];
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									   titleString:nil
@@ -113,18 +155,14 @@ static const CGFloat kCoverHeight 				= 163;
 
 }
 
-- (void)initSongView {
-	_songView = [[UIView alloc] init];
-	//songView.backgroundColor = [UIColor greenColor];
-	[self addSubview:_songView];
-
+- (void)initSongView:(UIView *)contentView {
 	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												 text:@""
 												 font:UIFontFromSize(9.0f)
 											textColor:[UIColor blackColor]
 										textAlignment:NSTextAlignmentLeft
 										  numberLines:1];
-	[_songView addSubview:_musicNameLabel];
+	[contentView addSubview:_musicNameLabel];
 
 	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												   text:@""
@@ -132,7 +170,7 @@ static const CGFloat kCoverHeight 				= 163;
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	[_songView addSubview:_musicArtistLabel];
+	[contentView addSubview:_musicArtistLabel];
 
 	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectZero
 										   titleString:nil
@@ -142,39 +180,29 @@ static const CGFloat kCoverHeight 				= 163;
 									   backgroundImage:nil];
 	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
 	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_songView addSubview:_favoriteButton];
-
-	[_songView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.mas_centerX);
-		make.top.equalTo(_coverImageView.mas_bottom).with.offset(20);
-		make.width.lessThanOrEqualTo(self.mas_width);
-	}];
+	[contentView addSubview:_favoriteButton];
 
 	[_musicNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_songView.mas_left);
+		make.left.equalTo(contentView.mas_left);
 		make.right.equalTo(_musicArtistLabel.mas_left);
-		make.top.equalTo(_songView.mas_top);
-		make.bottom.equalTo(_songView.mas_bottom);
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 	[_musicArtistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_musicNameLabel.mas_right);
 		make.right.equalTo(_favoriteButton.mas_left).with.offset(-15);
-		make.top.equalTo(_songView.mas_top);
-		make.bottom.equalTo(_songView.mas_bottom);
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 	[_favoriteButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_musicArtistLabel.mas_right).with.offset(15);
-		make.right.equalTo(_songView.mas_right);
+		make.right.equalTo(contentView.mas_right);
 		make.size.mas_equalTo(CGSizeMake(15, 15));
-		make.centerY.equalTo(_songView.mas_centerY);
+		make.centerY.equalTo(contentView.mas_centerY);
 	}];
 }
 
-- (void)initNoteView {
-	_noteView = [[UIView alloc] init];
-	//_noteView.backgroundColor = [UIColor greenColor];
-	[self addSubview:_noteView];
-
+- (void)initNoteView:(UIView *)contentView {
 	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											  text:@""
 											  font:UIFontFromSize(9.0f)
@@ -184,7 +212,7 @@ static const CGFloat kCoverHeight 				= 163;
 	//_sharerLabel.backgroundColor = [UIColor yellowColor];
 	[_sharerLabel setUserInteractionEnabled:YES];
 	[_sharerLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sharerLabelTouchAction:)]];
-	[_noteView addSubview:_sharerLabel];
+	[contentView addSubview:_sharerLabel];
 
 	_noteLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											  text:@""
@@ -193,57 +221,25 @@ static const CGFloat kCoverHeight 				= 163;
 									 textAlignment:NSTextAlignmentLeft
 									   numberLines:0];
 	//_noteLabel.backgroundColor = [UIColor redColor];
-	[_noteView addSubview:_noteLabel];
-
-	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_songView.mas_bottom).with.offset(20);
-		make.height.equalTo(_noteLabel.mas_height);
-		make.left.equalTo(self.mas_left).with.offset(30);
-		make.right.equalTo(self.mas_right).with.offset(-30);
-	}];
+	[contentView addSubview:_noteLabel];
 
 	[_sharerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_noteView.mas_left);
-		make.top.equalTo(_noteView.mas_top);
+		make.left.equalTo(contentView.mas_left);
+		make.top.equalTo(contentView.mas_top);
 		make.width.greaterThanOrEqualTo(@30);
 		make.width.lessThanOrEqualTo(@60);
 	}];
 	[_noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_sharerLabel.mas_right).with.offset(2);
-		make.right.equalTo(_noteView.mas_right);
-		make.top.equalTo(_noteView.mas_top);
+		make.right.equalTo(contentView.mas_right);
+		make.top.equalTo(contentView.mas_top);
 	}];
 }
 
-- (void)initBottomView {
-	_bottomView = [[UIView alloc] init];
-	//_bottomView.backgroundColor = [UIColor greenColor];
-	[self addSubview:_bottomView];
-
-	UIView *infoView = [[UIView alloc] init];
-	//infoView.backgroundColor = [UIColor redColor];
-	[_bottomView addSubview:infoView];
-
-	UIView *collectionHeaderView = [[UIView alloc] init];
-	//collectionHeaderView.backgroundColor = [UIColor yellowColor];
-	[_bottomView addSubview:collectionHeaderView];
-
-	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
-	[infoView addSubview:commentsImageView];
-
-	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											  text:@""
-											  font:UIFontFromSize(10.0f)
-										 textColor:[UIColor grayColor]
-									 textAlignment:NSTextAlignmentLeft
-									   numberLines:1];
-	//commentLabel.backgroundColor = [UIColor redColor];
-	[infoView addSubview:_commentLabel];
-
+- (void)initBottomView:(UIView *)contentView {
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
-	[infoView addSubview:viewsImageView];
+	[contentView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@""
@@ -251,12 +247,12 @@ static const CGFloat kCoverHeight 				= 163;
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	//viewsLabel.backgroundColor = [UIColor redColor];
-	[infoView addSubview:_viewsLabel];
+//	_viewsLabel.backgroundColor = [UIColor redColor];
+	[contentView addSubview:_viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
-	[infoView addSubview:locationImageView];
+	[contentView addSubview:locationImageView];
 
 	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											   text:@""
@@ -265,76 +261,76 @@ static const CGFloat kCoverHeight 				= 163;
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//locationLabel.backgroundColor = [UIColor redColor];
-	[infoView addSubview:_locationLabel];
+	[contentView addSubview:_locationLabel];
 
-	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-															 text:@"评论"
-															 font:UIFontFromSize(12.0f)
-														textColor:UIColorFromHex(@"949494", 1.0)
-													textAlignment:NSTextAlignmentLeft
-													  numberLines:1];
-	//commentTitleLabel.backgroundColor = [UIColor redColor];
-	[collectionHeaderView addSubview:commentTitleLabel];
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:lineView];
+
+	_commentsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[_commentsImageView setImage:[UIImage imageNamed:@"comments"]];
+	[contentView addSubview:_commentsImageView];
+
+	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											   text:@""
+											   font:UIFontFromSize(10.0f)
+										  textColor:[UIColor grayColor]
+									  textAlignment:NSTextAlignmentLeft
+										numberLines:1];
+	//commentLabel.backgroundColor = [UIColor redColor];
+	[contentView addSubview:_commentLabel];
+
+	// ----------------------- auto layout -----------------------
 
 	[_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.mas_left).offset(30);
-		make.right.equalTo(self.mas_right).offset(-30);
-		make.bottom.equalTo(self.mas_bottom);
-	}];
-	[infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_bottomView.mas_left);
-		make.right.equalTo(_bottomView.mas_right);
-		make.top.equalTo(_bottomView.mas_top);
-		make.bottom.equalTo(collectionHeaderView.mas_top).offset(-20);
-		make.height.equalTo(@20);
-	}];
-	[collectionHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_bottomView.mas_left);
-		make.right.equalTo(_bottomView.mas_right);
-		make.top.equalTo(infoView.mas_bottom).offset(20);
-		make.bottom.equalTo(_bottomView.mas_bottom);
+		make.top.equalTo(_infectUsersView.mas_bottom).offset(10);
+		make.left.equalTo(self.mas_left);
+		make.right.equalTo(self.mas_right);
+		make.bottom.equalTo(_commentsImageView.mas_bottom);
 	}];
 
 	// infoView items
 	static const CGFloat kBottomButtonSize = 12;
-	[commentsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(infoView.mas_centerY);
-		make.left.equalTo(infoView.mas_left);
-		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
-	}];
-	[_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(commentsImageView.mas_right).offset(5);
-		make.centerY.equalTo(infoView.mas_centerY);
-		make.width.greaterThanOrEqualTo(@15);
-	}];
 	[viewsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_commentLabel.mas_right).offset(15);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left).offset(10);
 		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
 	}];
 	[_viewsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(viewsImageView.mas_right).offset(5);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.top.equalTo(contentView.mas_top);
 		make.width.greaterThanOrEqualTo(@15);
 	}];
 
 	[_locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(infoView.mas_right);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.top.equalTo(contentView.mas_top);
 		make.width.greaterThanOrEqualTo(@15);
 	}];
 
 	[locationImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(_locationLabel.mas_left).offset(-5);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.top.equalTo(contentView.mas_top);
 		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
 	}];
 
-	[commentTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(collectionHeaderView.mas_left);
-		make.right.equalTo(collectionHeaderView.mas_right);
-		make.top.equalTo(collectionHeaderView.mas_top);
-		make.bottom.equalTo(collectionHeaderView.mas_bottom);
+	// title view
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@0.5);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+		make.top.equalTo(locationImageView.mas_bottom).offset(5);
+	}];
+	[_commentsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(lineView.mas_bottom).offset(5);
+		make.left.equalTo(contentView.mas_left).offset(10);
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
+	}];
+	[_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_commentsImageView.mas_right).offset(5);
+		make.width.greaterThanOrEqualTo(@15);
+		make.top.equalTo(_commentsImageView.mas_top);
+		make.bottom.equalTo(_commentsImageView.mas_bottom);
 	}];
 
 }
@@ -360,6 +356,8 @@ static const CGFloat kCoverHeight 				= 163;
 	[_locationLabel setText:[item sAddress]];
 
 	[self updateShareButtonWithIsFavorite:item.favorite];
+
+	[self updateInfectUsers];
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
@@ -367,6 +365,31 @@ static const CGFloat kCoverHeight 				= 163;
 		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_red"] forState:UIControlStateNormal];
 	} else {
 		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
+	}
+}
+
+- (void)updateInfectUsers {
+	if ([_shareItem.infectUsers count] > 0) {
+		[_infectUsersView setHidden:NO];
+		[_bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(_infectUsersView.mas_bottom).offset(10);
+			make.left.equalTo(self.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.bottom.equalTo(_commentsImageView.mas_bottom);
+		}];
+	} else {
+		[_infectUsersView setHidden:YES];
+		[_bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(_noteView.mas_bottom).with.offset(10);
+			make.left.equalTo(self.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.bottom.equalTo(_commentsImageView.mas_bottom);
+		}];
+	}
+	[self layoutIfNeeded];
+
+	if (_customDelegate) {
+		[_customDelegate detailHeaderViewChangeHeight];
 	}
 }
 

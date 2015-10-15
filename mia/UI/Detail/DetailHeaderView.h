@@ -14,6 +14,7 @@
 
 - (void)detailHeaderViewClickedFavoritor;
 - (void)detailHeaderViewClickedSharer;
+- (void)detailHeaderViewChangeHeight;
 
 @end
 
