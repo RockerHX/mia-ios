@@ -21,6 +21,9 @@
 #import "MiaAPIHelper.h"
 #import "Masonry.h"
 
+static const CGFloat kCoverWidth 				= 163;
+static const CGFloat kCoverHeight 				= 163;
+
 @interface DetailHeaderView()
 @end
 
@@ -66,20 +69,29 @@
 }
 
 - (void)initUI {
-	[self initCoverView];
+	_coverImageView = [[UIImageView alloc] init];
+
+	[self initCoverView:_coverImageView];
 	[self initSongView];
 	[self initNoteView];
 	[self initBottomView];
+
+	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.mas_centerX);
+		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
+		make.top.equalTo(self.mas_top).with.offset(35);
+	}];
 }
 
-- (void)initCoverView {
-	static const CGFloat kCoverWidth 				= 163;
-	static const CGFloat kCoverHeight 				= 163;
+- (void)initCoverView:(UIImageView *)contentView {
 
-	_coverImageView = [[UIImageView alloc] init];
-	[_coverImageView sd_setImageWithURL:nil
+
+	contentView.layer.borderWidth = 0.5f;
+	contentView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+
+	[contentView sd_setImageWithURL:nil
 					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[self addSubview:_coverImageView];
+	[self addSubview:contentView];
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									   titleString:nil
@@ -91,16 +103,12 @@
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:_playButton];
 
-	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.mas_centerX);
-		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
-		make.top.equalTo(self.mas_top).with.offset(35);
-	}];
-
 	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(35, 35));
-		make.right.equalTo(_coverImageView.mas_right).with.offset(-12);
-		make.bottom.equalTo(_coverImageView.mas_bottom).with.offset(-12);
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY);
+//		make.right.equalTo(contentView.mas_right).with.offset(-12);
+//		make.bottom.equalTo(contentView.mas_bottom).with.offset(-12);
 	}];
 
 }
@@ -343,7 +351,7 @@
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 
 	[_musicNameLabel setText:[[item music] name]];
-	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
+	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@"  %@", [[item music] singerName]]];
 	[_sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
 	[_noteLabel setText:[item sNote]];
 
