@@ -13,11 +13,15 @@
 static NSString * const UserDefaultsKey_UserName			= @"name";
 static NSString * const UserDefaultsKey_PasswordHash		= @"hash";
 
+static NSString * const UserSessionKey_NickName				= @"nick";
+static NSString * const UserSessionKey_Avatar				= @"avatar";
+
 @interface UserSession : NSObject
 
 @property (assign, nonatomic) BOOL isLogined;
 @property (strong, nonatomic) NSString *uid;
 @property (strong, nonatomic) NSString *nick;
+@property (strong, nonatomic) NSString *avatar;
 @property (strong, nonatomic) NSString *utype;
 @property (strong, nonatomic) NSString *unreadCommCnt;
 

@@ -67,6 +67,10 @@ static NSString * const MiaAPICommand_User_PostChangePwd	= @"User.Post.Cpwd";
 static NSString * const MiaAPIKey_OldPwd					= @"opwd";
 static NSString * const MiaAPIKey_NewPwd					= @"npwd";
 
+static NSString * const MiaAPICommand_User_PostCnick		= @"User.Post.Cnick";
+static NSString * const MiaAPICommand_User_PostGender		= @"User.Post.Gender";
+static NSString * const MiaAPIKey_Gender					= @"gender";
+
 static NSString * const MiaAPICommand_User_PostFavorite		= @"User.Post.Star";
 static NSString * const MiaAPIKey_Act						= @"act";
 
@@ -78,6 +82,8 @@ static NSString * const MiaAPICommand_User_PostShare		= @"User.Post.Sharem";
 static NSString * const MiaAPIKey_Note						= @"note";
 
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
+static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";
+static NSString * const MiaAPICommand_User_GetClogo			= @"User.Get.Clogo";
 
 static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
 

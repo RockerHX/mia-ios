@@ -51,10 +51,11 @@
 
 - (void)logout {
 	_uid = nil;
-	_nick = nil;
+	self.nick = nil;
 	_utype = nil;
 	_unreadCommCnt = nil;
-
+	self.avatar = nil;
+	
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
 }

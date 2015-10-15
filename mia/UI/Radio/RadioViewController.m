@@ -23,6 +23,7 @@
 #import "ShareViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
+#import "UIButton+WebCache.h"
 
 const CGFloat kTopViewDefaultHeight				= 75.0f;
 const CGFloat kBottomViewDefaultHeight			= 35.0f;
@@ -59,6 +60,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+
+	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)dealloc {
@@ -67,6 +70,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -175,6 +180,10 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 												font:UIFontFromSize(15)
 											 logoImg:nil
 									 backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]]];
+	_profileButton.layer.cornerRadius = _profileButton.frame.size.width / 2;
+	_profileButton.clipsToBounds = YES;
+	_profileButton.layer.borderWidth = 1.0f;
+	_profileButton.layer.borderColor = [UIColor whiteColor].CGColor;
 	[_profileButton addTarget:self action:@selector(profileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_profileButton];
 
@@ -217,9 +226,9 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
 	if (unreadCommentCount <= 0) {
-		[_profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile"]] forState:UIControlStateNormal];
+		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
 	} else {
-		[_profileButton setBackgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"profile_with_notification"]] forState:UIControlStateNormal];
+		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile_with_notification"] forState:UIControlStateNormal];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
@@ -235,6 +244,21 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 }
 
 #pragma mark - Notification
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+//	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
+	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
+		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
+		if ([NSString isNull:newAvatarUrl]) {
+			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+		} else {
+			[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
+												forState:UIControlStateNormal
+										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+		}
+
+	}
+}
 
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
 	if (![[WebSocketMgr standard] isNetworkEnable]) {
@@ -278,6 +302,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
 		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
+	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
+		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 
 }
@@ -310,6 +336,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
 		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+
+		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
 	} else {
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"audo login failed!error:%@", error);
@@ -325,6 +353,19 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 		NSLog(@"unread comment failed! error:%@", error);
 	}
+}
+
+- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	if (0 != ret) {
+		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+		NSLog(@"get user info failed! error:%@", error);
+	}
+
+	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+	[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+										forState:UIControlStateNormal
+								placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
 }
 
 #pragma mark - delegate
