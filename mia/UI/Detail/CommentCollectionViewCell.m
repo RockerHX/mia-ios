@@ -14,7 +14,11 @@
 
 @end
 
-@implementation CommentCollectionViewCell
+@implementation CommentCollectionViewCell {
+	UIImageView		*_avatarImageView;
+	MIALabel		*_titleLabel;
+	MIALabel		*_commentLabel;
+}
 
 static const CGFloat LOGO_X                                             = 15.0f;
 static const CGFloat LOGO_Y                                             = 5.0f;
@@ -38,12 +42,14 @@ static const CGFloat kCommentMarginTop									= 25;
 - (void)initUI {
 	//Logo
 	CGRect imageFrame = {.origin.x = LOGO_X, .origin.y = LOGO_Y, .size.width = LOGO_SIZE, .size.height = LOGO_SIZE};
-	self.logoImageView = [[UIImageView alloc] initWithFrame:imageFrame];
-	self.logoImageView.layer.cornerRadius = LOGO_SIZE / 2;
-	self.logoImageView.clipsToBounds = YES;
-	self.logoImageView.layer.borderWidth = 1.0f;
-	self.logoImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
-	[self.contentView addSubview:self.logoImageView];
+	_avatarImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+	_avatarImageView.layer.cornerRadius = LOGO_SIZE / 2;
+	_avatarImageView.clipsToBounds = YES;
+	_avatarImageView.layer.borderWidth = 1.0f;
+	_avatarImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+	[_avatarImageView setUserInteractionEnabled:YES];
+	[_avatarImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarTouchAction:)]];
+	[self.contentView addSubview:_avatarImageView];
 
 	//title
 	CGRect titleFrame = {.origin.x = kTitleMarginLeft,
@@ -51,8 +57,8 @@ static const CGFloat kCommentMarginTop									= 25;
 		.size.width = self.bounds.size.width - kTitleMarginLeft,
 		kCommentMarginTop - kTitleMarginTop};
 
-	self.titleLabel = [[MIALabel alloc] initWithFrame:titleFrame text:@"" font:UIBoldFontFromSize(12) textColor:UIColorFromHex(@"#000000", 1.0) textAlignment:NSTextAlignmentLeft numberLines:1];
-	[self.contentView addSubview:self.titleLabel];
+	_titleLabel = [[MIALabel alloc] initWithFrame:titleFrame text:@"" font:UIBoldFontFromSize(12) textColor:UIColorFromHex(@"#000000", 1.0) textAlignment:NSTextAlignmentLeft numberLines:1];
+	[self.contentView addSubview:_titleLabel];
 
 	//comment
 	CGRect commentFrame = {.origin.x = kCommentMarginLeft,
@@ -60,25 +66,27 @@ static const CGFloat kCommentMarginTop									= 25;
 		.size.width = self.bounds.size.width - kCommentMarginLeft,
 		self.bounds.size.height - kCommentMarginTop};
 
-	self.commentLabel = [[MIALabel alloc] initWithFrame:commentFrame text:@"" font:UIFontFromSize(12) textColor:UIColorFromHex(@"#949494", 1.0) textAlignment:NSTextAlignmentLeft numberLines:1];
-	[self.contentView addSubview:self.commentLabel];
+	_commentLabel = [[MIALabel alloc] initWithFrame:commentFrame text:@"" font:UIFontFromSize(12) textColor:UIColorFromHex(@"#949494", 1.0) textAlignment:NSTextAlignmentLeft numberLines:1];
+	[self.contentView addSubview:_commentLabel];
 
 	self.backgroundColor = [UIColor clearColor];
 }
 
-- (void)updateWithCommentItem:(CommentItem *)item {
+- (void)setDataItem:(CommentItem *)item {
+	_dataItem = item;
+
 	_titleLabel.text = item.unick;
 	_commentLabel.text = item.cinfo;
-	[_logoImageView sd_setImageWithURL:[NSURL URLWithString:item.uimg]
+	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:item.uimg]
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 }
 
+#pragma mark - action
+
+- (void)avatarTouchAction:(id)sender {
+	if (_delegate) {
+		[_delegate commentCellAvatarTouched:_dataItem];
+	}
+}
+
 @end
-
-
-
-
-
-
-
-
