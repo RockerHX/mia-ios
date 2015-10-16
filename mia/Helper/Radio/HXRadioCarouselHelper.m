@@ -45,11 +45,41 @@
 
 #pragma mark - iCarousel Delegate Methods
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-    NSLog(@"Current Page:%@", @(carousel.currentItemIndex));
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselWillBeginScrollingAnimation:(iCarousel *)carousel {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselDidScroll:(iCarousel *)carousel {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselWillBeginDragging:(iCarousel *)carousel {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselDidEndDragging:(iCarousel *)carousel willDecelerate:(BOOL)decelerate {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselWillBeginDecelerating:(iCarousel *)carousel {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+}
+
+- (void)carouselDidEndDecelerating:(iCarousel *)carousel {
+    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    NSLog(@"Selected Index:%@", @(index));
+    if (_delegate && [_delegate respondsToSelector:@selector(musicBarDidSelceted)]) {
+        [_delegate musicBarDidSelceted];
+    }
 }
 
 - (CGFloat)carousel:(__unused iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
