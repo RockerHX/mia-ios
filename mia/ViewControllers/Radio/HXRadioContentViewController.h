@@ -11,7 +11,5 @@
 @interface HXRadioContentViewController : UIViewController
 
 @property (nonatomic, weak) IBOutlet iCarousel *carousel;
-@property (nonatomic, weak) IBOutlet UIStackView *stackView;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *stackViewBottomConstraint;
 
 @end
