@@ -64,8 +64,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (id)init {
 	self = [super init];
 	if (self) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -79,8 +77,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 
@@ -577,25 +573,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 #pragma mark - Notification
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostShare]) {
-		[self handlePostShareWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handlePostShareWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}];
-}
-
 /*
  *   即将显示键盘的处理
  */
@@ -681,7 +658,20 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 
 	[self showMBProgressHUD];
-	[MiaAPIHelper postShareWithLatitude:_currentCoordinate.latitude longitude:_currentCoordinate.longitude address:_currentAddress songID:_dataItem.songID note:comment];
+	[MiaAPIHelper postShareWithLatitude:_currentCoordinate.latitude
+							  longitude:_currentCoordinate.longitude
+								address:_currentAddress
+								 songID:_dataItem.songID
+								   note:comment
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
+			 if (isSuccessed) {
+				 [self.navigationController popViewControllerAnimated:YES];
+			 }
+		 }];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	 }];
 }
 
 - (void)closeButtonAction:(id)sender {

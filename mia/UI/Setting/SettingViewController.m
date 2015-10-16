@@ -54,8 +54,6 @@ UITextFieldDelegate>
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -65,8 +63,6 @@ UITextFieldDelegate>
 	// Do any additional setup after loading the view, typically from a nib.
 
 	[self initUI];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -743,7 +739,17 @@ UITextFieldDelegate>
 		return;
 	}
 
-	[MiaAPIHelper changeNickName:nick];
+	static NSString * kChangeNickNameErrorInfo = @"修改昵称失败，请稍后重试";
+
+	[MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (!isSuccessed) {
+			[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kChangeNickNameErrorInfo];
+		} else {
+			[[UserSession standard] setNick:_nickNameTextField.text];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kChangeNickNameErrorInfo];
+	}];
 }
 
 #pragma mark - delegate
@@ -776,8 +782,17 @@ UITextFieldDelegate>
 }
 
 - (void)genderPickerDidSelected:(MIAGender)gender {
+	static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
+
 	[self updateGenderLabel:gender];
-	[MiaAPIHelper changeGender:gender];
+
+	[MiaAPIHelper changeGender:gender completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (!isSuccessed) {
+			[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+	}];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -807,50 +822,6 @@ UITextFieldDelegate>
 	[self postNickNameChange:_nickNameTextField.text];
 }
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-
-//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostLogout]) {
-		[self handleLogoutWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostCnick]) {
-		[self handleChangeNickNameWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}  else if ([command isEqualToString:MiaAPICommand_User_PostGender]) {
-		[self handleChangeGenderWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleLogoutWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-	[self removeLogoutMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
-	if (isSuccess) {
-		[[UserSession standard] logout];
-		[self.navigationController popToRootViewControllerAnimated:YES];
-	}
-}
-
-- (void)handleChangeNickNameWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		static NSString * kErrorInfo = @"修改昵称失败，请稍后重试";
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
-
-		NSLog(@"handleChangeNickNameWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	} else {
-		[[UserSession standard] setNick:_nickNameTextField.text];
-	}
-}
-
-- (void)handleChangeGenderWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
-
-		NSLog(@"handleChangeGenderWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-}
-
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
@@ -867,7 +838,16 @@ UITextFieldDelegate>
 
 - (void)logoutTouchAction:(id)sender {
 	[self showLogoutMBProgressHUD];
-	[MiaAPIHelper logout];
+	[MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		[self removeLogoutMBProgressHUD:isSuccessed removeMBProgressHUDBlock:nil];
+
+		if (isSuccessed) {
+			[[UserSession standard] logout];
+			[self.navigationController popToRootViewControllerAnimated:YES];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self removeLogoutMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	}];
 }
 
 - (void)contentViewTouchAction:(id)sender {

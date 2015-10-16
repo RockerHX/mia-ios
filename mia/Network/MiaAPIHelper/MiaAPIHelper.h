@@ -100,20 +100,42 @@
 					longitude:(float)lon
 					  address:(NSString *)address
 					   songID:(NSString *)songID
-						 note:(NSString *)note;
+						 note:(NSString *)note
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)getVerificationCodeWithType:(long)type
 						phoneNumber:(NSString *)phoneNumber
 					  completeBlock:(MiaRequestCompleteBlock)completeBlock
 					   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName passwordHash:(NSString *)passwordHash;
-+ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash scode:(NSString *)scode;
++ (void)registerWithPhoneNum:(NSString *)phoneNumber
+					   scode:(NSString *)scode
+					nickName:(NSString *)nickName
+				passwordHash:(NSString *)passwordHash
+			   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)changeNickName:(NSString *)nick;
-+ (void)changeGender:(long)gender;
++ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber
+					 passwordHash:(NSString *)passwordHash
+							scode:(NSString *)scode
+					completeBlock:(MiaRequestCompleteBlock)completeBlock
+					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)loginWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash;
-+ (void)logout;
++ (void)changeNickName:(NSString *)nick
+		 completeBlock:(MiaRequestCompleteBlock)completeBlock
+		  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)changeGender:(long)gender
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)loginWithPhoneNum:(NSString *)phoneNumber
+			 passwordHash:(NSString *)passwordHash
+			completeBlock:(MiaRequestCompleteBlock)completeBlock
+			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
+				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 @end
