@@ -25,6 +25,7 @@
 		self.cView = [[dictionary objectForKey:@"cView"] intValue];
 		self.cComm = [[dictionary objectForKey:@"cComm"] intValue];
 		self.newCommCnt = [[dictionary objectForKey:@"newCommCnt"] intValue];
+		self.infectTotal = [[dictionary objectForKey:@"infectTotal"] intValue];
 		self.favorite = [[dictionary objectForKey:@"star"] intValue];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
@@ -65,6 +66,7 @@
 	[aCoder encodeInt:self.cView forKey:@"cView"];
 	[aCoder encodeInt:self.cComm forKey:@"cComm"];
 	[aCoder encodeInt:self.newCommCnt forKey:@"newCommCnt"];
+	[aCoder encodeInt:self.infectTotal forKey:@"infectTotal"];
 	[aCoder encodeBool:self.unread forKey:@"unread"];
 	[aCoder encodeBool:self.favorite forKey:@"favorite"];
 }
@@ -85,6 +87,7 @@
 		self.cView = [aDecoder decodeIntForKey:@"cView"];
 		self.cComm = [aDecoder decodeIntForKey:@"cComm"];
 		self.newCommCnt = [aDecoder decodeIntForKey:@"newCommCnt"];
+		self.infectTotal = [aDecoder decodeIntForKey:@"infectTotal"];
 		self.unread = [aDecoder decodeBoolForKey:@"unread"];
 		self.favorite = [aDecoder decodeBoolForKey:@"favorite"];
 	}
