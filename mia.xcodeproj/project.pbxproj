@@ -74,7 +74,6 @@
 		397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42F81BAA93C1006BE9E7 /* KYCircularView.m */; };
 		397F02D21B9EEEF500C413FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D11B9EEEF500C413FE /* main.m */; };
 		397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D41B9EEEF500C413FE /* AppDelegate.m */; };
-		397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */; };
 		397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F02DF1B9EEEF500C413FE /* Images.xcassets */; };
 		397F02EF1B9EEEF500C413FE /* miaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F02EE1B9EEEF500C413FE /* miaTests.m */; };
 		397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5031BAADBD8003FD186 /* PXInfiniteScrollView.m */; };
@@ -144,7 +143,7 @@
 		39CA063B1BAEA1A40074FD13 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06391BAEA1A40074FD13 /* CommentModel.m */; };
 		66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE68AFFBF4F159DD2430486 /* libPods.a */; };
 		CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
-		CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */; settings = {ASSET_TAGS = (); }; };
+		CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* HomePage.storyboard */; settings = {ASSET_TAGS = (); }; };
 		CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E41BC9188200E33121 /* FDStackView.m */; settings = {ASSET_TAGS = (); }; };
@@ -156,6 +155,8 @@
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
+		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; settings = {ASSET_TAGS = (); }; };
+		CDC5FE931BD102AB001D154E /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE911BD102AB001D154E /* HXWaveView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -286,7 +287,6 @@
 		397F02D11B9EEEF500C413FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		397F02D31B9EEEF500C413FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		397F02D41B9EEEF500C413FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		397F02D71B9EEEF500C413FE /* mia.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mia.xcdatamodel; sourceTree = "<group>"; };
 		397F02DF1B9EEEF500C413FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		397F02E81B9EEEF500C413FE /* miaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = miaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F02ED1B9EEEF500C413FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -409,7 +409,7 @@
 		8BB1D1E7765FD72A878E7526 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		8FE68AFFBF4F159DD2430486 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD221FCC1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Radio.storyboard; sourceTree = "<group>"; };
+		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/HomePage.storyboard; sourceTree = "<group>"; };
 		CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDGapLayoutGuide.h; sourceTree = "<group>"; };
 		CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDGapLayoutGuide.m; sourceTree = "<group>"; };
 		CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLayoutSpacer.h; sourceTree = "<group>"; };
@@ -432,6 +432,10 @@
 		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
 		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
 		CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioViewController.m; sourceTree = "<group>"; };
+		CDC5FE8E1BD102AB001D154E /* HXBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXBubbleView.h; sourceTree = "<group>"; };
+		CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXBubbleView.m; sourceTree = "<group>"; };
+		CDC5FE901BD102AB001D154E /* HXWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXWaveView.h; sourceTree = "<group>"; };
+		CDC5FE911BD102AB001D154E /* HXWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXWaveView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -861,7 +865,6 @@
 			children = (
 				CD221FD11BC79FEE00FCD4E7 /* UI */,
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
-				397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */,
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
 				3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */,
 				3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */,
@@ -1274,17 +1277,17 @@
 		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				CD221FD21BC79FF800FCD4E7 /* Radio */,
+				CD221FD21BC79FF800FCD4E7 /* HomePage */,
 			);
 			name = UI;
 			sourceTree = "<group>";
 		};
-		CD221FD21BC79FF800FCD4E7 /* Radio */ = {
+		CD221FD21BC79FF800FCD4E7 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
-				CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */,
+				CD221FCD1BC79FD400FCD4E7 /* HomePage.storyboard */,
 			);
-			name = Radio;
+			name = HomePage;
 			sourceTree = "<group>";
 		};
 		CD4F62DE1BC9188200E33121 /* FDStackView */ = {
@@ -1338,6 +1341,10 @@
 		CDC5FE851BD0FF7F001D154E /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				CDC5FE8E1BD102AB001D154E /* HXBubbleView.h */,
+				CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */,
+				CDC5FE901BD102AB001D154E /* HXWaveView.h */,
+				CDC5FE911BD102AB001D154E /* HXWaveView.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1459,7 +1466,7 @@
 			files = (
 				390BADC51BAECA73006269FD /* edit_logo@2x.png in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
-				CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */,
+				CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */,
 				393CE9AD1BB958B000FCF232 /* uncheckbox@2x.png in Resources */,
 				39BF8C611BB148DC003AB4FC /* favorite_white@2x.png in Resources */,
 				39CA06121BAD67CC0074FD13 /* back@2x.png in Resources */,
@@ -1604,6 +1611,7 @@
 				CD4F62F21BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */,
+				CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */,
 				39BCADCB1BA02F3100C6F7F2 /* SDWebImageCompat.m in Sources */,
 				390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */,
 				3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */,
@@ -1617,13 +1625,13 @@
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,
 				39BCADCF1BA02F3100C6F7F2 /* SDWebImageManager.m in Sources */,
 				397E42D21BA90812006BE9E7 /* NSString+IsNull.m in Sources */,
-				397F02D81B9EEEF500C413FE /* mia.xcdatamodeld in Sources */,
 				397FA52B1BAC0CA7003FD186 /* MIALabel.m in Sources */,
 				CD4F62F41BC9188200E33121 /* FDStackViewExtensions.m in Sources */,
 				3976E35A1BBAC78B006FA5E2 /* SearchViewController.m in Sources */,
 				390963EB1BC652FF00E427BA /* SettingViewController.m in Sources */,
 				39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
+				CDC5FE931BD102AB001D154E /* HXWaveView.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
@@ -1685,12 +1693,12 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */ = {
+		CD221FCD1BC79FD400FCD4E7 /* HomePage.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CD221FCE1BC79FD400FCD4E7 /* Base */,
 			);
-			name = Radio.storyboard;
+			name = HomePage.storyboard;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -1870,20 +1878,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		397F02D61B9EEEF500C413FE /* mia.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				397F02D71B9EEEF500C413FE /* mia.xcdatamodel */,
-			);
-			currentVersion = 397F02D71B9EEEF500C413FE /* mia.xcdatamodel */;
-			name = mia.xcdatamodeld;
-			path = ../mia.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 397F02C41B9EEEF500C413FE /* Project object */;
 }
