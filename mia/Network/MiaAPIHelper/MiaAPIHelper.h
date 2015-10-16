@@ -58,9 +58,26 @@
 + (void)getUploadAvatarAuthWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
-+ (void)SkipMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
-+ (void)viewShareWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
++ (void)InfectMusicWithLatitude:(float)lat
+					  longitude:(float)lon
+						address:(NSString *)address
+						   spID:(NSString *)spID
+				  completeBlock:(MiaRequestCompleteBlock)completeBlock
+				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)SkipMusicWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+						 spID:(NSString *)spID
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)viewShareWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+						 spID:(NSString *)spID
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)getVerificationCodeWithType:(long)type phoneNumber:(NSString *)phoneNumber;
 + (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName passwordHash:(NSString *)passwordHash;

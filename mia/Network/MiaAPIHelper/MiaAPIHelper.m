@@ -371,7 +371,12 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID {
++ (void)InfectMusicWithLatitude:(float)lat
+					  longitude:(float)lon
+						address:(NSString *)address
+						   spID:(NSString *)spID
+				  completeBlock:(MiaRequestCompleteBlock)completeBlock
+				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostInfectm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -402,12 +407,17 @@
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 																 jsonString:jsonString
-															  completeBlock:nil
-															   timeoutBlock:nil];
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)SkipMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID {
++ (void)SkipMusicWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+						 spID:(NSString *)spID
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostSkipm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -438,12 +448,17 @@
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 																 jsonString:jsonString
-															  completeBlock:nil
-															   timeoutBlock:nil];
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)viewShareWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID {
++ (void)viewShareWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+						 spID:(NSString *)spID
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostViewm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -474,8 +489,8 @@
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 																 jsonString:jsonString
-															  completeBlock:nil
-															   timeoutBlock:nil];
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 

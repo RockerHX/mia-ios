@@ -240,14 +240,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 //	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
-	if ([command isEqualToString:MiaAPICommand_User_PostInfectm]) {
-		[self handleInfectMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostSkipm]) {
-		[self handleSkipMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
+	if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
 		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
-		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -291,22 +285,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 #pragma mark - received message from websocket
 
-- (void)handleInfectMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		NSLog(@"report infect music successed.");
-	} else {
-		NSLog(@"report infect music failed.");
-	}
-}
-
-- (void)handleSkipMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		NSLog(@"report skip music successed.");
-	} else {
-		NSLog(@"report skip music failed.");
-	}
-}
-
 - (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
 		id act = userInfo[MiaAPIKey_Values][@"act"];
@@ -317,19 +295,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 		}
 	} else {
 		NSLog(@"favorite music failed.");
-	}
-}
-
-- (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		[MiaAPIHelper getShareById:[[self currentShareItem] sID]
-		 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-			 [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
-		 } timeoutBlock:^(MiaRequestItem *requestItem) {
-			 NSLog(@"handleGetSharemWitRet failed.");
-		 }];
-	} else {
-		NSLog(@"handlePostViewmWitRet failed.");
 	}
 }
 
@@ -385,7 +350,12 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[MiaAPIHelper InfectMusicWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
 								longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 								  address:[_radioViewDelegate radioViewCurrentAddress]
-									 spID:[[self currentShareItem] spID]];
+									 spID:[[self currentShareItem] spID]
+							completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								NSLog(@"InfectMusic %d", isSuccessed);
+							} timeoutBlock:^(MiaRequestItem *requestItem) {
+								NSLog(@"InfectMusic timeout");
+							}];
 }
 
 - (void)skipFeed {
@@ -414,7 +384,12 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[MiaAPIHelper SkipMusicWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
 								  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 									address:[_radioViewDelegate radioViewCurrentAddress]
-									   spID:[[self currentShareItem] spID]];
+									   spID:[[self currentShareItem] spID]
+							  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								  NSLog(@"SkipMusic %d", isSuccessed);
+							  } timeoutBlock:^(MiaRequestItem *requestItem) {
+								  NSLog(@"SkipMusic timeout");
+							  }];
 	} else {
 		NSLog(@"skip feed failed.");
 		// TODO 这种情况应该从界面上禁止他翻页
@@ -497,7 +472,22 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[MiaAPIHelper viewShareWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
 							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 								address:[_radioViewDelegate radioViewCurrentAddress]
-								   spID:[[self currentShareItem] spID]];
+								   spID:[[self currentShareItem] spID]
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 [MiaAPIHelper getShareById:[[self currentShareItem] sID]
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+							  [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+						  } timeoutBlock:^(MiaRequestItem *requestItem) {
+							  NSLog(@"handleGetSharemWitRet failed.");
+						  }];
+		 } else {
+			 NSLog(@"view share failed");
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"view share timeout");
+	 }];
 }
 
 @end
