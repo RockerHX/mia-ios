@@ -410,11 +410,11 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		} // for
 
 		MIALabel *coutLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-													 text:@"妙推 4"
-													 font:UIFontFromSize(9.0f)
-												textColor:UIColorFromHex(@"a2a2a2", 1.0)
-											textAlignment:NSTextAlignmentLeft
-											  numberLines:1];
+														 text:[NSString stringWithFormat:@"妙推 %d", _shareItem.infectTotal]
+														 font:UIFontFromSize(9.0f)
+													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+												textAlignment:NSTextAlignmentLeft
+												  numberLines:1];
 		[_infectUsersView addSubview:coutLabel];
 		[coutLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(prevView.mas_right).offset(5);

@@ -594,15 +594,17 @@ CommentCellDelegate>
 	if (0 == ret) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
+		id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
 		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
 		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+		id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
 		NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
 
 		if ([sID isEqualToString:_shareItem.sID]) {
 			_shareItem.cComm = [cComm intValue];
 			_shareItem.cView = [cView intValue];
-			_shareItem.favorite = start;
+			_shareItem.favorite = [start intValue];
+			_shareItem.infectTotal = [infectTotal intValue];
 			[_shareItem parseInfectUsersFromJsonArray:infectArray];
 			
 			_detailHeaderView.shareItem = _shareItem;

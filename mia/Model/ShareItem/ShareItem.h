@@ -18,6 +18,7 @@
 @property (assign, nonatomic) int cView;
 @property (assign, nonatomic) int cComm;
 @property (assign, nonatomic) int newCommCnt;
+@property (assign, nonatomic) int infectTotal;
 @property (strong, nonatomic) NSString *sAddress;
 @property (strong, nonatomic) NSString *sLongitude;
 @property (strong, nonatomic) NSString *sLatitude;

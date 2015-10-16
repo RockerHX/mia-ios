@@ -197,8 +197,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
 								 [self saveData];
 							 } else {
-								 NSError *fileError;
-								 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
+								 if (filePath) {
+									 NSError *fileError;
+									 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
+								 }
 							 }
 
 							 _downloadTask = nil;
@@ -281,7 +283,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	if ([items count] == kFavoriteRequestItemCountPerPage) {
-		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%ld", [_tempItems count]] item:kFavoriteRequestItemCountPerPage];
+		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%lu", (unsigned long)[_tempItems count]] item:kFavoriteRequestItemCountPerPage];
 	} else {
 		[self syncFinished];
 	}

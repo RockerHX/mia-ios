@@ -100,7 +100,12 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 	_webSocket.delegate = nil;
 	[_webSocket close];
 
-	static NSString *kMIAAPIUrl = @"ws://api.miamusic.com:81";
+#ifdef DEBUG
+	static NSString * const kMIAAPIUrl = @"ws://api.miamusic.com:80";
+#else
+	static NSString * const kMIAAPIUrl = @"ws://ws.miamusic.com:80";
+#endif
+
 	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kMIAAPIUrl]]];
 	_webSocket.delegate = self;
 

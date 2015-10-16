@@ -56,9 +56,9 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion object:nil];
 		};
 
+		/*
 		__weak FSAudioStream *weakStream = audioStream;
 		audioStream.onStateChange = ^(FSAudioStreamState state) {
-			/*
 			NSString *stateName = @"";
 			switch (state) {
 				case kFsAudioStreamRetrievingURL:
@@ -104,10 +104,10 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 					break;
 			}
 			NSLog(@"onStateChange:%@, %@", stateName, weakStream.url);
-			*/
 		};
+		*/
 		audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
-			NSLog(@"onFailure:%d, %@, %@", error, errorDescription, weakStream.url);
+			NSLog(@"onFailure:%d, %@", error, errorDescription);
 		};
 
 		// 设置后台播放模式

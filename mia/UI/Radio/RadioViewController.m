@@ -341,8 +341,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
 	} else {
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"audo login failed!error:%@", error);
+		NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 
 	[_radioView loadShareList];
@@ -354,15 +353,13 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	if (isSuccess) {
 		[self updateProfileButtonWithUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
 	} else {
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"unread comment failed! error:%@", error);
+		NSLog(@"unread comment failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 }
 
 - (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 != ret) {
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"get user info failed! error:%@", error);
+		NSLog(@"get user info failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 
 	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
