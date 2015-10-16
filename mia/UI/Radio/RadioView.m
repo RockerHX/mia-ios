@@ -248,8 +248,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
 		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
-		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -324,14 +322,19 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 - (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
-		[MiaAPIHelper getShareById:[[self currentShareItem] sID]];
+		[MiaAPIHelper getShareById:[[self currentShareItem] sID]
+		 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			 [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"handleGetSharemWitRet failed.");
+		 }];
 	} else {
 		NSLog(@"handlePostViewmWitRet failed.");
 	}
 }
 
-- (void)handleGetSharemWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
+- (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
+	if (isSuccessed) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
 		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];

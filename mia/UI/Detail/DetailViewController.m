@@ -277,7 +277,11 @@ CommentCellDelegate>
 }
 
 - (void)initData {
-	[MiaAPIHelper getShareById:[_shareItem sID]];
+	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		[self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"handlePostViewmWitRet timeout");
+	}];
 
 	_dataModel = [[CommentModel alloc] init];
 	[self requestComments];
@@ -581,8 +585,6 @@ CommentCellDelegate>
 		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
 		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
-		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
 		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
@@ -602,14 +604,18 @@ CommentCellDelegate>
 
 - (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
-		[MiaAPIHelper getShareById:[_shareItem sID]];
+		[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			[self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+		} timeoutBlock:^(MiaRequestItem *requestItem) {
+			NSLog(@"handlePostViewmWitRet timeout");
+		}];
 	} else {
 		NSLog(@"handlePostViewmWitRet failed.");
 	}
 }
 
-- (void)handleGetSharemWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
+- (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
+	if (isSuccessed) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
 		id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];

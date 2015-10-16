@@ -178,7 +178,9 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)getShareById:(NSString *)sID {
++ (void)getShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetSharem forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -204,8 +206,8 @@
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 																 jsonString:jsonString
-															  completeBlock:nil
-															   timeoutBlock:nil];
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
