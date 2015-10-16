@@ -1,22 +1,22 @@
 //
-//  HXRadioViewController.m
+//  HXHomePageViewController.m
 //  mia
 //
 //  Created by miaios on 15/10/9.
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import "HXRadioViewController.h"
+#import "HXHomePageViewController.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
 #import "ShareViewController.h"
 
-@interface HXRadioViewController () <LoginViewControllerDelegate>
+@interface HXHomePageViewController () <LoginViewControllerDelegate>
 
 @end
 
-@implementation HXRadioViewController
+@implementation HXHomePageViewController
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {

@@ -1,22 +1,22 @@
 //
-//  HXRadioContentViewController.m
+//  HXRadioViewController.m
 //  mia
 //
 //  Created by miaios on 15/10/10.
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import "HXRadioContentViewController.h"
+#import "HXRadioViewController.h"
 #import "HXRadioCarouselHelper.h"
 
-@interface HXRadioContentViewController () {
+@interface HXRadioViewController () {
     NSMutableArray *_items;
     HXRadioCarouselHelper *_helper;
 }
 
 @end
 
-@implementation HXRadioContentViewController
+@implementation HXRadioViewController
 
 - (void)awakeFromNib {
     [super awakeFromNib];

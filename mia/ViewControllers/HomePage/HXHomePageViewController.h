@@ -1,5 +1,5 @@
 //
-//  HXRadioViewController.h
+//  HXHomePageViewController.h
 //  mia
 //
 //  Created by miaios on 15/10/9.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HXRadioViewController : UIViewController
+@interface HXHomePageViewController : UIViewController
 
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;

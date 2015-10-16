@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--Radio View Controller-->
+        <!--Home Page View Controller-->
         <scene sceneID="1zA-Zd-ZMU">
             <objects>
-                <viewController storyboardIdentifier="HXRadioViewController" id="ucJ-HY-yrT" customClass="HXRadioViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXHomePageViewController" id="ucJ-HY-yrT" customClass="HXHomePageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1qA-Ph-yUV"/>
                         <viewControllerLayoutGuide type="bottom" id="vpU-6V-I6I"/>
@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="222" y="409"/>
         </scene>
-        <!--Radio Content View Controller-->
+        <!--Radio View Controller-->
         <scene sceneID="H02-C6-wcy">
             <objects>
-                <viewController storyboardIdentifier="HXRadioContentViewController" id="ln9-6M-WL7" customClass="HXRadioContentViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXRadioViewController" id="ln9-6M-WL7" customClass="HXRadioViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="l7K-UV-bBP"/>
                         <viewControllerLayoutGuide type="bottom" id="wcV-VL-v9l"/>
