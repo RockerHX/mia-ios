@@ -311,7 +311,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]];
+	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 NSLog(@"post read comment ret: %d", isSuccessed);
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"post read comment timeout");
+	 }];
 
 	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem]];
 	[self.navigationController pushViewController:vc animated:YES];
@@ -428,17 +433,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
 		[self handleDeleteFavoritesWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostRcomm]) {
-		[self handlePostRCommWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
 - (void)handleDeleteFavoritesWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	NSLog(@"delete favorites ret: %d", ret);
-}
-
-- (void)handlePostRCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	NSLog(@"post read comment ret: %d", ret);
 }
 
 #pragma mark - audio operations

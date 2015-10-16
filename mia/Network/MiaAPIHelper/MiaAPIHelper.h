@@ -38,7 +38,10 @@
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)postReadCommentWithsID:(NSString *)sID;
++ (void)postReadCommentWithsID:(NSString *)sID
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getMusicById:(NSString *)mid;
 + (void)getFavoriteListWithStart:(NSString *) start item:(long) item;
 + (void)getUserInfoWithUID:(NSString *)uid;
