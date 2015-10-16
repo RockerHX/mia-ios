@@ -272,8 +272,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 #pragma mark - received message from websocket
 
-- (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
-	if (isSuccessed) {
+- (void)handleGetSharemWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
+	if (success) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
 		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
@@ -300,7 +300,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 								  start:1
 								   item:kRequestItemCount
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 NSArray *shareList = userInfo[@"v"][@"data"];
 		 if (!shareList)
 			 return;
@@ -325,8 +325,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 								longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 								  address:[_radioViewDelegate radioViewCurrentAddress]
 									 spID:[[self currentShareItem] spID]
-							completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-								NSLog(@"InfectMusic %d", isSuccessed);
+							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+								NSLog(@"InfectMusic %d", success);
 							} timeoutBlock:^(MiaRequestItem *requestItem) {
 								NSLog(@"InfectMusic timeout");
 							}];
@@ -359,8 +359,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 								  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 									address:[_radioViewDelegate radioViewCurrentAddress]
 									   spID:[[self currentShareItem] spID]
-							  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-								  NSLog(@"SkipMusic %d", isSuccessed);
+							  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+								  NSLog(@"SkipMusic %d", success);
 							  } timeoutBlock:^(MiaRequestItem *requestItem) {
 								  NSLog(@"SkipMusic timeout");
 							  }];
@@ -434,8 +434,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID
 									isFavorite:![self currentShareItem].favorite
 								 completeBlock:
-		 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-			 if (isSuccessed) {
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
 				 id act = userInfo[MiaAPIKey_Values][@"act"];
 				 id sID = userInfo[MiaAPIKey_Values][@"id"];
 				 if ([[self currentShareItem].sID integerValue] == [sID intValue]) {
@@ -464,11 +464,11 @@ static const CGFloat kFavoriteHeight 			= 25;
 								address:[_radioViewDelegate radioViewCurrentAddress]
 								   spID:[[self currentShareItem] spID]
 						  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 [MiaAPIHelper getShareById:[[self currentShareItem] sID]
-						  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-							  [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							  [self handleGetSharemWitRet:success userInfo:userInfo];
 						  } timeoutBlock:^(MiaRequestItem *requestItem) {
 							  NSLog(@"handleGetSharemWitRet failed.");
 						  }];

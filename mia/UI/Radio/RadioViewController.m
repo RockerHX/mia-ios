@@ -241,16 +241,16 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 	[MiaAPIHelper loginWithPhoneNum:userName
 					   passwordHash:passwordHash
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
 			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
 			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 			 [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
 			 [MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]
-								completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-									if (isSuccessed) {
+								completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+									if (success) {
 										NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
 										NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 										[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
@@ -312,8 +312,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
-	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		if (isSuccessed) {
+	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		if (success) {
 			if (![self autoLogin]) {
 				[_radioView loadShareList];
 				[_radioView checkIsNeedToGetNewItems];

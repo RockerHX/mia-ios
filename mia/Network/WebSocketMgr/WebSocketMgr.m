@@ -163,7 +163,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 		dispatch_sync(_requestDataSyncQueue, ^{
 			// 这里不考虑时间戳相同的情况
 			[_requestData setObject:requestItem forKey:[NSNumber numberWithLong:[requestItem timestamp]]];
-			NSLog(@">++++++++++> #WebSocketWithBlock# start %ld", [requestItem timestamp]);
+			NSLog(@">++++++++++> #WebSocketWithBlock# start %ld, %@", [requestItem timestamp], [requestItem command]);
 		});
 
 		// 超时检测
@@ -220,7 +220,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-	NSLog(@"Received \"%@\"", message);
+	NSLog(@"WebSocket Received:\n%@\n", message);
 
 	//解析JSON
 	NSError *error = nil;
@@ -249,7 +249,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 					[_requestData removeObjectForKey:[NSNumber numberWithLong:[lastItem timestamp]]];
 				});
 			} else {
-				NSLog(@"======================================= ### WebSocket Timeout ###");
+				NSLog(@"======================================= ### WebSocket Timeout ### %@", lastItem.command);
 			}
 		});
 	});

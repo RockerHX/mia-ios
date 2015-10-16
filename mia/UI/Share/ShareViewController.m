@@ -552,8 +552,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_musicArtistLabel setText:item.artist];
 
 	[MiaAPIHelper getMusicById:item.songID
-				 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-					 NSLog(@"GetMusicById %d", isSuccessed);
+				 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+					 NSLog(@"GetMusicById %d", success);
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
 					 NSLog(@"GetMusicById timeout");
 
@@ -663,9 +663,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 								address:_currentAddress
 								 songID:_dataItem.songID
 								   note:comment
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
-			 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
+			 if (success) {
 				 [self.navigationController popViewControllerAnimated:YES];
 			 }
 		 }];

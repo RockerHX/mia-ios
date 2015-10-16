@@ -59,6 +59,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 														  jsonString:jsonString
 													   completeBlock:completeBlock
 														timeoutBlock:timeoutBlock];
@@ -98,9 +99,10 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-														  jsonString:jsonString
-													   completeBlock:completeBlock
-														timeoutBlock:timeoutBlock];
+																	command:dictionary[MiaAPIKey_ClientCommand]
+																 jsonString:jsonString
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -135,6 +137,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -172,6 +175,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -205,6 +209,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -238,6 +243,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -271,6 +277,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -306,6 +313,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -338,6 +346,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -365,6 +374,7 @@
 	NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -406,6 +416,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -447,6 +458,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -488,6 +500,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -528,6 +541,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -570,6 +584,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -605,6 +620,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -646,6 +662,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -682,6 +699,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -721,6 +739,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -759,6 +778,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -792,6 +812,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -825,6 +846,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -862,6 +884,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
@@ -892,6 +915,7 @@
 	//NSLog(@"%@", jsonString);
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
 																 jsonString:jsonString
 															  completeBlock:completeBlock
 															   timeoutBlock:timeoutBlock];
