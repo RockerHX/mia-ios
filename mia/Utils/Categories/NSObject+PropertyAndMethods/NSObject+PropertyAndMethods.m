@@ -52,6 +52,7 @@
  *  获取对象的所有方法
  */
 -(void)getAllMethods{
+#ifdef DEBUG
     unsigned int mothCout_f = 0;
     Method* mothList_f = class_copyMethodList([self class],&mothCout_f);
     for(int i = 0;i<mothCout_f;i++){
@@ -66,6 +67,8 @@
               [NSString stringWithUTF8String:encoding]);
     }
     free(mothList_f);
+#endif
+
 }
 @end
 
