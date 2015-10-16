@@ -277,7 +277,10 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)getFavoriteListWithStart:(NSString *) start item:(long) item {
++ (void)getFavoriteListWithStart:(NSString *)start
+							item:(long)item
+				   completeBlock:(MiaRequestCompleteBlock)completeBlock
+					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_GetStart forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -304,8 +307,8 @@
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 																 jsonString:jsonString
-															  completeBlock:nil
-															   timeoutBlock:nil];
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 

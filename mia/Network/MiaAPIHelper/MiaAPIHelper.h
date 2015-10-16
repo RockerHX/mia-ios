@@ -46,7 +46,11 @@
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)getFavoriteListWithStart:(NSString *) start item:(long) item;
++ (void)getFavoriteListWithStart:(NSString *)start
+							item:(long)item
+				   completeBlock:(MiaRequestCompleteBlock)completeBlock
+					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getUserInfoWithUID:(NSString *)uid;
 + (void)getUploadAvatarAuth;
 
