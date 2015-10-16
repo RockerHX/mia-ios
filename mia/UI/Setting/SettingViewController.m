@@ -54,8 +54,6 @@ UITextFieldDelegate>
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -66,12 +64,28 @@ UITextFieldDelegate>
 
 	[self initUI];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]];
+	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+			 NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
+			 long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
+
+			 [_nickNameTextField setText:nickName];
+
+			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+			 [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+								 placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+			 [self updateGenderLabel:gender];
+		 } else {
+			 NSLog(@"getUserInfoWithUID failed");
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"getUserInfoWithUID timeout");
+	 }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -725,7 +739,17 @@ UITextFieldDelegate>
 		return;
 	}
 
-	[MiaAPIHelper changeNickName:nick];
+	static NSString * kChangeNickNameErrorInfo = @"修改昵称失败，请稍后重试";
+
+	[MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (!isSuccessed) {
+			[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kChangeNickNameErrorInfo];
+		} else {
+			[[UserSession standard] setNick:_nickNameTextField.text];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kChangeNickNameErrorInfo];
+	}];
 }
 
 #pragma mark - delegate
@@ -737,7 +761,20 @@ UITextFieldDelegate>
 	_uploadingImage = image;
 
 	[self showUploadAvatarMBProgressHUD];
-	[MiaAPIHelper getUploadAvatarAuth];
+	[MiaAPIHelper getUploadAvatarAuthWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (isSuccessed) {
+			NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
+			NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
+			NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
+			NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
+
+			[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
+		} else {
+			[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	}];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -745,8 +782,17 @@ UITextFieldDelegate>
 }
 
 - (void)genderPickerDidSelected:(MIAGender)gender {
+	static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
+
 	[self updateGenderLabel:gender];
-	[MiaAPIHelper changeGender:gender];
+
+	[MiaAPIHelper changeGender:gender completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (!isSuccessed) {
+			[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+	}];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -776,86 +822,6 @@ UITextFieldDelegate>
 	[self postNickNameChange:_nickNameTextField.text];
 }
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-
-//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostLogout]) {
-		[self handleLogoutWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
-		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetClogo]) {
-		[self handleGetUploadAvatarAuthWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostCnick]) {
-		[self handleChangeNickNameWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}  else if ([command isEqualToString:MiaAPICommand_User_PostGender]) {
-		[self handleChangeGenderWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleLogoutWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-	[self removeLogoutMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
-	if (isSuccess) {
-		[[UserSession standard] logout];
-		[self.navigationController popToRootViewControllerAnimated:YES];
-	}
-}
-
-- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		NSLog(@"get user info failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-	NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
-	long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
-
-	[_nickNameTextField setText:nickName];
-
-	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-	[self updateGenderLabel:gender];
-}
-
-- (void)handleGetUploadAvatarAuthWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
-
-		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
-	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
-	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
-	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
-
-	[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
-}
-
-- (void)handleChangeNickNameWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		static NSString * kErrorInfo = @"修改昵称失败，请稍后重试";
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
-
-		NSLog(@"handleChangeNickNameWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	} else {
-		[[UserSession standard] setNick:_nickNameTextField.text];
-	}
-}
-
-- (void)handleChangeGenderWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
-
-		NSLog(@"handleChangeGenderWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-}
-
 #pragma mark - button Actions
 
 - (void)backButtonAction:(id)sender {
@@ -872,7 +838,16 @@ UITextFieldDelegate>
 
 - (void)logoutTouchAction:(id)sender {
 	[self showLogoutMBProgressHUD];
-	[MiaAPIHelper logout];
+	[MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		[self removeLogoutMBProgressHUD:isSuccessed removeMBProgressHUDBlock:nil];
+
+		if (isSuccessed) {
+			[[UserSession standard] logout];
+			[self.navigationController popToRootViewControllerAnimated:YES];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self removeLogoutMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	}];
 }
 
 - (void)contentViewTouchAction:(id)sender {

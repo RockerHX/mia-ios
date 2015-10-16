@@ -51,7 +51,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 		[self initUI];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -61,7 +60,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -234,27 +232,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 #pragma mark - Notification
 
--(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-
-//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
-
-	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
-		[self handleGetNearbyFeedsWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostInfectm]) {
-		[self handleInfectMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostSkipm]) {
-		[self handleSkipMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
-		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
-		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
-		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[_loopPlayerView notifyMusicPlayerMgrDidPlay];
 }
@@ -295,58 +272,8 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 #pragma mark - received message from websocket
 
-- (void)handleGetNearbyFeedsWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	NSArray *shareList = userInfo[@"v"][@"data"];
-	if (!shareList)
-		return;
-
-	[_shareListMgr addSharesWithArray:shareList];
-
-	if (_isLoading) {
-		[self reloadLoopPlayerData];
-		_isLoading = NO;
-	}
-}
-
-- (void)handleInfectMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		NSLog(@"report infect music successed.");
-	} else {
-		NSLog(@"report infect music failed.");
-	}
-}
-
-- (void)handleSkipMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		NSLog(@"report skip music successed.");
-	} else {
-		NSLog(@"report skip music failed.");
-	}
-}
-
-- (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		id act = userInfo[MiaAPIKey_Values][@"act"];
-		id sID = userInfo[MiaAPIKey_Values][@"id"];
-		if ([[self currentShareItem].sID integerValue] == [sID intValue]) {
-			[self currentShareItem].favorite = [act intValue];
-			[self updateShareButtonWithIsFavorite:[self currentShareItem].favorite];
-		}
-	} else {
-		NSLog(@"favorite music failed.");
-	}
-}
-
-- (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		[MiaAPIHelper getShareById:[[self currentShareItem] sID]];
-	} else {
-		NSLog(@"handlePostViewmWitRet failed.");
-	}
-}
-
-- (void)handleGetSharemWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
+- (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
+	if (isSuccessed) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
 		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
@@ -370,7 +297,23 @@ static const CGFloat kFavoriteHeight 			= 25;
 - (void)requestNewShares {
 	const long kRequestItemCount = 10;
 	[MiaAPIHelper getNearbyWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
-							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude start:1 item:kRequestItemCount];
+							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
+								  start:1
+								   item:kRequestItemCount
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 NSArray *shareList = userInfo[@"v"][@"data"];
+		 if (!shareList)
+			 return;
+
+		 [_shareListMgr addSharesWithArray:shareList];
+
+		 if (_isLoading) {
+			 [self reloadLoopPlayerData];
+			 _isLoading = NO;
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"getNearbyWithLatitude timeout");
+	 }];
 }
 
 #pragma mark - swip actions
@@ -381,7 +324,12 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[MiaAPIHelper InfectMusicWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
 								longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 								  address:[_radioViewDelegate radioViewCurrentAddress]
-									 spID:[[self currentShareItem] spID]];
+									 spID:[[self currentShareItem] spID]
+							completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								NSLog(@"InfectMusic %d", isSuccessed);
+							} timeoutBlock:^(MiaRequestItem *requestItem) {
+								NSLog(@"InfectMusic timeout");
+							}];
 }
 
 - (void)skipFeed {
@@ -410,7 +358,12 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[MiaAPIHelper SkipMusicWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
 								  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 									address:[_radioViewDelegate radioViewCurrentAddress]
-									   spID:[[self currentShareItem] spID]];
+									   spID:[[self currentShareItem] spID]
+							  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								  NSLog(@"SkipMusic %d", isSuccessed);
+							  } timeoutBlock:^(MiaRequestItem *requestItem) {
+								  NSLog(@"SkipMusic timeout");
+							  }];
 	} else {
 		NSLog(@"skip feed failed.");
 		// TODO 这种情况应该从界面上禁止他翻页
@@ -478,7 +431,23 @@ static const CGFloat kFavoriteHeight 			= 25;
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"favorite to profile page.");
 
-		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID isFavorite:![self currentShareItem].favorite];
+		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID
+									isFavorite:![self currentShareItem].favorite
+								 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			 if (isSuccessed) {
+				 id act = userInfo[MiaAPIKey_Values][@"act"];
+				 id sID = userInfo[MiaAPIKey_Values][@"id"];
+				 if ([[self currentShareItem].sID integerValue] == [sID intValue]) {
+					 [self currentShareItem].favorite = [act intValue];
+					 [self updateShareButtonWithIsFavorite:[self currentShareItem].favorite];
+				 }
+			 } else {
+				 NSLog(@"favorite music failed");
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"favorite music timeout");
+		 }];
 	} else {
 		[_radioViewDelegate radioViewShouldLogin];
 	}
@@ -493,7 +462,22 @@ static const CGFloat kFavoriteHeight 			= 25;
 	[MiaAPIHelper viewShareWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
 							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
 								address:[_radioViewDelegate radioViewCurrentAddress]
-								   spID:[[self currentShareItem] spID]];
+								   spID:[[self currentShareItem] spID]
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 [MiaAPIHelper getShareById:[[self currentShareItem] sID]
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+							  [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+						  } timeoutBlock:^(MiaRequestItem *requestItem) {
+							  NSLog(@"handleGetSharemWitRet failed.");
+						  }];
+		 } else {
+			 NSLog(@"view share failed");
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"view share timeout");
+	 }];
 }
 
 @end

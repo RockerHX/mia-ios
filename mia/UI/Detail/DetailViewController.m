@@ -74,8 +74,6 @@ CommentCellDelegate>
 		_shareItem = item;
 		[self initLocationMgr];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -85,8 +83,6 @@ CommentCellDelegate>
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -277,7 +273,11 @@ CommentCellDelegate>
 }
 
 - (void)initData {
-	[MiaAPIHelper getShareById:[_shareItem sID]];
+	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		[self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"getShareById timeout");
+	}];
 
 	_dataModel = [[CommentModel alloc] init];
 	[self requestComments];
@@ -307,12 +307,45 @@ CommentCellDelegate>
 
 - (void)requestComments {
 	static const long kCommentPageItemCount	= 10;
-	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:kCommentPageItemCount];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
+									   start:_dataModel.lastCommentID
+										item:kCommentPageItemCount
+							   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								   [_collectionView footerEndRefreshing];
+
+								   if (!isSuccessed)
+									   return;
+								   NSArray *commentArray = userInfo[@"v"][@"info"];
+								   if (!commentArray || [commentArray count] <= 0)
+									   return;
+
+								   [_dataModel addComments:commentArray];
+								   [_collectionView reloadData];
+							   } timeoutBlock:^(MiaRequestItem *requestItem) {
+								   [_collectionView footerEndRefreshing];
+							   }];
 	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.lastCommentID item:kCommentPageItemCount];
 }
 
 - (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.latestCommentID item:1];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
+									   start:_dataModel.latestCommentID
+										item:1
+							   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								   [_collectionView footerEndRefreshing];
+
+								   if (!isSuccessed)
+									   return;
+								   NSArray *commentArray = userInfo[@"v"][@"info"];
+								   if (!commentArray || [commentArray count] <= 0)
+									   return;
+
+								   [_dataModel addComments:commentArray];
+								   [_collectionView reloadData];
+
+							   } timeoutBlock:^(MiaRequestItem *requestItem) {
+								   [_collectionView footerEndRefreshing];
+							   }];
 }
 
 - (void)checkCommentButtonStatus {
@@ -426,7 +459,23 @@ CommentCellDelegate>
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"favorite to profile page.");
 
-		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID isFavorite:!_shareItem.favorite];
+		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID
+									isFavorite:!_shareItem.favorite
+								 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			 if (isSuccessed) {
+				 id act = userInfo[MiaAPIKey_Values][@"act"];
+				 id sID = userInfo[MiaAPIKey_Values][@"id"];
+				 if ([_shareItem.sID integerValue] == [sID intValue]) {
+					 _shareItem.favorite = [act intValue];
+					 [_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
+				 }
+			 } else {
+				 NSLog(@"favorite music failed.");
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"favorite music timeout.");
+		 }];
 	} else {
 		LoginViewController *vc = [[LoginViewController alloc] init];
 		//vc.loginViewControllerDelegate = self;
@@ -539,59 +588,8 @@ CommentCellDelegate>
 
 #pragma mark - Notification
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
-		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
-		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
-		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_Music_GetSharem]) {
-		[self handleGetSharemWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
-		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleGetMusicCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[_collectionView footerEndRefreshing];
-
-	if (0 != ret)
-		return;
-	NSArray *commentArray = userInfo[@"v"][@"info"];
-	if (!commentArray || [commentArray count] <= 0)
-		return;
-
-	[_dataModel addComments:commentArray];
-	[_collectionView reloadData];
-}
-
-- (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-
-	if (isSuccess) {
-		_commentTextField.text = @"";
-		[self requestLatestComments];
-	}
-
-	[_commentTextField resignFirstResponder];
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
-}
-
-- (void)handlePostViewmWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		[MiaAPIHelper getShareById:[_shareItem sID]];
-	} else {
-		NSLog(@"handlePostViewmWitRet failed.");
-	}
-}
-
-- (void)handleGetSharemWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
+- (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
+	if (isSuccessed) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
 		id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
@@ -613,19 +611,6 @@ CommentCellDelegate>
 		//NSLog(@"%@, %ld, %@, %@", sID, start, cComm, cView);
 	} else {
 		NSLog(@"handleGetSharemWitRet failed.");
-	}
-}
-
-- (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		id act = userInfo[MiaAPIKey_Values][@"act"];
-		id sID = userInfo[MiaAPIKey_Values][@"id"];
-		if ([_shareItem.sID integerValue] == [sID intValue]) {
-			_shareItem.favorite = [act intValue];
-			[_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
-		}
-	} else {
-		NSLog(@"favorite music failed.");
 	}
 }
 
@@ -692,7 +677,20 @@ CommentCellDelegate>
 - (void)commentButtonAction:(id)sender {
 	NSLog(@"comment button clicked.");
 	[self showMBProgressHUD];
-	[MiaAPIHelper postCommentWithShareID:_shareItem.sID comment:_commentTextField.text];
+	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
+								 comment:_commentTextField.text
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 _commentTextField.text = @"";
+			 [self requestLatestComments];
+		 }
+
+		 [_commentTextField resignFirstResponder];
+		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:nil];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_commentTextField resignFirstResponder];
+		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	 }];
 
 }
 
@@ -700,7 +698,18 @@ CommentCellDelegate>
 	[MiaAPIHelper viewShareWithLatitude:_currentCoordinate.latitude
 							  longitude:_currentCoordinate.longitude
 								address:_currentAddress
-								   spID:_shareItem.spID];
+								   spID:_shareItem.spID
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+							  if (isSuccessed) {
+								  [MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+									  [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+								  } timeoutBlock:^(MiaRequestItem *requestItem) {
+									  NSLog(@"getSharem timeout");
+								  }];
+							  }
+						  } timeoutBlock:^(MiaRequestItem *requestItem) {
+							  NSLog(@"views share timeout");
+	 }];
 }
 
 @end

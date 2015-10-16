@@ -49,14 +49,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -338,41 +336,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 #pragma mark - Notification
 
--(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-
-	//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
-		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-
-	if (isSuccess) {
-		[[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
-		[[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
-
-		[_loginViewControllerDelegate loginViewControllerDidSuccess];
-	} else {
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		[_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
-	}
-
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-			[self saveAuthInfo];
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}];
-}
-
-
 #pragma mark - Actions
 
 - (void)backButtonAction:(id)sender {
@@ -411,7 +374,31 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 	[self showMBProgressHUD];
 	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
-	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text passwordHash:passwordHash];
+	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text
+					   passwordHash:passwordHash
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+			 [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+
+			 [_loginViewControllerDelegate loginViewControllerDidSuccess];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
+		 }
+
+		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
+			 if (isSuccessed) {
+				 [self saveAuthInfo];
+				 [self.navigationController popViewControllerAnimated:YES];
+			 }
+		 }];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_passwordErrorLabel setText:[NSString stringWithFormat:@"请求超时，请稍后重试"]];
+		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	 }];
 }
 
 @end

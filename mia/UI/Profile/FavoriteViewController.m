@@ -55,15 +55,12 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		[self initHeaderView];
 		[self initCollectionView];
 		[self initBottomView];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	}
 
 	return self;
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)viewDidLoad {
@@ -364,24 +361,6 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 #pragma mark - Notification
-
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-//	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-//	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-}
-
-//- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-//	[_favoriteCollectionView footerEndRefreshing];
-//
-//	NSArray *items = userInfo[@"v"][@"data"];
-//	if (!items)
-//		return;
-//
-//	[[_favoriteViewControllerDelegate favoriteViewControllerModel] addItemsWithArray:items];
-//	[_favoriteCollectionView reloadData];
-//}
-
 
 #pragma mark - button Actions
 

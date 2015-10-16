@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+#import "MiaRequestItem.h"
+
 //typedef void(^RequestGetBannerSceneSuccess)();
 
 extern NSString * const WebSocketMgrNotificationKey_Msg;
@@ -57,5 +59,7 @@ extern NSString * const NetworkNotificationReachabilityStatusChange;
 - (void)close;
 - (void)sendPing:(id)sender;
 - (void)send:(id)data;
+
+- (void)sendWitRequestItem:(MiaRequestItem *)requestItem;
 
 @end

@@ -47,7 +47,6 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -346,46 +345,6 @@
 
 #pragma mark - Notification
 
--(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-
-//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
-		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostChangePwd]) {
-		[self handlePostResetPwdWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleGetVerificationCode:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		[self showErrorMsg:@"验证码已经发送"];
-	} else {
-		[self showErrorMsg:@"验证码发送失败，请重新获取"];
-		[self resetCountdown];
-	}
-}
-
-- (void)handlePostResetPwdWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-
-	if (isSuccess) {
-
-	}
-	else {
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		[self showErrorMsg:[NSString stringWithFormat:@"重置密码失败：%@", error]];
-	}
-
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}];
-}
-
 #pragma mark - keyboard
 
 - (void)moveUpViewForKeyboard {
@@ -501,7 +460,21 @@
 	NSString *passwordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
 	[MiaAPIHelper resetPasswordWithPhoneNum:_userNameTextField.text
 							  passwordHash:passwordHash
-									   scode:_verificationCodeTextField.text];
+									   scode:_verificationCodeTextField.text
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (!isSuccessed) {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [self showErrorMsg:[NSString stringWithFormat:@"重置密码失败：%@", error]];
+		 }
+
+		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
+			 if (isSuccessed) {
+				 [self.navigationController popViewControllerAnimated:YES];
+			 }
+		 }];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	 }];
 }
 
 - (void)verificationCodeButtonAction:(id)sender {
@@ -519,7 +492,19 @@
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil
 											repeats:YES];
-	[MiaAPIHelper getVerificationCodeWithType:1 phoneNumber:_userNameTextField.text];
+	[MiaAPIHelper getVerificationCodeWithType:1
+								  phoneNumber:_userNameTextField.text
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 [self showErrorMsg:@"验证码已经发送"];
+		 } else {
+			 [self showErrorMsg:@"验证码发送失败，请重新获取"];
+			 [self resetCountdown];
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [self showErrorMsg:@"验证码发送失败，请重新获取"];
+		 [self resetCountdown];
+	 }];
 }
 
 - (void)hidenKeyboard {

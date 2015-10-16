@@ -30,7 +30,6 @@ const CGFloat kBottomViewDefaultHeight			= 35.0f;
 
 static NSString * kAlertTitleError				= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
-static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUID失败），点击确认重新发送";
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
 @interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate, CLLocationManagerDelegate>
@@ -240,8 +239,44 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		return NO;
 	}
 
-	[MiaAPIHelper loginWithPhoneNum:userName passwordHash:passwordHash];
+	[MiaAPIHelper loginWithPhoneNum:userName
+					   passwordHash:passwordHash
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+			 [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+
+			 [MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]
+								completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+									if (isSuccessed) {
+										NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+										NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+										[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+																			forState:UIControlStateNormal
+																	placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
+									} else {
+										NSLog(@"getUserInfoWithUID failed");
+									}
+								} timeoutBlock:^(MiaRequestItem *requestItem) {
+									NSLog(@"getUserInfoWithUID timeout");
+								}];
+		 } else {
+			 NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+		 }
+		 
+		 [_radioView loadShareList];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"audo login timeout!");
+		 [_radioView loadShareList];
+	 }];
 	return YES;
+}
+
+- (void)autoReconnect {
+	// TODO auto reconnect
+	[[WebSocketMgr standard] reconnect];
 }
 
 #pragma mark - Notification
@@ -277,7 +312,18 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
-	[MiaAPIHelper sendUUID];
+	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (isSuccessed) {
+			if (![self autoLogin]) {
+				[_radioView loadShareList];
+				[_radioView checkIsNeedToGetNewItems];
+			}
+		} else {
+			[self autoReconnect];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self autoReconnect];
+	}];
 }
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
@@ -296,55 +342,13 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
 
-	if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
-		[self handlePostGuestWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
-		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
+	if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
 		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
-		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
-
 }
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	NSLog(@"Connection Closed! (see logs)");
-}
-
-- (void)handlePostGuestWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (ret != 0) {
-		// TODO linyehui
-		// 没有GUID的时候后续的获取信息都会失败
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-															message:kAlertMsgSendGUIDFailed
-														   delegate:self
-												  cancelButtonTitle:@"确定"
-												  otherButtonTitles:nil];
-		[alertView show];
-	} else {
-		if (![self autoLogin]) {
-			[_radioView loadShareList];
-			[_radioView checkIsNeedToGetNewItems];
-		}
-	}
-}
-
-- (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-
-	if (isSuccess) {
-		[[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
-		[[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
-
-		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
-	} else {
-		NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	[_radioView loadShareList];
 }
 
 - (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
@@ -357,25 +361,11 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	}
 }
 
-- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		NSLog(@"get user info failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-	[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-										forState:UIControlStateNormal
-								placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
-}
-
 #pragma mark - delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if ([alertView.message isEqual:kAlertMsgWebSocketFailed]) {
-		[[WebSocketMgr standard] reconnect];
-	} else if ([alertView.message isEqual:kAlertMsgSendGUIDFailed]) {
-		[MiaAPIHelper sendUUID];
+		[self autoReconnect];
 	}
 }
 
