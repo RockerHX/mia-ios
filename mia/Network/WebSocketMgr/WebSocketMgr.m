@@ -163,7 +163,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 		dispatch_sync(_requestDataSyncQueue, ^{
 			// 这里不考虑时间戳相同的情况
 			[_requestData setObject:requestItem forKey:[NSNumber numberWithLong:[requestItem timestamp]]];
-			NSLog(@"#WebSocketWithBlock# start %ld", [requestItem timestamp]);
+			NSLog(@">++++++++++> #WebSocketWithBlock# start %ld", [requestItem timestamp]);
 		});
 
 		// 超时检测
@@ -174,7 +174,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 				 MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
 				 if (lastItem) {
 					 // 超时了
-					 NSLog(@"#WebSocketWithBlock# timeout %ld\n%@", [requestItem timestamp], [requestItem jsonString]);
+					 NSLog(@">++++++++++> #WebSocketWithBlock# timeout %ld\n%@", [requestItem timestamp], [requestItem jsonString]);
 					 dispatch_sync(dispatch_get_main_queue(), ^{
 						 if ([requestItem timeoutBlock]) {
 							 [requestItem timeoutBlock](requestItem);
@@ -234,7 +234,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 
 	int ret = [userInfo[MiaAPIKey_Values][MiaAPIKey_Return] intValue];
 	long timestamp = (long)[userInfo[MiaAPIKey_Timestamp] doubleValue];
-	NSLog(@"#WebSocketWithBlock# received %ld", timestamp);
+	NSLog(@">++++++++++> #WebSocketWithBlock# received %ld", timestamp);
 
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// 使用GDC同步锁保证读写同步

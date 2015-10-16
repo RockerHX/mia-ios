@@ -30,7 +30,8 @@
 	return currentUUID;
 }
 
-+ (void)sendUUID {
++ (void)sendUUIDWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
+					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSString *currentUUID = [self getUUID];
 	//NSLog(@"%@, %lu", currentUUID, (unsigned long)currentUUID.length);
 
@@ -57,18 +58,12 @@
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 	//NSLog(@"%@", jsonString);
 
-	[[WebSocketMgr standard] send:jsonString];
-	/*
+	//[[WebSocketMgr standard] send:jsonString];
 	MiaRequestItem *item = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 														  jsonString:jsonString
-													   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-														   NSLog(@"completed");
-													   }
-														timeoutBlock:^(MiaRequestItem *requestItem) {
-															NSLog(@"timeout");
-														}];
+													   completeBlock:completeBlock
+														timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:item];
-	*/
 }
 
 + (void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item {

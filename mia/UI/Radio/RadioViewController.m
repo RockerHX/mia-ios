@@ -30,7 +30,6 @@ const CGFloat kBottomViewDefaultHeight			= 35.0f;
 
 static NSString * kAlertTitleError				= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
-static NSString * kAlertMsgSendGUIDFailed		= @"服务器连接错误（发送GUID失败），点击确认重新发送";
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
 @interface RadioViewController () <RadioViewDelegate, UIAlertViewDelegate, LoginViewControllerDelegate, CLLocationManagerDelegate>
@@ -244,6 +243,11 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	return YES;
 }
 
+- (void)autoReconnect {
+	// TODO auto reconnect
+	[[WebSocketMgr standard] reconnect];
+}
+
 #pragma mark - Notification
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -277,7 +281,18 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
-	[MiaAPIHelper sendUUID];
+	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (isSuccessed) {
+			if (![self autoLogin]) {
+				[_radioView loadShareList];
+				[_radioView checkIsNeedToGetNewItems];
+			}
+		} else {
+			[self autoReconnect];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self autoReconnect];
+	}];
 }
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
@@ -296,9 +311,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
 
-	if ([command isEqualToString:MiaAPICommand_User_PostGuest]) {
-		[self handlePostGuestWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
+	if ([command isEqualToString:MiaAPICommand_User_PostLogin]) {
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
 		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
@@ -310,24 +323,6 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	NSLog(@"Connection Closed! (see logs)");
-}
-
-- (void)handlePostGuestWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (ret != 0) {
-		// TODO linyehui
-		// 没有GUID的时候后续的获取信息都会失败
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-															message:kAlertMsgSendGUIDFailed
-														   delegate:self
-												  cancelButtonTitle:@"确定"
-												  otherButtonTitles:nil];
-		[alertView show];
-	} else {
-		if (![self autoLogin]) {
-			[_radioView loadShareList];
-			[_radioView checkIsNeedToGetNewItems];
-		}
-	}
 }
 
 - (void)handleLoginWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
@@ -373,9 +368,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if ([alertView.message isEqual:kAlertMsgWebSocketFailed]) {
-		[[WebSocketMgr standard] reconnect];
-	} else if ([alertView.message isEqual:kAlertMsgSendGUIDFailed]) {
-		[MiaAPIHelper sendUUID];
+		[self autoReconnect];
 	}
 }
 
