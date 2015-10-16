@@ -315,10 +315,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[self handleLoginWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
 		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
-		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
-
 }
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
@@ -334,7 +331,20 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 		[[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 		[[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
-		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]];
+		[MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]
+		 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			 if (isSuccessed) {
+				 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+				 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+				 [_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+													 forState:UIControlStateNormal
+											 placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
+			 } else {
+				 NSLog(@"getUserInfoWithUID failed");
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"getUserInfoWithUID timeout");
+		 }];
 	} else {
 		NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
@@ -350,18 +360,6 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	} else {
 		NSLog(@"unread comment failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
-}
-
-- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		NSLog(@"get user info failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-	[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-										forState:UIControlStateNormal
-								placeholderImage:[UIImage imageExtrude:[UIImage imageNamed:@"default_avatar"]]];
 }
 
 #pragma mark - delegate

@@ -71,7 +71,25 @@ UITextFieldDelegate>
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]];
+	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+			 NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
+			 long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
+
+			 [_nickNameTextField setText:nickName];
+
+			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+			 [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+								 placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+			 [self updateGenderLabel:gender];
+		 } else {
+			 NSLog(@"getUserInfoWithUID failed");
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"getUserInfoWithUID timeout");
+	 }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -784,8 +802,6 @@ UITextFieldDelegate>
 
 	if ([command isEqualToString:MiaAPICommand_User_PostLogout]) {
 		[self handleLogoutWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetUinfo]) {
-		[self handleGetUserInfoWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_GetClogo]) {
 		[self handleGetUploadAvatarAuthWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostCnick]) {
@@ -802,23 +818,6 @@ UITextFieldDelegate>
 		[[UserSession standard] logout];
 		[self.navigationController popToRootViewControllerAnimated:YES];
 	}
-}
-
-- (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		NSLog(@"get user info failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-	NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
-	long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
-
-	[_nickNameTextField setText:nickName];
-
-	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-								placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-	[self updateGenderLabel:gender];
 }
 
 - (void)handleGetUploadAvatarAuthWithRet:(int)ret userInfo:(NSDictionary *) userInfo {

@@ -51,7 +51,10 @@
 				   completeBlock:(MiaRequestCompleteBlock)completeBlock
 					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)getUserInfoWithUID:(NSString *)uid;
++ (void)getUserInfoWithUID:(NSString *)uid
+			 completeBlock:(MiaRequestCompleteBlock)completeBlock
+					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getUploadAvatarAuth;
 
 + (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
