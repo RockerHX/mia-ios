@@ -74,8 +74,6 @@ CommentCellDelegate>
 		_shareItem = item;
 		[self initLocationMgr];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -85,8 +83,6 @@ CommentCellDelegate>
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -592,28 +588,6 @@ CommentCellDelegate>
 
 #pragma mark - Notification
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
-		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-
-	if (isSuccess) {
-		_commentTextField.text = @"";
-		[self requestLatestComments];
-	}
-
-	[_commentTextField resignFirstResponder];
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:nil];
-}
-
 - (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
 	if (isSuccessed) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
@@ -703,7 +677,20 @@ CommentCellDelegate>
 - (void)commentButtonAction:(id)sender {
 	NSLog(@"comment button clicked.");
 	[self showMBProgressHUD];
-	[MiaAPIHelper postCommentWithShareID:_shareItem.sID comment:_commentTextField.text];
+	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
+								 comment:_commentTextField.text
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 _commentTextField.text = @"";
+			 [self requestLatestComments];
+		 }
+
+		 [_commentTextField resignFirstResponder];
+		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:nil];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_commentTextField resignFirstResponder];
+		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	 }];
 
 }
 

@@ -87,9 +87,14 @@
 				   completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)deleteFavoritesWithIDs:(NSArray *)idArray;
++ (void)deleteFavoritesWithIDs:(NSArray *)idArray
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
++ (void)postCommentWithShareID:(NSString *)sID
+					   comment:(NSString *)comment
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)postShareWithLatitude:(float)lat
 					longitude:(float)lon

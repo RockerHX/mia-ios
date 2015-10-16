@@ -76,7 +76,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -90,7 +89,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -388,7 +386,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[_profileHeaderView updateFavoriteCount];
 	}
 
-	[MiaAPIHelper deleteFavoritesWithIDs:idArray];
+	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		NSLog(@"deleteFavorites %d", isSuccessed);
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"deleteFavorites timeout");
+	}];
 
 	return isChanged;
 }
@@ -424,20 +426,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_favoriteModel.currentPlaying++;
 		[self playMusic:_favoriteModel.currentPlaying];
 	}
-}
-
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
-		[self handleDeleteFavoritesWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleDeleteFavoritesWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	NSLog(@"delete favorites ret: %d", ret);
 }
 
 #pragma mark - audio operations
