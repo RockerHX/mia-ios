@@ -51,7 +51,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 		[self initUI];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -61,7 +60,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -234,17 +232,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 #pragma mark - Notification
 
--(void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-
-//	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
-		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[_loopPlayerView notifyMusicPlayerMgrDidPlay];
 }
@@ -284,19 +271,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 #pragma mark - received message from websocket
-
-- (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		id act = userInfo[MiaAPIKey_Values][@"act"];
-		id sID = userInfo[MiaAPIKey_Values][@"id"];
-		if ([[self currentShareItem].sID integerValue] == [sID intValue]) {
-			[self currentShareItem].favorite = [act intValue];
-			[self updateShareButtonWithIsFavorite:[self currentShareItem].favorite];
-		}
-	} else {
-		NSLog(@"favorite music failed.");
-	}
-}
 
 - (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
 	if (isSuccessed) {
@@ -457,7 +431,23 @@ static const CGFloat kFavoriteHeight 			= 25;
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"favorite to profile page.");
 
-		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID isFavorite:![self currentShareItem].favorite];
+		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID
+									isFavorite:![self currentShareItem].favorite
+								 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			 if (isSuccessed) {
+				 id act = userInfo[MiaAPIKey_Values][@"act"];
+				 id sID = userInfo[MiaAPIKey_Values][@"id"];
+				 if ([[self currentShareItem].sID integerValue] == [sID intValue]) {
+					 [self currentShareItem].favorite = [act intValue];
+					 [self updateShareButtonWithIsFavorite:[self currentShareItem].favorite];
+				 }
+			 } else {
+				 NSLog(@"favorite music failed");
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"favorite music timeout");
+		 }];
 	} else {
 		[_radioViewDelegate radioViewShouldLogin];
 	}

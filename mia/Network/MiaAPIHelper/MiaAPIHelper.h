@@ -79,6 +79,24 @@
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
+/**
+ * @param isFavorite 期望设置成的收藏状态
+ */
++ (void)favoriteMusicWithShareID:(NSString *)sID
+					  isFavorite:(BOOL)isFavorite
+				   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)deleteFavoritesWithIDs:(NSArray *)idArray;
+
++ (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
+
++ (void)postShareWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+					   songID:(NSString *)songID
+						 note:(NSString *)note;
+
 + (void)getVerificationCodeWithType:(long)type
 						phoneNumber:(NSString *)phoneNumber
 					  completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -92,19 +110,5 @@
 
 + (void)loginWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash;
 + (void)logout;
-
-/**
-* @param isFavorite 期望设置成的收藏状态
-*/
-+ (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite;
-+ (void)deleteFavoritesWithIDs:(NSArray *)idArray;
-
-+ (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
-
-+ (void)postShareWithLatitude:(float)lat
-					longitude:(float)lon
-					  address:(NSString *)address
-					   songID:(NSString *)songID
-						 note:(NSString *)note;
 
 @end

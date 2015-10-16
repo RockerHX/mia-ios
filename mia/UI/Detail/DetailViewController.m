@@ -463,7 +463,23 @@ CommentCellDelegate>
 	if ([[UserSession standard] isLogined]) {
 		NSLog(@"favorite to profile page.");
 
-		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID isFavorite:!_shareItem.favorite];
+		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID
+									isFavorite:!_shareItem.favorite
+								 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+			 if (isSuccessed) {
+				 id act = userInfo[MiaAPIKey_Values][@"act"];
+				 id sID = userInfo[MiaAPIKey_Values][@"id"];
+				 if ([_shareItem.sID integerValue] == [sID intValue]) {
+					 _shareItem.favorite = [act intValue];
+					 [_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
+				 }
+			 } else {
+				 NSLog(@"favorite music failed.");
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"favorite music timeout.");
+		 }];
 	} else {
 		LoginViewController *vc = [[LoginViewController alloc] init];
 		//vc.loginViewControllerDelegate = self;
@@ -583,8 +599,6 @@ CommentCellDelegate>
 
 	if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
 		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
-		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -623,19 +637,6 @@ CommentCellDelegate>
 		//NSLog(@"%@, %ld, %@, %@", sID, start, cComm, cView);
 	} else {
 		NSLog(@"handleGetSharemWitRet failed.");
-	}
-}
-
-- (void)handleFavoriteWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		id act = userInfo[MiaAPIKey_Values][@"act"];
-		id sID = userInfo[MiaAPIKey_Values][@"id"];
-		if ([_shareItem.sID integerValue] == [sID intValue]) {
-			_shareItem.favorite = [act intValue];
-			[_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
-		}
-	} else {
-		NSLog(@"favorite music failed.");
 	}
 }
 
