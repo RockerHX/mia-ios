@@ -8,8 +8,22 @@
 
 #import <iCarousel/iCarousel.h>
 
+typedef NS_ENUM(NSUInteger, HXRadioCarouselHelperAction) {
+    HXRadioCarouselHelperActionPlayPrevious,
+    HXRadioCarouselHelperActionPlayNext,
+};
+
+@protocol HXRadioCarouselHelperDelegate <NSObject>
+
+@optional
+- (void)musicBarDidSelceted;
+- (void)shouldChangeMusic:(HXRadioCarouselHelperAction)action;
+
+@end
+
 @interface HXRadioCarouselHelper : NSObject <iCarouselDataSource, iCarouselDelegate>
 
+@property (nonatomic, weak)      id  <HXRadioCarouselHelperDelegate>delegate;
 @property (nonatomic, copy) NSArray *items;
 
 @end
