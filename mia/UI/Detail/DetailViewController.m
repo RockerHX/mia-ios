@@ -307,12 +307,45 @@ CommentCellDelegate>
 
 - (void)requestComments {
 	static const long kCommentPageItemCount	= 10;
-	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.lastCommentID item:kCommentPageItemCount];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
+									   start:_dataModel.lastCommentID
+										item:kCommentPageItemCount
+							   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								   [_collectionView footerEndRefreshing];
+
+								   if (!isSuccessed)
+									   return;
+								   NSArray *commentArray = userInfo[@"v"][@"info"];
+								   if (!commentArray || [commentArray count] <= 0)
+									   return;
+
+								   [_dataModel addComments:commentArray];
+								   [_collectionView reloadData];
+							   } timeoutBlock:^(MiaRequestItem *requestItem) {
+								   [_collectionView footerEndRefreshing];
+							   }];
 	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.lastCommentID item:kCommentPageItemCount];
 }
 
 - (void)requestLatestComments {
-	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID start:_dataModel.latestCommentID item:1];
+	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
+									   start:_dataModel.latestCommentID
+										item:1
+							   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+								   [_collectionView footerEndRefreshing];
+
+								   if (!isSuccessed)
+									   return;
+								   NSArray *commentArray = userInfo[@"v"][@"info"];
+								   if (!commentArray || [commentArray count] <= 0)
+									   return;
+
+								   [_dataModel addComments:commentArray];
+								   [_collectionView reloadData];
+
+							   } timeoutBlock:^(MiaRequestItem *requestItem) {
+								   [_collectionView footerEndRefreshing];
+							   }];
 }
 
 - (void)checkCommentButtonStatus {
@@ -544,9 +577,7 @@ CommentCellDelegate>
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
 
-	if ([command isEqualToString:MiaAPICommand_Music_GetMcomm]) {
-		[self handleGetMusicCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
+	if ([command isEqualToString:MiaAPICommand_User_PostComment]) {
 		[self handlePostCommentWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostViewm]) {
 		[self handlePostViewmWitRet:[ret intValue] userInfo:[notification userInfo]];
@@ -555,19 +586,6 @@ CommentCellDelegate>
 	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
 		[self handleFavoriteWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
-}
-
-- (void)handleGetMusicCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[_collectionView footerEndRefreshing];
-
-	if (0 != ret)
-		return;
-	NSArray *commentArray = userInfo[@"v"][@"info"];
-	if (!commentArray || [commentArray count] <= 0)
-		return;
-
-	[_dataModel addComments:commentArray];
-	[_collectionView reloadData];
 }
 
 - (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {

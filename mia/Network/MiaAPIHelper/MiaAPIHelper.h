@@ -21,7 +21,13 @@
 						 item:(long)item
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
-+ (void)getMusicCommentWithShareID:(NSString *)sID start:(NSString *) start item:(long) item;
+
++ (void)getMusicCommentWithShareID:(NSString *)sID
+							 start:(NSString *)start
+							  item:(long)item
+					 completeBlock:(MiaRequestCompleteBlock)completeBlock
+						 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getShareListWithUID:(NSString *)uID start:(long) start item:(long) item;
 + (void)getShareById:(NSString *)sID;
 + (void)postReadCommentWithsID:(NSString *)sID;
