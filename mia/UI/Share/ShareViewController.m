@@ -593,8 +593,8 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)handleGetMusicByIDWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-	NSLog(@"GetMusicById %d", isSuccess);
+	//BOOL isSuccess = (0 == ret);
+	NSLog(@"GetMusicById %d", (0 == ret));
 	// TODO 失败或者成功后应该把信息更新
 }
 

@@ -681,7 +681,7 @@ UITextFieldDelegate>
 		const static CGFloat kUploadAvatarMaxSize = 200;
 		UIImage *squareImage = [UIImage imageWithCutImage:image moduleSize:CGSizeMake(kUploadAvatarMaxSize, kUploadAvatarMaxSize)];
 		imageData = UIImageJPEGRepresentation(squareImage, compressionQuality);
-		[request setValue:[NSString stringWithFormat:@"%ld", imageData.length] forHTTPHeaderField:@"Content-Length"];
+		[request setValue:[NSString stringWithFormat:@"%ld", (unsigned long)imageData.length] forHTTPHeaderField:@"Content-Length"];
 
 		NSURLSession *session = [NSURLSession sharedSession];
 		[[session uploadTaskWithRequest:request
@@ -806,8 +806,7 @@ UITextFieldDelegate>
 
 - (void)handleGetUserInfoWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 != ret) {
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"get user info failed! error:%@", error);
+		NSLog(@"get user info failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 
 	NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
@@ -826,8 +825,7 @@ UITextFieldDelegate>
 	if (0 != ret) {
 		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", error);
+		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 
 	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
@@ -843,8 +841,7 @@ UITextFieldDelegate>
 		static NSString * kErrorInfo = @"修改昵称失败，请稍后重试";
 		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
 
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"handleChangeNickNameWithRet failed! error:%@", error);
+		NSLog(@"handleChangeNickNameWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	} else {
 		[[UserSession standard] setNick:_nickNameTextField.text];
 	}
@@ -855,8 +852,7 @@ UITextFieldDelegate>
 		static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
 		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
 
-		id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-		NSLog(@"handleChangeGenderWithRet failed! error:%@", error);
+		NSLog(@"handleChangeGenderWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 }
 

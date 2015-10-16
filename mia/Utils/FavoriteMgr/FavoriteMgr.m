@@ -281,7 +281,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	if ([items count] == kFavoriteRequestItemCountPerPage) {
-		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%ld", [_tempItems count]] item:kFavoriteRequestItemCountPerPage];
+		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%lu", (unsigned long)[_tempItems count]] item:kFavoriteRequestItemCountPerPage];
 	} else {
 		[self syncFinished];
 	}

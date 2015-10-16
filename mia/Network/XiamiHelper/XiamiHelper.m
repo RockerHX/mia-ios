@@ -85,7 +85,7 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 	dispatch_async(queue, ^() {
 		NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:
 							   NSUTF8StringEncoding];
-		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, page, encodeKey];
+		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, (unsigned long)page, encodeKey];
 		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
 
