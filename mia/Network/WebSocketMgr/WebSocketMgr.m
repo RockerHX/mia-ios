@@ -249,7 +249,7 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 					[_requestData removeObjectForKey:[NSNumber numberWithLong:[lastItem timestamp]]];
 				});
 			} else {
-				NSLog(@"### WebSocket Timeout ###");
+				NSLog(@"======================================= ### WebSocket Timeout ###");
 			}
 		});
 	});
