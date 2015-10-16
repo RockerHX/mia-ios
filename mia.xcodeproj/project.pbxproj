@@ -42,6 +42,7 @@
 		393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */; };
 		395C727B1BC9FAD900897734 /* FavoriteMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C727A1BC9FAD900897734 /* FavoriteMgr.m */; settings = {ASSET_TAGS = (); }; };
 		395C727F1BCB94D900897734 /* PathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C727E1BCB94D900897734 /* PathHelper.m */; settings = {ASSET_TAGS = (); }; };
+		397218921BCF8F9400721A6D /* InfectUserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397218911BCF8F9400721A6D /* InfectUserItem.m */; settings = {ASSET_TAGS = (); }; };
 		3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */; };
 		3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3551BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m */; };
 		3976E35A1BBAC78B006FA5E2 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3571BBAC78B006FA5E2 /* SearchViewController.m */; };
@@ -222,6 +223,8 @@
 		395C727A1BC9FAD900897734 /* FavoriteMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteMgr.m; sourceTree = "<group>"; };
 		395C727D1BCB94D900897734 /* PathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathHelper.h; sourceTree = "<group>"; };
 		395C727E1BCB94D900897734 /* PathHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathHelper.m; sourceTree = "<group>"; };
+		397218901BCF8F9400721A6D /* InfectUserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectUserItem.h; sourceTree = "<group>"; };
+		397218911BCF8F9400721A6D /* InfectUserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectUserItem.m; sourceTree = "<group>"; };
 		3976E3521BBAC78B006FA5E2 /* SearchResultCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCollectionViewCell.h; sourceTree = "<group>"; };
 		3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultCollectionViewCell.m; sourceTree = "<group>"; };
 		3976E3541BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSuggestionCollectionViewCell.h; sourceTree = "<group>"; };
@@ -583,6 +586,15 @@
 			path = PathHelper;
 			sourceTree = "<group>";
 		};
+		3972188F1BCF8F9400721A6D /* InfectUserItem */ = {
+			isa = PBXGroup;
+			children = (
+				397218901BCF8F9400721A6D /* InfectUserItem.h */,
+				397218911BCF8F9400721A6D /* InfectUserItem.m */,
+			);
+			path = InfectUserItem;
+			sourceTree = "<group>";
+		};
 		3976E35E1BBACDD3006FA5E2 /* SearchSuggestionModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -615,6 +627,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3972188F1BCF8F9400721A6D /* InfectUserItem */,
 				3908F38E1BBD025500BACFD3 /* SearchResultModel */,
 				3908F3871BBBE97700BACFD3 /* SearchResultItem */,
 				3908F37F1BBB9FF300BACFD3 /* SuggestionItem */,
@@ -1379,7 +1392,7 @@
 		397F02C41B9EEEF500C413FE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Mia Music";
 				TargetAttributes = {
 					397F02CB1B9EEEF500C413FE = {
@@ -1575,6 +1588,7 @@
 				393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */,
 				CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */,
 				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,
+				397218921BCF8F9400721A6D /* InfectUserItem.m in Sources */,
 				CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */,
 				39BCADD21BA02F3100C6F7F2 /* UIImage+GIF.m in Sources */,
 				39BCADCF1BA02F3100C6F7F2 /* SDWebImageManager.m in Sources */,

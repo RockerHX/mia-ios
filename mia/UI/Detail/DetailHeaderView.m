@@ -20,8 +20,11 @@
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
 #import "Masonry.h"
+#import "InfectUserItem.h"
 
-const static CGFloat kProgressLineWidth = 8.0;
+static const CGFloat kCoverWidth 				= 163;
+static const CGFloat kCoverHeight 				= 163;
+static const CGFloat kInfectUserAvatarSize		= 22;
 
 @interface DetailHeaderView()
 @end
@@ -40,11 +43,15 @@ const static CGFloat kProgressLineWidth = 8.0;
 	MIALabel 		*_noteLabel;
 	MIAButton 		*_favoriteButton;
 
+	UIView			*_infectUsersView;
+
 	UIView 			*_bottomView;
 	MIALabel 		*_commentLabel;
 	MIALabel 		*_viewsLabel;
 	MIALabel 		*_locationLabel;
-	NSTimer 		*_progressTimer;
+	UIImageView 	*_commentsImageView;
+
+	long			_lastInfectUsersCount;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -67,22 +74,69 @@ const static CGFloat kProgressLineWidth = 8.0;
 }
 
 - (void)initUI {
-	[self initCoverView];
-	[self initSongView];
-	[self initNoteView];
-	[self initBottomView];
+//	self.backgroundColor = [UIColor blueColor];
+	_coverImageView = [[UIImageView alloc] init];
+	[self addSubview:_coverImageView];
+
+	_songView = [[UIView alloc] init];
+	//songView.backgroundColor = [UIColor greenColor];
+	[self addSubview:_songView];
+
+	_noteView = [[UIView alloc] init];
+//	_noteView.backgroundColor = [UIColor greenColor];
+	[self addSubview:_noteView];
+
+	_infectUsersView = [[UIView alloc] init];
+//	_infectUsersView.backgroundColor = [UIColor yellowColor];
+	[self addSubview:_infectUsersView];
+
+	_bottomView = [[UIView alloc] init];
+//	_bottomView.backgroundColor = UIColorFromHex(@"00ff00", 0.8);
+	[self addSubview:_bottomView];
+
+	[self initCoverView:_coverImageView];
+	[self initSongView:_songView];
+	[self initNoteView:_noteView];
+	[self initBottomView:_bottomView];
+
+	[self mas_updateConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(_bottomView.mas_bottom);
+	}];
+
+	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.mas_centerX);
+		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
+		make.top.equalTo(self.mas_top).with.offset(35);
+	}];
+
+	[_songView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.mas_centerX);
+		make.top.equalTo(_coverImageView.mas_bottom).with.offset(20);
+		make.width.lessThanOrEqualTo(self.mas_width);
+	}];
+
+	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_songView.mas_bottom).with.offset(20);
+		make.height.equalTo(_noteLabel.mas_height);
+		make.left.equalTo(self.mas_left).with.offset(30);
+		make.right.equalTo(self.mas_right).with.offset(-30);
+	}];
+
+	[_infectUsersView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_noteView.mas_bottom).with.offset(20);
+		make.height.mas_equalTo(kInfectUserAvatarSize);
+		make.centerX.mas_equalTo(self.mas_centerX);
+	}];
 }
 
-- (void)initCoverView {
-	static const CGFloat kCoverWidth 				= 163;
-	static const CGFloat kCoverHeight 				= 163;
+- (void)initCoverView:(UIImageView *)contentView {
 
-	[self initProgressViewWithCoverSize:CGSizeMake(kCoverWidth + kProgressLineWidth, kCoverHeight + kProgressLineWidth)];
 
-	_coverImageView = [[UIImageView alloc] init];
-	[_coverImageView sd_setImageWithURL:nil
+	contentView.layer.borderWidth = 0.5f;
+	contentView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+
+	[contentView sd_setImageWithURL:nil
 					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[self addSubview:_coverImageView];
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									   titleString:nil
@@ -94,36 +148,24 @@ const static CGFloat kProgressLineWidth = 8.0;
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:_playButton];
 
-	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.mas_centerX);
-		make.size.mas_equalTo(CGSizeMake(kCoverWidth, kCoverHeight));
-		make.top.equalTo(self.mas_top).with.offset(35);
-	}];
-
-	[_progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(_coverImageView).with.insets(UIEdgeInsetsMake(-4, -4, -4, -4));
-	}];
-
 	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(35, 35));
-		make.right.equalTo(_coverImageView.mas_right).with.offset(-12);
-		make.bottom.equalTo(_coverImageView.mas_bottom).with.offset(-12);
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY);
+//		make.right.equalTo(contentView.mas_right).with.offset(-12);
+//		make.bottom.equalTo(contentView.mas_bottom).with.offset(-12);
 	}];
 
 }
 
-- (void)initSongView {
-	_songView = [[UIView alloc] init];
-	//songView.backgroundColor = [UIColor greenColor];
-	[self addSubview:_songView];
-
+- (void)initSongView:(UIView *)contentView {
 	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												 text:@""
 												 font:UIFontFromSize(9.0f)
 											textColor:[UIColor blackColor]
 										textAlignment:NSTextAlignmentLeft
 										  numberLines:1];
-	[_songView addSubview:_musicNameLabel];
+	[contentView addSubview:_musicNameLabel];
 
 	_musicArtistLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												   text:@""
@@ -131,7 +173,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	[_songView addSubview:_musicArtistLabel];
+	[contentView addSubview:_musicArtistLabel];
 
 	_favoriteButton = [[MIAButton alloc] initWithFrame:CGRectZero
 										   titleString:nil
@@ -141,39 +183,29 @@ const static CGFloat kProgressLineWidth = 8.0;
 									   backgroundImage:nil];
 	[_favoriteButton setImage:[UIImage imageNamed:@"favorite_normal"] forState:UIControlStateNormal];
 	[_favoriteButton addTarget:self action:@selector(favoriteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_songView addSubview:_favoriteButton];
-
-	[_songView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.mas_centerX);
-		make.top.equalTo(_coverImageView.mas_bottom).with.offset(20);
-		make.width.lessThanOrEqualTo(self.mas_width);
-	}];
+	[contentView addSubview:_favoriteButton];
 
 	[_musicNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_songView.mas_left);
+		make.left.equalTo(contentView.mas_left);
 		make.right.equalTo(_musicArtistLabel.mas_left);
-		make.top.equalTo(_songView.mas_top);
-		make.bottom.equalTo(_songView.mas_bottom);
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 	[_musicArtistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_musicNameLabel.mas_right);
 		make.right.equalTo(_favoriteButton.mas_left).with.offset(-15);
-		make.top.equalTo(_songView.mas_top);
-		make.bottom.equalTo(_songView.mas_bottom);
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 	[_favoriteButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_musicArtistLabel.mas_right).with.offset(15);
-		make.right.equalTo(_songView.mas_right);
+		make.right.equalTo(contentView.mas_right);
 		make.size.mas_equalTo(CGSizeMake(15, 15));
-		make.centerY.equalTo(_songView.mas_centerY);
+		make.centerY.equalTo(contentView.mas_centerY);
 	}];
 }
 
-- (void)initNoteView {
-	_noteView = [[UIView alloc] init];
-	//_noteView.backgroundColor = [UIColor greenColor];
-	[self addSubview:_noteView];
-
+- (void)initNoteView:(UIView *)contentView {
 	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											  text:@""
 											  font:UIFontFromSize(9.0f)
@@ -183,7 +215,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 	//_sharerLabel.backgroundColor = [UIColor yellowColor];
 	[_sharerLabel setUserInteractionEnabled:YES];
 	[_sharerLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sharerLabelTouchAction:)]];
-	[_noteView addSubview:_sharerLabel];
+	[contentView addSubview:_sharerLabel];
 
 	_noteLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											  text:@""
@@ -192,81 +224,25 @@ const static CGFloat kProgressLineWidth = 8.0;
 									 textAlignment:NSTextAlignmentLeft
 									   numberLines:0];
 	//_noteLabel.backgroundColor = [UIColor redColor];
-	[_noteView addSubview:_noteLabel];
-
-	[_noteView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_songView.mas_bottom).with.offset(20);
-		make.height.equalTo(_noteLabel.mas_height);
-		make.left.equalTo(self.mas_left).with.offset(30);
-		make.right.equalTo(self.mas_right).with.offset(-30);
-	}];
+	[contentView addSubview:_noteLabel];
 
 	[_sharerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_noteView.mas_left);
-		make.top.equalTo(_noteView.mas_top);
+		make.left.equalTo(contentView.mas_left);
+		make.top.equalTo(contentView.mas_top);
 		make.width.greaterThanOrEqualTo(@30);
 		make.width.lessThanOrEqualTo(@60);
 	}];
 	[_noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_sharerLabel.mas_right).with.offset(2);
-		make.right.equalTo(_noteView.mas_right);
-		make.top.equalTo(_noteView.mas_top);
+		make.right.equalTo(contentView.mas_right);
+		make.top.equalTo(contentView.mas_top);
 	}];
 }
 
-- (void)initProgressViewWithCoverSize:(CGSize)coverSize {
-	// 这个控件需要初始化的时候就给他一个大小，否则画图会有问题
-	// linyehui 2015-10-09 16:57
-	_progressView = [[KYCircularView alloc] initWithFrame:CGRectMake(0, 0, coverSize.width, coverSize.height)];
-	_progressView.colors = @[(__bridge id)ColorHex(0x206fff).CGColor, (__bridge id)ColorHex(0x206fff).CGColor];
-	_progressView.backgroundColor = UIColorFromHex(@"dfdfdf", 255.0);
-	_progressView.lineWidth = kProgressLineWidth;
-
-	CGFloat pathWidth = coverSize.width;
-	CGFloat pathHeight = coverSize.height;
-	UIBezierPath *path = [UIBezierPath bezierPath];
-	[path moveToPoint:CGPointMake(pathWidth / 2, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth, 0)];
-	[path addLineToPoint:CGPointMake(0, 0)];
-	[path addLineToPoint:CGPointMake(0, pathHeight)];
-	[path addLineToPoint:CGPointMake(pathWidth / 2, pathHeight)];
-	[path closePath];
-
-	_progressView.path = path;
-
-	[self addSubview:_progressView];
-}
-
-- (void)initBottomView {
-	_bottomView = [[UIView alloc] init];
-	//_bottomView.backgroundColor = [UIColor greenColor];
-	[self addSubview:_bottomView];
-
-	UIView *infoView = [[UIView alloc] init];
-	//infoView.backgroundColor = [UIColor redColor];
-	[_bottomView addSubview:infoView];
-
-	UIView *collectionHeaderView = [[UIView alloc] init];
-	//collectionHeaderView.backgroundColor = [UIColor yellowColor];
-	[_bottomView addSubview:collectionHeaderView];
-
-	UIImageView *commentsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[commentsImageView setImage:[UIImage imageNamed:@"comments"]];
-	[infoView addSubview:commentsImageView];
-
-	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											  text:@""
-											  font:UIFontFromSize(10.0f)
-										 textColor:[UIColor grayColor]
-									 textAlignment:NSTextAlignmentLeft
-									   numberLines:1];
-	//commentLabel.backgroundColor = [UIColor redColor];
-	[infoView addSubview:_commentLabel];
-
+- (void)initBottomView:(UIView *)contentView {
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
-	[infoView addSubview:viewsImageView];
+	[contentView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@""
@@ -274,12 +250,12 @@ const static CGFloat kProgressLineWidth = 8.0;
 									   textColor:[UIColor grayColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	//viewsLabel.backgroundColor = [UIColor redColor];
-	[infoView addSubview:_viewsLabel];
+//	_viewsLabel.backgroundColor = [UIColor redColor];
+	[contentView addSubview:_viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[locationImageView setImage:[UIImage imageNamed:@"location"]];
-	[infoView addSubview:locationImageView];
+	[contentView addSubview:locationImageView];
 
 	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											   text:@""
@@ -288,76 +264,76 @@ const static CGFloat kProgressLineWidth = 8.0;
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	//locationLabel.backgroundColor = [UIColor redColor];
-	[infoView addSubview:_locationLabel];
+	[contentView addSubview:_locationLabel];
 
-	MIALabel *commentTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-															 text:@"评论"
-															 font:UIFontFromSize(12.0f)
-														textColor:UIColorFromHex(@"949494", 1.0)
-													textAlignment:NSTextAlignmentLeft
-													  numberLines:1];
-	//commentTitleLabel.backgroundColor = [UIColor redColor];
-	[collectionHeaderView addSubview:commentTitleLabel];
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[contentView addSubview:lineView];
+
+	_commentsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[_commentsImageView setImage:[UIImage imageNamed:@"comments"]];
+	[contentView addSubview:_commentsImageView];
+
+	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											   text:@""
+											   font:UIFontFromSize(10.0f)
+										  textColor:[UIColor grayColor]
+									  textAlignment:NSTextAlignmentLeft
+										numberLines:1];
+	//commentLabel.backgroundColor = [UIColor redColor];
+	[contentView addSubview:_commentLabel];
+
+	// ----------------------- auto layout -----------------------
 
 	[_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.mas_left).offset(30);
-		make.right.equalTo(self.mas_right).offset(-30);
-		make.bottom.equalTo(self.mas_bottom);
-	}];
-	[infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_bottomView.mas_left);
-		make.right.equalTo(_bottomView.mas_right);
-		make.top.equalTo(_bottomView.mas_top);
-		make.bottom.equalTo(collectionHeaderView.mas_top).offset(-20);
-		make.height.equalTo(@20);
-	}];
-	[collectionHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_bottomView.mas_left);
-		make.right.equalTo(_bottomView.mas_right);
-		make.top.equalTo(infoView.mas_bottom).offset(20);
-		make.bottom.equalTo(_bottomView.mas_bottom);
+		make.top.equalTo(_infectUsersView.mas_bottom).offset(10);
+		make.left.equalTo(self.mas_left);
+		make.right.equalTo(self.mas_right);
+		make.bottom.equalTo(_commentsImageView.mas_bottom);
 	}];
 
 	// infoView items
 	static const CGFloat kBottomButtonSize = 12;
-	[commentsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(infoView.mas_centerY);
-		make.left.equalTo(infoView.mas_left);
-		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
-	}];
-	[_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(commentsImageView.mas_right).offset(5);
-		make.centerY.equalTo(infoView.mas_centerY);
-		make.width.greaterThanOrEqualTo(@15);
-	}];
 	[viewsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_commentLabel.mas_right).offset(15);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left).offset(10);
 		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
 	}];
 	[_viewsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(viewsImageView.mas_right).offset(5);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.top.equalTo(contentView.mas_top);
 		make.width.greaterThanOrEqualTo(@15);
 	}];
 
 	[_locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(infoView.mas_right);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.top.equalTo(contentView.mas_top);
 		make.width.greaterThanOrEqualTo(@15);
 	}];
 
 	[locationImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(_locationLabel.mas_left).offset(-5);
-		make.centerY.equalTo(infoView.mas_centerY);
+		make.top.equalTo(contentView.mas_top);
 		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
 	}];
 
-	[commentTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(collectionHeaderView.mas_left);
-		make.right.equalTo(collectionHeaderView.mas_right);
-		make.top.equalTo(collectionHeaderView.mas_top);
-		make.bottom.equalTo(collectionHeaderView.mas_bottom);
+	// title view
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@0.5);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+		make.top.equalTo(locationImageView.mas_bottom).offset(5);
+	}];
+	[_commentsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(lineView.mas_bottom).offset(5);
+		make.left.equalTo(contentView.mas_left).offset(10);
+		make.size.mas_equalTo(CGSizeMake(kBottomButtonSize, kBottomButtonSize));
+	}];
+	[_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_commentsImageView.mas_right).offset(5);
+		make.width.greaterThanOrEqualTo(@15);
+		make.top.equalTo(_commentsImageView.mas_top);
+		make.bottom.equalTo(_commentsImageView.mas_bottom);
 	}];
 
 }
@@ -374,7 +350,7 @@ const static CGFloat kProgressLineWidth = 8.0;
 					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
 
 	[_musicNameLabel setText:[[item music] name]];
-	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@" - %@", [[item music] singerName]]];
+	[_musicArtistLabel setText:[[NSString alloc] initWithFormat:@"  %@", [[item music] singerName]]];
 	[_sharerLabel setText:[[NSString alloc] initWithFormat:@"%@ :", [item sNick]]];
 	[_noteLabel setText:[item sNote]];
 
@@ -383,6 +359,8 @@ const static CGFloat kProgressLineWidth = 8.0;
 	[_locationLabel setText:[item sAddress]];
 
 	[self updateShareButtonWithIsFavorite:item.favorite];
+
+	[self updateInfectUsers];
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
@@ -393,6 +371,94 @@ const static CGFloat kProgressLineWidth = 8.0;
 	}
 }
 
+- (void)updateInfectUsers {
+	long currentUsersCount = [_shareItem.infectUsers count];
+	// 判断是否需要刷新布局
+	BOOL isNeedUpdateLayout = YES;
+	if ((_lastInfectUsersCount == 0 && currentUsersCount == 0)
+		|| (_lastInfectUsersCount > 0 && currentUsersCount > 0)) {
+		isNeedUpdateLayout = NO;
+	}
+
+	if (currentUsersCount > 0) {
+		for (UIView *subView in _infectUsersView.subviews) {
+			[subView removeFromSuperview];
+		}
+
+		UIView *prevView = nil;
+		for (long i = 0; i < currentUsersCount; i++) {
+			InfectUserItem *item = _shareItem.infectUsers[i];
+
+			UIImageView *imageView = [[UIImageView alloc] init];
+			imageView.layer.cornerRadius = kInfectUserAvatarSize / 2;
+			imageView.clipsToBounds = YES;
+			imageView.layer.borderWidth = 1.0f;
+			imageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+			[imageView sd_setImageWithURL:[NSURL URLWithString:item.avatar] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+			[_infectUsersView addSubview:imageView];
+			[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+				if (nil == prevView) {
+					make.left.equalTo(_infectUsersView.mas_left);
+				} else {
+					make.left.equalTo(prevView.mas_right).offset(5);
+				}
+
+				make.size.mas_equalTo(CGSizeMake(kInfectUserAvatarSize, kInfectUserAvatarSize));
+				make.centerY.equalTo(_infectUsersView.mas_centerY);
+			}];
+			prevView = imageView;
+		} // for
+
+		MIALabel *coutLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+													 text:@"妙推 4"
+													 font:UIFontFromSize(9.0f)
+												textColor:UIColorFromHex(@"a2a2a2", 1.0)
+											textAlignment:NSTextAlignmentLeft
+											  numberLines:1];
+		[_infectUsersView addSubview:coutLabel];
+		[coutLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(prevView.mas_right).offset(5);
+			make.width.greaterThanOrEqualTo(@30);
+			make.centerY.equalTo(_infectUsersView.mas_centerY);
+			make.right.equalTo(_infectUsersView.mas_right);
+		}];
+		[_infectUsersView mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(coutLabel.mas_right);
+		}];
+	}
+
+	if (isNeedUpdateLayout) {
+		[self updateLayoutForInfectUsers];
+	}
+
+	_lastInfectUsersCount = currentUsersCount;
+}
+
+- (void)updateLayoutForInfectUsers {
+	if ([_shareItem.infectUsers count] > 0) {
+		[_infectUsersView setHidden:NO];
+		[_bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(_infectUsersView.mas_bottom).offset(10);
+			make.left.equalTo(self.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.bottom.equalTo(_commentsImageView.mas_bottom);
+		}];
+	} else {
+		[_infectUsersView setHidden:YES];
+		[_bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(_noteView.mas_bottom).with.offset(10);
+			make.left.equalTo(self.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.bottom.equalTo(_commentsImageView.mas_bottom);
+		}];
+	}
+	[self layoutIfNeeded];
+
+	if (_customDelegate) {
+		[_customDelegate detailHeaderViewChangeHeight];
+	}
+}
+
 #pragma mark - delegate 
 
 
@@ -400,17 +466,14 @@ const static CGFloat kProgressLineWidth = 8.0;
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_progressTimer invalidate];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_progressTimer invalidate];
 }
 
 #pragma mark - Actions
@@ -467,11 +530,6 @@ const static CGFloat kProgressLineWidth = 8.0;
 - (void)stopMusic {
 	[[MusicPlayerMgr standard] stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-}
-
-- (void)updateProgress:(NSTimer *)timer {
-	float postion = [[MusicPlayerMgr standard] getPlayPosition];
-	[_progressView setProgress:postion];
 }
 
 @end

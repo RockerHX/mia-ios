@@ -27,16 +27,17 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CLLocation+YCLocation.h"
 #import "ProfileViewController.h"
+#import "Masonry.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
 //static NSString * const kDetailFooterReuseIdentifier 	= @"DetailFooterId";
 
-static const CGFloat kDetailItemMarginH 		= 15;
-static const CGFloat kDetailItemMarginV 		= 20;
-static const CGFloat kDetailHeaderHeight 		= 350;
-static const CGFloat kDetailFooterViewHeight 	= 40;
-static const CGFloat kDetailItemHeight 			= 40;
+static const CGFloat kDetailItemMarginH 				= 15;
+static const CGFloat kDetailItemMarginV 				= 20;
+
+static const CGFloat kDetailFooterViewHeight 			= 40;
+static const CGFloat kDetailItemHeight 					= 40;
 
 @interface DetailViewController ()
 <UICollectionViewDataSource,
@@ -54,7 +55,7 @@ CommentCellDelegate>
 	ShareItem 				*_shareItem;
 	CommentModel 			*_dataModel;
 
-	UICollectionView 		*_mainCollectionView;
+	UICollectionView 		*_collectionView;
 	UITextField 			*_commentTextField;
 	MIAButton 				*_commentButton;
 	DetailHeaderView 		*_detailHeaderView;
@@ -95,7 +96,7 @@ CommentCellDelegate>
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
 	[self initData];
-	[_mainCollectionView addFooterWithTarget:self action:@selector(requestComments)];
+	[_collectionView addFooterWithTarget:self action:@selector(requestComments)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -147,8 +148,9 @@ CommentCellDelegate>
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	//设置collectionView滚动方向
 	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailHeaderHeight);
+	//layout.headerReferenceSize = [self headerViewSize];
 	//layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, kDetailFooterViewHeight);
 
 	//该方法也可以设置itemSize
@@ -156,29 +158,30 @@ CommentCellDelegate>
 	layout.itemSize = CGSizeMake(itemWidth, kDetailItemHeight);
 
 	//2.初始化collectionView
-	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
-																			 0,
-																			 self.view.bounds.size.width,
-																			 self.view.bounds.size.height - kDetailFooterViewHeight) collectionViewLayout:layout];
-	[self.view addSubview:_mainCollectionView];
+	_collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,
+																		 0,
+																		 self.view.bounds.size.width,
+																		 self.view.bounds.size.height - kDetailFooterViewHeight)
+										 collectionViewLayout:layout];
+	[self.view addSubview:_collectionView];
 
-	_mainCollectionView.backgroundColor = [UIColor whiteColor];
+	_collectionView.backgroundColor = [UIColor whiteColor];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_mainCollectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kDetailCellReuseIdentifier];
+	[_collectionView registerClass:[CommentCollectionViewCell class] forCellWithReuseIdentifier:kDetailCellReuseIdentifier];
 
 	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[_mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
+	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier];
 	//[mainCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier];
 
 	//4.设置代理
-	_mainCollectionView.delegate = self;
-	_mainCollectionView.dataSource = self;
+	_collectionView.delegate = self;
+	_collectionView.dataSource = self;
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
-	[_mainCollectionView addGestureRecognizer:gesture];
+	[_collectionView addGestureRecognizer:gesture];
 
 	[self initHeaderView];
 	[self initFooterView];
@@ -209,6 +212,7 @@ CommentCellDelegate>
 }
 
 - (void)initHeaderView {
+	static const CGFloat kDetailHeaderHeight = 350;
 	_detailHeaderView = [[DetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDetailHeaderHeight)];
 	_detailHeaderView.customDelegate = self;
 	_detailHeaderView.shareItem = _shareItem;
@@ -273,6 +277,8 @@ CommentCellDelegate>
 }
 
 - (void)initData {
+	[MiaAPIHelper getShareById:[_shareItem sID]];
+
 	_dataModel = [[CommentModel alloc] init];
 	[self requestComments];
 }
@@ -435,6 +441,10 @@ CommentCellDelegate>
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)detailHeaderViewChangeHeight {
+	[[_collectionView collectionViewLayout] invalidateLayout];
+}
+
 - (void)commentCellAvatarTouched:(CommentItem *)item {
 	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:item.uid
 																 nickName:item.unick
@@ -468,6 +478,18 @@ CommentCellDelegate>
 	return CGSizeMake(itemWidth, kDetailItemHeight);
 }
 
+//footer的size
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+//{
+//    return CGSizeMake(10, 10);
+//}
+
+//header的size
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+	NSLog(@"headerSize, %@", NSStringFromCGRect(_detailHeaderView.frame));
+    return _detailHeaderView.frame.size;
+}
+
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	return UIEdgeInsetsMake(10, 10, 10, 10);
@@ -490,7 +512,13 @@ CommentCellDelegate>
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
 			[contentView addSubview:_detailHeaderView];
+			[_detailHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.width.equalTo(contentView.mas_width);
+				make.centerX.equalTo(contentView.mas_centerX);
+				make.top.equalTo(contentView.mas_top);
+			}];
 		}
+
 		return contentView;
 //	} else if ([kind isEqual:UICollectionElementKindSectionFooter]) {
 //		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterReuseIdentifier forIndexPath:indexPath];
@@ -505,9 +533,9 @@ CommentCellDelegate>
 }
 
 //点击item方法
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 //	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-}
+//}
 
 #pragma mark - Notification
 
@@ -530,7 +558,7 @@ CommentCellDelegate>
 }
 
 - (void)handleGetMusicCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[_mainCollectionView footerEndRefreshing];
+	[_collectionView footerEndRefreshing];
 
 	if (0 != ret)
 		return;
@@ -539,7 +567,7 @@ CommentCellDelegate>
 		return;
 
 	[_dataModel addComments:commentArray];
-	[_mainCollectionView reloadData];
+	[_collectionView reloadData];
 }
 
 - (void)handlePostCommentWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
@@ -569,12 +597,14 @@ CommentCellDelegate>
 		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
 		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
 		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+		NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
 
 		if ([sID isEqualToString:_shareItem.sID]) {
 			_shareItem.cComm = [cComm intValue];
 			_shareItem.cView = [cView intValue];
 			_shareItem.favorite = start;
-
+			[_shareItem parseInfectUsersFromJsonArray:infectArray];
+			
 			_detailHeaderView.shareItem = _shareItem;
 		}
 
