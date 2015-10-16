@@ -59,19 +59,24 @@
 	//NSLog(@"%@", jsonString);
 
 	//[[WebSocketMgr standard] send:jsonString];
-	MiaRequestItem *item = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
 														  jsonString:jsonString
 													   completeBlock:completeBlock
 														timeoutBlock:timeoutBlock];
-	[[WebSocketMgr standard] sendWitRequestItem:item];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item {
++ (void)getNearbyWithLatitude:(float)lat
+							longitude:(float)lon
+								start:(long)start
+								 item:(long)item
+						completeBlock:(MiaRequestCompleteBlock)completeBlock
+						 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetNearby forKey:MiaAPIKey_ClientCommand];
     [dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
@@ -93,7 +98,12 @@
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 	//NSLog(@"%@", jsonString);
 
-	[[WebSocketMgr standard] send:jsonString];
+//	[[WebSocketMgr standard] send:jsonString];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+														  jsonString:jsonString
+													   completeBlock:completeBlock
+														timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)getMusicCommentWithShareID:(NSString *)sID start:(NSString *) start item:(long) item {

@@ -240,9 +240,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 //	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
-	if ([command isEqualToString:MiaAPICommand_Music_GetNearby]) {
-		[self handleGetNearbyFeedsWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostInfectm]) {
+	if ([command isEqualToString:MiaAPICommand_User_PostInfectm]) {
 		[self handleInfectMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostSkipm]) {
 		[self handleSkipMusicWitRet:[ret intValue] userInfo:[notification userInfo]];
@@ -294,19 +292,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 }
 
 #pragma mark - received message from websocket
-
-- (void)handleGetNearbyFeedsWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	NSArray *shareList = userInfo[@"v"][@"data"];
-	if (!shareList)
-		return;
-
-	[_shareListMgr addSharesWithArray:shareList];
-
-	if (_isLoading) {
-		[self reloadLoopPlayerData];
-		_isLoading = NO;
-	}
-}
 
 - (void)handleInfectMusicWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	if (0 == ret) {
@@ -370,7 +355,23 @@ static const CGFloat kFavoriteHeight 			= 25;
 - (void)requestNewShares {
 	const long kRequestItemCount = 10;
 	[MiaAPIHelper getNearbyWithLatitude:[_radioViewDelegate radioViewCurrentCoordinate].latitude
-							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude start:1 item:kRequestItemCount];
+							  longitude:[_radioViewDelegate radioViewCurrentCoordinate].longitude
+								  start:1
+								   item:kRequestItemCount
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 NSArray *shareList = userInfo[@"v"][@"data"];
+		 if (!shareList)
+			 return;
+
+		 [_shareListMgr addSharesWithArray:shareList];
+
+		 if (_isLoading) {
+			 [self reloadLoopPlayerData];
+			 _isLoading = NO;
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"getNearbyWithLatitude timeout");
+	 }];
 }
 
 #pragma mark - swip actions
