@@ -1,5 +1,5 @@
 //
-//  HXRadioContentViewController.h
+//  HXRadioViewController.h
 //  mia
 //
 //  Created by miaios on 15/10/10.
@@ -8,7 +8,7 @@
 
 #import <iCarousel/iCarousel.h>
 
-@interface HXRadioContentViewController : UIViewController
+@interface HXRadioViewController : UIViewController
 
 @property (nonatomic, weak) IBOutlet iCarousel *carousel;
 

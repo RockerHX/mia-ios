@@ -145,8 +145,6 @@
 		66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE68AFFBF4F159DD2430486 /* libPods.a */; };
 		CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		CD221FD01BC79FD400FCD4E7 /* Radio.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */; settings = {ASSET_TAGS = (); }; };
-		CD221FD61BC7A3F000FCD4E7 /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
-		CD47D1DC1BC9072000BFB81C /* HXRadioContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E41BC9188200E33121 /* FDStackView.m */; settings = {ASSET_TAGS = (); }; };
@@ -156,6 +154,8 @@
 		CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; settings = {ASSET_TAGS = (); }; };
+		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; settings = {ASSET_TAGS = (); }; };
+		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -410,10 +410,6 @@
 		8FE68AFFBF4F159DD2430486 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD221FCC1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Radio.storyboard; sourceTree = "<group>"; };
-		CD221FD41BC7A3F000FCD4E7 /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
-		CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioViewController.m; sourceTree = "<group>"; };
-		CD47D1DA1BC9072000BFB81C /* HXRadioContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioContentViewController.h; sourceTree = "<group>"; };
-		CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioContentViewController.m; sourceTree = "<group>"; };
 		CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDGapLayoutGuide.h; sourceTree = "<group>"; };
 		CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDGapLayoutGuide.m; sourceTree = "<group>"; };
 		CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLayoutSpacer.h; sourceTree = "<group>"; };
@@ -432,6 +428,10 @@
 		CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTransformLayer.m; sourceTree = "<group>"; };
 		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
+		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
+		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
+		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
+		CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -941,6 +941,7 @@
 				39BCAD771BA02AFE00C6F7F2 /* UIComponment */,
 				39BCAD3D1B9F141B00C6F7F2 /* Utils */,
 				CD4F62F71BCB4E3400E33121 /* Helper */,
+				CDC5FE831BD0FD40001D154E /* Views */,
 				CD221FC61BC79F0300FCD4E7 /* ViewControllers */,
 				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
 				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
@@ -1265,7 +1266,7 @@
 		CD221FC61BC79F0300FCD4E7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				CD221FD31BC7A3F000FCD4E7 /* Radio */,
+				CDC5FE861BD0FFAA001D154E /* HomePage */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1284,17 +1285,6 @@
 				CD221FCD1BC79FD400FCD4E7 /* Radio.storyboard */,
 			);
 			name = Radio;
-			sourceTree = "<group>";
-		};
-		CD221FD31BC7A3F000FCD4E7 /* Radio */ = {
-			isa = PBXGroup;
-			children = (
-				CD221FD41BC7A3F000FCD4E7 /* HXRadioViewController.h */,
-				CD221FD51BC7A3F000FCD4E7 /* HXRadioViewController.m */,
-				CD47D1DA1BC9072000BFB81C /* HXRadioContentViewController.h */,
-				CD47D1DB1BC9072000BFB81C /* HXRadioContentViewController.m */,
-			);
-			path = Radio;
 			sourceTree = "<group>";
 		};
 		CD4F62DE1BC9188200E33121 /* FDStackView */ = {
@@ -1333,6 +1323,40 @@
 			children = (
 				CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */,
 				CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */,
+			);
+			path = Radio;
+			sourceTree = "<group>";
+		};
+		CDC5FE831BD0FD40001D154E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CDC5FE851BD0FF7F001D154E /* HomePage */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CDC5FE851BD0FF7F001D154E /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		CDC5FE861BD0FFAA001D154E /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				CDC5FE891BD0FFAA001D154E /* Radio */,
+				CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */,
+				CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		CDC5FE891BD0FFAA001D154E /* Radio */ = {
+			isa = PBXGroup;
+			children = (
+				CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */,
+				CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */,
 			);
 			path = Radio;
 			sourceTree = "<group>";
@@ -1548,9 +1572,9 @@
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */,
+				CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
 				39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */,
-				CD221FD61BC7A3F000FCD4E7 /* HXRadioViewController.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				39BCADD51BA02F3100C6F7F2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				39BCADD41BA02F3100C6F7F2 /* UIImage+WebP.m in Sources */,
@@ -1601,9 +1625,9 @@
 				39BCADD71BA02F3100C6F7F2 /* UIView+WebCacheOperation.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
+				CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
 				3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */,
-				CD47D1DC1BC9072000BFB81C /* HXRadioContentViewController.m in Sources */,
 				39BCADC81BA02F3100C6F7F2 /* MKAnnotationView+WebCache.m in Sources */,
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				39BCADD61BA02F3100C6F7F2 /* UIImageView+WebCache.m in Sources */,
