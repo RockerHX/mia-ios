@@ -755,7 +755,20 @@ UITextFieldDelegate>
 	_uploadingImage = image;
 
 	[self showUploadAvatarMBProgressHUD];
-	[MiaAPIHelper getUploadAvatarAuth];
+	[MiaAPIHelper getUploadAvatarAuthWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		if (isSuccessed) {
+			NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
+			NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
+			NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
+			NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
+
+			[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
+		} else {
+			[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	}];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -802,8 +815,6 @@ UITextFieldDelegate>
 
 	if ([command isEqualToString:MiaAPICommand_User_PostLogout]) {
 		[self handleLogoutWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_GetClogo]) {
-		[self handleGetUploadAvatarAuthWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostCnick]) {
 		[self handleChangeNickNameWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}  else if ([command isEqualToString:MiaAPICommand_User_PostGender]) {
@@ -818,21 +829,6 @@ UITextFieldDelegate>
 		[[UserSession standard] logout];
 		[self.navigationController popToRootViewControllerAnimated:YES];
 	}
-}
-
-- (void)handleGetUploadAvatarAuthWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 != ret) {
-		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
-
-		NSLog(@"handleGetUploadAvatarAuthWithRet failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
-
-	NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
-	NSString *auth = userInfo[MiaAPIKey_Values][@"info"][@"auth"];
-	NSString *contentType = userInfo[MiaAPIKey_Values][@"info"][@"ctype"];
-	NSString *filename = userInfo[MiaAPIKey_Values][@"info"][@"fname"];
-
-	[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
 }
 
 - (void)handleChangeNickNameWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
