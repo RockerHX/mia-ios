@@ -110,8 +110,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetMcomm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_ID];
@@ -139,8 +139,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetShlist forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:uID forKey:MiaAPIKey_UID];
@@ -168,8 +168,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetSharem forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
@@ -195,8 +195,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostRcomm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
@@ -222,8 +222,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetByid forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:mid forKey:MiaAPIKey_MID];
@@ -249,8 +249,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_GetStart forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:start forKey:MiaAPIKey_Start];
@@ -277,8 +277,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_GetUinfo forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:uid forKey:MiaAPIKey_UID];
@@ -303,11 +303,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_GetClogo forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
-
-//	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
-//	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSError *error = nil;
 	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
@@ -328,8 +325,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostInfectm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	if (![NSString isNull:address]) {
@@ -360,8 +357,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostSkipm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	if (![NSString isNull:address]) {
@@ -392,8 +389,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostViewm forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	if (![NSString isNull:address]) {
@@ -424,8 +421,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostPauth forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithLong:type] forKey:MiaAPIKey_Type];
@@ -453,8 +450,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostRegister forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
@@ -483,8 +480,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
@@ -513,8 +510,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostCnick forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:nick forKey:MiaAPIKey_NickName];
@@ -540,8 +537,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostGender forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithLong:gender] forKey:MiaAPIKey_Gender];
@@ -567,8 +564,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostLogin forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
@@ -597,8 +594,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostLogout forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
@@ -622,8 +619,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostFavorite forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_ID];
@@ -655,8 +652,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostFavorite forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	// 拼接id字符串
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
@@ -691,8 +688,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostComment forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
@@ -723,8 +720,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostShare forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
