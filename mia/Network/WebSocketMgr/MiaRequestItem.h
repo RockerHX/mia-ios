@@ -8,7 +8,7 @@
 
 @class MiaRequestItem;
 
-typedef void (^MiaRequestCompleteBlock)(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo);
+typedef void (^MiaRequestCompleteBlock)(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo);
 typedef void (^MiaRequestTimeoutBlock)(MiaRequestItem *requestItem);
 
 @interface MiaRequestItem : NSObject <NSCopying>

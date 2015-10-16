@@ -86,8 +86,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	_isSyncing = YES;
 	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0]
 									  item:kFavoriteRequestItemCountPerPage
-							 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-								 [self handleGetFavoriteListWitRet:isSuccessed userInfo:userInfo];
+							 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+								 [self handleGetFavoriteListWitRet:success userInfo:userInfo];
 							 } timeoutBlock:^(MiaRequestItem *requestItem) {
 								 NSLog(@"GetFavoriteList timeout");
 							 }];
@@ -255,8 +255,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 }
 
-- (void)handleGetFavoriteListWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
-	if (!isSuccessed) {
+- (void)handleGetFavoriteListWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
+	if (!success) {
 		[self syncFinished];
 		return;
 	}
@@ -279,8 +279,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	if ([items count] == kFavoriteRequestItemCountPerPage) {
 		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%lu", (unsigned long)[_tempItems count]]
 										  item:kFavoriteRequestItemCountPerPage
-								 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-									 [self handleGetFavoriteListWitRet:isSuccessed userInfo:userInfo];
+								 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+									 [self handleGetFavoriteListWitRet:success userInfo:userInfo];
 								 } timeoutBlock:^(MiaRequestItem *requestItem) {
 									 NSLog(@"GetFavoriteList timeout");
 								 }];

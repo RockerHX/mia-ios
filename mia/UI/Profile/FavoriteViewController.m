@@ -262,7 +262,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[self endRequestFavoriteList:YES];
 }
 
-- (void)endRequestFavoriteList:(BOOL)isSuccessed {
+- (void)endRequestFavoriteList:(BOOL)success {
 	[_favoriteCollectionView footerEndRefreshing];
 }
 

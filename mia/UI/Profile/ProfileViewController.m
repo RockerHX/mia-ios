@@ -224,7 +224,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[MiaAPIHelper getShareListWithUID:_uid
 								start:_currentPageStart
 								 item:kShareListPageCount
-						completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 							[_profileCollectionView footerEndRefreshing];
 
 							NSArray *shareList = userInfo[@"v"][@"info"];
@@ -310,8 +310,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
 	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 NSLog(@"post read comment ret: %d", isSuccessed);
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 NSLog(@"post read comment ret: %d", success);
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 NSLog(@"post read comment timeout");
 	 }];
@@ -386,8 +386,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[_profileHeaderView updateFavoriteCount];
 	}
 
-	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		NSLog(@"deleteFavorites %d", isSuccessed);
+	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		NSLog(@"deleteFavorites %d", success);
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		NSLog(@"deleteFavorites timeout");
 	}];
