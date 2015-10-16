@@ -352,19 +352,8 @@
 
 //	NSLog(@"command:%@, ret:%d", command, [ret intValue]);
 
-	if ([command isEqualToString:MiaAPICommand_User_PostPauth]) {
-		[self handleGetVerificationCode:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostChangePwd]) {
+	if ([command isEqualToString:MiaAPICommand_User_PostChangePwd]) {
 		[self handlePostResetPwdWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleGetVerificationCode:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (0 == ret) {
-		[self showErrorMsg:@"验证码已经发送"];
-	} else {
-		[self showErrorMsg:@"验证码发送失败，请重新获取"];
-		[self resetCountdown];
 	}
 }
 
@@ -519,7 +508,19 @@
 										   selector:@selector(requestVerificationCodeTimerAction)
 										   userInfo:nil
 											repeats:YES];
-	[MiaAPIHelper getVerificationCodeWithType:1 phoneNumber:_userNameTextField.text];
+	[MiaAPIHelper getVerificationCodeWithType:1
+								  phoneNumber:_userNameTextField.text
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+		 if (isSuccessed) {
+			 [self showErrorMsg:@"验证码已经发送"];
+		 } else {
+			 [self showErrorMsg:@"验证码发送失败，请重新获取"];
+			 [self resetCountdown];
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [self showErrorMsg:@"验证码发送失败，请重新获取"];
+		 [self resetCountdown];
+	 }];
 }
 
 - (void)hidenKeyboard {

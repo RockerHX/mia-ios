@@ -79,7 +79,11 @@
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)getVerificationCodeWithType:(long)type phoneNumber:(NSString *)phoneNumber;
++ (void)getVerificationCodeWithType:(long)type
+						phoneNumber:(NSString *)phoneNumber
+					  completeBlock:(MiaRequestCompleteBlock)completeBlock
+					   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName passwordHash:(NSString *)passwordHash;
 + (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash scode:(NSString *)scode;
 
