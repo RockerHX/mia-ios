@@ -225,14 +225,12 @@
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="lBD-s7-8t9" secondAttribute="top" constant="100" id="zU5-n4-Kh5"/>
                         </constraints>
                         <connections>
-                            <outletCollection property="gestureRecognizers" destination="UjO-C9-SHp" appends="YES" id="Y8u-9O-Xy9"/>
                             <outletCollection property="gestureRecognizers" destination="jzJ-RZ-SS8" appends="YES" id="nGc-bh-9JC"/>
                             <outletCollection property="gestureRecognizers" destination="uZS-pI-r12" appends="YES" id="R2q-AB-Bc3"/>
                         </connections>
                     </view>
                     <connections>
                         <outlet property="bubbleView" destination="i7R-7R-kAw" id="SRe-rk-7qf"/>
-                        <outlet property="downSwipeGesture" destination="UjO-C9-SHp" id="0Ae-Km-YxU"/>
                         <outlet property="fishBottomConstraint" destination="Gji-wQ-Z6e" id="08a-67-gj3"/>
                         <outlet property="fishView" destination="K76-u6-UI7" id="lyD-gc-dvz"/>
                         <outlet property="headerView" destination="Pfr-PW-ZI3" id="Cec-LR-D0E"/>
@@ -250,11 +248,6 @@
                 <swipeGestureRecognizer direction="up" id="jzJ-RZ-SS8">
                     <connections>
                         <action selector="gestureEvent:" destination="Vwv-7l-Pgq" id="sQY-3U-zzq"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="down" id="UjO-C9-SHp">
-                    <connections>
-                        <action selector="gestureEvent:" destination="Vwv-7l-Pgq" id="S0j-6w-ncQ"/>
                     </connections>
                 </swipeGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="uZS-pI-r12">

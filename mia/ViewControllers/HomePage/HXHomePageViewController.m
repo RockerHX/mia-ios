@@ -49,7 +49,6 @@
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
-    [_panGesture requireGestureRecognizerToFail:_downSwipeGesture];
 }
 
 - (void)viewConfig {
@@ -153,7 +152,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)startAnimation {
     if (!_animating) {
         [self startWaveAnimation];
-        [self startFishAnimation];
+        [self startPopFishAnimation];
     }
     _animating = YES;
 }
@@ -231,11 +230,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)stopWaveAnimation {
     [_waveView stopAnimating];
-    [self reset];
 }
 
 // 小鱼跳出动画
-- (void)startFishAnimation {
+- (void)startPopFishAnimation {
     _fishBottomConstraint.constant = self.view.frame.size.height/2 - 120.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{

@@ -27,7 +27,6 @@
 
 @property (weak, nonatomic) IBOutlet UIPanGestureRecognizer *panGesture;
 @property (weak, nonatomic) IBOutlet UISwipeGestureRecognizer *swipeGesture;
-@property (weak, nonatomic) IBOutlet UISwipeGestureRecognizer *downSwipeGesture;
 
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;
