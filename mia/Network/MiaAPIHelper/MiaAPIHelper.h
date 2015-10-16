@@ -42,7 +42,10 @@
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)getMusicById:(NSString *)mid;
++ (void)getMusicById:(NSString *)mid
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getFavoriteListWithStart:(NSString *) start item:(long) item;
 + (void)getUserInfoWithUID:(NSString *)uid;
 + (void)getUploadAvatarAuth;

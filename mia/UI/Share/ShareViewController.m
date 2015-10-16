@@ -555,7 +555,13 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_musicNameLabel setText:item.title];
 	[_musicArtistLabel setText:item.artist];
 
-	[MiaAPIHelper getMusicById:item.songID];
+	[MiaAPIHelper getMusicById:item.songID
+				 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+					 NSLog(@"GetMusicById %d", isSuccessed);
+				 } timeoutBlock:^(MiaRequestItem *requestItem) {
+					 NSLog(@"GetMusicById timeout");
+
+				 }];
 	[_commentTextField becomeFirstResponder];
 	[self checkSubmitButtonStatus];
 }
@@ -578,8 +584,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	if ([command isEqualToString:MiaAPICommand_User_PostShare]) {
 		[self handlePostShareWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_Music_GetByid]) {
-		[self handleGetMusicByIDWitRet:[ret intValue] userInfo:[notification userInfo]];
 	}
 }
 
@@ -590,12 +594,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 			[self.navigationController popViewControllerAnimated:YES];
 		}
 	}];
-}
-
-- (void)handleGetMusicByIDWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	//BOOL isSuccess = (0 == ret);
-	NSLog(@"GetMusicById %d", (0 == ret));
-	// TODO 失败或者成功后应该把信息更新
 }
 
 /*
