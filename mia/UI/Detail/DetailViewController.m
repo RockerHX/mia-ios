@@ -273,8 +273,8 @@ CommentCellDelegate>
 }
 
 - (void)initData {
-	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		[self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		[self handleGetSharemWitRet:success userInfo:userInfo];
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		NSLog(@"getShareById timeout");
 	}];
@@ -310,10 +310,10 @@ CommentCellDelegate>
 	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
 									   start:_dataModel.lastCommentID
 										item:kCommentPageItemCount
-							   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+							   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 								   [_collectionView footerEndRefreshing];
 
-								   if (!isSuccessed)
+								   if (!success)
 									   return;
 								   NSArray *commentArray = userInfo[@"v"][@"info"];
 								   if (!commentArray || [commentArray count] <= 0)
@@ -331,10 +331,10 @@ CommentCellDelegate>
 	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
 									   start:_dataModel.latestCommentID
 										item:1
-							   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+							   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 								   [_collectionView footerEndRefreshing];
 
-								   if (!isSuccessed)
+								   if (!success)
 									   return;
 								   NSArray *commentArray = userInfo[@"v"][@"info"];
 								   if (!commentArray || [commentArray count] <= 0)
@@ -462,8 +462,8 @@ CommentCellDelegate>
 		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID
 									isFavorite:!_shareItem.favorite
 								 completeBlock:
-		 ^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-			 if (isSuccessed) {
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
 				 id act = userInfo[MiaAPIKey_Values][@"act"];
 				 id sID = userInfo[MiaAPIKey_Values][@"id"];
 				 if ([_shareItem.sID integerValue] == [sID intValue]) {
@@ -588,8 +588,8 @@ CommentCellDelegate>
 
 #pragma mark - Notification
 
-- (void)handleGetSharemWitRet:(BOOL)isSuccessed userInfo:(NSDictionary *) userInfo {
-	if (isSuccessed) {
+- (void)handleGetSharemWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
+	if (success) {
 		//"v":{"ret":0, "data":{"sID", "star": 1, "cComm":2, "cView": 2}}}
 		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
 		id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
@@ -679,14 +679,14 @@ CommentCellDelegate>
 	[self showMBProgressHUD];
 	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
 								 comment:_commentTextField.text
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 _commentTextField.text = @"";
 			 [self requestLatestComments];
 		 }
 
 		 [_commentTextField resignFirstResponder];
-		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:nil];
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [_commentTextField resignFirstResponder];
 		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
@@ -699,10 +699,10 @@ CommentCellDelegate>
 							  longitude:_currentCoordinate.longitude
 								address:_currentAddress
 								   spID:_shareItem.spID
-						  completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-							  if (isSuccessed) {
-								  [MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-									  [self handleGetSharemWitRet:isSuccessed userInfo:userInfo];
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							  if (success) {
+								  [MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+									  [self handleGetSharemWitRet:success userInfo:userInfo];
 								  } timeoutBlock:^(MiaRequestItem *requestItem) {
 									  NSLog(@"getSharem timeout");
 								  }];

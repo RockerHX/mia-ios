@@ -376,8 +376,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
 	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text
 					   passwordHash:passwordHash
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
 			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
 			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
@@ -389,8 +389,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 			 [_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
-			 if (isSuccessed) {
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
+			 if (success) {
 				 [self saveAuthInfo];
 				 [self.navigationController popViewControllerAnimated:YES];
 			 }

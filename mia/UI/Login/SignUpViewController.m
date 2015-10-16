@@ -490,16 +490,16 @@
 									 scode:_verificationCodeTextField.text
 								  nickName:_nickNameTextField.text
 								  passwordHash:passwordHash
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 [_signUpViewControllerDelegate signUpViewControllerDidSuccess];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
-			 if (isSuccessed) {
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
+			 if (success) {
 				 [self.navigationController popViewControllerAnimated:YES];
 			 }
 		 }];
@@ -525,8 +525,8 @@
 
 	[MiaAPIHelper getVerificationCodeWithType:0
 								  phoneNumber:_userNameTextField.text
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 [self showErrorMsg:@"验证码已经发送"];
 		 } else {
 			 [self showErrorMsg:@"验证码发送失败，请重新获取"];

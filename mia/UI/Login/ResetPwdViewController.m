@@ -461,14 +461,14 @@
 	[MiaAPIHelper resetPasswordWithPhoneNum:_userNameTextField.text
 							  passwordHash:passwordHash
 									   scode:_verificationCodeTextField.text
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (!isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (!success) {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [self showErrorMsg:[NSString stringWithFormat:@"重置密码失败：%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:isSuccessed removeMBProgressHUDBlock:^{
-			 if (isSuccessed) {
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
+			 if (success) {
 				 [self.navigationController popViewControllerAnimated:YES];
 			 }
 		 }];
@@ -494,8 +494,8 @@
 											repeats:YES];
 	[MiaAPIHelper getVerificationCodeWithType:1
 								  phoneNumber:_userNameTextField.text
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
-		 if (isSuccessed) {
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
 			 [self showErrorMsg:@"验证码已经发送"];
 		 } else {
 			 [self showErrorMsg:@"验证码发送失败，请重新获取"];
