@@ -223,7 +223,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	// 解决方案：服务端的start不是分页，而是上一个id
 	static const long kShareListPageCount = 10;
 	++_currentPageStart;
-	[MiaAPIHelper getShareListWithUID:_uid start:_currentPageStart item:kShareListPageCount];
+	[MiaAPIHelper getShareListWithUID:_uid
+								start:_currentPageStart
+								 item:kShareListPageCount
+						completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+							[_profileCollectionView footerEndRefreshing];
+
+							NSArray *shareList = userInfo[@"v"][@"info"];
+							if (!shareList)
+								return;
+
+							[_shareListModel addSharesWithArray:shareList];
+							[_profileCollectionView reloadData];
+						} timeoutBlock:^(MiaRequestItem *requestItem) {
+							[_profileCollectionView footerEndRefreshing];
+						}];
 }
 
 #pragma mark - delegate
@@ -412,24 +426,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	//NSLog(@"%@", command);
 
-	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
-		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
+	if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
 		[self handleDeleteFavoritesWithRet:[ret intValue] userInfo:[notification userInfo]];
 	} else if ([command isEqualToString:MiaAPICommand_User_PostRcomm]) {
 		[self handlePostRCommWithRet:[ret intValue] userInfo:[notification userInfo]];
 	}
-}
-
-- (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[_profileCollectionView footerEndRefreshing];
-
-	NSArray *shareList = userInfo[@"v"][@"info"];
-	if (!shareList)
-		return;
-
-	[_shareListModel addSharesWithArray:shareList];
-	[_profileCollectionView reloadData];
 }
 
 - (void)handleDeleteFavoritesWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
