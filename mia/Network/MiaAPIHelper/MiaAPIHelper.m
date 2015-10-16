@@ -37,8 +37,8 @@
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_User_PostGuest forKey:MiaAPIKey_ClientCommand];
 	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	NSString * timestamp = [NSString stringWithFormat:@"%ld",(long)([[NSDate date] timeIntervalSince1970] * 1000)];
-	[dictionary setValue:timestamp forKey:MiaAPIKey_Timestamp];
+	long timestamp = (long)[[NSDate date] timeIntervalSince1970];
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:currentUUID forKey:MiaAPIKey_GUID];
@@ -58,7 +58,17 @@
 	//NSLog(@"%@", jsonString);
 
 	[[WebSocketMgr standard] send:jsonString];
-
+	/*
+	MiaRequestItem *item = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+														  jsonString:jsonString
+													   completeBlock:^(MiaRequestItem *requestItem, BOOL isSuccessed, NSDictionary *userInfo) {
+														   NSLog(@"completed");
+													   }
+														timeoutBlock:^(MiaRequestItem *requestItem) {
+															NSLog(@"timeout");
+														}];
+	[[WebSocketMgr standard] sendWitRequestItem:item];
+	*/
 }
 
 + (void)getNearbyWithLatitude:(float) lat longitude:(float) lon start:(long) start item:(long) item {

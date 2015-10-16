@@ -11,6 +11,8 @@
 #import "SRWebSocket.h"
 #import "MiaAPIHelper.h"
 #import "AFNetworking.h"
+#import "NSTimer+BlockSupport.h"
+#import "MiaAPIMacro.h"
 
 NSString * const WebSocketMgrNotificationKey_Msg				= @"msg";
 NSString * const WebSocketMgrNotificationKey_Command			= @"cmd";
@@ -33,6 +35,9 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 	SRWebSocket 				*_webSocket;
 	NSTimer 					*_timer;
 	AFNetworkReachabilityStatus _networkStatus;
+
+	NSMutableDictionary			*_requestData;
+	dispatch_queue_t 			_requestDataSyncQueue;
 }
 
 /**
@@ -48,6 +53,15 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
     return webSocketMgr;
 }
 
+- (instancetype)init {
+	if (self = [super init]) {
+		_requestData = [[NSMutableDictionary alloc] init];
+		_requestDataSyncQueue = dispatch_queue_create("com.miamusic.requestarraysyncqueue", NULL);
+	}
+
+	return self;
+
+}
 - (void)watchNetworkStatus {
 	_networkStatus = AFNetworkReachabilityStatusUnknown;
 	
@@ -141,6 +155,43 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 	[_webSocket send:data];
 }
 
+- (void)sendWitRequestItem:(MiaRequestItem *)requestItem {
+	const static NSTimeInterval kRequestTimeout = 3.0;
+
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		// 使用GDC同步锁保证读写同步
+		dispatch_sync(_requestDataSyncQueue, ^{
+			// 这里不考虑时间戳相同的情况
+			[_requestData setObject:requestItem forKey:[NSNumber numberWithLong:[requestItem timestamp]]];
+			NSLog(@"#WebSocketWithBlock# start %ld", [requestItem timestamp]);
+		});
+
+		// 超时检测
+		[NSTimer bs_scheduledTimerWithTimeInterval:kRequestTimeout block:
+		 ^{
+			 // 使用GDC同步锁保证读写同步
+			 dispatch_sync(_requestDataSyncQueue, ^{
+				 MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
+				 if (lastItem) {
+					 // 超时了
+					 NSLog(@"#WebSocketWithBlock# timeout %ld\n%@", [requestItem timestamp], [requestItem jsonString]);
+					 dispatch_sync(dispatch_get_main_queue(), ^{
+						 if ([requestItem timeoutBlock]) {
+							 [requestItem timeoutBlock](requestItem);
+						 }
+					 });
+					 [_requestData removeObjectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
+				 }
+			 });
+		 } repeats:NO];
+
+		dispatch_sync(dispatch_get_main_queue(), ^{
+			[self send:[requestItem jsonString]];
+		});
+
+	});
+}
+
 #pragma mark - SRWebSocketDelegate
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
@@ -173,15 +224,37 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 
 	//解析JSON
 	NSError *error = nil;
-	id resultString = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding]
+	NSDictionary *userInfo = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding]
 													  options:NSJSONReadingMutableLeaves
 														error:&error];
 	if (error) {
-		NSLog(@"dic->%@",error);
+		NSLog(@"websocket parse json error! dic->%@",error);
 		return;
 	}
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceiveMessage object:self userInfo:resultString];
+	int ret = [userInfo[MiaAPIKey_Values][MiaAPIKey_Return] intValue];
+	long timestamp = (long)[userInfo[MiaAPIKey_Timestamp] doubleValue];
+	NSLog(@"#WebSocketWithBlock# received %ld", timestamp);
+
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		// 使用GDC同步锁保证读写同步
+		dispatch_sync(_requestDataSyncQueue, ^{
+			MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:timestamp]];
+			if (lastItem) {
+				dispatch_sync(dispatch_get_main_queue(), ^{
+					if ([lastItem completeBlock]) {
+						[lastItem completeBlock](lastItem, ret == 0, userInfo);
+					}
+
+					[_requestData removeObjectForKey:[NSNumber numberWithLong:[lastItem timestamp]]];
+				});
+			} else {
+				NSLog(@"### WebSocket Timeout ###");
+			}
+		});
+	});
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceiveMessage object:self userInfo:userInfo];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
