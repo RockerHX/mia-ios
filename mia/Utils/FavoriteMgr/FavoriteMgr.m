@@ -197,8 +197,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
 								 [self saveData];
 							 } else {
-								 NSError *fileError;
-								 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
+								 if (filePath) {
+									 NSError *fileError;
+									 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
+								 }
 							 }
 
 							 _downloadTask = nil;
