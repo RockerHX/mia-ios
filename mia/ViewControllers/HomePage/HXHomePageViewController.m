@@ -86,6 +86,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 }
 
 - (void)viewConfig {
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
