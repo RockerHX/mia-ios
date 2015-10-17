@@ -750,10 +750,11 @@ UITextFieldDelegate>
 #pragma mark - delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker
-		didFinishPickingImage:(UIImage *)image
-				  editingInfo:(NSDictionary *)editingInfo {
+didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[picker dismissViewControllerAnimated:YES completion:nil];
-	_uploadingImage = image;
+
+	//获得编辑过的图片
+	_uploadingImage = [info objectForKey: @"UIImagePickerControllerEditedImage"];
 
 	[self showUploadAvatarMBProgressHUD];
 	[MiaAPIHelper getUploadAvatarAuthWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -854,7 +855,7 @@ UITextFieldDelegate>
 		ipc.mediaTypes =[UIImagePickerController availableMediaTypesForSourceType:ipc.sourceType];
 	}
 	ipc.delegate = self;
-	ipc.allowsEditing = NO;
+	ipc.allowsEditing = YES;
 	[self presentViewController:ipc animated:YES completion:nil];
 }
 
