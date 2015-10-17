@@ -259,7 +259,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 	// 补充一条右边的卡片
 	if ([_shareListMgr cursorShiftRight]) {
-		ShareItem *newItem = [_shareListMgr getRightItem];
+//		ShareItem *newItem = [_shareListMgr getRightItem];
 		// TODO
 		//[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
@@ -284,7 +284,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 	// 补充一条左边的卡片
 	if ([_shareListMgr cursorShiftLeft]) {
-		ShareItem *newItem = [_shareListMgr getLeftItem];
+//		ShareItem *newItem = [_shareListMgr getLeftItem];
 //		[_loopPlayerView getLeftPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
@@ -313,7 +313,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 	// 更新右边的卡片内容
 	if ([_shareListMgr cursorShiftRight]) {
-		ShareItem *newItem = [_shareListMgr getRightItem];
+//		ShareItem *newItem = [_shareListMgr getRightItem];
 //		[_loopPlayerView getRightPlayerView].shareItem = newItem;
 
 		// 播放当前卡片上的歌曲
