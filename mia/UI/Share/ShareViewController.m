@@ -208,7 +208,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 														  kMusicNameMarginTop,
 														  _topView.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
-										  text:@"Castle Walls"
+										  text:@""
 										  font:UIFontFromSize(15.0f)
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentRight
@@ -219,7 +219,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 																  kMusicNameMarginTop,
 																  _topView.bounds.size.width / 2 - kMusicArtistMarginLeft,
 																  kMusicArtistHeight)
-												  text:@"-Mercy"
+												  text:@""
 												  font:UIFontFromSize(15.0f)
 											 textColor:[UIColor grayColor]
 										 textAlignment:NSTextAlignmentLeft
