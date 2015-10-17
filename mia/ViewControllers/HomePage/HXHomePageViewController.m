@@ -26,7 +26,7 @@ static NSString * kAlertTitleError				= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, CLLocationManagerDelegate> {
+@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, CLLocationManagerDelegate, HXRadioViewControllerDelegate> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
@@ -72,6 +72,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:HomePageContainerIdentifier]) {
         _radioViewController = segue.destinationViewController;
+		_radioViewController.delegate = self;
     }
 }
 
@@ -528,6 +529,20 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
         [self updateProfileButtonWithUnreadCount:unreadCommentCount];
     }
+}
+
+#pragma mark - HXRadioViewControllerDelegate Methods
+- (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item {
+	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:item.uID
+																 nickName:item.sNick
+															  isMyProfile:NO];
+	[self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)userStarNeedLogin {
+	LoginViewController *vc = [[LoginViewController alloc] init];
+	vc.loginViewControllerDelegate = self;
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

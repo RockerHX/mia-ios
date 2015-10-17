@@ -10,6 +10,7 @@
 #import "HXRadioCarouselHelper.h"
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
+#import "MusicPlayerMgr.h"
 
 @interface HXRadioViewController () <HXRadioCarouselHelperDelegate> {
     NSMutableArray *_items;
@@ -51,12 +52,20 @@
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+
 	_carousel.delegate = nil;
 	_carousel.dataSource = nil;
 }
 
 #pragma mark - Config Methods
 - (void)initConfig {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+
     [self setUpHelper];
 }
 
@@ -67,6 +76,40 @@
 
 - (void)viewConfig {
     [_helper configWithCarousel:_carousel];
+}
+
+#pragma mark - Notification
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
+//	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+}
+
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
+		return;
+	}
+
+//	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+}
+
+- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
+		return;
+	}
+	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
+
+//	if (_customDelegate) {
+//		[_customDelegate playerViewPlayCompletion];
+//	}
 }
 
 #pragma mark - Event Response
@@ -283,6 +326,31 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	}
 }
 
+#pragma mark - Audio Operations
+- (void)playMusic:(ShareItem *)item {
+	NSString *musicUrl = [[item music] murl];
+	NSString *musicTitle = [[item music] name];
+	NSString *musicArtist = [[item music] singerName];
+
+	if (!musicUrl || !musicTitle || !musicArtist) {
+		NSLog(@"Music is nil, stop play it.");
+		return;
+	}
+
+	//[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
+}
+
+- (void)pauseMusic {
+	//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[[MusicPlayerMgr standard] pause];
+}
+
+- (void)stopMusic {
+	//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[[MusicPlayerMgr standard] stop];
+}
+
 #pragma mark - HXRadioCarouselHelperDelegate Methods
 - (void)helper:(HXRadioCarouselHelper *)helper shouldChangeMusic:(HXRadioCarouselHelperAction)action {
     switch (action) {
@@ -298,6 +366,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
         case HXRadioCarouselHelperActionPlayNext: {
             NSLog(@"Next");
             _helper.warp = [_shareListMgr cursorShiftRight];
+			[self checkIsNeedToGetNewItems];
             break;
         }
     }
@@ -310,6 +379,22 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
     NSLog(@"Taped");
+}
+
+- (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
+	[self playMusic:[helper currentItem]];
+}
+
+- (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {
+	if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerHomePageWithItem:)]) {
+		[_delegate userWouldLikeSeeSharerHomePageWithItem:helper.currentItem];
+	}
+}
+
+- (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper {
+	if (_delegate && [_delegate respondsToSelector:@selector(userStarNeedLogin)]) {
+		[_delegate userStarNeedLogin];
+	}
 }
 
 @end

@@ -10,9 +10,13 @@
 #import "HXRadioView.h"
 #import "ShareItem.h"
 
-@implementation HXRadioCarouselHelper {
-    iCarousel *_carousel;
+@interface HXRadioCarouselHelper () <HXRadioViewDelegate> {
+	iCarousel *_carousel;
 }
+
+@end
+
+@implementation HXRadioCarouselHelper
 
 #pragma mark - Public Methods
 - (void)configWithCarousel:(iCarousel *)carousel {
@@ -23,6 +27,10 @@
     
     carousel.dataSource = self;
     carousel.delegate = self;
+}
+
+- (ShareItem *)currentItem {
+	return _items[_carousel.currentItemIndex];
 }
 
 #pragma mark - Setter And Getter
@@ -51,7 +59,7 @@
     [_carousel reloadData];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Public Methods
 - (NSInteger)previousItemIndex {
     if (_carousel.currentItemIndex == 0) {
         return 2;
@@ -79,7 +87,7 @@
     //create new view if no view is available for recycling
     if (!view){
         view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.frame.size.width, carousel.frame.size.height)];
-        radioView = [HXRadioView initWithFrame:view.bounds delegate:nil];
+        radioView = [HXRadioView initWithFrame:view.bounds delegate:self];
         radioView.tag = 1;
         [view addSubview:radioView];
     } else {
@@ -150,6 +158,27 @@
             return value;
         }
     }
+}
+
+#pragma mark - HXRadioViewDelegate Methods
+- (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item{
+	if ([_items[_carousel.currentItemIndex] isEqual:item]) {
+		if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
+			[_delegate helperShouldPlay:self];
+		}
+	}
+}
+
+- (void)starTapedNeedLogin {
+	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
+		[_delegate helperStarTapedNeedLogin:self];
+	}
+}
+
+- (void)sharerNameTaped {
+	if (_delegate && [_delegate respondsToSelector:@selector(helperSharerNameTaped:)]) {
+		[_delegate helperSharerNameTaped:self];
+	}
 }
 
 @end

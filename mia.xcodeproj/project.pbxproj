@@ -126,6 +126,7 @@
 		39BF8C7B1BB2AC8A003AB4FC /* ProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C7A1BB2AC8A003AB4FC /* ProfileHeaderView.m */; };
 		39BF8C7F1BB2C79A003AB4FC /* ProfileShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C7E1BB2C79A003AB4FC /* ProfileShareModel.m */; };
 		39BF8C811BB2CDD5003AB4FC /* profile_banner_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C801BB2CDD5003AB4FC /* profile_banner_mask@2x.png */; };
+		39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C69A121BD2A9CC00C0DEBC /* ChangePwdViewController.m */; settings = {ASSET_TAGS = (); }; };
 		39CA06121BAD67CC0074FD13 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06061BAD67CC0074FD13 /* back@2x.png */; };
 		39CA06131BAD67CC0074FD13 /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06071BAD67CC0074FD13 /* comments@2x.png */; };
 		39CA06161BAD67CC0074FD13 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA060A1BAD67CC0074FD13 /* location@2x.png */; };
@@ -390,6 +391,8 @@
 		39BF8C7D1BB2C79A003AB4FC /* ProfileShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileShareModel.h; sourceTree = "<group>"; };
 		39BF8C7E1BB2C79A003AB4FC /* ProfileShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileShareModel.m; sourceTree = "<group>"; };
 		39BF8C801BB2CDD5003AB4FC /* profile_banner_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_banner_mask@2x.png"; sourceTree = "<group>"; };
+		39C69A111BD2A9CC00C0DEBC /* ChangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePwdViewController.h; sourceTree = "<group>"; };
+		39C69A121BD2A9CC00C0DEBC /* ChangePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePwdViewController.m; sourceTree = "<group>"; };
 		39CA06061BAD67CC0074FD13 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		39CA06071BAD67CC0074FD13 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
 		39CA060A1BAD67CC0074FD13 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
@@ -530,6 +533,8 @@
 		390BADC61BAFD9FB006269FD /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				39C69A111BD2A9CC00C0DEBC /* ChangePwdViewController.h */,
+				39C69A121BD2A9CC00C0DEBC /* ChangePwdViewController.m */,
 				390BADD51BB03A3E006269FD /* ResetPwdViewController.h */,
 				390BADD61BB03A3E006269FD /* ResetPwdViewController.m */,
 				390BADD21BB00A5E006269FD /* SignUpViewController.h */,
@@ -1639,6 +1644,7 @@
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
 				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
+				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
 				3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */,
