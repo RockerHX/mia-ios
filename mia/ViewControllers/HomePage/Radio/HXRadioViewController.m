@@ -298,6 +298,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
         case HXRadioCarouselHelperActionPlayNext: {
             NSLog(@"Next");
             _helper.warp = [_shareListMgr cursorShiftRight];
+			[self checkIsNeedToGetNewItems];
             break;
         }
     }
