@@ -48,8 +48,8 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (ShareItem *)getCurrentItem {
 	if ([_shareList count] == 0
-		|| _currentItem > [_shareList count]) {
-		return nil;
+        || _currentItem > [_shareList count]) {
+        return [ShareItem new];
 	}
 
 	return [_shareList objectAtIndex:_currentItem];
@@ -58,7 +58,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 - (ShareItem *)getLeftItem {
 	NSInteger leftIndex = _currentItem - 1;
 	if (leftIndex < 0) {
-		return nil;
+		return [ShareItem new];
 	} else {
 		return [_shareList objectAtIndex:leftIndex];
 	}
@@ -66,8 +66,8 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (ShareItem *)getRightItem {
 	NSInteger rightIndex = _currentItem + 1;
-	if (rightIndex >= [_shareList count]) {
-		return nil;
+    if (rightIndex >= [_shareList count]) {
+        return [ShareItem new];
 	} else {
 		return [_shareList objectAtIndex:rightIndex];
 	}

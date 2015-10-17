@@ -32,7 +32,6 @@
 }
 
 #pragma mark - View Controller Lifecycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -58,41 +57,25 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _items = @[].mutableCopy;
-    for (int i = 0; i < 3; i++) {
-        [_items addObject:@(i)];
-    }
-    
     [self setUpHelper];
 }
 
 - (void)setUpHelper {
     _helper = [[HXRadioCarouselHelper alloc] init];
     _helper.delegate = self;
-    _helper.items = _items;
 }
 
 - (void)viewConfig {
-    [self carouselConfig];
-}
-
-- (void)carouselConfig {
-    //configure carousel
-    _carousel.type = iCarouselTypeLinear;
-    _carousel.pagingEnabled = YES;
-    
-    _carousel.dataSource = _helper;
-    _carousel.delegate = _helper;
+    [_helper configWithCarousel:_carousel];
 }
 
 #pragma mark - Event Response
-- (void)gestureRecognizer:(UIGestureRecognizer *)gesture {
-}
 
 #pragma mark - Private Methods
 - (void)loadShareList {
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
+        [self requestNewShares];
 		_isLoading = YES;
 	} else {
 		[self reloadLoopPlayerData];
@@ -101,11 +84,10 @@
 
 - (void)reloadLoopPlayerData {
 	ShareItem *currentItem = [_shareListMgr getCurrentItem];
-	ShareItem *leftItem = [_shareListMgr getLeftItem];
-	ShareItem *rightItem = [_shareListMgr getRightItem];
-
-	//[_loopPlayerView getCurrentPlayerView].shareItem = currentItem;
-	[self playCurrentItem:currentItem];
+	ShareItem *previousItem = [_shareListMgr getLeftItem];
+	ShareItem *nextItem = [_shareListMgr getRightItem];
+    
+	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
 
 	//[_loopPlayerView getLeftPlayerView].shareItem = leftItem;
 	//[_loopPlayerView getRightPlayerView].shareItem = rightItem;
@@ -122,36 +104,34 @@
 //	return [[_loopPlayerView getCurrentPlayerView] shareItem];
 }
 
-- (void)playCurrentItem:(ShareItem *)item {
+static NSTimeInterval kReportViewsTimeInterval = 15.0f;
+- (void)playCurrentItems:(NSArray *)items {
 //	[[_loopPlayerView getCurrentPlayerView] playMusic];
 //	[_radioViewDelegate radioViewStartPlayItem];
 
 	[_reportViewsTimer invalidate];
-	const NSTimeInterval kReportViewsTimeInterval = 15;
-	_reportViewsTimer = [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval
-														 target:self
-													   selector:@selector(reportViewsTimerAction)
-													   userInfo:nil
-														repeats:NO];
+    _reportViewsTimer = [self setUpReportTimer];
 
-	[self updateStatusWithItem:item];
+	[self updateStatusWithItems:items];
 }
 
-- (void)updateStatusWithItem:(ShareItem *)item {
-	// TODO
-//	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
-//	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
-//	[_locationLabel setText:[item sAddress]];
-//	[self updateShareButtonWithIsFavorite:item.favorite];
+- (NSTimer *)setUpReportTimer {
+    return [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval target:self selector:@selector(reportViewsTimerAction) userInfo:nil repeats:NO];
+}
+
+- (void)updateStatusWithItems:(NSArray *)items {
+    _helper.items = items;
 }
 
 - (void)requestNewShares {
 	const long kRequestItemCount = 10;
+    __weak __typeof__(self)weakSelf = self;
 	[MiaAPIHelper getNearbyWithLatitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
 							  longitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
 								  start:1
 								   item:kRequestItemCount
 						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                              __strong __typeof__(self)strongSelf = weakSelf;
 							  NSArray *shareList = userInfo[@"v"][@"data"];
 							  if (!shareList)
 								  return;
@@ -159,7 +139,7 @@
 							  [_shareListMgr addSharesWithArray:shareList];
 
 							  if (_isLoading) {
-								  [self reloadLoopPlayerData];
+								  [strongSelf reloadLoopPlayerData];
 								  _isLoading = NO;
 							  }
 						  } timeoutBlock:^(MiaRequestItem *requestItem) {
@@ -181,7 +161,7 @@
 			currentItem.cComm = [cComm intValue];
 			currentItem.cView = [cView intValue];
 			currentItem.favorite = start;
-			[self updateStatusWithItem:currentItem];
+//			[self updateStatusWithItem:currentItem];
 		}
 	} else {
 		NSLog(@"handleGetSharemWitRet failed.");
@@ -304,22 +284,32 @@
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
-- (void)musicBarDidTaped {
-    NSLog(@"Taped");
-}
-
-- (void)shouldChangeMusic:(HXRadioCarouselHelperAction)action {
+- (void)helper:(HXRadioCarouselHelper *)helper shouldChangeMusic:(HXRadioCarouselHelperAction)action {
     switch (action) {
-        case HXRadioCarouselHelperActionPlayPrevious:
+        case HXRadioCarouselHelperActionPlayPrevious: {
             NSLog(@"Previous");
+            _helper.warp = [_shareListMgr cursorShiftLeft];
             break;
-        case HXRadioCarouselHelperActionPlayCurrent:
+        }
+        case HXRadioCarouselHelperActionPlayCurrent: {
             NSLog(@"Current");
             break;
-        case HXRadioCarouselHelperActionPlayNext:
+        }
+        case HXRadioCarouselHelperActionPlayNext: {
             NSLog(@"Next");
+            _helper.warp = [_shareListMgr cursorShiftRight];
             break;
+        }
     }
+}
+
+- (void)helperDidChange:(HXRadioCarouselHelper *)helper {
+    NSLog(@"change");
+    [self reloadLoopPlayerData];
+}
+
+- (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
+    NSLog(@"Taped");
 }
 
 @end

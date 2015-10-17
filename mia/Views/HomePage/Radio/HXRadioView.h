@@ -17,6 +17,7 @@
 @end
 
 
+@class ShareItem;
 @class TTTAttributedLabel;
 
 @interface HXRadioView : UIView
@@ -26,12 +27,13 @@
 @property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
 @property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *songerNameLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *starButton;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *locationLabel;
 
 - (IBAction)starButtonPressed:(UIButton *)button;
 
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate;
-- (void)displayWithItem:(id)item;
+- (void)displayWithItem:(ShareItem *)item;
 
 @end

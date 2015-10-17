@@ -10,6 +10,7 @@
 
 @class HXWaveView;
 @class HXBubbleView;
+@class HXRadioViewController;
 
 @interface HXHomePageViewController : UIViewController
 
@@ -27,8 +28,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerViewBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerViewWidthConstraint;
 
-@property (weak, nonatomic) IBOutlet UIPanGestureRecognizer *panGesture;
+@property (weak, nonatomic) IBOutlet   UIPanGestureRecognizer *panGesture;
 @property (weak, nonatomic) IBOutlet UISwipeGestureRecognizer *swipeGesture;
+
+@property (nonatomic, weak) HXRadioViewController *radioViewController;
 
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;

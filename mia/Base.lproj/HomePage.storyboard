@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Vwv-7l-Pgq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="QLH-xI-kzT">
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -16,16 +16,16 @@
                         <viewControllerLayoutGuide type="bottom" id="wcV-VL-v9l"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mYa-hk-Nog">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F49-bH-9BK">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8o-h5-qi0" customClass="iCarousel">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="368"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="304"/>
                                 <animations/>
                                 <gestureRecognizers/>
                             </view>
@@ -50,6 +50,23 @@
             </objects>
             <point key="canvasLocation" x="644" y="409"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hbo-UC-g8U">
+            <objects>
+                <navigationController id="QLH-xI-kzT" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xvg-4o-76r">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Vwv-7l-Pgq" kind="relationship" relationship="rootViewController" id="UFN-u4-j1B"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HtB-I0-kSj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-204" y="409"/>
+        </scene>
         <!--Delegate-->
         <scene sceneID="cVn-Eb-2yp">
             <objects>
@@ -63,7 +80,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
-                                <rect key="frame" x="20" y="28" width="30" height="30"/>
+                                <rect key="frame" x="20" y="92" width="30" height="30"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="97C-zd-yXF" secondAttribute="height" multiplier="1:1" id="FO6-vV-J8w"/>
@@ -74,19 +91,19 @@
                                     <action selector="profileButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="zRS-VX-wCN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
-                                <rect key="frame" x="260" y="28" width="40" height="40"/>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
+                                <rect key="frame" x="268" y="92" width="32" height="32"/>
                                 <animations/>
-                                <state key="normal" image="HP-ShareMusicIcon"/>
+                                <state key="normal" image="HP-ShareIcon"/>
                                 <connections>
                                     <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6LO-Lb-msR">
-                                <rect key="frame" x="0.0" y="80" width="320" height="488"/>
+                                <rect key="frame" x="0.0" y="144" width="320" height="424"/>
                                 <animations/>
                                 <connections>
-                                    <segue destination="ln9-6M-WL7" kind="embed" id="pnm-F6-F8h"/>
+                                    <segue destination="ln9-6M-WL7" kind="embed" identifier="HomePageContainerIdentifier" id="pnm-F6-F8h"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i7R-7R-kAw" customClass="HXBubbleView">
@@ -209,8 +226,8 @@
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="width" secondItem="lBD-s7-8t9" secondAttribute="width" multiplier="0.9" id="0nF-HQ-RKv"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="bottom" constant="-180" id="6tg-tS-iw1"/>
                             <constraint firstAttribute="trailing" secondItem="QnW-Sx-Tnv" secondAttribute="trailing" constant="20" id="7h9-ei-d5Z"/>
-                            <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="lBD-s7-8t9" secondAttribute="top" constant="28" id="9R1-nP-YWd"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="Pfr-PW-ZI3" secondAttribute="bottom" id="AF9-ef-BNn"/>
+                            <constraint firstItem="QnW-Sx-Tnv" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="28" id="CQV-7V-pyu"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="centerX" secondItem="W4h-Kd-Mqg" secondAttribute="centerX" id="ECc-v4-LOi"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="W4h-Kd-Mqg" secondAttribute="bottom" id="Fx8-tN-lWx"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="top" secondItem="Pfr-PW-ZI3" secondAttribute="bottom" id="GLk-kQ-s5e"/>
@@ -223,15 +240,16 @@
                             <constraint firstAttribute="trailing" secondItem="W4h-Kd-Mqg" secondAttribute="trailing" id="eoU-oB-4Sw"/>
                             <constraint firstItem="Pfr-PW-ZI3" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="kSh-nn-XFH"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="centerX" secondItem="Pfr-PW-ZI3" secondAttribute="centerX" id="nR5-ws-6N3"/>
-                            <constraint firstItem="QnW-Sx-Tnv" firstAttribute="top" secondItem="lBD-s7-8t9" secondAttribute="top" constant="28" id="p5D-c7-lGW"/>
                             <constraint firstAttribute="trailing" secondItem="6LO-Lb-msR" secondAttribute="trailing" id="pvq-K7-uG1"/>
-                            <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="lBD-s7-8t9" secondAttribute="top" constant="80" id="zU5-n4-Kh5"/>
+                            <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="80" id="uP2-Ce-bLl"/>
+                            <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="28" id="xbK-pW-xWT"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="jzJ-RZ-SS8" appends="YES" id="nGc-bh-9JC"/>
                             <outletCollection property="gestureRecognizers" destination="uZS-pI-r12" appends="YES" id="R2q-AB-Bc3"/>
                         </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="kAH-Nc-SYo"/>
                     <connections>
                         <outlet property="bubbleView" destination="i7R-7R-kAw" id="SRe-rk-7qf"/>
                         <outlet property="fishBottomConstraint" destination="Gji-wQ-Z6e" id="08a-67-gj3"/>
@@ -266,8 +284,8 @@
     </scenes>
     <resources>
         <image name="1" width="111" height="120"/>
-        <image name="HP-ProfileIcon" width="40" height="40"/>
-        <image name="HP-ShareMusicIcon" width="40" height="40"/>
+        <image name="HP-ProfileIcon" width="32" height="32"/>
+        <image name="HP-ShareIcon" width="32" height="32"/>
         <image name="Header2" width="40" height="40"/>
         <image name="Header3" width="40" height="40"/>
         <image name="Header4" width="40" height="40"/>

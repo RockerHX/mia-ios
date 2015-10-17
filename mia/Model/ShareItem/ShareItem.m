@@ -11,7 +11,7 @@
 
 @implementation ShareItem
 
-- (id)initWithDictionary:(NSDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if(self) {
 		self.spID = [dictionary objectForKey:@"spID"];
@@ -53,7 +53,7 @@
 }
 
 //将对象编码(即:序列化)
-- (void) encodeWithCoder:(NSCoder *)aCoder {
+- (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:self.spID forKey:@"spID"];
 	[aCoder encodeObject:self.sID forKey:@"sID"];
 	[aCoder encodeObject:self.uID forKey:@"uID"];
@@ -74,7 +74,7 @@
 }
 
 //将对象解码(反序列化)
--(id) initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
 		self.spID = [aDecoder decodeObjectForKey:@"spID"];
 		self.sID = [aDecoder decodeObjectForKey:@"sID"];
@@ -97,6 +97,11 @@
 
 	return (self);
 
+}
+
+#pragma mark - Setter And Getter
+- (BOOL)hasData {
+    return _sID ? YES : NO;
 }
 
 @end
