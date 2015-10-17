@@ -15,6 +15,7 @@
 
 - (void)notifySwipeLeft;
 - (void)notifySwipeRight;
+- (void)loopPlayerViewPlayCompletion;
 
 @end
 
@@ -26,8 +27,5 @@
 - (PlayerView *)getCurrentPlayerView;
 - (PlayerView *)getLeftPlayerView;
 - (PlayerView *)getRightPlayerView;
-
-- (void)notifyMusicPlayerMgrDidPlay;
-- (void)notifyMusicPlayerMgrDidPause;
 
 @end

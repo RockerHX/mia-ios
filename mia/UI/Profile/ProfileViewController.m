@@ -414,14 +414,32 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_profileHeaderView setIsPlaying:YES];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
+		return;
+	}
+
 	[_profileHeaderView setIsPlaying:NO];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
+		return;
+	}
+
 	if (_playingFavorite) {
 		_favoriteModel.currentPlaying++;
 		[self playMusic:_favoriteModel.currentPlaying];
@@ -453,7 +471,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		musicUrl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicUrl]];
 	}
 
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 	[_profileHeaderView setIsPlaying:YES];
 	[_favoriteViewController setIsPlaying:YES];
 

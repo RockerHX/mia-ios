@@ -35,9 +35,19 @@
 		self.userInteractionEnabled = YES;
 		//self.backgroundColor = [UIColor yellowColor];
 		[self initUI];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 	}
 
 	return self;
+}
+
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 - (void)initUI {
@@ -176,14 +186,41 @@
 	[_noteTextView setText:[item sNote]];
 }
 
-- (void)notifyMusicPlayerMgrDidPlay {
+
+#pragma mark - Notification
+
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
-- (void)notifyMusicPlayerMgrDidPause {
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[_progressTimer invalidate];
+}
+
+- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
+		return;
+	}
+
+	if (_customDelegate) {
+		[_customDelegate playerViewPlayCompletion];
+	}
 }
 
 #pragma mark - Actions
@@ -211,7 +248,7 @@
 
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 }
 
 - (void)pauseMusic {

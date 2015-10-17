@@ -10,17 +10,21 @@
 
 @class ShareItem;
 
+@protocol PlayerViewDelegate
+
+- (void)playerViewPlayCompletion;
+
+@end
+
 @interface PlayerView : UIView
 
 @property (strong, nonatomic) ShareItem *shareItem;
+@property (weak, nonatomic)id<PlayerViewDelegate> customDelegate;
 
 //- (void)setShareItem:(ShareItem *)item;
 
 - (void)playMusic;
 - (void)pauseMusic;
 - (void)stopMusic;
-
-- (void)notifyMusicPlayerMgrDidPlay;
-- (void)notifyMusicPlayerMgrDidPause;
 
 @end

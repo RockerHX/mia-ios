@@ -6,7 +6,8 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-extern NSString * const MusicPlayerMgrNotificationUserInfoKey;
+extern NSString * const MusicPlayerMgrNotificationKey_Msg;
+extern NSString * const MusicPlayerMgrNotificationKey_ModelID;
 
 extern NSString * const MusicPlayerMgrNotificationRemoteControlEvent;
 extern NSString * const MusicPlayerMgrNotificationDidPlay;
@@ -22,7 +23,7 @@ extern NSString * const MusicPlayerMgrNotificationCompletion;
 +(id)standard;
 
 - (BOOL)isPlaying;
-- (void)playWithUrl:url andTitle:title andArtist:artist;
+- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist;
 - (void)pause;
 - (void)stop;
 
