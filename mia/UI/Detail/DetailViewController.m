@@ -348,12 +348,15 @@ CommentCellDelegate>
 							   }];
 }
 
-- (void)checkCommentButtonStatus {
+- (BOOL)checkCommentButtonStatus {
 	if ([_commentTextField.text length] <= 0) {
 		[_commentButton setEnabled:NO];
-	} else {
-		[_commentButton setEnabled:YES];
+
+		return NO;
 	}
+
+	[_commentButton setEnabled:YES];
+	return YES;
 }
 
 - (void)showMBProgressHUD{
@@ -422,6 +425,7 @@ CommentCellDelegate>
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	if (textField == _commentTextField) {
+		[self postComment];
 		[textField resignFirstResponder];
 	}
 
@@ -497,6 +501,28 @@ CommentCellDelegate>
 																 nickName:item.unick
 															  isMyProfile:NO];
 	[self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)postComment {
+	if (![self checkCommentButtonStatus]) {
+		return;
+	}
+
+	[self showMBProgressHUD];
+	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
+								 comment:_commentTextField.text
+						   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							   if (success) {
+								   _commentTextField.text = @"";
+								   [self requestLatestComments];
+							   }
+
+							   [_commentTextField resignFirstResponder];
+							   [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
+						   } timeoutBlock:^(MiaRequestItem *requestItem) {
+							   [_commentTextField resignFirstResponder];
+							   [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+						   }];
 }
 
 #pragma mark - collectionView代理方法
@@ -673,23 +699,7 @@ CommentCellDelegate>
 }
 
 - (void)commentButtonAction:(id)sender {
-	NSLog(@"comment button clicked.");
-	[self showMBProgressHUD];
-	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
-								 comment:_commentTextField.text
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 _commentTextField.text = @"";
-			 [self requestLatestComments];
-		 }
-
-		 [_commentTextField resignFirstResponder];
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [_commentTextField resignFirstResponder];
-		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
-	 }];
-
+	[self postComment];
 }
 
 - (void)reportViewsTimerAction {
