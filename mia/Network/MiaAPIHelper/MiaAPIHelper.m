@@ -785,6 +785,43 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
++ (void)changePasswordWithOldPasswordHash:(NSString *)oldPasswordHash
+						  newPasswordHash:(NSString *)newPasswordHash
+							completeBlock:(MiaRequestCompleteBlock)completeBlock
+							 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	long timestamp = (long)([[NSDate date] timeIntervalSince1970] * 1000000);
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Type];
+	[dictValues setValue:oldPasswordHash forKey:MiaAPIKey_OldPwd];
+	[dictValues setValue:newPasswordHash forKey:MiaAPIKey_NewPwd];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
+																 jsonString:jsonString
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
 + (void)changeNickName:(NSString *)nick
 		 completeBlock:(MiaRequestCompleteBlock)completeBlock
 		  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {

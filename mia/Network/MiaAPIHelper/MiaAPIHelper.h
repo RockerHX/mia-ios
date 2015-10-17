@@ -122,6 +122,11 @@
 					completeBlock:(MiaRequestCompleteBlock)completeBlock
 					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)changePasswordWithOldPasswordHash:(NSString *)oldPasswordHash
+					 newPasswordHash:(NSString *)newPasswordHash
+					completeBlock:(MiaRequestCompleteBlock)completeBlock
+					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)changeNickName:(NSString *)nick
 		 completeBlock:(MiaRequestCompleteBlock)completeBlock
 		  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;

@@ -111,10 +111,6 @@
 	static const CGFloat kSecondPasswordMarginTop	= kFirstPasswordMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 45;
 
-	static const CGFloat kVerificationCodeButtonWidthMarginTop	= kVerificationCodeMarginTop + 5;
- 	static const CGFloat kVerificationCodeButtonWidth			= 80;
-	static const CGFloat kVerificationCodeButtonHeight			= 25;
-
 	UIColor *placeHolderColor = UIColorFromHex(@"#c0c0c0", 1.0);
 	UIColor *textColor = [UIColor blackColor];
 	UIColor *lineColor = UIColorFromHex(@"#eaeaea", 1.0);
@@ -177,7 +173,7 @@
 	[_secondPasswordTextField setFont:textFont];
 	_secondPasswordTextField.secureTextEntry = YES;
 	_secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
-	_secondPasswordTextField.returnKeyType = UIReturnKeyNext;
+	_secondPasswordTextField.returnKeyType = UIReturnKeyDone;
 	_secondPasswordTextField.delegate = self;
 	[_secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
 	[_inputView addSubview:_secondPasswordTextField];
@@ -251,7 +247,7 @@
 		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
 		[window addSubview:_progressHUD];
 		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交注册";
+		_progressHUD.labelText = @"修改密码中";
 		[_progressHUD show:YES];
 	}
 }
@@ -259,9 +255,9 @@
 - (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
 	if(_progressHUD){
 		if(isSuccess){
-			_progressHUD.labelText = @"密码重置成功，请登录";
+			_progressHUD.labelText = @"密码修改成功";
 		}else{
-			_progressHUD.labelText = @"密码重置失败，请稍后再试";
+			_progressHUD.labelText = @"密码修改失败，请稍后再试";
 		}
 		_progressHUD.mode = MBProgressHUDModeText;
 		[_progressHUD showAnimated:YES whileExecutingBlock:^{
@@ -383,17 +379,17 @@
 		return;
 
 	[self showMBProgressHUD];
-	NSString *newPasswordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
+
 	NSString *oldPasswordHash = [NSString md5HexDigest:_oldPasswordTextField.text];
-	// TODO changePwd
-	NSString *userName = @"";
-	[MiaAPIHelper resetPasswordWithPhoneNum:userName
-							  passwordHash:newPasswordHash
-									   scode:oldPasswordHash
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+	NSString *newPasswordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
+
+	[MiaAPIHelper changePasswordWithOldPasswordHash:oldPasswordHash
+									newPasswordHash:newPasswordHash
+									  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (!success) {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [self showErrorMsg:[NSString stringWithFormat:@"重置密码失败：%@", error]];
+			 [self showErrorMsg:[NSString stringWithFormat:@"修改密码失败：%@", error]];
 		 }
 
 		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
