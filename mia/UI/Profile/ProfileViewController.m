@@ -443,6 +443,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (_playingFavorite) {
 		_favoriteModel.currentPlaying++;
 		[self playMusic:_favoriteModel.currentPlaying];
+		if (_favoriteViewController) {
+			[_favoriteViewController.favoriteCollectionView reloadData];
+		}
 	}
 }
 
@@ -456,7 +459,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	_playingFavorite = YES;
 
 	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
-	currentItem.isPlaying = YES;
 
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];

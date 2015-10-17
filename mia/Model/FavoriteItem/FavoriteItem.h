@@ -21,7 +21,6 @@
 @property (strong, nonatomic) MusicItem *music;
 
 @property (assign, nonatomic) BOOL isSelected;
-@property (assign, nonatomic) BOOL isPlaying;
 @property (assign, nonatomic) BOOL isCached;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;

@@ -140,7 +140,7 @@
 }
 
 - (void)updatePlayingState {
-	if (_dataItem.isPlaying) {
+	if (_isPlaying) {
 		[_sharerLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
 		[_songLabel setTextColor:UIColorFromHex(@"ff300e", 1.0)];
 	} else {
