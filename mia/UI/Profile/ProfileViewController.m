@@ -112,6 +112,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
+
+	[[FavoriteMgr standard] syncFavoriteList];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -210,7 +212,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self requestShareList];
 
 	[[FavoriteMgr standard] setCustomDelegate:self];
-	[[FavoriteMgr standard] syncFavoriteList];
 	_favoriteModel = [[FavoriteModel alloc] init];
 }
 
