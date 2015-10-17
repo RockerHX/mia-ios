@@ -24,8 +24,6 @@ NSString * const MusicPlayerMgrNotificationDidPlay			 	= @"MusicPlayerMgrNotific
 NSString * const MusicPlayerMgrNotificationDidPause			 	= @"MusicPlayerMgrNotificationDidPause";
 NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotificationCompletion";
 
-static NSString * const kLocalFilePrefix = @"file://";
-
 @interface MusicPlayerMgr()
 
 @end
@@ -155,7 +153,7 @@ static NSString * const kLocalFilePrefix = @"file://";
 }
 
 - (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
-	if (![UserSetting isAllowedToPlayNow] && ![url hasPrefix:kLocalFilePrefix]) {
+	if (![UserSetting isAllowedToPlayNowWithURL:url]) {
 		[self notifiNotAllowToPlayWith3G];
 		return;
 	}
@@ -204,7 +202,7 @@ static NSString * const kLocalFilePrefix = @"file://";
 	if (![audioStream url])
 		return;
 
-	if (![UserSetting isAllowedToPlayNow] && ![[[audioStream url] absoluteString] hasPrefix:kLocalFilePrefix]) {
+	if (![UserSetting isAllowedToPlayNowWithURL:[[audioStream url] absoluteString]]) {
 		[self notifiNotAllowToPlayWith3G];
 		return;
 	}
@@ -333,7 +331,7 @@ static NSString * const kLocalFilePrefix = @"file://";
 	if (![audioStream isPlaying]) {
 		return;
 	}
-	if ([UserSetting isAllowedToPlayNow]) {
+	if ([UserSetting isAllowedToPlayNowWithURL:[[audioStream url] absoluteString]]) {
 		return;
 	}
 

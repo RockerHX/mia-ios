@@ -37,12 +37,18 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 	[UserDefaultsUtils saveBoolValue:value withKey:UserDefaultsKey_AutoPlay];
 }
 
-+ (BOOL)isAllowedToPlayNow {
++ (BOOL)isAllowedToPlayNowWithURL:(NSString *)url {
+	static NSString * const kLocalFilePrefix = @"file://";
+	
 	if ([self playWith3G]) {
 		return YES;
 	}
 
 	if ([[WebSocketMgr standard] isWifiNetwork]) {
+		return YES;
+	}
+
+	if ([url hasPrefix:kLocalFilePrefix]) {
 		return YES;
 	}
 
