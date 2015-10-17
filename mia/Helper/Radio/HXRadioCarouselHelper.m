@@ -28,27 +28,26 @@
 #pragma mark - Setter And Getter
 - (void)setWarp:(BOOL)warp {
     _warp = warp;
-    [_carousel reloadData];
+//    [_carousel reloadData];
 }
 
 - (void)setItems:(NSArray *)items {
     _items = [items copy];
-//    ShareItem *currentItem = items[0];
-//    ShareItem *nextItem = items[1];
-//    ShareItem *preiousItem = items[2];
-//    self.warp = preiousItem.hasData;
-//    NSInteger currentIndex = _carousel.currentItemIndex;
-//    NSLog(@"%zd", currentIndex);
-//    switch (currentIndex) {
-//        case 1: {
-//            _items = @[preiousItem, currentItem, nextItem];
-//            break;
-//        }
-//        case 2: {
-//            _items = @[nextItem, preiousItem, currentItem];
-//            break;
-//        }
-//    }
+    ShareItem *currentItem = items[0];
+    ShareItem *nextItem = items[1];
+    ShareItem *preiousItem = items[2];
+    NSInteger currentIndex = _carousel.currentItemIndex;
+    NSLog(@"currentIndex：%zd", currentIndex);
+    switch (currentIndex) {
+        case 1: {
+            _items = @[preiousItem, currentItem, nextItem];
+            break;
+        }
+        case 2: {
+            _items = @[nextItem, preiousItem, currentItem];
+            break;
+        }
+    }
     [_carousel reloadData];
 }
 
@@ -111,7 +110,7 @@
         } else if (scrollOffset < 1 && scrollOffset > 0) {
             playAction = HXRadioCarouselHelperActionPlayPrevious;
         }
-    } else {
+    } else if (currentIndex == 1 || currentIndex == 2) {
         if (scrollOffset > currentIndex) {
             playAction = HXRadioCarouselHelperActionPlayPrevious;
         } else if (scrollOffset < currentIndex) {
