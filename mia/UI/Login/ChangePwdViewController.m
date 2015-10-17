@@ -1,12 +1,12 @@
 //
-//  ResetPwdViewController.m
+//  ChangePwdViewController.m
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "ResetPwdViewController.h"
+#import "ChangePwdViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "UIImage+Extrude.h"
@@ -17,24 +17,19 @@
 #import "MBProgressHUDHelp.h"
 #import "NSString+MD5.h"
 
-@interface ResetPwdViewController () <UITextFieldDelegate>
+@interface ChangePwdViewController () <UITextFieldDelegate>
 
 @end
 
-@implementation ResetPwdViewController {
+@implementation ChangePwdViewController {
 	UIView 			*_inputView;
-	UITextField 	*_userNameTextField;
-	UITextField 	*_verificationCodeTextField;
+	UITextField 	*_oldPasswordTextField;
 	UITextField 	*_firstPasswordTextField;
 	UITextField 	*_secondPasswordTextField;
-	MIAButton 		*_resetButton;
-	MIAButton 		*_verificationCodeButton;
+	MIAButton 		*_confirmButton;
 
 	UIView 			*_msgView;
 	MIALabel 		*_msgLabel;
-
-	NSTimer 		*_verificationCodeTimer;
-	int 			_countdown;
 
 	MBProgressHUD 	*_progressHUD;
 }
@@ -82,8 +77,8 @@
 }
 
 - (void)initUI {
-	static NSString *kResetTitle = @"忘记密码";
-	self.title = kResetTitle;
+	static NSString *kChangePwdTitle = @"修改密码";
+	self.title = kChangePwdTitle;
 	[self.view setBackgroundColor:[UIColor whiteColor]];
 
 	[self initBarButton];
@@ -125,20 +120,21 @@
 	UIColor *lineColor = UIColorFromHex(@"#eaeaea", 1.0);
 	UIFont *textFont = UIFontFromSize(12);
 
-	_userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_oldPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kUserNameMarginTop,
 																	  self.view.frame.size.width - 2 * kTextFieldMarginLeft,
 																	  kTextFieldHeight)];
-	_userNameTextField.borderStyle = UITextBorderStyleNone;
-	_userNameTextField.backgroundColor = [UIColor clearColor];
-	_userNameTextField.textColor = textColor;
-	_userNameTextField.placeholder = @"输入手机号";
-	[_userNameTextField setFont:textFont];
-	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
-	_userNameTextField.returnKeyType = UIReturnKeyNext;
-	_userNameTextField.delegate = self;
-	[_userNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[_inputView addSubview:_userNameTextField];
+	_oldPasswordTextField.borderStyle = UITextBorderStyleNone;
+	_oldPasswordTextField.backgroundColor = [UIColor clearColor];
+	_oldPasswordTextField.textColor = textColor;
+	_oldPasswordTextField.placeholder = @"输入旧密码";
+	[_oldPasswordTextField setFont:textFont];
+	_oldPasswordTextField.secureTextEntry = YES;
+	_oldPasswordTextField.keyboardType = UIKeyboardTypeDefault;
+	_oldPasswordTextField.returnKeyType = UIReturnKeyNext;
+	_oldPasswordTextField.delegate = self;
+	[_oldPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_oldPasswordTextField];
 
 	UIView *userNameLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																		kUserNameMarginTop + kTextFieldHeight,
@@ -147,51 +143,14 @@
 	userNameLineView.backgroundColor = lineColor;
 	[_inputView addSubview:userNameLineView];
 
-	_verificationCodeTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+	_firstPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																			  kVerificationCodeMarginTop,
 																			  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 																			  kTextFieldHeight)];
-	_verificationCodeTextField.borderStyle = UITextBorderStyleNone;
-	_verificationCodeTextField.backgroundColor = [UIColor clearColor];
-	_verificationCodeTextField.textColor = textColor;
-	_verificationCodeTextField.placeholder = @"验证码";
-	[_verificationCodeTextField setFont:textFont];
-	_verificationCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
-	_verificationCodeTextField.returnKeyType = UIReturnKeyNext;
-	_verificationCodeTextField.delegate = self;
-	[_verificationCodeTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[_inputView addSubview:_verificationCodeTextField];
-
-	UIView *verificationCodeLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
-																				kVerificationCodeMarginTop + kTextFieldHeight,
-																				_inputView.frame.size.width - 2 * kTextFieldMarginLeft,
-																				0.5)];
-	verificationCodeLineView.backgroundColor = lineColor;
-	[_inputView addSubview:verificationCodeLineView];
-
-	CGRect verificationCodeButtonFrame = CGRectMake(_inputView.frame.size.width - kTextFieldMarginLeft - kVerificationCodeButtonWidth,
-											 kVerificationCodeButtonWidthMarginTop,
-											 kVerificationCodeButtonWidth,
-											 kVerificationCodeButtonHeight);
-	_verificationCodeButton = [[MIAButton alloc] initWithFrame:verificationCodeButtonFrame
-															   titleString:@"获取验证码"
-																titleColor:[UIColor whiteColor]
-																	  font:textFont
-																   logoImg:nil
-														   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)]];
-	[_verificationCodeButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
-	[_verificationCodeButton addTarget:self action:@selector(verificationCodeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_inputView addSubview:_verificationCodeButton];
-	[self resetCountdown];
-
-	_firstPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
-																		   kFirstPasswordMarginTop,
-																		   _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
-																		   kTextFieldHeight)];
 	_firstPasswordTextField.borderStyle = UITextBorderStyleNone;
 	_firstPasswordTextField.backgroundColor = [UIColor clearColor];
 	_firstPasswordTextField.textColor = textColor;
-	_firstPasswordTextField.placeholder = @"登录密码";
+	_firstPasswordTextField.placeholder = @"输入新密码";
 	[_firstPasswordTextField setFont:textFont];
 	_firstPasswordTextField.secureTextEntry = YES;
 	_firstPasswordTextField.keyboardType = UIKeyboardTypeDefault;
@@ -200,6 +159,29 @@
 	[_firstPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
 	[_inputView addSubview:_firstPasswordTextField];
 
+	UIView *verificationCodeLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+																				kVerificationCodeMarginTop + kTextFieldHeight,
+																				_inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																				0.5)];
+	verificationCodeLineView.backgroundColor = lineColor;
+	[_inputView addSubview:verificationCodeLineView];
+
+	_secondPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
+																		   kFirstPasswordMarginTop,
+																		   _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+																		   kTextFieldHeight)];
+	_secondPasswordTextField.borderStyle = UITextBorderStyleNone;
+	_secondPasswordTextField.backgroundColor = [UIColor clearColor];
+	_secondPasswordTextField.textColor = textColor;
+	_secondPasswordTextField.placeholder = @"再次输入新密码";
+	[_secondPasswordTextField setFont:textFont];
+	_secondPasswordTextField.secureTextEntry = YES;
+	_secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
+	_secondPasswordTextField.returnKeyType = UIReturnKeyNext;
+	_secondPasswordTextField.delegate = self;
+	[_secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
+	[_inputView addSubview:_secondPasswordTextField];
+
 	UIView *firstPasswordLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																			 kFirstPasswordMarginTop + kTextFieldHeight,
 																			 _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
@@ -207,44 +189,21 @@
 	firstPasswordLineView.backgroundColor = lineColor;
 	[_inputView addSubview:firstPasswordLineView];
 
-	_secondPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
-																	  kSecondPasswordMarginTop,
-																	  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
-																	  kTextFieldHeight)];
-	_secondPasswordTextField.borderStyle = UITextBorderStyleNone;
-	_secondPasswordTextField.backgroundColor = [UIColor clearColor];
-	_secondPasswordTextField.textColor = textColor;
-	_secondPasswordTextField.placeholder = @"确认密码";
-	[_secondPasswordTextField setFont:textFont];
-	_secondPasswordTextField.secureTextEntry = YES;
-	_secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
-	_secondPasswordTextField.returnKeyType = UIReturnKeyDone;
-	_secondPasswordTextField.delegate = self;
-	[_secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
-	[_inputView addSubview:_secondPasswordTextField];
-
-	UIView *secondPasswordLineView = [[UIView alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
-																			  kSecondPasswordMarginTop + kTextFieldHeight,
-																			  _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
-																			  0.5)];
-	secondPasswordLineView.backgroundColor = lineColor;
-	[_inputView addSubview:secondPasswordLineView];
-
 	CGRect resetButtonFrame = CGRectMake(kTextFieldMarginLeft,
 											 kSiginUpMarginTop,
 											 _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
 											 kTextFieldHeight);
-	 _resetButton = [[MIAButton alloc] initWithFrame:resetButtonFrame
-													   titleString:@"重置密码"
+	 _confirmButton = [[MIAButton alloc] initWithFrame:resetButtonFrame
+													   titleString:@"修改密码"
 														titleColor:[UIColor whiteColor]
 															  font:UIFontFromSize(16)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
-	[_resetButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
-	[_resetButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
-	[_resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_resetButton setEnabled:NO];
-	[_inputView addSubview:_resetButton];
+	[_confirmButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
+	[_confirmButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
+	[_confirmButton addTarget:self action:@selector(confirmButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[_confirmButton setEnabled:NO];
+	[_inputView addSubview:_confirmButton];
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
@@ -319,10 +278,7 @@
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	if (textField == _userNameTextField) {
-		[_verificationCodeTextField becomeFirstResponder];
-	}
-	else if (textField == _verificationCodeTextField) {
+	if (textField == _oldPasswordTextField) {
 		[_firstPasswordTextField becomeFirstResponder];
 	} else if (textField == _firstPasswordTextField) {
 		[_secondPasswordTextField becomeFirstResponder];
@@ -331,7 +287,7 @@
 		[self resumeView];
 	}
 
-	[self checkResetButtonStatus];
+	[self checkConfirmButtonStatus];
 	return YES;
 }
 
@@ -371,15 +327,6 @@
 	[UIView commitAnimations];
 }
 
-- (void)resetCountdown {
-	static const int kRequestVerificationCodeCountdown = 60;
-	_countdown = kRequestVerificationCodeCountdown;
-
-	[_verificationCodeButton setEnabled:YES];
-	[_verificationCodeTimer invalidate];
-	[_verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
-}
-
 - (void)showErrorMsg:(NSString *)msg {
 	[_msgLabel setText:msg];
 	[_msgView setHidden:NO];
@@ -391,25 +338,14 @@
 											repeats:NO];
 }
 
-- (void)checkResetButtonStatus {
-	if ([_userNameTextField.text length] <= 0
-		|| [_verificationCodeTextField.text length] <= 0
+- (void)checkConfirmButtonStatus {
+	if ([_oldPasswordTextField.text length] <= 0
 		|| [_firstPasswordTextField.text length] <= 0
 		|| [_secondPasswordTextField.text length] <= 0) {
-		[_resetButton setEnabled:NO];
+		[_confirmButton setEnabled:NO];
 	} else {
-		[_resetButton setEnabled:YES];
+		[_confirmButton setEnabled:YES];
 	}
-}
-
-- (BOOL)checkPhoneNumber {
-	NSString *str = _userNameTextField.text;
-	if (str.length == 11
-		&& [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
-		return YES;
-	}
-
-	return NO;
 }
 
 - (BOOL)checkPasswordFormat {
@@ -432,16 +368,6 @@
 
 # pragma mark - Timer Action
 
-- (void)requestVerificationCodeTimerAction {
-	_countdown--;
-	if (_countdown > 0) {
-		NSString *title = [[NSString alloc] initWithFormat:@"%ds 重新获取", _countdown];
-		[_verificationCodeButton setTitle:title forState:UIControlStateNormal];
-	} else {
-		[self resetCountdown];
-	}
-}
-
 - (void)errorMsgTimerAction {
 	[_msgView setHidden:YES];
 }
@@ -452,15 +378,18 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)resetButtonAction:(id)sender {
+- (void)confirmButtonAction:(id)sender {
 	if (![self checkPasswordFormat])
 		return;
 
 	[self showMBProgressHUD];
-	NSString *passwordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
-	[MiaAPIHelper resetPasswordWithPhoneNum:_userNameTextField.text
-							  passwordHash:passwordHash
-									   scode:_verificationCodeTextField.text
+	NSString *newPasswordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
+	NSString *oldPasswordHash = [NSString md5HexDigest:_oldPasswordTextField.text];
+	// TODO changePwd
+	NSString *userName = @"";
+	[MiaAPIHelper resetPasswordWithPhoneNum:userName
+							  passwordHash:newPasswordHash
+									   scode:oldPasswordHash
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (!success) {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -477,44 +406,13 @@
 	 }];
 }
 
-- (void)verificationCodeButtonAction:(id)sender {
-	if (![self checkPhoneNumber]) {
-		[self showErrorMsg:@"请输入正确的手机号码"];
-		return;
-	}
-
-	[_msgView setHidden:YES];
-	[_verificationCodeButton setEnabled:NO];
-
-	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
-	_verificationCodeTimer = [NSTimer scheduledTimerWithTimeInterval:kRequestVerificationCodeTimeInterval
-											 target:self
-										   selector:@selector(requestVerificationCodeTimerAction)
-										   userInfo:nil
-											repeats:YES];
-	[MiaAPIHelper getVerificationCodeWithType:1
-								  phoneNumber:_userNameTextField.text
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 [self showErrorMsg:@"验证码已经发送"];
-		 } else {
-			 [self showErrorMsg:@"验证码发送失败，请重新获取"];
-			 [self resetCountdown];
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [self showErrorMsg:@"验证码发送失败，请重新获取"];
-		 [self resetCountdown];
-	 }];
-}
-
 - (void)hidenKeyboard {
-	[_userNameTextField resignFirstResponder];
-	[_verificationCodeTextField resignFirstResponder];
+	[_oldPasswordTextField resignFirstResponder];
 	[_firstPasswordTextField resignFirstResponder];
 	[_secondPasswordTextField resignFirstResponder];
 
 	[self resumeView];
-	[self checkResetButtonStatus];
+	[self checkConfirmButtonStatus];
 }
 
 @end

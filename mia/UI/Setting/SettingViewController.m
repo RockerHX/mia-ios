@@ -20,6 +20,7 @@
 #import "GenderPickerView.h"
 #import "UIImage+Extrude.h"
 #import "NSString+IsNull.h"
+#import "ChangePwdViewController.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
@@ -873,7 +874,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)changePasswordTouchAction:(id)sender {
-	NSLog(@"changePasswordTouchAction");
+	ChangePwdViewController *vc = [[ChangePwdViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)cleanCacheTouchAction:(id)sender {
