@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Vwv-7l-Pgq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Vwv-7l-Pgq">
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -240,7 +240,9 @@
                         <outlet property="headerViewBottomConstraint" destination="AF9-ef-BNn" id="9hc-FT-Zhd"/>
                         <outlet property="headerViewWidthConstraint" destination="vaS-Fh-HWf" id="EKa-kQ-bFy"/>
                         <outlet property="panGesture" destination="uZS-pI-r12" id="WF9-Of-6pe"/>
+                        <outlet property="profileButton" destination="97C-zd-yXF" id="tZ1-SO-1QU"/>
                         <outlet property="pushPromptLabel" destination="KWo-qg-cwb" id="5JK-IF-qsL"/>
+                        <outlet property="shareButton" destination="QnW-Sx-Tnv" id="koK-DW-kVT"/>
                         <outlet property="swipeGesture" destination="jzJ-RZ-SS8" id="kXF-oe-x5U"/>
                         <outlet property="waveView" destination="W4h-Kd-Mqg" id="TWw-ve-AEv"/>
                         <outlet property="waveViewBottomConstraint" destination="Fx8-tN-lWx" id="S0S-E3-7xk"/>

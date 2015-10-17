@@ -8,25 +8,27 @@
 
 #import "HXRadioViewController.h"
 #import "HXRadioCarouselHelper.h"
+#import "ShareListMgr.h"
+#import "MiaAPIHelper.h"
 
 @interface HXRadioViewController () <HXRadioCarouselHelperDelegate> {
     NSMutableArray *_items;
     HXRadioCarouselHelper *_helper;
+
+	ShareListMgr 	*_shareListMgr;
+	NSTimer 		*_reportViewsTimer;
+	BOOL 			_isLoading;
 }
 
 @end
 
 @implementation HXRadioViewController
 
+#pragma mark - Init Methods
 - (void)awakeFromNib {
     [super awakeFromNib];
     
     [self initConfig];
-}
-
-- (void)dealloc {
-    _carousel.delegate = nil;
-    _carousel.dataSource = nil;
 }
 
 #pragma mark - View Controller Lifecycle
@@ -35,6 +37,23 @@
     [super viewDidLoad];
     
     [self viewConfig];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
+	// TODO
+	// 当前页面显示的时候获取下服务器这个卡片的最新信息
+//	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+//		[self handleGetSharemWitRet:success userInfo:userInfo];
+//	} timeoutBlock:^(MiaRequestItem *requestItem) {
+//		NSLog(@"getShareById timeout");
+//	}];
+}
+
+- (void)dealloc {
+	_carousel.delegate = nil;
+	_carousel.dataSource = nil;
 }
 
 #pragma mark - Config Methods
@@ -68,6 +87,220 @@
 
 #pragma mark - Event Response
 - (void)gestureRecognizer:(UIGestureRecognizer *)gesture {
+}
+
+#pragma mark - Private Methods
+- (void)loadShareList {
+	_shareListMgr = [ShareListMgr initFromArchive];
+	if ([_shareListMgr isNeedGetNearbyItems]) {
+		_isLoading = YES;
+	} else {
+		[self reloadLoopPlayerData];
+	}
+}
+
+- (void)reloadLoopPlayerData {
+	ShareItem *currentItem = [_shareListMgr getCurrentItem];
+	ShareItem *leftItem = [_shareListMgr getLeftItem];
+	ShareItem *rightItem = [_shareListMgr getRightItem];
+
+	//[_loopPlayerView getCurrentPlayerView].shareItem = currentItem;
+	[self playCurrentItem:currentItem];
+
+	//[_loopPlayerView getLeftPlayerView].shareItem = leftItem;
+	//[_loopPlayerView getRightPlayerView].shareItem = rightItem;
+}
+
+- (void)checkIsNeedToGetNewItems {
+	if ([_shareListMgr isNeedGetNearbyItems]) {
+		[self requestNewShares];
+	}
+}
+
+- (ShareItem *)currentShareItem {
+	return nil; // TODO
+//	return [[_loopPlayerView getCurrentPlayerView] shareItem];
+}
+
+- (void)playCurrentItem:(ShareItem *)item {
+//	[[_loopPlayerView getCurrentPlayerView] playMusic];
+//	[_radioViewDelegate radioViewStartPlayItem];
+
+	[_reportViewsTimer invalidate];
+	const NSTimeInterval kReportViewsTimeInterval = 15;
+	_reportViewsTimer = [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval
+														 target:self
+													   selector:@selector(reportViewsTimerAction)
+													   userInfo:nil
+														repeats:NO];
+
+	[self updateStatusWithItem:item];
+}
+
+- (void)updateStatusWithItem:(ShareItem *)item {
+	// TODO
+//	[_commentLabel setText: 0 == [item cComm] ? @"" : NSStringFromInt([item cComm])];
+//	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
+//	[_locationLabel setText:[item sAddress]];
+//	[self updateShareButtonWithIsFavorite:item.favorite];
+}
+
+- (void)requestNewShares {
+	const long kRequestItemCount = 10;
+	[MiaAPIHelper getNearbyWithLatitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
+							  longitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
+								  start:1
+								   item:kRequestItemCount
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							  NSArray *shareList = userInfo[@"v"][@"data"];
+							  if (!shareList)
+								  return;
+
+							  [_shareListMgr addSharesWithArray:shareList];
+
+							  if (_isLoading) {
+								  [self reloadLoopPlayerData];
+								  _isLoading = NO;
+							  }
+						  } timeoutBlock:^(MiaRequestItem *requestItem) {
+							  NSLog(@"getNearbyWithLatitude timeout");
+						  }];
+}
+
+- (void)handleGetSharemWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
+	if (success) {
+		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
+		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+
+		// TODO
+		//ShareItem *currentItem = [_loopPlayerView getCurrentPlayerView].shareItem;
+		ShareItem *currentItem = nil;
+		if ([sID isEqualToString:currentItem.sID]) {
+			currentItem.cComm = [cComm intValue];
+			currentItem.cView = [cView intValue];
+			currentItem.favorite = start;
+			[self updateStatusWithItem:currentItem];
+		}
+	} else {
+		NSLog(@"handleGetSharemWitRet failed.");
+	}
+}
+
+- (void)reportViewsTimerAction {
+	[MiaAPIHelper viewShareWithLatitude:0 // TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
+							  longitude:0 // TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
+								address:nil // TODO [_radioViewDelegate radioViewCurrentAddress]
+								   spID:[[self currentShareItem] spID]
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 [MiaAPIHelper getShareById:[[self currentShareItem] sID]
+						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							  [self handleGetSharemWitRet:success userInfo:userInfo];
+						  } timeoutBlock:^(MiaRequestItem *requestItem) {
+							  NSLog(@"handleGetSharemWitRet failed.");
+						  }];
+		 } else {
+			 NSLog(@"view share failed");
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"view share timeout");
+	 }];
+}
+
+- (void)spreadFeed {
+	NSLog(@"#swipe# up spred");
+	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+	[MiaAPIHelper InfectMusicWithLatitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
+								longitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
+								  address:nil// TODO [_radioViewDelegate radioViewCurrentAddress]
+									 spID:[[self currentShareItem] spID]
+							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+								NSLog(@"InfectMusic %d", success);
+							} timeoutBlock:^(MiaRequestItem *requestItem) {
+								NSLog(@"InfectMusic timeout");
+							}];
+}
+
+- (void)notifySwipeLeft {
+	NSLog(@"#swipe# left");
+	// 向左滑动，右侧的卡片需要补充
+
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+	//[[_loopPlayerView getLeftPlayerView] pauseMusic];
+	//[_loopPlayerView getLeftPlayerView].shareItem.unread = NO;
+
+	[_shareListMgr checkHistoryItemsMaxCount];
+
+	// 补充一条右边的卡片
+	if ([_shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [_shareListMgr getRightItem];
+		// TODO
+		//[_loopPlayerView getRightPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		//[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"shift cursor to right failed.");
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	}
+}
+
+- (void)notifySwipeRight {
+	NSLog(@"#swipe# right");
+	// 向右滑动，左侧的卡片需要补充
+
+	// 停止当前，这个方向的歌曲都是已读的，所以不需要再标记为已读
+	//[[_loopPlayerView getRightPlayerView] pauseMusic];
+
+	// 补充一条左边的卡片
+	if ([_shareListMgr cursorShiftLeft]) {
+		ShareItem *newItem = [_shareListMgr getLeftItem];
+//		[_loopPlayerView getLeftPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+//		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"shift cursor to left failed.");
+	}
+}
+
+- (void)loopPlayerViewPlayCompletion {
+	NSLog(@"#swipe# completion");
+	// 播放完成自动下一首，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片
+
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+//	[[_loopPlayerView getCurrentPlayerView] pauseMusic];
+//	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[_shareListMgr checkHistoryItemsMaxCount];
+
+	// 用当前的卡片内容替代左边的卡片内容
+	//	[_loopPlayerView getLeftPlayerView].shareItem = [_loopPlayerView getCurrentPlayerView].shareItem;
+	// 用右边的卡片内容替代当前的卡片内容
+//	[_loopPlayerView getCurrentPlayerView].shareItem = [_loopPlayerView getRightPlayerView].shareItem;
+
+	// 更新右边的卡片内容
+	if ([_shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [_shareListMgr getRightItem];
+//		[_loopPlayerView getRightPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+//		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"play completion failed.");
+	}
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
