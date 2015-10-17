@@ -239,8 +239,10 @@
 						   placeholderImage:_coverImageView.image
 								  completed:
 		 ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-			UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
-			[_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+			 if (image) {
+				 UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
+				 [_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+			 }
 		}];
 	}
 }
