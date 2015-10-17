@@ -159,8 +159,6 @@
 }
 
 - (UIImage *)getBannerImageFromCover:(UIImage *)orgImage containerSize:(CGSize)containerSize {
-
-	NSLog(@"%f, %f, scale:%f", orgImage.size.width, orgImage.size.height, orgImage.scale);
 	CGFloat cutHeight = containerSize.height * orgImage.size.width / containerSize.width;
 	if (cutHeight <= 0.0) {
 		cutHeight = orgImage.size.height / 3;
