@@ -339,7 +339,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (!_playingFavorite) {
 		[self playMusic:_favoriteModel.currentPlaying];
 	} else {
-		[self pauseMusic];
+		if ([[MusicPlayerMgr standard] isPlaying]) {
+			[self pauseMusic];
+		} else {
+			[self playMusic:_favoriteModel.currentPlaying];
+		}
 	}
 }
 
