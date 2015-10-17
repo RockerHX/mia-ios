@@ -42,6 +42,8 @@
 		393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */; };
 		395C727B1BC9FAD900897734 /* FavoriteMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C727A1BC9FAD900897734 /* FavoriteMgr.m */; settings = {ASSET_TAGS = (); }; };
 		395C727F1BCB94D900897734 /* PathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C727E1BCB94D900897734 /* PathHelper.m */; settings = {ASSET_TAGS = (); }; };
+		3965DF6B1BD0E5DA003B1641 /* MiaRequestItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3965DF6A1BD0E5DA003B1641 /* MiaRequestItem.m */; settings = {ASSET_TAGS = (); }; };
+		3965DF6F1BD0FC11003B1641 /* NSTimer+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 3965DF6E1BD0FC11003B1641 /* NSTimer+BlockSupport.m */; settings = {ASSET_TAGS = (); }; };
 		397218921BCF8F9400721A6D /* InfectUserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397218911BCF8F9400721A6D /* InfectUserItem.m */; settings = {ASSET_TAGS = (); }; };
 		3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */; };
 		3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3551BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m */; };
@@ -224,6 +226,10 @@
 		395C727A1BC9FAD900897734 /* FavoriteMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteMgr.m; sourceTree = "<group>"; };
 		395C727D1BCB94D900897734 /* PathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathHelper.h; sourceTree = "<group>"; };
 		395C727E1BCB94D900897734 /* PathHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathHelper.m; sourceTree = "<group>"; };
+		3965DF691BD0E5DA003B1641 /* MiaRequestItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaRequestItem.h; sourceTree = "<group>"; };
+		3965DF6A1BD0E5DA003B1641 /* MiaRequestItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiaRequestItem.m; sourceTree = "<group>"; };
+		3965DF6D1BD0FC11003B1641 /* NSTimer+BlockSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+BlockSupport.h"; sourceTree = "<group>"; };
+		3965DF6E1BD0FC11003B1641 /* NSTimer+BlockSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+BlockSupport.m"; sourceTree = "<group>"; };
 		397218901BCF8F9400721A6D /* InfectUserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectUserItem.h; sourceTree = "<group>"; };
 		397218911BCF8F9400721A6D /* InfectUserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectUserItem.m; sourceTree = "<group>"; };
 		3976E3521BBAC78B006FA5E2 /* SearchResultCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCollectionViewCell.h; sourceTree = "<group>"; };
@@ -590,6 +596,15 @@
 			path = PathHelper;
 			sourceTree = "<group>";
 		};
+		3965DF6C1BD0FC11003B1641 /* NSTimer+BlockSupport */ = {
+			isa = PBXGroup;
+			children = (
+				3965DF6D1BD0FC11003B1641 /* NSTimer+BlockSupport.h */,
+				3965DF6E1BD0FC11003B1641 /* NSTimer+BlockSupport.m */,
+			);
+			path = "NSTimer+BlockSupport";
+			sourceTree = "<group>";
+		};
 		3972188F1BCF8F9400721A6D /* InfectUserItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,6 +637,8 @@
 		397E42751BA126AF006BE9E7 /* WebSocketMgr */ = {
 			isa = PBXGroup;
 			children = (
+				3965DF691BD0E5DA003B1641 /* MiaRequestItem.h */,
+				3965DF6A1BD0E5DA003B1641 /* MiaRequestItem.m */,
 				397E42761BA126AF006BE9E7 /* WebSocketMgr.h */,
 				397E42771BA126AF006BE9E7 /* WebSocketMgr.m */,
 			);
@@ -699,6 +716,7 @@
 		397E429F1BA90812006BE9E7 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				3965DF6C1BD0FC11003B1641 /* NSTimer+BlockSupport */,
 				393CE9BF1BBAA36700FCF232 /* CLLocation+YCLocation */,
 				397E42A01BA90812006BE9E7 /* NSData+Base64 */,
 				397E42A31BA90812006BE9E7 /* NSObject+PropertyAndMethods */,
@@ -1561,8 +1579,10 @@
 				397FA5351BAC0CA7003FD186 /* MIATextViewInternal.m in Sources */,
 				39BCADD01BA02F3100C6F7F2 /* SDWebImagePrefetcher.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
+				3965DF6F1BD0FC11003B1641 /* NSTimer+BlockSupport.m in Sources */,
 				395C727F1BCB94D900897734 /* PathHelper.m in Sources */,
 				3908F38D1BBD00EA00BACFD3 /* SearchResultView.m in Sources */,
+				3965DF6B1BD0E5DA003B1641 /* MiaRequestItem.m in Sources */,
 				3990B1E11BCCD94C00D8B54B /* UserSetting.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
 				39BCADCE1BA02F3100C6F7F2 /* SDWebImageDownloaderOperation.m in Sources */,

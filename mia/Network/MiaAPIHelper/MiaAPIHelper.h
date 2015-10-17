@@ -7,47 +7,135 @@
 //
 
 #import "MiaAPIMacro.h"
+#import "MiaRequestItem.h"
 
 @interface MiaAPIHelper : NSObject
 
 + (id)getUUID;
-+ (void)sendUUID;
-+ (void)getNearbyWithLatitude:(float)lat longitude:(float) lon start:(long) start item:(long) item;
-+ (void)getMusicCommentWithShareID:(NSString *)sID start:(NSString *) start item:(long) item;
-+ (void)getShareListWithUID:(NSString *)uID start:(long) start item:(long) item;
-+ (void)getShareById:(NSString *)sID;
-+ (void)postReadCommentWithsID:(NSString *)sID;
-+ (void)getMusicById:(NSString *)mid;
-+ (void)getFavoriteListWithStart:(NSString *) start item:(long) item;
-+ (void)getUserInfoWithUID:(NSString *)uid;
-+ (void)getUploadAvatarAuth;
++ (void)sendUUIDWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
+					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)InfectMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
-+ (void)SkipMusicWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
-+ (void)viewShareWithLatitude:(float)lat longitude:(float) lon address:(NSString *)address spID:(NSString *)spID;
++ (void)getNearbyWithLatitude:(float)lat
+					longitude:(float)lon
+						start:(long)start
+						 item:(long)item
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)getVerificationCodeWithType:(long)type phoneNumber:(NSString *)phoneNumber;
-+ (void)registerWithPhoneNum:(NSString *)phoneNumber scode:(NSString *)scode nickName:(NSString *)nickName passwordHash:(NSString *)passwordHash;
-+ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash scode:(NSString *)scode;
++ (void)getMusicCommentWithShareID:(NSString *)sID
+							 start:(NSString *)start
+							  item:(long)item
+					 completeBlock:(MiaRequestCompleteBlock)completeBlock
+						 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)changeNickName:(NSString *)nick;
-+ (void)changeGender:(long)gender;
++ (void)getShareListWithUID:(NSString *)uID
+					  start:(long)start
+					   item:(long)item
+			  completeBlock:(MiaRequestCompleteBlock)completeBlock
+			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)loginWithPhoneNum:(NSString *)phoneNumber passwordHash:(NSString *)passwordHash;
-+ (void)logout;
++ (void)getShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)postReadCommentWithsID:(NSString *)sID
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)getMusicById:(NSString *)mid
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)getFavoriteListWithStart:(NSString *)start
+							item:(long)item
+				   completeBlock:(MiaRequestCompleteBlock)completeBlock
+					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)getUserInfoWithUID:(NSString *)uid
+			 completeBlock:(MiaRequestCompleteBlock)completeBlock
+					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)getUploadAvatarAuthWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
+								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)InfectMusicWithLatitude:(float)lat
+					  longitude:(float)lon
+						address:(NSString *)address
+						   spID:(NSString *)spID
+				  completeBlock:(MiaRequestCompleteBlock)completeBlock
+				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)SkipMusicWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+						 spID:(NSString *)spID
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)viewShareWithLatitude:(float)lat
+					longitude:(float)lon
+					  address:(NSString *)address
+						 spID:(NSString *)spID
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 /**
-* @param isFavorite 期望设置成的收藏状态
-*/
-+ (void)favoriteMusicWithShareID:(NSString *)sID isFavorite:(BOOL)isFavorite;
-+ (void)deleteFavoritesWithIDs:(NSArray *)idArray;
+ * @param isFavorite 期望设置成的收藏状态
+ */
++ (void)favoriteMusicWithShareID:(NSString *)sID
+					  isFavorite:(BOOL)isFavorite
+				   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)postCommentWithShareID:(NSString *)sID comment:(NSString *)comment;
++ (void)deleteFavoritesWithIDs:(NSArray *)idArray
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)postCommentWithShareID:(NSString *)sID
+					   comment:(NSString *)comment
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)postShareWithLatitude:(float)lat
 					longitude:(float)lon
 					  address:(NSString *)address
 					   songID:(NSString *)songID
-						 note:(NSString *)note;
+						 note:(NSString *)note
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)getVerificationCodeWithType:(long)type
+						phoneNumber:(NSString *)phoneNumber
+					  completeBlock:(MiaRequestCompleteBlock)completeBlock
+					   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)registerWithPhoneNum:(NSString *)phoneNumber
+					   scode:(NSString *)scode
+					nickName:(NSString *)nickName
+				passwordHash:(NSString *)passwordHash
+			   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)resetPasswordWithPhoneNum:(NSString *)phoneNumber
+					 passwordHash:(NSString *)passwordHash
+							scode:(NSString *)scode
+					completeBlock:(MiaRequestCompleteBlock)completeBlock
+					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)changeNickName:(NSString *)nick
+		 completeBlock:(MiaRequestCompleteBlock)completeBlock
+		  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)changeGender:(long)gender
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)loginWithPhoneNum:(NSString *)phoneNumber
+			 passwordHash:(NSString *)passwordHash
+			completeBlock:(MiaRequestCompleteBlock)completeBlock
+			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
+				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 @end

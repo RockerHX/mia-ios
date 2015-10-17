@@ -76,7 +76,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -90,7 +89,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
@@ -223,7 +221,21 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	// 解决方案：服务端的start不是分页，而是上一个id
 	static const long kShareListPageCount = 10;
 	++_currentPageStart;
-	[MiaAPIHelper getShareListWithUID:_uid start:_currentPageStart item:kShareListPageCount];
+	[MiaAPIHelper getShareListWithUID:_uid
+								start:_currentPageStart
+								 item:kShareListPageCount
+						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							[_profileCollectionView footerEndRefreshing];
+
+							NSArray *shareList = userInfo[@"v"][@"info"];
+							if (!shareList)
+								return;
+
+							[_shareListModel addSharesWithArray:shareList];
+							[_profileCollectionView reloadData];
+						} timeoutBlock:^(MiaRequestItem *requestItem) {
+							[_profileCollectionView footerEndRefreshing];
+						}];
 }
 
 #pragma mark - delegate
@@ -297,7 +309,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]];
+	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 NSLog(@"post read comment ret: %d", success);
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"post read comment timeout");
+	 }];
 
 	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem]];
 	[self.navigationController pushViewController:vc animated:YES];
@@ -369,7 +386,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[_profileHeaderView updateFavoriteCount];
 	}
 
-	[MiaAPIHelper deleteFavoritesWithIDs:idArray];
+	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		NSLog(@"deleteFavorites %d", success);
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"deleteFavorites timeout");
+	}];
 
 	return isChanged;
 }
@@ -405,39 +426,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_favoriteModel.currentPlaying++;
 		[self playMusic:_favoriteModel.currentPlaying];
 	}
-}
-
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_Music_GetShlist]) {
-		[self handleGetShareListWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostFavorite]) {
-		[self handleDeleteFavoritesWithRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_User_PostRcomm]) {
-		[self handlePostRCommWithRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handleGetShareListWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	[_profileCollectionView footerEndRefreshing];
-
-	NSArray *shareList = userInfo[@"v"][@"info"];
-	if (!shareList)
-		return;
-
-	[_shareListModel addSharesWithArray:shareList];
-	[_profileCollectionView reloadData];
-}
-
-- (void)handleDeleteFavoritesWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	NSLog(@"delete favorites ret: %d", ret);
-}
-
-- (void)handlePostRCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	NSLog(@"post read comment ret: %d", ret);
 }
 
 #pragma mark - audio operations

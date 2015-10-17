@@ -49,7 +49,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	self = [super init];
 	if (self) {
 		[self loadData];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	}
 	return self;
@@ -60,7 +59,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		[_downloadTask cancel];
 	}
 
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
@@ -86,7 +84,13 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	_isSyncing = YES;
-	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0] item:kFavoriteRequestItemCountPerPage];
+	[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%d", 0]
+									  item:kFavoriteRequestItemCountPerPage
+							 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+								 [self handleGetFavoriteListWitRet:success userInfo:userInfo];
+							 } timeoutBlock:^(MiaRequestItem *requestItem) {
+								 NSLog(@"GetFavoriteList timeout");
+							 }];
 }
 
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
@@ -241,16 +245,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 #pragma mark - Notification
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_GetStart]) {
-		[self handleGetFavoriteListWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
 	id status = [notification userInfo][NetworkNotificationKey_Status];
 	if ([status intValue] != AFNetworkReachabilityStatusReachableViaWiFi) {
@@ -261,8 +255,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 }
 
-- (void)handleGetFavoriteListWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	if (ret != 0) {
+- (void)handleGetFavoriteListWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
+	if (!success) {
 		[self syncFinished];
 		return;
 	}
@@ -283,7 +277,13 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	if ([items count] == kFavoriteRequestItemCountPerPage) {
-		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%lu", (unsigned long)[_tempItems count]] item:kFavoriteRequestItemCountPerPage];
+		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%lu", (unsigned long)[_tempItems count]]
+										  item:kFavoriteRequestItemCountPerPage
+								 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+									 [self handleGetFavoriteListWitRet:success userInfo:userInfo];
+								 } timeoutBlock:^(MiaRequestItem *requestItem) {
+									 NSLog(@"GetFavoriteList timeout");
+								 }];
 	} else {
 		[self syncFinished];
 	}

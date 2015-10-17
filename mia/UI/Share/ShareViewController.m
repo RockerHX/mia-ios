@@ -64,8 +64,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (id)init {
 	self = [super init];
 	if (self) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -79,8 +77,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 
@@ -555,7 +551,13 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_musicNameLabel setText:item.title];
 	[_musicArtistLabel setText:item.artist];
 
-	[MiaAPIHelper getMusicById:item.songID];
+	[MiaAPIHelper getMusicById:item.songID
+				 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+					 NSLog(@"GetMusicById %d", success);
+				 } timeoutBlock:^(MiaRequestItem *requestItem) {
+					 NSLog(@"GetMusicById timeout");
+
+				 }];
 	[_commentTextField becomeFirstResponder];
 	[self checkSubmitButtonStatus];
 }
@@ -570,33 +572,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 #pragma mark - Notification
-
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
-	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_PostShare]) {
-		[self handlePostShareWitRet:[ret intValue] userInfo:[notification userInfo]];
-	} else if ([command isEqualToString:MiaAPICommand_Music_GetByid]) {
-		[self handleGetMusicByIDWitRet:[ret intValue] userInfo:[notification userInfo]];
-	}
-}
-
-- (void)handlePostShareWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-	[self removeMBProgressHUD:isSuccess removeMBProgressHUDBlock:^{
-		if (isSuccess) {
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}];
-}
-
-- (void)handleGetMusicByIDWitRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	//BOOL isSuccess = (0 == ret);
-	NSLog(@"GetMusicById %d", (0 == ret));
-	// TODO 失败或者成功后应该把信息更新
-}
 
 /*
  *   即将显示键盘的处理
@@ -683,7 +658,20 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 
 	[self showMBProgressHUD];
-	[MiaAPIHelper postShareWithLatitude:_currentCoordinate.latitude longitude:_currentCoordinate.longitude address:_currentAddress songID:_dataItem.songID note:comment];
+	[MiaAPIHelper postShareWithLatitude:_currentCoordinate.latitude
+							  longitude:_currentCoordinate.longitude
+								address:_currentAddress
+								 songID:_dataItem.songID
+								   note:comment
+	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
+			 if (success) {
+				 [self.navigationController popViewControllerAnimated:YES];
+			 }
+		 }];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+	 }];
 }
 
 - (void)closeButtonAction:(id)sender {
