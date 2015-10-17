@@ -27,6 +27,7 @@
 		self.newCommCnt = [[dictionary objectForKey:@"newCommCnt"] intValue];
 		self.infectTotal = [[dictionary objectForKey:@"infectTotal"] intValue];
 		self.favorite = [[dictionary objectForKey:@"star"] intValue];
+		self.isInfected = [[dictionary objectForKey:@"isInfected"] intValue];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
@@ -69,6 +70,7 @@
 	[aCoder encodeInt:self.infectTotal forKey:@"infectTotal"];
 	[aCoder encodeBool:self.unread forKey:@"unread"];
 	[aCoder encodeBool:self.favorite forKey:@"favorite"];
+	[aCoder encodeBool:self.isInfected forKey:@"isInfected"];
 }
 
 //将对象解码(反序列化)
@@ -90,6 +92,7 @@
 		self.infectTotal = [aDecoder decodeIntForKey:@"infectTotal"];
 		self.unread = [aDecoder decodeBoolForKey:@"unread"];
 		self.favorite = [aDecoder decodeBoolForKey:@"favorite"];
+		self.isInfected = [aDecoder decodeBoolForKey:@"isInfected"];
 	}
 
 	return (self);
