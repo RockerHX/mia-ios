@@ -388,7 +388,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[[FavoriteMgr standard] removeSelectedItems];
 	if (isChanged) {
 		if (deletePlaying) {
-			[self playMusic:[_favoriteModel currentPlaying]];
+			if ([_favoriteModel.dataSource count] > 0) {
+				[self playMusic:[_favoriteModel currentPlaying]];
+			} else {
+				[self pauseMusic];
+			}
 		}
 
 		[_profileHeaderView updateFavoriteCount];
