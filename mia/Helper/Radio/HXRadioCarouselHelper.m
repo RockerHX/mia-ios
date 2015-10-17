@@ -7,6 +7,7 @@
 //
 
 #import "HXRadioCarouselHelper.h"
+#import "HXRadioView.h"
 
 @implementation HXRadioCarouselHelper
 
@@ -17,20 +18,16 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    UILabel *label = nil;
+    HXRadioView *radioView = nil;
     //create new view if no view is available for recycling
     if (!view){
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300.0f, 320.0f)];
-        view.backgroundColor = [UIColor darkGrayColor];
-        label = [[UILabel alloc] initWithFrame:view.bounds];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [label.font fontWithSize:50];
-        label.tag = 1;
-        [view addSubview:label];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.frame.size.width, carousel.frame.size.height)];
+        radioView = [HXRadioView initWithFrame:view.bounds delegate:nil];
+        radioView.tag = 1;
+        [view addSubview:radioView];
     } else {
         //get a reference to the label in the recycled view
-        label = (UILabel *)[view viewWithTag:1];
+        radioView = (HXRadioView *)[view viewWithTag:1];
     }
     
     //set item label
@@ -38,47 +35,35 @@
     //views outside of the `if (view == nil) {...}` check otherwise
     //you'll get weird issues with carousel item content appearing
     //in the wrong place in the carousel
-    label.text = [_items[index] stringValue];
+    radioView.songNameLabel.text = [_items[index] stringValue];
     
     return view;
 }
 
 #pragma mark - iCarousel Delegate Methods
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
-- (void)carouselWillBeginScrollingAnimation:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
-- (void)carouselDidScroll:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
-- (void)carouselWillBeginDragging:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
-- (void)carouselDidEndDragging:(iCarousel *)carousel willDecelerate:(BOOL)decelerate {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
-- (void)carouselWillBeginDecelerating:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
-}
-
-- (void)carouselDidEndDecelerating:(iCarousel *)carousel {
-    NSLog(@"%s:%@", __FUNCTION__, @(carousel.currentItemIndex));
+    HXRadioCarouselHelperAction playAction = HXRadioCarouselHelperActionPlayCurrent;
+    if (carousel.currentItemIndex == 0) {
+        if (carousel.scrollOffset > 2) {
+            playAction = HXRadioCarouselHelperActionPlayNext;
+        } else if (carousel.scrollOffset < 1) {
+            playAction = HXRadioCarouselHelperActionPlayPrevious;
+        }
+    } else {
+        if (carousel.scrollOffset > carousel.currentItemIndex) {
+            playAction = HXRadioCarouselHelperActionPlayPrevious;
+        } else if (carousel.scrollOffset < carousel.currentItemIndex) {
+            playAction = HXRadioCarouselHelperActionPlayNext;
+        }
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(shouldChangeMusic:)]) {
+        [_delegate shouldChangeMusic:playAction];
+    }
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    if (_delegate && [_delegate respondsToSelector:@selector(musicBarDidSelceted)]) {
-        [_delegate musicBarDidSelceted];
+    if (_delegate && [_delegate respondsToSelector:@selector(musicBarDidTaped)]) {
+        [_delegate musicBarDidTaped];
     }
 }
 

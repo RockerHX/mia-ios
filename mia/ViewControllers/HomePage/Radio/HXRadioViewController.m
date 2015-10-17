@@ -9,7 +9,7 @@
 #import "HXRadioViewController.h"
 #import "HXRadioCarouselHelper.h"
 
-@interface HXRadioViewController () {
+@interface HXRadioViewController () <HXRadioCarouselHelperDelegate> {
     NSMutableArray *_items;
     HXRadioCarouselHelper *_helper;
 }
@@ -49,12 +49,12 @@
 
 - (void)setUpHelper {
     _helper = [[HXRadioCarouselHelper alloc] init];
+    _helper.delegate = self;
     _helper.items = _items;
 }
 
 - (void)viewConfig {
     [self carouselConfig];
-    [self gestureConfig];
 }
 
 - (void)carouselConfig {
@@ -66,19 +66,27 @@
     _carousel.delegate = _helper;
 }
 
-- (void)gestureConfig {
-    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
-    swipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
-    panGesture.minimumNumberOfTouches = 1;
-    panGesture.maximumNumberOfTouches = 1;
-    [panGesture requireGestureRecognizerToFail:swipeGesture];
-    [self.view addGestureRecognizer:swipeGesture];
-    [self.view addGestureRecognizer:panGesture];
-}
-
 #pragma mark - Event Response
 - (void)gestureRecognizer:(UIGestureRecognizer *)gesture {
+}
+
+#pragma mark - HXRadioCarouselHelperDelegate Methods
+- (void)musicBarDidTaped {
+    NSLog(@"Taped");
+}
+
+- (void)shouldChangeMusic:(HXRadioCarouselHelperAction)action {
+    switch (action) {
+        case HXRadioCarouselHelperActionPlayPrevious:
+            NSLog(@"Previous");
+            break;
+        case HXRadioCarouselHelperActionPlayCurrent:
+            NSLog(@"Current");
+            break;
+        case HXRadioCarouselHelperActionPlayNext:
+            NSLog(@"Next");
+            break;
+    }
 }
 
 @end

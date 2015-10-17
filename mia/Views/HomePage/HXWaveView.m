@@ -136,6 +136,7 @@ static CGFloat LineWidth = 1.0f;
 
 - (void)stopAnimating {
     _link.paused = YES;
+    [self reset];
 }
 
 - (void)reset {
