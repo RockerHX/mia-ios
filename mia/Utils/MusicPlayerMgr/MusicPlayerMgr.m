@@ -14,6 +14,7 @@
 #import "PathHelper.h"
 #import "UserSetting.h"
 #import "WebSocketMgr.h"
+#import "NSObject+BlockSupport.h"
 
 NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
 
@@ -147,24 +148,34 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 	if (![audioStream url]) {
 		// 没有设置过歌曲url，直接播放
+		NSLog(@"#MusicPlayerMgr# playFromURL - prev url is null");
 		[audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
 		if ([audioStream isPlaying]) {
 			NSLog(@"resume music from pause error, stop and play again.");
-			[audioStream stop];
-			[audioStream playFromURL:[NSURL URLWithString:url]];
+			[self playAnotherWirUrl:url];
 		} else {
+			NSLog(@"#MusicPlayerMgr# playWithUrl - resume play from pause");
 			[audioStream pause];
 		}
 	} else {
 		// 切换歌曲
-		[audioStream stop];
-		[audioStream playFromURL:[NSURL URLWithString:url]];
+		[self playAnotherWirUrl:url];
 	}
 
 	[self setMediaInfo:nil andTitle:title andArtist:artist];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
+}
+
+- (void)playAnotherWirUrl:(NSString *)url{
+	NSLog(@"#MusicPlayerMgr# stop - stop before playAnotherWirUrl");
+	[audioStream stop];
+	NSLog(@"#MusicPlayerMgr# performBlock");
+	[self bs_performBlock:^{
+		NSLog(@"#MusicPlayerMgr# delayPlayHandlerWithUrl");
+		[audioStream playFromURL:[NSURL URLWithString:url]];
+	} afterDelay:0.5f];
 }
 
 - (void)play {
@@ -175,6 +186,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 	if ([audioStream url]) {
 		NSLog(@"play:%@", [audioStream url]);
+		NSLog(@"#MusicPlayerMgr# play - resume play from pause");
 		[audioStream pause];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
@@ -182,6 +194,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (void)pause {
+	NSLog(@"#MusicPlayerMgr# pause");
 	[audioStream pause];
 	if ([audioStream isPlaying]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
