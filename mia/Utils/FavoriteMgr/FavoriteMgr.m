@@ -134,7 +134,11 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	_isSyncing = NO;
 
+	if (0 == _currentDownloadIndex) {
 	[self downloadFavorite];
+	} else {
+		NSLog(@"last download task is still running.");
+	}
 }
 
 - (BOOL)isItemInArray:(FavoriteItem *)item array:(NSArray *)array {
@@ -178,17 +182,19 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 - (void)downloadFavorite {
 	// TODO linyehui fav
 	// 多线程下载收藏的歌曲
-	dispatch_queue_t queue = dispatch_queue_create("DownloadFavoriteQueue", NULL);
-	dispatch_async(queue, ^() {
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
 		FavoriteItem *item = [self getNextDownloadItem];
 		if (!item
 			|| [NSString isNull:item.music.murl]
 			|| ![[WebSocketMgr standard] isWifiNetwork]) {
 			// 断网后也会从0重新开始查找需要下载的歌曲
 			_currentDownloadIndex = 0;
-			if (_customDelegate) {
-				[_customDelegate favoriteMgrDidFinishDownload];
-			}
+
+			dispatch_sync(dispatch_get_main_queue(), ^{
+				if (_customDelegate) {
+					[_customDelegate favoriteMgrDidFinishDownload];
+				}
+			});
 
 			return;
 		}
