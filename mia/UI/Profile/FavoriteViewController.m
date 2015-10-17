@@ -345,22 +345,29 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	NSInteger lastPlayingRow = [_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying;
-	if (lastPlayingRow == indexPath.row)
-		return;
+	if (_isEditing) {
+		FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+		currentPlayingCell.dataItem.isSelected = !currentPlayingCell.dataItem.isSelected;
+		[currentPlayingCell updateSelectedState];
+		[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:indexPath, nil]];
+	} else {
+		if (lastPlayingRow == indexPath.row)
+			return;
 
-	NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
-	FavoriteCollectionViewCell *lastPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:lastIndexPath];
-	lastPlayingCell.isPlaying = NO;
-	[lastPlayingCell updatePlayingState];
+		NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
+		FavoriteCollectionViewCell *lastPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:lastIndexPath];
+		lastPlayingCell.isPlaying = NO;
+		[lastPlayingCell updatePlayingState];
 
-	FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	currentPlayingCell.isPlaying = YES;
-	[currentPlayingCell updatePlayingState];
+		FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+		currentPlayingCell.isPlaying = YES;
+		[currentPlayingCell updatePlayingState];
 
-	[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying = indexPath.row;
-	[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];
+		[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying = indexPath.row;
+		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];
 
-	[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
+		[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
+	}
 }
 
 #pragma mark - Notification

@@ -56,6 +56,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		audioStream.defaultContentType = @"audio/mpeg";
 
 		audioStream.onCompletion = ^() {
+			[[MusicPlayerMgr standard] stop];
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:[[MusicPlayerMgr standard] currentModelID]]
 																 forKey:MusicPlayerMgrNotificationKey_ModelID];
 			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion
@@ -232,6 +233,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)stop {
 	[audioStream stop];
+	audioStream.url = nil;
 
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
 														 forKey:MusicPlayerMgrNotificationKey_ModelID];

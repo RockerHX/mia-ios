@@ -88,7 +88,7 @@
 													   logoImg:nil
 											   backgroundImage:[UIImage imageNamed:@"uncheckbox"]];
 	[_checkBoxButton setBackgroundImage:[UIImage imageNamed:@"checkbox"] forState:UIControlStateSelected];
-	[_checkBoxButton addTarget:self action:@selector(selectCheckBoxAction:) forControlEvents:UIControlEventTouchUpInside];
+	//[_checkBoxButton addTarget:self action:@selector(selectCheckBoxAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_checkBoxButton setHidden:YES];
 	[contentView addSubview:_checkBoxButton];
 
@@ -115,8 +115,8 @@
 	[_indexLabel setText:[NSString stringWithFormat:@"%ld", (long)(_rowIndex + 1)]];
 	[_sharerLabel setText:[NSString stringWithFormat:@"%@分享的", _dataItem.sNick]];
 	[_songLabel setText:[NSString stringWithFormat:@"%@-%@", _dataItem.music.name, _dataItem.music.singerName]];
-	[_checkBoxButton setSelected:_dataItem.isSelected];
 
+	[self updateSelectedState];
 	[self updatePlayingState];
 
 	if (_isEditing) {
@@ -147,6 +147,10 @@
 		[_sharerLabel setTextColor:[UIColor grayColor]];
 		[_songLabel setTextColor:[UIColor blackColor]];
 	}
+}
+
+- (void)updateSelectedState {
+	[_checkBoxButton setSelected:_dataItem.isSelected];
 }
 
 @end
