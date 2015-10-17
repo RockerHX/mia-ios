@@ -12,10 +12,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Adt-yX-Kcn">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="Adt-yX-Kcn">
                     <rect key="frame" x="10" y="0.0" width="300" height="300"/>
                     <animations/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Adt-yX-Kcn" secondAttribute="height" multiplier="1:1" id="QpK-Bh-3pn"/>
                     </constraints>
@@ -51,18 +50,19 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G7H-iu-GBN">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-LocationIcon" translatesAutoresizingMaskIntoConstraints="NO" id="G7H-iu-GBN">
                     <rect key="frame" x="198" y="359" width="20" height="20"/>
                     <animations/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="G7H-iu-GBN" secondAttribute="height" multiplier="1:1" id="ig3-f1-SjC"/>
                         <constraint firstAttribute="width" constant="20" id="kGm-cZ-R9b"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzP-as-myT">
-                    <rect key="frame" x="260" y="260" width="30" height="30"/>
+                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzP-as-myT">
+                    <rect key="frame" x="270" y="268" width="20" height="22"/>
                     <animations/>
+                    <state key="normal" image="HP-UnStarIcon"/>
+                    <state key="selected" image="HP-StarIcon"/>
                     <connections>
                         <action selector="starButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="cgy-dx-Mke"/>
                     </connections>
@@ -94,8 +94,15 @@
                 <outlet property="shrareContentLabel" destination="fmy-Es-e4Z" id="4yO-YB-NY4"/>
                 <outlet property="songNameLabel" destination="lRQ-Sl-Nih" id="pBA-Ug-1wi"/>
                 <outlet property="songerNameLabel" destination="NoX-pC-2kt" id="Av2-ci-F3t"/>
+                <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
             </connections>
             <point key="canvasLocation" x="535" y="383"/>
         </view>
     </objects>
+    <resources>
+        <image name="HP-DefaultCover" width="250" height="250"/>
+        <image name="HP-LocationIcon" width="12" height="17"/>
+        <image name="HP-StarIcon" width="20" height="20"/>
+        <image name="HP-UnStarIcon" width="20" height="20"/>
+    </resources>
 </document>

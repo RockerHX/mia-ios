@@ -7,6 +7,7 @@
 //
 
 #import "HXHomePageViewController.h"
+#import "HXRadioViewController.h"
 #import "HXWaveView.h"
 #import "HXBubbleView.h"
 #import "UserSession.h"
@@ -45,6 +46,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     
     [self initConfig];
     [self viewConfig];
+    
+    [[WebSocketMgr standard] watchNetworkStatus];
 	[self initLocationMgr];
 }
 
@@ -53,7 +56,8 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     _fishViewCenterY = _fishView.center.y;      // 记录小鱼中心点高度，用于控制小鱼拖动
 }
 
--(void)dealloc {
+- (void)dealloc {
+    // 通知关闭
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
@@ -63,15 +67,23 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
 }
 
+#pragma mark - Prepare
+static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:HomePageContainerIdentifier]) {
+        _radioViewController = segue.destinationViewController;
+    }
+}
+
 #pragma mark - Config Methods
 - (void)initConfig {
+    // 通知注册
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
-
 
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
@@ -103,26 +115,20 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	if (nil == _locationManager) {
 		_locationManager = [[CLLocationManager alloc] init];
 	}
-
 	_locationManager.delegate = self;
-
 	//设置定位的精度
 	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-
 	//设置定位服务更新频率
 	_locationManager.distanceFilter = 500;
 
-	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
-
+	if ([[[UIDevice currentDevice] systemVersion] doubleValue] >= 8.0) {
 		[_locationManager requestWhenInUseAuthorization];	// 前台定位
 		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
 	}
-
 	[_locationManager startUpdatingLocation];
 }
 
 #pragma mark - Notification
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	//	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
@@ -134,7 +140,6 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 												forState:UIControlStateNormal
 										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 		}
-
 	}
 }
 
@@ -157,7 +162,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
 			if (![self autoLogin]) {
-				//[_radioView loadShareList];
+				[_radioViewController loadShareList];
 				//[_radioView checkIsNeedToGetNewItems];
 			}
 		} else {
@@ -195,7 +200,6 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
 	BOOL isSuccess = (0 == ret);
-
 	if (isSuccess) {
 		[self updateProfileButtonWithUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
 	} else {
@@ -404,11 +408,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 						  } else {
 							  NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 						  }
-
-//						  [_radioView loadShareList];
+                          [_radioViewController loadShareList];
 					  } timeoutBlock:^(MiaRequestItem *requestItem) {
-						  NSLog(@"audo login timeout!");
-//						  [_radioView loadShareList];
+                          NSLog(@"audo login timeout!");
+                          [_radioViewController loadShareList];
 					  }];
 	return YES;
 }
@@ -418,7 +421,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	[[WebSocketMgr standard] reconnect];
 }
 
-#pragma mark - Animation Methods
+#pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView startAnimating];
 }
@@ -521,7 +524,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 #pragma mark - Login View Controller Delegate Methods
 - (void)loginViewControllerDidSuccess {
-    
+    if ([[UserSession standard] isLogined]) {
+        int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+        [self updateProfileButtonWithUnreadCount:unreadCommentCount];
+    }
 }
 
 @end

@@ -30,7 +30,9 @@
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
 
-- (id)initWithDictionary:(NSDictionary *)dictionary;
+@property (nonatomic, assign) BOOL hasData;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;
 
 @end
