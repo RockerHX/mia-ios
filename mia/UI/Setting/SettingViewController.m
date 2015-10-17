@@ -850,9 +850,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)avatarTouchAction:(id)sender {
 	UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
-		ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
-		ipc.mediaTypes =[UIImagePickerController availableMediaTypesForSourceType:ipc.sourceType];
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+		ipc.sourceType =  UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+		ipc.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:ipc.sourceType];
 	}
 	ipc.delegate = self;
 	ipc.allowsEditing = YES;
