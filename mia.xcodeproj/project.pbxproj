@@ -159,6 +159,8 @@
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE931BD102AB001D154E /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE911BD102AB001D154E /* HXWaveView.m */; settings = {ASSET_TAGS = (); }; };
+		CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE961BD1EAC5001D154E /* HXRadioView.m */; settings = {ASSET_TAGS = (); }; };
+		CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -442,6 +444,9 @@
 		CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXBubbleView.m; sourceTree = "<group>"; };
 		CDC5FE901BD102AB001D154E /* HXWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXWaveView.h; sourceTree = "<group>"; };
 		CDC5FE911BD102AB001D154E /* HXWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXWaveView.m; sourceTree = "<group>"; };
+		CDC5FE951BD1EAC5001D154E /* HXRadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioView.h; sourceTree = "<group>"; };
+		CDC5FE961BD1EAC5001D154E /* HXRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioView.m; sourceTree = "<group>"; };
+		CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXRadioView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1359,6 +1364,7 @@
 		CDC5FE851BD0FF7F001D154E /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				CDC5FE941BD1EA85001D154E /* Radio */,
 				CDC5FE8E1BD102AB001D154E /* HXBubbleView.h */,
 				CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */,
 				CDC5FE901BD102AB001D154E /* HXWaveView.h */,
@@ -1382,6 +1388,16 @@
 			children = (
 				CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */,
 				CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */,
+			);
+			path = Radio;
+			sourceTree = "<group>";
+		};
+		CDC5FE941BD1EA85001D154E /* Radio */ = {
+			isa = PBXGroup;
+			children = (
+				CDC5FE951BD1EAC5001D154E /* HXRadioView.h */,
+				CDC5FE961BD1EAC5001D154E /* HXRadioView.m */,
+				CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */,
 			);
 			path = Radio;
 			sourceTree = "<group>";
@@ -1520,6 +1536,7 @@
 				39CA061C1BAD67CC0074FD13 /* share_music@2x.png in Resources */,
 				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
 				390BADC41BAECA73006269FD /* edit_bg@2x.png in Resources */,
+				CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */,
 				39CA061B1BAD67CC0074FD13 /* profile@2x.png in Resources */,
 				393CE9B11BB98D1300FCF232 /* play_black@2x.png in Resources */,
 				3990B1E31BCDF5C100D8B54B /* default_avatar@2x.png in Resources */,
@@ -1673,6 +1690,7 @@
 				393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */,
 				CD4F62F31BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m in Sources */,
 				397FA52E1BAC0CA7003FD186 /* MIARefreshFooterView.m in Sources */,
+				CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
 				397FA5321BAC0CA7003FD186 /* UIView+Extension.m in Sources */,
 				397FA5341BAC0CA7003FD186 /* MIAGrowingTextView.m in Sources */,

@@ -20,12 +20,12 @@
     UILabel *label = nil;
     //create new view if no view is available for recycling
     if (!view){
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300.0f, 320.0f)];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.frame.size.width, carousel.frame.size.height)];
         view.backgroundColor = [UIColor darkGrayColor];
         label = [[UILabel alloc] initWithFrame:view.bounds];
         label.backgroundColor = [UIColor clearColor];
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [label.font fontWithSize:50];
+        label.font = [label.font fontWithSize:50.0f];
         label.tag = 1;
         [view addSubview:label];
     } else {

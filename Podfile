@@ -6,6 +6,7 @@ inhibit_all_warnings!
 # Networking
 pod 'AFNetworking'
 pod 'SocketRocket'
+pod 'SDWebImage'
 
 # Audio
 pod 'FreeStreamer'
