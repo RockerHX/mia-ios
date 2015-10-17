@@ -370,10 +370,15 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (BOOL)favoriteViewControllerDeleteMusics {
 	BOOL isChanged = NO;
+	BOOL deletePlaying = NO;
 	NSMutableArray *idArray = [[NSMutableArray alloc] init];
 	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (item.isSelected) {
+			if (item.isPlaying) {
+				deletePlaying = YES;
+			}
+
 			[idArray addObject:item.sID];
 			[_favoriteModel.dataSource removeObject:item];
 			isChanged = YES;
@@ -382,7 +387,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	[[FavoriteMgr standard] removeSelectedItems];
 	if (isChanged) {
-		[self playMusic:[_favoriteModel currentPlaying]];
+		if (deletePlaying) {
+			[self playMusic:[_favoriteModel currentPlaying]];
+		}
+
 		[_profileHeaderView updateFavoriteCount];
 	}
 
@@ -414,17 +422,38 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_profileHeaderView setIsPlaying:YES];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
+		return;
+	}
+
 	[_profileHeaderView setIsPlaying:NO];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
+		return;
+	}
+
 	if (_playingFavorite) {
 		_favoriteModel.currentPlaying++;
 		[self playMusic:_favoriteModel.currentPlaying];
+		if (_favoriteViewController) {
+			[_favoriteViewController.favoriteCollectionView reloadData];
+		}
 	}
 }
 
@@ -438,7 +467,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	_playingFavorite = YES;
 
 	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
-	currentItem.isPlaying = YES;
 
 	NSString *musicUrl = [[currentItem music] murl];
 	NSString *musicTitle = [[currentItem music] name];
@@ -453,7 +481,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		musicUrl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicUrl]];
 	}
 
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 	[_profileHeaderView setIsPlaying:YES];
 	[_favoriteViewController setIsPlaying:YES];
 

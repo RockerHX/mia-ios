@@ -18,6 +18,6 @@ extern NSString * const UserDefaultsKey_AutoPlay;
 + (BOOL)autoPlay;
 + (void)setAutoPlay:(BOOL)value;
 
-+ (BOOL)isAllowedToPlayNow;
++ (BOOL)isAllowedToPlayNowWithURL:(NSString *)url;
 
 @end

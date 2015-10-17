@@ -14,8 +14,10 @@
 #import "PathHelper.h"
 #import "UserSetting.h"
 #import "WebSocketMgr.h"
+#import "NSObject+BlockSupport.h"
 
-NSString * const MusicPlayerMgrNotificationUserInfoKey			= @"msg";
+NSString * const MusicPlayerMgrNotificationKey_Msg				= @"msg";
+NSString * const MusicPlayerMgrNotificationKey_ModelID			= @"modelID";
 
 NSString * const MusicPlayerMgrNotificationRemoteControlEvent	= @"MusicPlayerMgrNotificationRemoteControlEvent";
 NSString * const MusicPlayerMgrNotificationDidPlay			 	= @"MusicPlayerMgrNotificationDidPlay";
@@ -27,7 +29,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 @end
 
 @implementation MusicPlayerMgr {
-	FSAudioStream *audioStream;
+	FSAudioStream 	*audioStream;
 }
 
 /**
@@ -52,8 +54,15 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		audioStream = [[FSAudioStream alloc] initWithConfiguration:defaultConfiguration];
 		audioStream.strictContentTypeChecking = NO;
 		audioStream.defaultContentType = @"audio/mpeg";
+
 		audioStream.onCompletion = ^() {
-			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion object:nil];
+			[[MusicPlayerMgr standard] stop];
+			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:[[MusicPlayerMgr standard] currentModelID]]
+																 forKey:MusicPlayerMgrNotificationKey_ModelID];
+			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion
+																object:nil
+															  userInfo:userInfo];
+
 		};
 
 		/*
@@ -138,66 +147,99 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	}
 }
 
-- (void)playWithUrl:url andTitle:title andArtist:artist {
-	NSLog(@"playWithUrl:%@", url);
-	if (![UserSetting isAllowedToPlayNow]) {
+- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+	if (![UserSetting isAllowedToPlayNowWithURL:url]) {
 		[self notifiNotAllowToPlayWith3G];
 		return;
 	}
 
+	NSLog(@"playWithUrl %ld, %ld, %@", _currentModelID, modelID, url);
+	_currentModelID = modelID;
+
 	if (![audioStream url]) {
 		// 没有设置过歌曲url，直接播放
+		NSLog(@"#MusicPlayerMgr# playFromURL - prev url is null");
 		[audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
 		if ([audioStream isPlaying]) {
 			NSLog(@"resume music from pause error, stop and play again.");
-			[audioStream stop];
-			[audioStream playFromURL:[NSURL URLWithString:url]];
+			[self playAnotherWirUrl:url];
 		} else {
+			NSLog(@"#MusicPlayerMgr# playWithUrl - resume play from pause");
 			[audioStream pause];
 		}
 	} else {
 		// 切换歌曲
-		[audioStream stop];
-		[audioStream playFromURL:[NSURL URLWithString:url]];
+		[self playAnotherWirUrl:url];
 	}
 
 	[self setMediaInfo:nil andTitle:title andArtist:artist];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
+														object:nil
+													  userInfo:userInfo];
+}
+
+- (void)playAnotherWirUrl:(NSString *)url{
+	NSLog(@"#MusicPlayerMgr# stop - stop before playAnotherWirUrl");
+	[audioStream stop];
+	NSLog(@"#MusicPlayerMgr# performBlock");
+	[self bs_performBlock:^{
+		NSLog(@"#MusicPlayerMgr# delayPlayHandlerWithUrl");
+		[audioStream playFromURL:[NSURL URLWithString:url]];
+	} afterDelay:0.5f];
 }
 
 - (void)play {
-	if (![UserSetting isAllowedToPlayNow]) {
+	if (![audioStream url])
+		return;
+
+	if (![UserSetting isAllowedToPlayNowWithURL:[[audioStream url] absoluteString]]) {
 		[self notifiNotAllowToPlayWith3G];
 		return;
 	}
 
-	if ([audioStream url]) {
-		NSLog(@"play:%@", [audioStream url]);
-		[audioStream pause];
+	NSLog(@"play:%@", [audioStream url]);
+	NSLog(@"#MusicPlayerMgr# play - resume play from pause");
+	[audioStream pause];
 
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
-	}
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
+														object:nil
+													  userInfo:userInfo];
 }
 
 - (void)pause {
+	NSLog(@"#MusicPlayerMgr# pause");
 	[audioStream pause];
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
 	if ([audioStream isPlaying]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
+															object:nil
+														  userInfo:userInfo];
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
+															object:nil
+														  userInfo:userInfo];
 	}
 
 }
 
 - (void)stop {
 	[audioStream stop];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:nil];
-}
+	audioStream.url = nil;
 
-- (void)preload {
-	[audioStream preload];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
+														object:nil
+													  userInfo:userInfo];
 }
 
 #pragma mark -private method
@@ -213,7 +255,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 											  otherButtonTitles:nil];
 	[alertView show];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:self];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
+														object:nil
+													  userInfo:userInfo];
 }
 
 #pragma mark - Notification
@@ -240,7 +286,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (void)remountControlEvent:(NSNotification *)notification {
-	UIEvent* event = [[notification userInfo] valueForKey:MusicPlayerMgrNotificationUserInfoKey];
+	UIEvent* event = [[notification userInfo] valueForKey:MusicPlayerMgrNotificationKey_Msg];
 	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
 	if(event.type==UIEventTypeRemoteControl){
 		switch (event.subtype) {
@@ -281,7 +327,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	if (![audioStream isPlaying]) {
 		return;
 	}
-	if ([UserSetting isAllowedToPlayNow]) {
+	if ([UserSetting isAllowedToPlayNowWithURL:[[audioStream url] absoluteString]]) {
 		return;
 	}
 

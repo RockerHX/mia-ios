@@ -50,19 +50,12 @@ static const CGFloat kFavoriteHeight 			= 25;
 //		self.backgroundColor = [UIColor redColor];
 
 		[self initUI];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 	return self;
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 - (void)initUI {
@@ -232,44 +225,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 #pragma mark - Notification
 
-- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	[_loopPlayerView notifyMusicPlayerMgrDidPlay];
-}
-
-- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	[_loopPlayerView notifyMusicPlayerMgrDidPause];
-}
-
-- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	NSLog(@"#swipe# completion");
-	// 播放完成自动下一首，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片
-
-	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	[[_loopPlayerView getCurrentPlayerView] pauseMusic];
-	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
-	[_shareListMgr checkHistoryItemsMaxCount];
-
-	// 用当前的卡片内容替代左边的卡片内容
-	[_loopPlayerView getLeftPlayerView].shareItem = [_loopPlayerView getCurrentPlayerView].shareItem;
-	// 用右边的卡片内容替代当前的卡片内容
-	[_loopPlayerView getCurrentPlayerView].shareItem = [_loopPlayerView getRightPlayerView].shareItem;
-
-	// 更新右边的卡片内容
-	if ([_shareListMgr cursorShiftRight]) {
-		ShareItem *newItem = [_shareListMgr getRightItem];
-		[_loopPlayerView getRightPlayerView].shareItem = newItem;
-
-		// 播放当前卡片上的歌曲
-		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
-
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	} else {
-		NSLog(@"play completion failed.");
-		// TODO 这种情况应该从界面上禁止他翻页
-	}
-}
-
 #pragma mark - received message from websocket
 
 - (void)handleGetSharemWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
@@ -421,6 +376,36 @@ static const CGFloat kFavoriteHeight 			= 25;
 		[self checkIsNeedToGetNewItems];
 	} else {
 		NSLog(@"shift cursor to left failed.");
+		// TODO 这种情况应该从界面上禁止他翻页
+	}
+}
+
+- (void)loopPlayerViewPlayCompletion {
+	NSLog(@"#swipe# completion");
+	// 播放完成自动下一首，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片
+
+	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
+	[[_loopPlayerView getCurrentPlayerView] pauseMusic];
+	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+	[_shareListMgr checkHistoryItemsMaxCount];
+
+	// 用当前的卡片内容替代左边的卡片内容
+	[_loopPlayerView getLeftPlayerView].shareItem = [_loopPlayerView getCurrentPlayerView].shareItem;
+	// 用右边的卡片内容替代当前的卡片内容
+	[_loopPlayerView getCurrentPlayerView].shareItem = [_loopPlayerView getRightPlayerView].shareItem;
+
+	// 更新右边的卡片内容
+	if ([_shareListMgr cursorShiftRight]) {
+		ShareItem *newItem = [_shareListMgr getRightItem];
+		[_loopPlayerView getRightPlayerView].shareItem = newItem;
+
+		// 播放当前卡片上的歌曲
+		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
+
+		// 检查是否需要获取新的数据
+		[self checkIsNeedToGetNewItems];
+	} else {
+		NSLog(@"play completion failed.");
 		// TODO 这种情况应该从界面上禁止他翻页
 	}
 }

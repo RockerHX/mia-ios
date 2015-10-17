@@ -14,6 +14,10 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	LoopPlayerViewPagingRight		= 2,
 };
 
+@interface LoopPlayerView () <PlayerViewDelegate>
+
+@end
+
 @implementation LoopPlayerView {
 	NSInteger _lastPage;
 }
@@ -41,6 +45,7 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	NSMutableArray *viewArray = [[NSMutableArray alloc] initWithCapacity:kPlayerViewNum];
 	for (int i = 0; i < kPlayerViewNum; i++) {
 		PlayerView *aView = [[PlayerView alloc] initWithFrame:self.bounds];
+		aView.customDelegate = self;
 		[viewArray addObject:aView];
 	}
 
@@ -64,11 +69,12 @@ typedef NS_ENUM(NSUInteger, LoopPlayerViewPaging) {
 	return [[_playerScrollView pages] objectAtIndex:nextIndex];
 }
 
-- (void)notifyMusicPlayerMgrDidPlay {
-	[[self getCurrentPlayerView] notifyMusicPlayerMgrDidPlay];
-}
-- (void)notifyMusicPlayerMgrDidPause {
-	[[self getCurrentPlayerView] notifyMusicPlayerMgrDidPause];
+#pragma mark - delegate 
+
+- (void)playerViewPlayCompletion {
+	if (_loopPlayerViewDelegate) {
+		[_loopPlayerViewDelegate loopPlayerViewPlayCompletion];
+	}
 }
 
 #pragma mark UIScrollViewDelegate

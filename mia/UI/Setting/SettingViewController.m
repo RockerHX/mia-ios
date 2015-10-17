@@ -54,8 +54,6 @@ UITextFieldDelegate>
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidLoad {
@@ -63,9 +61,6 @@ UITextFieldDelegate>
 	// Do any additional setup after loading the view, typically from a nib.
 
 	[self initUI];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
 	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -803,6 +798,10 @@ UITextFieldDelegate>
 	return true;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	[self postNickNameChange:_nickNameTextField.text];
+}
+
 - (void)textFieldDidChange:(UITextField *)textField {
 	const static int kNickNameMaxLength = 15;
 	if (textField == _nickNameTextField) {
@@ -815,12 +814,6 @@ UITextFieldDelegate>
 
 #pragma mark - Notification
 
-- (void)keyBoardWillShow:(NSNotification *)notification {
-}
-
-- (void)keyBoardWillHide:(NSNotification *)notification {
-	[self postNickNameChange:_nickNameTextField.text];
-}
 
 #pragma mark - button Actions
 

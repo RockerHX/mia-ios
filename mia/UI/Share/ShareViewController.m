@@ -208,7 +208,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 														  kMusicNameMarginTop,
 														  _topView.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
-										  text:@"Castle Walls"
+										  text:@""
 										  font:UIFontFromSize(15.0f)
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentRight
@@ -219,7 +219,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 																  kMusicNameMarginTop,
 																  _topView.bounds.size.width / 2 - kMusicArtistMarginLeft,
 																  kMusicArtistHeight)
-												  text:@"-Mercy"
+												  text:@""
 												  font:UIFontFromSize(15.0f)
 											 textColor:[UIColor grayColor]
 										 textAlignment:NSTextAlignmentLeft
@@ -588,16 +588,34 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[_progressTimer invalidate];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[_progressTimer invalidate];
 }
@@ -700,7 +718,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 
 	_isPlayingSearchResult = YES;
-	[[MusicPlayerMgr standard] playWithUrl:url andTitle:title andArtist:artist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:url title:title artist:artist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 

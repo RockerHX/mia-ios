@@ -44,6 +44,7 @@
 		395C727F1BCB94D900897734 /* PathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C727E1BCB94D900897734 /* PathHelper.m */; settings = {ASSET_TAGS = (); }; };
 		3965DF6B1BD0E5DA003B1641 /* MiaRequestItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3965DF6A1BD0E5DA003B1641 /* MiaRequestItem.m */; settings = {ASSET_TAGS = (); }; };
 		3965DF6F1BD0FC11003B1641 /* NSTimer+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 3965DF6E1BD0FC11003B1641 /* NSTimer+BlockSupport.m */; settings = {ASSET_TAGS = (); }; };
+		3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 3965DF761BD1FE1C003B1641 /* NSObject+BlockSupport.m */; settings = {ASSET_TAGS = (); }; };
 		397218921BCF8F9400721A6D /* InfectUserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397218911BCF8F9400721A6D /* InfectUserItem.m */; settings = {ASSET_TAGS = (); }; };
 		3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3531BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m */; };
 		3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3551BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m */; };
@@ -232,6 +233,8 @@
 		3965DF6A1BD0E5DA003B1641 /* MiaRequestItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiaRequestItem.m; sourceTree = "<group>"; };
 		3965DF6D1BD0FC11003B1641 /* NSTimer+BlockSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+BlockSupport.h"; sourceTree = "<group>"; };
 		3965DF6E1BD0FC11003B1641 /* NSTimer+BlockSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+BlockSupport.m"; sourceTree = "<group>"; };
+		3965DF751BD1FE1C003B1641 /* NSObject+BlockSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BlockSupport.h"; sourceTree = "<group>"; };
+		3965DF761BD1FE1C003B1641 /* NSObject+BlockSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BlockSupport.m"; sourceTree = "<group>"; };
 		397218901BCF8F9400721A6D /* InfectUserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectUserItem.h; sourceTree = "<group>"; };
 		397218911BCF8F9400721A6D /* InfectUserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectUserItem.m; sourceTree = "<group>"; };
 		3976E3521BBAC78B006FA5E2 /* SearchResultCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCollectionViewCell.h; sourceTree = "<group>"; };
@@ -610,6 +613,15 @@
 			path = "NSTimer+BlockSupport";
 			sourceTree = "<group>";
 		};
+		3965DF741BD1FE1C003B1641 /* NSObject+BlockSupport */ = {
+			isa = PBXGroup;
+			children = (
+				3965DF751BD1FE1C003B1641 /* NSObject+BlockSupport.h */,
+				3965DF761BD1FE1C003B1641 /* NSObject+BlockSupport.m */,
+			);
+			path = "NSObject+BlockSupport";
+			sourceTree = "<group>";
+		};
 		3972188F1BCF8F9400721A6D /* InfectUserItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -721,6 +733,7 @@
 		397E429F1BA90812006BE9E7 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				3965DF741BD1FE1C003B1641 /* NSObject+BlockSupport */,
 				3965DF6C1BD0FC11003B1641 /* NSTimer+BlockSupport */,
 				393CE9BF1BBAA36700FCF232 /* CLLocation+YCLocation */,
 				397E42A01BA90812006BE9E7 /* NSData+Base64 */,
@@ -1641,6 +1654,7 @@
 				CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */,
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
 				390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */,
+				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
 				39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */,

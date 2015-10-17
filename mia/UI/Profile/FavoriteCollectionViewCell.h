@@ -16,5 +16,6 @@
 @property (strong, nonatomic) FavoriteItem *dataItem;
 
 - (void)updatePlayingState;
+- (void)updateSelectedState;
 
 @end

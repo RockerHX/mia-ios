@@ -465,14 +465,32 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 #pragma mark - notification
 
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
+		return;
+	}
+
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
@@ -517,7 +535,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		return;
 	}
 
-	[[MusicPlayerMgr standard] playWithUrl:musicUrl andTitle:musicTitle andArtist:musicArtist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }

@@ -28,6 +28,7 @@
 
 @property (assign, nonatomic) BOOL unread;
 @property (assign, nonatomic) BOOL favorite;
+@property (assign, nonatomic) BOOL isInfected;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;
