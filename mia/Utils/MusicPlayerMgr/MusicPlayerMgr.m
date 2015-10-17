@@ -196,10 +196,6 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause object:nil];
 }
 
-- (void)preload {
-	[audioStream preload];
-}
-
 #pragma mark -private method
 
 - (void)notifiNotAllowToPlayWith3G {
