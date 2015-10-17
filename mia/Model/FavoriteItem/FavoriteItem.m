@@ -25,6 +25,7 @@
 
 		// 服务器不返回的数据
 		self.isSelected = NO;
+		self.isPlaying = NO;
 		self.isCached = NO;
     }
 	

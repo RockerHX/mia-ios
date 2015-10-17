@@ -370,10 +370,15 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (BOOL)favoriteViewControllerDeleteMusics {
 	BOOL isChanged = NO;
+	BOOL deletePlaying = NO;
 	NSMutableArray *idArray = [[NSMutableArray alloc] init];
 	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (item.isSelected) {
+			if (item.isPlaying) {
+				deletePlaying = YES;
+			}
+
 			[idArray addObject:item.sID];
 			[_favoriteModel.dataSource removeObject:item];
 			isChanged = YES;
@@ -382,7 +387,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	[[FavoriteMgr standard] removeSelectedItems];
 	if (isChanged) {
-		[self playMusic:[_favoriteModel currentPlaying]];
+		if (deletePlaying) {
+			[self playMusic:[_favoriteModel currentPlaying]];
+		}
+
 		[_profileHeaderView updateFavoriteCount];
 	}
 

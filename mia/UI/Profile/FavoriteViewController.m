@@ -286,8 +286,9 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = _isEditing;
 	if (_favoriteViewControllerDelegate) {
-		cell.isPlaying = ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row);
-		cell.dataItem = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
+		FavoriteItem *item = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
+		item.isPlaying = ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row);
+		cell.dataItem = item;
 	}
 
 	return cell;
@@ -356,11 +357,11 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 		NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
 		FavoriteCollectionViewCell *lastPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:lastIndexPath];
-		lastPlayingCell.isPlaying = NO;
+		lastPlayingCell.dataItem.isPlaying = NO;
 		[lastPlayingCell updatePlayingState];
 
 		FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-		currentPlayingCell.isPlaying = YES;
+		currentPlayingCell.dataItem.isPlaying = YES;
 		[currentPlayingCell updatePlayingState];
 
 		[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying = indexPath.row;
