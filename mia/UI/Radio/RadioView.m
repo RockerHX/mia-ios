@@ -414,8 +414,6 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 - (void)favoriteButtonAction:(id)sender {
 	if ([[UserSession standard] isLogined]) {
-		NSLog(@"favorite to profile page.");
-
 		[MiaAPIHelper favoriteMusicWithShareID:[self currentShareItem].sID
 									isFavorite:![self currentShareItem].favorite
 								 completeBlock:

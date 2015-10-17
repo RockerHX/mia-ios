@@ -457,8 +457,6 @@ CommentCellDelegate>
 
 - (void)detailHeaderViewClickedFavoritor {
 	if ([[UserSession standard] isLogined]) {
-		NSLog(@"favorite to profile page.");
-
 		[MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID
 									isFavorite:!_shareItem.favorite
 								 completeBlock:
