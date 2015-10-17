@@ -13,6 +13,8 @@
 
 @interface HXHomePageViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet   	 UIButton *profileButton;
+@property (weak, nonatomic) IBOutlet   	 UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet   HXWaveView *waveView;
 @property (weak, nonatomic) IBOutlet HXBubbleView *bubbleView;
 @property (weak, nonatomic) IBOutlet  UIImageView *fishView;

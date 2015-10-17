@@ -13,11 +13,26 @@
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
 #import "ShareViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import "CLLocation+YCLocation.h"
+#import "WebSocketMgr.h"
+#import "NSString+IsNull.h"
+#import "UIButton+WebCache.h"
+#import "MiaAPIHelper.h"
+#import "UserDefaultsUtils.h"
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate> {
+static NSString * kAlertTitleError				= @"错误提示";
+static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
+static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
+
+@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, CLLocationManagerDelegate> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
+
+	CLLocationManager 		*_locationManager;
+	CLLocationCoordinate2D 	_currentCoordinate;
+	NSString				*_currentAddress;
 }
 
 @end
@@ -30,6 +45,7 @@
     
     [self initConfig];
     [self viewConfig];
+	[self initLocationMgr];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -37,8 +53,26 @@
     _fishViewCenterY = _fishView.center.y;      // 记录小鱼中心点高度，用于控制小鱼拖动
 }
 
+-(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
+}
+
 #pragma mark - Config Methods
 - (void)initConfig {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
+
+
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
     for (NSInteger index = 1; index <= 67; index ++) {
@@ -62,6 +96,110 @@
     _waveView.percent = 0.6f;
     _waveView.speed = 3.0f;
     _pushPromptLabel.alpha = 0.0f;
+}
+
+- (void)initLocationMgr {
+	if (nil == _locationManager) {
+		_locationManager = [[CLLocationManager alloc] init];
+	}
+
+	_locationManager.delegate = self;
+
+	//设置定位的精度
+	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+
+	//设置定位服务更新频率
+	_locationManager.distanceFilter = 500;
+
+	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
+
+		[_locationManager requestWhenInUseAuthorization];	// 前台定位
+		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
+	}
+
+	[_locationManager startUpdatingLocation];
+}
+
+#pragma mark - Notification
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	//	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
+	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
+		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
+		if ([NSString isNull:newAvatarUrl]) {
+			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+		} else {
+			[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
+												forState:UIControlStateNormal
+										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+		}
+
+	}
+}
+
+- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
+	if (![[WebSocketMgr standard] isNetworkEnable]) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+															message:kAlertMsgNoNetwork
+														   delegate:self
+												  cancelButtonTitle:@"确定"
+												  otherButtonTitles:nil];
+		[alertView show];
+	} else {
+		if ([[WebSocketMgr standard] isClosed]) {
+			[[WebSocketMgr standard] reconnect];
+		}
+	}
+}
+
+- (void)notificationWebSocketDidOpen:(NSNotification *)notification {
+	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		if (success) {
+			if (![self autoLogin]) {
+				//[_radioView loadShareList];
+				//[_radioView checkIsNeedToGetNewItems];
+			}
+		} else {
+			[self autoReconnect];
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[self autoReconnect];
+	}];
+}
+
+- (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
+	// TODO linyehui
+	// 长连接初始化失败的时候需要有提示
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+														message:kAlertMsgWebSocketFailed
+													   delegate:self
+											  cancelButtonTitle:@"确定"
+											  otherButtonTitles:nil];
+	[alertView show];
+}
+
+- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
+	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	//NSLog(@"%@", command);
+
+	if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
+		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
+	}
+}
+
+- (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
+	NSLog(@"Connection Closed! (see logs)");
+}
+
+- (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
+	BOOL isSuccess = (0 == ret);
+
+	if (isSuccess) {
+		[self updateProfileButtonWithUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
+	} else {
+		NSLog(@"unread comment failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+	}
 }
 
 #pragma mark - Event Response
@@ -221,6 +359,62 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     comment = comment ?: @"";
     
     [self startFinishedAnimation];
+}
+
+- (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
+	if (unreadCommentCount <= 0) {
+		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+	} else {
+		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile_with_notification"] forState:UIControlStateNormal];
+		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
+	}
+}
+
+- (BOOL)autoLogin {
+	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
+	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
+	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+		return NO;
+	}
+
+	[MiaAPIHelper loginWithPhoneNum:userName
+					   passwordHash:passwordHash
+					  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+						  if (success) {
+							  [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+							  [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+
+							  [MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]
+												 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+													 if (success) {
+														 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+														 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+														 [_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+																							 forState:UIControlStateNormal
+																					 placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+													 } else {
+														 NSLog(@"getUserInfoWithUID failed");
+													 }
+												 } timeoutBlock:^(MiaRequestItem *requestItem) {
+													 NSLog(@"getUserInfoWithUID timeout");
+												 }];
+						  } else {
+							  NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+						  }
+
+//						  [_radioView loadShareList];
+					  } timeoutBlock:^(MiaRequestItem *requestItem) {
+						  NSLog(@"audo login timeout!");
+//						  [_radioView loadShareList];
+					  }];
+	return YES;
+}
+
+- (void)autoReconnect {
+	// TODO auto reconnect
+	[[WebSocketMgr standard] reconnect];
 }
 
 #pragma mark - Animation Methods

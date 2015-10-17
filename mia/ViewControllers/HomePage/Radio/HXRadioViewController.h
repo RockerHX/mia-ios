@@ -12,4 +12,6 @@
 
 @property (nonatomic, weak) IBOutlet iCarousel *carousel;
 
+- (void)loadShareList;
+
 @end
