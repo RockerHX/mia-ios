@@ -16,20 +16,22 @@
 
 @end
 
+
+@class TTTAttributedLabel;
+
 @interface HXRadioView : UIView
 
 @property (weak, nonatomic) IBOutlet          id  <HXRadioViewDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet UIImageView *frontCoverView;
-@property (weak, nonatomic) IBOutlet     UILabel *songNameLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *songerNameLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *shrareContentLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
+@property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *songerNameLabel;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *locationLabel;
 
 - (IBAction)starButtonPressed:(UIButton *)button;
-- (IBAction)sharerNameButtonPressed:(UIButton *)button;
 
-- (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate;
++ (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate;
 - (void)displayWithItem:(id)item;
 
 @end

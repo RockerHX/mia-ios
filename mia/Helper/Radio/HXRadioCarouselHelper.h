@@ -9,6 +9,7 @@
 #import <iCarousel/iCarousel.h>
 
 typedef NS_ENUM(NSUInteger, HXRadioCarouselHelperAction) {
+    HXRadioCarouselHelperActionPlayCurrent,
     HXRadioCarouselHelperActionPlayPrevious,
     HXRadioCarouselHelperActionPlayNext,
 };
@@ -16,7 +17,7 @@ typedef NS_ENUM(NSUInteger, HXRadioCarouselHelperAction) {
 @protocol HXRadioCarouselHelperDelegate <NSObject>
 
 @optional
-- (void)musicBarDidSelceted;
+- (void)musicBarDidTaped;
 - (void)shouldChangeMusic:(HXRadioCarouselHelperAction)action;
 
 @end

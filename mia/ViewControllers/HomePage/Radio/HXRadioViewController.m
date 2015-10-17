@@ -71,12 +71,22 @@
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
-- (void)musicBarDidSelceted {
-    
+- (void)musicBarDidTaped {
+    NSLog(@"Taped");
 }
 
 - (void)shouldChangeMusic:(HXRadioCarouselHelperAction)action {
-    
+    switch (action) {
+        case HXRadioCarouselHelperActionPlayPrevious:
+            NSLog(@"Previous");
+            break;
+        case HXRadioCarouselHelperActionPlayCurrent:
+            NSLog(@"Current");
+            break;
+        case HXRadioCarouselHelperActionPlayNext:
+            NSLog(@"Next");
+            break;
+    }
 }
 
 @end
