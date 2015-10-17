@@ -210,8 +210,6 @@
 }
 
 - (UIImage *)getBannerImageFromCover:(UIImage *)orgImage containerSize:(CGSize)containerSize {
-
-	NSLog(@"%f, %f, scale:%f", orgImage.size.width, orgImage.size.height, orgImage.scale);
 	CGFloat cutHeight = containerSize.height * orgImage.size.width / containerSize.width;
 	if (cutHeight <= 0.0) {
 		cutHeight = orgImage.size.height / 3;
@@ -239,8 +237,10 @@
 						   placeholderImage:_coverImageView.image
 								  completed:
 		 ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-			UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
-			[_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+			 if (image) {
+				 UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
+				 [_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+			 }
 		}];
 	}
 }

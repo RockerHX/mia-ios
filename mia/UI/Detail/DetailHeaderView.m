@@ -410,7 +410,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		} // for
 
 		MIALabel *coutLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-														 text:[NSString stringWithFormat:@"妙推 %d", _shareItem.infectTotal]
+														 text:[self genInfectCountText:_shareItem.infectTotal]
 														 font:UIFontFromSize(9.0f)
 													textColor:UIColorFromHex(@"a2a2a2", 1.0)
 												textAlignment:NSTextAlignmentLeft
@@ -432,6 +432,17 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	}
 
 	_lastInfectUsersCount = currentUsersCount;
+}
+
+- (NSString *)genInfectCountText:(int)count {
+	const int kMaxInfectUserForShow = 5;
+
+	if (count <= kMaxInfectUserForShow) {
+		return [NSString stringWithFormat:@"%d人妙推", count];
+	} else {
+		return [NSString stringWithFormat:@"等%d人妙推", count];
+	}
+
 }
 
 - (void)updateLayoutForInfectUsers {

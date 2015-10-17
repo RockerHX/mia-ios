@@ -20,6 +20,7 @@
 #import "GenderPickerView.h"
 #import "UIImage+Extrude.h"
 #import "NSString+IsNull.h"
+#import "ChangePwdViewController.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
@@ -750,10 +751,11 @@ UITextFieldDelegate>
 #pragma mark - delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker
-		didFinishPickingImage:(UIImage *)image
-				  editingInfo:(NSDictionary *)editingInfo {
+didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[picker dismissViewControllerAnimated:YES completion:nil];
-	_uploadingImage = image;
+
+	//获得编辑过的图片
+	_uploadingImage = [info objectForKey: @"UIImagePickerControllerEditedImage"];
 
 	[self showUploadAvatarMBProgressHUD];
 	[MiaAPIHelper getUploadAvatarAuthWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -849,12 +851,12 @@ UITextFieldDelegate>
 
 - (void)avatarTouchAction:(id)sender {
 	UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
-		ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
-		ipc.mediaTypes =[UIImagePickerController availableMediaTypesForSourceType:ipc.sourceType];
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+		ipc.sourceType =  UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+		ipc.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:ipc.sourceType];
 	}
 	ipc.delegate = self;
-	ipc.allowsEditing = NO;
+	ipc.allowsEditing = YES;
 	[self presentViewController:ipc animated:YES completion:nil];
 }
 
@@ -872,7 +874,8 @@ UITextFieldDelegate>
 }
 
 - (void)changePasswordTouchAction:(id)sender {
-	NSLog(@"changePasswordTouchAction");
+	ChangePwdViewController *vc = [[ChangePwdViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)cleanCacheTouchAction:(id)sender {

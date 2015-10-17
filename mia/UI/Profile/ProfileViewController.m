@@ -112,6 +112,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
+
+	[[FavoriteMgr standard] syncFavoriteList];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -210,7 +212,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self requestShareList];
 
 	[[FavoriteMgr standard] setCustomDelegate:self];
-	[[FavoriteMgr standard] syncFavoriteList];
 	_favoriteModel = [[FavoriteModel alloc] init];
 }
 
@@ -339,7 +340,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (!_playingFavorite) {
 		[self playMusic:_favoriteModel.currentPlaying];
 	} else {
-		[self pauseMusic];
+		if ([[MusicPlayerMgr standard] isPlaying]) {
+			[self pauseMusic];
+		} else {
+			[self playMusic:_favoriteModel.currentPlaying];
+		}
 	}
 }
 
@@ -388,7 +393,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[[FavoriteMgr standard] removeSelectedItems];
 	if (isChanged) {
 		if (deletePlaying) {
-			[self playMusic:[_favoriteModel currentPlaying]];
+			if ([_favoriteModel.dataSource count] > 0) {
+				[self playMusic:[_favoriteModel currentPlaying]];
+			} else {
+				[self pauseMusic];
+			}
 		}
 
 		[_profileHeaderView updateFavoriteCount];
