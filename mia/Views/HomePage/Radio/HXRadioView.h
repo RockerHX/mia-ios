@@ -8,16 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class ShareItem;
+@class HXRadioView;
+
 @protocol HXRadioViewDelegate <NSObject>
 
 @optional
-- (void)userWouldLikeStarMusic;
-- (void)userWouldLikeSeeSharerHomePage;
+- (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item;
+- (void)starTapedNeedLogin;
+- (void)sharerNameTaped;
 
 @end
 
 
-@class ShareItem;
 @class TTTAttributedLabel;
 
 @interface HXRadioView : UIView
