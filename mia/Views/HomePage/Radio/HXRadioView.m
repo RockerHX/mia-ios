@@ -70,21 +70,27 @@
 }
 
 #pragma mark - Event Response
-- (IBAction)tapGesture {
+- (IBAction)coverTaped {
     [self playButtonPressed:_playButton];
 }
 
+- (IBAction)commentTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSongerTaped:)]) {
+        [_delegate radioViewSongerTaped:self];
+    }
+}
+
 - (IBAction)playButtonPressed:(UIButton *)button {
+    button.selected = !button.selected;
     if (button.selected) {
-        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPlay:)]) {
-            [_delegate radioViewShouldPlay:self];
-        }
-    } else {
         if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPause:)]) {
             [_delegate radioViewShouldPause:self];
         }
+    } else {
+        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPlay:)]) {
+            [_delegate radioViewShouldPlay:self];
+        }
     }
-    button.selected = !button.selected;
 }
 
 - (IBAction)starButtonPressed:(UIButton *)button {

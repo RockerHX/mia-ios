@@ -326,6 +326,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)addPushUserHeader {
+    _pushPromptLabel.text = [NSString stringWithFormat:@"%@人秒推", @(_headerView.arrangedSubviews.count + 1)];
     // 秒推用户头像添加以及动画
     _headerViewWidthConstraint.constant = _headerView.arrangedSubviews.count*50.0f + 40.0f;
     UIImageView *pushUserHeader = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header1"]];
@@ -598,6 +599,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
     [self showInfectUsers:item.infectUsers];
+}
+
+- (void)shouldPushToRadioDetailViewController {
+    
 }
 
 @end

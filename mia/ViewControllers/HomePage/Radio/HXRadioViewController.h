@@ -16,6 +16,7 @@
 - (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item;
 - (void)userStarNeedLogin;
 - (void)shouldDisplayInfectUsers:(ShareItem *)item;
+- (void)shouldPushToRadioDetailViewController;
 
 @end
 
