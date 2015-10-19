@@ -12,6 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
+#import "MusicPlayerMgr.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -21,19 +22,6 @@
 
 @implementation HXRadioView
 
-#pragma Init Methods
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    [self configLabel];
-}
-
-#pragma mark - Config Methods
-- (void)configLabel {
-    _shrareContentLabel.delegate = self;
-    _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
-}
-
 #pragma mark - Class Methods
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate {
     HXRadioView *radioView = [[[NSBundle mainBundle] loadNibNamed:@"HXRadioView" owner:self options:nil] firstObject];
@@ -41,6 +29,44 @@
     radioView.delegate = delegate;
     
     return radioView;
+}
+
+#pragma Init Methods
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [self initConfig];
+    [self viewConfig];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+
+}
+
+#pragma mark - Config Methods
+- (void)initConfig {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay) name:MusicPlayerMgrNotificationDidPlay object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause) name:MusicPlayerMgrNotificationDidPause object:nil];
+}
+
+- (void)viewConfig {
+    [self configLabel];
+}
+
+- (void)configLabel {
+    _shrareContentLabel.delegate = self;
+    _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
+}
+
+#pragma mark - Notification
+- (void)notificationMusicPlayerMgrDidPlay {
+    _playButton.selected = NO;
+}
+
+- (void)notificationMusicPlayerMgrDidPause {
+    _playButton.selected = YES;
 }
 
 #pragma mark - Event Response

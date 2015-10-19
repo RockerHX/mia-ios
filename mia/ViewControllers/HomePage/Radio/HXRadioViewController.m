@@ -85,8 +85,6 @@
 		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
 		return;
 	}
-
-//	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
@@ -95,8 +93,6 @@
 		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
 		return;
 	}
-
-//	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
