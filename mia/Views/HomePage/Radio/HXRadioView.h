@@ -16,6 +16,7 @@
 @optional
 - (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item;
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
+- (void)radioViewSongerTaped:(HXRadioView *)radioView;
 - (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
 - (void)radioViewShouldPlay:(HXRadioView *)radioView;
 - (void)radioViewShouldPause:(HXRadioView *)radioView;
@@ -36,7 +37,8 @@
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *locationLabel;
 
-- (IBAction)tapGesture;
+- (IBAction)coverTaped;
+- (IBAction)commentTaped;
 - (IBAction)playButtonPressed:(UIButton *)button;
 - (IBAction)starButtonPressed:(UIButton *)button;
 
