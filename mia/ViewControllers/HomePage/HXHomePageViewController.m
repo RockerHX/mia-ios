@@ -23,6 +23,8 @@
 #import "UserDefaultsUtils.h"
 #import "HXNoNetworkView.h"
 #import "MBProgressHUDHelp.h"
+#import "InfectUserItem.h"
+#import "UIImageView+WebCache.h"
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
@@ -304,9 +306,33 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     _animating = NO;
 }
 
+- (void)showInfectUsers:(NSArray *)infectUsers {
+    _headerViewWidthConstraint.constant = infectUsers.count*50.0f + 40.0f;
+    for (InfectUserItem *item in infectUsers) {
+        UIImageView *infectUserHeader = [[UIImageView alloc] init];
+        infectUserHeader.contentMode = UIViewContentModeCenter;
+        infectUserHeader.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
+        [infectUserHeader sd_setImageWithURL:[NSURL URLWithString:item.avatar]];
+        [_headerView addArrangedSubview:infectUserHeader];
+    }
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.headerView layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        // 秒推用户头像跳动动画
+        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            __strong __typeof__(self)strongSelf = weakSelf;
+            for (UIView *header in strongSelf.headerView.arrangedSubviews) {
+                header.transform = CGAffineTransformIdentity;
+            }
+        } completion:nil];
+    }];
+}
+
 - (void)addPushUserHeader {
     // 秒推用户头像添加以及动画
-    _headerViewWidthConstraint.constant = 240.0f;
+    _headerViewWidthConstraint.constant = _headerView.arrangedSubviews.count*50.0f + 40.0f;
     UIImageView *pushUserHeader = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header1"]];
     pushUserHeader.contentMode = UIViewContentModeCenter;
     pushUserHeader.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
@@ -354,7 +380,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)executeTimer {
-    _timer = [NSTimer scheduledTimerWithTimeInterval:2.4f target:self selector:@selector(startPushMusicRequsetWithComment:) userInfo:nil repeats:NO];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:2.4f target:self selector:@selector(startFinishedAnimation) userInfo:nil repeats:NO];
 }
 
 - (void)startPushMusicRequsetWithComment:(NSString *)comment {
@@ -575,9 +601,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)shouldDisplaySharerHeader:(ShareItem *)item {
+- (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
-//    item.infectUsers;
+    [self showInfectUsers:item.infectUsers];
 }
 
 @end

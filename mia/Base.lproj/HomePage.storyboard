@@ -180,24 +180,6 @@
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Pfr-PW-ZI3">
                                 <rect key="frame" x="60" y="508" width="200" height="60"/>
-                                <subviews>
-                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Header2" translatesAutoresizingMaskIntoConstraints="NO" id="jaJ-GV-83G">
-                                        <rect key="frame" x="0.0" y="10" width="50" height="40"/>
-                                        <animations/>
-                                    </imageView>
-                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Header3" translatesAutoresizingMaskIntoConstraints="NO" id="JBG-BH-L6T">
-                                        <rect key="frame" x="50" y="10" width="50" height="40"/>
-                                        <animations/>
-                                    </imageView>
-                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Header4" translatesAutoresizingMaskIntoConstraints="NO" id="i49-6D-P9D">
-                                        <rect key="frame" x="100" y="10" width="50" height="40"/>
-                                        <animations/>
-                                    </imageView>
-                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Header5" translatesAutoresizingMaskIntoConstraints="NO" id="mLJ-b6-ag4">
-                                        <rect key="frame" x="150" y="10" width="50" height="40"/>
-                                        <animations/>
-                                    </imageView>
-                                </subviews>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="45U-xq-5fL"/>
@@ -291,10 +273,6 @@
         <image name="1" width="111" height="120"/>
         <image name="HP-ProfileIcon" width="32" height="32"/>
         <image name="HP-ShareIcon" width="32" height="32"/>
-        <image name="Header2" width="40" height="40"/>
-        <image name="Header3" width="40" height="40"/>
-        <image name="Header4" width="40" height="40"/>
-        <image name="Header5" width="40" height="40"/>
         <image name="TextFieldBG" width="283" height="212"/>
     </resources>
 </document>

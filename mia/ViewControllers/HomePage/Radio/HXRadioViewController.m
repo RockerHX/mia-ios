@@ -127,8 +127,8 @@
 	ShareItem *nextItem = [_shareListMgr getRightItem];
     
 	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
-    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplaySharerHeader:)]) {
-        [_delegate shouldDisplaySharerHeader:currentItem];
+    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
+        [_delegate shouldDisplayInfectUsers:currentItem];
     }
 }
 
