@@ -14,23 +14,23 @@
 #import "NSTimer+BlockSupport.h"
 #import "MiaAPIMacro.h"
 
-NSString * const WebSocketMgrNotificationKey_Msg				= @"msg";
-NSString * const WebSocketMgrNotificationKey_Command			= @"cmd";
-NSString * const WebSocketMgrNotificationKey_Values				= @"values";
+NSString * const WebSocketMgrNotificationKey_Msg					= @"msg";
+NSString * const WebSocketMgrNotificationKey_Command				= @"cmd";
+NSString * const WebSocketMgrNotificationKey_Values					= @"values";
 
-NSString * const WebSocketMgrNotificationDidOpen			 	= @"WebSocketMgrNotificationDidOpen";
-NSString * const WebSocketMgrNotificationDidFailWithError		= @"WebSocketMgrNotificationDidFailWithError";
-NSString * const WebSocketMgrNotificationDidFailedAutoReconnect	= @"WebSocketMgrNotificationDidFailedAutoReconnect";
-NSString * const WebSocketMgrNotificationDidReceiveMessage		= @"WebSocketMgrNotificationDidReceiveMessage";
-NSString * const WebSocketMgrNotificationDidCloseWithCode		= @"WebSocketMgrNotificationDidCloseWithCode";
-NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotificationDidReceivePong";
+NSString * const WebSocketMgrNotificationDidOpen			 		= @"WebSocketMgrNotificationDidOpen";
+NSString * const WebSocketMgrNotificationDidFailWithError			= @"WebSocketMgrNotificationDidFailWithError";
+NSString * const WebSocketMgrNotificationDidAutoReconnectFailed		= @"WebSocketMgrNotificationDidAutoReconnectFailed";
+NSString * const WebSocketMgrNotificationDidReceiveMessage			= @"WebSocketMgrNotificationDidReceiveMessage";
+NSString * const WebSocketMgrNotificationDidCloseWithCode			= @"WebSocketMgrNotificationDidCloseWithCode";
+NSString * const WebSocketMgrNotificationDidReceivePong				= @"WebSocketMgrNotificationDidReceivePong";
 
-NSString * const NetworkNotificationKey_Status					= @"status";
-NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotificationReachabilityStatusChange";
+NSString * const NetworkNotificationKey_Status						= @"status";
+NSString * const NetworkNotificationReachabilityStatusChange		= @"NetworkNotificationReachabilityStatusChange";
 
-const static NSTimeInterval kAutoReconnectTimeout_First			= 5.0;
-const static NSTimeInterval kAutoReconnectTimeout_Second		= 15.0;
-const static NSTimeInterval kAutoReconnectTimeout_Loop			= 30.0;
+const static NSTimeInterval kAutoReconnectTimeout_First				= 5.0;
+const static NSTimeInterval kAutoReconnectTimeout_Second			= 15.0;
+const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 @interface WebSocketMgr() <SRWebSocketDelegate>
 
@@ -92,7 +92,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop			= 30.0;
 			 }
 		 } else {
 			 NSLog(@"Network is broken, stopAutoReconnect");
-			 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailedAutoReconnect object:self];
+			 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidAutoReconnectFailed object:self];
 			 [self stopAutoReconnect];
 		 }
 	}];
@@ -243,7 +243,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop			= 30.0;
 										   selector:@selector(pingTimerAction)
 										   userInfo:nil
 											repeats:YES];
-	//self.title = @"Connected!";
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self];
 }
 
@@ -284,7 +284,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop			= 30.0;
 		_loopAutoReconnectTimer = [NSTimer bs_scheduledTimerWithTimeInterval:kAutoReconnectTimeout_Loop block:
 									 ^{
 										 // 第三次超时操作
-										 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailedAutoReconnect object:self];
+										 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidAutoReconnectFailed object:self];
 										 // 网络是好的，但是我们的服务器连不上，这时定时器不停继续重连
 										 [self autoReconnect];
 									 } repeats:NO];

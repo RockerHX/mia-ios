@@ -61,7 +61,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailedAutoReconnect object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 
@@ -83,7 +83,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailedAutoReconnect:) name:WebSocketMgrNotificationDidFailedAutoReconnect object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
@@ -153,6 +153,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
+	[HXNoNetworkView hidden];
 	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
 			if (![self autoLogin]) {
@@ -173,7 +174,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kAlertMsgWebSocketFailed];
 }
 
-- (void)notificationWebSocketDidFailedAutoReconnect:(NSNotification *)notification {
+- (void)notificationWebSocketDidAutoReconnectFailed:(NSNotification *)notification {
 	[HXNoNetworkView showOnViewController:self show:^{
 		NSLog(@"show...");
 	} play:^{

@@ -16,7 +16,7 @@ extern NSString * const WebSocketMgrNotificationKey_Values;
 
 extern NSString * const WebSocketMgrNotificationDidOpen;
 extern NSString * const WebSocketMgrNotificationDidFailWithError;
-extern NSString * const WebSocketMgrNotificationDidFailedAutoReconnect;
+extern NSString * const WebSocketMgrNotificationDidAutoReconnectFailed;
 extern NSString * const WebSocketMgrNotificationDidReceiveMessage;
 extern NSString * const WebSocketMgrNotificationDidCloseWithCode;
 extern NSString * const WebSocketMgrNotificationDidReceivePong;
