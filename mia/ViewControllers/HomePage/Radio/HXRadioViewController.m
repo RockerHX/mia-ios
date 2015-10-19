@@ -127,8 +127,8 @@
 	ShareItem *nextItem = [_shareListMgr getRightItem];
     
 	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
-    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplaySharerHeader:)]) {
-        [_delegate shouldDisplaySharerHeader:currentItem];
+    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
+        [_delegate shouldDisplayInfectUsers:currentItem];
     }
 }
 
@@ -366,7 +366,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperDidChange:(HXRadioCarouselHelper *)helper {
     NSLog(@"change");
-    [self stopMusic];
     [self reloadLoopPlayerData];
 }
 

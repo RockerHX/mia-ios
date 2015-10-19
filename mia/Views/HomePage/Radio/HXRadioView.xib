@@ -31,7 +31,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="歌曲名 演唱者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRQ-Sl-Nih">
-                    <rect key="frame" x="27" y="258" width="238" height="22"/>
+                    <rect key="frame" x="27" y="258" width="228" height="22"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -63,8 +63,12 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzP-as-myT">
-                    <rect key="frame" x="273" y="258" width="20" height="22"/>
+                    <rect key="frame" x="263" y="250" width="30" height="30"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="wzP-as-myT" secondAttribute="height" multiplier="1:1" id="Inj-Jl-gVj"/>
+                        <constraint firstAttribute="width" constant="30" id="cli-89-JVy"/>
+                    </constraints>
                     <state key="normal" image="HP-UnStarIcon"/>
                     <state key="selected" image="HP-StarIcon"/>
                     <connections>
