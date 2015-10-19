@@ -366,7 +366,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperDidChange:(HXRadioCarouselHelper *)helper {
     NSLog(@"change");
-    [self stopMusic];
     [self reloadLoopPlayerData];
 }
 
