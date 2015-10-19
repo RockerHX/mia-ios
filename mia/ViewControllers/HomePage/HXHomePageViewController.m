@@ -307,6 +307,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
+    [self removeHeader];
+    
     _headerViewWidthConstraint.constant = infectUsers.count*50.0f + 40.0f;
     for (InfectUserItem *item in infectUsers) {
         UIImageView *infectUserHeader = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 50.0f, 50.f)];
@@ -330,6 +332,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             }
         } completion:nil];
     }];
+}
+
+- (void)removeHeader {
+    NSArray *subViews = _headerView.arrangedSubviews;
+    for (UIView *view in subViews) {
+        [_headerView removeArrangedSubview:view];
+        [view removeFromSuperview];
+    }
 }
 
 - (void)addPushUserHeader {
