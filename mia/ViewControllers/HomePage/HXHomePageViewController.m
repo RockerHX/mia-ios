@@ -49,7 +49,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     [self viewConfig];
     
     [[WebSocketMgr standard] watchNetworkStatus];
-	[self initLocationMgr];
+    [self initLocationMgr];
 }
 
 - (void)viewDidLayoutSubviews {
