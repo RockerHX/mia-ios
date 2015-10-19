@@ -20,15 +20,15 @@
 #import "WebSocketMgr.h"
 #import "MusicPlayerMgr.h"
 #import "Masonry.h"
-#import <CoreLocation/CoreLocation.h>
-#import "CLLocation+YCLocation.h"
 #import "SearchViewController.h"
 #import "SearchResultItem.h"
 #import "UserSession.h"
+#import "LocationMgr.h"
+#import "NSString+IsNull.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
-@interface ShareViewController () <UITextFieldDelegate, CLLocationManagerDelegate, SearchViewControllerDelegate>
+@interface ShareViewController () <UITextFieldDelegate, SearchViewControllerDelegate>
 
 @end
 
@@ -55,10 +55,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	MIALabel 				*_locationLabel;
 	NSTimer 				*_progressTimer;
-
-	CLLocationManager 		*_locationManager;
-	CLLocationCoordinate2D	_currentCoordinate;
-	NSString 				*_currentAddress;
 }
 
 - (id)init {
@@ -89,7 +85,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
-	[self initLocationMgr];
+	[self startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -427,25 +423,13 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 }
 
-- (void)initLocationMgr {
-	if (nil == _locationManager)
-		_locationManager = [[CLLocationManager alloc] init];
-
-	_locationManager.delegate = self;
-
-	//设置定位的精度
-	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-
-	//设置定位服务更新频率
-	_locationManager.distanceFilter = 500;
-
-	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
-
-		[_locationManager requestWhenInUseAuthorization];	// 前台定位
-		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
-	}
-
-	[_locationManager startUpdatingLocation];
+- (void)startUpdatingLocation {
+	[[LocationMgr standard] startUpdatingLocationWithOnceBlock:^(CLLocationCoordinate2D coordinate, NSString *address) {
+		if (![NSString isNull:address]) {
+			_locationLabel.text = address;
+			_bottomView.hidden = NO;
+		}
+	}];
 }
 
 - (void)checkSubmitButtonStatus {
@@ -454,11 +438,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 	} else {
 		[self.navigationItem.rightBarButtonItem setEnabled:YES];
 	}
-}
-
-- (void)updateLocationInfo {
-	_locationLabel.text = _currentAddress;
-	_bottomView.hidden = NO;
 }
 
 - (void)showMBProgressHUD{
@@ -504,31 +483,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)textFieldDidChange:(id) sender {
 	[self checkSubmitButtonStatus];
-}
-
-// 获取地理位置变化的起始点和终点,didUpdateToLocation：
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-
-	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-	CLLocation * marsLoction =   [location locationMarsFromEarth];
-	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.longitude);
-
-	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
-	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
-		if (placemarks.count > 0) {
-			CLPlacemark *placemark = [placemarks objectAtIndex:0];
-			NSLog(@"______%@", placemark.locality);
-			NSLog(@"______%@", placemark.subLocality);
-			NSLog(@"______%@", placemark.name);
-
-			_currentCoordinate = marsLoction.coordinate;
-			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
-
-			[self updateLocationInfo];
-		}
-	 }];
-
-	[manager stopUpdatingLocation];
 }
 
 - (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item {
@@ -676,9 +630,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 
 	[self showMBProgressHUD];
-	[MiaAPIHelper postShareWithLatitude:_currentCoordinate.latitude
-							  longitude:_currentCoordinate.longitude
-								address:_currentAddress
+	[MiaAPIHelper postShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
 								 songID:_dataItem.songID
 								   note:comment
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {

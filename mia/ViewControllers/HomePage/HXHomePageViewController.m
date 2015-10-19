@@ -14,8 +14,6 @@
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
 #import "ShareViewController.h"
-#import <CoreLocation/CoreLocation.h>
-#import "CLLocation+YCLocation.h"
 #import "WebSocketMgr.h"
 #import "NSString+IsNull.h"
 #import "UIButton+WebCache.h"
@@ -25,18 +23,17 @@
 #import "MBProgressHUDHelp.h"
 #import "InfectUserItem.h"
 #import "UIImageView+WebCache.h"
+#import "LocationMgr.h"
+#import "DetailViewController.h"
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, CLLocationManagerDelegate, HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, HXRadioViewControllerDelegate> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
     ShareItem *_playItem;
 
-	CLLocationManager 		*_locationManager;
-	CLLocationCoordinate2D 	_currentCoordinate;
-	NSString				*_currentAddress;
 }
 
 @end
@@ -121,20 +118,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)initLocationMgr {
-	if (nil == _locationManager) {
-		_locationManager = [[CLLocationManager alloc] init];
-	}
-	_locationManager.delegate = self;
-	//设置定位的精度
-	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-	//设置定位服务更新频率
-	_locationManager.distanceFilter = 500;
-
-	if ([[[UIDevice currentDevice] systemVersion] doubleValue] >= 8.0) {
-		[_locationManager requestWhenInUseAuthorization];	// 前台定位
-		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
-	}
-	[_locationManager startUpdatingLocation];
+	[[LocationMgr standard] initLocationMgr];
+	[[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
 }
 
 #pragma mark - Notification
@@ -479,9 +464,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)infectShare {
     // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-    [MiaAPIHelper InfectMusicWithLatitude:0//[_radioViewDelegate radioViewCurrentCoordinate].latitude
-                                longitude:0//[_radioViewDelegate radioViewCurrentCoordinate].longitude
-                                  address:@""//[_radioViewDelegate radioViewCurrentAddress]
+    [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                  address:[[LocationMgr standard] currentAddress]
                                      spID:_playItem.spID
                             completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                                 NSLog(@"InfectMusic %d", success);
@@ -619,7 +604,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)shouldPushToRadioDetailViewController {
-    
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
