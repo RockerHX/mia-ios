@@ -75,16 +75,16 @@
 }
 
 - (IBAction)playButtonPressed:(UIButton *)button {
+    button.selected = !button.selected;
     if (button.selected) {
-        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPlay:)]) {
-            [_delegate radioViewShouldPlay:self];
-        }
-    } else {
         if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPause:)]) {
             [_delegate radioViewShouldPause:self];
         }
+    } else {
+        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPlay:)]) {
+            [_delegate radioViewShouldPlay:self];
+        }
     }
-    button.selected = !button.selected;
 }
 
 - (IBAction)starButtonPressed:(UIButton *)button {
