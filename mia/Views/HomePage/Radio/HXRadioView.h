@@ -29,7 +29,6 @@
 
 @property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
 @property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
-@property (weak, nonatomic) IBOutlet            UILabel *songerNameLabel;
 @property (weak, nonatomic) IBOutlet           UIButton *starButton;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *locationLabel;
