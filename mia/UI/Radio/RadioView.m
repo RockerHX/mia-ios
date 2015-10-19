@@ -293,7 +293,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
 	[[_loopPlayerView getCurrentPlayerView] stopMusic];
-	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+//	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
 	[_shareListMgr checkHistoryItemsMaxCount];
 
 	// 用右边的卡片替代当前卡片内容
@@ -333,7 +333,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
 	[[_loopPlayerView getLeftPlayerView] pauseMusic];
-	[_loopPlayerView getLeftPlayerView].shareItem.unread = NO;
+//	[_loopPlayerView getLeftPlayerView].shareItem.unread = NO;
 	// 这一句是多余的，因为shareItem是对象，引用传值，
 	// loopPlaerView和shareListMgr的对象是同一个，改一次就可以了
 	//[shareListMgr getCurrentItem].unread = NO;
@@ -386,7 +386,7 @@ static const CGFloat kFavoriteHeight 			= 25;
 
 	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
 	[[_loopPlayerView getCurrentPlayerView] pauseMusic];
-	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
+//	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
 	[_shareListMgr checkHistoryItemsMaxCount];
 
 	// 用当前的卡片内容替代左边的卡片内容

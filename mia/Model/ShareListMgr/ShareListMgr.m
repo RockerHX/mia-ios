@@ -35,17 +35,6 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	return self;
 }
 
-- (NSUInteger)getUnreadCount {
-	NSUInteger count = 0;
-	for (ShareItem *item in _shareList) {
-		if (item.unread) {
-			count++;
-		}
-	}
-
-	return count;
-}
-
 - (ShareItem *)getCurrentItem {
 	if ([_shareList count] == 0
         || _currentItem > [_shareList count]) {
@@ -110,12 +99,11 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 
 - (BOOL)isNeedGetNearbyItems {
-	if ([self getUnreadCount] <= kNeedGetNearbyCount
-		|| ([_shareList count] - _currentItem) < kNeedGetNearbyCount) {
+	if (([_shareList count] - _currentItem) <= kNeedGetNearbyCount){
 		return YES;
-	} else {
-		return NO;
 	}
+
+	return NO;
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
@@ -158,19 +146,14 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 - (void)checkHistoryItemsMaxCount {
-	NSUInteger count = 0;
-	for (ShareItem *item in _shareList) {
-		if (!item.unread) {
-			count++;
-		}
-	}
-
-	NSInteger overCount = count - kHistoryItemsMaxCount;
+	NSInteger overCount = _currentItem - kHistoryItemsMaxCount;
 	if (overCount > 0) {
 		for (NSInteger i = 0; i < overCount; i++) {
 			[_shareList removeObjectAtIndex:0];
 			_currentItem--;
 		}
+		
+		[self saveChanges];
 	}
 }
 

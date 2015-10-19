@@ -31,8 +31,6 @@
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
-
-		self.unread = YES;
     }
 	
     return self;
@@ -68,7 +66,6 @@
 	[aCoder encodeInt:self.cComm forKey:@"cComm"];
 	[aCoder encodeInt:self.newCommCnt forKey:@"newCommCnt"];
 	[aCoder encodeInt:self.infectTotal forKey:@"infectTotal"];
-	[aCoder encodeBool:self.unread forKey:@"unread"];
 	[aCoder encodeBool:self.favorite forKey:@"favorite"];
 	[aCoder encodeBool:self.isInfected forKey:@"isInfected"];
 }
@@ -90,7 +87,6 @@
 		self.cComm = [aDecoder decodeIntForKey:@"cComm"];
 		self.newCommCnt = [aDecoder decodeIntForKey:@"newCommCnt"];
 		self.infectTotal = [aDecoder decodeIntForKey:@"infectTotal"];
-		self.unread = [aDecoder decodeBoolForKey:@"unread"];
 		self.favorite = [aDecoder decodeBoolForKey:@"favorite"];
 		self.isInfected = [aDecoder decodeBoolForKey:@"isInfected"];
 	}

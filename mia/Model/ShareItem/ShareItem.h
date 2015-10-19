@@ -26,7 +26,6 @@
 @property (strong, nonatomic) MusicItem *music;
 @property (strong, nonatomic) NSArray *infectUsers;
 
-@property (assign, nonatomic) BOOL unread;
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
 
