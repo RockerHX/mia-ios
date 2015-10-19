@@ -28,10 +28,9 @@ NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotifi
 NSString * const NetworkNotificationKey_Status					= @"status";
 NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotificationReachabilityStatusChange";
 
-const long kMaxAutoReconnectRetryTimes							= 3;
-const static NSTimeInterval kAutoReconnectTimeout_First			= 3.0;
+const static NSTimeInterval kAutoReconnectTimeout_First			= 5.0;
 const static NSTimeInterval kAutoReconnectTimeout_Second		= 15.0;
-const static NSTimeInterval kAutoReconnectTimeout_Third			= 30.0;
+const static NSTimeInterval kAutoReconnectTimeout_Loop			= 30.0;
 
 @interface WebSocketMgr() <SRWebSocketDelegate>
 
@@ -45,7 +44,10 @@ const static NSTimeInterval kAutoReconnectTimeout_Third			= 30.0;
 	NSMutableDictionary			*_requestData;
 	dispatch_queue_t 			_requestDataSyncQueue;
 
-	long						_retryTimes;
+	unsigned long				_retryTimes;
+	NSTimer 					*_firstAutoReconnectTimer;
+	NSTimer 					*_secondAutoReconnectTimer;
+	NSTimer 					*_loopAutoReconnectTimer;	// 网络是好的，但是我们的服务器连不上，这时需要一个定时器一起检查
 }
 
 /**
@@ -78,11 +80,21 @@ const static NSTimeInterval kAutoReconnectTimeout_Third			= 30.0;
 	 ^(AFNetworkReachabilityStatus status) {
 		NSLog(@"Network status change: %ld", status);
 		_networkStatus = status;
-
 		 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 								   [NSNumber numberWithInteger:status], NetworkNotificationKey_Status,
 								   nil];
 		 [[NSNotificationCenter defaultCenter] postNotificationName:NetworkNotificationReachabilityStatusChange object:self userInfo:userInfo];
+
+		 // 判断是否需要断线重连，第一次启动也直接走断线重连流程
+		 if ([self isNetworkEnable]) {
+			 if ([self isClosed]) {
+				 [self autoReconnect];
+			 }
+		 } else {
+			 NSLog(@"Network is broken, stopAutoReconnect");
+			 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailedAutoReconnect object:self];
+			 [self stopAutoReconnect];
+		 }
 	}];
 }
 
@@ -200,27 +212,28 @@ const static NSTimeInterval kAutoReconnectTimeout_Third			= 30.0;
 	});
 }
 
-- (BOOL)autoReconnect {
-	if (_retryTimes > 0) {
-		NSLog(@"Last auto reconnect is still running.");
-		return NO;
-	}
+- (BOOL)isAutoReconnecting {
+	return (_retryTimes > 0);
+}
+- (void)autoReconnect {
+	NSLog(@"auto reconnect, retry times: %ld", _retryTimes);
+	_retryTimes++;
+	[self reconnect];
+}
 
-	// TODO kAutoReconnectTimeout_First
-	[NSTimer bs_scheduledTimerWithTimeInterval:kAutoReconnectTimeout_First block:
-	 ^{
-		 dispatch_sync(dispatch_get_main_queue(), ^{
-			 // 第一次超时操作
-			 _retryTimes++;
-		 });
-	 } repeats:NO];
+- (void)stopAutoReconnect {
+	_retryTimes = 0;
 
-	return YES;
+	[_firstAutoReconnectTimer invalidate];
+	[_secondAutoReconnectTimer invalidate];
+	[_loopAutoReconnectTimer invalidate];
 }
 
 #pragma mark - SRWebSocketDelegate
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
+	[self stopAutoReconnect];
+
 	// 心跳的定时发送时间间隔
 	static const NSTimeInterval kWebSocketPingTimeInterval = 30;
 
@@ -241,8 +254,41 @@ const static NSTimeInterval kAutoReconnectTimeout_Third			= 30.0;
 	[_timer invalidate];
 	_webSocket = nil;
 
+	if (![self isNetworkEnable]) {
+		NSLog(@"Network is broken, ignore auto reconnect operations");
+		return;
+	}
+
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:WebSocketMgrNotificationKey_Msg];
 	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailWithError object:self userInfo:userInfo];
+
+	if (_retryTimes == 0) {
+		// 第一次连接失败，出发断线重连逻辑
+		[self autoReconnect];
+	} else if (_retryTimes == 1) {
+		[_firstAutoReconnectTimer invalidate];
+		_firstAutoReconnectTimer = [NSTimer bs_scheduledTimerWithTimeInterval:kAutoReconnectTimeout_First block:
+									^{
+										// 第一次超时操作
+										[self autoReconnect];
+									} repeats:NO];
+	} else if (_retryTimes == 2) {
+		[_secondAutoReconnectTimer invalidate];
+		_secondAutoReconnectTimer = [NSTimer bs_scheduledTimerWithTimeInterval:kAutoReconnectTimeout_Second block:
+									^{
+										// 第二次超时操作
+										[self autoReconnect];
+									} repeats:NO];
+	} else {
+		[_loopAutoReconnectTimer invalidate];
+		_loopAutoReconnectTimer = [NSTimer bs_scheduledTimerWithTimeInterval:kAutoReconnectTimeout_Loop block:
+									 ^{
+										 // 第三次超时操作
+										 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailedAutoReconnect object:self];
+										 // 网络是好的，但是我们的服务器连不上，这时定时器不停继续重连
+										 [self autoReconnect];
+									 } repeats:NO];
+	}
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {

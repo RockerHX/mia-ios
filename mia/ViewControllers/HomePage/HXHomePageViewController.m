@@ -22,9 +22,8 @@
 #import "MiaAPIHelper.h"
 #import "UserDefaultsUtils.h"
 #import "HXNoNetworkView.h"
+#import "MBProgressHUDHelp.h"
 
-static NSString * kAlertTitleError				= @"错误提示";
-static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
 @interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, CLLocationManagerDelegate, HXRadioViewControllerDelegate> {
@@ -62,6 +61,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailedAutoReconnect object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 
@@ -83,6 +83,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailedAutoReconnect:) name:WebSocketMgrNotificationDidFailedAutoReconnect object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
@@ -146,18 +147,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
-	if (![[WebSocketMgr standard] isNetworkEnable]) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-															message:kAlertMsgNoNetwork
-														   delegate:self
-												  cancelButtonTitle:@"确定"
-												  otherButtonTitles:nil];
-		[alertView show];
-	} else {
-		if ([[WebSocketMgr standard] isClosed]) {
-			[[WebSocketMgr standard] reconnect];
-		}
-	}
+	// TODO auto reconnect
+	static NSString * kAlertMsgNoNetwork = @"无网络，尝试连接我们的服务器";
+	[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kAlertMsgNoNetwork];
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
@@ -176,14 +168,17 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
-	// TODO linyehui
-	// 长连接初始化失败的时候需要有提示
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-														message:kAlertMsgWebSocketFailed
-													   delegate:self
-											  cancelButtonTitle:@"确定"
-											  otherButtonTitles:nil];
-	[alertView show];
+	// TODO auto reconnect
+	static NSString * kAlertMsgWebSocketFailed = @"服务器连接错误（WebSocket失败），断线重连中...";
+	[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kAlertMsgWebSocketFailed];
+}
+
+- (void)notificationWebSocketDidFailedAutoReconnect:(NSNotification *)notification {
+	[HXNoNetworkView showOnViewController:self show:^{
+		NSLog(@"show...");
+	} play:^{
+		NSLog(@"play...");
+	}];
 }
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
