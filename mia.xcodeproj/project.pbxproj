@@ -163,6 +163,8 @@
 		CDC5FE931BD102AB001D154E /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE911BD102AB001D154E /* HXWaveView.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE961BD1EAC5001D154E /* HXRadioView.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */; settings = {ASSET_TAGS = (); }; };
+		CDC8949C1BD4CC040080E7FF /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC8949B1BD4CC040080E7FF /* HXNoNetworkView.m */; settings = {ASSET_TAGS = (); }; };
+		CDC8949E1BD4CC0F0080E7FF /* HXNoNetworkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC8949D1BD4CC0F0080E7FF /* HXNoNetworkView.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -453,6 +455,9 @@
 		CDC5FE951BD1EAC5001D154E /* HXRadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioView.h; sourceTree = "<group>"; };
 		CDC5FE961BD1EAC5001D154E /* HXRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioView.m; sourceTree = "<group>"; };
 		CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXRadioView.xib; sourceTree = "<group>"; };
+		CDC8949A1BD4CC040080E7FF /* HXNoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNoNetworkView.h; sourceTree = "<group>"; };
+		CDC8949B1BD4CC040080E7FF /* HXNoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNoNetworkView.m; sourceTree = "<group>"; };
+		CDC8949D1BD4CC0F0080E7FF /* HXNoNetworkView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNoNetworkView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1374,6 +1379,7 @@
 		CDC5FE831BD0FD40001D154E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CDC894991BD4CB720080E7FF /* Common */,
 				CDC5FE851BD0FF7F001D154E /* HomePage */,
 			);
 			path = Views;
@@ -1418,6 +1424,16 @@
 				CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */,
 			);
 			path = Radio;
+			sourceTree = "<group>";
+		};
+		CDC894991BD4CB720080E7FF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CDC8949A1BD4CC040080E7FF /* HXNoNetworkView.h */,
+				CDC8949B1BD4CC040080E7FF /* HXNoNetworkView.m */,
+				CDC8949D1BD4CC0F0080E7FF /* HXNoNetworkView.xib */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		D6C14994FCE56A99A6316EBF /* Pods */ = {
@@ -1519,6 +1535,7 @@
 			files = (
 				390BADC51BAECA73006269FD /* edit_logo@2x.png in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
+				CDC8949E1BD4CC0F0080E7FF /* HXNoNetworkView.xib in Resources */,
 				CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */,
 				393CE9AD1BB958B000FCF232 /* uncheckbox@2x.png in Resources */,
 				39BF8C611BB148DC003AB4FC /* favorite_white@2x.png in Resources */,
@@ -1624,6 +1641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDC8949C1BD4CC040080E7FF /* HXNoNetworkView.m in Sources */,
 				397E42961BA81836006BE9E7 /* MusicItem.m in Sources */,
 				3908F37E1BBB811F00BACFD3 /* AFNHttpClient.m in Sources */,
 				397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */,

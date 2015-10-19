@@ -80,12 +80,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
-                                <rect key="frame" x="20" y="92" width="30" height="30"/>
+                                <rect key="frame" x="20" y="92" width="32" height="32"/>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="97C-zd-yXF" secondAttribute="height" multiplier="1:1" id="FO6-vV-J8w"/>
-                                    <constraint firstAttribute="width" constant="30" id="bZ3-Uc-3rO"/>
-                                </constraints>
                                 <state key="normal" image="HP-ProfileIcon"/>
                                 <connections>
                                     <action selector="profileButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="zRS-VX-wCN"/>
