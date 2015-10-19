@@ -245,21 +245,23 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 #pragma mark -private method
 
 - (void)notifiNotAllowToPlayWith3G {
-	static NSString *kAlertTitleError = @"网络流量保护";
-	static NSString *kAlertMsgNotAllowToPlayWith3G = @"为保护您的流量，需要在设置中打开开关才能在2G/3G/4G网络下播放。";
-
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-														message:kAlertMsgNotAllowToPlayWith3G
-													   delegate:nil
-											  cancelButtonTitle:@"确定"
-											  otherButtonTitles:nil];
-	[alertView show];
-
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
 														 forKey:MusicPlayerMgrNotificationKey_ModelID];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
 														object:nil
 													  userInfo:userInfo];
+
+	if ([[WebSocketMgr standard] isNetworkEnable]) {
+		static NSString *kAlertTitleError = @"网络流量保护";
+		static NSString *kAlertMsgNotAllowToPlayWith3G = @"为保护您的流量，需要在设置中打开开关才能在2G/3G/4G网络下播放。";
+
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+															message:kAlertMsgNotAllowToPlayWith3G
+														   delegate:nil
+												  cancelButtonTitle:@"确定"
+												  otherButtonTitles:nil];
+		[alertView show];
+	}
 }
 
 #pragma mark - Notification
