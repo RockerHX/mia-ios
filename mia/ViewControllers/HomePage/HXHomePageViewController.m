@@ -58,7 +58,6 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 
 - (void)dealloc {
     // 通知关闭
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
@@ -80,7 +79,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 #pragma mark - Config Methods
 - (void)initConfig {
     // 通知注册
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
@@ -144,12 +142,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 		}
 	}
-}
-
-- (void)notificationReachabilityStatusChange:(NSNotification *)notification {
-	// TODO auto reconnect
-	static NSString * kAlertMsgNoNetwork = @"无网络，尝试连接我们的服务器";
-	[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kAlertMsgNoNetwork];
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
