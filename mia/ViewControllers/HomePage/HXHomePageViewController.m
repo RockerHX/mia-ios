@@ -24,6 +24,7 @@
 #import "InfectUserItem.h"
 #import "UIImageView+WebCache.h"
 #import "LocationMgr.h"
+#import "DetailViewController.h"
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
@@ -602,7 +603,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)shouldPushToRadioDetailViewController {
-    
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
