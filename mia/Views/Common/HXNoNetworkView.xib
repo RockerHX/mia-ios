@@ -79,7 +79,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJL-jA-2zM">
-                    <rect key="frame" x="268" y="48" width="32" height="32"/>
+                    <rect key="frame" x="273" y="28" width="32" height="32"/>
                     <animations/>
                     <state key="normal" image="HP-ShareIcon"/>
                 </button>
@@ -89,7 +89,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ax0-pt-vS2">
-                    <rect key="frame" x="20" y="48" width="32" height="32"/>
+                    <rect key="frame" x="15" y="28" width="32" height="32"/>
                     <animations/>
                     <state key="normal" image="HP-ProfileIcon"/>
                     <connections>
@@ -101,16 +101,16 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="xbL-dS-dF6" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.3" id="44w-Ky-k4n"/>
-                <constraint firstItem="Ax0-pt-vS2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="48" id="5J8-ws-tba"/>
+                <constraint firstItem="Ax0-pt-vS2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="28" id="5J8-ws-tba"/>
                 <constraint firstAttribute="bottom" secondItem="xbL-dS-dF6" secondAttribute="bottom" id="5cu-sd-Pg1"/>
-                <constraint firstAttribute="trailing" secondItem="XJL-jA-2zM" secondAttribute="trailing" constant="20" id="6Gh-cH-QKn"/>
+                <constraint firstAttribute="trailing" secondItem="XJL-jA-2zM" secondAttribute="trailing" constant="15" id="6Gh-cH-QKn"/>
                 <constraint firstAttribute="trailing" secondItem="xbL-dS-dF6" secondAttribute="trailing" id="8uw-pX-D7G"/>
                 <constraint firstItem="xbL-dS-dF6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EC8-bk-APc"/>
                 <constraint firstItem="xbL-dS-dF6" firstAttribute="top" secondItem="0Ds-7c-eTb" secondAttribute="bottom" id="N4j-le-ilQ"/>
                 <constraint firstItem="0Ds-7c-eTb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Nip-Cs-5bB"/>
                 <constraint firstAttribute="trailing" secondItem="0Ds-7c-eTb" secondAttribute="trailing" id="dZW-PX-Amg"/>
-                <constraint firstItem="Ax0-pt-vS2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="dgY-dc-RQF"/>
-                <constraint firstItem="XJL-jA-2zM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="48" id="yjb-CN-Ow1"/>
+                <constraint firstItem="Ax0-pt-vS2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="dgY-dc-RQF"/>
+                <constraint firstItem="XJL-jA-2zM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="28" id="yjb-CN-Ow1"/>
             </constraints>
             <connections>
                 <outlet property="playButton" destination="tQo-iW-Kn0" id="mz5-WA-bYN"/>

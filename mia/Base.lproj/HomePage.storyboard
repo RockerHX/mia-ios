@@ -16,16 +16,16 @@
                         <viewControllerLayoutGuide type="bottom" id="wcV-VL-v9l"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mYa-hk-Nog">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="454"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F49-bH-9BK">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="454"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8o-h5-qi0" customClass="iCarousel">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="304"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="334"/>
                                 <animations/>
                                 <gestureRecognizers/>
                             </view>
@@ -80,23 +80,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
-                                <rect key="frame" x="20" y="92" width="32" height="32"/>
+                                <rect key="frame" x="15" y="72" width="32" height="32"/>
                                 <animations/>
                                 <state key="normal" image="HP-ProfileIcon"/>
                                 <connections>
                                     <action selector="profileButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="zRS-VX-wCN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
-                                <rect key="frame" x="268" y="92" width="32" height="32"/>
-                                <animations/>
-                                <state key="normal" image="HP-ShareIcon"/>
-                                <connections>
-                                    <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
-                                </connections>
-                            </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6LO-Lb-msR">
-                                <rect key="frame" x="0.0" y="144" width="320" height="424"/>
+                                <rect key="frame" x="0.0" y="114" width="320" height="454"/>
                                 <animations/>
                                 <connections>
                                     <segue destination="ln9-6M-WL7" kind="embed" identifier="HomePageContainerIdentifier" id="pnm-F6-F8h"/>
@@ -214,6 +206,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
+                                <rect key="frame" x="273" y="72" width="32" height="32"/>
+                                <animations/>
+                                <state key="normal" image="HP-ShareIcon"/>
+                                <connections>
+                                    <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -221,9 +221,8 @@
                         <constraints>
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="width" secondItem="lBD-s7-8t9" secondAttribute="width" multiplier="0.9" id="0nF-HQ-RKv"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="bottom" constant="-180" id="6tg-tS-iw1"/>
-                            <constraint firstAttribute="trailing" secondItem="QnW-Sx-Tnv" secondAttribute="trailing" constant="20" id="7h9-ei-d5Z"/>
+                            <constraint firstAttribute="trailing" secondItem="QnW-Sx-Tnv" secondAttribute="trailing" constant="15" id="7h9-ei-d5Z"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="Pfr-PW-ZI3" secondAttribute="bottom" id="AF9-ef-BNn"/>
-                            <constraint firstItem="QnW-Sx-Tnv" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="28" id="CQV-7V-pyu"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="centerX" secondItem="W4h-Kd-Mqg" secondAttribute="centerX" id="ECc-v4-LOi"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="W4h-Kd-Mqg" secondAttribute="bottom" id="Fx8-tN-lWx"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="top" secondItem="Pfr-PW-ZI3" secondAttribute="bottom" id="GLk-kQ-s5e"/>
@@ -232,13 +231,14 @@
                             <constraint firstItem="W4h-Kd-Mqg" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Oh3-3m-go7"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Rcp-NR-a1u"/>
                             <constraint firstAttribute="bottom" secondItem="6LO-Lb-msR" secondAttribute="bottom" id="clv-Jc-zsc"/>
-                            <constraint firstItem="97C-zd-yXF" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" constant="20" id="eMs-u1-fsy"/>
+                            <constraint firstItem="97C-zd-yXF" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" constant="15" id="eMs-u1-fsy"/>
                             <constraint firstAttribute="trailing" secondItem="W4h-Kd-Mqg" secondAttribute="trailing" id="eoU-oB-4Sw"/>
                             <constraint firstItem="Pfr-PW-ZI3" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="kSh-nn-XFH"/>
+                            <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="QnW-Sx-Tnv" secondAttribute="bottom" constant="10" id="lTS-6a-UQ7"/>
+                            <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="97C-zd-yXF" secondAttribute="bottom" constant="10" id="lkp-oy-YyI"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="centerX" secondItem="Pfr-PW-ZI3" secondAttribute="centerX" id="nR5-ws-6N3"/>
                             <constraint firstAttribute="trailing" secondItem="6LO-Lb-msR" secondAttribute="trailing" id="pvq-K7-uG1"/>
-                            <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="80" id="uP2-Ce-bLl"/>
-                            <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="28" id="xbK-pW-xWT"/>
+                            <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="50" id="uP2-Ce-bLl"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="jzJ-RZ-SS8" appends="YES" id="nGc-bh-9JC"/>
