@@ -309,8 +309,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)showInfectUsers:(NSArray *)infectUsers {
     _headerViewWidthConstraint.constant = infectUsers.count*50.0f + 40.0f;
     for (InfectUserItem *item in infectUsers) {
-        UIImageView *infectUserHeader = [[UIImageView alloc] init];
-        infectUserHeader.contentMode = UIViewContentModeCenter;
+        UIImageView *infectUserHeader = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 50.0f, 50.f)];
+        infectUserHeader.clipsToBounds = YES;
+        infectUserHeader.contentMode = UIViewContentModeScaleAspectFill;
+        infectUserHeader.layer.cornerRadius = 25.0f;
         infectUserHeader.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
         [infectUserHeader sd_setImageWithURL:[NSURL URLWithString:item.avatar]];
         [_headerView addArrangedSubview:infectUserHeader];
@@ -385,7 +387,6 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)startPushMusicRequsetWithComment:(NSString *)comment {
     comment = comment ?: @"";
-    
     // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
     if ([[UserSession standard] isLogined]) {
         [MiaAPIHelper postCommentWithShareID:_playItem.sID
