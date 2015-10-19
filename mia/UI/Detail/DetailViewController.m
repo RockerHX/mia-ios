@@ -24,10 +24,9 @@
 #import "CommentItem.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
-#import <CoreLocation/CoreLocation.h>
-#import "CLLocation+YCLocation.h"
 #import "ProfileViewController.h"
 #import "Masonry.h"
+#import "LocationMgr.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -45,7 +44,6 @@ UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 UIActionSheetDelegate,
 UITextFieldDelegate,
-CLLocationManagerDelegate,
 DetailHeaderViewDelegate,
 CommentCellDelegate>
 
@@ -62,17 +60,12 @@ CommentCellDelegate>
 	UIView 					*_footerView;
 	MBProgressHUD 			*_progressHUD;
 	NSTimer 				*_reportViewsTimer;
-
-	CLLocationManager 		*_locationManager;
-	CLLocationCoordinate2D 	_currentCoordinate;
-	NSString				*_currentAddress;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
 	self = [super init];
 	if (self) {
 		_shareItem = item;
-		[self initLocationMgr];
 
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -283,28 +276,6 @@ CommentCellDelegate>
 	[self requestComments];
 }
 
-- (void)initLocationMgr {
-	if (nil == _locationManager) {
-		_locationManager = [[CLLocationManager alloc] init];
-	}
-
-	_locationManager.delegate = self;
-
-	//设置定位的精度
-	_locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-
-	//设置定位服务更新频率
-	_locationManager.distanceFilter = 500;
-
-	if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=8.0) {
-
-		[_locationManager requestWhenInUseAuthorization];	// 前台定位
-		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
-	}
-
-	[_locationManager startUpdatingLocation];
-}
-
 - (void)requestComments {
 	static const long kCommentPageItemCount	= 10;
 	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
@@ -434,29 +405,6 @@ CommentCellDelegate>
 
 - (void) textFieldDidChange:(id) sender {
 	[self checkCommentButtonStatus];
-}
-
-// 获取地理位置变化的起始点和终点,didUpdateToLocation：
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-
-	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-	CLLocation * marsLoction =   [location locationMarsFromEarth];
-	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.longitude);
-
-	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
-	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
-		if (placemarks.count > 0) {
-			CLPlacemark *placemark = [placemarks objectAtIndex:0];
-			NSLog(@"______%@", placemark.locality);
-			NSLog(@"______%@", placemark.subLocality);
-			NSLog(@"______%@", placemark.name);
-
-			_currentCoordinate = marsLoction.coordinate;
-			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
-		}
-	}];
-
-	[manager stopUpdatingLocation];
 }
 
 - (void)detailHeaderViewClickedFavoritor {
@@ -703,9 +651,9 @@ CommentCellDelegate>
 }
 
 - (void)reportViewsTimerAction {
-	[MiaAPIHelper viewShareWithLatitude:_currentCoordinate.latitude
-							  longitude:_currentCoordinate.longitude
-								address:_currentAddress
+	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
 								   spID:_shareItem.spID
 						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 							  if (success) {

@@ -119,6 +119,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 - (void)initLocationMgr {
 	[[LocationMgr standard] initLocationMgr];
+	[[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
 }
 
 #pragma mark - Notification
@@ -463,9 +464,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)infectShare {
     // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-    [MiaAPIHelper InfectMusicWithLatitude:0//[_radioViewDelegate radioViewCurrentCoordinate].latitude
-                                longitude:0//[_radioViewDelegate radioViewCurrentCoordinate].longitude
-                                  address:@""//[_radioViewDelegate radioViewCurrentAddress]
+    [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                  address:[[LocationMgr standard] currentAddress]
                                      spID:_playItem.spID
                             completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                                 NSLog(@"InfectMusic %d", success);

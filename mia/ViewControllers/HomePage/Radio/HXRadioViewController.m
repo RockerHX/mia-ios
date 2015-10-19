@@ -11,6 +11,7 @@
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
 #import "MusicPlayerMgr.h"
+#import "LocationMgr.h"
 
 @interface HXRadioViewController () <HXRadioCarouselHelperDelegate> {
     NSMutableArray *_items;
@@ -162,8 +163,8 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)requestNewShares {
 	const long kRequestItemCount = 10;
     __weak __typeof__(self)weakSelf = self;
-	[MiaAPIHelper getNearbyWithLatitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
-							  longitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
+	[MiaAPIHelper getNearbyWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
 								  start:1
 								   item:kRequestItemCount
 						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -205,9 +206,9 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)reportViewsTimerAction {
-	[MiaAPIHelper viewShareWithLatitude:0 // TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
-							  longitude:0 // TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
-								address:nil // TODO [_radioViewDelegate radioViewCurrentAddress]
+	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
 								   spID:[[self currentShareItem] spID]
 						  completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -229,9 +230,9 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)spreadFeed {
 	NSLog(@"#swipe# up spred");
 	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-	[MiaAPIHelper InfectMusicWithLatitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].latitude
-								longitude:0// TODO [_radioViewDelegate radioViewCurrentCoordinate].longitude
-								  address:nil// TODO [_radioViewDelegate radioViewCurrentAddress]
+	[MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+								longitude:[[LocationMgr standard] currentCoordinate].longitude
+								  address:[[LocationMgr standard] currentAddress]
 									 spID:[[self currentShareItem] spID]
 							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 								NSLog(@"InfectMusic %d", success);

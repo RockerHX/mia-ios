@@ -8,6 +8,8 @@
 
 #import <CoreLocation/CoreLocation.h>
 
+typedef void(^LocationDidUpdateBlock)(CLLocationCoordinate2D coordinate, NSString *address);
+
 @interface LocationMgr : NSObject
 
 /**
@@ -21,6 +23,6 @@
 @property (copy, nonatomic) NSString					*currentAddress;
 
 - (void)initLocationMgr;
-- (void)startUpdatingLocation;
+- (void)startUpdatingLocationWithOnceBlock:(LocationDidUpdateBlock) block;
 
 @end

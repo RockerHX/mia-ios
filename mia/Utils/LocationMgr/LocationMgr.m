@@ -16,6 +16,7 @@
 
 @implementation LocationMgr {
 	CLLocationManager 		*_locationManager;
+	LocationDidUpdateBlock	_didUpdateBlock;
 }
 
 /**
@@ -62,11 +63,10 @@
 		[_locationManager requestWhenInUseAuthorization];	// 前台定位
 		//[mylocationManager requestAlwaysAuthorization];	// 前后台同时定位
 	}
-
-	[_locationManager startUpdatingLocation];
 }
 
-- (void)startUpdatingLocation {
+- (void)startUpdatingLocationWithOnceBlock:(LocationDidUpdateBlock) block {
+	_didUpdateBlock = [block copy];
 	[_locationManager startUpdatingLocation];
 }
 
@@ -95,6 +95,10 @@
 	}];
 
 	[manager stopUpdatingLocation];
+	if (_didUpdateBlock) {
+		_didUpdateBlock(_currentCoordinate, _currentAddress);
+		_didUpdateBlock = nil;
+	}
 }
 
 @end
