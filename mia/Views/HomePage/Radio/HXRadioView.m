@@ -72,20 +72,20 @@
 
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
-	_currentItem = item;
-
-    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:item.music.purl]];
-    _songNameLabel.text = item.music.name;
-    _songerNameLabel.text = item.music.singerName;
+    _currentItem = item;
+    MusicItem *music = item.music;
+    
+    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
+    _songNameLabel.text = [NSString stringWithFormat:@"%@ %@", music.name, music.singerName];
     _starButton.selected = item.favorite;
     _shrareContentLabel.text = [NSString stringWithFormat:@"%@:%@", item.sNick, item.sNote];
     _locationLabel.text = [item sAddress];
     
     [self displayShareContentLabelWithSharerName:item.sNick];
-
-	if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:item:)]) {
-		[_delegate radioViewDidLoad:self item:_currentItem];
-	}
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:item:)]) {
+        [_delegate radioViewDidLoad:self item:_currentItem];
+    }
 }
 
 #pragma mark - Private Methods

@@ -30,13 +30,29 @@
 }
 
 - (ShareItem *)currentItem {
-	return _items[_carousel.currentItemIndex];
+    NSInteger currentIndex = _carousel.currentItemIndex;
+    return ((currentIndex >=0) && (currentIndex <= 2)) ? _items[currentIndex] : [ShareItem new];
+}
+
+- (NSInteger)previousItemIndex {
+    if (_carousel.currentItemIndex == 0) {
+        return 2;
+    } else {
+        return _carousel.currentItemIndex - 1;
+    }
+}
+
+- (NSInteger)nextItemIndex {
+    if (_carousel.currentItemIndex == 2) {
+        return 0;
+    } else {
+        return _carousel.currentItemIndex + 1;
+    }
 }
 
 #pragma mark - Setter And Getter
 - (void)setWarp:(BOOL)warp {
     _warp = warp;
-//    [_carousel reloadData];
 }
 
 - (void)setItems:(NSArray *)items {
@@ -59,23 +75,6 @@
     [_carousel reloadData];
 }
 
-#pragma mark - Public Methods
-- (NSInteger)previousItemIndex {
-    if (_carousel.currentItemIndex == 0) {
-        return 2;
-    } else {
-        return _carousel.currentItemIndex - 1;
-    }
-}
-
-- (NSInteger)nextItemIndex {
-    if (_carousel.currentItemIndex == 2) {
-        return 0;
-    } else {
-        return _carousel.currentItemIndex + 1;
-    }
-}
-
 #pragma mark - iCarousel Data Source Methods
 - (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
     //return the total number of items in the carousel
@@ -95,11 +94,6 @@
         radioView = (HXRadioView *)[view viewWithTag:1];
     }
     
-    //set item label
-    //remember to always set any properties of your carousel item
-    //views outside of the `if (view == nil) {...}` check otherwise
-    //you'll get weird issues with carousel item content appearing
-    //in the wrong place in the carousel
     if (_items.count) {
         [radioView displayWithItem:_items[index]];
     }
@@ -161,7 +155,7 @@
 }
 
 #pragma mark - HXRadioViewDelegate Methods
-- (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item{
+- (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item {
 	if ([_items[_carousel.currentItemIndex] isEqual:item]) {
 		if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
 			[_delegate helperShouldPlay:self];

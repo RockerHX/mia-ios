@@ -163,6 +163,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)updateStatusWithItems:(NSArray *)items {
+    NSLog(@"updateStatusWithItems");
     _helper.items = items;
 }
 
