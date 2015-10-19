@@ -331,16 +331,19 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
 	NSLog(@"WebSocket closed");
-	//self.title = @"Connection Closed! (see logs)";
 	[_timer invalidate];
 	_webSocket = nil;
+
 
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithInteger:code], @"code",
 							  reason, @"reason",
 							  [NSNumber numberWithInteger:wasClean], @"wasClean",
 							  nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidOpen object:self userInfo:userInfo];
+	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidCloseWithCode object:self userInfo:userInfo];
+
+	// 服务器主动断开连接，启动断线重连逻辑
+	[self autoReconnect];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload {
