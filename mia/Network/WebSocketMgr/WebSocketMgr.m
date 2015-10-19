@@ -259,11 +259,11 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 		return;
 	}
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:WebSocketMgrNotificationKey_Msg];
-	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailWithError object:self userInfo:userInfo];
-
 	if (_retryTimes == 0) {
 		// 第一次连接失败，出发断线重连逻辑
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:WebSocketMgrNotificationKey_Msg];
+		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidFailWithError object:self userInfo:userInfo];
+
 		[self autoReconnect];
 	} else if (_retryTimes == 1) {
 		[_firstAutoReconnectTimer invalidate];
