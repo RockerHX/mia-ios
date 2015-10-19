@@ -78,9 +78,13 @@
                         <constraint firstItem="tQo-iW-Kn0" firstAttribute="top" secondItem="P2a-mJ-R74" secondAttribute="bottom" constant="15" id="wFr-HK-qMM"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJL-jA-2zM">
+                <button opaque="NO" contentMode="scaleAspectFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJL-jA-2zM">
                     <rect key="frame" x="273" y="28" width="32" height="32"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="XJL-jA-2zM" secondAttribute="height" multiplier="1:1" id="ad0-Fy-TZH"/>
+                        <constraint firstAttribute="width" constant="32" id="b1E-R1-AMk"/>
+                    </constraints>
                     <state key="normal" image="HP-ShareIcon"/>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xbL-dS-dF6">
@@ -88,9 +92,13 @@
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ax0-pt-vS2">
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ax0-pt-vS2">
                     <rect key="frame" x="15" y="28" width="32" height="32"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Ax0-pt-vS2" secondAttribute="height" multiplier="1:1" id="67f-i3-Cht"/>
+                        <constraint firstAttribute="width" constant="32" id="Rdn-CE-M6E"/>
+                    </constraints>
                     <state key="normal" image="HP-ProfileIcon"/>
                     <connections>
                         <action selector="userHeaderButtonPressed" destination="iN0-l3-epB" eventType="touchUpInside" id="OlU-YV-ClP"/>

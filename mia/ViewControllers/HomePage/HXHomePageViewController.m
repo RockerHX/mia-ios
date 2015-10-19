@@ -30,6 +30,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
+    ShareItem *_playItem;
 
 	CLLocationManager 		*_locationManager;
 	CLLocationCoordinate2D 	_currentCoordinate;
@@ -92,7 +93,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%zd", index]]];
     }
     _fishView.animationImages = fishIcons;
-    _fishView.animationDuration = 3.0f;         // 设置小鱼动画为20帧左右
+    _fishView.animationDuration = 3.0f;         //profileButton 设置小鱼动画为20帧左右
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
@@ -100,6 +101,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 - (void)viewConfig {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    _profileButton.layer.borderWidth = 0.5f;
+    _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
+    _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
+    
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
@@ -136,10 +142,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
 		if ([NSString isNull:newAvatarUrl]) {
 			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
-		} else {
-			[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
-												forState:UIControlStateNormal
-										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+        } else {
+            [_profileButton sd_setImageWithURL:[NSURL URLWithString:newAvatarUrl]
+                                      forState:UIControlStateNormal
+                              placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 		}
 	}
 }
@@ -284,6 +290,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 #pragma mark - Private Methods
 - (void)startAnimation {
     if (!_animating) {
+        [self infectShare];
         [self startWaveAnimation];
         [self startPopFishAnimation];
     }
@@ -353,14 +360,35 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)startPushMusicRequsetWithComment:(NSString *)comment {
     comment = comment ?: @"";
     
-    [self startFinishedAnimation];
+    // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
+    if ([[UserSession standard] isLogined]) {
+        [MiaAPIHelper postCommentWithShareID:_playItem.sID
+                                     comment:comment
+                               completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                                   if (success) {
+                                       // TODO
+                                       NSLog(@"Comment Success");
+                                   }
+                               } timeoutBlock:^(MiaRequestItem *requestItem) {
+                                   NSLog(@"Comment Timeout");
+                               }];
+        [self startFinishedAnimation];
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        vc.loginViewControllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
-	if (unreadCommentCount <= 0) {
-		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+    if (unreadCommentCount <= 0) {
+        NSString *avatarUrl = [[UserSession standard] avatar];
+        NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+        [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+                                  forState:UIControlStateNormal
+                          placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 	} else {
-		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile_with_notification"] forState:UIControlStateNormal];
+        _profileButton.backgroundColor = UIColorFromHex(@"0BDEBC", 1.0f);
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
@@ -385,10 +413,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 												 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 													 if (success) {
 														 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-														 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-														 [_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-																							 forState:UIControlStateNormal
-																					 placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                                                         NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+                                                         [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+                                                                                   forState:UIControlStateNormal
+                                                                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 													 } else {
 														 NSLog(@"getUserInfoWithUID failed");
 													 }
@@ -409,6 +437,19 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)autoReconnect {
 	// TODO auto reconnect
 	[[WebSocketMgr standard] reconnect];
+}
+
+- (void)infectShare {
+    // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+    [MiaAPIHelper InfectMusicWithLatitude:0//[_radioViewDelegate radioViewCurrentCoordinate].latitude
+                                longitude:0//[_radioViewDelegate radioViewCurrentCoordinate].longitude
+                                  address:@""//[_radioViewDelegate radioViewCurrentAddress]
+                                     spID:_playItem.spID
+                            completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                                NSLog(@"InfectMusic %d", success);
+                            } timeoutBlock:^(MiaRequestItem *requestItem) {
+                                NSLog(@"InfectMusic timeout");
+                            }];
 }
 
 #pragma mark - Animation
@@ -532,6 +573,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	LoginViewController *vc = [[LoginViewController alloc] init];
 	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)shouldDisplaySharerHeader:(ShareItem *)item {
+    _playItem = item;
+//    item.infectUsers;
 }
 
 @end
