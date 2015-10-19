@@ -14,8 +14,12 @@
                                 show:(void(^)(void))showBlock
                                 play:(void(^)(void))playBlock;
 
++ (void)hidden;
+
 - (void)showOnViewController:(UIViewController *)viewController
                         show:(void(^)(void))showBlock
                         play:(void(^)(void))playBlock;
+
+- (void)hidden;
 
 @end

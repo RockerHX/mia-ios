@@ -7,6 +7,8 @@
 //
 
 #import "HXNoNetworkView.h"
+#import "AAPullToRefresh.h"
+#import "AppDelegate.h"
 
 typedef void(^BLOCK)(void);
 
@@ -20,13 +22,6 @@ typedef void(^BLOCK)(void);
 @end
 
 @implementation HXNoNetworkView
-
-#pragma mark - Class Methods
-+ (instancetype)showOnViewController:(UIViewController *)viewController show:(void(^)(void))showBlock play:(void(^)(void))playBlock {
-    HXNoNetworkView *view = [[[NSBundle mainBundle] loadNibNamed:@"HXNoNetworkView" owner:self options:nil] firstObject];
-    [view showOnViewController:viewController show:showBlock play:playBlock];
-    return view;
-}
 
 #pragma mark - Init Methods
 - (void)awakeFromNib {
@@ -42,26 +37,50 @@ typedef void(^BLOCK)(void);
 
 #pragma mark - Event Response
 - (IBAction)userHeaderButtonPressed {
-    [self removeFromSuperview];
+    [self hidden];
     if (_showBlock) {
         _showBlock();
     }
 }
 
 - (IBAction)playButtonPressed {
-    [self removeFromSuperview];
+    [self hidden];
     if (_playBlock) {
         _playBlock();
     }
 }
 
 #pragma mark - Public Methods
++ (instancetype)showOnViewController:(UIViewController *)viewController show:(void(^)(void))showBlock play:(void(^)(void))playBlock {
+    HXNoNetworkView *view = [[[NSBundle mainBundle] loadNibNamed:@"HXNoNetworkView" owner:self options:nil] firstObject];
+    [view showOnViewController:viewController show:showBlock play:playBlock];
+    return view;
+}
+
++ (void)hidden {
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    UIWindow *mainWindow = delegate.window;
+    NSArray *subviews = mainWindow.subviews;
+    for (UIView *view in subviews) {
+        if ([view isKindOfClass:[HXNoNetworkView class]]) {
+            [view removeFromSuperview];
+            break;
+        }
+    }
+}
+
 - (void)showOnViewController:(UIViewController *)viewController show:(void(^)(void))showBlock play:(void(^)(void))playBlock {
     _showBlock = showBlock;
     _playBlock = playBlock;
-    self.frame = viewController.navigationController.view.frame;
-    [viewController.view addSubview:self];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    UIWindow *mainWindow = delegate.window;
+    self.frame = mainWindow.frame;
+    [mainWindow addSubview:self];
     [viewController.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (void)hidden {
+//    [self removeFromSuperview];
 }
 
 @end

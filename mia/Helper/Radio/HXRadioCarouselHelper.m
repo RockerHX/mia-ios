@@ -186,16 +186,28 @@
 	}
 }
 
-- (void)starTapedNeedLogin {
+- (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView {
 	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
 		[_delegate helperStarTapedNeedLogin:self];
 	}
 }
 
-- (void)sharerNameTaped {
+- (void)radioViewSharerNameTaped:(HXRadioView *)radioView {
 	if (_delegate && [_delegate respondsToSelector:@selector(helperSharerNameTaped:)]) {
 		[_delegate helperSharerNameTaped:self];
 	}
+}
+
+- (void)radioViewShouldPlay:(HXRadioView *)radioView {
+    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
+        [_delegate helperShouldPlay:self];
+    }
+}
+
+- (void)radioViewShouldPause:(HXRadioView *)radioView {
+    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPause:)]) {
+        [_delegate helperShouldPause:self];
+    }
 }
 
 @end

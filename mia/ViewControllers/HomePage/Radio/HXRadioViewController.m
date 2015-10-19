@@ -85,8 +85,6 @@
 		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
 		return;
 	}
-
-//	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
@@ -95,8 +93,6 @@
 		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
 		return;
 	}
-
-//	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
@@ -131,9 +127,6 @@
 	ShareItem *nextItem = [_shareListMgr getRightItem];
     
 	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
-
-	//[_loopPlayerView getLeftPlayerView].shareItem = leftItem;
-	//[_loopPlayerView getRightPlayerView].shareItem = rightItem;
 }
 
 - (void)checkIsNeedToGetNewItems {
@@ -149,9 +142,6 @@
 
 static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)playCurrentItems:(NSArray *)items {
-//	[[_loopPlayerView getCurrentPlayerView] playMusic];
-//	[_radioViewDelegate radioViewStartPlayItem];
-
 	[_reportViewsTimer invalidate];
     _reportViewsTimer = [self setUpReportTimer];
 
@@ -163,7 +153,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)updateStatusWithItems:(NSArray *)items {
-    NSLog(@"updateStatusWithItems");
     _helper.items = items;
 }
 
@@ -338,17 +327,14 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		return;
 	}
 
-	//[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 }
 
 - (void)pauseMusic {
-	//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[[MusicPlayerMgr standard] pause];
 }
 
 - (void)stopMusic {
-	//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[[MusicPlayerMgr standard] stop];
 }
 
@@ -377,15 +363,16 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperDidChange:(HXRadioCarouselHelper *)helper {
     NSLog(@"change");
+    [self stopMusic];
     [self reloadLoopPlayerData];
-}
-
-- (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-    NSLog(@"Taped");
 }
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:[helper currentItem]];
+}
+
+- (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
+    [self pauseMusic];
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {
