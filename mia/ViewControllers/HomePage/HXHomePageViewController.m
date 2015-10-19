@@ -21,6 +21,7 @@
 #import "UIButton+WebCache.h"
 #import "MiaAPIHelper.h"
 #import "UserDefaultsUtils.h"
+#import "HXNoNetworkView.h"
 
 static NSString * kAlertTitleError				= @"错误提示";
 static NSString * kAlertMsgWebSocketFailed		= @"服务器连接错误（WebSocket失败），点击确认重新连接服务器";
