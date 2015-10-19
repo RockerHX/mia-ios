@@ -76,10 +76,10 @@
     MusicItem *music = item.music;
     
     [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
-    _songNameLabel.text = [NSString stringWithFormat:@"%@ %@", music.name, music.singerName];
+    _songNameLabel.text = [NSString stringWithFormat:@"%@ %@", (music.name ?: @""), (music.singerName ?: @"")];
     _starButton.selected = item.favorite;
-    _shrareContentLabel.text = [NSString stringWithFormat:@"%@:%@", item.sNick, item.sNote];
-    _locationLabel.text = [item sAddress];
+    _shrareContentLabel.text = [NSString stringWithFormat:@"%@:%@", (item.sNick ?: @""), (item.sNote ?: @"")];
+    _locationLabel.text = [item sAddress] ?: @"";
     
     [self displayShareContentLabelWithSharerName:item.sNick];
     

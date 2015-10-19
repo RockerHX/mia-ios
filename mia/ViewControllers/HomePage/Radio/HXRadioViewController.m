@@ -131,9 +131,6 @@
 	ShareItem *nextItem = [_shareListMgr getRightItem];
     
 	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
-
-	//[_loopPlayerView getLeftPlayerView].shareItem = leftItem;
-	//[_loopPlayerView getRightPlayerView].shareItem = rightItem;
 }
 
 - (void)checkIsNeedToGetNewItems {
@@ -149,9 +146,6 @@
 
 static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)playCurrentItems:(NSArray *)items {
-//	[[_loopPlayerView getCurrentPlayerView] playMusic];
-//	[_radioViewDelegate radioViewStartPlayItem];
-
 	[_reportViewsTimer invalidate];
     _reportViewsTimer = [self setUpReportTimer];
 
@@ -163,7 +157,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)updateStatusWithItems:(NSArray *)items {
-    NSLog(@"updateStatusWithItems");
     _helper.items = items;
 }
 
