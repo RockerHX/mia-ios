@@ -20,12 +20,18 @@ NSString * const WebSocketMgrNotificationKey_Values				= @"values";
 
 NSString * const WebSocketMgrNotificationDidOpen			 	= @"WebSocketMgrNotificationDidOpen";
 NSString * const WebSocketMgrNotificationDidFailWithError		= @"WebSocketMgrNotificationDidFailWithError";
+NSString * const WebSocketMgrNotificationDidFailedAutoReconnect	= @"WebSocketMgrNotificationDidFailedAutoReconnect";
 NSString * const WebSocketMgrNotificationDidReceiveMessage		= @"WebSocketMgrNotificationDidReceiveMessage";
 NSString * const WebSocketMgrNotificationDidCloseWithCode		= @"WebSocketMgrNotificationDidCloseWithCode";
 NSString * const WebSocketMgrNotificationDidReceivePong			= @"WebSocketMgrNotificationDidReceivePong";
 
 NSString * const NetworkNotificationKey_Status					= @"status";
 NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotificationReachabilityStatusChange";
+
+const long kMaxAutoReconnectRetryTimes							= 3;
+const static NSTimeInterval kAutoReconnectTimeout_First			= 3.0;
+const static NSTimeInterval kAutoReconnectTimeout_Second		= 15.0;
+const static NSTimeInterval kAutoReconnectTimeout_Third			= 30.0;
 
 @interface WebSocketMgr() <SRWebSocketDelegate>
 
@@ -38,6 +44,8 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 
 	NSMutableDictionary			*_requestData;
 	dispatch_queue_t 			_requestDataSyncQueue;
+
+	long						_retryTimes;
 }
 
 /**
@@ -190,6 +198,24 @@ NSString * const NetworkNotificationReachabilityStatusChange	= @"NetworkNotifica
 		});
 
 	});
+}
+
+- (BOOL)autoReconnect {
+	if (_retryTimes > 0) {
+		NSLog(@"Last auto reconnect is still running.");
+		return NO;
+	}
+
+	// TODO kAutoReconnectTimeout_First
+	[NSTimer bs_scheduledTimerWithTimeInterval:kAutoReconnectTimeout_First block:
+	 ^{
+		 dispatch_sync(dispatch_get_main_queue(), ^{
+			 // 第一次超时操作
+			 _retryTimes++;
+		 });
+	 } repeats:NO];
+
+	return YES;
 }
 
 #pragma mark - SRWebSocketDelegate
