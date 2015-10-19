@@ -12,10 +12,8 @@
 
 @property (strong, nonatomic) NSMutableArray *shareList;
 @property (assign, nonatomic) NSInteger currentItem;
-//@property (strong, nonatomic) ShareItem *currentShareItem;
 
 + (id)initFromArchive;
-- (NSUInteger)getUnreadCount;
 
 - (BOOL)isNeedGetNearbyItems;
 - (ShareItem *)getCurrentItem;
@@ -26,6 +24,8 @@
 - (BOOL)cursorShiftLeft;
 // 游标向右移动
 - (BOOL)cursorShiftRight;
+
+// 右边向右，同时把歌曲从列表中移除（电台的垃圾箱操作）
 - (BOOL)cursorShiftRightWithRemoveCurrent;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
