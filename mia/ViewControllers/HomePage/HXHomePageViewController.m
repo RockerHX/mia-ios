@@ -30,6 +30,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
+    ShareItem *_playItem;
 
 	CLLocationManager 		*_locationManager;
 	CLLocationCoordinate2D 	_currentCoordinate;
@@ -289,6 +290,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 #pragma mark - Private Methods
 - (void)startAnimation {
     if (!_animating) {
+        [self infectShare];
         [self startWaveAnimation];
         [self startPopFishAnimation];
     }
@@ -358,7 +360,24 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)startPushMusicRequsetWithComment:(NSString *)comment {
     comment = comment ?: @"";
     
-    [self startFinishedAnimation];
+    // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
+    if ([[UserSession standard] isLogined]) {
+        [MiaAPIHelper postCommentWithShareID:_playItem.sID
+                                     comment:comment
+                               completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                                   if (success) {
+                                       // TODO
+                                       NSLog(@"Comment Success");
+                                   }
+                               } timeoutBlock:^(MiaRequestItem *requestItem) {
+                                   NSLog(@"Comment Timeout");
+                               }];
+        [self startFinishedAnimation];
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        vc.loginViewControllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
@@ -418,6 +437,19 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)autoReconnect {
 	// TODO auto reconnect
 	[[WebSocketMgr standard] reconnect];
+}
+
+- (void)infectShare {
+    // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+    [MiaAPIHelper InfectMusicWithLatitude:0//[_radioViewDelegate radioViewCurrentCoordinate].latitude
+                                longitude:0//[_radioViewDelegate radioViewCurrentCoordinate].longitude
+                                  address:@""//[_radioViewDelegate radioViewCurrentAddress]
+                                     spID:_playItem.spID
+                            completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                                NSLog(@"InfectMusic %d", success);
+                            } timeoutBlock:^(MiaRequestItem *requestItem) {
+                                NSLog(@"InfectMusic timeout");
+                            }];
 }
 
 #pragma mark - Animation
@@ -541,6 +573,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	LoginViewController *vc = [[LoginViewController alloc] init];
 	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)shouldDisplaySharerHeader:(ShareItem *)item {
+    _playItem = item;
+//    item.infectUsers;
 }
 
 @end

@@ -15,6 +15,7 @@
 @optional
 - (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item;
 - (void)userStarNeedLogin;
+- (void)shouldDisplaySharerHeader:(ShareItem *)item;
 
 @end
 
