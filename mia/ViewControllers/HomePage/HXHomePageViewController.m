@@ -92,7 +92,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%zd", index]]];
     }
     _fishView.animationImages = fishIcons;
-    _fishView.animationDuration = 3.0f;         // 设置小鱼动画为20帧左右
+    _fishView.animationDuration = 3.0f;         //profileButton 设置小鱼动画为20帧左右
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
@@ -100,6 +100,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 - (void)viewConfig {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    _profileButton.layer.borderWidth = 0.5f;
+    _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
+    _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
+    
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
@@ -136,10 +141,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
 		if ([NSString isNull:newAvatarUrl]) {
 			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
-		} else {
-			[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:newAvatarUrl]
-												forState:UIControlStateNormal
-										placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+        } else {
+            [_profileButton sd_setImageWithURL:[NSURL URLWithString:newAvatarUrl]
+                                      forState:UIControlStateNormal
+                              placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 		}
 	}
 }
@@ -357,10 +362,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
-	if (unreadCommentCount <= 0) {
-		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+    if (unreadCommentCount <= 0) {
+        NSString *avatarUrl = [[UserSession standard] avatar];
+        NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+        [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+                                  forState:UIControlStateNormal
+                          placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 	} else {
-		[_profileButton setBackgroundImage:[UIImage imageNamed:@"profile_with_notification"] forState:UIControlStateNormal];
+        _profileButton.backgroundColor = UIColorFromHex(@"0BDEBC", 1.0f);
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
@@ -385,10 +394,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 												 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 													 if (success) {
 														 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-														 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-														 [_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-																							 forState:UIControlStateNormal
-																					 placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                                                         NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+                                                         [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+                                                                                   forState:UIControlStateNormal
+                                                                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 													 } else {
 														 NSLog(@"getUserInfoWithUID failed");
 													 }

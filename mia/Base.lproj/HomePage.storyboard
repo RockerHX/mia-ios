@@ -79,9 +79,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
                                 <rect key="frame" x="15" y="72" width="32" height="32"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="HwM-rn-UP3"/>
+                                    <constraint firstAttribute="width" secondItem="97C-zd-yXF" secondAttribute="height" multiplier="1:1" id="JWT-kJ-duk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" image="HP-ProfileIcon"/>
                                 <connections>
                                     <action selector="profileButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="zRS-VX-wCN"/>
@@ -206,9 +211,13 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
                                 <rect key="frame" x="273" y="72" width="32" height="32"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="6Mx-sE-kxZ"/>
+                                    <constraint firstAttribute="width" secondItem="QnW-Sx-Tnv" secondAttribute="height" multiplier="1:1" id="OQw-1u-u6N"/>
+                                </constraints>
                                 <state key="normal" image="HP-ShareIcon"/>
                                 <connections>
                                     <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
