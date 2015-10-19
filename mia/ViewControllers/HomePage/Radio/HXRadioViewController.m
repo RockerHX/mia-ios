@@ -331,17 +331,14 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		return;
 	}
 
-	//[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 }
 
 - (void)pauseMusic {
-	//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[[MusicPlayerMgr standard] pause];
 }
 
 - (void)stopMusic {
-	//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	[[MusicPlayerMgr standard] stop];
 }
 
@@ -370,15 +367,16 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperDidChange:(HXRadioCarouselHelper *)helper {
     NSLog(@"change");
+    [self stopMusic];
     [self reloadLoopPlayerData];
-}
-
-- (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-    NSLog(@"Taped");
 }
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:[helper currentItem]];
+}
+
+- (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
+    [self pauseMusic];
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {

@@ -44,6 +44,23 @@
 }
 
 #pragma mark - Event Response
+- (IBAction)tapGesture {
+    [self playButtonPressed:_playButton];
+}
+
+- (IBAction)playButtonPressed:(UIButton *)button {
+    if (button.selected) {
+        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPlay:)]) {
+            [_delegate radioViewShouldPlay:self];
+        }
+    } else {
+        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPause:)]) {
+            [_delegate radioViewShouldPause:self];
+        }
+    }
+    button.selected = !button.selected;
+}
+
 - (IBAction)starButtonPressed:(UIButton *)button {
 	if ([[UserSession standard] isLogined]) {
 		[MiaAPIHelper favoriteMusicWithShareID:_currentItem.sID
@@ -64,8 +81,8 @@
 			 NSLog(@"favorite music timeout");
 		 }];
 	} else {
-		if (_delegate && [_delegate respondsToSelector:@selector(starTapedNeedLogin)]) {
-			[_delegate starTapedNeedLogin];
+		if (_delegate && [_delegate respondsToSelector:@selector(radioViewStarTapedNeedLogin:)]) {
+			[_delegate radioViewStarTapedNeedLogin:self];
 		}
 	}
 }
@@ -73,6 +90,7 @@
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     _currentItem = item;
+    _playButton.selected = NO;
     MusicItem *music = item.music;
     
     [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
@@ -96,8 +114,8 @@
 
 #pragma mark - TTTAttributedLabelDelegate Methods
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    if (_delegate && [_delegate respondsToSelector:@selector(sharerNameTaped)]) {
-        [_delegate sharerNameTaped];
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSharerNameTaped:)]) {
+        [_delegate radioViewSharerNameTaped:self];
     }
 }
 

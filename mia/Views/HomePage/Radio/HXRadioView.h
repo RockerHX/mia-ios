@@ -15,8 +15,10 @@
 
 @optional
 - (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item;
-- (void)starTapedNeedLogin;
-- (void)sharerNameTaped;
+- (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
+- (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
+- (void)radioViewShouldPlay:(HXRadioView *)radioView;
+- (void)radioViewShouldPause:(HXRadioView *)radioView;
 
 @end
 
@@ -28,11 +30,14 @@
 @property (weak, nonatomic) IBOutlet          id  <HXRadioViewDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
+@property (weak, nonatomic) IBOutlet           UIButton *playButton;
 @property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet           UIButton *starButton;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *locationLabel;
 
+- (IBAction)tapGesture;
+- (IBAction)playButtonPressed:(UIButton *)button;
 - (IBAction)starButtonPressed:(UIButton *)button;
 
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate;

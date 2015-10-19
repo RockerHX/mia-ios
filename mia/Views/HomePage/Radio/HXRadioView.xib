@@ -12,12 +12,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="Adt-yX-Kcn">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="Adt-yX-Kcn">
                     <rect key="frame" x="15" y="0.0" width="290" height="290"/>
                     <animations/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Adt-yX-Kcn" secondAttribute="height" multiplier="1:1" id="QpK-Bh-3pn"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="4sq-YO-SqG" appends="YES" id="mjY-EV-qwO"/>
+                    </connections>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="I5f-fe-wyk">
                     <rect key="frame" x="15" y="162" width="290" height="128"/>
@@ -67,12 +71,22 @@
                         <action selector="starButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="cgy-dx-Mke"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
+                    <rect key="frame" x="138" y="122" width="45" height="45"/>
+                    <animations/>
+                    <state key="normal" image="P-PauseIcon"/>
+                    <state key="selected" image="P-PlayIcon"/>
+                    <connections>
+                        <action selector="playButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="y9a-UB-QF4"/>
+                    </connections>
+                </button>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" constant="15" id="1xn-AD-Vcl"/>
                 <constraint firstItem="dkl-aD-tRT" firstAttribute="leading" secondItem="G7H-iu-GBN" secondAttribute="trailing" constant="8" id="9E2-tH-8uI"/>
+                <constraint firstItem="EuO-ig-wsS" firstAttribute="centerX" secondItem="Adt-yX-Kcn" secondAttribute="centerX" id="9RI-Mq-GaU"/>
                 <constraint firstItem="I5f-fe-wyk" firstAttribute="bottom" secondItem="Adt-yX-Kcn" secondAttribute="bottom" id="BR9-HB-nqK"/>
                 <constraint firstItem="G7H-iu-GBN" firstAttribute="centerY" secondItem="dkl-aD-tRT" secondAttribute="centerY" id="OMS-Xf-qYo"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="leading" secondItem="lRQ-Sl-Nih" secondAttribute="leading" id="SnG-ha-3hk"/>
@@ -84,6 +98,7 @@
                 <constraint firstItem="wzP-as-myT" firstAttribute="leading" secondItem="lRQ-Sl-Nih" secondAttribute="trailing" constant="8" id="eSj-Jk-Z71"/>
                 <constraint firstItem="I5f-fe-wyk" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="gAU-Hu-saf"/>
                 <constraint firstItem="dkl-aD-tRT" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="gCJ-v4-JYc"/>
+                <constraint firstItem="EuO-ig-wsS" firstAttribute="centerY" secondItem="Adt-yX-Kcn" secondAttribute="centerY" id="hIe-Py-Nqj"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="top" secondItem="Adt-yX-Kcn" secondAttribute="bottom" id="hiM-qn-igw"/>
                 <constraint firstItem="wzP-as-myT" firstAttribute="bottom" secondItem="lRQ-Sl-Nih" secondAttribute="bottom" id="j91-e4-kug"/>
                 <constraint firstItem="lRQ-Sl-Nih" firstAttribute="bottom" secondItem="Adt-yX-Kcn" secondAttribute="bottom" constant="-10" id="jKA-kD-cJa"/>
@@ -93,12 +108,18 @@
             <connections>
                 <outlet property="frontCoverView" destination="Adt-yX-Kcn" id="p3x-e1-iFU"/>
                 <outlet property="locationLabel" destination="dkl-aD-tRT" id="HFB-8M-8wU"/>
+                <outlet property="playButton" destination="EuO-ig-wsS" id="pra-Sy-2Dp"/>
                 <outlet property="shrareContentLabel" destination="fmy-Es-e4Z" id="4yO-YB-NY4"/>
                 <outlet property="songNameLabel" destination="lRQ-Sl-Nih" id="pBA-Ug-1wi"/>
                 <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
             </connections>
             <point key="canvasLocation" x="535" y="383"/>
         </view>
+        <tapGestureRecognizer id="4sq-YO-SqG">
+            <connections>
+                <action selector="tapGesture" destination="iN0-l3-epB" id="z6i-EC-Dtv"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="HP-CoverMask" width="375" height="130"/>
@@ -106,5 +127,7 @@
         <image name="HP-LocationIcon" width="12" height="17"/>
         <image name="HP-StarIcon" width="20" height="20"/>
         <image name="HP-UnStarIcon" width="20" height="20"/>
+        <image name="P-PauseIcon" width="45" height="45"/>
+        <image name="P-PlayIcon" width="45" height="45"/>
     </resources>
 </document>
