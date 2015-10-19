@@ -180,6 +180,7 @@
 #pragma mark - HXRadioViewDelegate Methods
 - (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item {
 	if ([_items[_carousel.currentItemIndex] isEqual:item]) {
+        NSLog(@"----------%s----------", __func__);
 		if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
 			[_delegate helperShouldPlay:self];
 		}
@@ -190,6 +191,12 @@
 	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
 		[_delegate helperStarTapedNeedLogin:self];
 	}
+}
+
+- (void)radioViewSongerTaped:(HXRadioView *)radioView {
+    if (_delegate && [_delegate respondsToSelector:@selector(helperSongerTaped:)]) {
+        [_delegate helperSongerTaped:self];
+    }
 }
 
 - (void)radioViewSharerNameTaped:(HXRadioView *)radioView {

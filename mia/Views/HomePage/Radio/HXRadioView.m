@@ -70,8 +70,14 @@
 }
 
 #pragma mark - Event Response
-- (IBAction)tapGesture {
+- (IBAction)coverTaped {
     [self playButtonPressed:_playButton];
+}
+
+- (IBAction)commentTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSongerTaped:)]) {
+        [_delegate radioViewSongerTaped:self];
+    }
 }
 
 - (IBAction)playButtonPressed:(UIButton *)button {
