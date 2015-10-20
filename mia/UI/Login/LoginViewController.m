@@ -383,18 +383,25 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 			 [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
-			 [_loginViewControllerDelegate loginViewControllerDidSuccess];
+			 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+			 [[UserSession standard] setAvatar:avatarUrlWithTime];
+
+			 [self saveAuthInfo];
+			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
+
+			 if (_loginViewControllerDelegate) {
+				 [_loginViewControllerDelegate loginViewControllerDidSuccess];
+			 }
+			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
-			 if (success) {
-				 [self saveAuthInfo];
-				 [self.navigationController popViewControllerAnimated:YES];
-			 }
-		 }];
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
+
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [_passwordErrorLabel setText:[NSString stringWithFormat:@"请求超时，请稍后重试"]];
 		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];

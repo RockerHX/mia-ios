@@ -114,6 +114,17 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
 	[[FavoriteMgr standard] syncFavoriteList];
+	if (_playFavoriteOnceTime) {
+		_playFavoriteOnceTime = NO;
+
+		if (!_playingFavorite) {
+			[self playMusic:_favoriteModel.currentPlaying];
+		}
+
+		[_favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
+																   frame:self.view.bounds]];
+		[self.navigationController pushViewController:_favoriteViewController animated:YES];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -509,6 +520,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[[MusicPlayerMgr standard] stop];
 	}
 
+	if (_customDelegate) {
+		[_customDelegate profileViewControllerWillDismiss];
+	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -9,6 +9,7 @@
 
 #import "UserSession.h"
 #import "UserDefaultsUtils.h"
+#import "NSString+IsNull.h"
 
 @interface UserSession()
 
@@ -45,6 +46,22 @@
 		return NO;
 	if (!_nick || _nick.length == 0)
 		return NO;
+
+	return YES;
+}
+
+- (BOOL)isCachedLogin {
+	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
+	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
+	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+		return NO;
+	}
+
+	NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
+	NSString *nickName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Nick];
+	if ([NSString isNull:uid] || [NSString isNull:nickName]) {
+		return NO;
+	}
 
 	return YES;
 }
