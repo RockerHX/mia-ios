@@ -80,7 +80,7 @@ typedef void(^BLOCK)(void);
 }
 
 - (void)hidden {
-//    [self removeFromSuperview];
+    [self removeFromSuperview];
 }
 
 @end

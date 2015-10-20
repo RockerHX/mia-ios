@@ -582,7 +582,7 @@ CommentCellDelegate>
 
 		//NSLog(@"%@, %ld, %@, %@", sID, start, cComm, cView);
 	} else {
-		NSLog(@"handleGetSharemWitRet failed.");
+		NSLog(@"handleGetSharemWitRet failed @DetailViewController.");
 	}
 }
 

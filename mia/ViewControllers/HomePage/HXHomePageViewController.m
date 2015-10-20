@@ -29,7 +29,7 @@
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, ProfileViewControllerDelegate, HXRadioViewControllerDelegate> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
@@ -161,11 +161,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)notificationWebSocketDidAutoReconnectFailed:(NSNotification *)notification {
-	[HXNoNetworkView showOnViewController:self show:^{
-		NSLog(@"show...");
-	} play:^{
-		NSLog(@"play...");
-	}];
+	[self showNoNetworkView];
 }
 
 - (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
@@ -199,7 +195,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
                                                                      nickName:[[UserSession standard] nick]
                                                                   isMyProfile:YES];
         [self.navigationController pushViewController:vc animated:YES];
-    } else {
+	} else {
         LoginViewController *vc = [[LoginViewController alloc] init];
         vc.loginViewControllerDelegate = self;
         [self.navigationController pushViewController:vc animated:YES];
@@ -406,23 +402,18 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
-							  [MiaAPIHelper getUserInfoWithUID:userInfo[MiaAPIKey_Values][@"uid"]
-												 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-													 if (success) {
-														 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-                                                         NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-                                                         [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-                                                                                   forState:UIControlStateNormal
-                                                                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-													 } else {
-														 NSLog(@"getUserInfoWithUID failed");
-													 }
-												 } timeoutBlock:^(MiaRequestItem *requestItem) {
-													 NSLog(@"getUserInfoWithUID timeout");
-												 }];
-						  } else {
-							  NSLog(@"audo login failed!error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+							  NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+							  NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+							  [[UserSession standard] setAvatar:avatarUrlWithTime];
+
+							  [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+														forState:UIControlStateNormal
+												placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+
+							  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+							  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
 						  }
+
                           [_radioViewController loadShareList];
 					  } timeoutBlock:^(MiaRequestItem *requestItem) {
                           NSLog(@"audo login timeout!");
@@ -447,6 +438,31 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
                             } timeoutBlock:^(MiaRequestItem *requestItem) {
                                 NSLog(@"InfectMusic timeout");
                             }];
+}
+
+- (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
+	if ([[UserSession standard] isCachedLogin]) {
+		NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
+		NSString *nickName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Nick];
+		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:uid
+																	 nickName:nickName
+																  isMyProfile:YES];
+		vc.customDelegate = self;
+		vc.playFavoriteOnceTime = playFavorite;
+		[self.navigationController pushViewController:vc animated:playFavorite ? NO : YES];
+	} else {
+		LoginViewController *vc = [[LoginViewController alloc] init];
+		vc.loginViewControllerDelegate = self;
+		[self.navigationController pushViewController:vc animated:YES];
+	}
+}
+
+- (void)showNoNetworkView {
+	[HXNoNetworkView showOnViewController:self show:^{
+		[self showOfflineProfileWithPlayFavorite:NO];
+	} play:^{
+		[self showOfflineProfileWithPlayFavorite:YES];
+	}];
 }
 
 #pragma mark - Animation
@@ -556,6 +572,13 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
         [self updateProfileButtonWithUnreadCount:unreadCommentCount];
     }
+}
+
+#pragma mark - ProfileViewControllerDelegate Methods
+- (void)profileViewControllerWillDismiss {
+	if (![[WebSocketMgr standard] isOpen]) {
+		[self showNoNetworkView];
+	}
 }
 
 #pragma mark - HXRadioViewControllerDelegate Methods

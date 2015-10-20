@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ProfileViewControllerDelegate
+
+- (void)profileViewControllerWillDismiss;
+
+@end
+
 
 @interface ProfileViewController : UIViewController
 
 - (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile;
+
+@property (weak, nonatomic)id<ProfileViewControllerDelegate> customDelegate;
+@property (assign, nonatomic) BOOL playFavoriteOnceTime;
 
 @end
 

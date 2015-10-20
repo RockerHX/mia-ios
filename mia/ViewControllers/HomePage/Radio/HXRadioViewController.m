@@ -141,11 +141,6 @@
 	}
 }
 
-- (ShareItem *)currentShareItem {
-	return nil; // TODO
-//	return [[_loopPlayerView getCurrentPlayerView] shareItem];
-}
-
 static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)playCurrentItems:(NSArray *)items {
 	[_reportViewsTimer invalidate];
@@ -193,6 +188,9 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
 		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
 
+		#pragma message "@andy update infect users"
+		// 需要刷新下界面
+
 		// TODO
 		//ShareItem *currentItem = [_loopPlayerView getCurrentPlayerView].shareItem;
 		ShareItem *currentItem = nil;
@@ -211,15 +209,15 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 							  longitude:[[LocationMgr standard] currentCoordinate].longitude
 								address:[[LocationMgr standard] currentAddress]
-								   spID:[[self currentShareItem] spID]
+								   spID:[_helper.currentItem spID]
 						  completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [MiaAPIHelper getShareById:[[self currentShareItem] sID]
+			 [MiaAPIHelper getShareById:[_helper.currentItem sID]
 						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 							  [self handleGetSharemWitRet:success userInfo:userInfo];
 						  } timeoutBlock:^(MiaRequestItem *requestItem) {
-							  NSLog(@"handleGetSharemWitRet failed.");
+							  NSLog(@"getShareById timeout.");
 						  }];
 		 } else {
 			 NSLog(@"view share failed");
@@ -235,7 +233,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	[MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 								longitude:[[LocationMgr standard] currentCoordinate].longitude
 								  address:[[LocationMgr standard] currentAddress]
-									 spID:[[self currentShareItem] spID]
+									 spID:[_helper.currentItem spID]
 							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 								NSLog(@"InfectMusic %d", success);
 							} timeoutBlock:^(MiaRequestItem *requestItem) {
@@ -322,9 +320,20 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	}
 }
 
-#warning @"卡片数据加载完成和从后台唤醒操作方法"
 - (void)viewShouldDisplay {
-    
+	[MiaAPIHelper getShareById:[_helper.currentItem sID]
+				 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+					 [self handleGetSharemWitRet:success userInfo:userInfo];
+				 } timeoutBlock:^(MiaRequestItem *requestItem) {
+					 NSLog(@"getShareById timeout @viewShouldDisplay");
+				 }];
+
+#pragma message "@andy update play button status"
+//	if ([[MusicPlayerMgr standard] isPlayingWithUrl:item.music.murl]) {
+//		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+//	} else {
+//		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+//	}
 }
 
 #pragma mark - Audio Operations
@@ -378,7 +387,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
-	[self playMusic:[helper currentItem]];
+	[self playMusic:_helper.currentItem];
     [self viewShouldDisplay];
 }
 
