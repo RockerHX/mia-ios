@@ -24,11 +24,18 @@
 
 #pragma mark - Class Methods
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate {
-    HXRadioView *radioView = [[[NSBundle mainBundle] loadNibNamed:@"HXRadioView" owner:self options:nil] firstObject];
-    radioView.frame = frame;
-    radioView.delegate = delegate;
-    
-    return radioView;
+    HXRadioView *radioView = nil;
+    @try {
+        radioView = [[[NSBundle mainBundle] loadNibNamed:@"HXRadioView" owner:self options:nil] firstObject];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"HXRadioView Load From Nib Error:%@", exception.reason);
+    }
+    @finally {
+        radioView.frame = frame;
+        radioView.delegate = delegate;
+        return radioView;
+    }
 }
 
 #pragma Init Methods
