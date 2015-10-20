@@ -330,7 +330,9 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
-    [[NSNotificationCenter defaultCenter] postNotificationName:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
+	// TODO 这个时机播放器还没开始播放歌曲
+#pragma message "@andy :("
+    //[[NSNotificationCenter defaultCenter] postNotificationName:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 }
 
 #pragma mark - Audio Operations

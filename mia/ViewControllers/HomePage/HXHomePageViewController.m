@@ -311,7 +311,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)addPushUserHeader {
     [self updatePromptLabel];
     // 秒推用户头像添加以及动画
-    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[self userHeader]]];
+    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -325,12 +325,6 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             strongSelf.pushPromptLabel.alpha = 1.0f;
         } completion:nil];
     }];
-}
-
-- (NSString *)userHeader {
-    NSString *avatarUrl = [[UserSession standard] avatar];
-    NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-    return avatarUrlWithTime;
 }
 
 - (void)updatePromptLabel {
@@ -383,7 +377,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
     if (unreadCommentCount <= 0) {
-        [_profileButton sd_setImageWithURL:[NSURL URLWithString:[self userHeader]]
+        [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
                                   forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 	} else {
@@ -408,7 +402,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
-                              NSString *avatarUrlWithTime = [self userHeader];
+							  NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+							  NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 							  [[UserSession standard] setAvatar:avatarUrlWithTime];
 
 							  [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
