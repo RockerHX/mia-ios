@@ -26,12 +26,16 @@ NSString * const MusicPlayerMgrNotificationDidPlay			 	= @"MusicPlayerMgrNotific
 NSString * const MusicPlayerMgrNotificationDidPause			 	= @"MusicPlayerMgrNotificationDidPause";
 NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotificationCompletion";
 
+typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
+
 @interface MusicPlayerMgr()
 
 @end
 
 @implementation MusicPlayerMgr {
-	FSAudioStream 	*audioStream;
+	FSAudioStream 	*_audioStream;
+	UIAlertView 	*_playWith3GAlertView;
+	BOOL			_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
 }
 
 /**
@@ -53,11 +57,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		// init audioStream
 		FSStreamConfiguration *defaultConfiguration = [[FSStreamConfiguration alloc] init];
 		defaultConfiguration.cacheDirectory = [PathHelper playCacheDir];
-		audioStream = [[FSAudioStream alloc] initWithConfiguration:defaultConfiguration];
-		audioStream.strictContentTypeChecking = NO;
-		audioStream.defaultContentType = @"audio/mpeg";
+		_audioStream = [[FSAudioStream alloc] initWithConfiguration:defaultConfiguration];
+		_audioStream.strictContentTypeChecking = NO;
+		_audioStream.defaultContentType = @"audio/mpeg";
 
-		audioStream.onCompletion = ^() {
+		_audioStream.onCompletion = ^() {
 			[[MusicPlayerMgr standard] stop];
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:[[MusicPlayerMgr standard] currentModelID]]
 																 forKey:MusicPlayerMgrNotificationKey_ModelID];
@@ -117,7 +121,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 			NSLog(@"onStateChange:%@, %@", stateName, weakStream.url);
 		};
 		*/
-		audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
+		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			NSLog(@"onFailure:%d, %@", error, errorDescription);
 		};
 
@@ -142,30 +146,25 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (BOOL)isPlaying {
-	if (audioStream) {
-		return [audioStream isPlaying];
+	if (_audioStream) {
+		return [_audioStream isPlaying];
 	} else {
 		return NO;
 	}
 }
 
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	if (!audioStream) {
+	if (!_audioStream) {
 		return NO;
 	}
-	if (![audioStream isPlaying]) {
+	if (![_audioStream isPlaying]) {
 		return NO;
 	}
 
-	return [audioStream.url.absoluteString isEqualToString:url];
+	return [_audioStream.url.absoluteString isEqualToString:url];
 }
 
 - (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
-	if (![UserSetting isAllowedToPlayNowWithURL:url]) {
-		[self notifiNotAllowToPlayWith3G];
-		return;
-	}
-
 	NSLog(@"playWithUrl %ld, %ld, %@", _currentModelID, modelID, url);
 	if (_currentModelID == modelID
 		&& [self isPlayingWithUrl:url]) {
@@ -174,20 +173,87 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		return;
 	}
 
+	if (![UserSetting isAllowedToPlayNowWithURL:url]) {
+		[self checkBeforePlayWithModelID:modelID url:url title:title artist:artist];
+		return;
+	}
+
+	[self playWithoutCheckWithModelID:modelID url:url title:title artist:artist];
+}
+
+- (void)play {
+	if (![_audioStream url])
+		return;
+
+	if (![UserSetting isAllowedToPlayNowWithURL:[[_audioStream url] absoluteString]]) {
+		[self checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
+			if (isAllowed) {
+				[self play];
+			}
+		}];
+
+		return;
+	}
+
+	NSLog(@"play:%@", [_audioStream url]);
+	NSLog(@"#MusicPlayerMgr# play - resume play from pause");
+	[_audioStream pause];
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
+														object:nil
+													  userInfo:userInfo];
+}
+
+- (void)pause {
+	NSLog(@"#MusicPlayerMgr# pause");
+	[_audioStream pause];
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	if ([_audioStream isPlaying]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
+															object:nil
+														  userInfo:userInfo];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
+															object:nil
+														  userInfo:userInfo];
+	}
+
+}
+
+- (void)stop {
+	[_audioStream stop];
+	_audioStream.url = nil;
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
+														 forKey:MusicPlayerMgrNotificationKey_ModelID];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
+														object:nil
+													  userInfo:userInfo];
+}
+
+#pragma mark -private method
+
+- (void)playWithoutCheckWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+	NSLog(@"playWithoutCheckWithModelID %ld, %ld, %@", _currentModelID, modelID, url);
+
 	_currentModelID = modelID;
 
-	if (![audioStream url]) {
+	if (![_audioStream url]) {
 		// 没有设置过歌曲url，直接播放
 		NSLog(@"#MusicPlayerMgr# playFromURL - prev url is null");
-		[audioStream playFromURL:[NSURL URLWithString:url]];
-	} else if ([[[audioStream url] absoluteString] isEqualToString:url]) {
+		[_audioStream playFromURL:[NSURL URLWithString:url]];
+	} else if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
-		if ([audioStream isPlaying]) {
+		if ([_audioStream isPlaying]) {
 			NSLog(@"resume music from pause error, stop and play again.");
 			[self playAnotherWirUrl:url];
 		} else {
 			NSLog(@"#MusicPlayerMgr# playWithUrl - resume play from pause");
-			[audioStream pause];
+			[_audioStream pause];
 		}
 	} else {
 		// 切换歌曲
@@ -205,71 +271,41 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 - (void)playAnotherWirUrl:(NSString *)url{
 	NSLog(@"#MusicPlayerMgr# stop - stop before playAnotherWirUrl");
-	[audioStream stop];
+	[_audioStream stop];
 	NSLog(@"#MusicPlayerMgr# performBlock");
 	[self bs_performBlock:^{
 		NSLog(@"#MusicPlayerMgr# delayPlayHandlerWithUrl");
-		[audioStream playFromURL:[NSURL URLWithString:url]];
+		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} afterDelay:0.5f];
 }
 
-- (void)play {
-	if (![audioStream url])
-		return;
-
-	if (![UserSetting isAllowedToPlayNowWithURL:[[audioStream url] absoluteString]]) {
-		[self notifiNotAllowToPlayWith3G];
-		return;
-	}
-
-	NSLog(@"play:%@", [audioStream url]);
-	NSLog(@"#MusicPlayerMgr# play - resume play from pause");
-	[audioStream pause];
-
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:MusicPlayerMgrNotificationKey_ModelID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
-														object:nil
-													  userInfo:userInfo];
+- (void)checkBeforePlayWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+	[self checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
+		if (isAllowed) {
+			[self playWithoutCheckWithModelID:modelID url:url title:title artist:artist];
+		}
+	}];
 }
 
-- (void)pause {
-	NSLog(@"#MusicPlayerMgr# pause");
-	[audioStream pause];
-
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:MusicPlayerMgrNotificationKey_ModelID];
-	if ([audioStream isPlaying]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPlay
-															object:nil
-														  userInfo:userInfo];
-	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
-															object:nil
-														  userInfo:userInfo];
-	}
-
-}
-
-- (void)stop {
-	[audioStream stop];
-	audioStream.url = nil;
-
+- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
 														 forKey:MusicPlayerMgrNotificationKey_ModelID];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
 														object:nil
 													  userInfo:userInfo];
-}
 
-#pragma mark -private method
+	if (_playWith3GOnceTime && playWith3GOnceTimeBlock) {
+		playWith3GOnceTimeBlock(YES);
+		return;
+	}
 
-- (void)notifiNotAllowToPlayWith3G {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:MusicPlayerMgrNotificationKey_ModelID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationDidPause
-														object:nil
-													  userInfo:userInfo];
+	if (_playWith3GAlertView) {
+		NSLog(@"Last play with 3G alert view is still showing");
+		if (playWith3GOnceTimeBlock) {
+			playWith3GOnceTimeBlock(NO);
+		}
+		return;
+	}
 
 	static NSString *kAlertTitleError = @"网络连接提醒";
 	static NSString *kAlertMsgNotAllowToPlayWith3G = @"您现在使用的是运营商网络，继续播放会产生流量费用。是否允许在2G/3G/4G网络下播放？";
@@ -280,19 +316,28 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		// this is optional... if you leave the action as nil, it won't do anything
 		// but here, I'm showing a block just to show that you can use one if you want to.
 		NSLog(@"allow to play");
+		_playWith3GAlertView = nil;
+		_playWith3GOnceTime = YES;
+		if (playWith3GOnceTimeBlock) {
+			playWith3GOnceTimeBlock(YES);
+		}
 	}];
 
 	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
 		// this is the code that will be executed when the user taps "Yes"
 		// delete the object in question...
 		NSLog(@"cancel");
+		_playWith3GAlertView = nil;
+		if (playWith3GOnceTimeBlock) {
+			playWith3GOnceTimeBlock(NO);
+		}
 	}];
 
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-														message:kAlertMsgNotAllowToPlayWith3G
-											   cancelButtonItem:cancelItem
-											   otherButtonItems:allowItem, nil];
-	[alertView show];
+	_playWith3GAlertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+													  message:kAlertMsgNotAllowToPlayWith3G
+											 cancelButtonItem:cancelItem
+											 otherButtonItems:allowItem, nil];
+	[_playWith3GAlertView show];
 }
 
 #pragma mark - Notification
@@ -357,15 +402,21 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 }
 
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
-	if (![audioStream isPlaying]) {
+	_playWith3GOnceTime = NO;
+
+	if (![_audioStream isPlaying]) {
 		return;
 	}
-	if ([UserSetting isAllowedToPlayNowWithURL:[[audioStream url] absoluteString]]) {
+	if ([UserSetting isAllowedToPlayNowWithURL:[[_audioStream url] absoluteString]]) {
 		return;
 	}
 
 	[self stop];
-	[self notifiNotAllowToPlayWith3G];
+	[self checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
+		if (isAllowed) {
+			[self play];
+		}
+	}];
 }
 
 #pragma mark - audio operations
@@ -379,9 +430,9 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 		[dict setObject:title forKey:MPMediaItemPropertyAlbumTitle];
 		[dict setObject:artist forKey:MPMediaItemPropertyArtist];
 
-		float totalSeconds = [audioStream duration].minute * 60.0 + [audioStream duration].second;
+		float totalSeconds = [_audioStream duration].minute * 60.0 + [_audioStream duration].second;
 		[dict setObject:[NSNumber numberWithFloat:totalSeconds] forKey:MPMediaItemPropertyPlaybackDuration];
-		[dict setObject:[NSNumber numberWithFloat:[audioStream currentTimePlayed].playbackTimeInSeconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+		[dict setObject:[NSNumber numberWithFloat:[_audioStream currentTimePlayed].playbackTimeInSeconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
 
 		//		MPMediaItemArtwork * mArt = [[MPMediaItemArtwork alloc] initWithImage:img];
 		//		[dict setObject:mArt forKey:MPMediaItemPropertyArtwork];
@@ -394,7 +445,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	if (![self isPlaying]) {
 		return 0.0;
 	} else {
-		return [audioStream currentTimePlayed].position;
+		return [_audioStream currentTimePlayed].position;
 	}
 }
 
