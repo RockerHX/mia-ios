@@ -12,8 +12,11 @@
 #import "RadioViewController.h"
 #import "HXHomePageViewController.h"
 #import "UserSetting.h"
+#import "HXAppConstants.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () {
+    BOOL _backBecomeActive;
+}
 
 @end
 
@@ -36,8 +39,15 @@
 	return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    if (_backBecomeActive) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:HXApplicationDidBecomeActiveNotification object:nil];
+    }
+    _backBecomeActive = YES;
+}
+
 #pragma mark 远程控制事件
--(void)remoteControlReceivedWithEvent:(UIEvent *)event {
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicPlayerMgrNotificationKey_Msg];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
 }

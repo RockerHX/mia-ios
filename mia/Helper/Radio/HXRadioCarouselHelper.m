@@ -14,6 +14,7 @@
 	iCarousel *_carousel;
     BOOL _canChange;
     BOOL _firstLoad;
+    BOOL _secondAutoScroll;
 }
 
 @end
@@ -24,6 +25,7 @@
     self = [super init];
     if (self) {
         _firstLoad = YES;
+        _secondAutoScroll = YES;
     }
     return self;
 }
@@ -140,39 +142,44 @@
 }
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
-    NSLog(@"------[carouselCurrentItemIndexDidChange]");
-    CGFloat scrollOffset = carousel.scrollOffset;
-    NSInteger currentIndex = carousel.currentItemIndex;
-    HXRadioCarouselHelperAction playAction = HXRadioCarouselHelperActionPlayCurrent;
-    if (currentIndex == 0) {
-        if (scrollOffset > 2) {
-            playAction = HXRadioCarouselHelperActionPlayNext;
-        } else if (scrollOffset < 1 && scrollOffset > 0) {
-            playAction = HXRadioCarouselHelperActionPlayPrevious;
+    if (!_firstLoad) {
+        NSLog(@"------[carouselCurrentItemIndexDidChange]");
+        CGFloat scrollOffset = carousel.scrollOffset;
+        NSInteger currentIndex = carousel.currentItemIndex;
+        HXRadioCarouselHelperAction playAction = HXRadioCarouselHelperActionPlayCurrent;
+        if (currentIndex == 0) {
+            if (scrollOffset > 2) {
+                playAction = HXRadioCarouselHelperActionPlayNext;
+            } else if (scrollOffset < 1 && scrollOffset > 0) {
+                playAction = HXRadioCarouselHelperActionPlayPrevious;
+            }
+        } else if (currentIndex == 1 || currentIndex == 2) {
+            if (scrollOffset > currentIndex) {
+                playAction = HXRadioCarouselHelperActionPlayPrevious;
+            } else if (scrollOffset < currentIndex) {
+                playAction = HXRadioCarouselHelperActionPlayNext;
+            }
         }
-    } else if (currentIndex == 1 || currentIndex == 2) {
-        if (scrollOffset > currentIndex) {
-            playAction = HXRadioCarouselHelperActionPlayPrevious;
-        } else if (scrollOffset < currentIndex) {
-            playAction = HXRadioCarouselHelperActionPlayNext;
+        if (_delegate && [_delegate respondsToSelector:@selector(helper:shouldChangeMusic:)]) {
+            [_delegate helper:self shouldChangeMusic:playAction];
         }
+        _canChange = YES;
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(helper:shouldChangeMusic:)]) {
-        [_delegate helper:self shouldChangeMusic:playAction];
-    }
-    _canChange = YES;
 }
 
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-    NSLog(@"~~~~~~~~~~~~~First:%@", _firstLoad ? @"YES": @"NO");
-    NSLog(@"~~~~~~~~~~~~~Can:%@", _canChange ? @"YES": @"NO");
     if (!_firstLoad) {
-        if (_canChange) {
-            NSLog(@"------[carouselDidEndScrollingAnimation]");
-            if (_delegate && [_delegate respondsToSelector:@selector(helperDidChange:)]) {
-                [_delegate helperDidChange:self];
+        if (!_secondAutoScroll) {
+            NSLog(@"~~~~~~~~~~~~~First:%@", _firstLoad ? @"YES": @"NO");
+            NSLog(@"~~~~~~~~~~~~~Can:%@", _canChange ? @"YES": @"NO");
+            if (_canChange) {
+                NSLog(@"------[carouselDidEndScrollingAnimation]");
+                if (_delegate && [_delegate respondsToSelector:@selector(helperDidChange:)]) {
+                    [_delegate helperDidChange:self];
+                }
             }
         }
+        _secondAutoScroll = NO;
     }
     _firstLoad = NO;
 }

@@ -12,6 +12,7 @@
 #import "MiaAPIHelper.h"
 #import "MusicPlayerMgr.h"
 #import "LocationMgr.h"
+#import "HXAppConstants.h"
 
 @interface HXRadioViewController () <HXRadioCarouselHelperDelegate> {
     NSMutableArray *_items;
@@ -42,7 +43,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-
 	// TODO
 	// 当前页面显示的时候获取下服务器这个卡片的最新信息
 //	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -54,8 +54,9 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HXApplicationDidBecomeActiveNotification object:nil];
 
 	_carousel.delegate = nil;
 	_carousel.dataSource = nil;
@@ -64,8 +65,9 @@
 #pragma mark - Config Methods
 - (void)initConfig {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewShouldDisplay) name:HXApplicationDidBecomeActiveNotification object:nil];
 
     [self setUpHelper];
 }
@@ -320,6 +322,11 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	}
 }
 
+#warning @"卡片数据加载完成和从后台唤醒操作方法"
+- (void)viewShouldDisplay {
+    
+}
+
 #pragma mark - Audio Operations
 - (void)playMusic:(ShareItem *)item {
 	NSString *musicUrl = [[item music] murl];
@@ -372,6 +379,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:[helper currentItem]];
+    [self viewShouldDisplay];
 }
 
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
