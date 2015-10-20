@@ -16,4 +16,5 @@ NSString *const WeiXinKEY                                  = @"wx6194bafa9ae065c
 NSString *const HXWeiXinPaySuccessNotification             = @"HXWeiXinPaySuccessNotification";
 NSString *const HXWeiXinPayFailureNotification             = @"HXWeiXinPayFailureNotification";
 
-NSString *const HXApplicationDidBecomeActiveNotification   = @"HXApplicationDidBecomeActiveNotification";
+NSString *const HXApplicationDidBecomeActiveNotification            = @"HXApplicationDidBecomeActiveNotification";
+NSString *const HXRadioViewCardShouldReloadPlayStatusNotification   = @"HXRadioViewCardShouldReloadPlayStatusNotification";

@@ -183,23 +183,26 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)handleGetSharemWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
 	if (success) {
-		NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-		long start = [userInfo[MiaAPIKey_Values][@"data"][@"star"] intValue];
-		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-
-		#pragma message "@andy update infect users"
-		// 需要刷新下界面
-
-		// TODO
-		//ShareItem *currentItem = [_loopPlayerView getCurrentPlayerView].shareItem;
-		ShareItem *currentItem = nil;
-		if ([sID isEqualToString:currentItem.sID]) {
-			currentItem.cComm = [cComm intValue];
-			currentItem.cView = [cView intValue];
-			currentItem.favorite = start;
-//			[self updateStatusWithItem:currentItem];
-		}
+        NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+        id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+        id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+        id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+        id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+        NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+        
+        ShareItem *currentItem = _helper.currentItem;
+        if ([sID isEqualToString:currentItem.sID]) {
+            currentItem.cComm = [cComm intValue];
+            currentItem.cView = [cView intValue];
+            currentItem.favorite = [start intValue];
+            currentItem.infectTotal = [infectTotal intValue];
+            [currentItem parseInfectUsersFromJsonArray:infectArray];
+            
+            if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
+                [_delegate shouldDisplayInfectUsers:currentItem];
+            }
+        }
+        
 	} else {
 		NSLog(@"handleGetSharemWitRet failed.");
 	}
@@ -327,13 +330,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
-
-#pragma message "@andy update play button status"
-//	if ([[MusicPlayerMgr standard] isPlayingWithUrl:item.music.murl]) {
-//		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-//	} else {
-//		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-//	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 }
 
 #pragma mark - Audio Operations

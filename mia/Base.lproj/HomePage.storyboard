@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="QLH-xI-kzT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="QLH-xI-kzT">
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -106,8 +106,8 @@
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="215"/>
                                         <animations/>
                                     </imageView>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="说说你的想法" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nl7-Tv-v26">
-                                        <rect key="frame" x="54" y="96" width="180" height="24"/>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="说说你的想法" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nl7-Tv-v26">
+                                        <rect key="frame" x="84" y="96" width="120" height="24"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -178,16 +178,31 @@
                                     <constraint firstAttribute="height" constant="200" id="kMW-ZW-N2V"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Pfr-PW-ZI3">
-                                <rect key="frame" x="60" y="508" width="200" height="60"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bC-Qy-IVf" customClass="HXInfectUserView">
+                                <rect key="frame" x="60" y="518" width="200" height="50"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M6x-Ec-2XC">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                        <animations/>
+                                    </stackView>
+                                </subviews>
                                 <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="45U-xq-5fL"/>
-                                    <constraint firstAttribute="width" constant="200" id="vaS-Fh-HWf"/>
+                                    <constraint firstAttribute="bottom" secondItem="M6x-Ec-2XC" secondAttribute="bottom" id="5D5-EF-vg6"/>
+                                    <constraint firstItem="M6x-Ec-2XC" firstAttribute="top" secondItem="1bC-Qy-IVf" secondAttribute="top" id="72o-aT-oFb"/>
+                                    <constraint firstAttribute="width" constant="200" id="Xs6-uh-kVk"/>
+                                    <constraint firstAttribute="height" constant="50" id="aPg-c8-Lo4"/>
+                                    <constraint firstItem="M6x-Ec-2XC" firstAttribute="leading" secondItem="1bC-Qy-IVf" secondAttribute="leading" id="ggl-2r-6Z3"/>
+                                    <constraint firstAttribute="trailing" secondItem="M6x-Ec-2XC" secondAttribute="trailing" id="vjy-Go-2jq"/>
                                 </constraints>
-                            </stackView>
+                                <connections>
+                                    <outlet property="stacView" destination="M6x-Ec-2XC" id="F1d-X9-d46"/>
+                                    <outlet property="widthConstraint" destination="Xs6-uh-kVk" id="uRc-LP-FD1"/>
+                                </connections>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWo-qg-cwb">
-                                <rect key="frame" x="129" y="568" width="62" height="21"/>
+                                <rect key="frame" x="129" y="578" width="62" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -213,23 +228,23 @@
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="width" secondItem="lBD-s7-8t9" secondAttribute="width" multiplier="0.9" id="0nF-HQ-RKv"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="bottom" constant="-180" id="6tg-tS-iw1"/>
                             <constraint firstAttribute="trailing" secondItem="QnW-Sx-Tnv" secondAttribute="trailing" constant="15" id="7h9-ei-d5Z"/>
-                            <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="Pfr-PW-ZI3" secondAttribute="bottom" id="AF9-ef-BNn"/>
+                            <constraint firstItem="KWo-qg-cwb" firstAttribute="top" secondItem="1bC-Qy-IVf" secondAttribute="bottom" constant="10" id="Bqi-5K-fhg"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="centerX" secondItem="W4h-Kd-Mqg" secondAttribute="centerX" id="ECc-v4-LOi"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="W4h-Kd-Mqg" secondAttribute="bottom" id="Fx8-tN-lWx"/>
-                            <constraint firstItem="KWo-qg-cwb" firstAttribute="top" secondItem="Pfr-PW-ZI3" secondAttribute="bottom" id="GLk-kQ-s5e"/>
                             <constraint firstAttribute="bottom" secondItem="K76-u6-UI7" secondAttribute="bottom" constant="40" id="Gji-wQ-Z6e"/>
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="centerX" secondItem="K76-u6-UI7" secondAttribute="centerX" constant="-20" id="ITI-a2-PHK"/>
                             <constraint firstItem="W4h-Kd-Mqg" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Oh3-3m-go7"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Rcp-NR-a1u"/>
+                            <constraint firstItem="KWo-qg-cwb" firstAttribute="centerX" secondItem="1bC-Qy-IVf" secondAttribute="centerX" id="ZZZ-SF-vHq"/>
                             <constraint firstAttribute="bottom" secondItem="6LO-Lb-msR" secondAttribute="bottom" id="clv-Jc-zsc"/>
                             <constraint firstItem="97C-zd-yXF" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" constant="15" id="eMs-u1-fsy"/>
                             <constraint firstAttribute="trailing" secondItem="W4h-Kd-Mqg" secondAttribute="trailing" id="eoU-oB-4Sw"/>
-                            <constraint firstItem="Pfr-PW-ZI3" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="kSh-nn-XFH"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="QnW-Sx-Tnv" secondAttribute="bottom" constant="10" id="lTS-6a-UQ7"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="97C-zd-yXF" secondAttribute="bottom" constant="10" id="lkp-oy-YyI"/>
-                            <constraint firstItem="KWo-qg-cwb" firstAttribute="centerX" secondItem="Pfr-PW-ZI3" secondAttribute="centerX" id="nR5-ws-6N3"/>
                             <constraint firstAttribute="trailing" secondItem="6LO-Lb-msR" secondAttribute="trailing" id="pvq-K7-uG1"/>
+                            <constraint firstAttribute="bottom" secondItem="1bC-Qy-IVf" secondAttribute="bottom" id="suh-eh-pfG"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="50" id="uP2-Ce-bLl"/>
+                            <constraint firstItem="1bC-Qy-IVf" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="urz-cc-gPy"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="jzJ-RZ-SS8" appends="YES" id="nGc-bh-9JC"/>
@@ -241,9 +256,8 @@
                         <outlet property="bubbleView" destination="i7R-7R-kAw" id="SRe-rk-7qf"/>
                         <outlet property="fishBottomConstraint" destination="Gji-wQ-Z6e" id="08a-67-gj3"/>
                         <outlet property="fishView" destination="K76-u6-UI7" id="lyD-gc-dvz"/>
-                        <outlet property="headerView" destination="Pfr-PW-ZI3" id="Cec-LR-D0E"/>
-                        <outlet property="headerViewBottomConstraint" destination="AF9-ef-BNn" id="9hc-FT-Zhd"/>
-                        <outlet property="headerViewWidthConstraint" destination="vaS-Fh-HWf" id="EKa-kQ-bFy"/>
+                        <outlet property="headerViewBottomConstraint" destination="suh-eh-pfG" id="3cj-Uq-eNc"/>
+                        <outlet property="infectUserView" destination="1bC-Qy-IVf" id="OyI-2j-FoL"/>
                         <outlet property="panGesture" destination="uZS-pI-r12" id="WF9-Of-6pe"/>
                         <outlet property="profileButton" destination="97C-zd-yXF" id="tZ1-SO-1QU"/>
                         <outlet property="pushPromptLabel" destination="KWo-qg-cwb" id="5JK-IF-qsL"/>

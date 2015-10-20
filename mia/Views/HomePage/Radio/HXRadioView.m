@@ -13,6 +13,7 @@
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
 #import "MusicPlayerMgr.h"
+#import "HXAppConstants.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -24,11 +25,18 @@
 
 #pragma mark - Class Methods
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate {
-    HXRadioView *radioView = [[[NSBundle mainBundle] loadNibNamed:@"HXRadioView" owner:self options:nil] firstObject];
-    radioView.frame = frame;
-    radioView.delegate = delegate;
-    
-    return radioView;
+    HXRadioView *radioView = nil;
+    @try {
+        radioView = [[[NSBundle mainBundle] loadNibNamed:@"HXRadioView" owner:self options:nil] firstObject];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"HXRadioView Load From Nib Error:%@", exception.reason);
+    }
+    @finally {
+        radioView.frame = frame;
+        radioView.delegate = delegate;
+        return radioView;
+    }
 }
 
 #pragma Init Methods
@@ -42,6 +50,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 
 }
 
@@ -49,6 +58,8 @@
 - (void)initConfig {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay) name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause) name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlayStatus) name:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
+    
 }
 
 - (void)viewConfig {
@@ -117,6 +128,14 @@
 			[_delegate radioViewStarTapedNeedLogin:self];
 		}
 	}
+}
+
+- (void)reloadPlayStatus {
+    if ([[MusicPlayerMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
+        _playButton.selected = YES;
+    } else {
+        _playButton.selected = NO;
+    }
 }
 
 #pragma mark - Public Methods

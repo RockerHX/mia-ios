@@ -10,6 +10,7 @@
 #import "HXRadioViewController.h"
 #import "HXWaveView.h"
 #import "HXBubbleView.h"
+#import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
@@ -108,7 +109,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
-    _headerView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+    _infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
     
     // 配置波浪颜色，波浪高度以及波动运动速度；配置提示条，设置为隐藏
     _waveView.tintColor = [UIColor colorWithRed:68.0f/255.0f green:209.0f/255.0f blue:192.0f/255.0f alpha:1.0f];
@@ -288,80 +289,61 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
-    [self removeHeader];
-    
-    _headerViewWidthConstraint.constant = infectUsers.count*50.0f + 40.0f;
-    for (InfectUserItem *item in infectUsers) {
-        UIImageView *infectUserHeader = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 50.0f, 50.f)];
-        infectUserHeader.clipsToBounds = YES;
-        infectUserHeader.contentMode = UIViewContentModeScaleAspectFill;
-        infectUserHeader.layer.cornerRadius = 25.0f;
-        infectUserHeader.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
-        [infectUserHeader sd_setImageWithURL:[NSURL URLWithString:item.avatar]];
-        [_headerView addArrangedSubview:infectUserHeader];
-    }
-    __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.headerView layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        // 秒推用户头像跳动动画
-        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [_infectUserView removeAllItem];
+    if (infectUsers) {
+        NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
+        for (InfectUserItem *item in infectUsers) {
+            [itmes addObject:[NSURL URLWithString:item.avatar]];
+        }
+        [_infectUserView showWithItems:itmes];
+        __weak __typeof__(self)weakSelf = self;
+        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
             __strong __typeof__(self)strongSelf = weakSelf;
-            for (UIView *header in strongSelf.headerView.arrangedSubviews) {
-                header.transform = CGAffineTransformIdentity;
-            }
-        } completion:nil];
-    }];
-}
-
-- (void)removeHeader {
-    NSArray *subViews = _headerView.arrangedSubviews;
-    for (UIView *view in subViews) {
-        [_headerView removeArrangedSubview:view];
-        [view removeFromSuperview];
+            [strongSelf.infectUserView refresh];
+        } completion:^(BOOL finished) {
+            __strong __typeof__(self)strongSelf = weakSelf;
+            // 秒推用户头像跳动动画
+            [strongSelf.infectUserView refreshItemWithAnimation];
+        }];
     }
 }
 
 - (void)addPushUserHeader {
-    _pushPromptLabel.text = [NSString stringWithFormat:@"%@人秒推", @(_headerView.arrangedSubviews.count + 1)];
+    [self updatePromptLabel];
     // 秒推用户头像添加以及动画
-    _headerViewWidthConstraint.constant = _headerView.arrangedSubviews.count*50.0f + 40.0f;
-    UIImageView *pushUserHeader = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header1"]];
-    pushUserHeader.contentMode = UIViewContentModeCenter;
-    pushUserHeader.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
-    [_headerView insertArrangedSubview:pushUserHeader atIndex:0];
+    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[self userHeader]]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.headerView layoutIfNeeded];
+        [strongSelf.infectUserView refresh];
     } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
         // 秒推用户头像跳动动画
-        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            pushUserHeader.transform = CGAffineTransformIdentity;
-        } completion:nil];
-        
+        [strongSelf.infectUserView refreshItemWithAnimation];
         // 秒推提示条显示动画
         [UIView animateWithDuration:0.3f animations:^{
-            __strong __typeof__(self)strongSelf = weakSelf;
             strongSelf.pushPromptLabel.alpha = 1.0f;
         } completion:nil];
     }];
 }
 
-- (void)reset {
-    // 移除加入的秒推用户头像
-    UIView *header = _headerView.arrangedSubviews.firstObject;
-    if (header) {
-        [_headerView removeArrangedSubview:header];
-        [header removeFromSuperview];
-    }
-    
+- (NSString *)userHeader {
+    NSString *avatarUrl = [[UserSession standard] avatar];
+    NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+    return avatarUrlWithTime;
+}
+
+- (void)updatePromptLabel {
+    NSInteger count = _playItem.infectTotal;
+    NSString *prompt = [NSString stringWithFormat:@"%@人%@秒推", @(count + 1), ((count > 5) ? @"等" : @"")];
+    _pushPromptLabel.text = prompt;
+}
+
+- (void)reset {    
     // 重新布局
     _waveViewBottomConstraint.constant = 0.0f;
     _fishBottomConstraint.constant = 40.0f;
     _headerViewBottomConstraint.constant = 0.0f;
-    _headerViewWidthConstraint.constant = 200.0f;
     [self viewConfig];
     [self.view layoutIfNeeded];
     
@@ -401,9 +383,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
     if (unreadCommentCount <= 0) {
-        NSString *avatarUrl = [[UserSession standard] avatar];
-        NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-        [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+        [_profileButton sd_setImageWithURL:[NSURL URLWithString:[self userHeader]]
                                   forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 	} else {
@@ -428,8 +408,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
-							  NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-							  NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+                              NSString *avatarUrlWithTime = [self userHeader];
 							  [[UserSession standard] setAvatar:avatarUrlWithTime];
 
 							  [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
@@ -544,8 +523,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.4f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.headerView.transform = CGAffineTransformIdentity;
-        [strongSelf.headerView layoutIfNeeded];
+        strongSelf.infectUserView.transform = CGAffineTransformIdentity;
+        [strongSelf.infectUserView layoutIfNeeded];
     } completion:nil];
     [self addPushUserHeader];
 }
@@ -568,8 +547,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         strongSelf.bubbleView.alpha = 0.0f;
         
         // 小鱼，气泡移动结束动画
-        UIView *header = strongSelf.headerView.arrangedSubviews.firstObject;
-        CGPoint endPont = CGPointMake(strongSelf.headerView.frame.origin.x +  header.center.x, strongSelf.headerView.frame.origin.y);
+        UIView *header = strongSelf.infectUserView.stacView.arrangedSubviews.firstObject;
+        CGPoint endPont = CGPointMake(strongSelf.infectUserView.frame.origin.x +  header.center.x, strongSelf.infectUserView.frame.origin.y);
         strongSelf.fishView.center = endPont;
         strongSelf.bubbleView.center = endPont;
     } completion:^(BOOL finished) {
