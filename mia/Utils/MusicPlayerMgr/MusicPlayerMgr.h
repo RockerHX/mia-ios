@@ -29,6 +29,7 @@ extern NSString * const MusicPlayerMgrNotificationCompletion;
 @property (assign, nonatomic) long currentModelID;
 
 - (BOOL)isPlaying;
+- (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist;
 - (void)pause;
 - (void)stop;

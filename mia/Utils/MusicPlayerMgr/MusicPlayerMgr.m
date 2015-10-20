@@ -148,6 +148,17 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	}
 }
 
+- (BOOL)isPlayingWithUrl:(NSString *)url {
+	if (!audioStream) {
+		return NO;
+	}
+	if (![audioStream isPlaying]) {
+		return NO;
+	}
+
+	return [audioStream.url.absoluteString isEqualToString:url];
+}
+
 - (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
 	if (![UserSetting isAllowedToPlayNowWithURL:url]) {
 		[self notifiNotAllowToPlayWith3G];
@@ -156,8 +167,7 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 	NSLog(@"playWithUrl %ld, %ld, %@", _currentModelID, modelID, url);
 	if (_currentModelID == modelID
-		&& ![NSString isNull:audioStream.url.absoluteString]
-		&& [audioStream.url.absoluteString isEqualToString:url]) {
+		&& [self isPlayingWithUrl:url]) {
 		// 同一个模块再次播放同一首歌，什么都不做
 		NSLog(@"play the same song in the same model, play will be ignored.");
 		return;

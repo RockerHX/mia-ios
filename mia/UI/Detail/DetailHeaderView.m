@@ -358,6 +358,12 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[_locationLabel setText:[item sAddress]];
 
+	if ([[MusicPlayerMgr standard] isPlayingWithUrl:item.music.murl]) {
+		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	} else {
+		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	}
+
 	[self updateShareButtonWithIsFavorite:item.favorite];
 
 	[self updateInfectUsers];
