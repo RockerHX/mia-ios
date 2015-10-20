@@ -141,11 +141,6 @@
 	}
 }
 
-- (ShareItem *)currentShareItem {
-	return nil; // TODO
-//	return [[_loopPlayerView getCurrentPlayerView] shareItem];
-}
-
 static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)playCurrentItems:(NSArray *)items {
 	[_reportViewsTimer invalidate];
@@ -214,15 +209,15 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 							  longitude:[[LocationMgr standard] currentCoordinate].longitude
 								address:[[LocationMgr standard] currentAddress]
-								   spID:[[self currentShareItem] spID]
+								   spID:[_helper.currentItem spID]
 						  completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [MiaAPIHelper getShareById:[[self currentShareItem] sID]
+			 [MiaAPIHelper getShareById:[_helper.currentItem sID]
 						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 							  [self handleGetSharemWitRet:success userInfo:userInfo];
 						  } timeoutBlock:^(MiaRequestItem *requestItem) {
-							  NSLog(@"handleGetSharemWitRet failed.");
+							  NSLog(@"getShareById timeout.");
 						  }];
 		 } else {
 			 NSLog(@"view share failed");
@@ -238,7 +233,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	[MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 								longitude:[[LocationMgr standard] currentCoordinate].longitude
 								  address:[[LocationMgr standard] currentAddress]
-									 spID:[[self currentShareItem] spID]
+									 spID:[_helper.currentItem spID]
 							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 								NSLog(@"InfectMusic %d", success);
 							} timeoutBlock:^(MiaRequestItem *requestItem) {
@@ -326,11 +321,11 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)viewShouldDisplay {
-	[MiaAPIHelper getShareById:[[self currentShareItem] sID]
+	[MiaAPIHelper getShareById:[_helper.currentItem sID]
 				 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 					 [self handleGetSharemWitRet:success userInfo:userInfo];
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
-					 NSLog(@"handleGetSharemWitRet failed.");
+					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
 
 #pragma message "@andy update play button status"
@@ -392,7 +387,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
-	[self playMusic:[helper currentItem]];
+	[self playMusic:_helper.currentItem];
     [self viewShouldDisplay];
 }
 

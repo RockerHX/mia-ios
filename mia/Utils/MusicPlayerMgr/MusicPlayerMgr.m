@@ -294,6 +294,10 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 														object:nil
 													  userInfo:userInfo];
 
+	if (![[WebSocketMgr standard] isNetworkEnable]) {
+		return;
+	}
+
 	if (_playWith3GOnceTime && playWith3GOnceTimeBlock) {
 		playWith3GOnceTimeBlock(YES);
 		return;
