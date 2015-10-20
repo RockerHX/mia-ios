@@ -155,7 +155,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	// TODO auto reconnect
-	static NSString * kAlertMsgWebSocketFailed = @"服务器连接错误（WebSocket失败），断线重连中...";
+	static NSString * kAlertMsgWebSocketFailed = @"服务器不稳定，重连中";
 	[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kAlertMsgWebSocketFailed];
 }
 
