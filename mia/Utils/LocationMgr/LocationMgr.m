@@ -85,9 +85,21 @@
 	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
 		if (placemarks.count > 0) {
 			CLPlacemark *placemark = [placemarks objectAtIndex:0];
-			NSLog(@"______%@", placemark.locality);
-			NSLog(@"______%@", placemark.subLocality);
-			NSLog(@"______%@", placemark.name);
+			NSLog(@"______%@", placemark.name); 					// eg. Apple Inc.
+			NSLog(@"______%@", placemark.thoroughfare); 			// street name, eg. Infinite Loop
+			NSLog(@"______%@", placemark.subThoroughfare); 			// eg. 1
+			NSLog(@"______%@", placemark.locality); 				// city, eg. Cupertino
+			NSLog(@"______%@", placemark.subLocality); 				// neighborhood, common name, eg. Mission District
+			NSLog(@"______%@", placemark.administrativeArea); 		// state, eg. CA
+			NSLog(@"______%@", placemark.subAdministrativeArea); 	// county, eg. Santa Clara
+			NSLog(@"______%@", placemark.postalCode); 				// zip code, eg. 95014
+			NSLog(@"______%@", placemark.ISOcountryCode); 			// eg. US
+			NSLog(@"______%@", placemark.country); 					// eg. United States
+			NSLog(@"______%@", placemark.inlandWater); 				// eg. Lake Tahoe
+			NSLog(@"______%@", placemark.ocean); 					// eg. Pacific Ocean
+			if ([placemark.areasOfInterest count] > 0) {
+				NSLog(@"______%@", placemark.areasOfInterest[0]); 	// eg. Golden Gate Park
+			}
 
 			_currentCoordinate = marsLoction.coordinate;
 			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
