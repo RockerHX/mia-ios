@@ -13,6 +13,7 @@
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
 #import "MusicPlayerMgr.h"
+#import "HXAppConstants.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -49,6 +50,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 
 }
 
@@ -56,6 +58,8 @@
 - (void)initConfig {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay) name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause) name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlayStatus) name:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
+    
 }
 
 - (void)viewConfig {
@@ -124,6 +128,14 @@
 			[_delegate radioViewStarTapedNeedLogin:self];
 		}
 	}
+}
+
+- (void)reloadPlayStatus {
+    if ([[MusicPlayerMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
+        _playButton.selected = NO;
+    } else {
+        _playButton.selected = YES;
+    }
 }
 
 #pragma mark - Public Methods
