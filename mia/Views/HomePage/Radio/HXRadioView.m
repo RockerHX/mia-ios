@@ -132,9 +132,9 @@
 
 - (void)reloadPlayStatus {
     if ([[MusicPlayerMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
-        _playButton.selected = NO;
-    } else {
         _playButton.selected = YES;
+    } else {
+        _playButton.selected = NO;
     }
 }
 

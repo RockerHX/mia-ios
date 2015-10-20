@@ -311,7 +311,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)addPushUserHeader {
     [self updatePromptLabel];
     // 秒推用户头像添加以及动画
-    [_infectUserView addItemAtFirstIndex:@"Header1"];
+    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[self userHeader]]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -327,8 +327,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }];
 }
 
+- (NSString *)userHeader {
+    NSString *avatarUrl = [[UserSession standard] avatar];
+    NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+    return avatarUrlWithTime;
+}
+
 - (void)updatePromptLabel {
-//    _pushPromptLabel.text = [NSString stringWithFormat:@"%@人秒推", @(_headerView.arrangedSubviews.count + 1)];
+    NSInteger count = _playItem.infectTotal;
+    NSString *prompt = [NSString stringWithFormat:@"%@人%@秒推", @(count + 1), ((count > 5) ? @"等" : @"")];
+    _pushPromptLabel.text = prompt;
 }
 
 - (void)reset {    
@@ -375,9 +383,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
     if (unreadCommentCount <= 0) {
-        NSString *avatarUrl = [[UserSession standard] avatar];
-        NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-        [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+        [_profileButton sd_setImageWithURL:[NSURL URLWithString:[self userHeader]]
                                   forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 	} else {
@@ -402,8 +408,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
 							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
 
-							  NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-							  NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+                              NSString *avatarUrlWithTime = [self userHeader];
 							  [[UserSession standard] setAvatar:avatarUrlWithTime];
 
 							  [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]

@@ -88,6 +88,11 @@ static CGFloat ItemDefaultWidth = 60.0f;
 }
 
 - (void)addItemAtFirstIndex:(id)item {
+    if (_stacView.arrangedSubviews.count == 5) {
+        UIView *view = [_stacView.arrangedSubviews lastObject];
+        [_stacView removeArrangedSubview:view];
+        [view removeFromSuperview];
+    }
     HXInfectUserItemView *itemView = [HXInfectUserItemView instance];
     [_stacView insertArrangedSubview:itemView atIndex:0];
     [self refreshItemView:itemView withItem:item];

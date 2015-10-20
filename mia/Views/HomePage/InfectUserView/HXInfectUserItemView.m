@@ -53,7 +53,7 @@
 }
 
 - (void)displayWithURL:(NSURL *)url {
-    [_header sd_setImageWithURL:url];
+    [_header sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 }
 
 - (void)displayWithImageName:(NSString *)imageName {
