@@ -193,6 +193,9 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
 		id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
 
+		#pragma message "@andy update infect users"
+		// 需要刷新下界面
+
 		// TODO
 		//ShareItem *currentItem = [_loopPlayerView getCurrentPlayerView].shareItem;
 		ShareItem *currentItem = nil;
@@ -322,9 +325,20 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	}
 }
 
-#warning @"卡片数据加载完成和从后台唤醒操作方法"
 - (void)viewShouldDisplay {
-    
+	[MiaAPIHelper getShareById:[[self currentShareItem] sID]
+				 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+					 [self handleGetSharemWitRet:success userInfo:userInfo];
+				 } timeoutBlock:^(MiaRequestItem *requestItem) {
+					 NSLog(@"handleGetSharemWitRet failed.");
+				 }];
+
+#pragma message "@andy update play button status"
+//	if ([[MusicPlayerMgr standard] isPlayingWithUrl:item.music.murl]) {
+//		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+//	} else {
+//		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+//	}
 }
 
 #pragma mark - Audio Operations
