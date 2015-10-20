@@ -15,6 +15,7 @@
 #import "UserSetting.h"
 #import "WebSocketMgr.h"
 #import "NSObject+BlockSupport.h"
+#import "NSString+IsNull.h"
 
 NSString * const MusicPlayerMgrNotificationKey_Msg				= @"msg";
 NSString * const MusicPlayerMgrNotificationKey_ModelID			= @"modelID";
@@ -154,6 +155,14 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 	}
 
 	NSLog(@"playWithUrl %ld, %ld, %@", _currentModelID, modelID, url);
+	if (_currentModelID == modelID
+		&& ![NSString isNull:audioStream.url.absoluteString]
+		&& [audioStream.url.absoluteString isEqualToString:url]) {
+		// 同一个模块再次播放同一首歌，什么都不做
+		NSLog(@"play the same song in the same model, play will be ignored.");
+		return;
+	}
+
 	_currentModelID = modelID;
 
 	if (![audioStream url]) {
