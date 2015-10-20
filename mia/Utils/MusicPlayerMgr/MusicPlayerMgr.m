@@ -16,6 +16,7 @@
 #import "WebSocketMgr.h"
 #import "NSObject+BlockSupport.h"
 #import "NSString+IsNull.h"
+#import "UIAlertView+Blocks.h"
 
 NSString * const MusicPlayerMgrNotificationKey_Msg				= @"msg";
 NSString * const MusicPlayerMgrNotificationKey_ModelID			= @"modelID";
@@ -270,17 +271,28 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 														object:nil
 													  userInfo:userInfo];
 
-	if ([[WebSocketMgr standard] isNetworkEnable]) {
-		static NSString *kAlertTitleError = @"网络流量保护";
-		static NSString *kAlertMsgNotAllowToPlayWith3G = @"为保护您的流量，需要在设置中打开开关才能在2G/3G/4G网络下播放。";
+	static NSString *kAlertTitleError = @"网络连接提醒";
+	static NSString *kAlertMsgNotAllowToPlayWith3G = @"您现在使用的是运营商网络，继续播放会产生流量费用。是否允许在2G/3G/4G网络下播放？";
 
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-															message:kAlertMsgNotAllowToPlayWith3G
-														   delegate:nil
-												  cancelButtonTitle:@"确定"
-												  otherButtonTitles:nil];
-		[alertView show];
-	}
+
+	RIButtonItem *allowItem = [RIButtonItem itemWithLabel:@"允许播放" action:^{
+		// this is the code that will be executed when the user taps "No"
+		// this is optional... if you leave the action as nil, it won't do anything
+		// but here, I'm showing a block just to show that you can use one if you want to.
+		NSLog(@"allow to play");
+	}];
+
+	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
+		// this is the code that will be executed when the user taps "Yes"
+		// delete the object in question...
+		NSLog(@"cancel");
+	}];
+
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
+														message:kAlertMsgNotAllowToPlayWith3G
+											   cancelButtonItem:cancelItem
+											   otherButtonItems:allowItem, nil];
+	[alertView show];
 }
 
 #pragma mark - Notification
