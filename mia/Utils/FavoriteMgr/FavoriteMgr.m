@@ -90,6 +90,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 								 [self handleGetFavoriteListWitRet:success userInfo:userInfo];
 							 } timeoutBlock:^(MiaRequestItem *requestItem) {
 								 NSLog(@"GetFavoriteList timeout");
+								 [self syncFinished:NO];
 							 }];
 }
 
@@ -124,9 +125,13 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 #pragma mark - private method
 
-- (void)syncFinished {
-	[self mergeItems];
-	[self saveData];
+- (void)syncFinished:(BOOL)isSuccess {
+	if (isSuccess) {
+		// 服务器获取成功才需要合并到本地
+		if ([self mergeItems]) {
+			[self saveData];
+		}
+	}
 
 	if (_customDelegate) {
 		[_customDelegate favoriteMgrDidFinishSync];
@@ -151,7 +156,9 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	return NO;
 }
 
-- (void)mergeItems {
+- (BOOL)mergeItems {
+	BOOL hasDataChanged = NO;
+
 	// 寻找删除的元素
 	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
@@ -159,6 +166,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			[self deleteCacheFileWithUrl:item.music.murl];
 			item.isCached = NO;
 			[_favoriteItems removeObject:item];
+			hasDataChanged = YES;
 		}
 	}
 
@@ -167,10 +175,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			// TODO linyehui fav
 			// 插入时的排序
 			[_favoriteItems addObject:newItem];
+			hasDataChanged = YES;
 		}
 	}
 
 	_tempItems = nil;
+	return hasDataChanged;
 }
 
 - (void)deleteCacheFileWithUrl:(NSString *)url {
@@ -189,6 +199,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			|| ![[WebSocketMgr standard] isWifiNetwork]) {
 			// 断网后也会从0重新开始查找需要下载的歌曲
 			_currentDownloadIndex = 0;
+			[self saveData];
 
 			dispatch_sync(dispatch_get_main_queue(), ^{
 				if (_customDelegate) {
@@ -205,7 +216,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
 							 if (nil == error) {
 								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
-								 [self saveData];
 							 } else {
 								 if (filePath) {
 									 NSError *fileError;
@@ -263,13 +273,13 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 - (void)handleGetFavoriteListWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
 	if (!success) {
-		[self syncFinished];
+		[self syncFinished:NO];
 		return;
 	}
 
 	NSArray *items = userInfo[@"v"][@"data"];
 	if (!items) {
-		[self syncFinished];
+		[self syncFinished:NO];
 		return;
 	}
 
@@ -291,7 +301,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 									 NSLog(@"GetFavoriteList timeout");
 								 }];
 	} else {
-		[self syncFinished];
+		[self syncFinished:YES];
 	}
 }
 

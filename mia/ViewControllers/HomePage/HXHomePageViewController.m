@@ -468,10 +468,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
 	if ([[UserSession standard] isCachedLogin]) {
-		NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
-		NSString *nickName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Nick];
-		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:uid
-																	 nickName:nickName
+		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+																	 nickName:[[UserSession standard] nick]
 																  isMyProfile:YES];
 		vc.customDelegate = self;
 		vc.playFavoriteOnceTime = playFavorite;

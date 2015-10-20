@@ -34,6 +34,8 @@
 - (id)init {
 	self = [super init];
 	if (self) {
+		_uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
+		_nick = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Nick];
 	}
 	return self;
 }
@@ -42,10 +44,16 @@
 }
 
 - (BOOL)isLogined {
-	if (!_uid || _uid.length == 0)
+	// 为了和无网络时的缓存登录区分开，加了utype的判断
+	if ([NSString isNull:_utype]) {
 		return NO;
-	if (!_nick || _nick.length == 0)
+	}
+	if ([NSString isNull:_uid]) {
 		return NO;
+	}
+	if ([NSString isNull:_nick]) {
+		return NO;
+	}
 
 	return YES;
 }
@@ -57,9 +65,7 @@
 		return NO;
 	}
 
-	NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
-	NSString *nickName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Nick];
-	if ([NSString isNull:uid] || [NSString isNull:nickName]) {
+	if ([NSString isNull:_uid] || [NSString isNull:_nick]) {
 		return NO;
 	}
 
