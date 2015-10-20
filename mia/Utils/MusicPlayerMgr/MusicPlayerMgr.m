@@ -244,7 +244,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
 	if (![_audioStream url]) {
 		// 没有设置过歌曲url，直接播放
-		NSLog(@"#MusicPlayerMgr# playFromURL - prev url is null");
+		NSLog(@"#MusicPlayerMgr# playFromURL - i'm the first song.");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
