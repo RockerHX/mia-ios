@@ -87,7 +87,6 @@
     [_helper configWithCarousel:_carousel];
 }
 
-#warning Should hanle notification
 #pragma mark - Notification
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
     long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
@@ -235,99 +234,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 NSLog(@"view share timeout");
 	 }];
-}
-
-- (void)spreadFeed {
-	NSLog(@"#swipe# up spred");
-	// 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-	[MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-								longitude:[[LocationMgr standard] currentCoordinate].longitude
-								  address:[[LocationMgr standard] currentAddress]
-									 spID:[_helper.currentItem spID]
-							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-								NSLog(@"InfectMusic %d", success);
-							} timeoutBlock:^(MiaRequestItem *requestItem) {
-								NSLog(@"InfectMusic timeout");
-							}];
-}
-
-- (void)notifySwipeLeft {
-	NSLog(@"#swipe# left");
-	// 向左滑动，右侧的卡片需要补充
-
-	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-	//[[_loopPlayerView getLeftPlayerView] pauseMusic];
-	//[_loopPlayerView getLeftPlayerView].shareItem.unread = NO;
-
-	[_shareListMgr checkHistoryItemsMaxCount];
-
-	// 补充一条右边的卡片
-	if ([_shareListMgr cursorShiftRight]) {
-//		ShareItem *newItem = [_shareListMgr getRightItem];
-		// TODO
-		//[_loopPlayerView getRightPlayerView].shareItem = newItem;
-
-		// 播放当前卡片上的歌曲
-		//[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
-
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	} else {
-		NSLog(@"shift cursor to right failed.");
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	}
-}
-
-- (void)notifySwipeRight {
-	NSLog(@"#swipe# right");
-	// 向右滑动，左侧的卡片需要补充
-
-	// 停止当前，这个方向的歌曲都是已读的，所以不需要再标记为已读
-	//[[_loopPlayerView getRightPlayerView] pauseMusic];
-
-	// 补充一条左边的卡片
-	if ([_shareListMgr cursorShiftLeft]) {
-//		ShareItem *newItem = [_shareListMgr getLeftItem];
-//		[_loopPlayerView getLeftPlayerView].shareItem = newItem;
-
-		// 播放当前卡片上的歌曲
-//		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
-
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	} else {
-		NSLog(@"shift cursor to left failed.");
-	}
-}
-
-- (void)loopPlayerViewPlayCompletion {
-	NSLog(@"#swipe# completion");
-	// 播放完成自动下一首，用右边的卡片替换当前卡片，并用新卡片填充右侧的卡片
-
-	// 停止当前，并标记为已读，检查下历史记录是否超出最大个数
-//	[[_loopPlayerView getCurrentPlayerView] pauseMusic];
-//	[_loopPlayerView getCurrentPlayerView].shareItem.unread = NO;
-	[_shareListMgr checkHistoryItemsMaxCount];
-
-	// 用当前的卡片内容替代左边的卡片内容
-	//	[_loopPlayerView getLeftPlayerView].shareItem = [_loopPlayerView getCurrentPlayerView].shareItem;
-	// 用右边的卡片内容替代当前的卡片内容
-//	[_loopPlayerView getCurrentPlayerView].shareItem = [_loopPlayerView getRightPlayerView].shareItem;
-
-	// 更新右边的卡片内容
-	if ([_shareListMgr cursorShiftRight]) {
-//		ShareItem *newItem = [_shareListMgr getRightItem];
-//		[_loopPlayerView getRightPlayerView].shareItem = newItem;
-
-		// 播放当前卡片上的歌曲
-//		[self playCurrentItem:[_loopPlayerView getCurrentPlayerView].shareItem];
-
-		// 检查是否需要获取新的数据
-		[self checkIsNeedToGetNewItems];
-	} else {
-		NSLog(@"play completion failed.");
-	}
 }
 
 - (void)viewShouldDisplay {
