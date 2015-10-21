@@ -381,19 +381,9 @@ CommentCellDelegate>
 	}
 }
 
-- (void)checkPlaceHolder {
-	if ([_dataModel.dataSource count] > 0) {
-		[self hidePlaceHolder];
-		return;
-	}
-
-	if (_noCommentView) {
-		[_noCommentView setHidden:NO];
-		return;
-	}
-
+- (void)initNoCommentView {
 	_noCommentView = [[UIView alloc] init];
-//	_noCommentView.backgroundColor = [UIColor yellowColor];
+	//	_noCommentView.backgroundColor = [UIColor yellowColor];
 	[_collectionView addSubview:_noCommentView];
 
 	UIImageView *noCommentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -401,11 +391,11 @@ CommentCellDelegate>
 	[_noCommentView addSubview:noCommentImageView];
 
 	MIALabel *_noCommentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											   text:@"沙发很寂寞..."
-											   font:UIFontFromSize(10.0f)
-										  textColor:[UIColor grayColor]
-									  textAlignment:NSTextAlignmentLeft
-										numberLines:1];
+														   text:@"沙发很寂寞..."
+														   font:UIFontFromSize(10.0f)
+													  textColor:[UIColor grayColor]
+												  textAlignment:NSTextAlignmentLeft
+													numberLines:1];
 	[_noCommentView addSubview:_noCommentLabel];
 
 	[_noCommentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -424,6 +414,20 @@ CommentCellDelegate>
 		make.left.equalTo(noCommentImageView.mas_right).offset(5);
 		make.right.equalTo(_noCommentView.mas_right);
 	}];
+}
+
+- (void)checkPlaceHolder {
+	if ([_dataModel.dataSource count] > 0) {
+		[self hidePlaceHolder];
+		return;
+	}
+
+	if (_noCommentView) {
+		[_noCommentView setHidden:NO];
+		return;
+	}
+
+	[self initNoCommentView];
 }
 
 - (void)hidePlaceHolder {

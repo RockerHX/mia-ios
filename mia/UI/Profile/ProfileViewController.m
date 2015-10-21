@@ -28,6 +28,8 @@
 #import "UserSession.h"
 #import "NSString+IsNull.h"
 #import "UserSetting.h"
+#import "Masonry.h"
+#import "ShareViewController.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -61,6 +63,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	ProfileShareModel 		*_shareListModel;
 	FavoriteModel 			*_favoriteModel;
+
+	UIView					*_addShareView;
+	UIView					*_noShareView;
+	UIView					*_noNetWorkView;
 }
 
 - (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile {
@@ -80,6 +86,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
 
 		if (_isMyProfile) {
 			[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NickName options:NSKeyValueObservingOptionNew context:nil];
@@ -93,6 +100,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
 
 	if (_isMyProfile) {
 		[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NickName context:nil];
@@ -222,6 +230,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)initData {
 	_shareListModel = [[ProfileShareModel alloc] init];
 	[self requestShareList];
+	[self checkPlaceHolder];
 
 	[[FavoriteMgr standard] setCustomDelegate:self];
 	_favoriteModel = [[FavoriteModel alloc] init];
@@ -241,14 +250,182 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 							[_profileCollectionView footerEndRefreshing];
 
 							NSArray *shareList = userInfo[@"v"][@"info"];
-							if (!shareList)
+							if (!shareList) {
+								[self checkPlaceHolder];
 								return;
+							}
 
 							[_shareListModel addSharesWithArray:shareList];
 							[_profileCollectionView reloadData];
+							[self checkPlaceHolder];
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
 							[_profileCollectionView footerEndRefreshing];
+							[self checkPlaceHolder];
 						}];
+}
+
+- (void)initAddShareView {
+	_addShareView = [[UIView alloc] init];
+	[_profileCollectionView addSubview:_addShareView];
+	[_addShareView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(noShareTouchAction:)]];
+
+	UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[bgImageView setImage:[UIImage imageNamed:@"add_music_bg"]];
+	[_addShareView addSubview:bgImageView];
+
+	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[logoImageView setImage:[UIImage imageNamed:@"add_music_logo"]];
+	[_addShareView addSubview:logoImageView];
+
+	MIALabel *addMusicLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+														   text:@"分享你喜欢的第一首歌"
+														   font:UIFontFromSize(10.0f)
+													  textColor:[UIColor blackColor]
+												  textAlignment:NSTextAlignmentCenter
+													numberLines:1];
+	[_addShareView addSubview:addMusicLabel];
+
+	[_addShareView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_profileCollectionView.mas_left).offset(kProfileItemMarginH);
+		make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-15);
+		CGFloat imageSize = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
+		make.size.mas_equalTo(CGSizeMake(imageSize, imageSize));
+	}];
+
+	[bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_addShareView.mas_centerX);
+		make.centerY.equalTo(_addShareView.mas_centerY);
+		CGFloat imageSize = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
+		make.size.mas_equalTo(CGSizeMake(imageSize, imageSize));
+	}];
+	[logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_addShareView.mas_centerX);
+		make.centerY.equalTo(_addShareView.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(45, 45));
+	}];
+
+	[addMusicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_addShareView.mas_centerX);
+		make.bottom.equalTo(bgImageView.mas_bottom).offset(-10);
+		make.right.equalTo(_addShareView.mas_right);
+	}];
+}
+
+- (void)initNoShareView {
+	_noShareView = [[UIView alloc] init];
+	[_profileCollectionView addSubview:_noShareView];
+
+	UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[iconImageView setImage:[UIImage imageNamed:@"no_share"]];
+	[_noShareView addSubview:iconImageView];
+
+	MIALabel *wordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+													 text:@"暂没有分享的歌曲"
+													 font:UIFontFromSize(12.0f)
+												textColor:[UIColor grayColor]
+											textAlignment:NSTextAlignmentCenter
+													numberLines:1];
+	[_noShareView addSubview:wordLabel];
+
+	[_noShareView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_profileCollectionView.mas_centerX);
+		make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-150);
+	}];
+
+	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_noShareView.mas_top);
+		make.left.equalTo(_noShareView.mas_left);
+		make.right.equalTo(_noShareView.mas_right);
+		make.centerX.equalTo(_noShareView.mas_centerX);
+		make.size.mas_equalTo(CGSizeMake(75, 75));
+	}];
+	[wordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_noShareView.mas_centerX);
+		make.top.equalTo(iconImageView.mas_bottom).offset(10);
+		make.bottom.equalTo(_noShareView.mas_bottom);
+	}];
+}
+
+
+- (void)initNoNetworkView {
+	_noNetWorkView = [[UIView alloc] init];
+	[_profileCollectionView addSubview:_noNetWorkView];
+
+	UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[iconImageView setImage:[UIImage imageNamed:@"NN-WiFiIcon"]];
+	[_noNetWorkView addSubview:iconImageView];
+
+	MIALabel *wordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+														   text:@"网络未连接"
+														   font:UIFontFromSize(12.0f)
+													  textColor:[UIColor grayColor]
+												  textAlignment:NSTextAlignmentCenter
+													numberLines:1];
+	[_noNetWorkView addSubview:wordLabel];
+
+	[_noNetWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_profileCollectionView.mas_centerX);
+		if (_isMyProfile) {
+			make.centerY.equalTo(_profileCollectionView.mas_centerY);
+		} else {
+			make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-150);
+		}
+
+	}];
+
+	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_noNetWorkView.mas_top);
+		make.left.equalTo(_noNetWorkView.mas_left);
+		make.right.equalTo(_noNetWorkView.mas_right);
+		make.centerX.equalTo(_noNetWorkView.mas_centerX);
+		make.size.mas_equalTo(CGSizeMake(75, 75));
+	}];
+	[wordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_noNetWorkView.mas_centerX);
+		make.top.equalTo(iconImageView.mas_bottom).offset(10);
+		make.bottom.equalTo(_noNetWorkView.mas_bottom);
+	}];
+}
+
+- (void)checkPlaceHolder {
+	// 先统一隐藏下，检查后会重新显示其中一个或都不显示
+	[self hidePlaceHolder];
+	if ([_shareListModel.dataSource count] > 0) {
+		return;
+	}
+
+	if ([[WebSocketMgr standard] isNetworkEnable]) {
+		if (_isMyProfile) {
+			if (_addShareView) {
+				[_addShareView setHidden:NO];
+				return;
+			}
+			[self initAddShareView];
+		} else {
+			if (_noShareView) {
+				[_noShareView setHidden:NO];
+				return;
+			}
+			[self initNoShareView];
+		}
+
+	} else {
+		if (_noNetWorkView) {
+			[_noNetWorkView setHidden:NO];
+			return;
+		}
+
+		[self initNoNetworkView];
+	}
+
+}
+
+- (void)hidePlaceHolder {
+	[_addShareView setHidden:YES];
+	[_noShareView setHidden:YES];
+	[_noNetWorkView setHidden:YES];
+
+	return;
 }
 
 #pragma mark - delegate
@@ -483,6 +660,10 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	}
 }
 
+- (void)notificationWebSocketDidAutoReconnectFailed:(NSNotification *)notification {
+	[self checkPlaceHolder];
+}
+
 #pragma mark - audio operations
 - (void)playFavoriteMusic {
 	if (_favoriteModel.dataSource.count <= 0) {
@@ -574,5 +755,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)noShareTouchAction:(id)sender {
+	ShareViewController *vc = [[ShareViewController alloc] init];
+	[self.navigationController pushViewController:vc animated:YES];
+}
 
 @end
