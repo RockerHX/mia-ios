@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class BRPlaceholderTextView;
+
 @interface HXFeedViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet BRPlaceholderTextView *feedContentTextView;
+@property (weak, nonatomic) IBOutlet           UITextField *feedContactTextField;
+
+- (IBAction)sendButtonPressed;
 
 @end

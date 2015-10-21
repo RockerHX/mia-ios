@@ -28,6 +28,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    // 设置导航条字体颜色
+    [[UINavigationBar appearance] setTintColor:UIColorFromRGB(128.0f, 128.0f, 128.0f)];
+    
     // 设置后台播放模式
     AVAudioSession *audioSession=[AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];

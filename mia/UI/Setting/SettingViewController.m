@@ -92,12 +92,7 @@ UITextFieldDelegate>
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -878,8 +873,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+#warning Load User Feed Back At Here
 - (void)cleanCacheTouchAction:(id)sender {
-	NSLog(@"cleanCacheTouchAction");
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedViewController"];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end
