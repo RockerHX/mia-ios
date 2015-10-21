@@ -13,6 +13,8 @@
 #import "HXHomePageViewController.h"
 #import "UserSetting.h"
 #import "HXAppConstants.h"
+#import "MobClick.h"
+#import "HXVersion.h"
 
 @interface AppDelegate () {
     BOOL _backBecomeActive;
@@ -35,10 +37,19 @@
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 
 	[self registerUserDefaults];
+    
+#pragma mark - UMeng Analytics SDK
+    // 设置版本号
+    [MobClick setAppVersion:[[HXVersion appVersion] stringByAppendingFormat:@"(%@)", [HXVersion appBuildVersion]]];
+    [MobClick setEncryptEnabled:YES];       // 日志加密
+    // 启动[友盟统计]
+//    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"App Store"];
+    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"Fir.im"];
 
 	return YES;
 }
 
+#pragma mark - App Delegate Methods
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if (_backBecomeActive) {
         [[NSNotificationCenter defaultCenter] postNotificationName:HXApplicationDidBecomeActiveNotification object:nil];
@@ -46,7 +57,7 @@
     _backBecomeActive = YES;
 }
 
-#pragma mark 远程控制事件
+#pragma mark - 远程控制事件
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicPlayerMgrNotificationKey_Msg];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
