@@ -165,6 +165,7 @@
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; settings = {ASSET_TAGS = (); }; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; settings = {ASSET_TAGS = (); }; };
+		CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; settings = {ASSET_TAGS = (); }; };
@@ -466,6 +467,8 @@
 		CD9D2EB81BD772AE00A2D312 /* HXFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedViewController.h; sourceTree = "<group>"; };
 		CD9D2EB91BD772AE00A2D312 /* HXFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedViewController.m; sourceTree = "<group>"; };
 		CD9D2EBC1BD7736500A2D312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Setting.storyboard; sourceTree = SOURCE_ROOT; };
+		CD9D2EBF1BD77C2100A2D312 /* BRPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPlaceholderTextView.h; sourceTree = "<group>"; };
+		CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRPlaceholderTextView.m; sourceTree = "<group>"; };
 		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
 		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
 		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
@@ -1184,6 +1187,7 @@
 		39BCAD771BA02AFE00C6F7F2 /* UIComponment */ = {
 			isa = PBXGroup;
 			children = (
+				CD9D2EBE1BD77C2100A2D312 /* PlaceholderTextView */,
 				CD4F62DE1BC9188200E33121 /* FDStackView */,
 				39BF8C551BB0F801003AB4FC /* MBProgressHUDHelp */,
 				397FA50B1BAC0CA7003FD186 /* MIALabel */,
@@ -1449,6 +1453,15 @@
 				CD9D2EB91BD772AE00A2D312 /* HXFeedViewController.m */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		CD9D2EBE1BD77C2100A2D312 /* PlaceholderTextView */ = {
+			isa = PBXGroup;
+			children = (
+				CD9D2EBF1BD77C2100A2D312 /* BRPlaceholderTextView.h */,
+				CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */,
+			);
+			path = PlaceholderTextView;
 			sourceTree = "<group>";
 		};
 		CDC5FE831BD0FD40001D154E /* Views */ = {
@@ -1737,6 +1750,7 @@
 				39BCADCE1BA02F3100C6F7F2 /* SDWebImageDownloaderOperation.m in Sources */,
 				390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
+				CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */,
 				39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
