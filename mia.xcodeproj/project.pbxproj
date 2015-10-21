@@ -902,11 +902,11 @@
 		397E42DD1BA90CBC006BE9E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				39AD4DA11BD7C8530065BA06 /* no_share@2x.png */,
-				39CB0F821BD7888E003394C1 /* sofa@2x.png */,
 				CD221FD11BC79FEE00FCD4E7 /* UI */,
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
+				39AD4DA11BD7C8530065BA06 /* no_share@2x.png */,
+				39CB0F821BD7888E003394C1 /* sofa@2x.png */,
 				3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */,
 				3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */,
 				393CE9BD1BBA94BE00FCF232 /* close@2x.png */,
