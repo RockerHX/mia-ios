@@ -544,7 +544,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
 	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPlay");
 		return;
 	}
 
@@ -555,7 +555,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
 	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
 	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
 		return;
 	}
 
@@ -566,7 +566,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
 	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
 		return;
 	}
 
