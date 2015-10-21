@@ -11,7 +11,7 @@
 
 @interface DetailViewController : UIViewController
 
-- (id)initWitShareItem:(ShareItem *)item;
+- (id)initWitShareItem:(ShareItem *)item fromMyProfile:(BOOL)fromMyProfile;
 
 @end
 

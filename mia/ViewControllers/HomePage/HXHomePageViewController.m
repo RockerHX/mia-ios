@@ -605,7 +605,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)shouldPushToRadioDetailViewController {
-	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem];
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

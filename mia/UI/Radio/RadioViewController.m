@@ -407,7 +407,7 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 	if (![_radioView currentShareItem])
 		return;
 	
-	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[_radioView currentShareItem]];
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[_radioView currentShareItem] fromMyProfile:NO];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -27,6 +27,7 @@
 #import "ProfileViewController.h"
 #import "Masonry.h"
 #import "LocationMgr.h"
+#import "UIActionSheet+Blocks.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -42,7 +43,6 @@ static const CGFloat kDetailItemHeight 					= 40;
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
-UIActionSheetDelegate,
 UITextFieldDelegate,
 DetailHeaderViewDelegate,
 CommentCellDelegate>
@@ -51,6 +51,7 @@ CommentCellDelegate>
 
 @implementation DetailViewController {
 	ShareItem 				*_shareItem;
+	BOOL					_fromMyProfile;
 	CommentModel 			*_dataModel;
 
 	UICollectionView 		*_collectionView;
@@ -64,10 +65,11 @@ CommentCellDelegate>
 	UIView 					*_noCommentView;
 }
 
-- (id)initWitShareItem:(ShareItem *)item {
+- (id)initWitShareItem:(ShareItem *)item fromMyProfile:(BOOL)fromMyProfile{
 	self = [super init];
 	if (self) {
 		_shareItem = item;
+		_fromMyProfile = fromMyProfile;
 
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -440,25 +442,6 @@ CommentCellDelegate>
 
 #pragma mark - delegate
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	const NSInteger kButtonIndex_Report = 0;
-	if (kButtonIndex_Report == buttonIndex) {
-		if (!_progressHUD) {
-			_progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
-			[self.view addSubview:_progressHUD];
-			_progressHUD.labelText = NSLocalizedString(@"举报成功", nil);
-			_progressHUD.mode = MBProgressHUDModeText;
-			[_progressHUD showAnimated:YES whileExecutingBlock:^{
-				sleep(2);
-			} completionBlock:^{
-				[_progressHUD removeFromSuperview];
-				_progressHUD = nil;
-			}];
-		}
-	}
-}
-
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
 	if ([[UserSession standard] isLogined]) {
 		return YES;
@@ -716,12 +699,32 @@ CommentCellDelegate>
 }
 
 - (void)moreButtonAction:(id)sender {
-	UIActionSheet *sheet=[[UIActionSheet alloc] initWithTitle:@"更多操作"
-													 delegate:self
-											cancelButtonTitle:@"取消"
-									   destructiveButtonTitle:@"举报"
-											otherButtonTitles: nil];
-	[sheet showInView:self.view];
+
+	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
+		NSLog(@"cancel");
+	}];
+	RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"举报" action:^{
+		NSLog(@"report");
+	}];
+
+	RIButtonItem *deleteItem = [RIButtonItem itemWithLabel:@"删除" action:^{
+		NSLog(@"delete");
+	}];
+
+	UIActionSheet *aActionSheet = nil;
+	if (_fromMyProfile) {
+		aActionSheet = [[UIActionSheet alloc] initWithTitle:@"更多操作"
+							cancelButtonItem:cancelItem
+					   destructiveButtonItem:reportItem
+							otherButtonItems:deleteItem, nil];
+	} else {
+		aActionSheet = [[UIActionSheet alloc] initWithTitle:@"更多操作"
+							cancelButtonItem:cancelItem
+					   destructiveButtonItem:reportItem
+							otherButtonItems:nil];
+	}
+
+	[aActionSheet showInView:self.view];
 }
 
 - (void)commentButtonAction:(id)sender {

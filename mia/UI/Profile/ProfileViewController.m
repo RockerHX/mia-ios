@@ -506,7 +506,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		 NSLog(@"post read comment timeout");
 	 }];
 
-	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem]];
+	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem] fromMyProfile:_isMyProfile];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
