@@ -59,8 +59,6 @@
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HXApplicationDidBecomeActiveNotification object:nil];
 
@@ -70,8 +68,6 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewShouldDisplay) name:HXApplicationDidBecomeActiveNotification object:nil];
 
@@ -88,22 +84,6 @@
 }
 
 #pragma mark - Notification
-- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
-		return;
-	}
-}
-
-- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
-		return;
-	}
-}
-
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
 	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
 	if (modelID != (long)(__bridge void *)self) {
@@ -111,10 +91,6 @@
 		return;
 	}
 	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
-
-//	if (_customDelegate) {
-//		[_customDelegate playerViewPlayCompletion];
-//	}
 }
 
 #pragma mark - Event Response
@@ -336,6 +312,14 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
+
+	if ([[MusicPlayerMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
+		//[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+		NSLog(@"Pause");
+	} else {
+		//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+		NSLog(@"Play");
+	}
 }
 
 #pragma mark - Audio Operations

@@ -55,8 +55,8 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay) name:MusicPlayerMgrNotificationDidPlay object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause) name:MusicPlayerMgrNotificationDidPause object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
     
 }
 
@@ -70,11 +70,24 @@
 }
 
 #pragma mark - Notification
-- (void)notificationMusicPlayerMgrDidPlay {
+#pragma message "@andy move notification to HXRadioViewController"
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPlay");
+		return;
+	}
+
     _playButton.selected = NO;
 }
 
-- (void)notificationMusicPlayerMgrDidPause {
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+	if (modelID != (long)(__bridge void *)self) {
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPlay");
+		return;
+	}
+
     _playButton.selected = YES;
 }
 

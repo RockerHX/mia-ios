@@ -444,7 +444,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
 	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPlay");
 		return;
 	}
 
