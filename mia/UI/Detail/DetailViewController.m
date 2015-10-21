@@ -60,6 +60,8 @@ CommentCellDelegate>
 	UIView 					*_footerView;
 	MBProgressHUD 			*_progressHUD;
 	NSTimer 				*_reportViewsTimer;
+
+	UIView 					*_noCommentView;
 }
 
 - (id)initWitShareItem:(ShareItem *)item {
@@ -275,6 +277,7 @@ CommentCellDelegate>
 	}];
 
 	_dataModel = [[CommentModel alloc] init];
+	[self checkPlaceHolder];
 	[self requestComments];
 }
 
@@ -283,21 +286,30 @@ CommentCellDelegate>
 	[MiaAPIHelper getMusicCommentWithShareID:_shareItem.sID
 									   start:_dataModel.lastCommentID
 										item:kCommentPageItemCount
-							   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-								   [_collectionView footerEndRefreshing];
+							   completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 [_collectionView footerEndRefreshing];
 
-								   if (!success)
-									   return;
-								   NSArray *commentArray = userInfo[@"v"][@"info"];
-								   if (!commentArray || [commentArray count] <= 0)
-									   return;
+		 if (!success) {
+			 [self checkPlaceHolder];
+			 return;
+		 }
 
-								   [_dataModel addComments:commentArray];
-								   [_collectionView reloadData];
-							   } timeoutBlock:^(MiaRequestItem *requestItem) {
-								   [_collectionView footerEndRefreshing];
-							   }];
-	//[MiaAPIHelper getMusicCommentWithShareID:@"244" start:commentModel.lastCommentID item:kCommentPageItemCount];
+		 NSArray *commentArray = userInfo[@"v"][@"info"];
+		 if (!commentArray || [commentArray count] <= 0) {
+			 [self checkPlaceHolder];
+			 return;
+		 }
+
+		 [_dataModel addComments:commentArray];
+		 [_collectionView reloadData];
+
+		 [self checkPlaceHolder];
+
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_collectionView footerEndRefreshing];
+		 [self checkPlaceHolder];
+	 }];
 }
 
 - (void)requestLatestComments {
@@ -307,17 +319,24 @@ CommentCellDelegate>
 							   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 								   [_collectionView footerEndRefreshing];
 
-								   if (!success)
+								   if (!success) {
+									   [self checkPlaceHolder];
 									   return;
+								   }
+
 								   NSArray *commentArray = userInfo[@"v"][@"info"];
-								   if (!commentArray || [commentArray count] <= 0)
+								   if (!commentArray || [commentArray count] <= 0) {
+									   [self checkPlaceHolder];
 									   return;
+								   }
 
 								   [_dataModel addComments:commentArray];
 								   [_collectionView reloadData];
+								   [self checkPlaceHolder];
 
 							   } timeoutBlock:^(MiaRequestItem *requestItem) {
 								   [_collectionView footerEndRefreshing];
+								   [self checkPlaceHolder];
 							   }];
 }
 
@@ -360,6 +379,59 @@ CommentCellDelegate>
 				removeMBProgressHUDBlock();
 		}];
 	}
+}
+
+- (void)checkPlaceHolder {
+	if ([_dataModel.dataSource count] > 0) {
+		[self hidePlaceHolder];
+		return;
+	}
+
+	if (_noCommentView) {
+		[_noCommentView setHidden:NO];
+		return;
+	}
+
+	_noCommentView = [[UIView alloc] init];
+//	_noCommentView.backgroundColor = [UIColor yellowColor];
+	[_collectionView addSubview:_noCommentView];
+
+	UIImageView *noCommentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	[noCommentImageView setImage:[UIImage imageNamed:@"sofa"]];
+	[_noCommentView addSubview:noCommentImageView];
+
+	MIALabel *_noCommentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											   text:@"沙发很寂寞..."
+											   font:UIFontFromSize(10.0f)
+										  textColor:[UIColor grayColor]
+									  textAlignment:NSTextAlignmentLeft
+										numberLines:1];
+	[_noCommentView addSubview:_noCommentLabel];
+
+	[_noCommentView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(_collectionView.mas_centerX);
+		make.centerY.equalTo(_collectionView.mas_centerY).offset(120);
+		make.height.equalTo(noCommentImageView.mas_height);
+	}];
+
+	[noCommentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(_noCommentView.mas_centerY);
+		make.left.equalTo(_noCommentView.mas_left);
+		make.size.mas_equalTo(CGSizeMake(25, 25));
+	}];
+	[_noCommentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(_noCommentView.mas_centerY);
+		make.left.equalTo(noCommentImageView.mas_right).offset(5);
+		make.right.equalTo(_noCommentView.mas_right);
+	}];
+}
+
+- (void)hidePlaceHolder {
+	if (_noCommentView) {
+		[_noCommentView setHidden:YES];
+	}
+
+	return;
 }
 
 #pragma mark - delegate
