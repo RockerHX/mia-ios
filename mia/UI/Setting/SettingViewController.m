@@ -36,6 +36,7 @@ UITextFieldDelegate>
 
 	UIView			*_userInfoView;
 	UIView			*_playSettingView;
+	UIView			*_feedbackView;
 	UIView			*_versionView;
 	UIView			*_logoutView;
 
@@ -135,6 +136,7 @@ UITextFieldDelegate>
 	[self initBarButton];
 	[self initUserInfoView];
 	[self initPlaySettingView];
+	[self initFeedbackView];
 	[self initVersionView];
 	[self initLogoutView];
 }
@@ -518,6 +520,46 @@ UITextFieldDelegate>
 	}];
 }
 
+- (void)initFeedbackView {
+	_feedbackView = [[UIView alloc] init];
+	_feedbackView.backgroundColor = [UIColor whiteColor];
+	[_scrollContentView addSubview:_feedbackView];
+	[_feedbackView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(feedbackTouchAction:)]];
+
+	MIALabel *feedbackTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															 text:@"意见反馈"
+															 font:UIFontFromSize(15.0f)
+														textColor:[UIColor blackColor]
+													textAlignment:NSTextAlignmentLeft
+													  numberLines:1];
+	[_feedbackView addSubview:feedbackTitleLabel];
+
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	[_feedbackView addSubview:lineView];
+
+	[_feedbackView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_scrollContentView.mas_left);
+		make.right.equalTo(_scrollContentView.mas_right);
+		make.height.equalTo(@50);
+		make.top.equalTo(_playSettingView.mas_bottom).offset(15);
+	}];
+
+	[feedbackTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(@200);
+		make.height.equalTo(@20);
+		make.left.equalTo(_feedbackView.mas_left).offset(15);
+		make.bottom.equalTo(_feedbackView.mas_bottom).offset(-17);
+	}];
+
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@1);
+		make.left.equalTo(_feedbackView.mas_left).offset(15);
+		make.right.equalTo(_feedbackView.mas_right);
+		make.bottom.equalTo(_feedbackView.mas_bottom);
+	}];
+}
+
 - (void)initVersionView {
 	_versionView = [[UIView alloc] init];
 	_versionView.backgroundColor = [UIColor whiteColor];
@@ -547,7 +589,7 @@ UITextFieldDelegate>
 		make.left.equalTo(_scrollContentView.mas_left);
 		make.right.equalTo(_scrollContentView.mas_right);
 		make.height.equalTo(@50);
-		make.top.equalTo(_playSettingView.mas_bottom).offset(15);
+		make.top.equalTo(_feedbackView.mas_bottom);
 	}];
 
 	[versionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -873,13 +915,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
-#warning Load User Feed Back At Here
+- (void)feedbackTouchAction:(id)sender {
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedBackViewController"];
+    [self.navigationController pushViewController:viewController animated:YES];
+
+//    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXUserTermsViewController"];
+//    [self presentViewController:viewController animated:YES completion:nil];
+}
+
 - (void)cleanCacheTouchAction:(id)sender {
-//    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedBackViewController"];
-//    [self.navigationController pushViewController:viewController animated:YES];
-    
-    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXUserTermsViewController"];
-    [self presentViewController:viewController animated:YES completion:nil];
+	NSLog(@"clean cache");
 }
 
 @end

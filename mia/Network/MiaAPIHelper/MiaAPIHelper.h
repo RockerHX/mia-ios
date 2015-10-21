@@ -104,6 +104,11 @@
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)feedbackWithNote:(NSString *)note
+				 contact:(NSString *)contact
+		   completeBlock:(MiaRequestCompleteBlock)completeBlock
+			timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getVerificationCodeWithType:(long)type
 						phoneNumber:(NSString *)phoneNumber
 					  completeBlock:(MiaRequestCompleteBlock)completeBlock
