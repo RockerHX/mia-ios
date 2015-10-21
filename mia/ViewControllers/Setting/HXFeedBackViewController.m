@@ -44,10 +44,18 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 
 #pragma mark - Event Response
 - (IBAction)sendButtonPressed {
-    [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
+    if (_feedContentTextView.text.length) {
+        [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示"
+                                                            message:@"请先填写反馈内容才能发送噢！"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
-#warning @andy @"反馈内容是必填的，没有的时候发送按钮不可点击"
 #pragma mark - Private Methods
 - (void)userFeedBackReuqestWithContact:(NSString *)contact content:(NSString *)content {
 	if ([NSString isNull:content]) {
