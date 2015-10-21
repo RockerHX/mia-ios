@@ -176,7 +176,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 }
 
 - (void)sendWitRequestItem:(MiaRequestItem *)requestItem {
-	const static NSTimeInterval kRequestTimeout = 3.0;
+	const static int64_t kRequestTimeout = 5;
 
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// 使用GDC同步锁保证读写同步
@@ -187,23 +187,23 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 		});
 
 		// 超时检测
-		[NSTimer bs_scheduledTimerWithTimeInterval:kRequestTimeout block:
-		 ^{
-			 // 使用GDC同步锁保证读写同步
-			 dispatch_sync(_requestDataSyncQueue, ^{
-				 MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
-				 if (lastItem) {
-					 // 超时了
-					 NSLog(@">++++++++++> #WebSocketWithBlock# TMOUT %ld\n%@", [requestItem timestamp], [requestItem jsonString]);
-					 dispatch_sync(dispatch_get_main_queue(), ^{
-						 if ([requestItem timeoutBlock]) {
-							 [requestItem timeoutBlock](requestItem);
-						 }
-					 });
-					 [_requestData removeObjectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
-				 }
-			 });
-		 } repeats:NO];
+		dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, kRequestTimeout * NSEC_PER_SEC);
+		dispatch_after(delayTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+			// 使用GDC同步锁保证读写同步
+			dispatch_sync(_requestDataSyncQueue, ^{
+				MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
+				if (lastItem) {
+					// 超时了
+					NSLog(@">++++++++++> #WebSocketWithBlock# TMOUT %ld\n%@", [requestItem timestamp], [requestItem jsonString]);
+					dispatch_sync(dispatch_get_main_queue(), ^{
+						if ([requestItem timeoutBlock]) {
+							[requestItem timeoutBlock](requestItem);
+						}
+					});
+					[_requestData removeObjectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
+				}
+			});
+		});
 
 		dispatch_sync(dispatch_get_main_queue(), ^{
 			[self send:[requestItem jsonString]];
