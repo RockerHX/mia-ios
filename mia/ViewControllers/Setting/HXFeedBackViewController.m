@@ -8,6 +8,8 @@
 
 #import "HXFeedBackViewController.h"
 #import "BRPlaceholderTextView.h"
+#import "NSString+IsNull.h"
+#import "MiaAPIHelper.h"
 
 static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议，我们将为您不断改进。";
 
@@ -45,10 +47,27 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
     [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
 }
 
-#warning User Feed Back Request Add Here
+#warning @andy @"反馈内容是必填的，没有的时候发送按钮不可点击"
 #pragma mark - Private Methods
 - (void)userFeedBackReuqestWithContact:(NSString *)contact content:(NSString *)content {
-    
+	if ([NSString isNull:content]) {
+		return;
+	}
+
+	[MiaAPIHelper feedbackWithNote:content
+						   contact:contact completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 [self.navigationController popViewControllerAnimated:YES];
+		 // TODO @andy 加提示
+		 if (success) {
+			 NSLog(@"反馈成功");
+		 } else {
+			 NSLog(@"反馈失败");
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 // TODO @andy 加提示
+		 NSLog(@"反馈失败");
+	}];
 }
 
 @end

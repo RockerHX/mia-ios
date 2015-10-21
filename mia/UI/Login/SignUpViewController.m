@@ -16,8 +16,10 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "NSString+MD5.h"
+#import "TTTAttributedLabel.h"
+#import "Masonry.h"
 
-@interface SignUpViewController () <UITextFieldDelegate>
+@interface SignUpViewController () <UITextFieldDelegate, TTTAttributedLabelDelegate>
 
 @end
 
@@ -88,6 +90,7 @@
 	[self initBarButton];
 	[self initInputView];
 	[self initMsgView];
+	[self initBottomView];
 }
 
 - (void)initBarButton {
@@ -308,6 +311,43 @@
 	[_msgView setHidden:YES];
 }
 
+- (void)initBottomView {
+	TTTAttributedLabel *bottomLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+	//bottomLabel.backgroundColor = [UIColor redColor];
+	bottomLabel.font = UIFontFromSize(10.0f);
+	bottomLabel.textColor = [UIColor grayColor];
+	bottomLabel.numberOfLines = 0;
+	bottomLabel.delegate = self;
+
+	// If you're using a simple `NSString` for your text,
+	// assign to the `text` property last so it can inherit other label properties.
+	NSString *text = @"说明：\n1、注册时你将收到验证短信。Mia绝不会在任何途径泄露你的手机号码和个人信息。\n2、注册代表你已阅读并同意《Mia用户协议和隐私条款》。";
+	[bottomLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:
+	 ^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+		 NSRange boldRange = [[mutableAttributedString string] rangeOfString:@"说明" options:NSCaseInsensitiveSearch];
+
+		 // Core Text APIs use C functions without a direct bridge to UIFont. See Apple's "Core Text Programming Guide" to learn how to configure string attributes.
+		 UIFont *boldSystemFont = [UIFont boldSystemFontOfSize:11];
+		 CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)boldSystemFont.fontName, boldSystemFont.pointSize, NULL);
+		 if (font) {
+			 [mutableAttributedString addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)font range:boldRange];
+			 CFRelease(font);
+		 }
+
+		 return mutableAttributedString;
+	}];
+
+	NSRange linkRange = [text rangeOfString:(@"《Mia用户协议和隐私条款》")];
+	[bottomLabel addLinkToURL:[NSURL URLWithString:@""] withRange:linkRange];
+
+	[self.view addSubview:bottomLabel];
+	[bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view.mas_bottom).offset(-50);
+		make.left.equalTo(self.view.mas_left).offset(30);
+		make.right.equalTo(self.view.mas_right).offset(-30);
+	}];
+}
+
 - (void)showMBProgressHUD {
 	if(!_progressHUD){
 		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -367,6 +407,12 @@
 	}
 
 	return YES;
+}
+
+#pragma mark - TTTAttributedLabelDelegate Methods
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+	UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXUserTermsViewController"];
+	[self presentViewController:viewController animated:YES completion:nil];
 }
 
 #pragma mark - Notification
