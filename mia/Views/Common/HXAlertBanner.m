@@ -74,6 +74,9 @@ static CGFloat BannerHeight = 64.0f;
             strongSelf.frame.size.width,
             strongSelf.height
         };
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf removeFromSuperview];
     }];
 }
 
