@@ -1,5 +1,5 @@
 //
-//  HXFeedViewController.h
+//  HXFeedBackViewController.h
 //  mia
 //
 //  Created by miaios on 15/10/21.
@@ -10,7 +10,7 @@
 
 @class BRPlaceholderTextView;
 
-@interface HXFeedViewController : UIViewController
+@interface HXFeedBackViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet BRPlaceholderTextView *feedContentTextView;
 @property (weak, nonatomic) IBOutlet           UITextField *feedContactTextField;
