@@ -17,4 +17,3 @@ FOUNDATION_EXPORT NSString *const HXWeiXinPaySuccessNotification;               
 FOUNDATION_EXPORT NSString *const HXWeiXinPayFailureNotification;                   // 微信支付失败的通知
 
 FOUNDATION_EXPORT NSString *const HXApplicationDidBecomeActiveNotification;             // 程序从后台被唤起到前台的通知
-FOUNDATION_EXPORT NSString *const HXRadioViewCardShouldReloadPlayStatusNotification;    // 页面也换首页卡片需要刷新播放状态的通知

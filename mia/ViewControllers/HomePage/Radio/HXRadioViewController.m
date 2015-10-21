@@ -52,6 +52,12 @@
 //	}];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self viewShouldDisplay];
+}
+
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
@@ -330,9 +336,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
-	// TODO 这个时机播放器还没开始播放歌曲
-#pragma message "@andy :("
-    //[[NSNotificationCenter defaultCenter] postNotificationName:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 }
 
 #pragma mark - Audio Operations
@@ -387,7 +390,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:_helper.currentItem];
-    [self viewShouldDisplay];
 }
 
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
