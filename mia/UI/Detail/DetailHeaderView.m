@@ -358,14 +358,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	[_viewsLabel setText: 0 == [item cView] ? @"" : NSStringFromInt([item cView])];
 	[_locationLabel setText:[item sAddress]];
 
-	if ([[MusicPlayerMgr standard] isPlayingWithUrl:item.music.murl]) {
-		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	} else {
-		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	}
-
 	[self updateShareButtonWithIsFavorite:item.favorite];
-
 	[self updateInfectUsers];
 }
 
@@ -374,6 +367,18 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_red"] forState:UIControlStateNormal];
 	} else {
 		[_favoriteButton setImage:[UIImage imageNamed:@"favorite_white"] forState:UIControlStateNormal];
+	}
+}
+
+- (void)updatePlayButtonStatus {
+	if (!_shareItem) {
+		return;
+	}
+
+	if ([[MusicPlayerMgr standard] isPlayingWithUrl:_shareItem.music.murl]) {
+		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	} else {
+		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	}
 }
 

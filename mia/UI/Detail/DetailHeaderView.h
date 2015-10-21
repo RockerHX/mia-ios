@@ -24,6 +24,7 @@
 @property (weak, nonatomic)id<DetailHeaderViewDelegate> customDelegate;
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite;
+- (void)updatePlayButtonStatus;
 
 - (void)playMusic;
 - (void)pauseMusic;

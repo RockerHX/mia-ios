@@ -339,11 +339,9 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 				 }];
 
 	if ([[MusicPlayerMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
-		//[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-		NSLog(@"Pause");
+		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
 	} else {
-		//[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-		NSLog(@"Play");
+		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
 	}
 }
 
