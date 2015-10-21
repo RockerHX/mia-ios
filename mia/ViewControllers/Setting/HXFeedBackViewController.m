@@ -1,21 +1,21 @@
 //
-//  HXFeedViewController.m
+//  HXFeedBackViewController.m
 //  mia
 //
 //  Created by miaios on 15/10/21.
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import "HXFeedViewController.h"
+#import "HXFeedBackViewController.h"
 #import "BRPlaceholderTextView.h"
 
 static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议，我们将为您不断改进。";
 
-@interface HXFeedViewController ()
+@interface HXFeedBackViewController ()
 
 @end
 
-@implementation HXFeedViewController
+@implementation HXFeedBackViewController
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {

@@ -875,8 +875,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 #warning Load User Feed Back At Here
 - (void)cleanCacheTouchAction:(id)sender {
-    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedViewController"];
-    [self.navigationController pushViewController:viewController animated:YES];
+//    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedBackViewController"];
+//    [self.navigationController pushViewController:viewController animated:YES];
+    
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXUserTermsViewController"];
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 @end

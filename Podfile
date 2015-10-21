@@ -6,7 +6,7 @@ inhibit_all_warnings!
 # Networking
 pod 'AFNetworking'
 pod 'SocketRocket'
-#pod 'SDWebImage'
+pod 'SDWebImage'
 
 # Audio
 pod 'FreeStreamer'
@@ -16,6 +16,8 @@ pod 'Masonry'
 
 # Tool
 #pod 'IQKeyboardManager'
+
+# View Controller Componment
 
 # View
 pod 'MBProgressHUD'
