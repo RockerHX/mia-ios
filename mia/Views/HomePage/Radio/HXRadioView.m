@@ -50,7 +50,6 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 
 }
 
@@ -58,7 +57,6 @@
 - (void)initConfig {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay) name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause) name:MusicPlayerMgrNotificationDidPause object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlayStatus) name:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
     
 }
 

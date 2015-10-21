@@ -52,6 +52,12 @@
 //	}];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self viewShouldDisplay];
+}
+
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
@@ -330,7 +336,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 				 } timeoutBlock:^(MiaRequestItem *requestItem) {
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
-    [[NSNotificationCenter defaultCenter] postNotificationName:HXRadioViewCardShouldReloadPlayStatusNotification object:nil];
 }
 
 #pragma mark - Audio Operations
@@ -385,7 +390,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:_helper.currentItem];
-    [self viewShouldDisplay];
 }
 
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
