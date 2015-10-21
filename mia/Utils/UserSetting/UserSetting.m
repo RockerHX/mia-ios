@@ -10,6 +10,7 @@
 #import "UserSetting.h"
 #import "UserDefaultsUtils.h"
 #import "WebSocketMgr.h"
+#import "MusicPlayerMgr.h"
 
 NSString * const UserDefaultsKey_PlayWith3G			= @"PlayWith3G";
 NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
@@ -49,6 +50,10 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 	}
 
 	if ([url hasPrefix:kLocalFilePrefix]) {
+		return YES;
+	}
+
+	if ([[MusicPlayerMgr standard] isPlayWith3GOnceTime]) {
 		return YES;
 	}
 

@@ -98,6 +98,8 @@ CommentCellDelegate>
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
+	[_detailHeaderView updatePlayButtonStatus];
+	
 	const NSTimeInterval kReportViewsTimeInterval = 15;
 	_reportViewsTimer = [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval
 															  target:self

@@ -28,6 +28,7 @@ extern NSString * const MusicPlayerMgrNotificationCompletion;
 // linyehui
 @property (assign, nonatomic) long currentModelID;
 
+- (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist;

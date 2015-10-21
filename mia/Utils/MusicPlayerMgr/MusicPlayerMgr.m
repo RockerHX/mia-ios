@@ -145,6 +145,10 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
+- (BOOL)isPlayWith3GOnceTime {
+	return _playWith3GOnceTime;
+}
+
 - (BOOL)isPlaying {
 	if (_audioStream) {
 		return [_audioStream isPlaying];

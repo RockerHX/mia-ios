@@ -139,10 +139,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	_isSyncing = NO;
 
-	if (0 == _currentDownloadIndex) {
-	[self downloadFavorite];
+	if (isSuccess && 0 == _currentDownloadIndex) {
+		[self downloadFavorite];
 	} else {
-		NSLog(@"last download task is still running.");
+		NSLog(@"download task did not started: %d", isSuccess);
 	}
 }
 
@@ -190,7 +190,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)downloadFavorite {
-	// TODO linyehui fav
 	// 多线程下载收藏的歌曲
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
 		FavoriteItem *item = [self getNextDownloadItem];
@@ -256,6 +255,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		return NO;
 	}
 
+	item.isCached = YES;
 	return YES;
 }
 
