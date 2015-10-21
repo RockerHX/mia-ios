@@ -59,6 +59,8 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HXApplicationDidBecomeActiveNotification object:nil];
 
@@ -68,6 +70,8 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewShouldDisplay) name:HXApplicationDidBecomeActiveNotification object:nil];
 
@@ -83,14 +87,35 @@
     [_helper configWithCarousel:_carousel];
 }
 
+#warning Should hanle notification
 #pragma mark - Notification
+- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
+    long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+    if (modelID != (long)(__bridge void *)self) {
+        NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
+}
+
+- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
+    long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+    if (modelID != (long)(__bridge void *)self) {
+        NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
+}
+
 - (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
-		return;
-	}
-	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
+    long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
+    if (modelID != (long)(__bridge void *)self) {
+        NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
+        return;
+    }
+    [_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
 }
 
 #pragma mark - Event Response

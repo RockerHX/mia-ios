@@ -16,4 +16,6 @@ FOUNDATION_EXPORT NSString *const WeiXinKEY;                // 微信SDK对应�
 FOUNDATION_EXPORT NSString *const HXWeiXinPaySuccessNotification;                   // 微信支付成功的通知
 FOUNDATION_EXPORT NSString *const HXWeiXinPayFailureNotification;                   // 微信支付失败的通知
 
-FOUNDATION_EXPORT NSString *const HXApplicationDidBecomeActiveNotification;             // 程序从后台被唤起到前台的通知
+FOUNDATION_EXPORT NSString *const HXApplicationDidBecomeActiveNotification;         // 程序从后台被唤起到前台的通知
+FOUNDATION_EXPORT NSString *const HXMusicPlayerMgrDidPlayNotification;              // 通知专辑卡片改变播放状态的通知
+FOUNDATION_EXPORT NSString *const HXMusicPlayerMgrDidPauseNotification;             // 通知专辑卡片改变暂停状态的通知

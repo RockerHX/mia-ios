@@ -17,3 +17,5 @@ NSString *const HXWeiXinPaySuccessNotification             = @"HXWeiXinPaySucces
 NSString *const HXWeiXinPayFailureNotification             = @"HXWeiXinPayFailureNotification";
 
 NSString *const HXApplicationDidBecomeActiveNotification            = @"HXApplicationDidBecomeActiveNotification";
+NSString *const HXMusicPlayerMgrDidPlayNotification                 = @"HXMusicPlayerMgrDidPlayNotification";
+NSString *const HXMusicPlayerMgrDidPauseNotification                = @"HXMusicPlayerMgrDidPauseNotification";
