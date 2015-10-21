@@ -87,6 +87,7 @@
     [_helper configWithCarousel:_carousel];
 }
 
+#warning Should hanle notification
 #pragma mark - Notification
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
     long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
