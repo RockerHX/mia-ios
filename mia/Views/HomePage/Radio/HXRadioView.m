@@ -70,7 +70,7 @@
 }
 
 #pragma mark - Notification
-#pragma message "@andy move notification to HXRadioViewController"
+#pragma message "@andy move notification to HXRadioViewController warning"
 - (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
 	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
 	if (modelID != (long)(__bridge void *)self) {
