@@ -53,7 +53,7 @@
     return self;
 }
 
-- (instancetype)initWithArrangedSubviews:(NSArray *)views {
+- (instancetype)initWithArrangedSubviews:(NSArray<__kindof UIView *> *)views {
     self = [super initWithFrame:CGRectZero];
     if (self) {
         [self commonInitializationWithArrangedSubviews:views];
@@ -61,11 +61,20 @@
     return self;
 }
 
-- (void)commonInitializationWithArrangedSubviews:(NSArray *)arrangedSubviews {
-    for (UIView *view in arrangedSubviews) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self commonInitializationWithArrangedSubviews:nil];
+    }
+    return self;
+}
+
+- (void)commonInitializationWithArrangedSubviews:(NSArray<__kindof UIView *> *)arrangedSubviews {
+    self.mutableArrangedSubviews = (arrangedSubviews ?: @[]).mutableCopy;
+    for (UIView *view in self.mutableArrangedSubviews) {
         [self addHiddenObserverForView:view];
     }
-    self.mutableArrangedSubviews = (arrangedSubviews ?: @[]).mutableCopy;
+    
     self.distributionArrangement = [[FDStackViewDistributionLayoutArrangement alloc] initWithItems:arrangedSubviews onAxis:self.axis];
     self.distributionArrangement.canvas = self;
     self.alignmentArrangement = [[FDStackViewAlignmentLayoutArrangement alloc] initWithItems:arrangedSubviews onAxis:self.axis];
@@ -78,7 +87,7 @@
 
 #pragma mark - Public Arranged Subviews Operations
 
-- (NSArray *)arrangedSubviews {
+- (NSArray<UIView *> *)arrangedSubviews {
     return self.mutableArrangedSubviews.copy;
 }
 
@@ -92,23 +101,18 @@
     [self.alignmentArrangement addItem:view];
     [self.distributionArrangement addItem:view];
     [self addHiddenObserverForView:view];
-    [self setNeedsUpdateConstraints];
-}
-
-- (void)willRemoveSubview:(UIView *)subview {
-    [self removeArrangedSubview:subview];
-    [super willRemoveSubview:subview];
+    [self updateLayoutArrangements];
 }
 
 - (void)removeArrangedSubview:(UIView *)view {
     if (![self.mutableArrangedSubviews containsObject:view] || ![view isDescendantOfView:self]) {
         return;
     }
+    [self removeHiddenObserverForView:view];
     [self.mutableArrangedSubviews removeObject:view];
     [self.alignmentArrangement removeItem:view];
     [self.distributionArrangement removeItem:view];
-    [self removeHiddenObserverForView:view];
-    [self setNeedsUpdateConstraints];
+    [self updateLayoutArrangements];
 }
 
 - (void)insertArrangedSubview:(UIView *)view atIndex:(NSUInteger)stackIndex {
@@ -121,7 +125,7 @@
     [self.alignmentArrangement insertItem:view atIndex:stackIndex];
     [self.distributionArrangement insertItem:view atIndex:stackIndex];
     [self addHiddenObserverForView:view];
-    [self setNeedsUpdateConstraints];
+    [self updateLayoutArrangements];
 }
 
 #pragma mark - Public Setters
@@ -131,7 +135,7 @@
         _axis = axis;
         self.distributionArrangement.axis = axis;
         self.alignmentArrangement.axis = axis;
-        [self setNeedsUpdateConstraints];
+        [self updateLayoutArrangements];
     }
 }
 
@@ -139,7 +143,7 @@
     if (_distribution != distribution) {
         _distribution = distribution;
         self.distributionArrangement.distribution = distribution;
-        [self setNeedsUpdateConstraints];
+        [self updateLayoutArrangements];
     }
 }
 
@@ -147,7 +151,7 @@
     if (_alignment != alignment) {
         _alignment = alignment;
         self.alignmentArrangement.alignment = alignment;
-        [self setNeedsUpdateConstraints];
+        [self updateLayoutArrangements];
     }
 }
 
@@ -155,7 +159,7 @@
     if (_spacing != spacing) {
         _spacing = spacing;
         self.distributionArrangement.spacing = spacing;
-        [self setNeedsUpdateConstraints];
+        [self updateLayoutArrangements];
     }
 }
 
@@ -178,12 +182,15 @@
 
 #pragma mark - Layout
 
-- (void)updateConstraints {
+- (void)updateLayoutArrangements {
     [self.distributionArrangement removeDeprecatedConstraints];
     [self.alignmentArrangement removeDeprecatedConstraints];
     [self.distributionArrangement updateArrangementConstraints];
     [self.alignmentArrangement updateArrangementConstraints];
-    
+}
+
+- (void)updateConstraints {
+    [self updateLayoutArrangements];
     [super updateConstraints];
 }
 
@@ -196,7 +203,7 @@ static void *FDStackViewHiddenObservingContext = &FDStackViewHiddenObservingCont
 }
 
 - (void)removeHiddenObserverForView:(UIView *)view {
-    [view removeObserver:self forKeyPath:@"hidden"];
+    [view removeObserver:self forKeyPath:@"hidden" context:FDStackViewHiddenObservingContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UIView *)view change:(NSDictionary *)change context:(void *)context {
@@ -216,9 +223,9 @@ static void *FDStackViewHiddenObservingContext = &FDStackViewHiddenObservingCont
 }
 
 - (void)dealloc {
-    [self.arrangedSubviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+    for (UIView *view in _mutableArrangedSubviews) {
         [self removeHiddenObserverForView:view];
-    }];
+    }
 }
 
 @end
