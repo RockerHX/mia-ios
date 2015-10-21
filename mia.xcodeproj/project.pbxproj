@@ -163,6 +163,8 @@
 		CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */; settings = {ASSET_TAGS = (); }; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; settings = {ASSET_TAGS = (); }; };
+		CD9D2EBA1BD772AE00A2D312 /* HXFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedViewController.m */; settings = {ASSET_TAGS = (); }; };
+		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; settings = {ASSET_TAGS = (); }; };
@@ -461,6 +463,9 @@
 		CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTransformLayer.m; sourceTree = "<group>"; };
 		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
+		CD9D2EB81BD772AE00A2D312 /* HXFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedViewController.h; sourceTree = "<group>"; };
+		CD9D2EB91BD772AE00A2D312 /* HXFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedViewController.m; sourceTree = "<group>"; };
+		CD9D2EBC1BD7736500A2D312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Setting.storyboard; sourceTree = SOURCE_ROOT; };
 		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
 		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
 		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
@@ -1355,6 +1360,7 @@
 		CD221FC61BC79F0300FCD4E7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
 			);
 			path = ViewControllers;
@@ -1363,6 +1369,7 @@
 		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CD9D2EB41BD7705A00A2D312 /* Setting */,
 				CD221FD21BC79FF800FCD4E7 /* HomePage */,
 			);
 			name = UI;
@@ -1425,6 +1432,23 @@
 				CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */,
 			);
 			path = Radio;
+			sourceTree = "<group>";
+		};
+		CD9D2EB41BD7705A00A2D312 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		CD9D2EB71BD7729400A2D312 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CD9D2EB81BD772AE00A2D312 /* HXFeedViewController.h */,
+				CD9D2EB91BD772AE00A2D312 /* HXFeedViewController.m */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		CDC5FE831BD0FD40001D154E /* Views */ = {
@@ -1618,6 +1642,7 @@
 				39CA061D1BAD67CC0074FD13 /* views@2x.png in Resources */,
 				393CE9BB1BBA768700FCF232 /* add_music_bg@2x.png in Resources */,
 				393CE9A81BB7A8CA00FCF232 /* favorite_downloaded@2x.png in Resources */,
+				CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */,
 				390BADD11BAFE188006269FD /* login_logo@2x.png in Resources */,
 				3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */,
 				39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */,
@@ -1741,6 +1766,7 @@
 				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */,
 				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
+				CD9D2EBA1BD772AE00A2D312 /* HXFeedViewController.m in Sources */,
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
 				CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */,
 				39BCADCC1BA02F3100C6F7F2 /* SDWebImageDecoder.m in Sources */,
@@ -1851,6 +1877,14 @@
 			);
 			name = HomePage.storyboard;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD9D2EBC1BD7736500A2D312 /* Base */,
+			);
+			name = Setting.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
