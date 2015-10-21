@@ -27,6 +27,7 @@
 #import "PathHelper.h"
 #import "UserSession.h"
 #import "NSString+IsNull.h"
+#import "UserSetting.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -118,7 +119,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_playFavoriteOnceTime = NO;
 
 		if (!_playingFavorite) {
-			[self playMusic:_favoriteModel.currentPlaying];
+			[self playFavoriteMusic];
 		}
 
 		[_favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
@@ -338,7 +339,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)profileHeaderViewDidTouchedCover {
 	if (!_playingFavorite) {
-		[self playMusic:_favoriteModel.currentPlaying];
+		[self playFavoriteMusic];
 	}
 
 	[_favoriteViewController setBackground:[UIImage getImageFromView:self.navigationController.view
@@ -349,12 +350,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)profileHeaderViewDidTouchedPlay {
 	if (!_playingFavorite) {
-		[self playMusic:_favoriteModel.currentPlaying];
+		[self playFavoriteMusic];
 	} else {
 		if ([[MusicPlayerMgr standard] isPlaying]) {
 			[self pauseMusic];
 		} else {
-			[self playMusic:_favoriteModel.currentPlaying];
+			[self playFavoriteMusic];
 		}
 	}
 }
@@ -405,7 +406,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (isChanged) {
 		if (deletePlaying) {
 			if ([_favoriteModel.dataSource count] > 0) {
-				[self playMusic:[_favoriteModel currentPlaying]];
+				[self playFavoriteMusic];
 			} else {
 				[self pauseMusic];
 			}
@@ -424,7 +425,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row {
-	[self playMusic:row];
+	if (_favoriteModel.dataSource.count <= 0) {
+		return;
+	}
+
+	FavoriteItem *aFavoriteItem = _favoriteModel.dataSource[row];
+	[self playFavoriteMusicWithoutCheckNetwork:aFavoriteItem];
 }
 
 - (void)favoriteViewControllerPauseMusic {
@@ -470,7 +476,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	if (_playingFavorite) {
 		_favoriteModel.currentPlaying++;
-		[self playMusic:_favoriteModel.currentPlaying];
+		[self playFavoriteMusic];
 		if (_favoriteViewController) {
 			[_favoriteViewController.favoriteCollectionView reloadData];
 		}
@@ -478,33 +484,69 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 }
 
 #pragma mark - audio operations
-
-- (void)playMusic:(NSInteger)row {
+- (void)playFavoriteMusic {
 	if (_favoriteModel.dataSource.count <= 0) {
 		return;
 	}
 
-	_playingFavorite = YES;
+	FavoriteItem *itemForPlay = _favoriteModel.dataSource[_favoriteModel.currentPlaying];
 
-	FavoriteItem *currentItem = _favoriteModel.dataSource[row];
+	// Wifi环境或者歌曲已经缓存，直接播放
+	if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
+		[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
+		return;
+	}
 
-	NSString *musicUrl = [[currentItem music] murl];
-	NSString *musicTitle = [[currentItem music] name];
-	NSString *musicArtist = [[currentItem music] singerName];
+	// 用户允许3G环境下播放歌曲
+	if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.murl]) {
+		[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
+		return;
+	}
+
+	// 寻找下一首已经缓存了的歌曲
+	itemForPlay = nil;
+	for (FavoriteItem *item in _favoriteModel.dataSource) {
+		if ([[FavoriteMgr standard] isItemCached:item]) {
+			itemForPlay = item;
+			break;
+		}
+	}
+
+	if (nil == itemForPlay) {
+		NSLog(@"没有可以播放的离线歌曲");
+		return;
+	}
+
+	[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
+}
+
+
+- (void)playFavoriteMusicWithoutCheckNetwork:(FavoriteItem *)aFavoriteItem {
+	if (!aFavoriteItem) {
+		NSLog(@"FavoriteItem is nil, play was ignored.");
+		return;
+	}
+
+	NSString *musicUrl = aFavoriteItem.music.murl;
+	NSString *musicTitle = aFavoriteItem.music.name;
+	NSString *musicArtist = aFavoriteItem.music.singerName;
 
 	if (!musicUrl || !musicTitle || !musicArtist) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}
 
-	if ([[FavoriteMgr standard] isItemCached:currentItem]) {
+	if (aFavoriteItem.isCached && [[FavoriteMgr standard] isItemCached:aFavoriteItem]) {
 		musicUrl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicUrl]];
+	} else {
+		NSLog(@"收藏中播放还未下载的歌曲");
 	}
+
+	_playingFavorite = YES;
 
 	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 	[_profileHeaderView setIsPlaying:YES];
 	[_favoriteViewController setIsPlaying:YES];
-
 }
 
 - (void)pauseMusic {
