@@ -26,6 +26,8 @@
 #import "UIImageView+WebCache.h"
 #import "LocationMgr.h"
 #import "DetailViewController.h"
+#import "HXAlertBanner.h"
+#import "HXGuideView.h"
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
@@ -50,6 +52,10 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     
     [[WebSocketMgr standard] watchNetworkStatus];
     [self initLocationMgr];
+    
+//    [HXGuideView showGuide:^{
+//        NSLog(@"asfdasdfsadf");
+//    }];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -601,6 +607,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)shouldPushToRadioDetailViewController {
 	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem];
 	[self.navigationController pushViewController:vc animated:YES];
+#warning Message Prompt Code At Here
+    [HXAlertBanner showWithMessage:@"温馨提示：网络断开" tap:^{
+        NSLog(@"aaaaaaaaaaaaaaaaaaaaaaa");
+    }];
 }
 
 @end
