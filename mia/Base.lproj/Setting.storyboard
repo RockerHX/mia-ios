@@ -1,7 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
-    <scenes/>
+    <scenes>
+        <!--意见反馈-->
+        <scene sceneID="CmV-tZ-QKp">
+            <objects>
+                <viewController storyboardIdentifier="HXFeedViewController" id="SZ7-Ve-eya" customClass="HXFeedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7vL-5B-ljn"/>
+                        <viewControllerLayoutGuide type="bottom" id="uod-qf-Xwk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bq2-Pp-Vvx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="问题描述：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZIb-r3-fhh">
+                                <rect key="frame" x="20" y="50" width="90" height="22"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cB8-ot-ZNc" customClass="BRPlaceholderTextView">
+                                <rect key="frame" x="20" y="82" width="280" height="140"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="WiZ-ds-NS3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系方式：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afH-gm-1uR">
+                                <rect key="frame" x="20" y="252" width="85" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="QQ号或手机号(选填)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TYU-wE-xSE">
+                                <rect key="frame" x="20" y="283" width="280" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="vgO-ED-FQJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cB8-ot-ZNc" firstAttribute="top" secondItem="ZIb-r3-fhh" secondAttribute="bottom" constant="10" id="GCa-bX-cVE"/>
+                            <constraint firstItem="TYU-wE-xSE" firstAttribute="leading" secondItem="afH-gm-1uR" secondAttribute="leading" id="Hb9-SF-HkM"/>
+                            <constraint firstItem="TYU-wE-xSE" firstAttribute="top" secondItem="afH-gm-1uR" secondAttribute="bottom" constant="10" id="KIz-aL-VHy"/>
+                            <constraint firstItem="ZIb-r3-fhh" firstAttribute="leading" secondItem="bq2-Pp-Vvx" secondAttribute="leading" constant="20" id="KPx-S8-qWY"/>
+                            <constraint firstAttribute="trailing" secondItem="TYU-wE-xSE" secondAttribute="trailing" constant="20" id="M8l-tV-rIp"/>
+                            <constraint firstItem="afH-gm-1uR" firstAttribute="leading" secondItem="ZIb-r3-fhh" secondAttribute="leading" id="T33-d4-G2z"/>
+                            <constraint firstAttribute="trailing" secondItem="cB8-ot-ZNc" secondAttribute="trailing" constant="20" id="ZAl-jf-2VH"/>
+                            <constraint firstItem="cB8-ot-ZNc" firstAttribute="leading" secondItem="ZIb-r3-fhh" secondAttribute="leading" id="iGb-gI-TC3"/>
+                            <constraint firstItem="ZIb-r3-fhh" firstAttribute="top" secondItem="7vL-5B-ljn" secondAttribute="bottom" constant="30" id="mJd-Mi-nuZ"/>
+                            <constraint firstItem="afH-gm-1uR" firstAttribute="top" secondItem="cB8-ot-ZNc" secondAttribute="bottom" constant="30" id="tIK-eI-kti"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="意见反馈" id="GeY-r4-vzK">
+                        <barButtonItem key="rightBarButtonItem" title="发送" id="NOT-5M-EFR">
+                            <connections>
+                                <action selector="sendButtonPressed" destination="SZ7-Ve-eya" id="hlf-Ur-NtC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="feedContactTextField" destination="TYU-wE-xSE" id="v59-Ir-nTl"/>
+                        <outlet property="feedContentTextView" destination="cB8-ot-ZNc" id="Jyu-Gh-13V"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mKM-2u-WeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-202" y="330"/>
+        </scene>
+    </scenes>
 </document>
