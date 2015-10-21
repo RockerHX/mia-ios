@@ -918,9 +918,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (void)feedbackTouchAction:(id)sender {
     UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedBackViewController"];
     [self.navigationController pushViewController:viewController animated:YES];
-
-//    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXUserTermsViewController"];
-//    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 - (void)cleanCacheTouchAction:(id)sender {
