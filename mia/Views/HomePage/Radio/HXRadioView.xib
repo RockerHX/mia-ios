@@ -80,7 +80,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
-                    <rect key="frame" x="138" y="122" width="45" height="45"/>
+                    <rect key="frame" x="133" y="117" width="55" height="55"/>
                     <animations/>
                     <state key="normal" image="P-PauseIcon"/>
                     <state key="selected" image="P-PlayIcon"/>
@@ -140,7 +140,7 @@
         <image name="HP-LocationIcon" width="12" height="17"/>
         <image name="HP-StarIcon" width="20" height="20"/>
         <image name="HP-UnStarIcon" width="20" height="20"/>
-        <image name="P-PauseIcon" width="45" height="45"/>
-        <image name="P-PlayIcon" width="45" height="45"/>
+        <image name="P-PauseIcon" width="55" height="55"/>
+        <image name="P-PlayIcon" width="55" height="55"/>
     </resources>
 </document>
