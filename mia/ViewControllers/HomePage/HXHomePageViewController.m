@@ -27,6 +27,7 @@
 #import "LocationMgr.h"
 #import "DetailViewController.h"
 #import "HXAlertBanner.h"
+#import "HXGuideView.h"
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
@@ -51,6 +52,10 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     
     [[WebSocketMgr standard] watchNetworkStatus];
     [self initLocationMgr];
+    
+//    [HXGuideView showGuide:^{
+//        NSLog(@"asfdasdfsadf");
+//    }];
 }
 
 - (void)viewDidLayoutSubviews {
