@@ -178,6 +178,16 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 - (void)sendWitRequestItem:(MiaRequestItem *)requestItem {
 	const static int64_t kRequestTimeout = 5;
 
+	// 长连接没打开的时候直接返回超时，不用尝试
+	if (![self isOpen]) {
+		NSLog(@"WebSocket is closed, ignore sendWitRequestItem:%@", requestItem.command);
+		if ([requestItem timeoutBlock]) {
+			[requestItem timeoutBlock](requestItem);
+		}
+
+		return;
+	}
+
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// 使用GDC同步锁保证读写同步
 		dispatch_sync(_requestDataSyncQueue, ^{
