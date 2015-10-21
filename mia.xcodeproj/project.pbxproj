@@ -162,6 +162,8 @@
 		CDC8949E1BD4CC0F0080E7FF /* HXNoNetworkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC8949D1BD4CC0F0080E7FF /* HXNoNetworkView.xib */; settings = {ASSET_TAGS = (); }; };
 		CDFFAAE91BD7B55B0074C0EF /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAE81BD7B55B0074C0EF /* HXAlertBanner.m */; settings = {ASSET_TAGS = (); }; };
 		CDFFAAEB1BD7B5720074C0EF /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAEA1BD7B5720074C0EF /* HXAlertBanner.xib */; settings = {ASSET_TAGS = (); }; };
+		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; settings = {ASSET_TAGS = (); }; };
+		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -444,6 +446,9 @@
 		CDFFAAE71BD7B55B0074C0EF /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
 		CDFFAAE81BD7B55B0074C0EF /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
 		CDFFAAEA1BD7B5720074C0EF /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
+		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
+		CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGuideView.m; sourceTree = "<group>"; };
+		CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXGuideView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1382,6 +1387,7 @@
 		CDC5FE831BD0FD40001D154E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CDFFAAEC1BD7BCE30074C0EF /* Guide */,
 				CDC894991BD4CB720080E7FF /* Common */,
 				CDC5FE851BD0FF7F001D154E /* HomePage */,
 			);
@@ -1441,6 +1447,16 @@
 				CDFFAAEA1BD7B5720074C0EF /* HXAlertBanner.xib */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		CDFFAAEC1BD7BCE30074C0EF /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */,
+				CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */,
+				CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */,
+			);
+			path = Guide;
 			sourceTree = "<group>";
 		};
 		D6C14994FCE56A99A6316EBF /* Pods */ = {
@@ -1550,6 +1566,7 @@
 				39CA06121BAD67CC0074FD13 /* back@2x.png in Resources */,
 				393CE9A91BB7A8CA00FCF232 /* favorite_downloading@2x.png in Resources */,
 				39BF8C781BB29FA0003AB4FC /* cover_mask@2x.png in Resources */,
+				CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */,
 				39BF8C631BB23517003AB4FC /* default_cover@2x.png in Resources */,
 				39BF8C811BB2CDD5003AB4FC /* profile_banner_mask@2x.png in Resources */,
 				39CB0F831BD7888E003394C1 /* sofa@2x.png in Resources */,
@@ -1742,6 +1759,7 @@
 				CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
+				CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */,
 				39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */,
 				39CA06301BADBD6C0074FD13 /* RadioView.m in Sources */,
 				390BADC91BAFD9FB006269FD /* LoginViewController.m in Sources */,
