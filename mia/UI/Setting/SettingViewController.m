@@ -873,6 +873,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+#warning Load User Feed Back At Here
 - (void)cleanCacheTouchAction:(id)sender {
     UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:@"HXFeedViewController"];
     [self.navigationController pushViewController:viewController animated:YES];

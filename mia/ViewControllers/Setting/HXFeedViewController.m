@@ -42,6 +42,12 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 
 #pragma mark - Event Response
 - (IBAction)sendButtonPressed {
+    [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
+}
+
+#warning User Feed Back Request Add Here
+#pragma mark - Private Methods
+- (void)userFeedBackReuqestWithContact:(NSString *)contact content:(NSString *)content {
     
 }
 
