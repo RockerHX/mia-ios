@@ -443,14 +443,20 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)infectShare {
     // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
     [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-                                longitude:[[LocationMgr standard] currentCoordinate].longitude
-                                  address:[[LocationMgr standard] currentAddress]
-                                     spID:_playItem.spID
-                            completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                                NSLog(@"InfectMusic %d", success);
-                            } timeoutBlock:^(MiaRequestItem *requestItem) {
-                                NSLog(@"InfectMusic timeout");
-                            }];
+								longitude:[[LocationMgr standard] currentCoordinate].longitude
+								  address:[[LocationMgr standard] currentAddress]
+									 spID:_playItem.spID
+							completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+	 }];
 }
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
