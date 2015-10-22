@@ -89,6 +89,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	_infectUsersView = [[UIView alloc] init];
 //	_infectUsersView.backgroundColor = [UIColor yellowColor];
 	[self addSubview:_infectUsersView];
+	[_infectUsersView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectUsersTouchAction:)]];
 
 	_bottomView = [[UIView alloc] init];
 //	_bottomView.backgroundColor = UIColorFromHex(@"00ff00", 0.8);
@@ -538,6 +539,12 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 - (void)sharerLabelTouchAction:(id)sender {
 	if (_customDelegate) {
 		[_customDelegate detailHeaderViewClickedSharer];
+	}
+}
+
+- (void)infectUsersTouchAction:(id)sender {
+	if (_customDelegate) {
+		[_customDelegate detailHeaderViewClickedInfectUsers];
 	}
 }
 

@@ -34,9 +34,20 @@
 			  completeBlock:(MiaRequestCompleteBlock)completeBlock
 			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)getInfectListWithSID:(NSString *)sID
+					 startID:(NSString *)startID
+						item:(long)item
+			   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getShareById:(NSString *)sID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)reportShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 
 + (void)postReadCommentWithsID:(NSString *)sID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -103,6 +114,10 @@
 						 note:(NSString *)note
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)deleteShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)feedbackWithNote:(NSString *)note
 				 contact:(NSString *)contact

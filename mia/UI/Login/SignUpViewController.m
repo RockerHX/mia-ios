@@ -575,11 +575,12 @@
 		 if (success) {
 			 [self showErrorMsg:@"验证码已经发送"];
 		 } else {
-			 [self showErrorMsg:@"验证码发送失败，请重新获取"];
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [self showErrorMsg:[NSString stringWithFormat:@"验证码发送失败：%@", error]];
 			 [self resetCountdown];
 		 }
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [self showErrorMsg:@"验证码发送失败，请重新获取"];
+		 [self showErrorMsg:@"验证码发送超时，请重新获取"];
 		 [self resetCountdown];
 	 }];
 }

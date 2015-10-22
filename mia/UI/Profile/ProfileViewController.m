@@ -45,7 +45,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 , UICollectionViewDelegateFlowLayout
 , ProfileHeaderViewDelegate
 , FavoriteViewControllerDelegate
-, FavoriteMgrDelegate>
+, FavoriteMgrDelegate
+, DetailViewControllerDelegate>
 
 @end
 
@@ -612,6 +613,12 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)favoriteViewControllerPauseMusic {
 	[self pauseMusic];
+}
+
+- (void)detailViewControllerDidDeleteShare {
+	// 删除分享后需要从新获取分享列表
+	_currentPageStart = 0;
+	[self requestShareList];
 }
 
 #pragma mark - Notification

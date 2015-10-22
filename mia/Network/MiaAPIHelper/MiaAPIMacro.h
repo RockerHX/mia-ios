@@ -32,9 +32,13 @@ static NSString * const MiaAPIKey_ID						= @"id";
 static NSString * const MiaAPICommand_Music_GetShlist		= @"Music.Get.Shlist";
 static NSString * const MiaAPIKey_UID						= @"uid";
 
+static NSString * const MiaAPICommand_Music_GetInfectList	= @"Music.Get.Infectlist";
+
 static NSString * const MiaAPICommand_Music_GetSharem		= @"Music.Get.Sharem";
 static NSString * const MiaAPICommand_Music_GetByid			= @"Music.Get.Byid";
 static NSString * const MiaAPIKey_MID						= @"mid";
+
+static NSString * const MiaAPICommand_Music_PostReport		= @"Music.Post.Report";
 
 static NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
 static NSString * const MiaAPIKey_GUID						= @"guid";
@@ -89,5 +93,7 @@ static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";
 static NSString * const MiaAPICommand_User_GetClogo			= @"User.Get.Clogo";
 
 static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
+
+static NSString * const MiaAPICommand_User_DeleteSharem		= @"User.Delete.Sharem";
 
 #endif // MiaMusicAPIMacro_h

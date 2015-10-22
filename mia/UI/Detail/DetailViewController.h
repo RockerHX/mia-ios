@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
 
+@protocol DetailViewControllerDelegate
+
+- (void)detailViewControllerDidDeleteShare;
+
+@end
+
 @interface DetailViewController : UIViewController
+
+@property (weak, nonatomic)id<DetailViewControllerDelegate> customDelegate;
 
 - (id)initWitShareItem:(ShareItem *)item fromMyProfile:(BOOL)fromMyProfile;
 
