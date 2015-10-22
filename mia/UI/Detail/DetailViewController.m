@@ -502,6 +502,28 @@ CommentCellDelegate>
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)detailHeaderViewClickedInfectUsers {
+#warning @andy infectlist
+	static const long kInfectListItemCountInPage = 10;
+	__block NSString *lastInfectID = @"0";
+	[MiaAPIHelper getInfectListWithSID:_shareItem.sID
+							   startID:lastInfectID
+								  item:kInfectListItemCountInPage completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 NSLog(@"getInfectListWithSID");
+		 if (success) {
+			 NSArray *infectList = userInfo[@"v"][@"data"];
+			 if (!infectList) {
+				 return;
+			 }
+			 lastInfectID = @"";//[[infectList lastObject][@"infectid"] stringValue];
+
+		 }
+		} timeoutBlock:^(MiaRequestItem *requestItem) {
+			NSLog(@"Timeout");
+		}];
+}
+
 - (void)detailHeaderViewChangeHeight {
 	[[_collectionView collectionViewLayout] invalidateLayout];
 }
@@ -704,6 +726,7 @@ CommentCellDelegate>
 	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
 		NSLog(@"cancel");
 	}];
+
 	RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"举报" action:^{
 		[MiaAPIHelper reportShareById:_shareItem.sID completeBlock:
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {

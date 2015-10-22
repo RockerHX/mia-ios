@@ -34,6 +34,12 @@
 			  completeBlock:(MiaRequestCompleteBlock)completeBlock
 			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)getInfectListWithSID:(NSString *)sID
+					 startID:(NSString *)startID
+						item:(long)item
+			   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getShareById:(NSString *)sID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
