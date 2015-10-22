@@ -75,7 +75,6 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 - (void)watchNetworkStatus {
 	_networkStatus = AFNetworkReachabilityStatusUnknown;
 	
-	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:
 	 ^(AFNetworkReachabilityStatus status) {
 		NSLog(@"Network status change: %ld", status);
@@ -96,6 +95,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 			 [self stopAutoReconnect];
 		 }
 	}];
+	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
 - (BOOL)isNetworkEnable {
