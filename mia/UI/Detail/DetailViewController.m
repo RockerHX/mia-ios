@@ -355,36 +355,6 @@ CommentCellDelegate>
 	return YES;
 }
 
-- (void)showMBProgressHUD{
-	if(!_progressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交评论";
-		[_progressHUD show:YES];
-	}
-}
-
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_progressHUD){
-		if(isSuccess){
-			_progressHUD.labelText = @"评论成功";
-		}else{
-			_progressHUD.labelText = @"评论失败，请稍后再试";
-		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 - (void)initNoCommentView {
 	_noCommentView = [[UIView alloc] init];
 	//	_noCommentView.backgroundColor = [UIColor yellowColor];
@@ -547,21 +517,27 @@ CommentCellDelegate>
 		return;
 	}
 
-	[self showMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
 	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
 								 comment:_commentTextField.text
-						   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							   if (success) {
-								   _commentTextField.text = @"";
-								   [self requestLatestComments];
-							   }
+						   completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 _commentTextField.text = @"";
+			 [self requestLatestComments];
+			 [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"提交评论失败:%@", error] tap:nil];
+		 }
 
-							   [_commentTextField resignFirstResponder];
-							   [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
-						   } timeoutBlock:^(MiaRequestItem *requestItem) {
-							   [_commentTextField resignFirstResponder];
-							   [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
-						   }];
+		 [_commentTextField resignFirstResponder];
+		 [aMBProgressHUD removeFromSuperview];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_commentTextField resignFirstResponder];
+		 [aMBProgressHUD removeFromSuperview];
+		 [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
+	 }];
 }
 
 #pragma mark - collectionView代理方法

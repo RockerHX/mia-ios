@@ -10,21 +10,12 @@
 
 @implementation MBProgressHUDHelp
 
-+(id)standarMBProgressHUDHelp{
-    static MBProgressHUDHelp *hudHelp = nil;
-    static dispatch_once_t predicate;
-    dispatch_once(&predicate, ^{
-        hudHelp = [[self alloc] init];
-    });
-    return hudHelp;
-}
-
 /**
  *  显示纯文本的对话框
  *
  *  @param text 文本内容
  */
--(void)showHUDWithModeText:(NSString *)text{
++ (void)showHUDWithModeText:(NSString *)text{
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     MBProgressHUD *progressHUD = [[MBProgressHUD alloc] initWithView:window];
     [window addSubview:progressHUD];
@@ -37,13 +28,24 @@
     }];
 }
 
-- (void)showHUDWithModeTextAndNoSleep:(NSString *)text{
++ (void)showHUDWithModeTextAndNoSleep:(NSString *)text{
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     MBProgressHUD *progressHUD = [[MBProgressHUD alloc] initWithView:window];
     [window addSubview:progressHUD];
     progressHUD.labelText = text;
     progressHUD.mode = MBProgressHUDModeText;
     [progressHUD show:YES];
+}
+
++ (MBProgressHUD *)showLoadingWithText:(NSString *)text {
+	UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+	MBProgressHUD *aProgressHUD = [[MBProgressHUD alloc] initWithView:window];
+	[window addSubview:aProgressHUD];
+	aProgressHUD.dimBackground = YES;
+	aProgressHUD.labelText = text;
+	[aProgressHUD show:YES];
+
+	return aProgressHUD;
 }
 
 @end

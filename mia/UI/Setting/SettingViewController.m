@@ -12,7 +12,6 @@
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
 #import "WebSocketMgr.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "Masonry.h"
 #import "UserSession.h"
@@ -21,6 +20,7 @@
 #import "UIImage+Extrude.h"
 #import "NSString+IsNull.h"
 #import "ChangePwdViewController.h"
+#import "HXAlertBanner.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
@@ -46,7 +46,6 @@ UITextFieldDelegate>
 	UISwitch 		*_autoPlaySwitch;
 	UISwitch 		*_playWith3GSwitch;
 
-	MBProgressHUD 	*_logoutProgressHUD;
 	MBProgressHUD 	*_uploadAvatarProgressHUD;
 
 	MIAGender		_gender;
@@ -647,67 +646,6 @@ UITextFieldDelegate>
 	}
 }
 
-
-- (void)showLogoutMBProgressHUD{
-	if(!_logoutProgressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_logoutProgressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_logoutProgressHUD];
-		_logoutProgressHUD.dimBackground = YES;
-		_logoutProgressHUD.labelText = @"退出登录中...";
-		[_logoutProgressHUD show:YES];
-	}
-}
-
-- (void)removeLogoutMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_logoutProgressHUD){
-		if(isSuccess){
-			_logoutProgressHUD.labelText = @"成功退出登录，请重新登录";
-		}else{
-			_logoutProgressHUD.labelText = @"退出登录失败，请稍后再试";
-		}
-		_logoutProgressHUD.mode = MBProgressHUDModeText;
-		[_logoutProgressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_logoutProgressHUD removeFromSuperview];
-			_logoutProgressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
-- (void)showUploadAvatarMBProgressHUD{
-	if(!_uploadAvatarProgressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_uploadAvatarProgressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_uploadAvatarProgressHUD];
-		_uploadAvatarProgressHUD.dimBackground = YES;
-		_uploadAvatarProgressHUD.labelText = @"上传头像中...";
-		[_uploadAvatarProgressHUD show:YES];
-	}
-}
-
-- (void)removeUploadAvatarMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_uploadAvatarProgressHUD){
-		if(isSuccess){
-			_uploadAvatarProgressHUD.labelText = @"头像上传成功";
-		}else{
-			_uploadAvatarProgressHUD.labelText = @"头像上传失败，请稍后再试";
-		}
-		_uploadAvatarProgressHUD.mode = MBProgressHUDModeText;
-		[_uploadAvatarProgressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_uploadAvatarProgressHUD removeFromSuperview];
-			_uploadAvatarProgressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 - (void)uploadAvatarWithUrl:(NSString *)url
 					   auth:(NSString *)auth
 				contentType:(NSString *)contentType
@@ -743,16 +681,18 @@ UITextFieldDelegate>
 	});
 }
 
-- (void)updateAvatarWith:(UIImage *)avatarImage success:(BOOL)success url:(NSString *)url{
+- (void)updateAvatarWith:(UIImage *)avatarImage success:(BOOL)success url:(NSString *)url {
+	if (_uploadAvatarProgressHUD) {
+		[_uploadAvatarProgressHUD removeFromSuperview];
+		_uploadAvatarProgressHUD = nil;
+	}
 	if (!success) {
-		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 		return;
 	}
 
 	[_avatarImageView setImage:avatarImage];
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
 	[[UserSession standard] setAvatar:avatarUrlWithTime];
-	[self removeUploadAvatarMBProgressHUD:YES removeMBProgressHUDBlock:nil];
 }
 
 - (BOOL)isNickNameTooLong:(NSString *)nick {
@@ -772,29 +712,32 @@ UITextFieldDelegate>
 		return;
 	}
 
-	static NSString * kChangeNickNameErrorInfo = @"修改昵称失败，请稍后重试";
-
 	[MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		if (!success) {
-			[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kChangeNickNameErrorInfo];
-		} else {
+		if (success) {
 			[[UserSession standard] setNick:_nickNameTextField.text];
+			[HXAlertBanner showWithMessage:@"修改昵称成功" tap:nil];
+		} else {
+			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改昵称失败:%@", error] tap:nil];
 		}
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kChangeNickNameErrorInfo];
+		[HXAlertBanner showWithMessage:@"修改昵称失败，网络请求超时" tap:nil];
 	}];
 }
 
 #pragma mark - delegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker
-didFinishPickingMediaWithInfo:(NSDictionary *)info {
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[picker dismissViewControllerAnimated:YES completion:nil];
+	if (_uploadAvatarProgressHUD) {
+		NSLog(@"Last uploading is still running!!");
+		return;
+	}
 
 	//获得编辑过的图片
 	_uploadingImage = [info objectForKey: @"UIImagePickerControllerEditedImage"];
 
-	[self showUploadAvatarMBProgressHUD];
+	_uploadAvatarProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"头像上传中..."];
 	[MiaAPIHelper getUploadAvatarAuthWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
 			NSString *uploadUrl = userInfo[MiaAPIKey_Values][@"info"][@"url"];
@@ -804,10 +747,15 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 			[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
 		} else {
-			[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改昵称失败:%@", error] tap:nil];
+			[_uploadAvatarProgressHUD removeFromSuperview];
+			_uploadAvatarProgressHUD = nil;
 		}
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		[self removeUploadAvatarMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		[_uploadAvatarProgressHUD removeFromSuperview];
+		_uploadAvatarProgressHUD = nil;
+		[HXAlertBanner showWithMessage:@"上传头像失败，网络请求超时" tap:nil];
 	}];
 }
 
@@ -816,16 +764,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)genderPickerDidSelected:(MIAGender)gender {
-	static NSString * kErrorInfo = @"修改性别失败，请稍后重试";
-
 	[self updateGenderLabel:gender];
 
 	[MiaAPIHelper changeGender:gender completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		if (!success) {
-			[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+		if (success) {
+			[HXAlertBanner showWithMessage:@"修改性别成功" tap:nil];
+		} else {
+			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改性别失败:%@", error] tap:nil];
 		}
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kErrorInfo];
+		[HXAlertBanner showWithMessage:@"修改性别失败，网络请求超时" tap:nil];
 	}];
 }
 
@@ -869,16 +818,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)logoutTouchAction:(id)sender {
-	[self showLogoutMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"退出登录中..."];
 	[MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		[self removeLogoutMBProgressHUD:success removeMBProgressHUDBlock:nil];
-
 		if (success) {
 			[[UserSession standard] logout];
+			[HXAlertBanner showWithMessage:@"退出登录成功" tap:nil];
 			[self.navigationController popToRootViewControllerAnimated:YES];
+		} else {
+			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"退出登录失败:%@", error] tap:nil];
 		}
+
+		[aMBProgressHUD removeFromSuperview];
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		[self removeLogoutMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		[aMBProgressHUD removeFromSuperview];
+		[HXAlertBanner showWithMessage:@"退出登录失败，网络请求超时" tap:nil];
 	}];
 }
 

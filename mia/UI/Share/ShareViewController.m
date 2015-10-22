@@ -25,6 +25,7 @@
 #import "UserSession.h"
 #import "LocationMgr.h"
 #import "NSString+IsNull.h"
+#import "HXAlertBanner.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
@@ -440,36 +441,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 }
 
-- (void)showMBProgressHUD{
-	if(!_progressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交分享";
-		[_progressHUD show:YES];
-	}
-}
-
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_progressHUD){
-		if(isSuccess){
-			_progressHUD.labelText = @"分享成功";
-		}else{
-			_progressHUD.labelText = @"分享失败，请稍后再试";
-		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -629,20 +600,25 @@ const static CGFloat kShareTopViewHeight		= 280;
 		comment = @"我要推荐这首歌曲";
 	}
 
-	[self showMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交分享"];
 	[MiaAPIHelper postShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 							  longitude:[[LocationMgr standard] currentCoordinate].longitude
 								address:[[LocationMgr standard] currentAddress]
 								 songID:_dataItem.songID
 								   note:comment
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
-			 if (success) {
-				 [self.navigationController popViewControllerAnimated:YES];
-			 }
-		 }];
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 [HXAlertBanner showWithMessage:@"分享成功" tap:nil];
+			 [self.navigationController popViewControllerAnimated:YES];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"分享失败:%@", error] tap:nil];
+		 }
+		 [aMBProgressHUD removeFromSuperview];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		 [aMBProgressHUD removeFromSuperview];
+		 [HXAlertBanner showWithMessage:@"分享失败，网络请求超时" tap:nil];
 	 }];
 }
 
