@@ -140,6 +140,7 @@
 		CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* HomePage.storyboard */; };
 		CD33626A1BD624A900240345 /* HXAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362661BD624A900240345 /* HXAppConstants.m */; };
 		CD33626B1BD624A900240345 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362681BD624A900240345 /* HXVersion.m */; };
+		CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4334EE1BD8CBF400A5E34C /* InfectItem.m */; };
 		CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */; };
 		CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */; };
 		CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E41BC9188200E33121 /* FDStackView.m */; };
@@ -410,6 +411,8 @@
 		CD3362661BD624A900240345 /* HXAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAppConstants.m; sourceTree = "<group>"; };
 		CD3362671BD624A900240345 /* HXVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVersion.h; sourceTree = "<group>"; };
 		CD3362681BD624A900240345 /* HXVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVersion.m; sourceTree = "<group>"; };
+		CD4334ED1BD8CBF400A5E34C /* InfectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectItem.h; sourceTree = "<group>"; };
+		CD4334EE1BD8CBF400A5E34C /* InfectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectItem.m; sourceTree = "<group>"; };
 		CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDGapLayoutGuide.h; sourceTree = "<group>"; };
 		CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDGapLayoutGuide.m; sourceTree = "<group>"; };
 		CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLayoutSpacer.h; sourceTree = "<group>"; };
@@ -678,6 +681,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CD4334EC1BD8CBF400A5E34C /* InfectItem */,
 				3972188F1BCF8F9400721A6D /* InfectUserItem */,
 				3908F38E1BBD025500BACFD3 /* SearchResultModel */,
 				3908F3871BBBE97700BACFD3 /* SearchResultItem */,
@@ -1329,6 +1333,15 @@
 			path = Macros;
 			sourceTree = "<group>";
 		};
+		CD4334EC1BD8CBF400A5E34C /* InfectItem */ = {
+			isa = PBXGroup;
+			children = (
+				CD4334ED1BD8CBF400A5E34C /* InfectItem.h */,
+				CD4334EE1BD8CBF400A5E34C /* InfectItem.m */,
+			);
+			path = InfectItem;
+			sourceTree = "<group>";
+		};
 		CD4F62DE1BC9188200E33121 /* FDStackView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1737,6 +1750,7 @@
 				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
+				CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
 				CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */,
