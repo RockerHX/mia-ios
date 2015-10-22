@@ -54,14 +54,6 @@ static CGFloat BannerHeight = 64.0f;
 - (void)showWithMessage:(NSString *)message tap:(void(^)(void))tap {
     _tapBlock = tap;
     _messageLabel.text = message;
-    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    UIWindow *mainWindow = delegate.window;
-    self.frame = (CGRect){
-        0.0f, -_height,
-        mainWindow.frame.size.width,
-        _height
-    };
-    [mainWindow addSubview:self];
     [self show];
 }
 
@@ -82,6 +74,14 @@ static CGFloat BannerHeight = 64.0f;
 
 #pragma mark - Private Methods
 - (void)show {
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    UIWindow *mainWindow = delegate.window;
+    self.frame = (CGRect){
+        0.0f, -_height,
+        mainWindow.frame.size.width,
+        _height
+    };
+    [mainWindow addSubview:self];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
