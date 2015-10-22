@@ -29,11 +29,10 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayWithItem:(id)item {
-    
-    [_header sd_setImageWithURL:[NSURL URLWithString:@""]];
-    _nameLabel.text = @"";
-    _dynamicLabel.text = @"";
+- (void)displayWithItem:(InfectItem *)item {
+    [_header sd_setImageWithURL:[NSURL URLWithString:item.avatar]];
+    _nameLabel.text = item.nick;
+    _dynamicLabel.text = item.lastShare;
 }
 
 @end

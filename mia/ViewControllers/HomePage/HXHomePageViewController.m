@@ -27,7 +27,6 @@
 #import "DetailViewController.h"
 #import "HXAlertBanner.h"
 #import "HXGuideView.h"
-#import "HXInfectUserListView.h"
 
 static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
 
@@ -50,16 +49,12 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     [self initConfig];
     [self viewConfig];
     
-//    [[WebSocketMgr standard] watchNetworkStatus];
-//    [self initLocationMgr];
+    [[WebSocketMgr standard] watchNetworkStatus];
+    [self initLocationMgr];
     
 //    [HXGuideView showGuide:^{
 //        NSLog(@"asfdasdfsadf");
 //    }];
-    
-    [HXInfectUserListView showWithItems:nil taped:^(id item, NSInteger index) {
-        NSLog(@"asfdasdfsadf");
-    }];
 }
 
 - (void)viewDidLayoutSubviews {

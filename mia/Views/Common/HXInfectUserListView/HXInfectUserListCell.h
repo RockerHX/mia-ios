@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InfectItem.h"
 
 @interface HXInfectUserListCell : UITableViewCell
 
@@ -14,6 +15,6 @@
 @property (weak, nonatomic) IBOutlet     UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *dynamicLabel;
 
-- (void)displayWithItem:(id)item;
+- (void)displayWithItem:(InfectItem *)item;
 
 @end

@@ -18,6 +18,7 @@
 
 - (IBAction)closeButtonPressed;
 
++ (instancetype)showWithSharerID:(NSString *)sID taped:(void(^)(id item, NSInteger index))taped;
 + (instancetype)showWithItems:(NSArray *)items taped:(void(^)(id item, NSInteger index))taped;
 - (void)showWithItems:(NSArray *)items taped:(void(^)(id item, NSInteger index))taped;
 
