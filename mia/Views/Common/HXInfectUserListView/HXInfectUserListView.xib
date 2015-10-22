@@ -16,10 +16,10 @@
                     <rect key="frame" x="20" y="30" width="280" height="488"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXD-lS-zIe">
-                            <rect key="frame" x="0.0" y="0.0" width="280" height="80"/>
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="60"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LlU-n7-AhX">
-                                    <rect key="frame" x="237" y="22" width="35" height="35"/>
+                                    <rect key="frame" x="237" y="23" width="35" height="35"/>
                                     <animations/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="LlU-n7-AhX" secondAttribute="height" multiplier="1:1" id="AGE-KS-A9C"/>
@@ -31,7 +31,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="秒推人数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ru1-2j-Pz8">
-                                    <rect key="frame" x="106" y="29" width="68" height="21"/>
+                                    <rect key="frame" x="106" y="30" width="68" height="21"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -41,15 +41,15 @@
                             <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="80" id="0mF-L7-Quc"/>
-                                <constraint firstItem="ru1-2j-Pz8" firstAttribute="centerY" secondItem="BXD-lS-zIe" secondAttribute="centerY" id="JUi-ib-JUl"/>
+                                <constraint firstAttribute="height" constant="60" id="0mF-L7-Quc"/>
+                                <constraint firstItem="LlU-n7-AhX" firstAttribute="centerY" secondItem="ru1-2j-Pz8" secondAttribute="centerY" id="7dl-ve-gF3"/>
+                                <constraint firstItem="ru1-2j-Pz8" firstAttribute="centerY" secondItem="BXD-lS-zIe" secondAttribute="centerY" constant="10" id="JUi-ib-JUl"/>
                                 <constraint firstAttribute="trailing" secondItem="LlU-n7-AhX" secondAttribute="trailing" constant="8" id="gvE-N4-buS"/>
-                                <constraint firstItem="LlU-n7-AhX" firstAttribute="centerY" secondItem="BXD-lS-zIe" secondAttribute="centerY" id="n7d-mN-Wpp"/>
                                 <constraint firstItem="ru1-2j-Pz8" firstAttribute="centerX" secondItem="BXD-lS-zIe" secondAttribute="centerX" id="oZf-Hc-ymF"/>
                             </constraints>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zUa-fc-npX">
-                            <rect key="frame" x="0.0" y="80" width="280" height="408"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zUa-fc-npX">
+                            <rect key="frame" x="0.0" y="60" width="280" height="428"/>
                             <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -72,7 +72,7 @@
                 </view>
             </subviews>
             <animations/>
-            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="xhB-II-8VR" secondAttribute="trailing" constant="20" id="DF9-vy-izL"/>
                 <constraint firstItem="xhB-II-8VR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="ofT-me-ECn"/>

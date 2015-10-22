@@ -24,6 +24,7 @@ pod 'MBProgressHUD'
 pod 'iCarousel'
 pod 'TTTAttributedLabel'
 pod 'UIAlertView-Blocks'
+pod 'MJRefresh'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'

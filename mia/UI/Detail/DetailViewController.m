@@ -30,6 +30,7 @@
 #import "UIActionSheet+Blocks.h"
 #import "HXAlertBanner.h"
 #import "InfectItem.h"
+#import "HXInfectUserListView.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -474,31 +475,13 @@ CommentCellDelegate>
 }
 
 - (void)detailHeaderViewClickedInfectUsers {
-#warning @andy infectlist
-	// 分页需要传入上一次拉取到的最后一条的infectid作为参数
-	static const long kInfectListItemCountInPage = 10;
-	__block NSString *lastInfectID = @"0";
-	[MiaAPIHelper getInfectListWithSID:_shareItem.sID
-							   startID:lastInfectID
-								  item:kInfectListItemCountInPage completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 NSLog(@"getInfectListWithSID");
-		 if (success) {
-			 NSArray *infectList = userInfo[@"v"][@"data"];
-			 if (!infectList) {
-				 return;
-			 }
-
-			 NSMutableArray *dataSource = [[NSMutableArray alloc] init];
-			 for (NSDictionary *dictItem in infectList) {
-				 InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
-				 [dataSource addObject:item];
-				 lastInfectID = item.infectid;
-			 }
-		 }
-		} timeoutBlock:^(MiaRequestItem *requestItem) {
-			NSLog(@"Timeout");
-		}];
+    [HXInfectUserListView showWithSharerID:_shareItem.sID taped:^(id item, NSInteger index) {
+        InfectItem *selectedItem = item;
+        ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:selectedItem.uID
+                                                                     nickName:selectedItem.nick
+                                                                  isMyProfile:NO];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
 }
 
 - (void)detailHeaderViewChangeHeight {
