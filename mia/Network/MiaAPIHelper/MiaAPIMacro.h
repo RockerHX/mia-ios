@@ -87,6 +87,8 @@ static NSString * const MiaAPIKey_Note						= @"note";
 
 static NSString * const MiaAPICommand_User_Feedback			= @"User.Post.Feedback";
 static NSString * const MiaAPIKey_Contact					= @"contact";
+static NSString * const MiaAPIKey_Platform					= @"platform";
+static NSString * const MiaAPIKey_OSVersion					= @"osversion";
 
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
 static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";

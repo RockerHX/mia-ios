@@ -539,16 +539,13 @@
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
 			 [_signUpViewControllerDelegate signUpViewControllerDidSuccess];
+			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
-			 if (success) {
-				 [self.navigationController popViewControllerAnimated:YES];
-			 }
-		 }];
+		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
 	 }];

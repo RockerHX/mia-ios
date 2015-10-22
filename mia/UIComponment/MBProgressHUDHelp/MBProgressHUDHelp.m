@@ -7,7 +7,6 @@
 //
 
 #import "MBProgressHUDHelp.h"
-#import "MBProgressHUD.h"
 
 @implementation MBProgressHUDHelp
 

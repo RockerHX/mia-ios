@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MBProgressHUD.h"
 
 typedef void(^RemoveMBProgressHUDBlock)();
 
