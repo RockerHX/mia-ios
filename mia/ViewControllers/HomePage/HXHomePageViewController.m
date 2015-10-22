@@ -369,15 +369,18 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     if ([[UserSession standard] isLogined]) {
         [MiaAPIHelper postCommentWithShareID:_playItem.sID
                                      comment:comment
-                               completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                                   if (success) {
-                                       // TODO
-                                       NSLog(@"Comment Success");
-                                   }
-                               } timeoutBlock:^(MiaRequestItem *requestItem) {
-                                   NSLog(@"Comment Timeout");
-                               }];
-        [self startFinishedAnimation];
+                               completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"提交评论失败:%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
+		 }];
+		[self startFinishedAnimation];
     } else {
         LoginViewController *vc = [[LoginViewController alloc] init];
         vc.loginViewControllerDelegate = self;
