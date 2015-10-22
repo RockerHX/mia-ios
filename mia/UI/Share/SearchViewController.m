@@ -26,6 +26,7 @@
 #import "SearchResultView.h"
 #import "SearchResultModel.h"
 #import "SearchResultItem.h"
+#import "HXAlertBanner.h"
 
 const static CGFloat kSearchVCHeight = 60;
 
@@ -208,8 +209,8 @@ const static CGFloat kSearchVCHeight = 60;
 			[aMBProgressHUD removeFromSuperview];
 		} failedBlock:^(NSError *error) {
 			[aMBProgressHUD removeFromSuperview];
+			[HXAlertBanner showWithMessage:@"搜索失败，请稍后重试" tap:nil];
 		}];
-
 	}
 
 	return YES;
@@ -226,11 +227,13 @@ const static CGFloat kSearchVCHeight = 60;
 		return;
 	}
 
-	[XiamiHelper requestSearchSuggestionWithKey:_searchTextField.text successBlock:^(id responseObject) {
+	[XiamiHelper requestSearchSuggestionWithKey:_searchTextField.text
+								   successBlock:
+	 ^(id responseObject) {
 		[_suggestionModel addItemsWithArray:responseObject];
 		[_suggestView.collectionView reloadData];
 	} failedBlock:^(NSError *error) {
-		NSLog(@"%@", error);
+		[HXAlertBanner showWithMessage:@"搜索失败，请稍后重试" tap:nil];
 	}];
 }
 
