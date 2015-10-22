@@ -719,7 +719,22 @@ CommentCellDelegate>
 	}];
 
 	RIButtonItem *deleteItem = [RIButtonItem itemWithLabel:@"删除" action:^{
-		NSLog(@"delete");
+		[MiaAPIHelper deleteShareById:_shareItem.sID completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
+				 [self.navigationController popViewControllerAnimated:YES];
+				 if (_customDelegate) {
+					 [_customDelegate detailViewControllerDidDeleteShare];
+				 }
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"删除失败:%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
+		 }];
+
 	}];
 
 	UIActionSheet *aActionSheet = nil;

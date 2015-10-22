@@ -92,4 +92,6 @@ static NSString * const MiaAPICommand_User_GetClogo			= @"User.Get.Clogo";
 
 static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
 
+static NSString * const MiaAPICommand_User_DeleteSharem		= @"User.Delete.Sharem";
+
 #endif // MiaMusicAPIMacro_h

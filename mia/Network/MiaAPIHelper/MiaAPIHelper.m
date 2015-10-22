@@ -661,6 +661,40 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
++ (void)deleteShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+	[dictionary setValue:MiaAPICommand_User_DeleteSharem forKey:MiaAPIKey_ClientCommand];
+	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
+	long timestamp = (long)([[NSDate date] timeIntervalSince1970] * 1000000);
+	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
+
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:sID forKey:MiaAPIKey_sID];
+
+	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
+
+	NSError *error = nil;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	if (error) {
+		NSLog(@"conver to json error: dic->%@", error);
+		return;
+	}
+
+	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	//NSLog(@"%@", jsonString);
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
+																	command:dictionary[MiaAPIKey_ClientCommand]
+																 jsonString:jsonString
+															  completeBlock:completeBlock
+															   timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
 + (void)postShareWithLatitude:(float)lat
 					longitude:(float)lon
 					  address:(NSString *)address

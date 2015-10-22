@@ -109,6 +109,10 @@
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)deleteShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)feedbackWithNote:(NSString *)note
 				 contact:(NSString *)contact
 		   completeBlock:(MiaRequestCompleteBlock)completeBlock
