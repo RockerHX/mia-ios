@@ -15,7 +15,6 @@
 #import "ResetPwdViewController.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UserSession.h"
 #import "NSString+MD5.h"
@@ -321,6 +320,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 - (void)signInButtonAction:(id)sender {
 	[_guidView setHidden:YES];
 	[_loginView setHidden:NO];
+	[_userNameTextField becomeFirstResponder];
 }
 
 

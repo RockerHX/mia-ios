@@ -22,6 +22,8 @@
 	MIAButton	*_playButton;
 	MIALabel 	*_favoriteCountLabel;
 	MIALabel 	*_cachedCountLabel;
+	MIALabel 	*_favoriteGuidLabel;
+	MIALabel 	*_wifiTipsLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -93,6 +95,9 @@
 	static const CGFloat kCachedCountLabelWidth 			= 100;
 	static const CGFloat kCachedCountLabelHeight 			= 20;
 
+	static const CGFloat kFavoriteGuidMarginLeft 			= 175;
+	static const CGFloat kFavoriteGuidLabelWidth 			= 160;
+
 	_favoriteCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																			  kFavoriteCountLabelMarginTop,
 																			  self.frame.size.width - kFavoriteCountLabelMarginRight,
@@ -108,7 +113,7 @@
 																			   kFavoriteMiddleLabelMarginTop,
 																			   kFavoriteMiddleLabelWidth,
 																			   kFavoriteMiddleLabelHeight)
-															   text:@"首收藏歌曲》"
+															   text:@"首收藏歌曲"
 															   font:UIFontFromSize(16.0f)
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentRight
@@ -127,6 +132,18 @@
 														numberLines:1];
 	//cachedCountLabel.backgroundColor = [UIColor greenColor];
 	[_coverView addSubview:_cachedCountLabel];
+
+	_favoriteGuidLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteGuidMarginLeft,
+																	kCachedCountLabelMarginTop,
+																	kFavoriteGuidLabelWidth,
+																	kCachedCountLabelHeight)
+													text:@"点“红心”将歌曲收入这里"
+													font:UIFontFromSize(12.0f)
+											   textColor:[UIColor whiteColor]
+										   textAlignment:NSTextAlignmentLeft
+											 numberLines:1];
+//	_favoriteGuidLabel.backgroundColor = [UIColor greenColor];
+	[_coverView addSubview:_favoriteGuidLabel];
 }
 
 - (void)initSubTitles {
@@ -188,7 +205,7 @@
 	static const CGFloat kWifiTipsLabelMarginBottom = 50;
 	static const CGFloat kWifiTipsLabelHeight		= 20;
 
-	MIALabel *wifiTipsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
+	_wifiTipsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
 																		 self.frame.size.height - kWifiTipsLabelMarginBottom - kWifiTipsLabelHeight,
 																		 self.frame.size.width,
 																		 kWifiTipsLabelHeight)
@@ -197,7 +214,7 @@
 										   textColor:[UIColor whiteColor]
 									   textAlignment:NSTextAlignmentCenter
 												  numberLines:1];
-	[self addSubview:wifiTipsLabel];
+	[self addSubview:_wifiTipsLabel];
 }
 
 - (void)setIsPlaying:(BOOL)isPlaying {
@@ -227,8 +244,21 @@
 }
 
 - (void)updateFavoriteCount {
-	[_favoriteCountLabel setText:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]];
+	long favoriteCount = [[FavoriteMgr standard] favoriteCount];
+	[_favoriteCountLabel setText:[NSString stringWithFormat:@"%ld", favoriteCount]];
 	[_cachedCountLabel setText:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]];
+
+	if (0 == favoriteCount) {
+		[_favoriteGuidLabel setHidden:NO];
+		[_cachedCountLabel setHidden:YES];
+		[_wifiTipsLabel setHidden:YES];
+		[_playButton setHidden:YES];
+	} else {
+		[_favoriteGuidLabel setHidden:YES];
+		[_cachedCountLabel setHidden:NO];
+		[_wifiTipsLabel setHidden:NO];
+		[_playButton setHidden:NO];
+	}
 
 	if ([[_profileHeaderViewDelegate profileHeaderViewModel].dataSource count] > 0) {
 		FavoriteItem *item = [[_profileHeaderViewDelegate profileHeaderViewModel] dataSource][0];

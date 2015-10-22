@@ -14,6 +14,7 @@
 #import "MiaAPIHelper.h"
 #import "MusicPlayerMgr.h"
 #import "HXAppConstants.h"
+#import "HXAlertBanner.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -115,11 +116,13 @@
 					 _currentItem.favorite = [act intValue];
 					 button.selected = !button.selected;
 				 }
+				 [HXAlertBanner showWithMessage:@"收藏成功" tap:nil];
 			 } else {
-				 NSLog(@"favorite music failed");
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
 			 }
 		 } timeoutBlock:^(MiaRequestItem *requestItem) {
-			 NSLog(@"favorite music timeout");
+			 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
 		 }];
 	} else {
 		if (_delegate && [_delegate respondsToSelector:@selector(radioViewStarTapedNeedLogin:)]) {

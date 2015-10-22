@@ -11,7 +11,6 @@
 #import "MIALabel.h"
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"

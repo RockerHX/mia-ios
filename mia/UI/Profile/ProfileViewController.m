@@ -30,6 +30,7 @@
 #import "UserSetting.h"
 #import "Masonry.h"
 #import "ShareViewController.h"
+#import "HXAlertBanner.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -594,10 +595,17 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		[_profileHeaderView updateFavoriteCount];
 	}
 
-	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		NSLog(@"deleteFavorites %d", success);
-	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		NSLog(@"deleteFavorites timeout");
+	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 [HXAlertBanner showWithMessage:@"删除收藏成功" tap:nil];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"删除收藏失败:%@", error] tap:nil];
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+
 	}];
 
 	return isChanged;
