@@ -791,6 +791,9 @@
 		[dictValues setValue:contact forKey:MiaAPIKey_Contact];
 	}
 
+	[dictValues setValue:[UIDevice currentDevice].systemName forKey:MiaAPIKey_Platform];
+	[dictValues setValue:[UIDevice currentDevice].systemVersion forKey:MiaAPIKey_OSVersion];
+
 	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
 
 	NSError *error = nil;

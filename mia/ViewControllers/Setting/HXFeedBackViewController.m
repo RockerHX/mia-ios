@@ -11,10 +11,13 @@
 #import "NSString+IsNull.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "MBProgressHUDHelp.h"
 
 static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议，我们将为您不断改进。";
 
-@interface HXFeedBackViewController ()
+@interface HXFeedBackViewController () {
+	MBProgressHUD 	*_progressHUD;
+}
 
 @end
 
@@ -43,6 +46,25 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
     _feedContactTextField.layer.borderColor = UIColorFromRGB(230.0f, 230.0f, 230.0f).CGColor;
 }
 
+#pragma mark - Private Methods
+- (void)showMBProgressHUD {
+	if(!_progressHUD){
+		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
+		[window addSubview:_progressHUD];
+		_progressHUD.dimBackground = YES;
+		_progressHUD.labelText = @"正在提交反馈";
+		[_progressHUD show:YES];
+	}
+}
+
+- (void)removeMBProgressHUD {
+	if(_progressHUD){
+		[_progressHUD removeFromSuperview];
+		_progressHUD = nil;
+	}
+}
+
 #pragma mark - Event Response
 - (IBAction)sendButtonPressed {
     if (_feedContentTextView.text.length) {
@@ -63,6 +85,7 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 		return;
 	}
 
+	[self showMBProgressHUD];
 	[MiaAPIHelper feedbackWithNote:content
 						   contact:contact completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -72,8 +95,11 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 		 } else {
 			 [HXAlertBanner showWithMessage:@"反馈失败，请稍后重试" tap:nil];
 		 }
+
+		 [self removeMBProgressHUD];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [HXAlertBanner showWithMessage:@"反馈超时，请稍后重试" tap:nil];
+		 [self removeMBProgressHUD];
 	}];
 }
 

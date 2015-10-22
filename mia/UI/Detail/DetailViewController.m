@@ -29,6 +29,7 @@
 #import "LocationMgr.h"
 #import "UIActionSheet+Blocks.h"
 #import "HXAlertBanner.h"
+#import "InfectItem.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -354,36 +355,6 @@ CommentCellDelegate>
 	return YES;
 }
 
-- (void)showMBProgressHUD{
-	if(!_progressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交评论";
-		[_progressHUD show:YES];
-	}
-}
-
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_progressHUD){
-		if(isSuccess){
-			_progressHUD.labelText = @"评论成功";
-		}else{
-			_progressHUD.labelText = @"评论失败，请稍后再试";
-		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 - (void)initNoCommentView {
 	_noCommentView = [[UIView alloc] init];
 	//	_noCommentView.backgroundColor = [UIColor yellowColor];
@@ -504,6 +475,7 @@ CommentCellDelegate>
 
 - (void)detailHeaderViewClickedInfectUsers {
 #warning @andy infectlist
+	// 分页需要传入上一次拉取到的最后一条的infectid作为参数
 	static const long kInfectListItemCountInPage = 10;
 	__block NSString *lastInfectID = @"0";
 	[MiaAPIHelper getInfectListWithSID:_shareItem.sID
@@ -516,8 +488,13 @@ CommentCellDelegate>
 			 if (!infectList) {
 				 return;
 			 }
-			 lastInfectID = @"";//[[infectList lastObject][@"infectid"] stringValue];
 
+			 NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+			 for (NSDictionary *dictItem in infectList) {
+				 InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
+				 [dataSource addObject:item];
+				 lastInfectID = item.infectid;
+			 }
 		 }
 		} timeoutBlock:^(MiaRequestItem *requestItem) {
 			NSLog(@"Timeout");
@@ -540,21 +517,27 @@ CommentCellDelegate>
 		return;
 	}
 
-	[self showMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
 	[MiaAPIHelper postCommentWithShareID:_shareItem.sID
 								 comment:_commentTextField.text
-						   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							   if (success) {
-								   _commentTextField.text = @"";
-								   [self requestLatestComments];
-							   }
+						   completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 _commentTextField.text = @"";
+			 [self requestLatestComments];
+			 [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"提交评论失败:%@", error] tap:nil];
+		 }
 
-							   [_commentTextField resignFirstResponder];
-							   [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
-						   } timeoutBlock:^(MiaRequestItem *requestItem) {
-							   [_commentTextField resignFirstResponder];
-							   [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
-						   }];
+		 [_commentTextField resignFirstResponder];
+		 [aMBProgressHUD removeFromSuperview];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_commentTextField resignFirstResponder];
+		 [aMBProgressHUD removeFromSuperview];
+		 [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
+	 }];
 }
 
 #pragma mark - collectionView代理方法

@@ -508,6 +508,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	 }];
 
 	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem] fromMyProfile:_isMyProfile];
+	vc.customDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -618,6 +619,8 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 - (void)detailViewControllerDidDeleteShare {
 	// 删除分享后需要从新获取分享列表
 	_currentPageStart = 0;
+	[_shareListModel.dataSource removeAllObjects];
+	[self checkPlaceHolder];
 	[self requestShareList];
 }
 

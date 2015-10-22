@@ -13,9 +13,9 @@
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "NSString+MD5.h"
+#import "HXAlertBanner.h"
 
 @interface ResetPwdViewController () <UITextFieldDelegate>
 
@@ -54,8 +54,7 @@
 	// Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
@@ -286,36 +285,6 @@
 	[_msgView setHidden:YES];
 }
 
-- (void)showMBProgressHUD{
-	if(!_progressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交注册";
-		[_progressHUD show:YES];
-	}
-}
-
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_progressHUD){
-		if(isSuccess){
-			_progressHUD.labelText = @"密码重置成功，请登录";
-		}else{
-			_progressHUD.labelText = @"密码重置失败，请稍后再试";
-		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -456,24 +425,24 @@
 	if (![self checkPasswordFormat])
 		return;
 
-	[self showMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交注册"];
 	NSString *passwordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
 	[MiaAPIHelper resetPasswordWithPhoneNum:_userNameTextField.text
 							  passwordHash:passwordHash
 									   scode:_verificationCodeTextField.text
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (!success) {
+		 if (success) {
+			 [HXAlertBanner showWithMessage:@"注册成功" tap:nil];
+			 [self.navigationController popViewControllerAnimated:YES];
+		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [self showErrorMsg:[NSString stringWithFormat:@"重置密码失败：%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
-			 if (success) {
-				 [self.navigationController popViewControllerAnimated:YES];
-			 }
-		 }];
+		 [aMBProgressHUD removeFromSuperview];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		 [aMBProgressHUD removeFromSuperview];
+		 [HXAlertBanner showWithMessage:@"注册失败，网络请求超时" tap:nil];
 	 }];
 }
 

@@ -278,36 +278,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[_loginView addSubview:loginButton];
 }
 
-- (void)showMBProgressHUD{
-	if(!_progressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"登录中";
-		[_progressHUD show:YES];
-	}
-}
-
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock{
-	if(_progressHUD){
-		if(isSuccess){
-			_progressHUD.labelText = @"登录成功";
-		}else{
-			_progressHUD.labelText = @"登录失败，请稍后再试";
-		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 - (void)saveAuthInfo {
 	NSString *userName = _userNameTextField.text;
 	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
@@ -372,11 +342,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	}
 	[_passwordErrorLabel setText:@""];
 
-	[self showMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"登录中..."];
 	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
 	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text
 					   passwordHash:passwordHash
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+					  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
 			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
 			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
@@ -400,11 +371,10 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 			 [_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:nil];
-
+		 [aMBProgressHUD removeFromSuperview];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [_passwordErrorLabel setText:[NSString stringWithFormat:@"请求超时，请稍后重试"]];
-		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		 [aMBProgressHUD removeFromSuperview];
 	 }];
 }
 

@@ -348,36 +348,6 @@
 	}];
 }
 
-- (void)showMBProgressHUD {
-	if(!_progressHUD){
-		UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-		_progressHUD = [[MBProgressHUD alloc] initWithView:window];
-		[window addSubview:_progressHUD];
-		_progressHUD.dimBackground = YES;
-		_progressHUD.labelText = @"正在提交注册";
-		[_progressHUD show:YES];
-	}
-}
-
-- (void)removeMBProgressHUD:(BOOL)isSuccess removeMBProgressHUDBlock:(RemoveMBProgressHUDBlock)removeMBProgressHUDBlock {
-	if(_progressHUD){
-		if(isSuccess){
-			_progressHUD.labelText = @"注册成功，请登录";
-		}else{
-			_progressHUD.labelText = @"注册失败，请稍后再试";
-		}
-		_progressHUD.mode = MBProgressHUDModeText;
-		[_progressHUD showAnimated:YES whileExecutingBlock:^{
-			sleep(1);
-		} completionBlock:^{
-			[_progressHUD removeFromSuperview];
-			_progressHUD = nil;
-			if(removeMBProgressHUDBlock)
-				removeMBProgressHUDBlock();
-		}];
-	}
-}
-
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -530,7 +500,7 @@
 	if (![self checkPasswordFormat])
 		return;
 
-	[self showMBProgressHUD];
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交注册"];
 	NSString *passwordHash = [NSString md5HexDigest:_firstPasswordTextField.text];
 	[MiaAPIHelper registerWithPhoneNum:_userNameTextField.text
 									 scode:_verificationCodeTextField.text
@@ -539,18 +509,17 @@
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
 			 [_signUpViewControllerDelegate signUpViewControllerDidSuccess];
+			 [self showErrorMsg:[NSString stringWithFormat:@"注册成功"]];
+			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
 		 }
 
-		 [self removeMBProgressHUD:success removeMBProgressHUDBlock:^{
-			 if (success) {
-				 [self.navigationController popViewControllerAnimated:YES];
-			 }
-		 }];
+		 [aMBProgressHUD removeFromSuperview];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [self removeMBProgressHUD:NO removeMBProgressHUDBlock:nil];
+		 [aMBProgressHUD removeFromSuperview];
+		 [self showErrorMsg:@"注册失败，网络请求超时"];
 	 }];
 }
 

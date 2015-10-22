@@ -21,7 +21,6 @@
 #import "MiaAPIHelper.h"
 #import "UserDefaultsUtils.h"
 #import "HXNoNetworkView.h"
-#import "MBProgressHUDHelp.h"
 #import "InfectUserItem.h"
 #import "UIImageView+WebCache.h"
 #import "LocationMgr.h"
@@ -58,9 +57,9 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
 //        NSLog(@"asfdasdfsadf");
 //    }];
     
-//    [HXInfectUserListView showWithItems:nil taped:^(id item, NSInteger index) {
-//        NSLog(@"asfdasdfsadf");
-//    }];
+    [HXInfectUserListView showWithItems:nil taped:^(id item, NSInteger index) {
+        NSLog(@"asfdasdfsadf");
+    }];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -168,7 +167,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)notificationWebSocketDidFailWithError:(NSNotification *)notification {
 	// TODO auto reconnect
 	static NSString * kAlertMsgWebSocketFailed = @"服务器不稳定，重连中";
-	[[MBProgressHUDHelp standarMBProgressHUDHelp] showHUDWithModeText:kAlertMsgWebSocketFailed];
+	[HXAlertBanner showWithMessage:kAlertMsgWebSocketFailed tap:nil];
 }
 
 - (void)notificationWebSocketDidAutoReconnectFailed:(NSNotification *)notification {
