@@ -452,11 +452,13 @@ CommentCellDelegate>
 					 _shareItem.favorite = [act intValue];
 					 [_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
 				 }
+				 [HXAlertBanner showWithMessage:@"收藏成功" tap:nil];
 			 } else {
-				 NSLog(@"favorite music failed.");
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
 			 }
 		 } timeoutBlock:^(MiaRequestItem *requestItem) {
-			 NSLog(@"favorite music timeout.");
+			 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
 		 }];
 	} else {
 		LoginViewController *vc = [[LoginViewController alloc] init];
