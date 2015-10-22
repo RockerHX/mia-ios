@@ -124,10 +124,6 @@
 		39CA061D1BAD67CC0074FD13 /* views@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06111BAD67CC0074FD13 /* views@2x.png */; };
 		39CA062C1BADBD6C0074FD13 /* DetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06201BADBD6C0074FD13 /* DetailHeaderView.m */; };
 		39CA062D1BADBD6C0074FD13 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06221BADBD6C0074FD13 /* DetailViewController.m */; };
-		39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06251BADBD6C0074FD13 /* LoopPlayerView.m */; };
-		39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06271BADBD6C0074FD13 /* PlayerView.m */; };
-		39CA06301BADBD6C0074FD13 /* RadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06291BADBD6C0074FD13 /* RadioView.m */; };
-		39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA062B1BADBD6C0074FD13 /* RadioViewController.m */; };
 		39CA06331BADC7390074FD13 /* more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06321BADC7390074FD13 /* more@2x.png */; };
 		39CA063A1BAEA1A40074FD13 /* CommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06361BAEA1A40074FD13 /* CommentItem.m */; };
 		39CA063B1BAEA1A40074FD13 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CA06391BAEA1A40074FD13 /* CommentModel.m */; };
@@ -383,14 +379,6 @@
 		39CA06201BADBD6C0074FD13 /* DetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailHeaderView.m; sourceTree = "<group>"; };
 		39CA06211BADBD6C0074FD13 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		39CA06221BADBD6C0074FD13 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		39CA06241BADBD6C0074FD13 /* LoopPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopPlayerView.h; sourceTree = "<group>"; };
-		39CA06251BADBD6C0074FD13 /* LoopPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopPlayerView.m; sourceTree = "<group>"; };
-		39CA06261BADBD6C0074FD13 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
-		39CA06271BADBD6C0074FD13 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
-		39CA06281BADBD6C0074FD13 /* RadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioView.h; sourceTree = "<group>"; };
-		39CA06291BADBD6C0074FD13 /* RadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioView.m; sourceTree = "<group>"; };
-		39CA062A1BADBD6C0074FD13 /* RadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioViewController.h; sourceTree = "<group>"; };
-		39CA062B1BADBD6C0074FD13 /* RadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioViewController.m; sourceTree = "<group>"; };
 		39CA06321BADC7390074FD13 /* more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more@2x.png"; sourceTree = "<group>"; };
 		39CA06351BAEA1A40074FD13 /* CommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentItem.h; sourceTree = "<group>"; };
 		39CA06361BAEA1A40074FD13 /* CommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentItem.m; sourceTree = "<group>"; };
@@ -1044,7 +1032,6 @@
 				39BF8C661BB268B4003AB4FC /* Profile */,
 				390BADC61BAFD9FB006269FD /* Login */,
 				39CA061E1BADBD6C0074FD13 /* Detail */,
-				39CA06231BADBD6C0074FD13 /* Radio */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1241,21 +1228,6 @@
 				39CA06221BADBD6C0074FD13 /* DetailViewController.m */,
 			);
 			path = Detail;
-			sourceTree = "<group>";
-		};
-		39CA06231BADBD6C0074FD13 /* Radio */ = {
-			isa = PBXGroup;
-			children = (
-				39CA06241BADBD6C0074FD13 /* LoopPlayerView.h */,
-				39CA06251BADBD6C0074FD13 /* LoopPlayerView.m */,
-				39CA06261BADBD6C0074FD13 /* PlayerView.h */,
-				39CA06271BADBD6C0074FD13 /* PlayerView.m */,
-				39CA06281BADBD6C0074FD13 /* RadioView.h */,
-				39CA06291BADBD6C0074FD13 /* RadioView.m */,
-				39CA062A1BADBD6C0074FD13 /* RadioViewController.h */,
-				39CA062B1BADBD6C0074FD13 /* RadioViewController.m */,
-			);
-			path = Radio;
 			sourceTree = "<group>";
 		};
 		39CA06341BAEA1A40074FD13 /* CommentItem */ = {
@@ -1762,15 +1734,12 @@
 				CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
 				CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */,
-				39CA062E1BADBD6C0074FD13 /* LoopPlayerView.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */,
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
 				390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */,
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
-				39CA06311BADBD6C0074FD13 /* RadioViewController.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
-				39CA062F1BADBD6C0074FD13 /* PlayerView.m in Sources */,
 				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */,
 				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
@@ -1823,7 +1792,6 @@
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
 				CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */,
 				39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */,
-				39CA06301BADBD6C0074FD13 /* RadioView.m in Sources */,
 				390BADC91BAFD9FB006269FD /* LoginViewController.m in Sources */,
 				39BF8C5C1BB13350003AB4FC /* UserSession.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,

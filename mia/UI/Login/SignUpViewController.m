@@ -9,7 +9,6 @@
 #import "SignUpViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"

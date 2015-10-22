@@ -10,7 +10,6 @@
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "KYCircularView.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+Extrude.h"

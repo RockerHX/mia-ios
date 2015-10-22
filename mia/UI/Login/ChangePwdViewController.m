@@ -13,7 +13,6 @@
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "NSString+MD5.h"
 

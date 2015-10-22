@@ -9,7 +9,6 @@
 #import "DetailViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
-#import "MBProgressHUD.h"
 #import "MBProgressHUDHelp.h"
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
