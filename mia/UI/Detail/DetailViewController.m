@@ -28,6 +28,7 @@
 #import "Masonry.h"
 #import "LocationMgr.h"
 #import "UIActionSheet+Blocks.h"
+#import "HXAlertBanner.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -704,7 +705,17 @@ CommentCellDelegate>
 		NSLog(@"cancel");
 	}];
 	RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"举报" action:^{
-		NSLog(@"report");
+		[MiaAPIHelper reportShareById:_shareItem.sID completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"举报成功" tap:nil];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"举报失败:%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"举报失败，网络请求超时" tap:nil];
+		 }];
 	}];
 
 	RIButtonItem *deleteItem = [RIButtonItem itemWithLabel:@"删除" action:^{

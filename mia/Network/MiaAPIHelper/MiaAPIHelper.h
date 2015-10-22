@@ -38,6 +38,11 @@
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)reportShareById:(NSString *)sID
+	   completeBlock:(MiaRequestCompleteBlock)completeBlock
+		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
+
 + (void)postReadCommentWithsID:(NSString *)sID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;

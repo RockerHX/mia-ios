@@ -36,6 +36,8 @@ static NSString * const MiaAPICommand_Music_GetSharem		= @"Music.Get.Sharem";
 static NSString * const MiaAPICommand_Music_GetByid			= @"Music.Get.Byid";
 static NSString * const MiaAPIKey_MID						= @"mid";
 
+static NSString * const MiaAPICommand_Music_PostReport		= @"Music.Post.Report";
+
 static NSString * const MiaAPICommand_User_PostGuest		= @"User.Post.Guest";
 static NSString * const MiaAPIKey_GUID						= @"guid";
 
