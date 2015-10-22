@@ -91,6 +91,8 @@
 	[self initInputView];
 	[self initMsgView];
 	[self initBottomView];
+
+	[_userNameTextField becomeFirstResponder];
 }
 
 - (void)initBarButton {
@@ -354,8 +356,7 @@
 {
 	if (textField == _userNameTextField) {
 		[_verificationCodeTextField becomeFirstResponder];
-	}
-	else if (textField == _verificationCodeTextField) {
+	} else if (textField == _verificationCodeTextField) {
 		[_nickNameTextField becomeFirstResponder];
 	} else if (textField == _nickNameTextField) {
 		[_firstPasswordTextField becomeFirstResponder];

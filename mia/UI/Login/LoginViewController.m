@@ -321,6 +321,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 - (void)signInButtonAction:(id)sender {
 	[_guidView setHidden:YES];
 	[_loginView setHidden:NO];
+	[_userNameTextField becomeFirstResponder];
 }
 
 
