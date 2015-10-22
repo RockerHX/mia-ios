@@ -29,6 +29,7 @@
 #import "LocationMgr.h"
 #import "UIActionSheet+Blocks.h"
 #import "HXAlertBanner.h"
+#import "InfectItem.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -504,6 +505,7 @@ CommentCellDelegate>
 
 - (void)detailHeaderViewClickedInfectUsers {
 #warning @andy infectlist
+	// 分页需要传入上一次拉取到的最后一条的infectid作为参数
 	static const long kInfectListItemCountInPage = 10;
 	__block NSString *lastInfectID = @"0";
 	[MiaAPIHelper getInfectListWithSID:_shareItem.sID
@@ -516,8 +518,13 @@ CommentCellDelegate>
 			 if (!infectList) {
 				 return;
 			 }
-			 lastInfectID = @"";//[[infectList lastObject][@"infectid"] stringValue];
 
+			 NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+			 for (NSDictionary *dictItem in infectList) {
+				 InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
+				 [dataSource addObject:item];
+				 lastInfectID = item.infectid;
+			 }
 		 }
 		} timeoutBlock:^(MiaRequestItem *requestItem) {
 			NSLog(@"Timeout");

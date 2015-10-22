@@ -1,6 +1,6 @@
 //
 //  InfectUserItem.m
-//  mia
+//  用于显示妙推头像的Item封装
 //
 //  Created by linyehui on 2015/09/08.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
