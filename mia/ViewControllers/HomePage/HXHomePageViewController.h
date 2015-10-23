@@ -36,6 +36,7 @@
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;
 
+- (IBAction)tapGesture;
 - (IBAction)gestureEvent:(UIGestureRecognizer *)gesture;
 
 @end

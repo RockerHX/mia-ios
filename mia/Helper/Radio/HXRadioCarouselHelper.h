@@ -24,7 +24,6 @@ typedef NS_ENUM(NSUInteger, HXRadioCarouselHelperAction) {
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper;
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper;
-- (void)helperSongerTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper;
 

@@ -11,7 +11,7 @@
 
 typedef void(^BLOCK)(void);
 
-static CGFloat BannerHeight = 64.0f;
+static CGFloat BannerHeight = 67.0f;
 
 @implementation HXAlertBanner {
     BLOCK _tapBlock;
@@ -59,7 +59,7 @@ static CGFloat BannerHeight = 64.0f;
 
 - (void)hidden {
     __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.5f animations:^{
+    [UIView animateWithDuration:0.6f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.frame = (CGRect){
             0.0f, -strongSelf.height,
@@ -83,7 +83,7 @@ static CGFloat BannerHeight = 64.0f;
     };
     [mainWindow addSubview:self];
     __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.frame = (CGRect){
             0.0f, 0.0f,

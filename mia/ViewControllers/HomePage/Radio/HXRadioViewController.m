@@ -309,7 +309,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
     [self pauseMusic];
 }
 
-- (void)helperSongerTaped:(HXRadioCarouselHelper *)helper {
+- (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
     if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
         [_delegate shouldPushToRadioDetailViewController];
     }

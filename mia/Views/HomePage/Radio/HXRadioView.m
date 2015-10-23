@@ -84,9 +84,9 @@
     [self playButtonPressed:_playButton];
 }
 
-- (IBAction)commentTaped {
-    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSongerTaped:)]) {
-        [_delegate radioViewSongerTaped:self];
+- (IBAction)sharerNickNameTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSharerNameTaped:)]) {
+        [_delegate radioViewSharerNameTaped:self];
     }
 }
 
@@ -146,12 +146,13 @@
     MusicItem *music = item.music;
     
     [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
-    _songNameLabel.text = [NSString stringWithFormat:@"%@ %@", (music.name ?: @""), (music.singerName ?: @"")];
+    _songNameLabel.text = music.name ?: @"";
+    _songerNameLabel.text = music.singerName ?: @"";
     _starButton.selected = item.favorite;
-    _shrareContentLabel.text = [NSString stringWithFormat:@"%@:%@", (item.sNick ?: @""), (item.sNote ?: @"")];
-    _locationLabel.text = [item sAddress] ?: @"";
+    _sharerNickNameLabel.text = item.sNick;
+    _shrareContentLabel.text = [NSString stringWithFormat:@"%@  ♫%@", (item.sNote ?: @""), ([item sAddress] ?: @"")];
     
-    [self displayShareContentLabelWithSharerName:item.sNick];
+//    [self displayShareContentLabelWithSharerName:item.sNick];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:item:)]) {
         [_delegate radioViewDidLoad:self item:_currentItem];
@@ -160,8 +161,8 @@
 
 #pragma mark - Private Methods
 - (void)displayShareContentLabelWithSharerName:(NSString *)sharerName {
-    NSRange range = [_shrareContentLabel.text rangeOfString:(sharerName ?: @"")];
-    [_shrareContentLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+//    NSRange range = [_shrareContentLabel.text rangeOfString:(sharerName ?: @"")];
+//    [_shrareContentLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
 }
 
 #pragma mark - TTTAttributedLabelDelegate Methods
