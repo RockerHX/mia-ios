@@ -18,12 +18,12 @@
 
 @property (strong, nonatomic) SongListPlayer *listPlayer;
 
-- (void)playCurrentItem;
-- (BOOL)isPlayWith3GOnceTime;
-- (BOOL)isPlaying;
+//- (void)playCurrentItem;
+//- (BOOL)isPlayWith3GOnceTime;
+//- (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
-- (void)pause;
-- (void)stop;
-- (float)playPosition;
+//- (void)pause;
+//- (void)stop;
+//- (float)playPosition;
 
 @end

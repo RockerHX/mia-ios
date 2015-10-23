@@ -522,7 +522,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 - (void)playButtonAction:(id)sender {
 	NSLog(@"playButtonAction");
-	if ([[MusicMgr standard] isPlaying]) {
+	if ([_songListPlayer isPlaying]) {
 		[self pauseMusic];
 	} else {
 		[self playMusic];
@@ -566,18 +566,18 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	}
 
 	[[MusicMgr standard] setListPlayer:_songListPlayer];
-	[[MusicMgr standard] playCurrentItem];
+	[_songListPlayer playCurrentItem];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
-	[[MusicMgr standard] pause];
+	[_songListPlayer pause];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
-	[[MusicMgr standard] stop];
+	[_songListPlayer stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
