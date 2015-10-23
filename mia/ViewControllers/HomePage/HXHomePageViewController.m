@@ -114,9 +114,13 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)viewConfig {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
+    _shareButton.backgroundColor = [UIColor whiteColor];
     _profileButton.layer.borderWidth = 0.5f;
     _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
     _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
+    
+    _shareButton.backgroundColor = [UIColor whiteColor];
+    _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
@@ -503,6 +507,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	}];
 }
 
+- (void)cancelLoginOperate {
+    [self startWaveMoveUpAnimation];
+    [self startFinshAndBubbleHiddenAnimation];
+}
+
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView startAnimating];
@@ -514,7 +523,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 小鱼跳出动画
 - (void)startPopFishAnimation {
-    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 120.0f;
+    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 140.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -529,13 +538,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 气泡弹出动画
 - (void)startBubbleScaleAnimation {
+    [_bubbleView showWithLogin:[[UserSession standard] isLogined]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.1f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.bubbleView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf executeTimer];
+        if ([[UserSession standard] isLogined]) {
+            __strong __typeof__(self)strongSelf = weakSelf;
+            [strongSelf executeTimer];
+        }
     }];
 }
 
@@ -552,6 +564,28 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }];
 }
 
+// 波浪升起动画
+- (void)startWaveMoveUpAnimation {
+    _waveViewBottomConstraint.constant = 0.0f;
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf stopAnimation];
+    }];
+}
+
+- (void)startFinshAndBubbleHiddenAnimation {
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.4f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.fishView.alpha = 0.0f;
+        strongSelf.bubbleView.alpha = 0.0f;
+    } completion:nil];
+}
+
 // 头像弹出动画
 - (void)startHeaderViewScaleAnimation {
     _headerViewBottomConstraint.constant = 40.0f;
@@ -561,7 +595,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         strongSelf.infectUserView.transform = CGAffineTransformIdentity;
         [strongSelf.infectUserView layoutIfNeeded];
     } completion:nil];
-    [self addPushUserHeader];
+    if ([[UserSession standard] isLogined]) {
+        [self addPushUserHeader];
+    }
 }
 
 // 秒推完成，结束动画
@@ -604,6 +640,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [self startPushMusicRequsetWithComment:comment];
 }
 
+- (void)bubbleViewShouldLogin:(HXBubbleView *)bubbleView {
+    [self userStartNeedLogin];
+    [self stopAnimation];
+}
+
 #pragma mark - Login View Controller Delegate Methods
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
@@ -627,7 +668,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)userStarNeedLogin {
+- (void)userStartNeedLogin {
 	LoginViewController *vc = [[LoginViewController alloc] init];
 	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
@@ -639,8 +680,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)shouldPushToRadioDetailViewController {
-    DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (_animating) {
+        if (![[UserSession standard] isLogined]) {
+            [self cancelLoginOperate];
+        }
+    } else {
+        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

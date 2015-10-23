@@ -111,67 +111,14 @@
                                     <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i7R-7R-kAw" customClass="HXBubbleView">
-                                <rect key="frame" x="-4" y="373" width="288" height="215"/>
-                                <subviews>
-                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TextFieldBG" translatesAutoresizingMaskIntoConstraints="NO" id="rZD-az-a6y">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="215"/>
-                                        <animations/>
-                                    </imageView>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="说说你的想法" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nl7-Tv-v26">
-                                        <rect key="frame" x="84" y="96" width="120" height="24"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JKz-RM-aIq">
-                                        <rect key="frame" x="53" y="81" width="149" height="60"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="GmC-cI-aeu"/>
-                                        </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="i7R-7R-kAw" id="hn2-ik-TOk"/>
-                                        </connections>
-                                    </textView>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFl-sp-KPY">
-                                        <rect key="frame" x="218" y="81" width="34" height="33"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="发送">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="sendButtonPressed" destination="i7R-7R-kAw" eventType="touchUpInside" id="yps-Ck-d7p"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4h-Kd-Mqg" customClass="HXWaveView">
+                                <rect key="frame" x="0.0" y="368" width="320" height="200"/>
                                 <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="GFl-sp-KPY" secondAttribute="trailing" constant="36" id="21i-uJ-Pfp"/>
-                                    <constraint firstItem="GFl-sp-KPY" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" constant="-10" id="6A8-sR-uMZ"/>
-                                    <constraint firstItem="JKz-RM-aIq" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="53" id="Gqu-7X-999"/>
-                                    <constraint firstAttribute="bottom" secondItem="rZD-az-a6y" secondAttribute="bottom" id="Hz7-9t-wsD"/>
-                                    <constraint firstAttribute="trailing" secondItem="rZD-az-a6y" secondAttribute="trailing" id="NaB-Fi-o6j"/>
-                                    <constraint firstItem="GFl-sp-KPY" firstAttribute="leading" secondItem="JKz-RM-aIq" secondAttribute="trailing" constant="16" id="Pth-8z-xab"/>
-                                    <constraint firstItem="nl7-Tv-v26" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" id="SKZ-FL-glv"/>
-                                    <constraint firstItem="rZD-az-a6y" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" id="Sz6-O8-5U2"/>
-                                    <constraint firstAttribute="width" secondItem="i7R-7R-kAw" secondAttribute="height" multiplier="1.34" id="gXr-zl-kpH"/>
-                                    <constraint firstItem="JKz-RM-aIq" firstAttribute="top" secondItem="GFl-sp-KPY" secondAttribute="top" id="hAG-XP-dbf"/>
-                                    <constraint firstItem="rZD-az-a6y" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" id="jRJ-uD-tIV"/>
-                                    <constraint firstItem="nl7-Tv-v26" firstAttribute="centerX" secondItem="i7R-7R-kAw" secondAttribute="centerX" id="lQd-K0-p8o"/>
+                                    <constraint firstAttribute="height" constant="200" id="kMW-ZW-N2V"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="delegate" destination="Vwv-7l-Pgq" id="eMX-nV-3tr"/>
-                                    <outlet property="promptLabel" destination="nl7-Tv-v26" id="r3A-b0-8Fc"/>
-                                    <outlet property="sendButton" destination="GFl-sp-KPY" id="lpD-9x-SYp"/>
-                                    <outlet property="textView" destination="JKz-RM-aIq" id="9vj-G3-yWX"/>
-                                </connections>
                             </view>
                             <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="K76-u6-UI7">
                                 <rect key="frame" x="120" y="408" width="80" height="120"/>
@@ -181,14 +128,83 @@
                                     <constraint firstAttribute="height" constant="120" id="k9a-11-FQe"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4h-Kd-Mqg" customClass="HXWaveView">
-                                <rect key="frame" x="0.0" y="368" width="320" height="200"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i7R-7R-kAw" customClass="HXBubbleView">
+                                <rect key="frame" x="80" y="398" width="160" height="160"/>
+                                <subviews>
+                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-Bubble" translatesAutoresizingMaskIntoConstraints="NO" id="rZD-az-a6y">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                        <animations/>
+                                    </imageView>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="说说你的想法" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nl7-Tv-v26">
+                                        <rect key="frame" x="20" y="68" width="120" height="24"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JKz-RM-aIq">
+                                        <rect key="frame" x="20" y="45" width="120" height="60"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="GmC-cI-aeu"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="i7R-7R-kAw" id="hn2-ik-TOk"/>
+                                        </connections>
+                                    </textView>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFl-sp-KPY">
+                                        <rect key="frame" x="63" y="105" width="34" height="33"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="发送">
+                                            <color key="titleColor" red="0.23921568630000001" green="0.77647058820000003" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sendButtonPressed" destination="i7R-7R-kAw" eventType="touchUpInside" id="yps-Ck-d7p"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVV-CR-7XL">
+                                        <rect key="frame" x="10" y="10" width="140" height="140"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="登录">
+                                            <color key="titleColor" red="0.23921568630000001" green="0.77647058820000003" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButtonPressed" destination="i7R-7R-kAw" eventType="touchUpInside" id="WEb-6k-0kl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="kMW-ZW-N2V"/>
+                                    <constraint firstAttribute="trailing" secondItem="JKz-RM-aIq" secondAttribute="trailing" constant="20" id="2Vc-qT-m8G"/>
+                                    <constraint firstAttribute="bottom" secondItem="OVV-CR-7XL" secondAttribute="bottom" constant="10" id="3Sf-Ht-viz"/>
+                                    <constraint firstItem="GFl-sp-KPY" firstAttribute="centerX" secondItem="JKz-RM-aIq" secondAttribute="centerX" id="9Fc-GZ-HIb"/>
+                                    <constraint firstItem="JKz-RM-aIq" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" constant="-5" id="E3E-Ab-Ovw"/>
+                                    <constraint firstItem="JKz-RM-aIq" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="20" id="Gqu-7X-999"/>
+                                    <constraint firstAttribute="bottom" secondItem="rZD-az-a6y" secondAttribute="bottom" id="Hz7-9t-wsD"/>
+                                    <constraint firstAttribute="trailing" secondItem="rZD-az-a6y" secondAttribute="trailing" id="NaB-Fi-o6j"/>
+                                    <constraint firstAttribute="trailing" secondItem="OVV-CR-7XL" secondAttribute="trailing" constant="10" id="PiA-ps-bLt"/>
+                                    <constraint firstItem="nl7-Tv-v26" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" id="SKZ-FL-glv"/>
+                                    <constraint firstItem="rZD-az-a6y" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" id="Sz6-O8-5U2"/>
+                                    <constraint firstItem="OVV-CR-7XL" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="10" id="bIJ-XF-NV2"/>
+                                    <constraint firstAttribute="width" secondItem="i7R-7R-kAw" secondAttribute="height" multiplier="1:1" id="gXr-zl-kpH"/>
+                                    <constraint firstItem="rZD-az-a6y" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" id="jRJ-uD-tIV"/>
+                                    <constraint firstItem="GFl-sp-KPY" firstAttribute="top" secondItem="JKz-RM-aIq" secondAttribute="bottom" id="kMd-v3-2I6"/>
+                                    <constraint firstItem="nl7-Tv-v26" firstAttribute="centerX" secondItem="i7R-7R-kAw" secondAttribute="centerX" id="lQd-K0-p8o"/>
+                                    <constraint firstItem="OVV-CR-7XL" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" constant="10" id="ml5-lF-rMy"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="Vwv-7l-Pgq" id="eMX-nV-3tr"/>
+                                    <outlet property="loginButton" destination="OVV-CR-7XL" id="6qy-8K-m6r"/>
+                                    <outlet property="promptLabel" destination="nl7-Tv-v26" id="r3A-b0-8Fc"/>
+                                    <outlet property="sendButton" destination="GFl-sp-KPY" id="lpD-9x-SYp"/>
+                                    <outlet property="textView" destination="JKz-RM-aIq" id="9vj-G3-yWX"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bC-Qy-IVf" customClass="HXInfectUserView">
                                 <rect key="frame" x="60" y="518" width="200" height="50"/>
@@ -225,8 +241,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="i7R-7R-kAw" firstAttribute="width" secondItem="lBD-s7-8t9" secondAttribute="width" multiplier="0.9" id="0nF-HQ-RKv"/>
-                            <constraint firstItem="K76-u6-UI7" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="bottom" constant="-180" id="6tg-tS-iw1"/>
+                            <constraint firstItem="i7R-7R-kAw" firstAttribute="width" secondItem="lBD-s7-8t9" secondAttribute="width" multiplier="0.5" id="0nF-HQ-RKv"/>
+                            <constraint firstItem="K76-u6-UI7" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="bottom" constant="-150" id="6tg-tS-iw1"/>
                             <constraint firstAttribute="trailing" secondItem="QnW-Sx-Tnv" secondAttribute="trailing" constant="15" id="7h9-ei-d5Z"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="top" secondItem="1bC-Qy-IVf" secondAttribute="bottom" constant="10" id="Bqi-5K-fhg"/>
                             <constraint firstItem="K76-u6-UI7" firstAttribute="centerX" secondItem="W4h-Kd-Mqg" secondAttribute="centerX" id="ECc-v4-LOi"/>
@@ -234,7 +250,7 @@
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="W4h-Kd-Mqg" secondAttribute="bottom" id="Fx8-tN-lWx"/>
                             <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="15" id="GCF-La-sRx"/>
                             <constraint firstAttribute="bottom" secondItem="K76-u6-UI7" secondAttribute="bottom" constant="40" id="Gji-wQ-Z6e"/>
-                            <constraint firstItem="i7R-7R-kAw" firstAttribute="centerX" secondItem="K76-u6-UI7" secondAttribute="centerX" constant="-20" id="ITI-a2-PHK"/>
+                            <constraint firstItem="i7R-7R-kAw" firstAttribute="centerX" secondItem="K76-u6-UI7" secondAttribute="centerX" id="ITI-a2-PHK"/>
                             <constraint firstItem="W4h-Kd-Mqg" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Oh3-3m-go7"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Rcp-NR-a1u"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="centerX" secondItem="1bC-Qy-IVf" secondAttribute="centerX" id="ZZZ-SF-vHq"/>
@@ -291,8 +307,8 @@
     </scenes>
     <resources>
         <image name="1" width="111" height="120"/>
+        <image name="HP-Bubble" width="185" height="185"/>
         <image name="HP-ProfileIcon" width="32" height="32"/>
         <image name="HP-ShareIcon" width="32" height="32"/>
-        <image name="TextFieldBG" width="283" height="212"/>
     </resources>
 </document>

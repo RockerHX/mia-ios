@@ -48,6 +48,12 @@
     }
 }
 
+- (IBAction)loginButtonPressed {
+    if (_delegate && [_delegate respondsToSelector:@selector(bubbleViewShouldLogin:)]) {
+        [_delegate bubbleViewShouldLogin:self];
+    }
+}
+
 #pragma mark - Public methods
 - (void)reset {
     _canTap = YES;
@@ -56,6 +62,18 @@
     _promptLabel.hidden = !_canTap;
     _textView.hidden = _canTap;
     _sendButton.hidden = _canTap;
+}
+
+- (void)showWithLogin:(BOOL)login {
+    _canTap = login;
+    _loginButton.hidden = login;
+    if (!login) {
+        _promptLabel.hidden = !login;
+        _textView.hidden = !login;
+        _sendButton.hidden = !login;
+    } else {
+        [self reset];
+    }
 }
 
 #pragma mark - UITextViewDelegate Methods
