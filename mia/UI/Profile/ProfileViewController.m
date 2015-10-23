@@ -20,7 +20,7 @@
 #import "FavoriteModel.h"
 #import "DetailViewController.h"
 #import "FavoriteViewController.h"
-#import "MusicPlayerMgr.h"
+#import "SingleSongPlayer.h"
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
 #import "FavoriteMgr.h"
@@ -532,7 +532,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	if (!_playingFavorite) {
 		[self playFavoriteMusic];
 	} else {
-		if ([[MusicPlayerMgr standard] isPlaying]) {
+		if ([[SingleSongPlayer standard] isPlaying]) {
 			[self pauseMusic];
 		} else {
 			[self playFavoriteMusic];
@@ -743,13 +743,13 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	_playingFavorite = YES;
 
-	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
+	[[SingleSongPlayer standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 	[_profileHeaderView setIsPlaying:YES];
 	[_favoriteViewController setIsPlaying:YES];
 }
 
 - (void)pauseMusic {
-	[[MusicPlayerMgr standard] pause];
+	[[SingleSongPlayer standard] pause];
 	[_profileHeaderView setIsPlaying:NO];
 	[_favoriteViewController setIsPlaying:NO];
 }
@@ -758,7 +758,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)backButtonAction:(id)sender {
 	if (_playingFavorite) {
-		[[MusicPlayerMgr standard] stop];
+		[[SingleSongPlayer standard] stop];
 	}
 
 	if (_customDelegate) {
