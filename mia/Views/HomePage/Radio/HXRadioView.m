@@ -151,14 +151,12 @@
     _playButton.selected = NO;
     MusicItem *music = item.music;
     
-    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
     _songNameLabel.text = music.name ?: @"";
     _songerNameLabel.text = music.singerName ?: @"";
     _starButton.selected = item.favorite;
     _sharerNickNameLabel.text = item.sNick;
-    _shrareContentLabel.text = [NSString stringWithFormat:@"%@♫%@", (item.sNote.length ? [item.sNote stringByAppendingString:@"  "]: @""), ([item sAddress] ?: @"")];
-    
-//    [self displayShareContentLabelWithSharerName:item.sNick];
+    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
+    [self displayShareContentLabelWithContent:item.sNote locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:item:)]) {
         [_delegate radioViewDidLoad:self item:_currentItem];
@@ -166,9 +164,40 @@
 }
 
 #pragma mark - Private Methods
-- (void)displayShareContentLabelWithSharerName:(NSString *)sharerName {
-//    NSRange range = [_shrareContentLabel.text rangeOfString:(sharerName ?: @"")];
-//    [_shrareContentLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+static NSInteger MaxLine = 3;
+static NSString *HanWorld = @"肖";
+- (void)displayShareContentLabelWithContent:(NSString *)content locationInfo:(NSString *)locationInfo {
+    NSString *text = [NSString stringWithFormat:@"%@%@", (content.length ? [NSString stringWithFormat:@"“%@”  ", content] : @""), (locationInfo ?: @"")];
+    
+    CGFloat labelWidth = _shrareContentLabel.frame.size.width;
+    CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
+    UIFont *labelFont = _shrareContentLabel.font;
+    CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+    CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+    CGFloat threeLineHeightThreshold = lineHeight*3;
+    if (textHeight > lineHeight) {
+        _shrareContentLabel.textAlignment = NSTextAlignmentLeft;
+        
+        if (textHeight > threeLineHeightThreshold) {
+            CGFloat maxWidth = labelWidth*MaxLine;
+            CGSize locationMaxSize = CGSizeMake(MAXFLOAT, lineHeight);
+            NSString *coutText = [NSString stringWithFormat:@"...”  %@", locationInfo];
+            CGFloat worldWith = [HanWorld boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.width;
+            CGFloat locationInfoWidth = [coutText boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:_shrareContentLabel.font} context:nil].size.width;
+            CGFloat commentSurplusWidth = maxWidth - locationInfoWidth;
+            NSInteger commentWorldCount = (commentSurplusWidth/worldWith);
+            text = [NSString stringWithFormat:@"%@%@", [text substringWithRange:(NSRange){0, commentWorldCount}], coutText];
+        }
+    } else {
+        _shrareContentLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    
+    
+    [_shrareContentLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+        NSRange boldRange = [[mutableAttributedString string] rangeOfString:locationInfo options:NSCaseInsensitiveSearch];
+        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor lightGrayColor].CGColor range:boldRange];
+        return mutableAttributedString;
+    }];
 }
 
 - (void)displayPlayProgress {
