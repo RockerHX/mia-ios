@@ -77,7 +77,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:
 	 ^(AFNetworkReachabilityStatus status) {
-		NSLog(@"Network status change: %ld", status);
+		NSLog(@"Network status change: %ld", (long)status);
 		_networkStatus = status;
 		 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 								   [NSNumber numberWithInteger:status], NetworkNotificationKey_Status,
