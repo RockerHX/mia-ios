@@ -114,9 +114,13 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)viewConfig {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
+    _shareButton.backgroundColor = [UIColor whiteColor];
     _profileButton.layer.borderWidth = 0.5f;
     _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
     _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
+    
+    _shareButton.backgroundColor = [UIColor whiteColor];
+    _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
