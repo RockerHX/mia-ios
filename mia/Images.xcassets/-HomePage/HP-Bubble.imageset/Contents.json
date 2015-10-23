@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "TextFieldBG@2x.png",
+      "filename" : "HP-Bubble@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "TextFieldBG@3x.png"
+      "filename" : "HP-Bubble@3x.png"
     }
   ],
   "info" : {

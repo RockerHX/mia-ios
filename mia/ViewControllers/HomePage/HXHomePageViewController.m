@@ -518,7 +518,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 小鱼跳出动画
 - (void)startPopFishAnimation {
-    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 120.0f;
+    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 140.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
