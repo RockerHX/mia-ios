@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *songerNameLabel;
 @property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
+@property (weak, nonatomic) IBOutlet     UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet           UIButton *playButton;
 @property (weak, nonatomic) IBOutlet           UIButton *starButton;
 @property (weak, nonatomic) IBOutlet            UILabel *sharerNickNameLabel;
