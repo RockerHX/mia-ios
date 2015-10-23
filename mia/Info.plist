@@ -47,9 +47,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>STHeiti-Light.TTF</string>
-	</array>
 </dict>
 </plist>
