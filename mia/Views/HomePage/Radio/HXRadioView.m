@@ -18,6 +18,7 @@
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
+    NSTimer *_timer;
 }
 
 @end
@@ -49,6 +50,7 @@
 }
 
 - (void)dealloc {
+    [_timer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
 
@@ -63,9 +65,12 @@
 
 - (void)viewConfig {
     [self configLabel];
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(displayPlayProgress) userInfo:nil repeats:YES];
 }
 
 - (void)configLabel {
+    _progressView.progress = 0.0f;
     _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
 }
@@ -141,6 +146,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
+    _progressView.progress = 0.0f;
     _currentItem = item;
     _playButton.selected = NO;
     MusicItem *music = item.music;
@@ -150,7 +156,7 @@
     _songerNameLabel.text = music.singerName ?: @"";
     _starButton.selected = item.favorite;
     _sharerNickNameLabel.text = item.sNick;
-    _shrareContentLabel.text = [NSString stringWithFormat:@"%@  ♫%@", (item.sNote ?: @""), ([item sAddress] ?: @"")];
+    _shrareContentLabel.text = [NSString stringWithFormat:@"%@♫%@", (item.sNote.length ? [item.sNote stringByAppendingString:@"  "]: @""), ([item sAddress] ?: @"")];
     
 //    [self displayShareContentLabelWithSharerName:item.sNick];
     
@@ -163,6 +169,10 @@
 - (void)displayShareContentLabelWithSharerName:(NSString *)sharerName {
 //    NSRange range = [_shrareContentLabel.text rangeOfString:(sharerName ?: @"")];
 //    [_shrareContentLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+}
+
+- (void)displayPlayProgress {
+    _progressView.progress = [[SingleSongPlayer standard] getPlayPosition];
 }
 
 #pragma mark - TTTAttributedLabelDelegate Methods
