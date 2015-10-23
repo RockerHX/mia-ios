@@ -1,5 +1,5 @@
 //
-//  MusicPlayerMgr.h
+//  SingleSongPlayer.h
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
@@ -14,7 +14,7 @@ extern NSString * const MusicPlayerMgrNotificationDidPlay;
 extern NSString * const MusicPlayerMgrNotificationDidPause;
 extern NSString * const MusicPlayerMgrNotificationCompletion;
 
-@interface MusicPlayerMgr : NSObject
+@interface SingleSongPlayer : NSObject
 
 /**
  *  使用单例初始化

@@ -125,7 +125,7 @@ static const CGFloat kSearchResultItemHeight	= 100;
 		return;
 	}
 
-	NSLog(@"%ld", indexPath.row);
+	NSLog(@"%ld", (long)indexPath.row);
 
 	NSInteger lastPlayingRow = [_searchResultViewDelegate searchResultViewModel].currentPlaying;
 	if (lastPlayingRow == indexPath.row) {
