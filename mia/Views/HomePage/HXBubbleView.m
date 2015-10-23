@@ -65,6 +65,7 @@
 }
 
 - (void)showWithLogin:(BOOL)login {
+    _canTap = login;
     _loginButton.hidden = login;
     if (!login) {
         _promptLabel.hidden = !login;

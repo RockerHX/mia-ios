@@ -507,6 +507,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	}];
 }
 
+- (void)cancelLoginOperate {
+    [self startWaveMoveUpAnimation];
+    [self startFinshAndBubbleHiddenAnimation];
+}
+
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView startAnimating];
@@ -559,6 +564,28 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }];
 }
 
+// 波浪升起动画
+- (void)startWaveMoveUpAnimation {
+    _waveViewBottomConstraint.constant = 0.0f;
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf stopAnimation];
+    }];
+}
+
+- (void)startFinshAndBubbleHiddenAnimation {
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.4f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.fishView.alpha = 0.0f;
+        strongSelf.bubbleView.alpha = 0.0f;
+    } completion:nil];
+}
+
 // 头像弹出动画
 - (void)startHeaderViewScaleAnimation {
     _headerViewBottomConstraint.constant = 40.0f;
@@ -568,7 +595,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         strongSelf.infectUserView.transform = CGAffineTransformIdentity;
         [strongSelf.infectUserView layoutIfNeeded];
     } completion:nil];
-    [self addPushUserHeader];
+    if ([[UserSession standard] isLogined]) {
+        [self addPushUserHeader];
+    }
 }
 
 // 秒推完成，结束动画
@@ -651,8 +680,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)shouldPushToRadioDetailViewController {
-    DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (_animating) {
+        if (![[UserSession standard] isLogined]) {
+            [self cancelLoginOperate];
+        }
+    } else {
+        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end
