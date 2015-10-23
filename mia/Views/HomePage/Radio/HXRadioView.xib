@@ -54,7 +54,7 @@
                         <action selector="starButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="cgy-dx-Mke"/>
                     </connections>
                 </button>
-                <label opaque="NO" contentMode="left" misplaced="YES" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="207" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
+                <label opaque="NO" contentMode="left" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="207" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
                     <rect key="frame" x="35" y="458" width="250" height="23"/>
                     <animations/>
                     <gestureRecognizers/>
@@ -62,7 +62,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
                     <rect key="frame" x="120" y="420" width="80" height="23"/>
                     <animations/>
                     <gestureRecognizers/>
@@ -73,14 +73,14 @@
                         <outletCollection property="gestureRecognizers" destination="crf-jz-X8m" appends="YES" id="7DN-nD-6zh"/>
                     </connections>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZT2-TF-oW0">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZT2-TF-oW0">
                     <rect key="frame" x="35" y="14" width="250" height="23"/>
                     <animations/>
                     <fontDescription key="fontDescription" name="STXihei" family="STXihei" pointSize="16"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="朴树" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRy-kE-hZ9">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朴树" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRy-kE-hZ9">
                     <rect key="frame" x="35" y="42" width="250" height="20"/>
                     <animations/>
                     <fontDescription key="fontDescription" name="STXihei" family="STXihei" pointSize="14"/>
