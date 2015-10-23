@@ -12,7 +12,6 @@
 #import "UIImage+ColorToImage.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
-#import "SingleSongPlayer.h"
 #import "UIImageView+WebCache.h"
 #import "KYCircularView.h"
 #import "PXInfiniteScrollView.h"
@@ -21,6 +20,8 @@
 #import "MiaAPIHelper.h"
 #import "Masonry.h"
 #import "InfectUserItem.h"
+#import "MusicMgr.h"
+#import "MusicPlayerMgr.h"
 
 static const CGFloat kCoverWidth 				= 163;
 static const CGFloat kCoverHeight 				= 163;
@@ -376,11 +377,12 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		return;
 	}
 
-	if ([[SingleSongPlayer standard] isPlayingWithUrl:_shareItem.music.murl]) {
+	if ([[MusicMgr standard] isPlayingWithUrl:_shareItem.music.murl]) {
 		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 	} else {
 		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 	}
+
 }
 
 - (void)updateInfectUsers {
@@ -521,7 +523,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 - (void)playButtonAction:(id)sender {
 	NSLog(@"playButtonAction");
-	if ([[SingleSongPlayer standard] isPlaying]) {
+	if ([[MusicMgr standard] isPlaying]) {
 		[self pauseMusic];
 	} else {
 		[self playMusic];
@@ -564,18 +566,18 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		return;
 	}
 
-	[[SingleSongPlayer standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
+	[[MusicMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }
 
 - (void)pauseMusic {
-	[[SingleSongPlayer standard] pause];
+	[[MusicMgr standard] pause];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
-	[[SingleSongPlayer standard] stop];
+	[[MusicMgr standard] stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
