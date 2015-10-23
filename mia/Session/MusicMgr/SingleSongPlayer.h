@@ -25,8 +25,6 @@ extern NSString * const MusicMgrNotificationRemoteControlEvent;
 
 @property (nonatomic, weak) id <SingleSongPlayerDelegate> delegate;
 
-+ (id)standard;
-
 - (void)playWithMusicItem:(MusicItem *)item;
 
 - (BOOL)isPlayWith3GOnceTime;

@@ -34,15 +34,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	BOOL			_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
 }
 
-+ (id)standard{
-	static SingleSongPlayer *aSingleSongPlayer = nil;
-	static dispatch_once_t predicate;
-	dispatch_once(&predicate, ^{
-		aSingleSongPlayer = [[self alloc] init];
-	});
-	return aSingleSongPlayer;
-}
-
 - (id)init {
 	self = [super init];
 	if (self) {
