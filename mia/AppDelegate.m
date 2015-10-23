@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import <AVFoundation/AVFoundation.h>
-#import "SingleSongPlayer.h"
+#import "MusicPlayerMgr.h"
 #import "HXHomePageViewController.h"
 #import "UserSetting.h"
 #import "HXAppConstants.h"

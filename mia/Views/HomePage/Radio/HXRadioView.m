@@ -12,7 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
-#import "SingleSongPlayer.h"
+#import "MusicPlayerMgr.h"
 #import "HXAppConstants.h"
 #import "HXAlertBanner.h"
 
@@ -132,7 +132,7 @@
 }
 
 - (void)reloadPlayStatus {
-    if ([[SingleSongPlayer standard] isPlayingWithUrl:_currentItem.music.murl]) {
+    if ([[MusicPlayerMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
         _playButton.selected = NO;
     } else {
         _playButton.selected = YES;

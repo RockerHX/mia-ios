@@ -17,7 +17,7 @@
 #import "DetailHeaderView.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "SingleSongPlayer.h"
+#import "MusicPlayerMgr.h"
 #import "Masonry.h"
 #import "SearchViewController.h"
 #import "SearchResultItem.h"
@@ -627,7 +627,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)playButtonAction:(id)sender {
 	NSLog(@"playButtonAction");
-	if ([[SingleSongPlayer standard] isPlaying]) {
+	if ([[MusicPlayerMgr standard] isPlaying]) {
 		[self pauseMusic];
 	} else {
 		[self playMusic];
@@ -647,22 +647,22 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 
 	_isPlayingSearchResult = YES;
-	[[SingleSongPlayer standard] playWithModelID:(long)(__bridge void *)self url:url title:title artist:artist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:url title:title artist:artist];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
 - (void)pauseMusic {
-	[[SingleSongPlayer standard] pause];
+	[[MusicPlayerMgr standard] pause];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
-	[[SingleSongPlayer standard] stop];
+	[[MusicPlayerMgr standard] stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)updateProgress:(NSTimer *)timer {
-	float postion = [[SingleSongPlayer standard] getPlayPosition];
+	float postion = [[MusicPlayerMgr standard] getPlayPosition];
 	[_progressView setProgress:postion];
 }
 

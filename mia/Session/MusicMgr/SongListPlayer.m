@@ -14,30 +14,47 @@
 @end
 
 @implementation SongListPlayer {
+	long			_modelID;
+	NSString		*_name;
 }
 
-/**
- *  使用单例初始化
- *
- */
-+ (id)standard{
-    static SongListPlayer *aSongListPlayer = nil;
-    static dispatch_once_t predicate;
-    dispatch_once(&predicate, ^{
-        aSongListPlayer = [[self alloc] init];
-    });
-    return aSongListPlayer;
-}
-
-- (id)init {
+- (id)initWithModelID:(long)modelID name:(NSString *)name {
 	self = [super init];
 	if (self) {
+		_modelID = modelID;
+		_name = name;
 	}
 
 	return self;
 }
 
 - (void)dealloc {
+	NSLog(@"SongListPlayer dealloc: %@", _name);
+}
+
+- (BOOL)isPlayWith3GOnceTime {
+	return NO;
+}
+
+- (BOOL)isPlaying {
+	return NO;
+}
+
+- (BOOL)isPlayingWithUrl:(NSString *)url {
+	return NO;
+}
+
+- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+}
+
+- (void)pause {
+}
+
+- (void)stop {
+}
+
+- (float)getPlayPosition {
+	return 0.0;
 }
 
 @end

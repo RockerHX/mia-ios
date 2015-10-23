@@ -1,5 +1,5 @@
 //
-//  SingleSongPlayer.m
+//  MusicPlayerMgr.m
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
@@ -7,7 +7,7 @@
 //
 //
 
-#import "SingleSongPlayer.h"
+#import "MusicPlayerMgr.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "FSAudioStream.h"
@@ -28,11 +28,11 @@ NSString * const MusicPlayerMgrNotificationCompletion			= @"MusicPlayerMgrNotifi
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
-@interface SingleSongPlayer()
+@interface MusicPlayerMgr()
 
 @end
 
-@implementation SingleSongPlayer {
+@implementation MusicPlayerMgr {
 	FSAudioStream 	*_audioStream;
 	UIAlertView 	*_playWith3GAlertView;
 	BOOL			_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
@@ -43,12 +43,12 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  *
  */
 +(id)standard{
-    static SingleSongPlayer *aSingleSongPlayer = nil;
+    static MusicPlayerMgr *aMusicPlayerMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        aSingleSongPlayer = [[self alloc] init];
+        aMusicPlayerMgr = [[self alloc] init];
     });
-    return aSingleSongPlayer;
+    return aMusicPlayerMgr;
 }
 
 - (id)init {
@@ -62,8 +62,8 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 		_audioStream.defaultContentType = @"audio/mpeg";
 
 		_audioStream.onCompletion = ^() {
-			[[SingleSongPlayer standard] stop];
-			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:[[SingleSongPlayer standard] currentModelID]]
+			[[MusicPlayerMgr standard] stop];
+			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:[[MusicPlayerMgr standard] currentModelID]]
 																 forKey:MusicPlayerMgrNotificationKey_ModelID];
 			[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationCompletion
 																object:nil
@@ -200,7 +200,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	}
 
 	NSLog(@"play:%@", [_audioStream url]);
-	NSLog(@"#SingleSongPlayer# play - resume play from pause");
+	NSLog(@"#MusicPlayerMgr# play - resume play from pause");
 	[_audioStream pause];
 
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
@@ -211,7 +211,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 }
 
 - (void)pause {
-	NSLog(@"#SingleSongPlayer# pause");
+	NSLog(@"#MusicPlayerMgr# pause");
 	[_audioStream pause];
 
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
@@ -248,7 +248,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
 	if (![_audioStream url]) {
 		// 没有设置过歌曲url，直接播放
-		NSLog(@"#SingleSongPlayer# playFromURL - i'm the first song.");
+		NSLog(@"#MusicPlayerMgr# playFromURL - i'm the first song.");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
@@ -256,7 +256,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 			NSLog(@"resume music from pause error, stop and play again.");
 			[self playAnotherWirUrl:url];
 		} else {
-			NSLog(@"#SingleSongPlayer# playWithUrl - resume play from pause");
+			NSLog(@"#MusicPlayerMgr# playWithUrl - resume play from pause");
 			[_audioStream pause];
 		}
 	} else {
@@ -274,11 +274,11 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 }
 
 - (void)playAnotherWirUrl:(NSString *)url{
-	NSLog(@"#SingleSongPlayer# stop - stop before playAnotherWirUrl");
+	NSLog(@"#MusicPlayerMgr# stop - stop before playAnotherWirUrl");
 	[_audioStream stop];
-	NSLog(@"#SingleSongPlayer# performBlock");
+	NSLog(@"#MusicPlayerMgr# performBlock");
 	[self bs_performBlock:^{
-		NSLog(@"#SingleSongPlayer# delayPlayHandlerWithUrl");
+		NSLog(@"#MusicPlayerMgr# delayPlayHandlerWithUrl");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} afterDelay:0.5f];
 }

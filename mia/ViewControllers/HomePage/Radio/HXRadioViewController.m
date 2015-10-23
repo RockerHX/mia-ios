@@ -10,7 +10,7 @@
 #import "HXRadioCarouselHelper.h"
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
-#import "SingleSongPlayer.h"
+#import "MusicPlayerMgr.h"
 #import "LocationMgr.h"
 #import "HXAppConstants.h"
 
@@ -244,7 +244,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
 
-	if ([[SingleSongPlayer standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
+	if ([[MusicPlayerMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
@@ -262,15 +262,15 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		return;
 	}
 
-	[[SingleSongPlayer standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
+	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
 }
 
 - (void)pauseMusic {
-	[[SingleSongPlayer standard] pause];
+	[[MusicPlayerMgr standard] pause];
 }
 
 - (void)stopMusic {
-	[[SingleSongPlayer standard] stop];
+	[[MusicPlayerMgr standard] stop];
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
