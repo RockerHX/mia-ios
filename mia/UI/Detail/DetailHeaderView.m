@@ -343,7 +343,6 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
 	_songListPlayer.dataSource = self;
 	_songListPlayer.delegate = self;
-	_musicItem = [[MusicItem alloc] init];
 }
 
 #pragma mark - Public Methods

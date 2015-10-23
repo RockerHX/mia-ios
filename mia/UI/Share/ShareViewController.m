@@ -17,7 +17,6 @@
 #import "DetailHeaderView.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "MusicPlayerMgr.h"
 #import "Masonry.h"
 #import "SearchViewController.h"
 #import "SearchResultItem.h"
@@ -25,15 +24,20 @@
 #import "LocationMgr.h"
 #import "NSString+IsNull.h"
 #import "HXAlertBanner.h"
+#import "MusicMgr.h"
+#import "SongListPlayer.h"
+#import "MusicItem.h"
 
 const static CGFloat kShareTopViewHeight		= 280;
 
-@interface ShareViewController () <UITextFieldDelegate, SearchViewControllerDelegate>
+@interface ShareViewController () <UITextFieldDelegate, SearchViewControllerDelegate, SongListPlayerDelegate, SongListPlayerDataSource>
 
 @end
 
 @implementation ShareViewController {
 	SearchResultItem 		*_dataItem;
+	SongListPlayer			*_songListPlayer;
+	MusicItem				*_musicItem;
 	BOOL 					_isPlayingSearchResult;
 
 	MBProgressHUD 			*_progressHUD;
@@ -63,28 +67,24 @@ const static CGFloat kShareTopViewHeight		= 280;
 		//添加键盘监听
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
 	}
 
 	return self;
 }
 
 -(void)dealloc {
+	_songListPlayer.dataSource = nil;
+	_songListPlayer.delegate = nil;
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initUI];
+	[self initData];
 	[self startUpdatingLocation];
 }
 
@@ -423,6 +423,13 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 }
 
+- (void)initData {
+	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
+	_songListPlayer.dataSource = self;
+	_songListPlayer.delegate = self;
+	_musicItem = [[MusicItem alloc] init];
+}
+
 - (void)startUpdatingLocation {
 	[[LocationMgr standard] startUpdatingLocationWithOnceBlock:^(CLLocationCoordinate2D coordinate, NSString *address) {
 		if (![NSString isNull:address]) {
@@ -457,6 +464,12 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item {
 	_dataItem = item;
+
+	_musicItem.singerName = _dataItem.artist;
+	_musicItem.albumName = _dataItem.albumName;
+	_musicItem.name = _dataItem.title;
+	_musicItem.purl = _dataItem.albumPic;
+	_musicItem.murl = _dataItem.songUrl;
 
 	[_addMusicView setHidden:YES];
 	[_playerView setHidden:NO];
@@ -495,6 +508,33 @@ const static CGFloat kShareTopViewHeight		= 280;
 	}
 }
 
+#pragma mark - SongListPlayerDataSource
+- (NSInteger)songListPlayerCurrentItemIndex {
+	// 只有一首歌
+	return 0;
+}
+
+- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+	// 只有一首歌
+	return _musicItem;
+}
+
+#pragma mark - SongListPlayerDelegate
+- (void)songListPlayerDidPlay {
+	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
+}
+
+- (void)songListPlayerDidPause {
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_progressTimer invalidate];
+}
+
+- (void)songListPlayerDidCompletion {
+	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_progressTimer invalidate];
+}
+
 #pragma mark - Notification
 
 /*
@@ -509,39 +549,6 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)keyBoardWillHide:(NSNotification *)notification{
 	[self resumeView];
-}
-
-- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPlay");
-		return;
-	}
-
-	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
-}
-
-- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
-		return;
-	}
-
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_progressTimer invalidate];
-}
-
-- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
-		return;
-	}
-
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-	[_progressTimer invalidate];
 }
 
 #pragma mark - keyboard
@@ -627,7 +634,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 - (void)playButtonAction:(id)sender {
 	NSLog(@"playButtonAction");
-	if ([[MusicPlayerMgr standard] isPlaying]) {
+	if ([_songListPlayer isPlaying]) {
 		[self pauseMusic];
 	} else {
 		[self playMusic];
@@ -637,32 +644,30 @@ const static CGFloat kShareTopViewHeight		= 280;
 #pragma mark - audio operations
 
 - (void)playMusic {
-	NSString *url = [_dataItem songUrl];
-	NSString *title = [_dataItem title];
-	NSString *artist = [_dataItem artist];
-
-	if (!url || !title || !artist) {
+	if (!_musicItem.murl || !_musicItem.name || !_musicItem.singerName) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}
 
 	_isPlayingSearchResult = YES;
-	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:url title:title artist:artist];
+
+	[[MusicMgr standard] setListPlayer:_songListPlayer];
+	[_songListPlayer playWithMusicItem:_musicItem];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
 - (void)pauseMusic {
-	[[MusicPlayerMgr standard] pause];
+	[_songListPlayer pause];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
-	[[MusicPlayerMgr standard] stop];
+	[_songListPlayer stop];
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
 - (void)updateProgress:(NSTimer *)timer {
-	float postion = [[MusicPlayerMgr standard] getPlayPosition];
+	float postion = [_songListPlayer playPosition];
 	[_progressView setProgress:postion];
 }
 
