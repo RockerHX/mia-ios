@@ -114,9 +114,13 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)viewConfig {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
+    _shareButton.backgroundColor = [UIColor whiteColor];
     _profileButton.layer.borderWidth = 0.5f;
     _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
     _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
+    
+    _shareButton.backgroundColor = [UIColor whiteColor];
+    _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
@@ -514,7 +518,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 小鱼跳出动画
 - (void)startPopFishAnimation {
-    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 120.0f;
+    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 140.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
