@@ -24,6 +24,19 @@
                         <outletCollection property="gestureRecognizers" destination="4sq-YO-SqG" appends="YES" id="mjY-EV-qwO"/>
                     </connections>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="D9t-6x-o7k">
+                    <rect key="frame" x="35" y="265" width="250" height="65"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="qLo-i7-3fg"/>
+                    </constraints>
+                </imageView>
+                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
+                    <rect key="frame" x="35" y="327" width="250" height="3"/>
+                    <animations/>
+                    <color key="progressTintColor" red="0.2666666667" green="0.81960784310000001" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                </progressView>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
                     <rect key="frame" x="133" y="177" width="55" height="55"/>
                     <animations/>
@@ -84,17 +97,12 @@
                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
-                    <rect key="frame" x="35" y="327" width="250" height="3"/>
-                    <animations/>
-                    <color key="progressTintColor" red="0.2666666667" green="0.81960784310000001" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                </progressView>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="WMI-Wc-Fx1" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="0hi-7O-Uqb"/>
+                <constraint firstItem="D9t-6x-o7k" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="0xj-fK-f7w"/>
                 <constraint firstItem="XRy-kE-hZ9" firstAttribute="top" secondItem="ZT2-TF-oW0" secondAttribute="bottom" constant="5" id="4C9-vI-fnM"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="top" secondItem="gBx-px-WgB" secondAttribute="bottom" constant="15" id="4hM-fA-H9p"/>
                 <constraint firstItem="gBx-px-WgB" firstAttribute="centerX" secondItem="wzP-as-myT" secondAttribute="centerX" id="5ha-OU-Fgw"/>
@@ -107,6 +115,7 @@
                 <constraint firstItem="ZT2-TF-oW0" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="LvY-9F-2BE"/>
                 <constraint firstItem="WMI-Wc-Fx1" firstAttribute="bottom" secondItem="Adt-yX-Kcn" secondAttribute="bottom" constant="-1" id="OCh-Kq-f2e"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="Ogg-gF-1RN"/>
+                <constraint firstItem="D9t-6x-o7k" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="PEr-Bm-9E7"/>
                 <constraint firstItem="Adt-yX-Kcn" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="R15-Zk-3Zd"/>
                 <constraint firstItem="XRy-kE-hZ9" firstAttribute="centerX" secondItem="ZT2-TF-oW0" secondAttribute="centerX" id="ZDg-s5-PqR"/>
                 <constraint firstItem="gBx-px-WgB" firstAttribute="top" secondItem="wzP-as-myT" secondAttribute="bottom" constant="30" id="aJZ-qb-c3q"/>
@@ -114,6 +123,7 @@
                 <constraint firstItem="EuO-ig-wsS" firstAttribute="centerY" secondItem="Adt-yX-Kcn" secondAttribute="centerY" id="hIe-Py-Nqj"/>
                 <constraint firstItem="Adt-yX-Kcn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="lGy-uv-HfU"/>
                 <constraint firstItem="ZT2-TF-oW0" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="sdq-eu-6Gp"/>
+                <constraint firstItem="D9t-6x-o7k" firstAttribute="bottom" secondItem="Adt-yX-Kcn" secondAttribute="bottom" id="spj-XR-aiC"/>
                 <constraint firstItem="WMI-Wc-Fx1" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="w2n-fo-0qt"/>
             </constraints>
             <connections>
@@ -140,9 +150,10 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
+        <image name="HP-CoverMask" width="250" height="65"/>
         <image name="HP-DefaultCover" width="250" height="250"/>
-        <image name="HP-StarIcon" width="20" height="20"/>
-        <image name="HP-UnStarIcon" width="20" height="20"/>
+        <image name="HP-StarIcon" width="30" height="30"/>
+        <image name="HP-UnStarIcon" width="30" height="30"/>
         <image name="P-PauseIcon" width="55" height="55"/>
         <image name="P-PlayIcon" width="55" height="55"/>
     </resources>
