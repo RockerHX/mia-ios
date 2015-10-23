@@ -200,12 +200,6 @@
 	}
 }
 
-- (void)radioViewSongerTaped:(HXRadioView *)radioView {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperSongerTaped:)]) {
-        [_delegate helperSongerTaped:self];
-    }
-}
-
 - (void)radioViewSharerNameTaped:(HXRadioView *)radioView {
 	if (_delegate && [_delegate respondsToSelector:@selector(helperSharerNameTaped:)]) {
 		[_delegate helperSharerNameTaped:self];

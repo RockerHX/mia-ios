@@ -9,6 +9,8 @@
         <mutableArray key="STHeiti-Light.TTF">
             <string>STXihei</string>
             <string>STXihei</string>
+            <string>STXihei</string>
+            <string>STXihei</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -19,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="Adt-yX-Kcn">
-                    <rect key="frame" x="35" y="0.0" width="250" height="250"/>
+                    <rect key="frame" x="35" y="80" width="250" height="250"/>
                     <animations/>
                     <gestureRecognizers/>
                     <constraints>
@@ -31,7 +33,7 @@
                     </connections>
                 </imageView>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
-                    <rect key="frame" x="133" y="97" width="55" height="55"/>
+                    <rect key="frame" x="133" y="177" width="55" height="55"/>
                     <animations/>
                     <state key="normal" image="P-PauseIcon"/>
                     <state key="selected" image="P-PlayIcon"/>
@@ -40,7 +42,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzP-as-myT">
-                    <rect key="frame" x="140" y="270" width="40" height="40"/>
+                    <rect key="frame" x="140" y="350" width="40" height="40"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="wzP-as-myT" secondAttribute="height" multiplier="1:1" id="Inj-Jl-gVj"/>
@@ -53,40 +55,68 @@
                     </connections>
                 </button>
                 <label opaque="NO" contentMode="left" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="207" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
-                    <rect key="frame" x="35" y="378" width="250" height="23"/>
+                    <rect key="frame" x="35" y="458" width="250" height="23"/>
                     <animations/>
                     <gestureRecognizers/>
                     <fontDescription key="fontDescription" name="STXihei" family="STXihei" pointSize="16"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
-                    <rect key="frame" x="120" y="340" width="80" height="23"/>
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
+                    <rect key="frame" x="120" y="420" width="80" height="23"/>
+                    <animations/>
+                    <gestureRecognizers/>
+                    <fontDescription key="fontDescription" name="STXihei" family="STXihei" pointSize="16"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="crf-jz-X8m" appends="YES" id="7DN-nD-6zh"/>
+                    </connections>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZT2-TF-oW0">
+                    <rect key="frame" x="35" y="14" width="250" height="23"/>
                     <animations/>
                     <fontDescription key="fontDescription" name="STXihei" family="STXihei" pointSize="16"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朴树" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRy-kE-hZ9">
+                    <rect key="frame" x="35" y="42" width="250" height="20"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" name="STXihei" family="STXihei" pointSize="14"/>
+                    <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="XRy-kE-hZ9" firstAttribute="top" secondItem="ZT2-TF-oW0" secondAttribute="bottom" constant="5" id="4C9-vI-fnM"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="top" secondItem="gBx-px-WgB" secondAttribute="bottom" constant="15" id="4hM-fA-H9p"/>
                 <constraint firstItem="gBx-px-WgB" firstAttribute="centerX" secondItem="wzP-as-myT" secondAttribute="centerX" id="5ha-OU-Fgw"/>
+                <constraint firstItem="XRy-kE-hZ9" firstAttribute="width" secondItem="ZT2-TF-oW0" secondAttribute="width" id="6xj-oq-1pf"/>
+                <constraint firstItem="ZT2-TF-oW0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="13.5" id="7yx-jX-4FX"/>
                 <constraint firstItem="EuO-ig-wsS" firstAttribute="centerX" secondItem="Adt-yX-Kcn" secondAttribute="centerX" id="9RI-Mq-GaU"/>
                 <constraint firstItem="wzP-as-myT" firstAttribute="centerX" secondItem="Adt-yX-Kcn" secondAttribute="centerX" id="CgW-uw-Z7W"/>
+                <constraint firstItem="ZT2-TF-oW0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="H2e-p2-lq5"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="Klb-b5-TXW"/>
+                <constraint firstItem="ZT2-TF-oW0" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="LvY-9F-2BE"/>
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="Ogg-gF-1RN"/>
                 <constraint firstItem="Adt-yX-Kcn" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="R15-Zk-3Zd"/>
+                <constraint firstItem="XRy-kE-hZ9" firstAttribute="centerX" secondItem="ZT2-TF-oW0" secondAttribute="centerX" id="ZDg-s5-PqR"/>
                 <constraint firstItem="gBx-px-WgB" firstAttribute="top" secondItem="wzP-as-myT" secondAttribute="bottom" constant="30" id="aJZ-qb-c3q"/>
                 <constraint firstItem="wzP-as-myT" firstAttribute="top" secondItem="Adt-yX-Kcn" secondAttribute="bottom" constant="20" id="gDx-VG-7kD"/>
                 <constraint firstItem="EuO-ig-wsS" firstAttribute="centerY" secondItem="Adt-yX-Kcn" secondAttribute="centerY" id="hIe-Py-Nqj"/>
-                <constraint firstItem="Adt-yX-Kcn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="lGy-uv-HfU"/>
+                <constraint firstItem="Adt-yX-Kcn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="lGy-uv-HfU"/>
+                <constraint firstItem="ZT2-TF-oW0" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="sdq-eu-6Gp"/>
             </constraints>
             <connections>
                 <outlet property="frontCoverView" destination="Adt-yX-Kcn" id="p3x-e1-iFU"/>
                 <outlet property="playButton" destination="EuO-ig-wsS" id="pra-Sy-2Dp"/>
+                <outlet property="sharerNickNameLabel" destination="gBx-px-WgB" id="Tej-py-xns"/>
                 <outlet property="shrareContentLabel" destination="fmy-Es-e4Z" id="4yO-YB-NY4"/>
+                <outlet property="songNameLabel" destination="ZT2-TF-oW0" id="sQw-zK-RJv"/>
+                <outlet property="songerNameLabel" destination="XRy-kE-hZ9" id="Efp-qQ-71O"/>
                 <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
             </connections>
             <point key="canvasLocation" x="535" y="383"/>
@@ -96,9 +126,9 @@
                 <action selector="coverTaped" destination="iN0-l3-epB" id="UOH-v7-Utd"/>
             </connections>
         </tapGestureRecognizer>
-        <tapGestureRecognizer id="Ojq-AC-zoE">
+        <tapGestureRecognizer id="crf-jz-X8m">
             <connections>
-                <action selector="commentTaped" destination="iN0-l3-epB" id="nrt-h8-mdL"/>
+                <action selector="sharerNickNameTaped" destination="iN0-l3-epB" id="Ot7-c5-xOF"/>
             </connections>
         </tapGestureRecognizer>
     </objects>
