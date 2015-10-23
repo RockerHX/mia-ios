@@ -15,6 +15,8 @@
 
 @interface HXHomePageViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet          UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet          UILabel *songerNameLabel;
 @property (weak, nonatomic) IBOutlet         UIButton *profileButton;
 @property (weak, nonatomic) IBOutlet         UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet       HXWaveView *waveView;
