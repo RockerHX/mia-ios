@@ -70,7 +70,6 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 }
 
 - (void)dealloc {
-	[_songListPlayer stop];
 	_songListPlayer.dataSource = nil;
 	_songListPlayer.delegate = nil;
 }
