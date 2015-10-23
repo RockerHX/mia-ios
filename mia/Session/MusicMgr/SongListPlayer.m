@@ -53,6 +53,10 @@
 	[_player playWithMusicItem:[self currentItem]];
 }
 
+- (void)playWithMusicItem:(MusicItem *)item {
+	[_player playWithMusicItem:item];
+}
+
 - (BOOL)isPlayWith3GOnceTime {
 	return [_player isPlayWith3GOnceTime];
 }
@@ -70,7 +74,7 @@
 }
 
 - (void)stop {
-	[_player pause];
+	[_player stop];
 }
 
 - (float)playPosition {

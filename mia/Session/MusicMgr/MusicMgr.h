@@ -18,6 +18,7 @@
 
 @property (strong, nonatomic) SongListPlayer *listPlayer;
 
+// TODO linyehui
 //- (void)playCurrentItem;
 //- (BOOL)isPlayWith3GOnceTime;
 //- (BOOL)isPlaying;

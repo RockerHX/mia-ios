@@ -21,7 +21,6 @@
 #import "Masonry.h"
 #import "InfectUserItem.h"
 #import "MusicMgr.h"
-#import "MusicPlayerMgr.h"
 #import "SongListPlayer.h"
 
 static const CGFloat kCoverWidth 				= 163;

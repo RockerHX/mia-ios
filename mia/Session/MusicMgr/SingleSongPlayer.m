@@ -228,7 +228,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 - (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
 	if (![_audioStream url]) {
 		// 没有设置过歌曲url，直接播放
-		NSLog(@"#SingleSongPlayer# playFromURL - i'm the first song.");
+		NSLog(@"#SingleSongPlayer# playFromURL - first or last is completion.");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} else if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了

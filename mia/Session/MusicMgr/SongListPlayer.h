@@ -35,6 +35,8 @@
 - (MusicItem *)itemAtIndex:(NSInteger)index;
 
 - (void)playCurrentItem;
+- (void)playWithMusicItem:(MusicItem *)item;
+
 - (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
