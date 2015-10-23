@@ -27,8 +27,10 @@
 #import "DetailViewController.h"
 #import "HXAlertBanner.h"
 #import "HXGuideView.h"
+#import "HXVersion.h"
 
-static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试";
+static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
+static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
 @interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, ProfileViewControllerDelegate, HXRadioViewControllerDelegate> {
     BOOL    _animating;             // 动画执行标识
@@ -49,12 +51,16 @@ static NSString * kAlertMsgNoNetwork			= @"没有网络连接，请稍候重试"
     [self initConfig];
     [self viewConfig];
     
-    [[WebSocketMgr standard] watchNetworkStatus];
-    [self initLocationMgr];
-    
-//    [HXGuideView showGuide:^{
-//        NSLog(@"asfdasdfsadf");
-//    }];
+    if ([self needShowGuideView]) {
+        __weak __typeof__(self)weakSelf = self;
+        [HXGuideView showGuide:^{
+            __strong __typeof__(self)strongSelf = weakSelf;
+            [strongSelf startLoadMusic];
+            [strongSelf guideViewShowed];
+        }];
+    } else {
+        [self startLoadMusic];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -84,6 +90,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 #pragma mark - Config Methods
 - (void)initConfig {
+    kGuideViewShowKey = [kGuideViewShowKey stringByAppendingFormat:@"%@.%@", [HXVersion appVersion], [HXVersion appBuildVersion]];
     // 通知注册
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
@@ -277,6 +284,21 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 #pragma mark - Private Methods
+- (BOOL)needShowGuideView {
+    NSNumber *showed = [[NSUserDefaults standardUserDefaults] valueForKey:kGuideViewShowKey];
+    return !showed.boolValue;
+}
+
+- (void)guideViewShowed {
+    [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:kGuideViewShowKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)startLoadMusic {
+    [[WebSocketMgr standard] watchNetworkStatus];
+    [self initLocationMgr];
+}
+
 - (void)startAnimation {
     if (!_animating) {
         [self infectShare];
