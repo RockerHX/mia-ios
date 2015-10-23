@@ -156,6 +156,7 @@
 		CDC5FE931BD102AB001D154E /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE911BD102AB001D154E /* HXWaveView.m */; };
 		CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE961BD1EAC5001D154E /* HXRadioView.m */; };
 		CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */; };
+		CDCFD2941BD9DE63003A6902 /* STHeiti-Light.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CDCFD2931BD9DE63003A6902 /* STHeiti-Light.TTF */; };
 		CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8314F1BD8B6550067309B /* HXAlertBanner.m */; };
 		CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831501BD8B6550067309B /* HXAlertBanner.xib */; };
 		CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831531BD8B6550067309B /* HXNoNetworkView.m */; };
@@ -437,6 +438,7 @@
 		CDC5FE951BD1EAC5001D154E /* HXRadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioView.h; sourceTree = "<group>"; };
 		CDC5FE961BD1EAC5001D154E /* HXRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioView.m; sourceTree = "<group>"; };
 		CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXRadioView.xib; sourceTree = "<group>"; };
+		CDCFD2931BD9DE63003A6902 /* STHeiti-Light.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "STHeiti-Light.TTF"; sourceTree = "<group>"; };
 		CDD8314E1BD8B6550067309B /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
 		CDD8314F1BD8B6550067309B /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
 		CDD831501BD8B6550067309B /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
@@ -904,6 +906,7 @@
 		397E42DD1BA90CBC006BE9E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CDCFD2921BD9DE63003A6902 /* Fonts */,
 				CD221FD11BC79FEE00FCD4E7 /* UI */,
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
@@ -1444,6 +1447,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		CDCFD2921BD9DE63003A6902 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CDCFD2931BD9DE63003A6902 /* STHeiti-Light.TTF */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		CDD8314D1BD8B6550067309B /* HXAlertBanner */ = {
 			isa = PBXGroup;
 			children = (
@@ -1613,6 +1624,7 @@
 				39BF8C651BB24A12003AB4FC /* info@2x.png in Resources */,
 				39CA06131BAD67CC0074FD13 /* comments@2x.png in Resources */,
 				39CA06331BADC7390074FD13 /* more@2x.png in Resources */,
+				CDCFD2941BD9DE63003A6902 /* STHeiti-Light.TTF in Resources */,
 				393CE9AC1BB958B000FCF232 /* checkbox@2x.png in Resources */,
 				39CA061A1BAD67CC0074FD13 /* profile_with_notification@2x.png in Resources */,
 				390BADCF1BAFE188006269FD /* button_blue@2x.png in Resources */,
