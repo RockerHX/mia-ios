@@ -8,6 +8,7 @@
 //
 
 #import "MusicMgr.h"
+#import "SingleSongPlayer.h"
 #import "SongListPlayer.h"
 
 @interface MusicMgr()
@@ -34,6 +35,7 @@
 	self = [super init];
 	if (self) {
 	}
+
 	return self;
 }
 
@@ -42,16 +44,16 @@
 
 #pragma mark - Public Methods
 
-- (void)setSongListPlayer:(SongListPlayer *)songListPlayer {
+- (void)setSongListPlayer:(SongListPlayer *)player {
 	[self tearDown];
-	[self setUp:songListPlayer];
+	[self setUp:player];
 }
 
 #pragma mark - Private Methods
 
-- (void)setUp:(SongListPlayer *)songListPlayer {
+- (void)setUp:(SongListPlayer *)player {
 	// TODO
-	_songListPlayer = songListPlayer;
+	_listPlayer = player;
 }
 
 - (void)tearDown {
@@ -60,32 +62,32 @@
 
 #pragma mark - Player Methods
 
+- (void)playCurrentItem {
+	[_listPlayer playCurrentItem];
+}
+
 - (BOOL)isPlayWith3GOnceTime {
-	return [_songListPlayer isPlayWith3GOnceTime];
+	return [_listPlayer isPlayWith3GOnceTime];
 }
 
 - (BOOL)isPlaying {
-	return [_songListPlayer isPlaying];
+	return [_listPlayer isPlaying];;
 }
 
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	return [_songListPlayer isPlayingWithUrl:url];
-}
-
-- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
-	[_songListPlayer playWithModelID:modelID url:url title:title artist:artist];
+	return [_listPlayer isPlayingWithUrl:url];
 }
 
 - (void)pause {
-	[_songListPlayer pause];
+	[_listPlayer pause];
 }
 
 - (void)stop {
-	[_songListPlayer pause];
+	[_listPlayer stop];
 }
 
-- (float)getPlayPosition {
-	return [_songListPlayer getPlayPosition];
+- (float)playPosition {
+	return [_listPlayer playPosition];
 }
 
 @end

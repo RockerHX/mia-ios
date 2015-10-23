@@ -8,14 +8,16 @@
 //
 
 #import "SongListPlayer.h"
+#import "SingleSongPlayer.h"
 
-@interface SongListPlayer()
+@interface SongListPlayer() <SingleSongPlayerDelegate>
 
 @end
 
 @implementation SongListPlayer {
-	long			_modelID;
-	NSString		*_name;
+	SingleSongPlayer		*_player;
+	long					_modelID;
+	NSString				*_name;
 }
 
 - (id)initWithModelID:(long)modelID name:(NSString *)name {
@@ -23,6 +25,9 @@
 	if (self) {
 		_modelID = modelID;
 		_name = name;
+
+		_player = [[SingleSongPlayer alloc] init];
+		_player.delegate = self;
 	}
 
 	return self;
@@ -32,29 +37,63 @@
 	NSLog(@"SongListPlayer dealloc: %@", _name);
 }
 
+- (NSInteger)currentItemIndex {
+	return [_dataSource songListPlayerCurrentItemIndex];
+}
+
+- (MusicItem *)currentItem {
+	return [_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerCurrentItemIndex]];
+}
+
+- (MusicItem *)itemAtIndex:(NSInteger)index {
+	return [_dataSource songListPlayerItemAtIndex:index];
+}
+
+- (void)playCurrentItem {
+	[_player playWithMusicItem:[self currentItem]];
+}
+
 - (BOOL)isPlayWith3GOnceTime {
-	return NO;
+	return [_player isPlayWith3GOnceTime];
 }
 
 - (BOOL)isPlaying {
-	return NO;
+	return [_player isPlaying];
 }
 
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	return NO;
-}
-
-- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+	return [_player isPlayingWithUrl:url];
 }
 
 - (void)pause {
+	[_player pause];
 }
 
 - (void)stop {
+	[_player pause];
 }
 
-- (float)getPlayPosition {
-	return 0.0;
+- (float)playPosition {
+	return [_player playPosition];
+}
+
+#pragma mark - SingleSongPlayerDelegate
+- (void)singleSongPlayerDidPlay {
+	if (_delegate) {
+		[_delegate songListPlayerDidPlay];
+	}
+}
+
+- (void)singleSongPlayerDidPause {
+	if (_delegate) {
+		[_delegate songListPlayerDidPause];
+	}
+}
+
+- (void)singleSongPlayerDidCompletion {
+	if (_delegate) {
+		[_delegate songListPlayerDidCompletion];
+	}
 }
 
 @end

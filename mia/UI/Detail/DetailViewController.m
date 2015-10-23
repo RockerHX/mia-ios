@@ -686,6 +686,7 @@ CommentCellDelegate>
 
 - (void)backButtonAction:(id)sender {
 	[self.navigationController popViewControllerAnimated:YES];
+	[_detailHeaderView stopMusic];
 }
 
 - (void)moreButtonAction:(id)sender {
@@ -714,6 +715,8 @@ CommentCellDelegate>
 			 if (success) {
 				 [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
 				 [self.navigationController popViewControllerAnimated:YES];
+				 [_detailHeaderView stopMusic];
+
 				 if (_customDelegate) {
 					 [_customDelegate detailViewControllerDidDeleteShare];
 				 }

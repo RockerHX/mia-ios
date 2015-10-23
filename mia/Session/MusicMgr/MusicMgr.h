@@ -16,14 +16,14 @@
  */
 + (id)standard;
 
-@property (strong, nonatomic) SongListPlayer *songListPlayer;
+@property (strong, nonatomic) SongListPlayer *listPlayer;
 
-- (BOOL)isPlayWith3GOnceTime;
-- (BOOL)isPlaying;
+//- (void)playCurrentItem;
+//- (BOOL)isPlayWith3GOnceTime;
+//- (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
-- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist;
-- (void)pause;
-- (void)stop;
-- (float)getPlayPosition;
+//- (void)pause;
+//- (void)stop;
+//- (float)playPosition;
 
 @end
