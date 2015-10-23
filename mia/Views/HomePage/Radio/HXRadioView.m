@@ -172,7 +172,7 @@
 }
 
 - (void)displayPlayProgress {
-    _progressView.progress = [[SingleSongPlayer standard] getPlayPosition];
+    _progressView.progress = [[MusicPlayerMgr standard] getPlayPosition];
 }
 
 #pragma mark - TTTAttributedLabelDelegate Methods
