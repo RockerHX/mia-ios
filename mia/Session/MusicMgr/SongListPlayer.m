@@ -48,12 +48,12 @@
 	return [_dataSource songListPlayerCurrentItemIndex];
 }
 
-- (MusicItem *)currentItem {
-	return [_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerCurrentItemIndex]];
-}
-
 - (MusicItem *)itemAtIndex:(NSInteger)index {
 	return [_dataSource songListPlayerItemAtIndex:index];
+}
+
+- (MusicItem *)currentItem {
+	return _player.currentItem;
 }
 
 - (void)playCurrentItem {
@@ -62,10 +62,6 @@
 
 - (void)playWithMusicItem:(MusicItem *)item {
 	[_player playWithMusicItem:item];
-}
-
-- (BOOL)isPlayWith3GOnceTime {
-	return [_player isPlayWith3GOnceTime];
 }
 
 - (BOOL)isPlaying {
