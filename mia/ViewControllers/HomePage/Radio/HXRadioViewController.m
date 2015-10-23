@@ -322,8 +322,8 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper {
-	if (_delegate && [_delegate respondsToSelector:@selector(userStarNeedLogin)]) {
-		[_delegate userStarNeedLogin];
+	if (_delegate && [_delegate respondsToSelector:@selector(userStartNeedLogin)]) {
+		[_delegate userStartNeedLogin];
 	}
 }
 

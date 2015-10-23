@@ -166,25 +166,41 @@
                                             <action selector="sendButtonPressed" destination="i7R-7R-kAw" eventType="touchUpInside" id="yps-Ck-d7p"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVV-CR-7XL">
+                                        <rect key="frame" x="10" y="10" width="140" height="140"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="登录">
+                                            <color key="titleColor" red="0.23921568630000001" green="0.77647058820000003" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButtonPressed" destination="i7R-7R-kAw" eventType="touchUpInside" id="WEb-6k-0kl"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="JKz-RM-aIq" secondAttribute="trailing" constant="20" id="2Vc-qT-m8G"/>
+                                    <constraint firstAttribute="bottom" secondItem="OVV-CR-7XL" secondAttribute="bottom" constant="10" id="3Sf-Ht-viz"/>
                                     <constraint firstItem="GFl-sp-KPY" firstAttribute="centerX" secondItem="JKz-RM-aIq" secondAttribute="centerX" id="9Fc-GZ-HIb"/>
                                     <constraint firstItem="JKz-RM-aIq" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" constant="-5" id="E3E-Ab-Ovw"/>
                                     <constraint firstItem="JKz-RM-aIq" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="20" id="Gqu-7X-999"/>
                                     <constraint firstAttribute="bottom" secondItem="rZD-az-a6y" secondAttribute="bottom" id="Hz7-9t-wsD"/>
                                     <constraint firstAttribute="trailing" secondItem="rZD-az-a6y" secondAttribute="trailing" id="NaB-Fi-o6j"/>
+                                    <constraint firstAttribute="trailing" secondItem="OVV-CR-7XL" secondAttribute="trailing" constant="10" id="PiA-ps-bLt"/>
                                     <constraint firstItem="nl7-Tv-v26" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" id="SKZ-FL-glv"/>
                                     <constraint firstItem="rZD-az-a6y" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" id="Sz6-O8-5U2"/>
+                                    <constraint firstItem="OVV-CR-7XL" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="10" id="bIJ-XF-NV2"/>
                                     <constraint firstAttribute="width" secondItem="i7R-7R-kAw" secondAttribute="height" multiplier="1:1" id="gXr-zl-kpH"/>
                                     <constraint firstItem="rZD-az-a6y" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" id="jRJ-uD-tIV"/>
                                     <constraint firstItem="GFl-sp-KPY" firstAttribute="top" secondItem="JKz-RM-aIq" secondAttribute="bottom" id="kMd-v3-2I6"/>
                                     <constraint firstItem="nl7-Tv-v26" firstAttribute="centerX" secondItem="i7R-7R-kAw" secondAttribute="centerX" id="lQd-K0-p8o"/>
+                                    <constraint firstItem="OVV-CR-7XL" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" constant="10" id="ml5-lF-rMy"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="Vwv-7l-Pgq" id="eMX-nV-3tr"/>
+                                    <outlet property="loginButton" destination="OVV-CR-7XL" id="6qy-8K-m6r"/>
                                     <outlet property="promptLabel" destination="nl7-Tv-v26" id="r3A-b0-8Fc"/>
                                     <outlet property="sendButton" destination="GFl-sp-KPY" id="lpD-9x-SYp"/>
                                     <outlet property="textView" destination="JKz-RM-aIq" id="9vj-G3-yWX"/>

@@ -533,13 +533,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 气泡弹出动画
 - (void)startBubbleScaleAnimation {
+    [_bubbleView showWithLogin:[[UserSession standard] isLogined]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.1f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.bubbleView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf executeTimer];
+        if ([[UserSession standard] isLogined]) {
+            __strong __typeof__(self)strongSelf = weakSelf;
+            [strongSelf executeTimer];
+        }
     }];
 }
 
@@ -608,6 +611,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [self startPushMusicRequsetWithComment:comment];
 }
 
+- (void)bubbleViewShouldLogin:(HXBubbleView *)bubbleView {
+    [self userStartNeedLogin];
+    [self stopAnimation];
+}
+
 #pragma mark - Login View Controller Delegate Methods
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
@@ -631,7 +639,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)userStarNeedLogin {
+- (void)userStartNeedLogin {
 	LoginViewController *vc = [[LoginViewController alloc] init];
 	vc.loginViewControllerDelegate = self;
 	[self.navigationController pushViewController:vc animated:YES];
