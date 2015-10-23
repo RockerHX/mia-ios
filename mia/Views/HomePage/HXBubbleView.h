@@ -15,6 +15,7 @@
 @optional
 - (void)bubbleViewStartEdit:(HXBubbleView *)bubbleView;
 - (void)bubbleView:(HXBubbleView *)bubbleView shouldSendComment:(NSString *)comment;
+- (void)bubbleViewShouldLogin:(HXBubbleView *)bubbleView;
 
 @end
 
@@ -25,9 +26,12 @@
 @property (nonatomic, weak) IBOutlet    UILabel *promptLabel;
 @property (nonatomic, weak) IBOutlet UITextView *textView;
 @property (nonatomic, weak) IBOutlet   UIButton *sendButton;
+@property (nonatomic, weak) IBOutlet   UIButton *loginButton;
 
 - (IBAction)sendButtonPressed;
+- (IBAction)loginButtonPressed;
 
+- (void)showWithLogin:(BOOL)login;
 - (void)reset;
 
 @end
