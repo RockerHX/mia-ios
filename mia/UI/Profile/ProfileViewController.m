@@ -239,7 +239,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	[[FavoriteMgr standard] setCustomDelegate:self];
 	_favoriteModel = [[FavoriteModel alloc] init];
 
-	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
+	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"ProfileViewController Song List"];
 	_songListPlayer.dataSource = self;
 	_songListPlayer.delegate = self;
 }
