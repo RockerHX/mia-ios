@@ -6,6 +6,9 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+extern NSString * const MusicMgrNotificationKey_Msg;
+extern NSString * const MusicMgrNotificationRemoteControlEvent;
+
 @class MusicItem;
 @class SingleSongPlayer;
 
@@ -21,6 +24,8 @@
 @interface SingleSongPlayer : NSObject
 
 @property (nonatomic, weak) id <SingleSongPlayerDelegate> delegate;
+
++ (id)standard;
 
 - (void)playWithMusicItem:(MusicItem *)item;
 

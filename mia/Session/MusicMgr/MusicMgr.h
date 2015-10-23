@@ -16,11 +16,11 @@
  */
 + (id)standard;
 
-@property (strong, nonatomic) SongListPlayer *listPlayer;
+@property (strong, nonatomic) SongListPlayer *currentPlayer;
 
 // TODO linyehui
 //- (void)playCurrentItem;
-//- (BOOL)isPlayWith3GOnceTime;
+- (BOOL)isPlayWith3GOnceTime;
 //- (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 //- (void)pause;

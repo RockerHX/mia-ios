@@ -232,7 +232,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		return;
 	}
 
-	[[MusicMgr standard] setListPlayer:_songListPlayer];
+	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playWithMusicItem:musicItem];
 }
 
@@ -314,9 +314,10 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-    if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
-        [_delegate shouldPushToRadioDetailViewController];
-    }
+#warning @andy
+//    if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
+//        [_delegate shouldPushToRadioDetailViewController];
+//    }
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {

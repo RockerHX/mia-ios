@@ -651,7 +651,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	_isPlayingSearchResult = YES;
 
-	[[MusicMgr standard] setListPlayer:_songListPlayer];
+	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playWithMusicItem:_musicItem];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }

@@ -202,7 +202,7 @@ static NSString *HanWorld = @"肖";
 }
 
 - (void)displayPlayProgress {
-    _progressView.progress = [[[MusicMgr standard] listPlayer] playPosition];
+    _progressView.progress = [[[MusicMgr standard] currentPlayer] playPosition];
 }
 
 #pragma mark - TTTAttributedLabelDelegate Methods

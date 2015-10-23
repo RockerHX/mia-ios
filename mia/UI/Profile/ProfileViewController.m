@@ -740,7 +740,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	_playingFavorite = YES;
 
-	[[MusicMgr standard] setListPlayer:_songListPlayer];
+	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playWithMusicItem:musicItem];
 
 	[_profileHeaderView setIsPlaying:YES];

@@ -10,7 +10,7 @@
 #import "UserSetting.h"
 #import "UserDefaultsUtils.h"
 #import "WebSocketMgr.h"
-#import "MusicPlayerMgr.h"
+#import "MusicMgr.h"
 
 NSString * const UserDefaultsKey_PlayWith3G			= @"PlayWith3G";
 NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
@@ -53,7 +53,7 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 		return YES;
 	}
 
-	if ([[MusicPlayerMgr standard] isPlayWith3GOnceTime]) {
+	if ([[MusicMgr standard] isPlayWith3GOnceTime]) {
 		return YES;
 	}
 

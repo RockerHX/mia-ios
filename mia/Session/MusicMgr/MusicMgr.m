@@ -44,50 +44,42 @@
 
 #pragma mark - Public Methods
 
-- (void)setSongListPlayer:(SongListPlayer *)player {
-	[self tearDown];
-	[self setUp:player];
+- (void)setCurrentPlayer:(SongListPlayer *)player {
+	[_currentPlayer tearDown];
+	_currentPlayer = player;
+	[player setUp];
 }
 
 #pragma mark - Private Methods
 
-- (void)setUp:(SongListPlayer *)player {
-	// TODO
-	_listPlayer = player;
-}
-
-- (void)tearDown {
-	// TODO
-}
-
 #pragma mark - Player Methods
 
 - (void)playCurrentItem {
-	[_listPlayer playCurrentItem];
+	[_currentPlayer playCurrentItem];
 }
 
 - (BOOL)isPlayWith3GOnceTime {
-	return [_listPlayer isPlayWith3GOnceTime];
+	return [_currentPlayer isPlayWith3GOnceTime];
 }
 
 - (BOOL)isPlaying {
-	return [_listPlayer isPlaying];;
+	return [_currentPlayer isPlaying];;
 }
 
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	return [_listPlayer isPlayingWithUrl:url];
+	return [_currentPlayer isPlayingWithUrl:url];
 }
 
 - (void)pause {
-	[_listPlayer pause];
+	[_currentPlayer pause];
 }
 
 - (void)stop {
-	[_listPlayer stop];
+	[_currentPlayer stop];
 }
 
 - (float)playPosition {
-	return [_listPlayer playPosition];
+	return [_currentPlayer playPosition];
 }
 
 @end

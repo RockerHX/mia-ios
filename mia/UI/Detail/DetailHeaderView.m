@@ -563,7 +563,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		return;
 	}
 
-	[[MusicMgr standard] setListPlayer:_songListPlayer];
+	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playCurrentItem];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 

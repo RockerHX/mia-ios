@@ -30,6 +30,9 @@
 
 - (id)initWithModelID:(long)modelID name:(NSString *)name;
 
+- (void)setUp;
+- (void)tearDown;
+
 - (NSInteger)currentItemIndex;
 - (MusicItem *)currentItem;
 - (MusicItem *)itemAtIndex:(NSInteger)index;

@@ -19,9 +19,8 @@
 #import "UIAlertView+Blocks.h"
 #import "MusicItem.h"
 
-static NSString * const SingleSongPlayerNotificationKey_Msg				= @"msg";
-
-static NSString * const SingleSongPlayerNotificationRemoteControlEvent	= @"SingleSongPlayerNotificationRemoteControlEvent";
+NSString * const MusicMgrNotificationKey_Msg 			= @"msg";
+NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotificationRemoteControlEvent";
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
@@ -33,6 +32,15 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	FSAudioStream 	*_audioStream;
 	UIAlertView 	*_playWith3GAlertView;
 	BOOL			_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
+}
+
++ (id)standard{
+	static SingleSongPlayer *aSingleSongPlayer = nil;
+	static dispatch_once_t predicate;
+	dispatch_once(&predicate, ^{
+		aSingleSongPlayer = [[self alloc] init];
+	});
+	return aSingleSongPlayer;
 }
 
 - (id)init {
@@ -54,56 +62,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 			}
 		};
 
-		/*
-		__weak FSAudioStream *weakStream = audioStream;
-		audioStream.onStateChange = ^(FSAudioStreamState state) {
-			NSString *stateName = @"";
-			switch (state) {
-				case kFsAudioStreamRetrievingURL:
-					stateName = @"kFsAudioStreamRetrievingURL";
-					break;
-				case kFsAudioStreamStopped:
-					stateName = @"kFsAudioStreamStopped";
-					break;
-				case kFsAudioStreamBuffering:
-					stateName = @"kFsAudioStreamBuffering";
-					break;
-				case kFsAudioStreamPlaying:
-					stateName = @"kFsAudioStreamPlaying";
-					break;
-				case kFsAudioStreamPaused:
-					stateName = @"kFsAudioStreamPaused";
-					break;
-				case kFsAudioStreamSeeking:
-					stateName = @"kFsAudioStreamSeeking";
-					break;
-				case kFSAudioStreamEndOfFile:
-					stateName = @"kFSAudioStreamEndOfFile";
-					break;
-				case kFsAudioStreamFailed:
-					stateName = @"kFsAudioStreamFailed";
-					break;
-				case kFsAudioStreamRetryingStarted:
-					stateName = @"kFsAudioStreamRetryingStarted";
-					break;
-				case kFsAudioStreamRetryingSucceeded:
-					stateName = @"kFsAudioStreamRetryingSucceeded";
-					break;
-				case kFsAudioStreamRetryingFailed:
-					stateName = @"kFsAudioStreamRetryingFailed";
-					break;
-				case kFsAudioStreamPlaybackCompleted:
-					stateName = @"kFsAudioStreamPlaybackCompleted";
-					break;
-				case kFsAudioStreamUnknownState:
-					stateName = @"kFsAudioStreamUnknownState";
-					break;
-				default:
-					break;
-			}
-			NSLog(@"onStateChange:%@, %@", stateName, weakStream.url);
-		};
-		*/
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			NSLog(@"onFailure:%d, %@", error, errorDescription);
 		};
@@ -115,7 +73,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
 		// 添加通知，拔出耳机后暂停播放
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:SingleSongPlayerNotificationRemoteControlEvent object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
 
 	}
@@ -124,7 +82,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SingleSongPlayerNotificationRemoteControlEvent object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationRemoteControlEvent object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
@@ -226,11 +184,8 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 #pragma mark -private method
 
 - (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
-	if (![_audioStream url]) {
-		// 没有设置过歌曲url，直接播放
-		NSLog(@"#SingleSongPlayer# playFromURL - first or last is completion.");
-		[_audioStream playFromURL:[NSURL URLWithString:url]];
-	} else if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
+	// 不要根据url来判断是否有歌曲在播放，因为播放完成或者stop都会把url清掉
+	if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
 		if ([_audioStream isPlaying]) {
 			NSLog(@"resume music from pause error, stop and play again.");
@@ -348,7 +303,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 }
 
 - (void)remountControlEvent:(NSNotification *)notification {
-	UIEvent* event = [[notification userInfo] valueForKey:SingleSongPlayerNotificationKey_Msg];
+	UIEvent* event = [[notification userInfo] valueForKey:MusicMgrNotificationKey_Msg];
 	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
 	if(event.type==UIEventTypeRemoteControl){
 		switch (event.subtype) {

@@ -15,7 +15,6 @@
 @end
 
 @implementation SongListPlayer {
-	SingleSongPlayer		*_player;
 	long					_modelID;
 	NSString				*_name;
 }
@@ -25,9 +24,6 @@
 	if (self) {
 		_modelID = modelID;
 		_name = name;
-
-		_player = [[SingleSongPlayer alloc] init];
-		_player.delegate = self;
 	}
 
 	return self;
@@ -35,6 +31,15 @@
 
 - (void)dealloc {
 	NSLog(@"SongListPlayer dealloc: %@", _name);
+}
+
+- (void)setUp {
+	[[SingleSongPlayer standard] setDelegate:self];
+}
+
+- (void)tearDown {
+	[self stop];
+	[[SingleSongPlayer standard] setDelegate:nil];
 }
 
 - (NSInteger)currentItemIndex {
@@ -50,35 +55,35 @@
 }
 
 - (void)playCurrentItem {
-	[_player playWithMusicItem:[self currentItem]];
+	[[SingleSongPlayer standard] playWithMusicItem:[self currentItem]];
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
-	[_player playWithMusicItem:item];
+	[[SingleSongPlayer standard] playWithMusicItem:item];
 }
 
 - (BOOL)isPlayWith3GOnceTime {
-	return [_player isPlayWith3GOnceTime];
+	return [[SingleSongPlayer standard] isPlayWith3GOnceTime];
 }
 
 - (BOOL)isPlaying {
-	return [_player isPlaying];
+	return [[SingleSongPlayer standard] isPlaying];
 }
 
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	return [_player isPlayingWithUrl:url];
+	return [[SingleSongPlayer standard] isPlayingWithUrl:url];
 }
 
 - (void)pause {
-	[_player pause];
+	[[SingleSongPlayer standard] pause];
 }
 
 - (void)stop {
-	[_player stop];
+	[[SingleSongPlayer standard] stop];
 }
 
 - (float)playPosition {
-	return [_player playPosition];
+	return [[SingleSongPlayer standard] playPosition];
 }
 
 #pragma mark - SingleSongPlayerDelegate
