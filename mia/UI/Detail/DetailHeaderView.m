@@ -22,15 +22,19 @@
 #import "InfectUserItem.h"
 #import "MusicMgr.h"
 #import "MusicPlayerMgr.h"
+#import "SongListPlayer.h"
 
 static const CGFloat kCoverWidth 				= 163;
 static const CGFloat kCoverHeight 				= 163;
 static const CGFloat kInfectUserAvatarSize		= 22;
 
-@interface DetailHeaderView()
+@interface DetailHeaderView() <SongListPlayerDelegate, SongListPlayerDataSource>
 @end
 
 @implementation DetailHeaderView {
+	SongListPlayer	*_songListPlayer;
+	MusicItem		*_musicItem;
+
 	UIImageView 	*_coverImageView;
 	KYCircularView	*_progressView;
 	MIAButton 		*_playButton;
@@ -59,19 +63,16 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	self = [super initWithFrame:frame];
 	if(self){
 		[self initUI];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+		[self initData];
 	}
 
 	return self;
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+	[_songListPlayer stop];
+	_songListPlayer.dataSource = nil;
+	_songListPlayer.delegate = nil;
 }
 
 - (void)initUI {
@@ -340,6 +341,14 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 }
 
+- (void)initData {
+	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
+	_songListPlayer.dataSource = self;
+	_songListPlayer.delegate = self;
+	_musicItem = [[MusicItem alloc] init];
+}
+
+#pragma mark - Public Methods
 - (void)setShareItem:(ShareItem *)item {
 	if (!item) {
 		// TODO 允许为空，要看下运行是否正常
@@ -362,6 +371,8 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 	[self updateShareButtonWithIsFavorite:item.favorite];
 	[self updateInfectUsers];
+
+	_musicItem = [item.music copy];
 }
 
 - (void)updateShareButtonWithIsFavorite:(BOOL)isFavorite {
@@ -484,38 +495,27 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	}
 }
 
-#pragma mark - delegate 
+#pragma mark - SongListPlayerDataSource
+- (NSInteger)songListPlayerCurrentItemIndex {
+	// 只有一首歌
+	return 0;
+}
 
+- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+	// 只有一首歌
+	return _musicItem;
+}
 
-#pragma mark - notification
-
-- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPlay");
-		return;
-	}
-
+#pragma mark - SongListPlayerDelegate
+- (void)songListPlayerDidPlay {
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 }
 
-- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
-		return;
-	}
-
+- (void)songListPlayerDidPause {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
-- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-	long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-	if (modelID != (long)(__bridge void *)self) {
-		NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
-		return;
-	}
-
+- (void)songListPlayerDidCompletion {
 	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 }
 
@@ -566,7 +566,8 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 		return;
 	}
 
-	[[MusicMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
+	[[MusicMgr standard] setListPlayer:_songListPlayer];
+	[[MusicMgr standard] playCurrentItem];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
 }

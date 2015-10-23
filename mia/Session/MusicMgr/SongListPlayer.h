@@ -6,11 +6,20 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+#import "MusicItem.h"
+
 @protocol SongListPlayerDataSource <NSObject>
+
+- (NSInteger)songListPlayerCurrentItemIndex;
+- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index;
 
 @end
 
 @protocol SongListPlayerDelegate <NSObject>
+
+- (void)songListPlayerDidPlay;
+- (void)songListPlayerDidPause;
+- (void)songListPlayerDidCompletion;
 
 @end
 
@@ -21,12 +30,16 @@
 
 - (id)initWithModelID:(long)modelID name:(NSString *)name;
 
+- (NSInteger)currentItemIndex;
+- (MusicItem *)currentItem;
+- (MusicItem *)itemAtIndex:(NSInteger)index;
+
+- (void)playCurrentItem;
 - (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
-- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist;
 - (void)pause;
 - (void)stop;
-- (float)getPlayPosition;
+- (float)playPosition;
 
 @end

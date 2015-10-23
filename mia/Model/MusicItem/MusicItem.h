@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-@interface MusicItem : NSObject <NSCoding>
+@interface MusicItem : NSObject <NSCoding, NSCopying>
 
 @property (strong, nonatomic) NSString *mid;
 @property (strong, nonatomic) NSString *singerID;

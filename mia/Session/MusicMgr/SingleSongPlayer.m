@@ -17,14 +17,11 @@
 #import "NSObject+BlockSupport.h"
 #import "NSString+IsNull.h"
 #import "UIAlertView+Blocks.h"
+#import "MusicItem.h"
 
 static NSString * const SingleSongPlayerNotificationKey_Msg				= @"msg";
-static NSString * const SingleSongPlayerNotificationKey_ModelID			= @"modelID";
 
 static NSString * const SingleSongPlayerNotificationRemoteControlEvent	= @"SingleSongPlayerNotificationRemoteControlEvent";
-static NSString * const SingleSongPlayerNotificationDidPlay			 	= @"SingleSongPlayerNotificationDidPlay";
-static NSString * const SingleSongPlayerNotificationDidPause			 	= @"SingleSongPlayerNotificationDidPause";
-static NSString * const SingleSongPlayerNotificationCompletion			= @"SingleSongPlayerNotificationCompletion";
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
@@ -38,19 +35,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	BOOL			_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
 }
 
-/**
- *  使用单例初始化
- *
- */
-+(id)standard{
-    static SingleSongPlayer *aSingleSongPlayer = nil;
-    static dispatch_once_t predicate;
-    dispatch_once(&predicate, ^{
-        aSingleSongPlayer = [[self alloc] init];
-    });
-    return aSingleSongPlayer;
-}
-
 - (id)init {
 	self = [super init];
 	if (self) {
@@ -61,14 +45,13 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 		_audioStream.strictContentTypeChecking = NO;
 		_audioStream.defaultContentType = @"audio/mpeg";
 
+		__weak SingleSongPlayer *weakPlayer = self;
 		_audioStream.onCompletion = ^() {
-			[[SingleSongPlayer standard] stop];
-			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:[[SingleSongPlayer standard] currentModelID]]
-																 forKey:SingleSongPlayerNotificationKey_ModelID];
-			[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationCompletion
-																object:nil
-															  userInfo:userInfo];
-
+			SingleSongPlayer *strongPlayer = weakPlayer;
+			[strongPlayer stop];
+			if ([strongPlayer delegate]) {
+				[[strongPlayer delegate] singleSongPlayerDidCompletion];
+			}
 		};
 
 		/*
@@ -145,6 +128,22 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
+- (void)playWithMusicItem:(MusicItem *)item {
+	NSLog(@"playWithUrl %@", item.murl);
+	if ([self isPlayingWithUrl:item.murl]) {
+		// 同一个模块再次播放同一首歌，什么都不做
+		NSLog(@"play the same song in the same model, play will be ignored.");
+		return;
+	}
+
+	if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
+		[self checkBeforePlayWithUrl:item.murl title:item.name artist:item.singerName];
+		return;
+	}
+
+	[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName];
+}
+
 - (BOOL)isPlayWith3GOnceTime {
 	return _playWith3GOnceTime;
 }
@@ -168,23 +167,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	return [_audioStream.url.absoluteString isEqualToString:url];
 }
 
-- (void)playWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
-	NSLog(@"playWithUrl %ld, %ld, %@", _currentModelID, modelID, url);
-	if (_currentModelID == modelID
-		&& [self isPlayingWithUrl:url]) {
-		// 同一个模块再次播放同一首歌，什么都不做
-		NSLog(@"play the same song in the same model, play will be ignored.");
-		return;
-	}
-
-	if (![UserSetting isAllowedToPlayNowWithURL:url]) {
-		[self checkBeforePlayWithModelID:modelID url:url title:title artist:artist];
-		return;
-	}
-
-	[self playWithoutCheckWithModelID:modelID url:url title:title artist:artist];
-}
-
 - (void)play {
 	if (![_audioStream url])
 		return;
@@ -203,27 +185,23 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	NSLog(@"#SingleSongPlayer# play - resume play from pause");
 	[_audioStream pause];
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:SingleSongPlayerNotificationKey_ModelID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationDidPlay
-														object:nil
-													  userInfo:userInfo];
+	if (_delegate) {
+		[_delegate singleSongPlayerDidPlay];
+	}
 }
 
 - (void)pause {
 	NSLog(@"#SingleSongPlayer# pause");
 	[_audioStream pause];
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:SingleSongPlayerNotificationKey_ModelID];
 	if ([_audioStream isPlaying]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationDidPlay
-															object:nil
-														  userInfo:userInfo];
+		if (_delegate) {
+			[_delegate singleSongPlayerDidPlay];
+		}
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationDidPause
-															object:nil
-														  userInfo:userInfo];
+		if (_delegate) {
+			[_delegate singleSongPlayerDidPause];
+		}
 	}
 
 }
@@ -232,20 +210,22 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	[_audioStream stop];
 	_audioStream.url = nil;
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:SingleSongPlayerNotificationKey_ModelID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationDidPause
-														object:nil
-													  userInfo:userInfo];
+	if (_delegate) {
+		[_delegate singleSongPlayerDidPause];
+	}
+}
+
+- (float)playPosition {
+	if (!_audioStream) {
+		return 0.0;
+	} else {
+		return [_audioStream currentTimePlayed].position;
+	}
 }
 
 #pragma mark -private method
 
-- (void)playWithoutCheckWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
-	NSLog(@"playWithoutCheckWithModelID %ld, %ld, %@", _currentModelID, modelID, url);
-
-	_currentModelID = modelID;
-
+- (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
 	if (![_audioStream url]) {
 		// 没有设置过歌曲url，直接播放
 		NSLog(@"#SingleSongPlayer# playFromURL - i'm the first song.");
@@ -266,11 +246,9 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
 	[self setMediaInfo:nil andTitle:title andArtist:artist];
 
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:SingleSongPlayerNotificationKey_ModelID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationDidPlay
-														object:nil
-													  userInfo:userInfo];
+	if (_delegate) {
+		[_delegate singleSongPlayerDidPlay];
+	}
 }
 
 - (void)playAnotherWirUrl:(NSString *)url{
@@ -283,20 +261,18 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	} afterDelay:0.5f];
 }
 
-- (void)checkBeforePlayWithModelID:(long)modelID url:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+- (void)checkBeforePlayWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
 	[self checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
 		if (isAllowed) {
-			[self playWithoutCheckWithModelID:modelID url:url title:title artist:artist];
+			[self playWithoutCheckWithUrl:url title:title artist:artist];
 		}
 	}];
 }
 
 - (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:_currentModelID]
-														 forKey:SingleSongPlayerNotificationKey_ModelID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:SingleSongPlayerNotificationDidPause
-														object:nil
-													  userInfo:userInfo];
+	if (_delegate) {
+		[_delegate singleSongPlayerDidPause];
+	}
 
 	if (![[WebSocketMgr standard] isNetworkEnable]) {
 		return;
@@ -449,13 +425,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 	}
 }
 
-- (float)getPlayPosition {
-	if (![self isPlaying]) {
-		return 0.0;
-	} else {
-		return [_audioStream currentTimePlayed].position;
-	}
-}
 
 @end
 

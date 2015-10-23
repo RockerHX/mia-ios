@@ -26,6 +26,21 @@
     return self;
 }
 
+- (instancetype)copyWithZone:(nullable NSZone *)zone {
+	MusicItem *copyItem = [[[self class] allocWithZone:zone] init];
+	copyItem.mid = [_mid copy];
+	copyItem.singerID = [_singerID copy];
+	copyItem.singerName = [_singerName copy];
+	copyItem.albumName = [_albumName copy];
+	copyItem.name = [_name copy];
+	copyItem.purl = [_purl copy];
+	copyItem.murl = [_murl copy];
+	copyItem.flag = [_flag copy];
+
+	return copyItem;
+}
+
+
 //将对象编码(即:序列化)
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
