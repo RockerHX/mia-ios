@@ -159,7 +159,7 @@
     _starButton.selected = item.favorite;
     _sharerNickNameLabel.text = item.sNick;
     [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
-    [self displayShareContentLabelWithContent:@"撒旦法加拉塞克都分了就阿斯顿撒的发来撒肯德基福建省阿士大夫撒打发士大夫撒旦飞洒地方" locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
+    [self displayShareContentLabelWithContent:item.sNote locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:item:)]) {
         [_delegate radioViewDidLoad:self item:_currentItem];
