@@ -78,7 +78,7 @@ UITextFieldDelegate>
 
 			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 			 [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-								 placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+								 placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 			 [self updateGenderLabel:gender];
 		 } else {
 			 NSLog(@"getUserInfoWithUID failed");
@@ -239,7 +239,7 @@ UITextFieldDelegate>
 	_avatarImageView.clipsToBounds = YES;
 	_avatarImageView.layer.borderWidth = 1.0f;
 	_avatarImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
-	[_avatarImageView setImage:[UIImage imageNamed:@"default_avatar"]];
+	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	[contentView addSubview:_avatarImageView];
 
 	UIView *avatarLineView = [[UIView alloc] init];

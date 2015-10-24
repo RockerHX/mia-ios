@@ -159,7 +159,7 @@
     _starButton.selected = item.favorite;
     _sharerNickNameLabel.text = item.sNick;
     [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
-    [self displayShareContentLabelWithContent:item.sNote locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
+    [self displayShareContentLabelWithContent:@"撒旦法加拉塞克都分了就阿斯顿撒的发来撒肯德基福建省阿士大夫撒打发士大夫撒旦飞洒地方" locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:item:)]) {
         [_delegate radioViewDidLoad:self item:_currentItem];
@@ -188,7 +188,7 @@ static NSString *HanWorld = @"肖";
             CGFloat worldWith = [HanWorld boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.width;
             CGFloat locationInfoWidth = [coutText boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:_shrareContentLabel.font} context:nil].size.width;
             CGFloat commentSurplusWidth = maxWidth - locationInfoWidth;
-            NSInteger commentWorldCount = (commentSurplusWidth/worldWith);
+            NSInteger commentWorldCount = (commentSurplusWidth/worldWith) - 1;
             text = [NSString stringWithFormat:@"%@%@", [text substringWithRange:(NSRange){0, commentWorldCount}], coutText];
         }
     } else {

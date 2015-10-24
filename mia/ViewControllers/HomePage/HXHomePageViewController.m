@@ -8,8 +8,8 @@
 
 #import "HXHomePageViewController.h"
 #import "HXRadioViewController.h"
-#import "HXWaveView.h"
 #import "HXBubbleView.h"
+#import "HXHomePageWaveView.h"
 #import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
@@ -35,7 +35,7 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 @interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, ProfileViewControllerDelegate, HXRadioViewControllerDelegate> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
-    NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
+    NSTimer *_timer;                // 定时器，用户在妙推动作时默认不评论定时执行结束动画
     ShareItem *_playItem;
 
 }
@@ -122,15 +122,16 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.backgroundColor = [UIColor whiteColor];
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
-    // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
+    [self animationViewConfig];
+}
+
+- (void)animationViewConfig {
+    // 配置气泡的比例和放大锚点；配置妙推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
-    _infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+    _infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
     
-    // 配置波浪颜色，波浪高度以及波动运动速度；配置提示条，设置为隐藏
-    _waveView.tintColor = [UIColor colorWithRed:68.0f/255.0f green:209.0f/255.0f blue:192.0f/255.0f alpha:1.0f];
-    _waveView.percent = 0.6f;
-    _waveView.speed = 3.0f;
+    // 配置提示条，设置为隐藏
     _pushPromptLabel.alpha = 0.0f;
 }
 
@@ -145,11 +146,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
 		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
 		if ([NSString isNull:newAvatarUrl]) {
-			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
         } else {
             [_profileButton sd_setImageWithURL:[NSURL URLWithString:newAvatarUrl]
                                       forState:UIControlStateNormal
-                              placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                              placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 		}
 	}
 }
@@ -265,14 +266,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             }
             // 拖动手势位移，配合拖动阀值移动小鱼并出发动画
             case UIGestureRecognizerStateChanged: {
-                CGFloat offsetHeight = [panGesture translationInView:self.view].y;
-                if (offsetHeight < 0.0f) {
-                    CGFloat fabsOffsetHeightY = fabs(offsetHeight);
-                    if (fabsOffsetHeightY >= OffsetHeightThreshold) {
-                        [self startAnimation];
-                    } else {
-                        CGFloat panPercent = (fabsOffsetHeightY/OffsetHeightThreshold);
-                        _fishView.center = CGPointMake(_fishView.center.x, _fishViewCenterY - 30.0f*panPercent);
+                if (!_playItem.isInfected) {
+                    CGFloat offsetHeight = [panGesture translationInView:self.view].y;
+                    if (offsetHeight < 0.0f) {
+                        CGFloat fabsOffsetHeightY = fabs(offsetHeight);
+                        if (fabsOffsetHeightY >= OffsetHeightThreshold) {
+                            [self startAnimation];
+                        } else {
+                            CGFloat panPercent = (fabsOffsetHeightY/OffsetHeightThreshold);
+                            _fishView.center = CGPointMake(_fishView.center.x, _fishViewCenterY - 30.0f*panPercent);
+                        }
                     }
                 }
                 break;
@@ -281,13 +284,15 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             case UIGestureRecognizerStateEnded:
             case UIGestureRecognizerStateFailed:
             case UIGestureRecognizerStateCancelled: {
-                if (!_animating) {
-                    [_fishView stopAnimating];
-                    __weak __typeof__(self)weakSelf = self;
-                    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-                        __strong __typeof__(self)strongSelf = weakSelf;
-                        strongSelf.fishView.center = CGPointMake(strongSelf.fishView.center.x, _fishViewCenterY);
-                    } completion:nil];
+                if (!_playItem.isInfected) {
+                    if (!_animating) {
+                        [_fishView stopAnimating];
+                        __weak __typeof__(self)weakSelf = self;
+                        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+                            __strong __typeof__(self)strongSelf = weakSelf;
+                            strongSelf.fishView.center = CGPointMake(strongSelf.fishView.center.x, _fishViewCenterY);
+                        } completion:nil];
+                    }
                 }
                 break;
             }
@@ -316,19 +321,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)startAnimation {
     if (!_animating) {
+        _animating = YES;
         if ([[UserSession standard] isLogined]) {
             [self infectShare];
         }
         [self startWaveAnimation];
         [self startPopFishAnimation];
     }
-    _animating = YES;
 }
 
 - (void)stopAnimation {
-    if (_animating) {
-        [self reset];
-    }
     _animating = NO;
 }
 
@@ -346,7 +348,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             [strongSelf.infectUserView refresh];
         } completion:^(BOOL finished) {
             __strong __typeof__(self)strongSelf = weakSelf;
-            // 秒推用户头像跳动动画
+            // 妙推用户头像跳动动画
             [strongSelf.infectUserView refreshItemWithAnimation];
         }];
     }
@@ -354,7 +356,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)addPushUserHeader {
     [self updatePromptLabel];
-    // 秒推用户头像添加以及动画
+    // 妙推用户头像添加以及动画
     [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -362,9 +364,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         [strongSelf.infectUserView refresh];
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        // 秒推用户头像跳动动画
+        // 妙推用户头像跳动动画
         [strongSelf.infectUserView refreshItemWithAnimation];
-        // 秒推提示条显示动画
+        // 妙推提示条显示动画
         [UIView animateWithDuration:0.3f animations:^{
             strongSelf.pushPromptLabel.alpha = 1.0f;
         } completion:nil];
@@ -373,24 +375,23 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
-    NSString *prompt = [NSString stringWithFormat:@"%@人%@秒推", @(count + 1), ((count > 5) ? @"等" : @"")];
+    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count + 1), ((count > 5) ? @"等" : @"")];
     _pushPromptLabel.text = prompt;
 }
 
-- (void)reset {    
-    // 重新布局
-    _waveViewBottomConstraint.constant = 0.0f;
-    _fishBottomConstraint.constant = 40.0f;
-    _headerViewBottomConstraint.constant = 0.0f;
-    [self viewConfig];
-    [self.view layoutIfNeeded];
-    
+- (void)reset {
     [_fishView stopAnimating];
     [_bubbleView reset];
+    [_waveView reset];
     
+    // 重新布局
+    _fishBottomConstraint.constant = 20.0f;
+    _headerViewBottomConstraint.constant = 2.0f;
     _fishView.alpha = 1.0f;
     _bubbleView.alpha = 1.0f;
+    [self animationViewConfig];
     _fishView.transform = CGAffineTransformIdentity;
+    [self.view layoutIfNeeded];
 }
 
 - (void)executeTimer {
@@ -426,7 +427,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     if (unreadCommentCount <= 0) {
         [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
                                   forState:UIControlStateNormal
-                          placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                          placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	} else {
         _profileButton.backgroundColor = UIColorFromHex(@"0BDEBC", 1.0f);
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
@@ -439,33 +440,34 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
 		return NO;
 	}
-
-	[MiaAPIHelper loginWithPhoneNum:userName
-					   passwordHash:passwordHash
-					  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-						  if (success) {
-							  [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
-							  [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
-
-							  NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-							  NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-							  [[UserSession standard] setAvatar:avatarUrlWithTime];
-
-							  [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-														forState:UIControlStateNormal
-												placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-
-							  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
-							  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
-						  }
-
-                          [_radioViewController loadShareList];
-					  } timeoutBlock:^(MiaRequestItem *requestItem) {
-                          NSLog(@"audo login timeout!");
-                          [_radioViewController loadShareList];
-					  }];
+    
+    [MiaAPIHelper loginWithPhoneNum:userName
+                       passwordHash:passwordHash
+                      completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+             [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+             
+             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+             [[UserSession standard] setAvatar:avatarUrlWithTime];
+             
+             [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+                                       forState:UIControlStateNormal
+                               placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+             
+             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
+         }
+         
+         [_radioViewController loadShareList];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"audo login timeout!");
+         [_radioViewController loadShareList];
+     }];
 	return YES;
 }
 
@@ -475,22 +477,27 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)infectShare {
-    // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-    [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-								longitude:[[LocationMgr standard] currentCoordinate].longitude
-								  address:[[LocationMgr standard] currentAddress]
-									 spID:_playItem.spID
-							completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
-		 } else {
-			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
-	 }];
+    if (!_playItem.isInfected) {
+        __weak __typeof__(self)weakSelf = self;
+        // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+        [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                    longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                      address:[[LocationMgr standard] currentAddress]
+                                         spID:_playItem.spID
+                                completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             if (success) {
+                 __strong __typeof__(self)strongSelf = weakSelf;
+                 strongSelf->_playItem.isInfected = YES;
+                 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+         }];
+    }
 }
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
@@ -522,13 +529,25 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [self startFinshAndBubbleHiddenAnimation];
 }
 
+- (void)displayWithInfectState:(BOOL)infected {
+    _pushPromptLabel.alpha = 0.0f;
+    _bubbleView.hidden = infected;
+    _fishView.hidden = infected;
+    
+    if (infected) {
+        [self startInfectedStateAnimation];
+    } else {
+        [self startUnInfectedStateAnimation];
+    }
+}
+
 #pragma mark - Animation
 - (void)startWaveAnimation {
-    [_waveView startAnimating];
+    [_waveView.waveView startAnimating];
 }
 
 - (void)stopWaveAnimation {
-    [_waveView stopAnimating];
+    [_waveView.waveView stopAnimating];
 }
 
 // 小鱼跳出动画
@@ -563,27 +582,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    _waveViewBottomConstraint.constant = -_waveViewHeightConstraint.constant/2;
-    __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf stopWaveAnimation];
+    [_waveView waveMoveDownAnimation:^{
     }];
 }
 
 // 波浪升起动画
 - (void)startWaveMoveUpAnimation {
-    _waveViewBottomConstraint.constant = 0.0f;
     __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [_waveView waveMoveUpAnimation:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf stopAnimation];
+        [strongSelf reset];
     }];
 }
 
@@ -612,16 +620,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 头像收回动画
 - (void)startHeaderViewPopBackAnimation {
-    _headerViewBottomConstraint.constant = 0.0f;
+    _headerViewBottomConstraint.constant = 2.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+        strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
         [strongSelf.infectUserView layoutIfNeeded];
     } completion:nil];
 }
 
-// 秒推完成，结束动画
+// 妙推完成，结束动画
 - (void)startFinishedAnimation {
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -649,6 +657,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }];
 }
 
+- (void)startInfectedStateAnimation {
+    [self startWaveMoveDownAnimation];
+    [self startHeaderViewPopAnimation];
+}
+
+- (void)startUnInfectedStateAnimation {
+    [self startWaveMoveUpAnimation];
+    [self startHeaderViewPopBackAnimation];
+}
+
 #pragma mark - HXBubbleViewDelegate Methods
 - (void)bubbleViewStartEdit:(HXBubbleView *)bubbleView {
     // 产品设计内容，用于一旦编辑气泡内容，必须关闭小鱼洄游动画定时器
@@ -656,7 +674,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)bubbleView:(HXBubbleView *)bubbleView shouldSendComment:(NSString *)comment {
-    // 用户触发秒推评论发送之后关闭键盘并执行秒推评论数据请求
+    // 用户触发妙推评论发送之后关闭键盘并执行妙推评论数据请求
     [self.view endEditing:YES];
     [self startPushMusicRequsetWithComment:comment];
 }
@@ -698,6 +716,12 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
     [self showInfectUsers:item.infectUsers];
+    [self displayWithInfectState:item.isInfected];
+}
+
+- (void)musicDidChange:(ShareItem *)item {
+//    _playItem = item;
+//    [self displayWithInfectState:item.isInfected];
 }
 
 @end

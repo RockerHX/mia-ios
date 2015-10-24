@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -31,17 +32,20 @@
                         <constraint firstAttribute="height" constant="65" id="qLo-i7-3fg"/>
                     </constraints>
                 </imageView>
-                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
-                    <rect key="frame" x="35" y="327" width="250" height="3"/>
+                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
+                    <rect key="frame" x="35" y="325" width="250" height="5"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="4" id="PUk-Ch-fA0"/>
+                    </constraints>
                     <color key="progressTintColor" red="0.2666666667" green="0.81960784310000001" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                 </progressView>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
                     <rect key="frame" x="133" y="177" width="55" height="55"/>
                     <animations/>
-                    <state key="normal" image="P-PauseIcon"/>
-                    <state key="selected" image="P-PlayIcon"/>
+                    <state key="normal" image="HP-PauseIcon"/>
+                    <state key="selected" image="HP-PlayIcon"/>
                     <connections>
                         <action selector="playButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="y9a-UB-QF4"/>
                     </connections>
@@ -59,7 +63,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" contentMode="left" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="207" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
-                    <rect key="frame" x="35" y="455" width="250" height="20"/>
+                    <rect key="frame" x="35" y="458" width="250" height="20"/>
                     <animations/>
                     <gestureRecognizers/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -67,20 +71,9 @@
                     <nil key="highlightedColor"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="lineSpacing">
-                            <real key="value" value="8"/>
+                            <real key="value" value="7"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
-                </label>
-                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
-                    <rect key="frame" x="120" y="420" width="80" height="20"/>
-                    <animations/>
-                    <gestureRecognizers/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="crf-jz-X8m" appends="YES" id="7DN-nD-6zh"/>
-                    </connections>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZT2-TF-oW0">
                     <rect key="frame" x="35" y="14" width="250" height="20"/>
@@ -90,11 +83,22 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朴树" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRy-kE-hZ9">
-                    <rect key="frame" x="35" y="39" width="250" height="17"/>
+                    <rect key="frame" x="35" y="34" width="250" height="17"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
+                    <rect key="frame" x="120" y="424" width="80" height="20"/>
+                    <animations/>
+                    <gestureRecognizers/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="crf-jz-X8m" appends="YES" id="7DN-nD-6zh"/>
+                    </connections>
                 </label>
             </subviews>
             <animations/>
@@ -102,8 +106,8 @@
             <constraints>
                 <constraint firstItem="WMI-Wc-Fx1" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="0hi-7O-Uqb"/>
                 <constraint firstItem="D9t-6x-o7k" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="0xj-fK-f7w"/>
-                <constraint firstItem="XRy-kE-hZ9" firstAttribute="top" secondItem="ZT2-TF-oW0" secondAttribute="bottom" constant="5" id="4C9-vI-fnM"/>
-                <constraint firstItem="fmy-Es-e4Z" firstAttribute="top" secondItem="gBx-px-WgB" secondAttribute="bottom" constant="15" id="4hM-fA-H9p"/>
+                <constraint firstItem="XRy-kE-hZ9" firstAttribute="top" secondItem="ZT2-TF-oW0" secondAttribute="baseline" constant="5" id="4C9-vI-fnM"/>
+                <constraint firstItem="fmy-Es-e4Z" firstAttribute="top" secondItem="gBx-px-WgB" secondAttribute="bottom" constant="14" id="4hM-fA-H9p"/>
                 <constraint firstItem="gBx-px-WgB" firstAttribute="centerX" secondItem="wzP-as-myT" secondAttribute="centerX" id="5ha-OU-Fgw"/>
                 <constraint firstItem="XRy-kE-hZ9" firstAttribute="width" secondItem="ZT2-TF-oW0" secondAttribute="width" id="6xj-oq-1pf"/>
                 <constraint firstItem="ZT2-TF-oW0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="13.5" id="7yx-jX-4FX"/>
@@ -117,7 +121,7 @@
                 <constraint firstItem="D9t-6x-o7k" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="PEr-Bm-9E7"/>
                 <constraint firstItem="Adt-yX-Kcn" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="R15-Zk-3Zd"/>
                 <constraint firstItem="XRy-kE-hZ9" firstAttribute="centerX" secondItem="ZT2-TF-oW0" secondAttribute="centerX" id="ZDg-s5-PqR"/>
-                <constraint firstItem="gBx-px-WgB" firstAttribute="top" secondItem="wzP-as-myT" secondAttribute="bottom" constant="30" id="aJZ-qb-c3q"/>
+                <constraint firstItem="gBx-px-WgB" firstAttribute="top" secondItem="wzP-as-myT" secondAttribute="bottom" constant="34" id="aJZ-qb-c3q"/>
                 <constraint firstItem="wzP-as-myT" firstAttribute="top" secondItem="Adt-yX-Kcn" secondAttribute="bottom" constant="20" id="gDx-VG-7kD"/>
                 <constraint firstItem="EuO-ig-wsS" firstAttribute="centerY" secondItem="Adt-yX-Kcn" secondAttribute="centerY" id="hIe-Py-Nqj"/>
                 <constraint firstItem="Adt-yX-Kcn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="lGy-uv-HfU"/>
@@ -151,8 +155,8 @@
     <resources>
         <image name="HP-CoverMask" width="250" height="65"/>
         <image name="HP-DefaultCover" width="250" height="250"/>
+        <image name="HP-PauseIcon" width="55" height="55"/>
+        <image name="HP-PlayIcon" width="55" height="55"/>
         <image name="HP-UnStarIcon" width="30" height="30"/>
-        <image name="P-PauseIcon" width="55" height="55"/>
-        <image name="P-PlayIcon" width="55" height="55"/>
     </resources>
 </document>
