@@ -416,7 +416,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 			imageView.clipsToBounds = YES;
 			imageView.layer.borderWidth = 1.0f;
 			imageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
-			[imageView sd_setImageWithURL:[NSURL URLWithString:item.avatar] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+			[imageView sd_setImageWithURL:[NSURL URLWithString:item.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 			[_infectUsersView addSubview:imageView];
 			[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
 				if (nil == prevView) {

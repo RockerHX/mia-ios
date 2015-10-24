@@ -21,7 +21,6 @@
 
 	ShareListMgr 	*_shareListMgr;
 	SongListPlayer	*_songListPlayer;
-	NSTimer 		*_reportViewsTimer;
 	BOOL 			_isLoading;
 }
 
@@ -45,13 +44,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	// TODO
-	// 当前页面显示的时候获取下服务器这个卡片的最新信息
-//	[MiaAPIHelper getShareById:[_shareItem sID] completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//		[self handleGetSharemWitRet:success userInfo:userInfo];
-//	} timeoutBlock:^(MiaRequestItem *requestItem) {
-//		NSLog(@"getShareById timeout");
-//	}];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -120,16 +112,8 @@
 	}
 }
 
-static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 - (void)playCurrentItems:(NSArray *)items {
-	[_reportViewsTimer invalidate];
-    _reportViewsTimer = [self setUpReportTimer];
-
 	[self updateStatusWithItems:items];
-}
-
-- (NSTimer *)setUpReportTimer {
-    return [NSTimer scheduledTimerWithTimeInterval:kReportViewsTimeInterval target:self selector:@selector(reportViewsTimerAction) userInfo:nil repeats:NO];
 }
 
 - (void)updateStatusWithItems:(NSArray *)items {
@@ -160,63 +144,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 						  }];
 }
 
-- (void)handleGetSharemWitRet:(BOOL)success userInfo:(NSDictionary *) userInfo {
-	if (success) {
-        NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-        id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
-        id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-        id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-        id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
-        NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-        
-        ShareItem *currentItem = _helper.currentItem;
-        if ([sID isEqualToString:currentItem.sID]) {
-            currentItem.cComm = [cComm intValue];
-            currentItem.cView = [cView intValue];
-            currentItem.favorite = [start intValue];
-            currentItem.infectTotal = [infectTotal intValue];
-            [currentItem parseInfectUsersFromJsonArray:infectArray];
-            
-            if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
-                [_delegate shouldDisplayInfectUsers:currentItem];
-            }
-        }
-        
-	} else {
-		NSLog(@"handleGetSharemWitRet failed.");
-	}
-}
-
-- (void)reportViewsTimerAction {
-	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-							  longitude:[[LocationMgr standard] currentCoordinate].longitude
-								address:[[LocationMgr standard] currentAddress]
-								   spID:[_helper.currentItem spID]
-						  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 [MiaAPIHelper getShareById:[_helper.currentItem sID]
-						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							  [self handleGetSharemWitRet:success userInfo:userInfo];
-						  } timeoutBlock:^(MiaRequestItem *requestItem) {
-							  NSLog(@"getShareById timeout.");
-						  }];
-		 } else {
-			 NSLog(@"view share failed");
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 NSLog(@"view share timeout");
-	 }];
-}
-
 - (void)viewShouldDisplay {
-	[MiaAPIHelper getShareById:[_helper.currentItem sID]
-				 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-					 [self handleGetSharemWitRet:success userInfo:userInfo];
-				 } timeoutBlock:^(MiaRequestItem *requestItem) {
-					 NSLog(@"getShareById timeout @viewShouldDisplay");
-				 }];
-
 	if ([[MusicMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
 	} else {

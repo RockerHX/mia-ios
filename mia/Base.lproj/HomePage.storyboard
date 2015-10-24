@@ -111,7 +111,7 @@
                                     <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4h-Kd-Mqg" customClass="HXWaveView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4h-Kd-Mqg" customClass="HXHomePageWaveView">
                                 <rect key="frame" x="0.0" y="368" width="320" height="200"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -281,8 +281,6 @@
                         <outlet property="shareButton" destination="QnW-Sx-Tnv" id="koK-DW-kVT"/>
                         <outlet property="swipeGesture" destination="jzJ-RZ-SS8" id="kXF-oe-x5U"/>
                         <outlet property="waveView" destination="W4h-Kd-Mqg" id="TWw-ve-AEv"/>
-                        <outlet property="waveViewBottomConstraint" destination="Fx8-tN-lWx" id="S0S-E3-7xk"/>
-                        <outlet property="waveViewHeightConstraint" destination="kMW-ZW-N2V" id="ka1-Fp-cJh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxh-Bf-n1A" sceneMemberID="firstResponder"/>

@@ -8,8 +8,8 @@
 
 #import "HXHomePageViewController.h"
 #import "HXRadioViewController.h"
-#import "HXWaveView.h"
 #import "HXBubbleView.h"
+#import "HXHomePageWaveView.h"
 #import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
@@ -122,15 +122,16 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.backgroundColor = [UIColor whiteColor];
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
+    [self animationViewConfig];
+}
+
+- (void)animationViewConfig {
     // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
     _infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
     
-    // 配置波浪颜色，波浪高度以及波动运动速度；配置提示条，设置为隐藏
-    _waveView.tintColor = [UIColor colorWithRed:68.0f/255.0f green:209.0f/255.0f blue:192.0f/255.0f alpha:1.0f];
-    _waveView.percent = 0.6f;
-    _waveView.speed = 3.0f;
+    // 配置提示条，设置为隐藏
     _pushPromptLabel.alpha = 0.0f;
 }
 
@@ -145,11 +146,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
 		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
 		if ([NSString isNull:newAvatarUrl]) {
-			[_profileButton setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
         } else {
             [_profileButton sd_setImageWithURL:[NSURL URLWithString:newAvatarUrl]
                                       forState:UIControlStateNormal
-                              placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                              placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 		}
 	}
 }
@@ -265,14 +266,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             }
             // 拖动手势位移，配合拖动阀值移动小鱼并出发动画
             case UIGestureRecognizerStateChanged: {
-                CGFloat offsetHeight = [panGesture translationInView:self.view].y;
-                if (offsetHeight < 0.0f) {
-                    CGFloat fabsOffsetHeightY = fabs(offsetHeight);
-                    if (fabsOffsetHeightY >= OffsetHeightThreshold) {
-                        [self startAnimation];
-                    } else {
-                        CGFloat panPercent = (fabsOffsetHeightY/OffsetHeightThreshold);
-                        _fishView.center = CGPointMake(_fishView.center.x, _fishViewCenterY - 30.0f*panPercent);
+                if (!_playItem.isInfected) {
+                    CGFloat offsetHeight = [panGesture translationInView:self.view].y;
+                    if (offsetHeight < 0.0f) {
+                        CGFloat fabsOffsetHeightY = fabs(offsetHeight);
+                        if (fabsOffsetHeightY >= OffsetHeightThreshold) {
+                            [self startAnimation];
+                        } else {
+                            CGFloat panPercent = (fabsOffsetHeightY/OffsetHeightThreshold);
+                            _fishView.center = CGPointMake(_fishView.center.x, _fishViewCenterY - 30.0f*panPercent);
+                        }
                     }
                 }
                 break;
@@ -281,13 +284,15 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             case UIGestureRecognizerStateEnded:
             case UIGestureRecognizerStateFailed:
             case UIGestureRecognizerStateCancelled: {
-                if (!_animating) {
-                    [_fishView stopAnimating];
-                    __weak __typeof__(self)weakSelf = self;
-                    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-                        __strong __typeof__(self)strongSelf = weakSelf;
-                        strongSelf.fishView.center = CGPointMake(strongSelf.fishView.center.x, _fishViewCenterY);
-                    } completion:nil];
+                if (!_playItem.isInfected) {
+                    if (!_animating) {
+                        [_fishView stopAnimating];
+                        __weak __typeof__(self)weakSelf = self;
+                        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+                            __strong __typeof__(self)strongSelf = weakSelf;
+                            strongSelf.fishView.center = CGPointMake(strongSelf.fishView.center.x, _fishViewCenterY);
+                        } completion:nil];
+                    }
                 }
                 break;
             }
@@ -316,19 +321,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)startAnimation {
     if (!_animating) {
+        _animating = YES;
         if ([[UserSession standard] isLogined]) {
             [self infectShare];
         }
         [self startWaveAnimation];
         [self startPopFishAnimation];
     }
-    _animating = YES;
 }
 
 - (void)stopAnimation {
-    if (_animating) {
-        [self reset];
-    }
     _animating = NO;
 }
 
@@ -377,20 +379,19 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     _pushPromptLabel.text = prompt;
 }
 
-- (void)reset {    
-    // 重新布局
-    _waveViewBottomConstraint.constant = 0.0f;
-    _fishBottomConstraint.constant = 40.0f;
-    _headerViewBottomConstraint.constant = 0.0f;
-    [self viewConfig];
-    [self.view layoutIfNeeded];
-    
+- (void)reset {
     [_fishView stopAnimating];
     [_bubbleView reset];
+    [_waveView reset];
     
+    // 重新布局
+    _fishBottomConstraint.constant = 40.0f;
+    _headerViewBottomConstraint.constant = 0.0f;
     _fishView.alpha = 1.0f;
     _bubbleView.alpha = 1.0f;
+    [self animationViewConfig];
     _fishView.transform = CGAffineTransformIdentity;
+    [self.view layoutIfNeeded];
 }
 
 - (void)executeTimer {
@@ -426,7 +427,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     if (unreadCommentCount <= 0) {
         [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
                                   forState:UIControlStateNormal
-                          placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                          placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	} else {
         _profileButton.backgroundColor = UIColorFromHex(@"0BDEBC", 1.0f);
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
@@ -456,7 +457,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
              
              [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
                                        forState:UIControlStateNormal
-                               placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                               placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
              
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
@@ -476,25 +477,27 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)infectShare {
-    __weak __typeof__(self)weakSelf = self;
-    // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-    [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-								longitude:[[LocationMgr standard] currentCoordinate].longitude
-								  address:[[LocationMgr standard] currentAddress]
-									 spID:_playItem.spID
-							completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-             __strong __typeof__(self)strongSelf = weakSelf;
-             strongSelf->_playItem.isInfected = YES;
-			 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
-		 } else {
-			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
-	 }];
+    if (!_playItem.isInfected) {
+        __weak __typeof__(self)weakSelf = self;
+        // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+        [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                    longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                      address:[[LocationMgr standard] currentAddress]
+                                         spID:_playItem.spID
+                                completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             if (success) {
+                 __strong __typeof__(self)strongSelf = weakSelf;
+                 strongSelf->_playItem.isInfected = YES;
+                 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+         }];
+    }
 }
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
@@ -527,6 +530,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)displayWithInfectState:(BOOL)infected {
+    _pushPromptLabel.alpha = 0.0f;
     _bubbleView.hidden = infected;
     _fishView.hidden = infected;
     
@@ -539,11 +543,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 #pragma mark - Animation
 - (void)startWaveAnimation {
-    [_waveView startAnimating];
+    [_waveView.waveView startAnimating];
 }
 
 - (void)stopWaveAnimation {
-    [_waveView stopAnimating];
+    [_waveView.waveView stopAnimating];
 }
 
 // 小鱼跳出动画
@@ -578,27 +582,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-        _waveViewBottomConstraint.constant = -_waveViewHeightConstraint.constant/2;
-    __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf stopWaveAnimation];
+    [_waveView waveMoveDownAnimation:^{
     }];
 }
 
 // 波浪升起动画
 - (void)startWaveMoveUpAnimation {
-    _waveViewBottomConstraint.constant = 0.0f;
     __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [_waveView waveMoveUpAnimation:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf stopAnimation];
+        [strongSelf reset];
     }];
 }
 
