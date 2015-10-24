@@ -279,7 +279,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
 		[_songListPlayer playWithMusicItem:musicItem];
 	}
-
+    
 	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
 }
 
@@ -322,7 +322,6 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-#warning @andy
 //    if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
 //        [_delegate shouldPushToRadioDetailViewController];
 //    }

@@ -231,7 +231,14 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)tapGesture {
-    [self shouldPushToRadioDetailViewController];
+    if (_animating) {
+        if (![[UserSession standard] isLogined]) {
+            [self cancelLoginOperate];
+        }
+    } else {
+        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动画阀值
@@ -309,7 +316,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)startAnimation {
     if (!_animating) {
-        [self infectShare];
+        if ([[UserSession standard] isLogined]) {
+            [self infectShare];
+        }
         [self startWaveAnimation];
         [self startPopFishAnimation];
     }
@@ -509,6 +518,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)cancelLoginOperate {
     [self startWaveMoveUpAnimation];
+    [self startHeaderViewPopBackAnimation];
     [self startFinshAndBubbleHiddenAnimation];
 }
 
@@ -533,7 +543,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     
     [self startBubbleScaleAnimation];
     [self startWaveMoveDownAnimation];
-    [self startHeaderViewScaleAnimation];
+    [self startHeaderViewPopAnimation];
 }
 
 // 气泡弹出动画
@@ -568,7 +578,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)startWaveMoveUpAnimation {
     _waveViewBottomConstraint.constant = 0.0f;
     __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
@@ -587,7 +597,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 // 头像弹出动画
-- (void)startHeaderViewScaleAnimation {
+- (void)startHeaderViewPopAnimation {
     _headerViewBottomConstraint.constant = 40.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.4f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -598,6 +608,17 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     if ([[UserSession standard] isLogined]) {
         [self addPushUserHeader];
     }
+}
+
+// 头像收回动画
+- (void)startHeaderViewPopBackAnimation {
+    _headerViewBottomConstraint.constant = 0.0f;
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+        [strongSelf.infectUserView layoutIfNeeded];
+    } completion:nil];
 }
 
 // 秒推完成，结束动画
@@ -677,17 +698,6 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
     [self showInfectUsers:item.infectUsers];
-}
-
-- (void)shouldPushToRadioDetailViewController {
-    if (_animating) {
-        if (![[UserSession standard] isLogined]) {
-            [self cancelLoginOperate];
-        }
-    } else {
-        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
 }
 
 @end
