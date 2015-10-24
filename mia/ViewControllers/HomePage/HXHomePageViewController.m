@@ -439,33 +439,34 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
 		return NO;
 	}
-
-	[MiaAPIHelper loginWithPhoneNum:userName
-					   passwordHash:passwordHash
-					  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-						  if (success) {
-							  [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
-							  [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-							  [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-							  [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
-
-							  NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-							  NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-							  [[UserSession standard] setAvatar:avatarUrlWithTime];
-
-							  [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-														forState:UIControlStateNormal
-												placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-
-							  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
-							  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
-						  }
-
-                          [_radioViewController loadShareList];
-					  } timeoutBlock:^(MiaRequestItem *requestItem) {
-                          NSLog(@"audo login timeout!");
-                          [_radioViewController loadShareList];
-					  }];
+    
+    [MiaAPIHelper loginWithPhoneNum:userName
+                       passwordHash:passwordHash
+                      completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+             [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+             
+             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+             [[UserSession standard] setAvatar:avatarUrlWithTime];
+             
+             [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+                                       forState:UIControlStateNormal
+                               placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+             
+             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
+         }
+         
+         [_radioViewController loadShareList];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"audo login timeout!");
+         [_radioViewController loadShareList];
+     }];
 	return YES;
 }
 
@@ -475,14 +476,17 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)infectShare {
+    __weak __typeof__(self)weakSelf = self;
     // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
     [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 								longitude:[[LocationMgr standard] currentCoordinate].longitude
 								  address:[[LocationMgr standard] currentAddress]
 									 spID:_playItem.spID
 							completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
+             __strong __typeof__(self)strongSelf = weakSelf;
+             strongSelf->_playItem.isInfected = YES;
 			 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -523,6 +527,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)displayWithInfectState:(BOOL)infected {
+    _bubbleView.hidden = infected;
+    _fishView.hidden = infected;
+    
     if (infected) {
         [self startInfectedStateAnimation];
     } else {
@@ -571,7 +578,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    _waveViewBottomConstraint.constant = -_waveViewHeightConstraint.constant/2;
+        _waveViewBottomConstraint.constant = -_waveViewHeightConstraint.constant/2;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -658,13 +665,13 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)startInfectedStateAnimation {
-//    [self startWaveMoveDownAnimation];
-//    [self startHeaderViewPopAnimation];
+    [self startWaveMoveDownAnimation];
+    [self startHeaderViewPopAnimation];
 }
 
 - (void)startUnInfectedStateAnimation {
-//    [self startWaveMoveUpAnimation];
-//    [self startHeaderViewPopBackAnimation];
+    [self startWaveMoveUpAnimation];
+    [self startHeaderViewPopBackAnimation];
 }
 
 #pragma mark - HXBubbleViewDelegate Methods
