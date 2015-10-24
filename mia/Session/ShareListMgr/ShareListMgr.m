@@ -9,6 +9,7 @@
 #import "ShareListMgr.h"
 #import "PathHelper.h"
 #import "UserSession.h"
+#import "FileLog.h"
 
 const int kShareListCapacity					= 25;
 const int kHistoryItemsMaxCount					= 5;
@@ -74,8 +75,10 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (BOOL)cursorShiftRight {
 	NSInteger newIndex = _currentItem + 1;
-	if (newIndex >= [_shareList count])
+	if (newIndex >= [_shareList count]) {
+		[[FileLog standard] log:@"cursorShiftRight failed: %d, %lu", newIndex, [_shareList count]];
 		return  NO;
+	}
 
 	_currentItem = newIndex;
 	[self saveChanges];
