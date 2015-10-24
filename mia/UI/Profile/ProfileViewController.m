@@ -404,7 +404,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		return;
 	}
 
-	if ([[WebSocketMgr standard] isNetworkEnable]) {
+	if ([[WebSocketMgr standard] isOpen]) {
 		if (_isMyProfile) {
 			if (_addShareView) {
 				[_addShareView setHidden:NO];
