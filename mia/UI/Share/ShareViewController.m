@@ -320,7 +320,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 											 font:nil
 										  logoImg:nil
 								  backgroundImage:nil];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_playerView addSubview:_playButton];
 
@@ -368,7 +368,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	//bottomView.backgroundColor = [UIColor redColor];
 
 	UIImageView *locationImageView = [[UIImageView alloc] init];
-	[locationImageView setImage:[UIImage imageNamed:@"location"]];
+	[locationImageView setImage:[UIImage imageNamed:@"C-LocationIcon"]];
 	//locationImageView.backgroundColor = [UIColor greenColor];
 	[_bottomView addSubview:locationImageView];
 
@@ -521,17 +521,17 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
-	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 	_progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 }
 
 - (void)songListPlayerDidPause {
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 	[_progressTimer invalidate];
 }
 
 - (void)songListPlayerDidCompletion {
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 	[_progressTimer invalidate];
 }
 
@@ -653,17 +653,17 @@ const static CGFloat kShareTopViewHeight		= 280;
 
 	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playWithMusicItem:_musicItem];
-	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 }
 
 - (void)pauseMusic {
 	[_songListPlayer pause];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
 	[_songListPlayer stop];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 - (void)updateProgress:(NSTimer *)timer {

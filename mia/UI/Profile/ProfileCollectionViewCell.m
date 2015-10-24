@@ -84,7 +84,7 @@
 																				contentView.frame.size.height - kViewsIconMarginBottom - kViewsIconWidth,
 																				kViewsIconWidth,
 																				kViewsIconWidth)];
-	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
+	[viewsImageView setImage:[UIImage imageNamed:@"C-ViewCountIcon"]];
 	[contentView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle + kViewsLabelMarginMiddle,

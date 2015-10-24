@@ -145,7 +145,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 											  font:nil
 										   logoImg:nil
 								   backgroundImage:nil];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:_playButton];
 
@@ -242,7 +242,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 - (void)initBottomView:(UIView *)contentView {
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[viewsImageView setImage:[UIImage imageNamed:@"views"]];
+	[viewsImageView setImage:[UIImage imageNamed:@"C-ViewCountIcon"]];
 	[contentView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -255,7 +255,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	[contentView addSubview:_viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[locationImageView setImage:[UIImage imageNamed:@"location"]];
+	[locationImageView setImage:[UIImage imageNamed:@"C-LocationIcon"]];
 	[contentView addSubview:locationImageView];
 
 	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -272,7 +272,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	[contentView addSubview:lineView];
 
 	_commentsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[_commentsImageView setImage:[UIImage imageNamed:@"comments"]];
+	[_commentsImageView setImage:[UIImage imageNamed:@"C-CommentsIcon"]];
 	[contentView addSubview:_commentsImageView];
 
 	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -386,9 +386,9 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	}
 
 	if ([[MusicMgr standard] isPlayingWithUrl:_shareItem.music.murl]) {
-		[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 	} else {
-		[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 	}
 
 }
@@ -505,15 +505,15 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
-	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 }
 
 - (void)songListPlayerDidPause {
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 - (void)songListPlayerDidCompletion {
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 #pragma mark - Actions
@@ -557,17 +557,17 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playWithMusicItem:_musicItem];
-	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 }
 
 - (void)pauseMusic {
 	[_songListPlayer pause];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
 	[_songListPlayer stop];
-	[_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 @end

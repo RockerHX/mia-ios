@@ -117,7 +117,7 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 					if (nil != songInfo) {
 						NSArray *trackList = songInfo[@"data"][@"trackList"];
 						if ([NSNull null] != (NSNull *)trackList && trackList.count > 0) {
-							item.songUrl = [self decodeXiamiUrl:trackList[0][@"location"]];
+							item.songUrl = [self decodeXiamiUrl:trackList[0][@"C-LocationIcon"]];
 							item.pic = songInfo[@"data"][@"trackList"][0][@"pic"];
 							item.albumPic = songInfo[@"data"][@"trackList"][0][@"album_pic"];
 							[resultArray addObject:item];
