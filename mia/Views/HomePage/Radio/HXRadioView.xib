@@ -54,7 +54,6 @@
                         <constraint firstAttribute="width" constant="40" id="cli-89-JVy"/>
                     </constraints>
                     <state key="normal" image="HP-UnStarIcon"/>
-                    <state key="selected" image="HP-StarIcon"/>
                     <connections>
                         <action selector="starButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="cgy-dx-Mke"/>
                     </connections>
@@ -152,7 +151,6 @@
     <resources>
         <image name="HP-CoverMask" width="250" height="65"/>
         <image name="HP-DefaultCover" width="250" height="250"/>
-        <image name="HP-StarIcon" width="30" height="30"/>
         <image name="HP-UnStarIcon" width="30" height="30"/>
         <image name="P-PauseIcon" width="55" height="55"/>
         <image name="P-PlayIcon" width="55" height="55"/>
