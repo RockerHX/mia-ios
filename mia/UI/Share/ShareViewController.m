@@ -504,6 +504,12 @@ const static CGFloat kShareTopViewHeight		= 280;
 		[self pauseMusic];
 	} else {
 		_dataItem = item;
+		_musicItem.singerName = _dataItem.artist;
+		_musicItem.albumName = _dataItem.albumName;
+		_musicItem.name = _dataItem.title;
+		_musicItem.purl = _dataItem.albumPic;
+		_musicItem.murl = _dataItem.songUrl;
+
 		[self playMusic];
 	}
 }

@@ -1,4 +1,4 @@
-//
+	//
 //  AFNHttpClient.m
 //  mia
 //
@@ -19,43 +19,6 @@
 
 @implementation AFNHttpClient
 
-/**
- *  封装请求（无需上传图片资源）
- *
- *  @param url          发送请求的url路径
- *  @param requestTypes 请求的类型
- *  @param parameters   发送请求的参数
- *  @param timeOut      设置连接超时
- *  @param successBlock 返回成功的block
- *  @param failBlock    返回失败的block
- *
- */
-+ (id)requestWithURL:(NSString *)url
-         requestType:(AFNHttpRequestType )requestTypes
-          parameters:(id )parameters
-             timeOut:(NSTimeInterval )timeOut
-        successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
-           failBlock:(void (^)(id task, NSError *error))failBlock{
-    return [self requestWithURL:url
-                    requestType:requestTypes
-                     parameters:parameters
-                     imageArray:nil
-                        timeOut:timeOut
-                   successBlock:successBlock
-                      failBlock:failBlock];
-}
-
-/**
- *  封装登录请求
- *
- *  @param url          发送请求的url路径
- *  @param requestTypes 请求的类型
- *  @param parameters   发送请求的参数
- *  @param timeOut      设置连接超时
- *  @param successBlock 返回成功的block
- *  @param failBlock    返回失败的block
- *
- */
 + (id)requestHTMLWithURL:(NSString *)url
               requestType:(AFNHttpRequestType )requestTypes
                parameters:(id )parameters
@@ -71,35 +34,19 @@
     return client;
 }
 
-/**
- *  封装请求（需上传图片资源）
- *
- *  @param url          发送请求的url路径
- *  @param requestTypes 请求的类型
- *  @param parameters   发送请求的参数
- *  @param imageArray   图片资源
- *  @param timeOut      设置连接超时
- *  @param successBlock 返回成功的block
- *  @param failBlock    返回失败的block
- *
- */
-+ (id)requestWithURL:(NSString *)url
-         requestType:(AFNHttpRequestType )requestTypes
-          parameters:(id )parameters
-          imageArray:(NSArray *)imageArray
-             timeOut:(NSTimeInterval )timeOut
-        successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
-           failBlock:(void (^)(id task, NSError *error))failBlock{
-    AFNHttpClient *client = [[self alloc] initWithURL:url
-                                          requestType:requestTypes
-                                           parameters:parameters
-                                           imageArray:imageArray
-                                              timeOut:timeOut
-                                         successBlock:successBlock
-                                            failBlock:failBlock];
-    return client;
++ (id)postLogDataWithURL:(NSString *)url
+				 logData:(NSData *)logData
+			  timeOut:(NSTimeInterval )timeOut
+		 successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
+			failBlock:(void (^)(id task, NSError *error))failBlock {
+	AFNHttpClient *client = [[self alloc] initWithURL:url
+										  requestType:AFNHttpRequestPost
+										   logData:logData
+											  timeOut:timeOut
+										 successBlock:successBlock
+											failBlock:failBlock];
+	return client;
 }
-
 
 + (NSDictionary *)requestWaitUntilFinishedWithURL:(NSString *)url
 									  requestType:(AFNHttpRequestType )requestType
@@ -154,10 +101,29 @@
 }
 
 #pragma mark - private method
+/*
+ - (void)customSecurityPolicy {
+ @try {
 
-- (id)initWithURL:(NSString *)url requestType:(AFNHttpRequestType )requestTypes
-       parameters:(id )parameters
-       imageArray:(NSArray *)imageArray
+NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"cer"];                    // 获取cer秘钥文件路径
+NSData *certData = [NSData dataWithContentsOfFile:cerPath];
+AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+securityPolicy.allowInvalidCertificates = NO;                                                           // 不允许使用无效证书
+securityPolicy.pinnedCertificates = @[certData];
+
+self.securityPolicy = securityPolicy;
+//        self.requestSerializer.cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+}
+@catch (NSException *exception) {
+	NSLog(@"%s:%@", __FUNCTION__, exception.reason);
+}
+@finally {
+}
+}
+ */
+- (id)initWithURL:(NSString *)url
+	  requestType:(AFNHttpRequestType )requestTypes
+       logData:(NSData *)logData
           timeOut:(NSTimeInterval )timeOut
      successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
         failBlock:(void (^)(id task, NSError *error))failBlock{
@@ -168,43 +134,37 @@
             config.timeoutIntervalForRequest = timeOut;
             config.timeoutIntervalForResource = timeOut;
             AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:config];
-            manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"text/html", @"application/json", nil];
-            
-            NSDictionary *tempParameters = (NSDictionary *)parameters;
-            NSMutableDictionary *mutableParameter;
-            if(tempParameters != nil){
-                mutableParameter = [tempParameters mutableCopy];
-            }else{
-                mutableParameter = [[NSMutableDictionary alloc] init];
-            }
-            [mutableParameter setObject:@"ios" forKey:@"platform"];
-            NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-            [mutableParameter setObject:version forKey:@"version"];
-            [mutableParameter setObject:@"v2" forKey:@"apiversion"];
-            
-            switch (requestTypes) {
-                case AFNHttpRequestGet:
-                    [manager GET:url parameters:mutableParameter success:successBlock failure:failBlock];
-                    break;
-                case AFNHttpRequestPost:
-                    if(imageArray){
-                        [manager POST:url parameters:mutableParameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                            for(int i = 0 ; i < imageArray.count; i ++){
-                                NSData *data = [imageArray objectAtIndex:i];
-                                NSString *fileName = [NSString stringWithFormat:@"image%d.jpg",i];
-                                [formData appendPartWithFileData:data
-                                                            name:@"imgs"
-                                                        fileName:fileName
-                                                        mimeType:@"image/jpeg"];
-                            }
-                        } success:successBlock failure:failBlock];
-                    }else{
-                        [manager POST:url parameters:mutableParameter success:successBlock failure:failBlock];
-                    }
-                    break;
-                default:
-                    break;
-            }
+			manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+			manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+
+//			AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+//			securityPolicy.allowInvalidCertificates = YES;
+//			manager.securityPolicy = securityPolicy;
+//			manager.requestSerializer.cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+
+			[manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+
+			[manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+				NSData *act = [@"save" dataUsingEncoding:NSUTF8StringEncoding];
+				NSData *key = [@"meweoids1122123**&" dataUsingEncoding:NSUTF8StringEncoding];
+				NSData *platform = [@"iOS" dataUsingEncoding:NSUTF8StringEncoding];
+
+				NSString *logTitle = [NSString stringWithFormat:@"\n\n%@\n%@ %@\n\n",
+									  [UIDevice currentDevice].name,
+									  [UIDevice currentDevice].systemName,
+									  [UIDevice currentDevice].systemVersion];
+
+				NSMutableData *content = [[NSMutableData alloc] init];
+				[content appendData:[logTitle dataUsingEncoding:NSUTF8StringEncoding]];
+				[content appendData:logData];
+
+				[formData appendPartWithFormData:act name:@"act"];
+				[formData appendPartWithFormData:key name:@"key"];
+				[formData appendPartWithFormData:platform name:@"platform"];
+				[formData appendPartWithFormData:content name:@"content"];
+
+			} success:successBlock failure:failBlock];
+
         }else{
             //网络异常
             NSLog(@"网络异常");

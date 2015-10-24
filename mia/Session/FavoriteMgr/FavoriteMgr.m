@@ -160,8 +160,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	BOOL hasDataChanged = NO;
 
 	// 寻找删除的元素
-	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
-	for (FavoriteItem *item in enumerator) {
+	NSEnumerator *deleteEnumerator = [_favoriteItems reverseObjectEnumerator];
+	for (FavoriteItem *item in deleteEnumerator) {
 		if (![self isItemInArray:item array:_tempItems]) {
 			[self deleteCacheFileWithUrl:item.music.murl];
 			item.isCached = NO;
@@ -170,11 +170,11 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		}
 	}
 
-	for (FavoriteItem *newItem in _tempItems) {
+	// 新增的反序枚举，如果是新的就插入在最前面，让最新数据是在前面
+	NSEnumerator *insertEnumerator = [_tempItems reverseObjectEnumerator];
+	for (FavoriteItem *newItem in insertEnumerator) {
 		if (![self isItemInArray:newItem array:_favoriteItems]) {
-			// TODO linyehui fav
-			// 插入时的排序
-			[_favoriteItems addObject:newItem];
+			[_favoriteItems insertObject:newItem atIndex:0];
 			hasDataChanged = YES;
 		}
 	}

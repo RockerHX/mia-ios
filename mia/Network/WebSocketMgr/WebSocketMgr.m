@@ -13,6 +13,7 @@
 #import "AFNetworking.h"
 #import "NSTimer+BlockSupport.h"
 #import "MiaAPIMacro.h"
+#import "FileLog.h"
 
 NSString * const WebSocketMgrNotificationKey_Msg					= @"msg";
 NSString * const WebSocketMgrNotificationKey_Command				= @"cmd";
@@ -204,7 +205,8 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 				MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
 				if (lastItem) {
 					// 超时了
-					NSLog(@">++++++++++> #WebSocketWithBlock# TMOUT %ld\n%@", [requestItem timestamp], [requestItem jsonString]);
+					[[FileLog standard] log:@">++++++++++> #WebSocketWithBlock# TMOUT %ld\n%@", [requestItem timestamp], [requestItem jsonString]];
+					
 					dispatch_sync(dispatch_get_main_queue(), ^{
 						if ([requestItem timeoutBlock]) {
 							[requestItem timeoutBlock](requestItem);

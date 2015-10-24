@@ -14,6 +14,7 @@
 #import "HXAppConstants.h"
 #import "MusicMgr.h"
 #import "SongListPlayer.h"
+#import "FileLog.h"
 
 @interface HXRadioViewController () <HXRadioCarouselHelperDelegate, SongListPlayerDelegate, SongListPlayerDataSource> {
     NSMutableArray *_items;
@@ -128,19 +129,26 @@
 								  start:1
 								   item:kRequestItemCount
 						  completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                              __strong __typeof__(self)strongSelf = weakSelf;
-							  NSArray *shareList = userInfo[@"v"][@"data"];
-							  if (!shareList)
-								  return;
+							  if (success) {
+								  __strong __typeof__(self)strongSelf = weakSelf;
+								  NSArray *shareList = userInfo[@"v"][@"data"];
+								  if (!shareList) {
+									  [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
+									  return;
+								  }
 
-							  [_shareListMgr addSharesWithArray:shareList];
+								  [_shareListMgr addSharesWithArray:shareList];
 
-							  if (_isLoading) {
-								  [strongSelf reloadLoopPlayerData];
-								  _isLoading = NO;
+								  if (_isLoading) {
+									  [strongSelf reloadLoopPlayerData];
+									  _isLoading = NO;
+								  }
+							  } else {
+								  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+								  [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
 							  }
 						  } timeoutBlock:^(MiaRequestItem *requestItem) {
-							  NSLog(@"getNearbyWithLatitude timeout");
+							  [[FileLog standard] log:@"getNearbyWithLatitude timeout"];
 						  }];
 }
 

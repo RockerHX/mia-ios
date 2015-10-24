@@ -21,6 +21,8 @@
 #import "NSString+IsNull.h"
 #import "ChangePwdViewController.h"
 #import "HXAlertBanner.h"
+#import "AFNHttpClient.h"
+#import "FileLog.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
@@ -52,6 +54,8 @@ UITextFieldDelegate>
 
 	UIImage 		*_uploadingImage;
 	long			_uploadTimeOutCount;
+
+	long			_uploadLogClickTimes;
 }
 
 -(void)dealloc {
@@ -563,6 +567,7 @@ UITextFieldDelegate>
 	_versionView = [[UIView alloc] init];
 	_versionView.backgroundColor = [UIColor whiteColor];
 	[_scrollContentView addSubview:_versionView];
+	[_versionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(versionTouchAction:)]];
 
 	MIALabel *versionTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"当前版本"
@@ -876,6 +881,26 @@ UITextFieldDelegate>
 
 - (void)cleanCacheTouchAction:(id)sender {
 	NSLog(@"clean cache");
+}
+
+- (void)versionTouchAction:(id)sender {
+	const static long kClickTimesForUploadLog = 3;
+	_uploadLogClickTimes++;
+	if (_uploadLogClickTimes < kClickTimesForUploadLog) {
+		return;
+	}
+
+	_uploadLogClickTimes = 0;
+
+	[AFNHttpClient postLogDataWithURL:@"http://applog.miamusic.com"
+							 logData:[[FileLog standard] latestLogs]
+						  timeOut:5.0
+					 successBlock:
+	 ^(id task, NSDictionary *jsonServerConfig) {
+		[HXAlertBanner showWithMessage:@"喵~ :)" tap:nil];
+	} failBlock:^(id task, NSError *error) {
+		[HXAlertBanner showWithMessage:@"喵喵喵~ :( " tap:nil];
+	}];
 }
 
 @end
