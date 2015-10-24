@@ -700,4 +700,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [self showInfectUsers:item.infectUsers];
 }
 
+- (void)musicDidChange:(ShareItem *)item {
+    // TODO
+}
+
 @end

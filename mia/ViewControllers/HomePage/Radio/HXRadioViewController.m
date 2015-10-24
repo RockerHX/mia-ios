@@ -298,6 +298,12 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
             break;
         }
     }
+    if (action != HXRadioCarouselHelperActionPlayCurrent) {
+        if (_delegate && [_delegate respondsToSelector:@selector(musicDidChange:)]) {
+            ShareItem *currentItem = [_shareListMgr getCurrentItem];
+            [_delegate musicDidChange:currentItem];
+        }
+    }
 }
 
 - (void)helperDidChange:(HXRadioCarouselHelper *)helper {
