@@ -32,6 +32,7 @@
 #import "HXAlertBanner.h"
 #import "SongListPlayer.h"
 #import "MusicMgr.h"
+#import "FileLog.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -259,6 +260,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 							NSArray *shareList = userInfo[@"v"][@"info"];
 							if (!shareList) {
+								[[FileLog standard] log:@"Profile requestShareList shareList is nil"];
 								[self checkPlaceHolder];
 								return;
 							}
