@@ -9,7 +9,7 @@
 #import "HXInfectUserView.h"
 #import "HXInfectUserItemView.h"
 
-static CGFloat ItemDefaultWidth = 60.0f;
+static CGFloat ItemDefaultWidth = 42.0f;
 
 @implementation HXInfectUserView
 

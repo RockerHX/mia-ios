@@ -10,8 +10,10 @@
 
 @interface HXInfectUserItemView : UIView
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthContraint;
 @property (weak, nonatomic) IBOutlet        UIImageView *header;
+@property (weak, nonatomic) IBOutlet             UIView *whiteBorder;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerWidthContraint;
 
 + (instancetype)instance;
 

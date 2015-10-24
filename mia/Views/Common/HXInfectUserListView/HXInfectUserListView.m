@@ -146,7 +146,7 @@ static NSInteger kInfectListItemCountInPage = 10;
 }
 
 - (void)updateTitleLabel {
-    _titleLabel.text = [NSString stringWithFormat:@"%@人秒推", @(_listItems.count ?: 0)];
+    _titleLabel.text = [NSString stringWithFormat:@"%@人妙推", @(_listItems.count ?: 0)];
 }
 
 - (void)reloadList {

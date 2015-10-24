@@ -361,7 +361,7 @@ CommentCellDelegate>
 	[_collectionView addSubview:_noCommentView];
 
 	UIImageView *noCommentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[noCommentImageView setImage:[UIImage imageNamed:@"sofa"]];
+	[noCommentImageView setImage:[UIImage imageNamed:@"C-SofaIcon"]];
 	[_noCommentView addSubview:noCommentImageView];
 
 	MIALabel *_noCommentLabel = [[MIALabel alloc] initWithFrame:CGRectZero

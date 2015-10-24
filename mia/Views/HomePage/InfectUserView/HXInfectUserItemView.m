@@ -41,10 +41,11 @@
 - (void)viewConfig {
     self.backgroundColor = [UIColor clearColor];
     
-    _header.clipsToBounds = YES;
     _header.contentMode = UIViewContentModeScaleAspectFill;
-    _header.layer.cornerRadius = _widthContraint.constant/2;
+    _header.layer.cornerRadius = _headerWidthContraint.constant/2;
     _header.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
+    
+    _whiteBorder.layer.cornerRadius = (_headerWidthContraint.constant*1.2)/2;
 }
 
 #pragma mark - Public Methods
