@@ -118,11 +118,13 @@
 			 if (success) {
 				 id act = userInfo[MiaAPIKey_Values][@"act"];
 				 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
 				 if ([_currentItem.sID integerValue] == [sID intValue]) {
-					 _currentItem.favorite = [act intValue];
-					 button.selected = !button.selected;
+					 _currentItem.favorite = favorite;
 				 }
-				 [HXAlertBanner showWithMessage:@"收藏成功" tap:nil];
+                 
+                 [button setImage:[UIImage imageNamed:(favorite ? @"HP-StarIcon" : @"HP-UnStarIcon")] forState:UIControlStateNormal];
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];

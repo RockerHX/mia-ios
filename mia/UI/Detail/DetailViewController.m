@@ -448,12 +448,13 @@ CommentCellDelegate>
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 			 if (success) {
 				 id act = userInfo[MiaAPIKey_Values][@"act"];
-				 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
 				 if ([_shareItem.sID integerValue] == [sID intValue]) {
-					 _shareItem.favorite = [act intValue];
-					 [_detailHeaderView updateShareButtonWithIsFavorite:_shareItem.favorite];
-				 }
-				 [HXAlertBanner showWithMessage:@"收藏成功" tap:nil];
+					 _shareItem.favorite = favorite;
+					 [_detailHeaderView updateShareButtonWithIsFavorite:favorite];
+                 }
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
