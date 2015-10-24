@@ -40,8 +40,8 @@
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
                     <rect key="frame" x="133" y="177" width="55" height="55"/>
                     <animations/>
-                    <state key="normal" image="P-PauseIcon"/>
-                    <state key="selected" image="P-PlayIcon"/>
+                    <state key="normal" image="HP-PauseIcon"/>
+                    <state key="selected" image="HP-PlayIcon"/>
                     <connections>
                         <action selector="playButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="y9a-UB-QF4"/>
                     </connections>
@@ -151,8 +151,8 @@
     <resources>
         <image name="HP-CoverMask" width="250" height="65"/>
         <image name="HP-DefaultCover" width="250" height="250"/>
+        <image name="HP-PauseIcon" width="55" height="55"/>
+        <image name="HP-PlayIcon" width="55" height="55"/>
         <image name="HP-UnStarIcon" width="30" height="30"/>
-        <image name="P-PauseIcon" width="55" height="55"/>
-        <image name="P-PlayIcon" width="55" height="55"/>
     </resources>
 </document>
