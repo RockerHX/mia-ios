@@ -66,6 +66,11 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 #pragma mark - Public Methods
 
 - (void)setCurrentPlayer:(SongListPlayer *)player {
+	if ([player isEqual:_currentPlayer]) {
+		NSLog(@"Same Model, do not need to reset ListPlayer.");
+		return;
+	}
+
 	[_currentPlayer tearDown];
 	_currentPlayer = player;
 	[player setUp];
