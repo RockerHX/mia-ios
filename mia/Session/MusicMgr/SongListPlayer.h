@@ -30,12 +30,18 @@
 
 - (id)initWithModelID:(long)modelID name:(NSString *)name;
 
+- (void)setUp;
+- (void)tearDown;
+
 - (NSInteger)currentItemIndex;
-- (MusicItem *)currentItem;
 - (MusicItem *)itemAtIndex:(NSInteger)index;
 
+// 从播放器直接返回的数据，而不是数据源
+- (MusicItem *)currentItem;
+
 - (void)playCurrentItem;
-- (BOOL)isPlayWith3GOnceTime;
+- (void)playWithMusicItem:(MusicItem *)item;
+
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)pause;

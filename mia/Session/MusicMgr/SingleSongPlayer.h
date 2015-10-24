@@ -21,14 +21,16 @@
 @interface SingleSongPlayer : NSObject
 
 @property (nonatomic, weak) id <SingleSongPlayerDelegate> delegate;
+@property (strong, nonatomic) MusicItem * currentItem;
 
 - (void)playWithMusicItem:(MusicItem *)item;
 
-- (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
+
 - (void)pause;
 - (void)stop;
+
 - (float)playPosition;
 
 @end

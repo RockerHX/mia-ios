@@ -21,7 +21,6 @@
 #import "Masonry.h"
 #import "InfectUserItem.h"
 #import "MusicMgr.h"
-#import "MusicPlayerMgr.h"
 #import "SongListPlayer.h"
 
 static const CGFloat kCoverWidth 				= 163;
@@ -344,7 +343,6 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
 	_songListPlayer.dataSource = self;
 	_songListPlayer.delegate = self;
-	_musicItem = [[MusicItem alloc] init];
 }
 
 #pragma mark - Public Methods
@@ -522,8 +520,8 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 - (void)playButtonAction:(id)sender {
 	NSLog(@"playButtonAction");
-	if ([_songListPlayer isPlaying]) {
-		[self pauseMusic];
+	if ([[MusicMgr standard] isPlayingWithUrl:_shareItem.music.murl]) {
+		[[MusicMgr standard] pause];
 	} else {
 		[self playMusic];
 	}
@@ -552,23 +550,14 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 #pragma mark - audio operations
 
 - (void)playMusic {
-//	static NSString *defaultMusicUrl = @"http://miadata1.ufile.ucloud.cn/1b6a1eef28716432d6a0c2dd77c77a71.mp3";
-//	static NSString *defaultMusicTitle = @"贝尔加湖畔";
-//	static NSString *defaultMusicArtist = @"李健";
-
-	NSString *musicUrl = [[_shareItem music] murl];
-	NSString *musicTitle = [[_shareItem music] name];
-	NSString *musicArtist = [[_shareItem music] singerName];
-
-	if (!musicUrl || !musicTitle || !musicArtist) {
+	if (!_musicItem.murl || !_musicItem.name || !_musicItem.singerName) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}
 
-	[[MusicMgr standard] setListPlayer:_songListPlayer];
-	[_songListPlayer playCurrentItem];
+	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
+	[_songListPlayer playWithMusicItem:_musicItem];
 	[_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-
 }
 
 - (void)pauseMusic {

@@ -12,9 +12,10 @@
 #import "UIImageView+WebCache.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
-#import "MusicPlayerMgr.h"
 #import "HXAppConstants.h"
 #import "HXAlertBanner.h"
+#import "MusicMgr.h"
+#import "SongListPlayer.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -51,8 +52,8 @@
 
 - (void)dealloc {
     [_timer invalidate];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HXMusicPlayerMgrDidPlayNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HXMusicPlayerMgrDidPauseNotification object:nil];
 
 }
 
@@ -137,7 +138,7 @@
 }
 
 - (void)reloadPlayStatus {
-    if ([[MusicPlayerMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
+    if ([[MusicMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
         _playButton.selected = NO;
     } else {
         _playButton.selected = YES;
@@ -201,7 +202,7 @@ static NSString *HanWorld = @"肖";
 }
 
 - (void)displayPlayProgress {
-    _progressView.progress = [[MusicPlayerMgr standard] getPlayPosition];
+    _progressView.progress = [[[MusicMgr standard] currentPlayer] playPosition];
 }
 
 #pragma mark - TTTAttributedLabelDelegate Methods

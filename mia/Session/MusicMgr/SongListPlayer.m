@@ -23,11 +23,9 @@
 - (id)initWithModelID:(long)modelID name:(NSString *)name {
 	self = [super init];
 	if (self) {
+		_player = [[SingleSongPlayer alloc] init];
 		_modelID = modelID;
 		_name = name;
-
-		_player = [[SingleSongPlayer alloc] init];
-		_player.delegate = self;
 	}
 
 	return self;
@@ -37,24 +35,33 @@
 	NSLog(@"SongListPlayer dealloc: %@", _name);
 }
 
-- (NSInteger)currentItemIndex {
-	return [_dataSource songListPlayerCurrentItemIndex];
+- (void)setUp {
+	[_player setDelegate:self];
 }
 
-- (MusicItem *)currentItem {
-	return [_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerCurrentItemIndex]];
+- (void)tearDown {
+	[self stop];
+	[_player setDelegate:nil];
+}
+
+- (NSInteger)currentItemIndex {
+	return [_dataSource songListPlayerCurrentItemIndex];
 }
 
 - (MusicItem *)itemAtIndex:(NSInteger)index {
 	return [_dataSource songListPlayerItemAtIndex:index];
 }
 
+- (MusicItem *)currentItem {
+	return _player.currentItem;
+}
+
 - (void)playCurrentItem {
 	[_player playWithMusicItem:[self currentItem]];
 }
 
-- (BOOL)isPlayWith3GOnceTime {
-	return [_player isPlayWith3GOnceTime];
+- (void)playWithMusicItem:(MusicItem *)item {
+	[_player playWithMusicItem:item];
 }
 
 - (BOOL)isPlaying {
@@ -70,7 +77,7 @@
 }
 
 - (void)stop {
-	[_player pause];
+	[_player stop];
 }
 
 - (float)playPosition {

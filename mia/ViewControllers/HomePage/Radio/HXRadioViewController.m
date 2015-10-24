@@ -10,15 +10,17 @@
 #import "HXRadioCarouselHelper.h"
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
-#import "MusicPlayerMgr.h"
 #import "LocationMgr.h"
 #import "HXAppConstants.h"
+#import "MusicMgr.h"
+#import "SongListPlayer.h"
 
-@interface HXRadioViewController () <HXRadioCarouselHelperDelegate> {
+@interface HXRadioViewController () <HXRadioCarouselHelperDelegate, SongListPlayerDelegate, SongListPlayerDataSource> {
     NSMutableArray *_items;
     HXRadioCarouselHelper *_helper;
 
 	ShareListMgr 	*_shareListMgr;
+	SongListPlayer	*_songListPlayer;
 	NSTimer 		*_reportViewsTimer;
 	BOOL 			_isLoading;
 }
@@ -59,9 +61,9 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPlay object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationDidPause object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicPlayerMgrNotificationCompletion object:nil];
+	_songListPlayer.dataSource = nil;
+	_songListPlayer.delegate = nil;
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HXApplicationDidBecomeActiveNotification object:nil];
 
 	_carousel.delegate = nil;
@@ -70,9 +72,10 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPlay:) name:MusicPlayerMgrNotificationDidPlay object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrDidPause:) name:MusicPlayerMgrNotificationDidPause object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMusicPlayerMgrCompletion:) name:MusicPlayerMgrNotificationCompletion object:nil];
+	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"HXRadioViewController Song List"];
+	_songListPlayer.dataSource = self;
+	_songListPlayer.delegate = self;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewShouldDisplay) name:HXApplicationDidBecomeActiveNotification object:nil];
 
     [self setUpHelper];
@@ -85,36 +88,6 @@
 
 - (void)viewConfig {
     [_helper configWithCarousel:_carousel];
-}
-
-#pragma mark - Notification
-- (void)notificationMusicPlayerMgrDidPlay:(NSNotification *)notification {
-    long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-    if (modelID != (long)(__bridge void *)self) {
-        NSLog(@"skip other model's notification: MusicPlayerMgrDidPlay");
-        return;
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
-}
-
-- (void)notificationMusicPlayerMgrDidPause:(NSNotification *)notification {
-    long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-    if (modelID != (long)(__bridge void *)self) {
-        NSLog(@"skip other model's notification: notificationMusicPlayerMgrDidPause");
-        return;
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
-}
-
-- (void)notificationMusicPlayerMgrCompletion:(NSNotification *)notification {
-    long modelID = [[notification userInfo][MusicPlayerMgrNotificationKey_ModelID] longValue];
-    if (modelID != (long)(__bridge void *)self) {
-        NSLog(@"skip other model's notification: notificationMusicPlayerMgrCompletion");
-        return;
-    }
-    [_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
 }
 
 #pragma mark - Event Response
@@ -244,7 +217,7 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 					 NSLog(@"getShareById timeout @viewShouldDisplay");
 				 }];
 
-	if ([[MusicPlayerMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
+	if ([[MusicMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
@@ -253,24 +226,53 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 
 #pragma mark - Audio Operations
 - (void)playMusic:(ShareItem *)item {
-	NSString *musicUrl = [[item music] murl];
-	NSString *musicTitle = [[item music] name];
-	NSString *musicArtist = [[item music] singerName];
-
-	if (!musicUrl || !musicTitle || !musicArtist) {
+	MusicItem *musicItem = [item.music copy];
+	if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}
 
-	[[MusicPlayerMgr standard] playWithModelID:(long)(__bridge void *)self url:musicUrl title:musicTitle artist:musicArtist];
+	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
+	[_songListPlayer playWithMusicItem:musicItem];
 }
 
 - (void)pauseMusic {
-	[[MusicPlayerMgr standard] pause];
+	[_songListPlayer pause];
 }
 
 - (void)stopMusic {
-	[[MusicPlayerMgr standard] stop];
+	[_songListPlayer stop];
+}
+
+#pragma mark - SongListPlayerDataSource
+- (NSInteger)songListPlayerCurrentItemIndex {
+	return _shareListMgr.currentItem;
+}
+
+- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+	return [[_shareListMgr getCurrentItem].music copy];
+}
+
+#pragma mark - SongListPlayerDelegate
+- (void)songListPlayerDidPlay {
+	[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
+}
+
+- (void)songListPlayerDidPause {
+	[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
+}
+
+- (void)songListPlayerDidCompletion {
+	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+		[_shareListMgr cursorShiftRight];
+		[self checkIsNeedToGetNewItems];
+		[_shareListMgr checkHistoryItemsMaxCount];
+
+		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
+		[_songListPlayer playWithMusicItem:musicItem];
+	}
+
+	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
@@ -288,9 +290,11 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
         }
         case HXRadioCarouselHelperActionPlayNext: {
             NSLog(@"Next");
-            _helper.warp = [_shareListMgr cursorShiftRight];
-			[self checkIsNeedToGetNewItems];
-			[_shareListMgr checkHistoryItemsMaxCount];
+			if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
+				_helper.warp = [_shareListMgr cursorShiftRight];
+				[self checkIsNeedToGetNewItems];
+				[_shareListMgr checkHistoryItemsMaxCount];
+			}
             break;
         }
     }
@@ -310,9 +314,10 @@ static NSTimeInterval kReportViewsTimeInterval = 15.0f;
 }
 
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-    if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
-        [_delegate shouldPushToRadioDetailViewController];
-    }
+#warning @andy
+//    if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
+//        [_delegate shouldPushToRadioDetailViewController];
+//    }
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {

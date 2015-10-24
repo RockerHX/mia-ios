@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import <AVFoundation/AVFoundation.h>
-#import "MusicPlayerMgr.h"
+#import "MusicMgr.h"
 #import "HXHomePageViewController.h"
 #import "UserSetting.h"
 #import "HXAppConstants.h"
@@ -61,8 +61,8 @@
 
 #pragma mark - 远程控制事件
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicPlayerMgrNotificationKey_Msg];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MusicPlayerMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicMgrNotificationKey_Msg];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
 }
 
 - (void)registerUserDefaults {

@@ -6,6 +6,11 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+extern NSString * const MusicMgrNotificationKey_Msg;
+extern NSString * const MusicMgrNotificationRemoteControlEvent;
+
+typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
+
 @class SongListPlayer;
 
 @interface MusicMgr : NSObject
@@ -16,14 +21,12 @@
  */
 + (id)standard;
 
-@property (strong, nonatomic) SongListPlayer *listPlayer;
+@property (strong, nonatomic) SongListPlayer *currentPlayer;
 
-//- (void)playCurrentItem;
-//- (BOOL)isPlayWith3GOnceTime;
-//- (BOOL)isPlaying;
+- (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
-//- (void)pause;
-//- (void)stop;
-//- (float)playPosition;
+- (void)pause;
+
+- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock;
 
 @end
