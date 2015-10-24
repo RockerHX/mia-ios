@@ -522,6 +522,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [self startFinshAndBubbleHiddenAnimation];
 }
 
+- (void)displayWithInfectState:(BOOL)infected {
+    if (infected) {
+        [self startInfectedStateAnimation];
+    } else {
+        [self startUnInfectedStateAnimation];
+    }
+}
+
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView startAnimating];
@@ -649,6 +657,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }];
 }
 
+- (void)startInfectedStateAnimation {
+    [self startWaveMoveDownAnimation];
+    [self startHeaderViewPopAnimation];
+}
+
+- (void)startUnInfectedStateAnimation {
+    [self startWaveMoveUpAnimation];
+    [self startHeaderViewPopBackAnimation];
+}
+
 #pragma mark - HXBubbleViewDelegate Methods
 - (void)bubbleViewStartEdit:(HXBubbleView *)bubbleView {
     // 产品设计内容，用于一旦编辑气泡内容，必须关闭小鱼洄游动画定时器
@@ -698,10 +716,12 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
     [self showInfectUsers:item.infectUsers];
+    [self displayWithInfectState:item.isInfected];
 }
 
 - (void)musicDidChange:(ShareItem *)item {
-    // TODO
+//    _playItem = item;
+//    [self displayWithInfectState:item.isInfected];
 }
 
 @end
