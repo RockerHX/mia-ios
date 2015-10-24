@@ -320,7 +320,8 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 	int ret = [userInfo[MiaAPIKey_Values][MiaAPIKey_Return] intValue];
 	long timestamp = (long)[userInfo[MiaAPIKey_Timestamp] doubleValue];
-	NSLog(@">++++++++++> #WebSocketWithBlock# E-N-D %ld", timestamp);
+	NSString *command = userInfo[MiaAPIKey_ServerCommand];
+	NSLog(@">++++++++++> #WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
 
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// 使用GDC同步锁保证读写同步
@@ -335,7 +336,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 					[_requestData removeObjectForKey:[NSNumber numberWithLong:[lastItem timestamp]]];
 				});
 			} else {
-				NSLog(@"======================================= ### WebSocket Timeout ### %@", lastItem.command);
+				NSLog(@"======================================= ### WebSocket Timeout ### %@", command);
 			}
 		});
 	});
