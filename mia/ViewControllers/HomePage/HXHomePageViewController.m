@@ -35,7 +35,7 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 @interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, ProfileViewControllerDelegate, HXRadioViewControllerDelegate> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
-    NSTimer *_timer;                // 定时器，用户在秒推动作时默认不评论定时执行结束动画
+    NSTimer *_timer;                // 定时器，用户在妙推动作时默认不评论定时执行结束动画
     ShareItem *_playItem;
 
 }
@@ -126,10 +126,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)animationViewConfig {
-    // 配置气泡的比例和放大锚点；配置秒推用户视图的缩放比例
+    // 配置气泡的比例和放大锚点；配置妙推用户视图的缩放比例
     _bubbleView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
     _bubbleView.layer.anchorPoint = CGPointMake(0.4f, 1.0f);
-    _infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+    _infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
     
     // 配置提示条，设置为隐藏
     _pushPromptLabel.alpha = 0.0f;
@@ -348,7 +348,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             [strongSelf.infectUserView refresh];
         } completion:^(BOOL finished) {
             __strong __typeof__(self)strongSelf = weakSelf;
-            // 秒推用户头像跳动动画
+            // 妙推用户头像跳动动画
             [strongSelf.infectUserView refreshItemWithAnimation];
         }];
     }
@@ -356,7 +356,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)addPushUserHeader {
     [self updatePromptLabel];
-    // 秒推用户头像添加以及动画
+    // 妙推用户头像添加以及动画
     [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -364,9 +364,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         [strongSelf.infectUserView refresh];
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        // 秒推用户头像跳动动画
+        // 妙推用户头像跳动动画
         [strongSelf.infectUserView refreshItemWithAnimation];
-        // 秒推提示条显示动画
+        // 妙推提示条显示动画
         [UIView animateWithDuration:0.3f animations:^{
             strongSelf.pushPromptLabel.alpha = 1.0f;
         } completion:nil];
@@ -375,7 +375,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
-    NSString *prompt = [NSString stringWithFormat:@"%@人%@秒推", @(count + 1), ((count > 5) ? @"等" : @"")];
+    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count + 1), ((count > 5) ? @"等" : @"")];
     _pushPromptLabel.text = prompt;
 }
 
@@ -385,8 +385,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [_waveView reset];
     
     // 重新布局
-    _fishBottomConstraint.constant = 40.0f;
-    _headerViewBottomConstraint.constant = 0.0f;
+    _fishBottomConstraint.constant = 20.0f;
+    _headerViewBottomConstraint.constant = 2.0f;
     _fishView.alpha = 1.0f;
     _bubbleView.alpha = 1.0f;
     [self animationViewConfig];
@@ -620,16 +620,16 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 头像收回动画
 - (void)startHeaderViewPopBackAnimation {
-    _headerViewBottomConstraint.constant = 0.0f;
+    _headerViewBottomConstraint.constant = 2.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+        strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
         [strongSelf.infectUserView layoutIfNeeded];
     } completion:nil];
 }
 
-// 秒推完成，结束动画
+// 妙推完成，结束动画
 - (void)startFinishedAnimation {
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -674,7 +674,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)bubbleView:(HXBubbleView *)bubbleView shouldSendComment:(NSString *)comment {
-    // 用户触发秒推评论发送之后关闭键盘并执行秒推评论数据请求
+    // 用户触发妙推评论发送之后关闭键盘并执行妙推评论数据请求
     [self.view endEditing:YES];
     [self startPushMusicRequsetWithComment:comment];
 }

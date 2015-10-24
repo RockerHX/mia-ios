@@ -2,7 +2,6 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "HP-InfectUserDefaultHeader.png",
       "scale" : "1x"
     },
     {
@@ -12,7 +11,8 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "HP-InfectUserDefaultHeader@3x.png"
     }
   ],
   "info" : {

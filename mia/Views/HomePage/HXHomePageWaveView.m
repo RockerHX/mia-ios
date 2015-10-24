@@ -28,11 +28,12 @@
     _waveView = [[HXWaveView alloc] initWithFrame:self.bounds];
     // 配置波浪颜色，波浪高度以及波动运动速度
     _waveView.tintColor = [UIColor colorWithRed:68.0f/255.0f green:209.0f/255.0f blue:192.0f/255.0f alpha:1.0f];
-    _waveView.percent = 0.6f;
+    _waveView.percent = 0.7f;
     _waveView.speed = 3.0f;
 }
 
 - (void)viewConfig {
+    self.backgroundColor = [UIColor clearColor];
     [self addSubview:_waveView];
 }
 
