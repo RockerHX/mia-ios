@@ -658,13 +658,13 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)startInfectedStateAnimation {
-    [self startWaveMoveDownAnimation];
-    [self startHeaderViewPopAnimation];
+//    [self startWaveMoveDownAnimation];
+//    [self startHeaderViewPopAnimation];
 }
 
 - (void)startUnInfectedStateAnimation {
-    [self startWaveMoveUpAnimation];
-    [self startHeaderViewPopBackAnimation];
+//    [self startWaveMoveUpAnimation];
+//    [self startHeaderViewPopBackAnimation];
 }
 
 #pragma mark - HXBubbleViewDelegate Methods
