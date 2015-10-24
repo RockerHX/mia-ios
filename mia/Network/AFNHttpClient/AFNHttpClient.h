@@ -51,43 +51,23 @@ typedef void (^DownloadCompleteBlock)(NSURLResponse *response, NSURL *filePath, 
                 failBlock:(void (^)(id task, NSError *error))failBlock;
 
 /**
- *  封装请求（无需上传图片资源）
+ *  封装POST请求
  *
  *  @param url          发送请求的url路径
  *  @param requestTypes 请求的类型
  *  @param parameters   发送请求的参数
+ *  @param data   要发送的数据
  *  @param timeOut      设置连接超时
  *  @param successBlock 返回成功的block
  *  @param failBlock    返回失败的block
  *
  */
-+ (id)requestWithURL:(NSString *)url
-         requestType:(AFNHttpRequestType )requestTypes
-          parameters:(id )parameters
++ (id)postLogDataWithURL:(NSString *)url
+				 logData:(NSData *)logData
              timeOut:(NSTimeInterval )timeOut
         successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
            failBlock:(void (^)(id task, NSError *error))failBlock;
 
-
-/**
- *  封装请求（需上传图片资源）
- *
- *  @param url          发送请求的url路径
- *  @param requestTypes 请求的类型
- *  @param parameters   发送请求的参数
- *  @param imageArray   图片资源
- *  @param timeOut      设置连接超时
- *  @param successBlock 返回成功的block
- *  @param failBlock    返回失败的block
- *
- */
-+ (id)requestWithURL:(NSString *)url
-         requestType:(AFNHttpRequestType )requestTypes
-          parameters:(id )parameters
-          imageArray:(NSArray *)imageArray
-             timeOut:(NSTimeInterval )timeOut
-        successBlock:(void (^)(id task, NSDictionary *jsonServerConfig))successBlock
-           failBlock:(void (^)(id task, NSError *error))failBlock;
 
 /**
  *  封装同步请求
