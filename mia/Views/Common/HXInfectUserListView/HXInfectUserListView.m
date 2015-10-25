@@ -186,9 +186,9 @@ static NSInteger kInfectListItemCountInPage = 10;
 
 - (void)hidden:(void(^)(void))completed {
     __weak __typeof__(self)weakSelf = self;
-    [UIView animateWithDuration:0.5f animations:^{
+    [UIView animateWithDuration:0.3f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.containerView.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
+        strongSelf.containerView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
         strongSelf.containerView.alpha = 0.0f;
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.3f animations:^{
