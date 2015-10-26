@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UITableView+FDTemplateLayoutCell.h"
 
 @class HXMusicDetailViewModel;
 

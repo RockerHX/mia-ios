@@ -12,7 +12,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
-//    ;
+    _contentLabel.text = @"WWW";
 }
 
 @end

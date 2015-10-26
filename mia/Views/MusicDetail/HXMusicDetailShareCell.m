@@ -7,12 +7,13 @@
 //
 
 #import "HXMusicDetailShareCell.h"
+#import "TTTAttributedLabel.h"
 
 @implementation HXMusicDetailShareCell
 
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
-//    ;
+    _shareInfoLabel.text = @"WWW";
 }
 
 @end

@@ -96,9 +96,9 @@
 }
 
 - (void)updateLabel {
-    _viewCountLabel.text = @(_playItem.cView).stringValue;
-    _locationLabel.text = _playItem.sAddress;
-    _commentCountLabel.text = @(_playItem.cComm).stringValue;
+//    _viewCountLabel.text = @(_playItem.cView).stringValue;
+//    _locationLabel.text = _playItem.sAddress;
+//    _commentCountLabel.text = @(_playItem.cComm).stringValue;
 }
 
 #pragma mark - audio operations

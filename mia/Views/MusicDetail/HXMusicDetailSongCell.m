@@ -7,6 +7,7 @@
 //
 
 #import "HXMusicDetailSongCell.h"
+#import "TTTAttributedLabel.h"
 
 @implementation HXMusicDetailSongCell
 
@@ -19,7 +20,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
-//    ;
+    _songInfoLabel.text = @"WWW";
 }
 
 @end
