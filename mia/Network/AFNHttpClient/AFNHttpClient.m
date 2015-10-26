@@ -156,7 +156,7 @@ self.securityPolicy = securityPolicy;
 
 				NSMutableData *content = [[NSMutableData alloc] init];
 				[content appendData:[logTitle dataUsingEncoding:NSUTF8StringEncoding]];
-				[content appendData:logData];
+				[content appendData:[logData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
 
 				[formData appendPartWithFormData:act name:@"act"];
 				[formData appendPartWithFormData:key name:@"key"];
