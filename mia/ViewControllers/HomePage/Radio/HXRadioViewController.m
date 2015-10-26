@@ -190,8 +190,17 @@
 	return _shareListMgr.currentItem;
 }
 
+- (NSInteger)songListPlayerNextItemIndex {
+	NSInteger nextIndex = _shareListMgr.currentItem + 1;
+	if (nextIndex >= _shareListMgr.shareList.count) {
+		nextIndex = 0;
+	}
+
+	return nextIndex;
+}
+
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
-	return [[_shareListMgr getCurrentItem].music copy];
+	return [[[_shareListMgr.shareList objectAtIndex:index] music] copy];
 }
 
 #pragma mark - SongListPlayerDelegate
