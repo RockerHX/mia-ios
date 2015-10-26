@@ -11,12 +11,12 @@
 #import "FSAudioStream.h"
 #import "UserSetting.h"
 #import "WebSocketMgr.h"
-#import "NSObject+BlockSupport.h"
 #import "NSString+IsNull.h"
 #import "MusicItem.h"
 #import "MusicMgr.h"
 #import "PathHelper.h"
 #import "FileLog.h"
+#import "NSTimer+BlockSupport.h"
 
 @interface SongPreloader()
 
@@ -24,6 +24,7 @@
 
 @implementation SongPreloader {
 	FSAudioStream 	*_audioStream;
+	NSTimer			*_delayTimer;
 }
 
 - (id)init {
@@ -54,7 +55,8 @@
 }
 
 - (void)preloadWithMusicItem:(MusicItem *)item {
-	[self bs_performBlock:^{
+	[_delayTimer invalidate];
+	_delayTimer = [NSTimer bs_scheduledTimerWithTimeInterval:30.0 block:^{
 		NSLog(@"#SongPreloader# preload");
 		if (_delegate) {
 			if ([_delegate songPreloaderIsPlayerLoadedThisUrl:item.murl]) {
@@ -69,12 +71,13 @@
 		[[FileLog standard] log:@"preloadWithMusicItem %@", item.murl];
 		_audioStream.url = [NSURL URLWithString:item.murl];
 		[_audioStream preload];
-	} afterDelay:3.0f];
+	} repeats:NO];
 
 	_currentItem = item;
 }
 
 - (void)stop {
+	[_delayTimer invalidate];
 	[_audioStream stop];
 	_audioStream.url = nil;
 }
