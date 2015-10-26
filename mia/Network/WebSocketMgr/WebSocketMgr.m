@@ -39,6 +39,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 @implementation WebSocketMgr{
 	SRWebSocket 				*_webSocket;
+	BOOL						_firstConnect;
 	NSTimer 					*_timer;
 	AFNetworkReachabilityStatus _networkStatus;
 
@@ -66,6 +67,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (instancetype)init {
 	if (self = [super init]) {
+		_firstConnect = YES;
 		_requestData = [[NSMutableDictionary alloc] init];
 		_requestDataSyncQueue = dispatch_queue_create("com.miamusic.requestarraysyncqueue", NULL);
 	}
@@ -151,6 +153,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)close {
 	NSLog(@"WebSocket closing");
+	_firstConnect = NO;
 	[_timer invalidate];
 
 	_webSocket.delegate = nil;
@@ -194,7 +197,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 		dispatch_sync(_requestDataSyncQueue, ^{
 			// 这里不考虑时间戳相同的情况
 			[_requestData setObject:requestItem forKey:[NSNumber numberWithLong:[requestItem timestamp]]];
-			NSLog(@">++++++++++> #WebSocketWithBlock# BEGIN %ld %@", [requestItem timestamp], [requestItem command]);
+			NSLog(@"#WebSocketWithBlock# BEGIN %ld %@", [requestItem timestamp], [requestItem command]);
 		});
 
 		// 超时检测
@@ -205,7 +208,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 				MiaRequestItem *lastItem = [_requestData objectForKey:[NSNumber numberWithLong:[requestItem timestamp]]];
 				if (lastItem) {
 					// 超时了
-					[[FileLog standard] log:@">++++++++++> #WebSocketWithBlock# TMOUT %ld\n%@", [requestItem timestamp], [requestItem jsonString]];
+					[[FileLog standard] log:@"#WebSocketWithBlock# TMOUT %ld\n%@", [requestItem timestamp], [requestItem jsonString]];
 					
 					dispatch_sync(dispatch_get_main_queue(), ^{
 						if ([requestItem timeoutBlock]) {
@@ -244,6 +247,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 #pragma mark - SRWebSocketDelegate
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
+	_firstConnect = NO;
 	[self stopAutoReconnect];
 
 	// 心跳的定时发送时间间隔
@@ -261,8 +265,12 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
 	NSLog(@":( Websocket Failed With Error %@", error);
+	// 应用启动后的第一次连接失败，直接跳转无网络页面
+	if (_firstConnect) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidAutoReconnectFailed object:self];
+	}
 
-	//self.title = @"Connection Failed! (see logs)";
+	_firstConnect = NO;
 	[_timer invalidate];
 	_webSocket = nil;
 
@@ -319,9 +327,10 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	}
 
 	int ret = [userInfo[MiaAPIKey_Values][MiaAPIKey_Return] intValue];
+
 	long timestamp = (long)[userInfo[MiaAPIKey_Timestamp] doubleValue];
 	NSString *command = userInfo[MiaAPIKey_ServerCommand];
-	NSLog(@">++++++++++> #WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
+	NSLog(@"#WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
 
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// 使用GDC同步锁保证读写同步
@@ -336,7 +345,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 					[_requestData removeObjectForKey:[NSNumber numberWithLong:[lastItem timestamp]]];
 				});
 			} else {
-				NSLog(@"======================================= ### WebSocket Timeout ### %@", command);
+				NSLog(@"### WebSocket Timeout ### %@", command);
 			}
 		});
 	});
@@ -346,6 +355,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
 	NSLog(@"WebSocket closed");
+	_firstConnect = NO;
 	[_timer invalidate];
 	_webSocket = nil;
 

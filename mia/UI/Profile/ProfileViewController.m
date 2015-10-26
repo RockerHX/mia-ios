@@ -41,6 +41,7 @@ static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
 static const CGFloat kProfileHeaderHeight 	= 240;
+static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
 @interface ProfileViewController ()
 <UICollectionViewDataSource
@@ -83,6 +84,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 		_uid = uid;
 		_nickName = nickName;
 		_isMyProfile = isMyProfile;
+		_currentPageStart = kDefaultPageFrom;
 
 		[self initUI];
 		[self initData];
@@ -126,6 +128,9 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
+
+	[self requestShareList];
+	[self checkPlaceHolder];
 
 	[[FavoriteMgr standard] syncFavoriteList];
 	if (_playFavoriteOnceTime) {
@@ -234,8 +239,6 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)initData {
 	_shareListModel = [[ProfileShareModel alloc] init];
-	[self requestShareList];
-	[self checkPlaceHolder];
 
 	[[FavoriteMgr standard] setCustomDelegate:self];
 	_favoriteModel = [[FavoriteModel alloc] init];
@@ -251,26 +254,35 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 	// 第一页11个的最后一个，第二页10个的第一个
 	// 解决方案：服务端的start不是分页，而是上一个id
 	static const long kShareListPageCount = 10;
-	++_currentPageStart;
 	[MiaAPIHelper getShareListWithUID:_uid
 								start:_currentPageStart
 								 item:kShareListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 							[_profileCollectionView footerEndRefreshing];
+							if (success) {
+								NSArray *shareList = userInfo[@"v"][@"info"];
+								if ([shareList count] <= 0) {
+									[[FileLog standard] log:@"Profile requestShareList shareList is nil"];
+									[self checkPlaceHolder];
+									return;
+								}
 
-							NSArray *shareList = userInfo[@"v"][@"info"];
-							if (!shareList) {
-								[[FileLog standard] log:@"Profile requestShareList shareList is nil"];
+								[_shareListModel addSharesWithArray:shareList];
+								[_profileCollectionView reloadData];
+								++_currentPageStart;
 								[self checkPlaceHolder];
-								return;
+							} else {
+								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"无法获取分享列表:%@", error] tap:nil];
+								[self checkPlaceHolder];
 							}
 
-							[_shareListModel addSharesWithArray:shareList];
-							[_profileCollectionView reloadData];
-							[self checkPlaceHolder];
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
 							[_profileCollectionView footerEndRefreshing];
 							[self checkPlaceHolder];
+							if ([[WebSocketMgr standard] isOpen]) {
+								[HXAlertBanner showWithMessage:@"无法获取分享列表，网络请求超时" tap:nil];
+							}
 						}];
 }
 
@@ -634,7 +646,7 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 - (void)detailViewControllerDidDeleteShare {
 	// 删除分享后需要从新获取分享列表
-	_currentPageStart = 0;
+	_currentPageStart = kDefaultPageFrom;
 	[_shareListModel.dataSource removeAllObjects];
 	[self checkPlaceHolder];
 	[self requestShareList];
@@ -706,9 +718,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	// 寻找下一首已经缓存了的歌曲
 	itemForPlay = nil;
-	for (FavoriteItem *item in _favoriteModel.dataSource) {
+	for (unsigned long i = 0; i < _favoriteModel.dataSource.count; i++) {
+		FavoriteItem* item = _favoriteModel.dataSource[i];
 		if ([[FavoriteMgr standard] isItemCached:item]) {
 			itemForPlay = item;
+			_favoriteModel.currentPlaying = i;
 			break;
 		}
 	}

@@ -29,23 +29,16 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 @implementation XiamiHelper{
 }
 
-/**
- *  请求导航栏场景
- *
- *  @param successBlock 请求成功的回调
- *  @param failedBlock  请求失败的回调
- */
 + (void)requestSearchSuggestionWithKey:(NSString *)key successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
-	dispatch_queue_t queue = dispatch_queue_create("RequestSearchSuggestion", NULL);
-	dispatch_async(queue, ^() {
-		NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:
-													  NSUTF8StringEncoding];
-		NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, encodeKey];
-		[AFNHttpClient requestHTMLWithURL:requestUrl
-							  requestType:AFNHttpRequestGet
-							   parameters:nil
-								  timeOut:TIMEOUT
-							 successBlock:^(id task, id responseObject) {
+	NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *requestUrl = [NSString stringWithFormat:kSearchSuggestionURLFormat, encodeKey];
+
+	[AFNHttpClient requestHTMLWithURL:requestUrl
+						  requestType:AFNHttpRequestGet
+						   parameters:nil
+							  timeOut:TIMEOUT
+						 successBlock:
+	 ^(id task, id responseObject) {
 			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
 
 			NSError* error = NULL;
@@ -77,67 +70,74 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 				failedBlock(error);
 			}
 		}];
-	});
 }
 
-+ (void)requestSearchResultWithKey:(NSString *)key page:(NSUInteger)page successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock {
-	dispatch_queue_t queue = dispatch_queue_create("RequestSearchResult", NULL);
-	dispatch_async(queue, ^() {
-		NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:
-							   NSUTF8StringEncoding];
-		NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, (unsigned long)page, encodeKey];
-		[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT successBlock:^(id task, id responseObject) {
-			NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
++ (void)requestSearchResultWithKey:(NSString *)key
+							  page:(NSUInteger)page
+					  successBlock:(SuccessBlock)successBlock
+					   failedBlock:(FailedBlock)failedBlock {
 
-			NSError* error = NULL;
-			NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:kSearchResultParten options:0 error:&error];
-			NSArray* match = [reg matchesInString:responseText options:NSMatchingReportCompletion range:NSMakeRange(0, [responseText length])];
+	NSString *encodeKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *requestUrl = [NSString stringWithFormat:kSearchResultURLFormat, (unsigned long)page, encodeKey];
 
-			NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:4];
-			if (match.count != 0) {
-				for (NSTextCheckingResult *matchItem in match) {
-					//NSRange range = [matc range];
-					//NSLog(@"%@", [responseText substringWithRange:range]);
-					NSString* group1 = [responseText substringWithRange:[matchItem rangeAtIndex:1]];
-					NSString* group2 = [responseText substringWithRange:[matchItem rangeAtIndex:2]];
-					NSString* group3 = [responseText substringWithRange:[matchItem rangeAtIndex:3]];
-					NSString* group4 = [responseText substringWithRange:[matchItem rangeAtIndex:4]];
+	[AFNHttpClient requestHTMLWithURL:requestUrl requestType:AFNHttpRequestGet parameters:nil timeOut:TIMEOUT
+						 successBlock:
+	 ^(id task, id responseObject) {
+		 dispatch_queue_t queue = dispatch_queue_create("RequestSearchResult", NULL);
+		 dispatch_async(queue, ^() {
+			 NSString* responseText = [NSString stringWithUTF8String:[responseObject bytes]];
 
-					SearchResultItem *item = [[SearchResultItem alloc] init];
-					item.songID = [self removeBoldTag:group1];
-					item.title = [self removeBoldTag:group2];
-					item.artist = [self removeBoldTag:group3];
-					item.albumName = [self removeBoldTag:group4];
+			 NSError* error = NULL;
+			 NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:kSearchResultParten options:0 error:&error];
+			 NSArray* match = [reg matchesInString:responseText options:NSMatchingReportCompletion range:NSMakeRange(0, [responseText length])];
 
-					NSString *requestInfoUrl = [NSString stringWithFormat:kSearchSongInfoURLFormat, item.songID];
-					NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl
-																				requestType:AFNHttpRequestGet
-																				 parameters:nil
-																					timeOut:kSearchSyncTimeout];
-					if (nil != songInfo) {
-						NSArray *trackList = songInfo[@"data"][@"trackList"];
-						if ([NSNull null] != (NSNull *)trackList && trackList.count > 0) {
-							item.songUrl = [self decodeXiamiUrl:trackList[0][@"location"]];
-							item.pic = songInfo[@"data"][@"trackList"][0][@"pic"];
-							item.albumPic = songInfo[@"data"][@"trackList"][0][@"album_pic"];
-							[resultArray addObject:item];
-						} else {
-							NSLog(@"song without trackList.");
-						}
-					}
+			 NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:4];
+			 if (match.count != 0) {
+				 for (NSTextCheckingResult *matchItem in match) {
+					 //NSRange range = [matc range];
+					 //NSLog(@"%@", [responseText substringWithRange:range]);
+					 NSString* group1 = [responseText substringWithRange:[matchItem rangeAtIndex:1]];
+					 NSString* group2 = [responseText substringWithRange:[matchItem rangeAtIndex:2]];
+					 NSString* group3 = [responseText substringWithRange:[matchItem rangeAtIndex:3]];
+					 NSString* group4 = [responseText substringWithRange:[matchItem rangeAtIndex:4]];
 
-				}
-			}
+					 SearchResultItem *item = [[SearchResultItem alloc] init];
+					 item.songID = [self removeBoldTag:group1];
+					 item.title = [self removeBoldTag:group2];
+					 item.artist = [self removeBoldTag:group3];
+					 item.albumName = [self removeBoldTag:group4];
 
-			if(successBlock){
-				successBlock(resultArray);
-			}
+					 NSString *requestInfoUrl = [NSString stringWithFormat:kSearchSongInfoURLFormat, item.songID];
+					 NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl
+																				 requestType:AFNHttpRequestGet
+																				  parameters:nil
+																					 timeOut:kSearchSyncTimeout];
+					 if (nil != songInfo) {
+						 NSArray *trackList = songInfo[@"data"][@"trackList"];
+						 if ([NSNull null] != (NSNull *)trackList && trackList.count > 0) {
+							 item.songUrl = [self decodeXiamiUrl:trackList[0][@"location"]];
+							 item.pic = songInfo[@"data"][@"trackList"][0][@"pic"];
+							 item.albumPic = songInfo[@"data"][@"trackList"][0][@"album_pic"];
+							 [resultArray addObject:item];
+						 } else {
+							 NSLog(@"song without trackList.");
+						 }
+					 }
+
+				 }
+			 }
+			 dispatch_sync(dispatch_get_main_queue(), ^{
+				 if(successBlock){
+					 successBlock(resultArray);
+				 }
+			 });
+		 });
 		} failBlock:^(id task, NSError *error) {
 			if(failedBlock){
 				failedBlock(error);
 			}
 		}];
-	});
+
 }
 
 + (NSString *)removeBoldTag:(NSString *)html {
