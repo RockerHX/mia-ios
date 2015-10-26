@@ -87,6 +87,11 @@
 
 #pragma mark - Private Methods
 - (void)loadShareList {
+	if (_shareListMgr) {
+		NSLog(@"auto reconnect did not need to reload data.");
+		return;
+	}
+
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
         [self requestNewShares];
