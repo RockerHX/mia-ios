@@ -28,6 +28,7 @@
 #import "HXAlertBanner.h"
 #import "HXGuideView.h"
 #import "HXVersion.h"
+#import "HXMusicDetailViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -237,8 +238,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [self cancelLoginOperate];
         }
     } else {
-        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
-        [self.navigationController pushViewController:vc animated:YES];
+//        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
+//        [self.navigationController pushViewController:vc animated:YES];
+        HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
+        musicDetailViewController.playItem = _playItem;
+        [self.navigationController pushViewController:musicDetailViewController animated:YES];
     }
 }
 
@@ -596,12 +600,18 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)startFinshAndBubbleHiddenAnimation {
+    [_fishView stopAnimating];
+    
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.4f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.fishView.alpha = 0.0f;
         strongSelf.bubbleView.alpha = 0.0f;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf->_animating = NO;
+        strongSelf.fishBottomConstraint.constant = 20.0f;
+    }];
 }
 
 // 头像弹出动画
@@ -681,7 +691,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)bubbleViewShouldLogin:(HXBubbleView *)bubbleView {
     [self userStartNeedLogin];
-    [self stopAnimation];
+    [self cancelLoginOperate];
 }
 
 #pragma mark - Login View Controller Delegate Methods
