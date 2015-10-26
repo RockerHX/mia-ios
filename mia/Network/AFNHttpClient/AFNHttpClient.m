@@ -149,7 +149,7 @@ self.securityPolicy = securityPolicy;
 				NSData *key = [@"meweoids1122123**&" dataUsingEncoding:NSUTF8StringEncoding];
 				NSData *platform = [@"iOS" dataUsingEncoding:NSUTF8StringEncoding];
 
-				NSString *logTitle = [NSString stringWithFormat:@"\n\n%@\n%@ %@\n\n",
+				NSString *logTitle = [NSString stringWithFormat:@"%@\n%@ %@",
 									  [UIDevice currentDevice].name,
 									  [UIDevice currentDevice].systemName,
 									  [UIDevice currentDevice].systemVersion];
