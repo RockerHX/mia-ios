@@ -706,9 +706,11 @@ static const CGFloat kProfileHeaderHeight 	= 240;
 
 	// 寻找下一首已经缓存了的歌曲
 	itemForPlay = nil;
-	for (FavoriteItem *item in _favoriteModel.dataSource) {
+	for (unsigned long i = 0; i < _favoriteModel.dataSource.count; i++) {
+		FavoriteItem* item = _favoriteModel.dataSource[i];
 		if ([[FavoriteMgr standard] isItemCached:item]) {
 			itemForPlay = item;
+			_favoriteModel.currentPlaying = i;
 			break;
 		}
 	}
