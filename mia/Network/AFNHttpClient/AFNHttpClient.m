@@ -149,19 +149,19 @@ self.securityPolicy = securityPolicy;
 				NSData *key = [@"meweoids1122123**&" dataUsingEncoding:NSUTF8StringEncoding];
 				NSData *platform = [@"iOS" dataUsingEncoding:NSUTF8StringEncoding];
 
-				NSString *logTitle = [NSString stringWithFormat:@"%@\n%@ %@",
+				NSString *logTitle = [NSString stringWithFormat:@"%@\n%@ %@\n",
 									  [UIDevice currentDevice].name,
 									  [UIDevice currentDevice].systemName,
 									  [UIDevice currentDevice].systemVersion];
 
 				NSMutableData *content = [[NSMutableData alloc] init];
 				[content appendData:[logTitle dataUsingEncoding:NSUTF8StringEncoding]];
-				[content appendData:[logData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
+				[content appendData:logData];
 
 				[formData appendPartWithFormData:act name:@"act"];
 				[formData appendPartWithFormData:key name:@"key"];
 				[formData appendPartWithFormData:platform name:@"platform"];
-				[formData appendPartWithFormData:content name:@"content"];
+				[formData appendPartWithFormData:[content base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength] name:@"content"];
 
 			} success:successBlock failure:failBlock];
 
