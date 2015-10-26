@@ -6,7 +6,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--详情页-->
+        <!--Delegate-->
         <scene sceneID="JFE-pJ-zFL">
             <objects>
                 <viewController storyboardIdentifier="HXMusicDetailViewController" id="ryk-wB-QfC" customClass="HXMusicDetailViewController" sceneMemberID="viewController">
@@ -71,7 +71,7 @@
                                             <rect key="frame" x="94" y="240" width="98" height="18"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p29-yh-Hc0">
@@ -86,7 +86,7 @@
                                             <rect key="frame" x="101" y="273" width="120" height="22"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MD-ViewCountIcon" translatesAutoresizingMaskIntoConstraints="NO" id="YwU-GK-VlN">
@@ -101,7 +101,7 @@
                                             <rect key="frame" x="47" y="355" width="42" height="17"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MD-LocationIcon" translatesAutoresizingMaskIntoConstraints="NO" id="8Fq-3Y-8vI">
@@ -116,7 +116,7 @@
                                             <rect key="frame" x="221" y="354" width="84" height="17"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D6A-Aq-eCZ" customClass="HXInfectUserView">
@@ -132,7 +132,7 @@
                                             <rect key="frame" x="185" y="316" width="86" height="18"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKV-tg-LPC">
@@ -155,7 +155,7 @@
                                             <rect key="frame" x="47" y="409" width="45" height="18"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -196,6 +196,7 @@
                                     <connections>
                                         <outlet property="commentCountLabel" destination="Bie-YU-aLa" id="xQf-fR-xey"/>
                                         <outlet property="coverImageView" destination="QQo-qb-uba" id="4fB-Fj-G5M"/>
+                                        <outlet property="delegate" destination="ryk-wB-QfC" id="uh0-su-xCQ"/>
                                         <outlet property="infectPromptLabel" destination="5iG-oK-LOy" id="5C6-Fv-f60"/>
                                         <outlet property="infectUserView" destination="D6A-Aq-eCZ" id="9EU-06-wZX"/>
                                         <outlet property="locationLabel" destination="uLN-Xl-bBq" id="NwG-Bt-nqg"/>

@@ -12,7 +12,18 @@
 @class HXInfectUserView;
 @class TTTAttributedLabel;
 
+@class HXMusicDetailView;
+
+@protocol HXMusicDetailViewDelegate <NSObject>
+
+@optional
+- (void)detailViewUserWouldStar:(HXMusicDetailView *)detailView;
+
+@end
+
 @interface HXMusicDetailView : UIView
+
+@property (nonatomic, weak) IBOutlet                 id  <HXMusicDetailViewDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet        UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet           UIButton *playButton;
@@ -25,9 +36,11 @@
 @property (weak, nonatomic) IBOutlet            UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *commentCountLabel;
 
+
 - (IBAction)playButtonPressed;
 - (IBAction)starButtonPressed;
 
 - (void)refreshWithItem:(ShareItem *)item;
+- (void)updateStarState:(BOOL)star;
 
 @end

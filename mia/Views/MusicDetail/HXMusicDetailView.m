@@ -61,7 +61,9 @@
 }
 
 - (IBAction)starButtonPressed {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(detailViewUserWouldStar:)]) {
+        [_delegate detailViewUserWouldStar:self];
+    }
 }
 
 #pragma mark - Public Methods
@@ -77,27 +79,9 @@
     [self updateLabel];
 }
 
-#pragma mark - audio operations
-- (void)playMusic {
-    MusicItem *musicItem = [_playItem.music copy];
-    if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
-        NSLog(@"Music is nil, stop play it.");
-        return;
-    }
-    
-    [[MusicMgr standard] setCurrentPlayer:_songListPlayer];
-    [_songListPlayer playWithMusicItem:_playItem.music];
-    _playButton.selected = YES;
-}
-
-- (void)pauseMusic {
-    [_songListPlayer pause];
-    _playButton.selected = NO;
-}
-
-- (void)stopMusic {
-    [_songListPlayer stop];
-    _playButton.selected = NO;
+- (void)updateStarState:(BOOL)star {
+    _playItem.favorite = star;
+    [self updateStarButtonState];
 }
 
 #pragma mark - Private Methods
@@ -135,7 +119,28 @@
     _commentCountLabel.text = @(_playItem.cComm).stringValue;
 }
 
+#pragma mark - audio operations
+- (void)playMusic {
+    MusicItem *musicItem = [_playItem.music copy];
+    if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
+        NSLog(@"Music is nil, stop play it.");
+        return;
+    }
+    
+    [[MusicMgr standard] setCurrentPlayer:_songListPlayer];
+    [_songListPlayer playWithMusicItem:_playItem.music];
+    _playButton.selected = YES;
+}
 
+- (void)pauseMusic {
+    [_songListPlayer pause];
+    _playButton.selected = NO;
+}
+
+- (void)stopMusic {
+    [_songListPlayer stop];
+    _playButton.selected = NO;
+}
 
 #pragma mark - SongListPlayerDataSource
 - (NSInteger)songListPlayerCurrentItemIndex {

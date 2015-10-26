@@ -12,9 +12,10 @@
 #import "UIActionSheet+Blocks.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "LoginViewController.h"
+#import "UserSession.h"
 
-@interface HXMusicDetailViewController ()
-
+@interface HXMusicDetailViewController () <HXMusicDetailViewDelegate>
 @end
 
 @implementation HXMusicDetailViewController
@@ -111,6 +112,38 @@
 #pragma mark - Private Methods
 - (void)refresh {
     [_detailView refreshWithItem:_playItem];
+}
+
+#pragma mark - HXMusicDetailViewDelegate Methods
+- (void)detailViewUserWouldStar:(HXMusicDetailView *)detailView {
+    __weak __typeof__(self)weakSelf = self;
+    if ([[UserSession standard] isLogined]) {
+        [MiaAPIHelper favoriteMusicWithShareID:_playItem.sID
+                                    isFavorite:!_playItem.favorite
+                                 completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             __strong __typeof__(self)strongSelf = weakSelf;
+             if (success) {
+                 id act = userInfo[MiaAPIKey_Values][@"act"];
+                 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
+                 if ([strongSelf->_playItem.sID integerValue] == [sID intValue]) {
+                     strongSelf->_playItem.favorite = favorite;
+                     [strongSelf.detailView updateStarState:favorite];
+                 }
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+         }];
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        //vc.loginViewControllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end
