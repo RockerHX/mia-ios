@@ -10,7 +10,6 @@
 #import "TTTAttributedLabel.h"
 #import "HXInfectUserView.h"
 #import "ShareItem.h"
-#import "UIImageView+WebCache.h"
 #import "MusicMgr.h"
 #import "SongListPlayer.h"
 
@@ -50,27 +49,10 @@
     _songListPlayer.delegate = nil;
 }
 
-#pragma mark - Event Response
-- (IBAction)playButtonPressed {
-    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.murl]) {
-        [[MusicMgr standard] pause];
-        _playButton.selected = NO;
-    } else {
-        [self playMusic];
-    }
-}
-
-- (IBAction)starButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(detailViewUserWouldStar:)]) {
-        [_delegate detailViewUserWouldStar:self];
-    }
-}
-
 #pragma mark - Public Methods
 - (void)refreshWithItem:(ShareItem *)item {
     _playItem = item;
     
-    [_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.music.purl]];
     [self updatePlayButtonState];
     [self updateSongInfoLabel];
     [self updateStarButtonState];
@@ -90,11 +72,11 @@
         return;
     }
     
-    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.murl]) {
-        _playButton.selected = YES;
-    } else {
-        _playButton.selected = NO;
-    }
+//    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.murl]) {
+//        _playButton.selected = YES;
+//    } else {
+//        _playButton.selected = NO;
+//    }
 }
 
 - (void)updateSongInfoLabel {
@@ -102,7 +84,7 @@
 }
 
 - (void)updateStarButtonState {
-    [_starButton setImage:[UIImage imageNamed:_playItem.favorite ? @"MD-StarIcon" : @"MD-UnStarIcon"] forState:UIControlStateNormal];
+//    [_starButton setImage:[UIImage imageNamed:_playItem.favorite ? @"MD-StarIcon" : @"MD-UnStarIcon"] forState:UIControlStateNormal];
 }
 
 - (void)updateShareInfoLabel {
@@ -129,17 +111,17 @@
     
     [[MusicMgr standard] setCurrentPlayer:_songListPlayer];
     [_songListPlayer playWithMusicItem:_playItem.music];
-    _playButton.selected = YES;
+//    _playButton.selected = YES;
 }
 
 - (void)pauseMusic {
     [_songListPlayer pause];
-    _playButton.selected = NO;
+//    _playButton.selected = NO;
 }
 
 - (void)stopMusic {
     [_songListPlayer stop];
-    _playButton.selected = NO;
+//    _playButton.selected = NO;
 }
 
 #pragma mark - SongListPlayerDataSource
@@ -155,15 +137,15 @@
 
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
-    _playButton.selected = YES;
+//    _playButton.selected = YES;
 }
 
 - (void)songListPlayerDidPause {
-    _playButton.selected = NO;
+//    _playButton.selected = NO;
 }
 
 - (void)songListPlayerDidCompletion {
-    _playButton.selected = NO;
+//    _playButton.selected = NO;
 }
 
 @end

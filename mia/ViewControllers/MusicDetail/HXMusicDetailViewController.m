@@ -114,6 +114,11 @@
     [_detailView refreshWithItem:_playItem];
 }
 
+#pragma mark - Table View Data Source Methods
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    
+//}
+
 #pragma mark - HXMusicDetailViewDelegate Methods
 - (void)detailViewUserWouldStar:(HXMusicDetailView *)detailView {
     __weak __typeof__(self)weakSelf = self;
