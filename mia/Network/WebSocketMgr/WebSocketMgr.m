@@ -39,6 +39,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 @implementation WebSocketMgr{
 	SRWebSocket 				*_webSocket;
+	BOOL						_firstConnect;
 	NSTimer 					*_timer;
 	AFNetworkReachabilityStatus _networkStatus;
 
@@ -66,6 +67,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (instancetype)init {
 	if (self = [super init]) {
+		_firstConnect = YES;
 		_requestData = [[NSMutableDictionary alloc] init];
 		_requestDataSyncQueue = dispatch_queue_create("com.miamusic.requestarraysyncqueue", NULL);
 	}
@@ -151,6 +153,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)close {
 	NSLog(@"WebSocket closing");
+	_firstConnect = NO;
 	[_timer invalidate];
 
 	_webSocket.delegate = nil;
@@ -244,6 +247,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 #pragma mark - SRWebSocketDelegate
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
+	_firstConnect = NO;
 	[self stopAutoReconnect];
 
 	// 心跳的定时发送时间间隔
@@ -261,8 +265,12 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
 	NSLog(@":( Websocket Failed With Error %@", error);
+	// 应用启动后的第一次连接失败，直接跳转无网络页面
+	if (_firstConnect) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidAutoReconnectFailed object:self];
+	}
 
-	//self.title = @"Connection Failed! (see logs)";
+	_firstConnect = NO;
 	[_timer invalidate];
 	_webSocket = nil;
 
@@ -346,6 +354,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
 	NSLog(@"WebSocket closed");
+	_firstConnect = NO;
 	[_timer invalidate];
 	_webSocket = nil;
 
