@@ -149,7 +149,7 @@ self.securityPolicy = securityPolicy;
 				NSData *key = [@"meweoids1122123**&" dataUsingEncoding:NSUTF8StringEncoding];
 				NSData *platform = [@"iOS" dataUsingEncoding:NSUTF8StringEncoding];
 
-				NSString *logTitle = [NSString stringWithFormat:@"\n\n%@\n%@ %@\n\n",
+				NSString *logTitle = [NSString stringWithFormat:@"%@\n%@ %@\n",
 									  [UIDevice currentDevice].name,
 									  [UIDevice currentDevice].systemName,
 									  [UIDevice currentDevice].systemVersion];
@@ -161,11 +161,11 @@ self.securityPolicy = securityPolicy;
 				[formData appendPartWithFormData:act name:@"act"];
 				[formData appendPartWithFormData:key name:@"key"];
 				[formData appendPartWithFormData:platform name:@"platform"];
-				[formData appendPartWithFormData:content name:@"content"];
+				[formData appendPartWithFormData:[content base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength] name:@"content"];
 
 			} success:successBlock failure:failBlock];
 
-        }else{
+        } else {
             //网络异常
             NSLog(@"网络异常");
         }

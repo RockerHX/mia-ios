@@ -17,6 +17,7 @@
 #import "MusicItem.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "MusicMgr.h"
+#import "FileLog.h"
 
 @interface SingleSongPlayer()
 
@@ -46,7 +47,7 @@
 		};
 
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
-			NSLog(@"onFailure:%d, %@", error, errorDescription);
+			[[FileLog standard] log:@"AudioStream onFailure:%d, %@", error, errorDescription];
 		};
 	}
 	return self;
@@ -57,7 +58,8 @@
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
-	NSLog(@"playWithUrl %@", item.murl);
+	[[FileLog standard] log:@"playWithMusicItem %@", item.murl];
+
 	if ([self isPlayingWithUrl:item.murl]) {
 		// 同一个模块再次播放同一首歌，什么都不做
 		NSLog(@"play the same song in the same model, play will be ignored.");
@@ -93,6 +95,7 @@
 }
 
 - (void)play {
+	[[FileLog standard] log:@"play %@", [[_audioStream url] absoluteString]];
 	if (![_audioStream url])
 		return;
 

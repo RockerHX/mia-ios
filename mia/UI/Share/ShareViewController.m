@@ -453,6 +453,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 {
 	if (textField == _commentTextField) {
 		[textField resignFirstResponder];
+		if ([self.navigationItem.rightBarButtonItem isEnabled]) {
+			[self sendButtonAction:nil];
+		}
 	}
 
 	return true;

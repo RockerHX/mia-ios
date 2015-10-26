@@ -103,13 +103,20 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (BOOL)isNeedGetNearbyItems {
 	if (([_shareList count] - _currentItem) <= kNeedGetNearbyCount){
+		[[FileLog standard] log:@"isNeedGetNearbyItems: %lu - %lu <= %lu YES", [_shareList count], _currentItem, kNeedGetNearbyCount];
 		return YES;
 	}
 
+	[[FileLog standard] log:@"isNeedGetNearbyItems: %lu - %lu <= %lu NO", [_shareList count], _currentItem, kNeedGetNearbyCount];
 	return NO;
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
+	[[FileLog standard] log:@"getNearby shareList count:%lu", [shareList count]];
+	if ([shareList count] <= 0) {
+		return;
+	}
+
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);

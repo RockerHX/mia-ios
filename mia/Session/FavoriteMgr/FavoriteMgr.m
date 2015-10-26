@@ -16,6 +16,7 @@
 #import "AFNetworking.h"
 #import "AFNHttpClient.h"
 #import "NSString+IsNull.h"
+#import "FileLog.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -198,7 +199,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			|| ![[WebSocketMgr standard] isWifiNetwork]) {
 			// 断网后也会从0重新开始查找需要下载的歌曲
 			_currentDownloadIndex = 0;
-			[self saveData];
 
 			dispatch_sync(dispatch_get_main_queue(), ^{
 				if (_customDelegate) {
@@ -213,8 +213,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 											  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
 										 completeBlock:
 						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+							 [[FileLog standard] log:@"download file: %@, error:%@", item.music.murl, error];
 							 if (nil == error) {
 								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
+								 [self saveData];
 							 } else {
 								 if (filePath) {
 									 NSError *fileError;
