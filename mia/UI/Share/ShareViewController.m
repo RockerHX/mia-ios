@@ -368,7 +368,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	//bottomView.backgroundColor = [UIColor redColor];
 
 	UIImageView *locationImageView = [[UIImageView alloc] init];
-	[locationImageView setImage:[UIImage imageNamed:@"C-LocationIcon"]];
+	[locationImageView setImage:[UIImage imageNamed:@"MD-LocationIcon"]];
 	//locationImageView.backgroundColor = [UIColor greenColor];
 	[_bottomView addSubview:locationImageView];
 
