@@ -110,6 +110,11 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
+	if ([shareList count] <= 0) {
+		[[FileLog standard] log:@"getNearby shareList count is 0"];
+		return;
+	}
+
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);
