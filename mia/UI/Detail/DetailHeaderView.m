@@ -242,7 +242,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 
 - (void)initBottomView:(UIView *)contentView {
 	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[viewsImageView setImage:[UIImage imageNamed:@"C-ViewCountIcon"]];
+	[viewsImageView setImage:[UIImage imageNamed:@"MD-ViewCountIcon"]];
 	[contentView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -255,7 +255,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	[contentView addSubview:_viewsLabel];
 
 	UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[locationImageView setImage:[UIImage imageNamed:@"C-LocationIcon"]];
+	[locationImageView setImage:[UIImage imageNamed:@"MD-LocationIcon"]];
 	[contentView addSubview:locationImageView];
 
 	_locationLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -272,7 +272,7 @@ static const CGFloat kInfectUserAvatarSize		= 22;
 	[contentView addSubview:lineView];
 
 	_commentsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[_commentsImageView setImage:[UIImage imageNamed:@"C-CommentsIcon"]];
+	[_commentsImageView setImage:[UIImage imageNamed:@"MD-CommentsIcon"]];
 	[contentView addSubview:_commentsImageView];
 
 	_commentLabel = [[MIALabel alloc] initWithFrame:CGRectZero
