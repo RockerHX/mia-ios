@@ -209,8 +209,9 @@
 		[self checkIsNeedToGetNewItems];
 		[_shareListMgr checkHistoryItemsMaxCount];
 
-		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
-		[_songListPlayer playWithMusicItem:musicItem];
+		// 修复后台时的重复播放导致播放失败问题
+//		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
+//		[_songListPlayer playWithMusicItem:musicItem];
 	}
     
 	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
