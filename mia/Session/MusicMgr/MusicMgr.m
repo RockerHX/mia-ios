@@ -209,9 +209,6 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
 	_playWith3GOnceTime = NO;
 
-	if (![_currentPlayer isPlaying]) {
-		return;
-	}
 	if ([UserSetting isAllowedToPlayNowWithURL:_currentPlayer.currentItem.murl]) {
 		return;
 	}

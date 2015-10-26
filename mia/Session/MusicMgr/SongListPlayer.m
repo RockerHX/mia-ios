@@ -90,6 +90,7 @@
 
 - (void)stop {
 	[_player stop];
+	[_preloader stop];
 }
 
 - (float)playPosition {
