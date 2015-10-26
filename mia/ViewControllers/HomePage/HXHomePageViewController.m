@@ -596,12 +596,18 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)startFinshAndBubbleHiddenAnimation {
+    [_fishView stopAnimating];
+    
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.4f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.fishView.alpha = 0.0f;
         strongSelf.bubbleView.alpha = 0.0f;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf->_animating = NO;
+        strongSelf.fishBottomConstraint.constant = 20.0f;
+    }];
 }
 
 // 头像弹出动画
@@ -681,7 +687,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)bubbleViewShouldLogin:(HXBubbleView *)bubbleView {
     [self userStartNeedLogin];
-    [self stopAnimation];
+    [self cancelLoginOperate];
 }
 
 #pragma mark - Login View Controller Delegate Methods
