@@ -25,6 +25,7 @@ pod 'iCarousel'
 pod 'TTTAttributedLabel'
 pod 'UIAlertView-Blocks'
 pod 'MJRefresh'
+pod 'UITableView+FDTemplateLayoutCell'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'

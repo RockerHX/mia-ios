@@ -7,14 +7,24 @@
 //
 
 #import "HXMusicDetailViewController.h"
-#import "HXMusicDetailView.h"
+#import "HXMusicDetailViewModel.h"
+#import "HXMusicDetailCoverCell.h"
+#import "HXMusicDetailSongCell.h"
+#import "HXMusicDetailShareCell.h"
+#import "HXMusicDetailInfectCell.h"
+#import "HXMusicDetailPromptCell.h"
+#import "HXMusicDetailNoCommentCell.h"
+#import "HXMusicDetailCommentCell.h"
 #import "ShareItem.h"
 #import "UIActionSheet+Blocks.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "LoginViewController.h"
+#import "UserSession.h"
 
-@interface HXMusicDetailViewController ()
-
+@interface HXMusicDetailViewController () {
+    HXMusicDetailViewModel *_viewModel;
+}
 @end
 
 @implementation HXMusicDetailViewController
@@ -40,7 +50,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    
+    _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
 }
 
 - (void)viewConfig {
@@ -110,7 +120,136 @@
 
 #pragma mark - Private Methods
 - (void)refresh {
-    [_detailView refreshWithItem:_playItem];
+//    [_detailView refreshWithItem:_playItem];
+}
+
+#pragma mark - Table View Data Source Methods
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _viewModel.rows;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = nil;
+    if (_viewModel) {
+        HXMusicDetailRow rowType = indexPath.row;
+        switch (rowType) {
+            case HXMusicDetailRowCover: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCoverCell class]) forIndexPath:indexPath];
+                [(HXMusicDetailCoverCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowSong: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) forIndexPath:indexPath];
+                [(HXMusicDetailSongCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowShare: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailShareCell class]) forIndexPath:indexPath];
+                [(HXMusicDetailShareCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowInfect: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailInfectCell class]) forIndexPath:indexPath];
+                [(HXMusicDetailInfectCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowPrompt: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailPromptCell class]) forIndexPath:indexPath];
+                [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowNoComment: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailNoCommentCell class]) forIndexPath:indexPath];
+                break;
+            }
+            case HXMusicDetailRowComment: {
+                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCommentCell class]) forIndexPath:indexPath];
+                [(HXMusicDetailCommentCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+        }
+    }
+    return cell;
+}
+
+#pragma mark - Table View Delegate Methods
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 0.0f;
+    if (_viewModel) {
+        HXMusicDetailRow rowType = indexPath.row;
+        switch (rowType) {
+            case HXMusicDetailRowCover: {
+                height = _viewModel.frontCoverCellHeight;
+                break;
+            }
+            case HXMusicDetailRowSong: {
+                height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) cacheByIndexPath:indexPath configuration:
+                 ^(HXMusicDetailSongCell *cell) {
+                     [cell displayWithViewModel:_viewModel];
+                }];
+                break;
+            }
+            case HXMusicDetailRowShare: {
+                height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailShareCell class]) cacheByIndexPath:indexPath configuration:
+                 ^(HXMusicDetailShareCell *cell) {
+                     [cell displayWithViewModel:_viewModel];
+                 }];
+                break;
+            }
+            case HXMusicDetailRowInfect: {
+                height = _viewModel.infectCellHeight;
+                break;
+            }
+            case HXMusicDetailRowPrompt: {
+                height = _viewModel.promptCellHeight;
+                break;
+            }
+            case HXMusicDetailRowNoComment: {
+                height = _viewModel.noCommentCellHeight;
+                break;
+            }
+            case HXMusicDetailRowComment: {
+                [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailCommentCell class]) cacheByIndexPath:indexPath configuration:
+                 ^(HXMusicDetailCommentCell *cell) {
+                     [cell displayWithViewModel:_viewModel];
+                 }];
+                break;
+            }
+        }
+    }
+    return height;
+}
+
+#pragma mark - HXMusicDetailViewDelegate Methods
+- (void)detailViewUserWouldStar:(HXMusicDetailView *)detailView {
+    __weak __typeof__(self)weakSelf = self;
+    if ([[UserSession standard] isLogined]) {
+        [MiaAPIHelper favoriteMusicWithShareID:_playItem.sID
+                                    isFavorite:!_playItem.favorite
+                                 completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             __strong __typeof__(self)strongSelf = weakSelf;
+             if (success) {
+                 id act = userInfo[MiaAPIKey_Values][@"act"];
+                 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
+                 if ([strongSelf->_playItem.sID integerValue] == [sID intValue]) {
+                     strongSelf->_playItem.favorite = favorite;
+//                     [strongSelf.detailView updateStarState:favorite];
+                 }
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+         }];
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        //vc.loginViewControllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

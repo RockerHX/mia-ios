@@ -147,6 +147,13 @@
 		CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */; };
 		CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; };
+		CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */; };
+		CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */; };
+		CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753891BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m */; };
+		CD57538D1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD57538C1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m */; };
+		CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD57538F1BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m */; };
+		CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753921BDE344900E7CBC4 /* HXMusicDetailViewModel.m */; };
+		CD5753961BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753951BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.m */; };
 		CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
 		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; };
@@ -428,6 +435,20 @@
 		CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTransformLayer.m; sourceTree = "<group>"; };
 		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
+		CD5753801BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailCoverCell.h; sourceTree = "<group>"; };
+		CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailCoverCell.m; sourceTree = "<group>"; };
+		CD5753851BDE33C400E7CBC4 /* HXMusicDetailSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailSongCell.h; sourceTree = "<group>"; };
+		CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailSongCell.m; sourceTree = "<group>"; };
+		CD5753881BDE33DC00E7CBC4 /* HXMusicDetailShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailShareCell.h; sourceTree = "<group>"; };
+		CD5753891BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailShareCell.m; sourceTree = "<group>"; };
+		CD57538B1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailInfectCell.h; sourceTree = "<group>"; };
+		CD57538C1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailInfectCell.m; sourceTree = "<group>"; };
+		CD57538E1BDE33F600E7CBC4 /* HXMusicDetailPromptCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailPromptCell.h; sourceTree = "<group>"; };
+		CD57538F1BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailPromptCell.m; sourceTree = "<group>"; };
+		CD5753911BDE344900E7CBC4 /* HXMusicDetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailViewModel.h; sourceTree = "<group>"; };
+		CD5753921BDE344900E7CBC4 /* HXMusicDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailViewModel.m; sourceTree = "<group>"; };
+		CD5753941BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailNoCommentCell.h; sourceTree = "<group>"; };
+		CD5753951BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailNoCommentCell.m; sourceTree = "<group>"; };
 		CD7A95021BD78C2A0034E5DA /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
 		CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
@@ -1020,6 +1041,7 @@
 				39BCAD3D1B9F141B00C6F7F2 /* Utils */,
 				CD3362611BD624A900240345 /* Macros */,
 				CD4F62F71BCB4E3400E33121 /* Helper */,
+				CD5753831BDE339900E7CBC4 /* ViewModels */,
 				CDC5FE831BD0FD40001D154E /* Views */,
 				CD221FC61BC79F0300FCD4E7 /* ViewControllers */,
 				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
@@ -1359,6 +1381,18 @@
 			children = (
 				CD48CD771BDDFA0C009607DE /* HXMusicDetailView.h */,
 				CD48CD781BDDFA0C009607DE /* HXMusicDetailView.m */,
+				CD5753801BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.h */,
+				CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */,
+				CD5753851BDE33C400E7CBC4 /* HXMusicDetailSongCell.h */,
+				CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */,
+				CD5753881BDE33DC00E7CBC4 /* HXMusicDetailShareCell.h */,
+				CD5753891BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m */,
+				CD57538B1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.h */,
+				CD57538C1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m */,
+				CD57538E1BDE33F600E7CBC4 /* HXMusicDetailPromptCell.h */,
+				CD57538F1BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m */,
+				CD5753941BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.h */,
+				CD5753951BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.m */,
 				CD48CD7A1BDDFA79009607DE /* HXMusicDetailCommentCell.h */,
 				CD48CD7B1BDDFA79009607DE /* HXMusicDetailCommentCell.m */,
 			);
@@ -1412,6 +1446,23 @@
 				CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */,
 			);
 			path = Radio;
+			sourceTree = "<group>";
+		};
+		CD5753831BDE339900E7CBC4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD5753841BDE339900E7CBC4 /* MusicDetail */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CD5753841BDE339900E7CBC4 /* MusicDetail */ = {
+			isa = PBXGroup;
+			children = (
+				CD5753911BDE344900E7CBC4 /* HXMusicDetailViewModel.h */,
+				CD5753921BDE344900E7CBC4 /* HXMusicDetailViewModel.m */,
+			);
+			path = MusicDetail;
 			sourceTree = "<group>";
 		};
 		CD9D2EB41BD7705A00A2D312 /* Setting */ = {
@@ -1774,13 +1825,16 @@
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
 				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,
+				CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
 				CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */,
+				CD57538D1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
 				CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */,
 				3976E3581BBAC78B006FA5E2 /* SearchResultCollectionViewCell.m in Sources */,
+				CD5753961BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.m in Sources */,
 				CD33626B1BD624A900240345 /* HXVersion.m in Sources */,
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397CD59B1BDA16F200CCEE11 /* SingleSongPlayer.m in Sources */,
@@ -1794,6 +1848,7 @@
 				CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */,
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
 				390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */,
+				CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */,
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
@@ -1822,11 +1877,14 @@
 				CD48CD791BDDFA0C009607DE /* HXMusicDetailView.m in Sources */,
 				CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */,
 				390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */,
+				CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */,
 				3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */,
 				CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */,
 				CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
+				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
 				393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */,
+				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,
 				CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */,
 				CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */,
 				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,

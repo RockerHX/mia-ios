@@ -1,18 +1,18 @@
 //
-//  HXMusicDetailCommentCell.m
+//  HXMusicDetailPromptCell.m
 //  mia
 //
 //  Created by miaios on 15/10/26.
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import "HXMusicDetailCommentCell.h"
+#import "HXMusicDetailPromptCell.h"
 
-@implementation HXMusicDetailCommentCell
+@implementation HXMusicDetailPromptCell
 
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
-    _contentLabel.text = @"WWW";
+//    ;
 }
 
 @end

@@ -11,7 +11,7 @@
 @class ShareItem;
 @class HXMusicDetailView;
 
-@interface HXMusicDetailViewController : UIViewController
+@interface HXMusicDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet HXMusicDetailView *detailView;
 @property (weak, nonatomic) IBOutlet       UITableView *tableView;
