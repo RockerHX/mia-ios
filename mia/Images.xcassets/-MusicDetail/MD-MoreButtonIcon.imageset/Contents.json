@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "MD-CommentButtonIcon@2x.png",
+      "filename" : "MD-MoreButtonIcon@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "MD-CommentButtonIcon@3x.png"
+      "filename" : "MD-MoreButtonIcon@3x.png"
     }
   ],
   "info" : {

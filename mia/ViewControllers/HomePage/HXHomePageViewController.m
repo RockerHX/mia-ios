@@ -28,6 +28,7 @@
 #import "HXAlertBanner.h"
 #import "HXGuideView.h"
 #import "HXVersion.h"
+#import "HXMusicDetailViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -237,8 +238,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [self cancelLoginOperate];
         }
     } else {
-        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
-        [self.navigationController pushViewController:vc animated:YES];
+//        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
+//        [self.navigationController pushViewController:vc animated:YES];
+        HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
+        musicDetailViewController.playItem = _playItem;
+        [self.navigationController pushViewController:musicDetailViewController animated:YES];
     }
 }
 
