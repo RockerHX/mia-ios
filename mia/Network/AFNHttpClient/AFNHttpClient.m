@@ -165,7 +165,7 @@ self.securityPolicy = securityPolicy;
 
 			} success:successBlock failure:failBlock];
 
-        }else{
+        } else {
             //网络异常
             NSLog(@"网络异常");
         }
