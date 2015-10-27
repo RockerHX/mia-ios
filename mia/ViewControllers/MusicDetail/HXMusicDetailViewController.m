@@ -280,7 +280,6 @@
          }];
     } else {
         LoginViewController *vc = [[LoginViewController alloc] init];
-        //vc.loginViewControllerDelegate = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
