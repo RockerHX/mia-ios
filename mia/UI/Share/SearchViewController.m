@@ -118,7 +118,7 @@ const static CGFloat kSearchVCHeight = 60;
 	_searchTextField = [[UITextField alloc] init];
 	_searchTextField.borderStyle = UITextBorderStyleNone;
 	_searchTextField.backgroundColor = [UIColor clearColor];
-	_searchTextField.textColor = UIColorFromHex(@"#808080", 1.0);
+	_searchTextField.textColor = [UIColor blackColor];
 	_searchTextField.placeholder = @"搜索你感兴趣的歌曲名或歌手名";
 	[_searchTextField setFont:UIFontFromSize(16)];
 	_searchTextField.keyboardType = UIKeyboardTypeDefault;
@@ -148,14 +148,14 @@ const static CGFloat kSearchVCHeight = 60;
 	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(16, 16));
 		make.centerY.equalTo(editBgView.mas_centerY);
-		make.left.equalTo(editBgView.mas_left).with.offset(6);
+		make.left.equalTo(editBgView.mas_left).with.offset(8);
 	}];
 
 	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(editBgView.mas_top).with.offset(10);
 		make.left.equalTo(searchIconImageView.mas_right).offset(6);
 		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-10);
-		make.right.equalTo(editBgView.mas_right).with.offset(-5);
+		make.right.equalTo(editBgView.mas_right).with.offset(-2);
 	}];
 
 	[_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
