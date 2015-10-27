@@ -14,6 +14,7 @@
 #import "HXAppConstants.h"
 #import "MobClick.h"
 #import "HXVersion.h"
+#import "UIImage+ColorToImage.h"
 
 @interface AppDelegate () {
     BOOL _backBecomeActive;
@@ -29,7 +30,9 @@
     
     // 设置导航条字体颜色
     [[UINavigationBar appearance] setTintColor:UIColorFromRGB(128.0f, 128.0f, 128.0f)];
-    
+	[[UINavigationBar appearance] setShadowImage:[UIImage createImageWithColor:UIColorFromHex(@"dcdcdc", 1.0)]];
+	[[UINavigationBar appearance] setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ffffff", 1.0)] forBarMetrics:UIBarMetricsDefault];
+
     // 设置后台播放模式
     AVAudioSession *audioSession=[AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
