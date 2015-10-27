@@ -9,13 +9,15 @@
 
 #import "SongListPlayer.h"
 #import "SingleSongPlayer.h"
+#import "SongPreloader.h"
 
-@interface SongListPlayer() <SingleSongPlayerDelegate>
+@interface SongListPlayer() <SingleSongPlayerDelegate, SongPreloaderDelegate>
 
 @end
 
 @implementation SongListPlayer {
 	SingleSongPlayer		*_player;
+	SongPreloader			*_preloader;
 	long					_modelID;
 	NSString				*_name;
 }
@@ -24,6 +26,8 @@
 	self = [super init];
 	if (self) {
 		_player = [[SingleSongPlayer alloc] init];
+		_preloader = [[SongPreloader alloc] init];
+		_preloader.delegate = self;
 		_modelID = modelID;
 		_name = name;
 	}
@@ -48,6 +52,10 @@
 	return [_dataSource songListPlayerCurrentItemIndex];
 }
 
+- (NSInteger)nextItemIndex {
+	return [_dataSource songListPlayerNextItemIndex];
+}
+
 - (MusicItem *)itemAtIndex:(NSInteger)index {
 	return [_dataSource songListPlayerItemAtIndex:index];
 }
@@ -61,7 +69,11 @@
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
+	[_preloader stop];
+
 	[_player playWithMusicItem:item];
+
+	[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
 }
 
 - (BOOL)isPlaying {
@@ -78,6 +90,7 @@
 
 - (void)stop {
 	[_player stop];
+	[_preloader stop];
 }
 
 - (float)playPosition {
@@ -101,6 +114,10 @@
 	if (_delegate) {
 		[_delegate songListPlayerDidCompletion];
 	}
+}
+
+- (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {
+	return [_player.currentItem.murl isEqualToString:url];
 }
 
 @end

@@ -47,11 +47,17 @@ const static long kLogTimesForCheckFileSize			= 1000;			// 单次生命周期内
 - (void)log:(NSString *)format, ... {
     va_list ap;
     va_start(ap, format);
-    
+
     NSString *message = [[NSString alloc] initWithFormat:format arguments:ap];
+	NSDate *currentDate = [NSDate date];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"YYYY/MM/dd hh:mm:ss"];
+	NSString *dateString = [dateFormatter stringFromDate:currentDate];
+	NSString *writeString = [NSString stringWithFormat:@"%@ %@\n", dateString, message];
+
 	NSLog(@"%@", message);
 	
-    [_writeFileHandle writeData:[[message stringByAppendingString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [_writeFileHandle writeData:[writeString dataUsingEncoding:NSUTF8StringEncoding]];
     [_writeFileHandle synchronizeFile];
 
 	_logTimes++;

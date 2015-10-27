@@ -657,6 +657,15 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	return _favoriteModel.currentPlaying;
 }
 
+- (NSInteger)songListPlayerNextItemIndex {
+	NSInteger nextIndex = _favoriteModel.currentPlaying + 1;
+	if (nextIndex >= _favoriteModel.dataSource.count) {
+		nextIndex = 0;
+	}
+
+	return nextIndex;
+}
+
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
 	FavoriteItem *aFavoriteItem =  _favoriteModel.dataSource[index];
 	return [aFavoriteItem.music copy];

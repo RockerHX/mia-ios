@@ -130,6 +130,10 @@
     return 0;
 }
 
+- (NSInteger)songListPlayerNextItemIndex {
+	return 0;
+}
+
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
     // 只有一首歌
     return _playItem.music;

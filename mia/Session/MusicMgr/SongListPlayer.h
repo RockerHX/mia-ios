@@ -11,6 +11,7 @@
 @protocol SongListPlayerDataSource <NSObject>
 
 - (NSInteger)songListPlayerCurrentItemIndex;
+- (NSInteger)songListPlayerNextItemIndex;
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index;
 
 @end

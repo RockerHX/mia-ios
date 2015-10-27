@@ -190,8 +190,17 @@
 	return _shareListMgr.currentItem;
 }
 
+- (NSInteger)songListPlayerNextItemIndex {
+	NSInteger nextIndex = _shareListMgr.currentItem + 1;
+	if (nextIndex >= _shareListMgr.shareList.count) {
+		nextIndex = 0;
+	}
+
+	return nextIndex;
+}
+
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
-	return [[_shareListMgr getCurrentItem].music copy];
+	return [[[_shareListMgr.shareList objectAtIndex:index] music] copy];
 }
 
 #pragma mark - SongListPlayerDelegate
@@ -209,8 +218,9 @@
 		[self checkIsNeedToGetNewItems];
 		[_shareListMgr checkHistoryItemsMaxCount];
 
-		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
-		[_songListPlayer playWithMusicItem:musicItem];
+		// 修复后台时的重复播放导致播放失败问题
+//		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
+//		[_songListPlayer playWithMusicItem:musicItem];
 	}
     
 	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
