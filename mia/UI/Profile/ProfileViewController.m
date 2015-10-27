@@ -85,7 +85,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		_uid = uid;
 		_nickName = nickName;
 		_isMyProfile = isMyProfile;
-		_currentPageStart = kDefaultPageFrom;
 
 		[self initUI];
 		[self initData];
@@ -130,6 +129,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
+	_currentPageStart = kDefaultPageFrom;
 	[self requestShareList];
 	[self checkPlaceHolder];
 
