@@ -25,6 +25,7 @@
 #import "ProfileViewController.h"
 #import "InfectItem.h"
 #import "LocationMgr.h"
+#import "MBProgressHUDHelp.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -82,7 +83,6 @@
 }
 
 - (void)viewConfig {
-//    [self refresh];
 }
 
 #pragma mark - Event Response
@@ -146,7 +146,24 @@
 }
 
 - (IBAction)commentButtonPressed {
+    // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
+//    if ([[UserSession standard] isLogined]) {
+//        [_editCommentView becomeFirstResponder];
+//    } else {
+//        LoginViewController *vc = [[LoginViewController alloc] init];
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
+}
+
+- (IBAction)sendButtonPressed {
+    [_editCommentView resignFirstResponder];
     
+    NSString *content = _editCommentView.text;
+    if (content.length) {
+        [self postCommentWithSID:_viewModel.playItem.sID content:content];
+    } else {
+        ;
+    }
 }
 
 - (void)keyBoardWillShow:(NSNotification *)notification{
@@ -162,27 +179,54 @@
 
 #pragma mark - Private Methods
 - (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
-//    NSTimeInterval animationDuration = 0.30f;
-//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-//    [UIView setAnimationDuration:animationDuration];
-//    //	float width = footerView.frame.size.width;
-//    //	float height = footerView.frame.size.height;
-//    //
-//    //	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
-//    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight - keyboardSize.height, self.view.bounds.size.width, kDetailFooterViewHeight);
-//    _footerView.frame = rect;
-//    [UIView commitAnimations];
+    [self layoutCommentViewWithHeight:keyboardSize.height];
 }
 
 - (void)resumeView {
-//    NSTimeInterval animationDuration = 0.30f;
-//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-//    [UIView setAnimationDuration:animationDuration];
-//    //	float width = self.view.frame.size.width;
-//    //	float height = self.view.frame.size.height;
-//    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
-//    _footerView.frame = rect;
-//    [UIView commitAnimations];
+    [self layoutCommentViewWithHeight:-50.0f];
+}
+
+- (void)layoutCommentViewWithHeight:(CGFloat)height {
+    __weak __typeof__(self)weakSelf = self;
+    _commentViewBottomConstraint.constant = height;
+    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)postCommentWithSID:(NSString *)sID content:(NSString *)content {
+    __weak __typeof__(self)weakSelf = self;
+    MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
+    [MiaAPIHelper postCommentWithShareID:sID
+                                 comment:content
+                           completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (success) {
+             strongSelf.editCommentView.text = @"";
+             [strongSelf requestLatestComments];
+             [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"提交评论失败:%@", error] tap:nil];
+         }
+         
+         [aMBProgressHUD removeFromSuperview];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [aMBProgressHUD removeFromSuperview];
+         [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
+     }];
+}
+
+- (void)requestLatestComments {
+    __weak __typeof__(self)weakSelf = self;
+    [_viewModel requestLatestComments:^(BOOL success) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (YES) {
+            [strongSelf.tableView reloadData];
+        }
+    }];
 }
 
 #pragma mark - Table View Data Source Methods

@@ -422,11 +422,35 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPW-L7-lOu">
-                                <rect key="frame" x="0.0" y="528" width="320" height="40"/>
+                                <rect key="frame" x="0.0" y="568" width="320" height="50"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="w8R-Og-j0S">
+                                        <rect key="frame" x="8" y="8" width="266" height="34"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ik-hy-rwg">
+                                        <rect key="frame" x="282" y="0.0" width="30" height="50"/>
+                                        <animations/>
+                                        <state key="normal" title="发送"/>
+                                        <connections>
+                                            <action selector="sendButtonPressed" destination="ryk-wB-QfC" eventType="touchUpInside" id="Ppg-cD-s4u"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.88235294119999996" green="0.8862745098" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="4h5-he-4iu"/>
+                                    <constraint firstAttribute="height" constant="50" id="4h5-he-4iu"/>
+                                    <constraint firstItem="1ik-hy-rwg" firstAttribute="leading" secondItem="w8R-Og-j0S" secondAttribute="trailing" constant="8" id="6gB-99-SAe"/>
+                                    <constraint firstAttribute="bottom" secondItem="1ik-hy-rwg" secondAttribute="bottom" id="KTe-k0-xaX"/>
+                                    <constraint firstAttribute="bottom" secondItem="w8R-Og-j0S" secondAttribute="bottom" constant="8" id="Lql-PP-SHw"/>
+                                    <constraint firstAttribute="trailing" secondItem="1ik-hy-rwg" secondAttribute="trailing" constant="8" id="OJ4-1A-CZg"/>
+                                    <constraint firstItem="w8R-Og-j0S" firstAttribute="leading" secondItem="nPW-L7-lOu" secondAttribute="leading" constant="8" id="QOk-lQ-nMG"/>
+                                    <constraint firstItem="1ik-hy-rwg" firstAttribute="top" secondItem="nPW-L7-lOu" secondAttribute="top" id="cq3-aj-bCc"/>
+                                    <constraint firstItem="w8R-Og-j0S" firstAttribute="top" secondItem="nPW-L7-lOu" secondAttribute="top" constant="8" id="pZV-4e-Wcz"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -437,7 +461,7 @@
                             <constraint firstItem="0iG-pd-edV" firstAttribute="top" secondItem="f1L-EU-SJ5" secondAttribute="bottom" id="KpE-Ci-4a3"/>
                             <constraint firstItem="nPW-L7-lOu" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="Nl8-N8-RB8"/>
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="top" secondItem="0iG-pd-edV" secondAttribute="bottom" id="QG7-nx-CZL"/>
-                            <constraint firstItem="Yo9-3z-viB" firstAttribute="top" secondItem="nPW-L7-lOu" secondAttribute="bottom" id="Rtb-WG-QYK"/>
+                            <constraint firstItem="Yo9-3z-viB" firstAttribute="top" secondItem="nPW-L7-lOu" secondAttribute="bottom" constant="-50" id="Rtb-WG-QYK"/>
                             <constraint firstItem="Yo9-3z-viB" firstAttribute="top" secondItem="rOj-Ru-GcS" secondAttribute="bottom" id="SoK-aS-pf3"/>
                             <constraint firstItem="0iG-pd-edV" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="dBU-mX-omb"/>
                             <constraint firstAttribute="trailing" secondItem="nPW-L7-lOu" secondAttribute="trailing" id="iGt-HH-Lcs"/>
@@ -465,6 +489,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="commentViewBottomConstraint" destination="Rtb-WG-QYK" id="iWf-Zl-2h2"/>
+                        <outlet property="editCommentView" destination="w8R-Og-j0S" id="OKl-Vw-F1t"/>
                         <outlet property="tableView" destination="0iG-pd-edV" id="0BO-QP-JSv"/>
                     </connections>
                 </viewController>
