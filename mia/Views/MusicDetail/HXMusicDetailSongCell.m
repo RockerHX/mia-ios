@@ -22,7 +22,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 74.0f;
+    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 120.0f;
 }
 
 #pragma mark - Event Response
@@ -35,7 +35,7 @@
 #pragma mark - Public Methods
 - (void)displayWithPlayItem:(ShareItem *)item {
     MusicItem *musicItem = item.music;
-    _songInfoLabel.text = [NSString stringWithFormat:@"%@  %@", musicItem.name, musicItem.singerName];
+    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@"  " stringByAppendingString:musicItem.singerName]];
     [self updateStatStateWithFavorite:item.favorite];
 }
 
@@ -45,6 +45,17 @@
     } else {
         [_starButton setImage:[UIImage imageNamed:@"MD-UnStarIcon"] forState:UIControlStateNormal];
     }
+}
+
+#pragma mark - Private Methods
+- (void)displaySongInfoLabelWithSongName:(NSString *)songerName singerName:(NSString *)singerName {
+    NSString *text = [NSString stringWithFormat:@"%@%@", (songerName.length ? songerName : @""), (singerName ?: @"")];
+    
+    [_songInfoLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+        NSRange boldRange = [[mutableAttributedString string] rangeOfString:singerName options:NSCaseInsensitiveSearch];
+        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor lightGrayColor].CGColor range:boldRange];
+        return mutableAttributedString;
+    }];
 }
 
 @end

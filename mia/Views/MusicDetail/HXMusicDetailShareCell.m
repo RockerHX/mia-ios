@@ -25,7 +25,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _shareInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 42.0f;
+    _shareInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 95.0f;
     _shareInfoLabel.delegate = self;
 }
 

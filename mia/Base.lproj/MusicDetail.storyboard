@@ -145,7 +145,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="评论者：评论内容" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="276" translatesAutoresizingMaskIntoConstraints="NO" id="X4h-4S-1r1" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="22" y="0.0" width="276" height="30"/>
+                                                    <rect key="frame" x="100" y="0.0" width="120" height="30"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -154,8 +154,6 @@
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="X4h-4S-1r1" secondAttribute="trailing" constant="22" id="L1c-6a-gZS"/>
-                                                <constraint firstItem="X4h-4S-1r1" firstAttribute="leading" secondItem="SMq-a6-L97" secondAttribute="leading" constant="22" id="YYn-JP-sxV"/>
                                                 <constraint firstItem="X4h-4S-1r1" firstAttribute="top" secondItem="SMq-a6-L97" secondAttribute="top" id="iRU-3f-LcA"/>
                                                 <constraint firstItem="X4h-4S-1r1" firstAttribute="centerX" secondItem="SMq-a6-L97" secondAttribute="centerX" id="puY-Sa-5V8"/>
                                                 <constraint firstAttribute="bottom" secondItem="X4h-4S-1r1" secondAttribute="bottom" constant="45" id="zWx-cD-thI"/>
