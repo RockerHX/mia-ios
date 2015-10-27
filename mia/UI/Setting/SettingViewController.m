@@ -900,9 +900,9 @@ UITextFieldDelegate>
 						  timeOut:5.0
 					 successBlock:
 	 ^(id task, NSDictionary *jsonServerConfig) {
-		[HXAlertBanner showWithMessage:@"喵~ :)" tap:nil];
+		[HXAlertBanner showWithMessage:@"喵~ ✔︎" tap:nil];
 	} failBlock:^(id task, NSError *error) {
-		[HXAlertBanner showWithMessage:@"喵喵喵~ :( " tap:nil];
+		[HXAlertBanner showWithMessage:@"喵喵喵~ ✘" tap:nil];
 	}];
 }
 
