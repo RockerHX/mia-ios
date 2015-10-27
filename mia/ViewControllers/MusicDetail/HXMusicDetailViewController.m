@@ -21,8 +21,11 @@
 #import "HXAlertBanner.h"
 #import "LoginViewController.h"
 #import "UserSession.h"
+#import "HXInfectUserListView.h"
+#import "ProfileViewController.h"
+#import "InfectItem.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -280,6 +283,17 @@
         //vc.loginViewControllerDelegate = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+#pragma mark - HXMusicDetailInfectCellDelegate Methods
+- (void)cellUserWouldLikeShowInfectList:(HXMusicDetailInfectCell *)cell {
+    [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
+        InfectItem *selectedItem = item;
+        ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:selectedItem.uID
+                                                                     nickName:selectedItem.nick
+                                                                  isMyProfile:NO];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
 }
 
 @end

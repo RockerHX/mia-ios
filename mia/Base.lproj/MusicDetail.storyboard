@@ -185,6 +185,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(人数)人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMb-l9-8Sj" customClass="TTTAttributedLabel">
                                                     <rect key="frame" x="188" y="9" width="86" height="18"/>
                                                     <animations/>
+                                                    <gestureRecognizers/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -200,6 +201,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
+                                            <outlet property="delegate" destination="ryk-wB-QfC" id="s20-Qp-QaG"/>
                                             <outlet property="infectPromptLabel" destination="iMb-l9-8Sj" id="7HJ-hy-LTL"/>
                                             <outlet property="infectUserView" destination="3VQ-w5-pkj" id="xeZ-Kp-E19"/>
                                         </connections>

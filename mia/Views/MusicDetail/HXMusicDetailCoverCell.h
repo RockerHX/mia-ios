@@ -13,7 +13,6 @@
 @protocol HXMusicDetailCoverCellDelegate <NSObject>
 
 @required
-//- (void)
 
 @end
 
