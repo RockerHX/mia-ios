@@ -33,6 +33,7 @@
 		// init audioStream
 		FSStreamConfiguration *defaultConfiguration = [[FSStreamConfiguration alloc] init];
 		defaultConfiguration.cacheDirectory = [PathHelper playCacheDir];
+		defaultConfiguration.maxDiskCacheSize = 209715200;	// 200MB
 		_audioStream = [[FSAudioStream alloc] initWithConfiguration:defaultConfiguration];
 		_audioStream.strictContentTypeChecking = NO;
 		_audioStream.defaultContentType = @"audio/mpeg";
