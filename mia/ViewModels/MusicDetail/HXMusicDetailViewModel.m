@@ -16,6 +16,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 @implementation HXMusicDetailViewModel {
     CommentReuqestBlock _commentReuqestBlock;
     
+    NSInteger _regularRow;
     NSArray *_rowTypes;
     CommentModel *_dataModel;
     ShareItem *_playItem;
@@ -37,18 +38,24 @@ typedef void(^CommentReuqestBlock)(BOOL);
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _dataModel = [[CommentModel alloc] init];
-    
     [self setupRowTypes];
+    _dataModel = [[CommentModel alloc] init];
+    _regularRow = _rowTypes.count;
 }
 
 - (void)setupRowTypes {
-    _rowTypes = @[@(HXMusicDetailRowCover),
-                  @(HXMusicDetailRowSong),
-                  @(HXMusicDetailRowShare),
-                  @(HXMusicDetailRowInfect),
-                  @(HXMusicDetailRowPrompt),
-                  @(HXMusicDetailRowNoComment)];
+    if (_playItem.infectUsers.count) {
+        _rowTypes = @[@(HXMusicDetailRowCover),
+                      @(HXMusicDetailRowSong),
+                      @(HXMusicDetailRowShare),
+                      @(HXMusicDetailRowInfect),
+                      @(HXMusicDetailRowPrompt)];
+    } else {
+        _rowTypes = @[@(HXMusicDetailRowCover),
+                      @(HXMusicDetailRowSong),
+                      @(HXMusicDetailRowShare),
+                      @(HXMusicDetailRowPrompt)];
+    }
 }
 
 #pragma mark - Setter And Getter
@@ -61,7 +68,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (CGFloat)infectCellHeight {
-    return 35.0f;
+    return 55.0f;
 }
 
 - (CGFloat)promptCellHeight {
@@ -69,16 +76,15 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (CGFloat)noCommentCellHeight {
-    return 80.0f;
+    return 40.0f;
 }
 
-static NSInteger RegularRow = 5;
 - (NSInteger)rows {
-    return (_playItem ? RegularRow + (_dataModel.dataSource.count ?: 1) : 0);
+    return (_playItem ? (_regularRow + _dataModel.dataSource.count) : 0);
 }
 
 - (NSInteger)regularRow {
-    return RegularRow;
+    return _regularRow;
 }
 
 - (NSArray *)rowTypes {
@@ -157,15 +163,18 @@ static NSInteger RegularRow = 5;
 - (void)reSetupRowTypes {
     NSMutableArray *array = [NSMutableArray arrayWithArray:_rowTypes];
     NSArray *comments = [NSArray arrayWithArray:_dataModel.dataSource];
+    
+    HXMusicDetailRow rowType = [[array lastObject] integerValue];
+    if (rowType == HXMusicDetailRowNoComment) {
+        [array removeLastObject];
+    }
+    
     if (comments.count) {
-        HXMusicDetailRow rowType = [[array lastObject] integerValue];
-        if (rowType == HXMusicDetailRowNoComment) {
-            [array removeLastObject];
-        }
-        
         for (NSInteger index = 0; index < comments.count; index++) {
             [array addObject:@(HXMusicDetailRowComment)];
         }
+    } else {
+        [array addObject:@(HXMusicDetailRowNoComment)];
     }
     _rowTypes = [array copy];
 }
