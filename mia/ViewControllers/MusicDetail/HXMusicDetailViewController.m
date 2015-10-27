@@ -24,6 +24,7 @@
 #import "HXInfectUserListView.h"
 #import "ProfileViewController.h"
 #import "InfectItem.h"
+#import "LocationMgr.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -36,6 +37,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+	[self reportViews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -93,9 +95,9 @@
                  [self.navigationController popViewControllerAnimated:YES];
 //                 [_detailHeaderView stopMusic];
 //                 
-//                 if (_customDelegate) {
-//                     [_customDelegate detailViewControllerDidDeleteShare];
-//                 }
+                 if (_customDelegate) {
+                     [_customDelegate detailViewControllerDidDeleteShare];
+                 }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"删除失败:%@", error] tap:nil];
@@ -107,7 +109,7 @@
     }];
     
     UIActionSheet *aActionSheet = nil;
-    if (_formProfile) {
+    if (_fromProfile) {
         aActionSheet = [[UIActionSheet alloc] initWithTitle:@"更多操作"
                                            cancelButtonItem:cancelItem
                                       destructiveButtonItem:reportItem
@@ -129,6 +131,21 @@
 #pragma mark - Private Methods
 - (void)refresh {
 //    [_detailView refreshWithItem:_playItem];
+}
+
+- (void)reportViews {
+	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
+								   spID:_playItem.spID
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+#warning @andy 服务器需要返回最新的views数字，客户端需要更新下
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"views share timeout");
+	 }];
 }
 
 #pragma mark - Table View Data Source Methods
