@@ -129,9 +129,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
+	[_shareListModel.dataSource removeAllObjects];
 	_currentPageStart = kDefaultPageFrom;
 	[self requestShareList];
-	[self checkPlaceHolder];
 
 	[[FavoriteMgr standard] syncFavoriteList];
 	if (_playFavoriteOnceTime) {
@@ -655,7 +655,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	// 删除分享后需要从新获取分享列表
 	_currentPageStart = kDefaultPageFrom;
 	[_shareListModel.dataSource removeAllObjects];
-	[self checkPlaceHolder];
 	[self requestShareList];
 }
 
