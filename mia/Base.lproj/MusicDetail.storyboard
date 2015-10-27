@@ -163,6 +163,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
+                                            <outlet property="delegate" destination="ryk-wB-QfC" id="kM3-Z7-WBT"/>
                                             <outlet property="shareInfoLabel" destination="X4h-4S-1r1" id="4Kf-We-XEI"/>
                                         </connections>
                                     </tableViewCell>

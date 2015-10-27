@@ -10,8 +10,18 @@
 
 @class ShareItem;
 @class TTTAttributedLabel;
+@class HXMusicDetailShareCell;
+
+@protocol HXMusicDetailShareCellDelegate <NSObject>
+
+@required
+- (void)cellUserWouldLikeSeeSharerInfo:(HXMusicDetailShareCell *)cell;
+
+@end
 
 @interface HXMusicDetailShareCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet                 id  <HXMusicDetailShareCellDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shareInfoLabel;
 
