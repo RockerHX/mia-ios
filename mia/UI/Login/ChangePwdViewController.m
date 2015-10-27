@@ -15,6 +15,7 @@
 #import "WebSocketMgr.h"
 #import "MBProgressHUDHelp.h"
 #import "NSString+MD5.h"
+#import "HXAlertBanner.h"
 
 @interface ChangePwdViewController () <UITextFieldDelegate>
 
@@ -26,9 +27,6 @@
 	UITextField 	*_firstPasswordTextField;
 	UITextField 	*_secondPasswordTextField;
 	MIAButton 		*_confirmButton;
-
-	UIView 			*_msgView;
-	MIALabel 		*_msgLabel;
 
 	MBProgressHUD 	*_progressHUD;
 }
@@ -78,11 +76,13 @@
 - (void)initUI {
 	static NSString *kChangePwdTitle = @"修改密码";
 	self.title = kChangePwdTitle;
+	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:[UIColor blackColor],
+								  NSFontAttributeName:UIFontFromSize(16)};
+	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
 	[self.view setBackgroundColor:[UIColor whiteColor]];
 
 	[self initBarButton];
 	[self initInputView];
-	[self initMsgView];
 }
 
 - (void)initBarButton {
@@ -102,18 +102,19 @@
 	_inputView = [[UIView alloc] initWithFrame:self.view.frame];
 	[self.view addSubview:_inputView];
 
-	static const CGFloat kTextFieldMarginLeft		= 30;
-	static const CGFloat kTextFieldHeight			= 35;
-	static const CGFloat kUserNameMarginTop			= 100;
+	static const CGFloat kTextFieldMarginLeft		= 18;
+	static const CGFloat kTextFieldHeight			= 45;
+	static const CGFloat kUserNameMarginTop			= 64 + 30;
 	static const CGFloat kVerificationCodeMarginTop	= kUserNameMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kFirstPasswordMarginTop	= kVerificationCodeMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSecondPasswordMarginTop	= kFirstPasswordMarginTop + kTextFieldHeight + 5;
-	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 45;
+	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 38;
+	static const CGFloat kSignUpMarginLeft			= 16;
 
-	UIColor *placeHolderColor = UIColorFromHex(@"#c0c0c0", 1.0);
+	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
 	UIColor *textColor = [UIColor blackColor];
-	UIColor *lineColor = UIColorFromHex(@"#eaeaea", 1.0);
-	UIFont *textFont = UIFontFromSize(12);
+	UIColor *lineColor = UIColorFromHex(@"#dcdcdc", 1.0);
+	UIFont *textFont = UIFontFromSize(15);
 
 	_oldPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kUserNameMarginTop,
@@ -184,60 +185,27 @@
 	firstPasswordLineView.backgroundColor = lineColor;
 	[_inputView addSubview:firstPasswordLineView];
 
-	CGRect resetButtonFrame = CGRectMake(kTextFieldMarginLeft,
+	CGRect resetButtonFrame = CGRectMake(kSignUpMarginLeft,
 											 kSiginUpMarginTop,
-											 _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+											 _inputView.frame.size.width - 2 * kSignUpMarginLeft,
 											 kTextFieldHeight);
 	 _confirmButton = [[MIAButton alloc] initWithFrame:resetButtonFrame
 													   titleString:@"修改密码"
 														titleColor:[UIColor whiteColor]
-															  font:UIFontFromSize(16)
+															  font:UIFontFromSize(15)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
 	[_confirmButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
 	[_confirmButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
 	[_confirmButton addTarget:self action:@selector(confirmButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_confirmButton setEnabled:NO];
+	_confirmButton.layer.cornerRadius = 23;
+	_confirmButton.clipsToBounds = YES;
 	[_inputView addSubview:_confirmButton];
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
 	[_inputView addGestureRecognizer:gesture];
-}
-
-- (void)initMsgView {
-	static const CGFloat kMsgViewMarginTop 		= 64;
-	static const CGFloat kMsgViewHeight 		= 35;
-	static const CGFloat kLogoMarginLeft 		= 10;
-	static const CGFloat kLogoMarginTop 		= 10;
-	static const CGFloat kLogoWidth 			= 18;
-	static const CGFloat kLogoHeight 			= 18;
-	static const CGFloat kMsgLabelMarginLeft 	= 30;
-	static const CGFloat kMsgLabelMarginRight	= 15;
-	static const CGFloat kMsgLabelMarginTop 	= 8;
-	static const CGFloat kMsgLabelHeight 		= 20;
-
-
-	_msgView = [[UIView alloc] initWithFrame:CGRectMake(0, kMsgViewMarginTop, self.view.frame.size.width, kMsgViewHeight)];
-	_msgView.backgroundColor = UIColorFromHex(@"#606060", 1.0);
-	[self.view addSubview:_msgView];
-
-
-	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kLogoMarginLeft, kLogoMarginTop, kLogoWidth, kLogoHeight)];
-	[logoImageView setImage:[UIImage imageNamed:@"info"]];
-	[_msgView addSubview:logoImageView];
-
-	_msgLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMsgLabelMarginLeft,
-															  kMsgLabelMarginTop,
-															  _msgView.frame.size.width - kMsgLabelMarginLeft - kMsgLabelMarginRight,
-															  kMsgLabelHeight)
-											  text:@""
-											  font:UIFontFromSize(12.0f)
-										 textColor:[UIColor whiteColor]
-									 textAlignment:NSTextAlignmentLeft
-									   numberLines:1];
-	[_msgView addSubview:_msgLabel];
-	[_msgView setHidden:YES];
 }
 
 #pragma mark - delegate
@@ -292,17 +260,6 @@
 	[UIView commitAnimations];
 }
 
-- (void)showErrorMsg:(NSString *)msg {
-	[_msgLabel setText:msg];
-	[_msgView setHidden:NO];
-	static const NSTimeInterval kErrorMsgTimeInterval = 10;
-	[NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
-											 target:self
-										   selector:@selector(errorMsgTimerAction)
-										   userInfo:nil
-											repeats:NO];
-}
-
 - (void)checkConfirmButtonStatus {
 	if ([_oldPasswordTextField.text length] <= 0
 		|| [_firstPasswordTextField.text length] <= 0
@@ -318,23 +275,17 @@
 	NSString *str2 = _secondPasswordTextField.text;
 
 	if (![str1 isEqualToString:str2]) {
-		[self showErrorMsg:@"两次输入的密码不一致，请重新输入"];
+		[HXAlertBanner showWithMessage:@"两次输入的密码不一致，请重新输入" tap:nil];
 		return NO;
 	}
 
 	static const long kMinPasswordLength = 6;
 	if (str1.length < kMinPasswordLength) {
-		[self showErrorMsg:[NSString stringWithFormat:@"密码长度不能少于%ld位", kMinPasswordLength]];
+		[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"密码长度不能少于%ld位", kMinPasswordLength] tap:nil];
 		return NO;
 	}
 
 	return YES;
-}
-
-# pragma mark - Timer Action
-
-- (void)errorMsgTimerAction {
-	[_msgView setHidden:YES];
 }
 
 #pragma mark - button Actions
@@ -360,7 +311,7 @@
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [self showErrorMsg:[NSString stringWithFormat:@"修改密码失败：%@", error]];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改密码失败：%@", error] tap:nil];
 		 }
 
 		 [aProgressHub removeFromSuperview];
