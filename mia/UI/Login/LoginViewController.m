@@ -19,10 +19,11 @@
 #import "UserSession.h"
 #import "NSString+MD5.h"
 #import "UserDefaultsUtils.h"
+#import "HXAlertBanner.h"
 
 static const CGFloat kBackButtonMarginLeft		= 15;
 static const CGFloat kBackButtonMarginTop		= 32;
-static const CGFloat kLogoMarginTop				= 90;
+static const CGFloat kLogoMarginTop				= 125;
 
 static const CGFloat kGuidButtonHeight			= 40;
 static const CGFloat kGuidButtonMarginLeft		= 30;
@@ -41,8 +42,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 	UITextField 	*_userNameTextField;
 	UITextField 	*_passwordTextField;
-	MIALabel 		*_userNameErrorLabel;
-	MIALabel 		*_passwordErrorLabel;
 
 	MBProgressHUD 	*_progressHUD;
 }
@@ -168,17 +167,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	static const CGFloat kForgotPwdHeight			= 20;
 	static const CGFloat kLoginMarginTop			= kPasswordMarginTop + kTextEditHeight + 45;
 
-	static const CGFloat kUserNameErrorMarginRight	= kLoginButtonMarginLeft;
-	static const CGFloat kUserNameErrorMarginTop	= kUserNameMarginTop + 12;
-	static const CGFloat kUserNameErrorWidth		= 100;
-	static const CGFloat kUserNameErrorHeight		= 20;
-	static const CGFloat kPasswordErrorMarginRight	= kLoginButtonMarginLeft;
-	static const CGFloat kPasswordErrorMarginTop	= kPasswordMarginTop + 12;
-	static const CGFloat kPasswordErrorWidth		= 100;
-	static const CGFloat kPasswordErrorHeight		= 20;
-
-
-
 	_userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	  kUserNameMarginTop,
 																	  _loginView.frame.size.width - 2 * kLoginButtonMarginLeft,
@@ -194,18 +182,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[_userNameTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 	//userNameTextField.backgroundColor = [UIColor redColor];
 	[_loginView addSubview:_userNameTextField];
-
-	_userNameErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(_loginView.frame.size.width - kUserNameErrorMarginRight - kUserNameErrorWidth,
-																				  kUserNameErrorMarginTop,
-																				  kUserNameErrorWidth,
-																				  kUserNameErrorHeight)
-																  text:@""
-																  font:UIFontFromSize(16.0f)
-															 textColor:[UIColor whiteColor]
-														 textAlignment:NSTextAlignmentRight
-														   numberLines:1];
-	//userNameErrorLabel.backgroundColor = [UIColor yellowColor];
-	[_loginView addSubview:_userNameErrorLabel];
 
 	UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																	   kUserNameMarginTop + kTextEditHeight,
@@ -229,18 +205,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_passwordTextField.delegate = self;
 	[_passwordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 	[_loginView addSubview:_passwordTextField];
-
-	_passwordErrorLabel = [[MIALabel alloc] initWithFrame:CGRectMake(_loginView.frame.size.width - kPasswordErrorMarginRight - kPasswordErrorWidth,
-																	kPasswordErrorMarginTop,
-																	kPasswordErrorWidth,
-																	kPasswordErrorHeight)
-													text:@""
-													font:UIFontFromSize(16.0f)
-											   textColor:[UIColor whiteColor]
-										   textAlignment:NSTextAlignmentRight
-											 numberLines:1];
-	//passwordErrorLabel.backgroundColor = [UIColor yellowColor];
-	[_loginView addSubview:_passwordErrorLabel];
 
 	UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(kLoginButtonMarginLeft,
 																 kPasswordMarginTop + kTextEditHeight,
@@ -331,16 +295,14 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 - (void)loginButtonAction:(id)sender {
 	if (_userNameTextField.text.length <= 0) {
-		[_userNameErrorLabel setText:@"手机号码不能为空"];
+		[HXAlertBanner showWithMessage:@"手机号码不能为空" tap:nil];
 		return;
 	}
-	[_userNameErrorLabel setText:@""];
 
 	if (_passwordTextField.text.length <= 0) {
-		[_passwordErrorLabel setText:@"密码不能为空"];
+		[HXAlertBanner showWithMessage:@"密码不能为空" tap:nil];
 		return;
 	}
-	[_passwordErrorLabel setText:@""];
 
 	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"登录中..."];
 	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
@@ -368,12 +330,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [_passwordErrorLabel setText:[NSString stringWithFormat:@"%@", error]];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		 }
 
 		 [aMBProgressHUD removeFromSuperview];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [_passwordErrorLabel setText:[NSString stringWithFormat:@"请求超时，请稍后重试"]];
+		 [HXAlertBanner showWithMessage:@"请求超时，请稍后重试" tap:nil];
 		 [aMBProgressHUD removeFromSuperview];
 	 }];
 }

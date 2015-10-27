@@ -122,8 +122,8 @@
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 38;
 	static const CGFloat kSignUpMarginLeft			= 16;
 
- 	static const CGFloat kVerificationCodeButtonWidth			= 80;
-	static const CGFloat kVerificationCodeButtonHeight			= 25;
+	static const CGFloat kVerificationCodeButtonWidth			= 83;
+	static const CGFloat kVerificationCodeButtonHeight			= 28;
 
 	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
 	UIColor *textColor = [UIColor blackColor];
