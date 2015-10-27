@@ -8,12 +8,25 @@
 
 #import "HXMusicDetailShareCell.h"
 #import "TTTAttributedLabel.h"
+#import "ShareItem.h"
 
 @implementation HXMusicDetailShareCell
 
+#pragma mark - Init Methods
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [self initConfig];
+}
+
+#pragma mark - Config Methods
+- (void)initConfig {
+    _shareInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 42.0f;
+}
+
 #pragma mark - Public Methods
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
-    _shareInfoLabel.text = @"WWW";
+- (void)displayWithShareItem:(ShareItem *)item {
+    _shareInfoLabel.text = [NSString stringWithFormat:@"%@：%@", item.sNick, item.sNote];
 }
 
 @end

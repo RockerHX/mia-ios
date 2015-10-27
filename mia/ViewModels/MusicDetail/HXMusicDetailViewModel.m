@@ -19,8 +19,7 @@
     if (self) {
         if (item) {
             _playItem = item;
-            _frontCoverURL = [NSURL URLWithString:item.music.murl];
-            
+            _frontCoverURL = [NSURL URLWithString:item.music.purl];
         }
     }
     return self;
