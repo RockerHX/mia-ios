@@ -123,6 +123,9 @@ UITextFieldDelegate>
 - (void)initUI {
 	static NSString *kSettingTitle = @"设置";
 	self.title = kSettingTitle;
+	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:[UIColor blackColor],
+								  NSFontAttributeName:UIFontFromSize(16)};
+	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
 
 	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	_scrollView.backgroundColor = UIColorFromHex(@"f0eff5", 1.0);
@@ -238,12 +241,12 @@ UITextFieldDelegate>
 	_avatarImageView.layer.cornerRadius = avatarWidth / 2;
 	_avatarImageView.clipsToBounds = YES;
 	_avatarImageView.layer.borderWidth = 1.0f;
-	_avatarImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+	_avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
 	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	[contentView addSubview:_avatarImageView];
 
 	UIView *avatarLineView = [[UIView alloc] init];
-	avatarLineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	avatarLineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:avatarLineView];
 
 	[avatarTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -277,7 +280,7 @@ UITextFieldDelegate>
 	_nickNameTextField = [[UITextField alloc] init];
 	_nickNameTextField.borderStyle = UITextBorderStyleNone;
 	_nickNameTextField.backgroundColor = [UIColor clearColor];
-	_nickNameTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	_nickNameTextField.textColor = UIColorFromHex(@"#808080", 1.0);
 	_nickNameTextField.placeholder = @"请输入昵称";
 	_nickNameTextField.text = [[UserSession standard] nick];
 	[_nickNameTextField setFont:UIFontFromSize(16)];
@@ -291,7 +294,7 @@ UITextFieldDelegate>
 	//[_nickNameTextField setHidden:YES];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -326,13 +329,13 @@ UITextFieldDelegate>
 	_genderLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"请选择"
 															font:UIFontFromSize(15.0f)
-													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+													textColor:UIColorFromHex(@"808080", 1.0)
 												textAlignment:NSTextAlignmentRight
 													 numberLines:1];
 	[contentView addSubview:_genderLabel];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -366,7 +369,7 @@ UITextFieldDelegate>
 	MIALabel *changePasswordNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"修改密码"
 															font:UIFontFromSize(15.0f)
-													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+													textColor:UIColorFromHex(@"808080", 1.0)
 												textAlignment:NSTextAlignmentRight
 													 numberLines:1];
 	[contentView addSubview:changePasswordNameLabel];
@@ -449,7 +452,7 @@ UITextFieldDelegate>
 	[contentView addSubview:_autoPlaySwitch];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[autoPlayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -486,7 +489,7 @@ UITextFieldDelegate>
 	[contentView addSubview:_playWith3GSwitch];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[playWith3GLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -538,7 +541,7 @@ UITextFieldDelegate>
 	[_feedbackView addSubview:feedbackTitleLabel];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[_feedbackView addSubview:lineView];
 
 	[_feedbackView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -584,7 +587,7 @@ UITextFieldDelegate>
 	MIALabel *versionLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															 text:version
 															 font:UIFontFromSize(15.0f)
-														textColor:UIColorFromHex(@"a2a2a2", 1.0)
+														textColor:UIColorFromHex(@"808080", 1.0)
 													textAlignment:NSTextAlignmentRight
 													  numberLines:1];
 	[_versionView addSubview:versionLabel];
