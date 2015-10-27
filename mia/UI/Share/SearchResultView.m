@@ -15,7 +15,7 @@
 static NSString * const kSearchResultCellReuseIdentifier 		= @"SearchResultCellId";
 
 static const CGFloat kSearchResultItemMarginH 	= 10;
-static const CGFloat kSearchResultItemMarginV 	= 10;
+static const CGFloat kSearchResultItemMarginV 	= 0;
 static const CGFloat kSearchResultItemHeight	= 100;
 
 @interface SearchResultView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, SearchResultCellDelegate>

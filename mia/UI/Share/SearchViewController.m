@@ -142,18 +142,18 @@ const static CGFloat kSearchVCHeight = 60;
 		make.height.equalTo(@40);
 		make.top.equalTo(topView.mas_top).offset(20);
 		make.left.equalTo(topView.mas_left).offset(15);
-		make.right.equalTo(topView.mas_right).offset(-60);
+		make.right.equalTo(_cancelButton.mas_left).offset(-6);
 	}];
 
 	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(16, 16));
 		make.centerY.equalTo(editBgView.mas_centerY);
-		make.left.equalTo(editBgView.mas_left).with.offset(5);
+		make.left.equalTo(editBgView.mas_left).with.offset(6);
 	}];
 
 	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(editBgView.mas_top).with.offset(10);
-		make.left.equalTo(editBgView.mas_left).with.offset(25);
+		make.left.equalTo(searchIconImageView.mas_right).offset(6);
 		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-10);
 		make.right.equalTo(editBgView.mas_right).with.offset(-5);
 	}];
@@ -161,7 +161,7 @@ const static CGFloat kSearchVCHeight = 60;
 	[_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(40, 18));
 		make.centerY.equalTo(editBgView.mas_centerY);
-		make.right.equalTo(topView.mas_right).offset(-15);
+		make.right.equalTo(topView.mas_right).offset(-5);
 	}];
 }
 
