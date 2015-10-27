@@ -25,7 +25,7 @@
 #import "ProfileViewController.h"
 #import "InfectItem.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailInfectCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -256,6 +256,15 @@
         LoginViewController *vc = [[LoginViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+#pragma mark - HXMusicDetailShareCellDelegate Methods
+- (void)cellUserWouldLikeSeeSharerInfo:(HXMusicDetailShareCell *)cell {
+    ShareItem *playItem = _viewModel.playItem;
+    ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:playItem.uID
+                                                                 nickName:playItem.sNick
+                                                              isMyProfile:NO];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - HXMusicDetailInfectCellDelegate Methods
