@@ -8,7 +8,7 @@
 
 #import "UITableView+FDTemplateLayoutCell.h"
 
-@class MusicItem;
+@class ShareItem;
 @class TTTAttributedLabel;
 @class HXMusicDetailSongCell;
 
@@ -28,7 +28,7 @@
 
 - (IBAction)starButtonPressed;
 
-- (void)displayWithMusicItem:(MusicItem *)item;
+- (void)displayWithPlayItem:(ShareItem *)item;
 - (void)updateStatStateWithFavorite:(BOOL)favorite;
 
 @end

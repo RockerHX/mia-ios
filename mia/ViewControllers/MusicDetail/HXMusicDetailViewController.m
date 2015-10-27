@@ -139,7 +139,7 @@
             }
             case HXMusicDetailRowSong: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailSongCell *)cell displayWithMusicItem:_viewModel.playItem.music];
+                [(HXMusicDetailSongCell *)cell displayWithPlayItem:_viewModel.playItem];
                 break;
             }
             case HXMusicDetailRowShare: {
@@ -184,7 +184,7 @@
             case HXMusicDetailRowSong: {
                 height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) cacheByIndexPath:indexPath configuration:
                  ^(HXMusicDetailSongCell *cell) {
-                     [cell displayWithMusicItem:_viewModel.playItem.music];
+                     [cell displayWithPlayItem:_viewModel.playItem];
                 }];
                 break;
             }

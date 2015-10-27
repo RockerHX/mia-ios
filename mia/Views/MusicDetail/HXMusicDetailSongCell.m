@@ -8,6 +8,7 @@
 
 #import "HXMusicDetailSongCell.h"
 #import "TTTAttributedLabel.h"
+#import "ShareItem.h"
 #import "MusicItem.h"
 
 @implementation HXMusicDetailSongCell
@@ -32,8 +33,10 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayWithMusicItem:(MusicItem *)item {
-    _songInfoLabel.text = [NSString stringWithFormat:@"%@  %@", item.name, item.singerName];
+- (void)displayWithPlayItem:(ShareItem *)item {
+    MusicItem *musicItem = item.music;
+    _songInfoLabel.text = [NSString stringWithFormat:@"%@  %@", musicItem.name, musicItem.singerName];
+    [self updateStatStateWithFavorite:item.favorite];
 }
 
 - (void)updateStatStateWithFavorite:(BOOL)favorite {
