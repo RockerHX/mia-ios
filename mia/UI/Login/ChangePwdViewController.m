@@ -192,7 +192,7 @@
 	 _confirmButton = [[MIAButton alloc] initWithFrame:resetButtonFrame
 													   titleString:@"修改密码"
 														titleColor:[UIColor whiteColor]
-															  font:UIFontFromSize(15)
+															  font:UIFontFromSize(16)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
 	[_confirmButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];

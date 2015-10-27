@@ -164,7 +164,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	static const CGFloat kPasswordMarginTop			= kUserNameMarginTop + kTextEditHeight + 5;
 	static const CGFloat kForgotPwdMarginTop		= kPasswordMarginTop + kTextEditHeight + 10;
 	static const CGFloat kForgotPwdMarginRight		= kLoginButtonMarginLeft;
-	static const CGFloat kForgotPwdWidth			= 50;
+	static const CGFloat kForgotPwdWidth			= 65;
 	static const CGFloat kForgotPwdHeight			= 20;
 	static const CGFloat kLoginMarginTop			= kPasswordMarginTop + kTextEditHeight + 45;
 
@@ -187,7 +187,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_userNameTextField.backgroundColor = [UIColor clearColor];
 	_userNameTextField.textColor = [UIColor whiteColor];
 	_userNameTextField.placeholder = @"输入手机号";
-	[_userNameTextField setFont:UIFontFromSize(16)];
+	[_userNameTextField setFont:UIFontFromSize(15)];
 	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
 	_userNameTextField.returnKeyType = UIReturnKeyNext;
 	_userNameTextField.delegate = self;
@@ -223,7 +223,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_passwordTextField.textColor = [UIColor whiteColor];
 	_passwordTextField.placeholder = @"密码";
 	_passwordTextField.secureTextEntry = YES;
-	[_passwordTextField setFont:UIFontFromSize(16)];
+	[_passwordTextField setFont:UIFontFromSize(15)];
 	_passwordTextField.keyboardType = UIKeyboardTypeDefault;
 	_passwordTextField.returnKeyType = UIReturnKeyDone;
 	_passwordTextField.delegate = self;
@@ -256,7 +256,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	MIAButton *forgotPwdButton = [[MIAButton alloc] initWithFrame:forgotPwdButtonFrame
 												  titleString:@"忘记密码"
 												   titleColor:[UIColor whiteColor]
-														 font:UIFontFromSize(12)
+														 font:UIFontFromSize(13)
 													  logoImg:nil
 											  backgroundImage:nil];
 	[forgotPwdButton addTarget:self action:@selector(forgotPwdButtonAction:) forControlEvents:UIControlEventTouchUpInside];

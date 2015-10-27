@@ -264,7 +264,7 @@
 	 _signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
 													   titleString:@"注册"
 														titleColor:[UIColor whiteColor]
-															  font:UIFontFromSize(15)
+															  font:UIFontFromSize(16)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
 	[_signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
