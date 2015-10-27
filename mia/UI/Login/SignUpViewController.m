@@ -17,6 +17,7 @@
 #import "NSString+MD5.h"
 #import "TTTAttributedLabel.h"
 #import "Masonry.h"
+#import "HXAlertBanner.h"
 
 @interface SignUpViewController () <UITextFieldDelegate, TTTAttributedLabelDelegate>
 
@@ -31,9 +32,6 @@
 	UITextField 	*_secondPasswordTextField;
 	MIAButton 		*_signUpButton;
 	MIAButton 		*_verificationCodeButton;
-
-	UIView 			*_msgView;
-	MIALabel 		*_msgLabel;
 
 	NSTimer 		*_verificationCodeTimer;
 	int 			_countdown;
@@ -84,11 +82,14 @@
 - (void)initUI {
 	static NSString *kSignUpTitle = @"注册";
 	self.title = kSignUpTitle;
+	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:[UIColor blackColor],
+								  NSFontAttributeName:UIFontFromSize(16)};
+	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
+
 	[self.view setBackgroundColor:[UIColor whiteColor]];
 
 	[self initBarButton];
 	[self initInputView];
-	[self initMsgView];
 	[self initBottomView];
 
 	[_userNameTextField becomeFirstResponder];
@@ -111,23 +112,23 @@
 	_inputView = [[UIView alloc] initWithFrame:self.view.frame];
 	[self.view addSubview:_inputView];
 
-	static const CGFloat kTextFieldMarginLeft		= 30;
-	static const CGFloat kTextFieldHeight			= 35;
-	static const CGFloat kUserNameMarginTop			= 100;
+	static const CGFloat kTextFieldMarginLeft		= 18;
+	static const CGFloat kTextFieldHeight			= 45;
+	static const CGFloat kUserNameMarginTop			= 64 + 30;
 	static const CGFloat kVerificationCodeMarginTop	= kUserNameMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kNickNameMarginTop			= kVerificationCodeMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kFirstPasswordMarginTop	= kNickNameMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSecondPasswordMarginTop	= kFirstPasswordMarginTop + kTextFieldHeight + 5;
-	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 45;
+	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 38;
+	static const CGFloat kSignUpMarginLeft			= 16;
 
-	static const CGFloat kVerificationCodeButtonWidthMarginTop	= kVerificationCodeMarginTop + 5;
  	static const CGFloat kVerificationCodeButtonWidth			= 80;
 	static const CGFloat kVerificationCodeButtonHeight			= 25;
 
-	UIColor *placeHolderColor = UIColorFromHex(@"#c0c0c0", 1.0);
+	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
 	UIColor *textColor = [UIColor blackColor];
-	UIColor *lineColor = UIColorFromHex(@"#eaeaea", 1.0);
-	UIFont *textFont = UIFontFromSize(12);
+	UIColor *lineColor = UIColorFromHex(@"#dcdcdc", 1.0);
+	UIFont *textFont = UIFontFromSize(15);
 
 	_userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kUserNameMarginTop,
@@ -138,7 +139,7 @@
 	_userNameTextField.textColor = textColor;
 	_userNameTextField.placeholder = @"输入手机号";
 	[_userNameTextField setFont:textFont];
-	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_userNameTextField.keyboardType = UIKeyboardTypePhonePad;
 	_userNameTextField.returnKeyType = UIReturnKeyNext;
 	_userNameTextField.delegate = self;
 	[_userNameTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
@@ -174,13 +175,13 @@
 	[_inputView addSubview:verificationCodeLineView];
 
 	CGRect verificationCodeButtonFrame = CGRectMake(_inputView.frame.size.width - kTextFieldMarginLeft - kVerificationCodeButtonWidth,
-											 kVerificationCodeButtonWidthMarginTop,
+											 _verificationCodeTextField.frame.origin.y + _verificationCodeTextField.frame.size.height / 2 - kVerificationCodeButtonHeight / 2 - 2,
 											 kVerificationCodeButtonWidth,
 											 kVerificationCodeButtonHeight);
 	_verificationCodeButton = [[MIAButton alloc] initWithFrame:verificationCodeButtonFrame
 															   titleString:@"获取验证码"
 																titleColor:[UIColor whiteColor]
-																	  font:textFont
+																	  font:UIFontFromSize(14)
 																   logoImg:nil
 														   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)]];
 	[_verificationCodeButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ff5959", 1.0)] forState:UIControlStateDisabled];
@@ -256,60 +257,28 @@
 	secondPasswordLineView.backgroundColor = lineColor;
 	[_inputView addSubview:secondPasswordLineView];
 
-	CGRect signUpButtonFrame = CGRectMake(kTextFieldMarginLeft,
+	CGRect signUpButtonFrame = CGRectMake(kSignUpMarginLeft,
 											 kSiginUpMarginTop,
-											 _inputView.frame.size.width - 2 * kTextFieldMarginLeft,
+											 _inputView.frame.size.width - 2 * kSignUpMarginLeft,
 											 kTextFieldHeight);
 	 _signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
 													   titleString:@"注册"
 														titleColor:[UIColor whiteColor]
-															  font:UIFontFromSize(16)
+															  font:UIFontFromSize(15)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
 	[_signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];
 	[_signUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
 	[_signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_signUpButton setEnabled:NO];
+	_signUpButton.layer.cornerRadius = 23;
+	_signUpButton.clipsToBounds = YES;
+
 	[_inputView addSubview:_signUpButton];
 
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
 	[_inputView addGestureRecognizer:gesture];
-}
-
-- (void)initMsgView {
-	static const CGFloat kMsgViewMarginTop = 64;
-	static const CGFloat kMsgViewHeight = 35;
-	static const CGFloat kLogoMarginLeft = 10;
-	static const CGFloat kLogoMarginTop = 10;
-	static const CGFloat kLogoWidth = 18;
-	static const CGFloat kLogoHeight = 18;
-	static const CGFloat kMsgLabelMarginLeft = 30;
-	static const CGFloat kMsgLabelMarginRight = 15;
-	static const CGFloat kMsgLabelMarginTop = 8;
-	static const CGFloat kMsgLabelHeight = 20;
-
-
-	_msgView = [[UIView alloc] initWithFrame:CGRectMake(0, kMsgViewMarginTop, self.view.frame.size.width, kMsgViewHeight)];
-	_msgView.backgroundColor = UIColorFromHex(@"#606060", 1.0);
-	[self.view addSubview:_msgView];
-
-
-	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kLogoMarginLeft, kLogoMarginTop, kLogoWidth, kLogoHeight)];
-	[logoImageView setImage:[UIImage imageNamed:@"info"]];
-	[_msgView addSubview:logoImageView];
-
-	_msgLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMsgLabelMarginLeft,
-															  kMsgLabelMarginTop,
-															  _msgView.frame.size.width - kMsgLabelMarginLeft - kMsgLabelMarginRight,
-															  kMsgLabelHeight)
-											  text:@""
-											  font:UIFontFromSize(12.0f)
-										 textColor:[UIColor whiteColor]
-									 textAlignment:NSTextAlignmentLeft
-									   numberLines:1];
-	[_msgView addSubview:_msgLabel];
-	[_msgView setHidden:YES];
 }
 
 - (void)initBottomView {
@@ -422,17 +391,6 @@
 	[_verificationCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
 }
 
-- (void)showErrorMsg:(NSString *)msg {
-	[_msgLabel setText:msg];
-	[_msgView setHidden:NO];
-	static const NSTimeInterval kErrorMsgTimeInterval = 10;
-	[NSTimer scheduledTimerWithTimeInterval:kErrorMsgTimeInterval
-											 target:self
-										   selector:@selector(errorMsgTimerAction)
-										   userInfo:nil
-											repeats:NO];
-}
-
 - (void)checkSignUpButtonStatus {
 	if ([_userNameTextField.text length] <= 0
 	|| [_verificationCodeTextField.text length] <= 0
@@ -452,7 +410,8 @@
 		return YES;
 	}
 
-	[self showErrorMsg:@"请输入正确的手机号码"];
+	[HXAlertBanner showWithMessage:@"请输入正确的手机号码" tap:nil];
+
 	return NO;
 }
 
@@ -461,13 +420,13 @@
 	NSString *str2 = _secondPasswordTextField.text;
 
 	if (![str1 isEqualToString:str2]) {
-		[self showErrorMsg:@"两次输入的密码不一致，请重新输入"];
+		[HXAlertBanner showWithMessage:@"两次输入的密码不一致，请重新输入" tap:nil];
 		return NO;
 	}
 
 	static const long kMinPasswordLength = 6;
 	if (str1.length < kMinPasswordLength) {
-		[self showErrorMsg:[NSString stringWithFormat:@"密码长度不能少于%ld位", kMinPasswordLength]];
+		[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"密码长度不能少于%ld位", kMinPasswordLength] tap:nil];
 		return NO;
 	}
 
@@ -484,10 +443,6 @@
 	} else {
 		[self resetCountdown];
 	}
-}
-
-- (void)errorMsgTimerAction {
-	[_msgView setHidden:YES];
 }
 
 #pragma mark - button Actions
@@ -509,17 +464,17 @@
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
 			 [_signUpViewControllerDelegate signUpViewControllerDidSuccess];
-			 [self showErrorMsg:[NSString stringWithFormat:@"注册成功"]];
+			 [HXAlertBanner showWithMessage:@"注册成功" tap:nil];
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [self showErrorMsg:[NSString stringWithFormat:@"注册失败：%@", error]];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"注册失败：%@", error] tap:nil];
 		 }
 
 		 [aMBProgressHUD removeFromSuperview];
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [aMBProgressHUD removeFromSuperview];
-		 [self showErrorMsg:@"注册失败，网络请求超时"];
+		 [HXAlertBanner showWithMessage:@"注册失败，网络请求超时" tap:nil];
 	 }];
 }
 
@@ -528,7 +483,6 @@
 		return;
 	}
 
-	[_msgView setHidden:YES];
 	[_verificationCodeButton setEnabled:NO];
 
 	static const NSTimeInterval kRequestVerificationCodeTimeInterval = 1;
@@ -542,14 +496,14 @@
 								  phoneNumber:_userNameTextField.text
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [self showErrorMsg:@"验证码已经发送"];
+			 [HXAlertBanner showWithMessage:@"验证码已经发送" tap:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [self showErrorMsg:[NSString stringWithFormat:@"验证码发送失败：%@", error]];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"验证码发送失败：%@", error] tap:nil];
 			 [self resetCountdown];
 		 }
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [self showErrorMsg:@"验证码发送超时，请重新获取"];
+		 [HXAlertBanner showWithMessage:@"验证码发送超时，请重新获取" tap:nil];
 		 [self resetCountdown];
 	 }];
 }
