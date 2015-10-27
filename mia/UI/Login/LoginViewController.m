@@ -106,7 +106,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_backButton = [[MIAButton alloc] initWithFrame:backButtonFrame
 									  titleString:@""
 									   titleColor:[UIColor whiteColor]
-											 font:UIFontFromSize(15)
+											 font:UIFontFromSize(16)
 										  logoImg:nil
 								  backgroundImage:backButtonImage];
 	[_backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -187,7 +187,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_userNameTextField.backgroundColor = [UIColor clearColor];
 	_userNameTextField.textColor = [UIColor whiteColor];
 	_userNameTextField.placeholder = @"输入手机号";
-	[_userNameTextField setFont:UIFontFromSize(15)];
+	[_userNameTextField setFont:UIFontFromSize(16)];
 	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
 	_userNameTextField.returnKeyType = UIReturnKeyNext;
 	_userNameTextField.delegate = self;
@@ -200,7 +200,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 																				  kUserNameErrorWidth,
 																				  kUserNameErrorHeight)
 																  text:@""
-																  font:UIFontFromSize(12.0f)
+																  font:UIFontFromSize(16.0f)
 															 textColor:[UIColor whiteColor]
 														 textAlignment:NSTextAlignmentRight
 														   numberLines:1];
@@ -223,7 +223,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_passwordTextField.textColor = [UIColor whiteColor];
 	_passwordTextField.placeholder = @"密码";
 	_passwordTextField.secureTextEntry = YES;
-	[_passwordTextField setFont:UIFontFromSize(15)];
+	[_passwordTextField setFont:UIFontFromSize(16)];
 	_passwordTextField.keyboardType = UIKeyboardTypeDefault;
 	_passwordTextField.returnKeyType = UIReturnKeyDone;
 	_passwordTextField.delegate = self;
@@ -235,7 +235,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 																	kPasswordErrorWidth,
 																	kPasswordErrorHeight)
 													text:@""
-													font:UIFontFromSize(12.0f)
+													font:UIFontFromSize(16.0f)
 											   textColor:[UIColor whiteColor]
 										   textAlignment:NSTextAlignmentRight
 											 numberLines:1];
@@ -256,7 +256,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	MIAButton *forgotPwdButton = [[MIAButton alloc] initWithFrame:forgotPwdButtonFrame
 												  titleString:@"忘记密码"
 												   titleColor:[UIColor whiteColor]
-														 font:UIFontFromSize(13)
+														 font:UIFontFromSize(14)
 													  logoImg:nil
 											  backgroundImage:nil];
 	[forgotPwdButton addTarget:self action:@selector(forgotPwdButtonAction:) forControlEvents:UIControlEventTouchUpInside];

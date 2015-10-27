@@ -114,7 +114,7 @@
 	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
 	UIColor *textColor = [UIColor blackColor];
 	UIColor *lineColor = UIColorFromHex(@"#dcdcdc", 1.0);
-	UIFont *textFont = UIFontFromSize(15);
+	UIFont *textFont = UIFontFromSize(16);
 
 	_oldPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kUserNameMarginTop,
