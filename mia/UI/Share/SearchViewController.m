@@ -123,6 +123,7 @@ const static CGFloat kSearchVCHeight = 60;
 	[_searchTextField setFont:UIFontFromSize(13)];
 	_searchTextField.keyboardType = UIKeyboardTypeDefault;
 	_searchTextField.returnKeyType = UIReturnKeySearch;
+	_searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_searchTextField.delegate = self;
 	[_searchTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
 	[_searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
