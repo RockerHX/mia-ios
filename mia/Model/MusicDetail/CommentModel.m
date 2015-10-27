@@ -7,7 +7,7 @@
 //
 
 #import "CommentModel.h"
-#import "CommentItem.h"
+#import "HXComment.h"
 
 @implementation CommentModel
 
@@ -24,21 +24,21 @@
 
 - (void)addComments:(NSArray *) comments {
 	if (comments.count == 1 && _dataSource) {
-		CommentItem *commentItem = [[CommentItem alloc] initWithDictionary:comments[0]];
-		if ([commentItem.cmid intValue] > [_lastCommentID intValue]) {
+        HXComment *comment = [HXComment objectWithKeyValues:comments[0]];
+		if ([comment.cmid intValue] > [_lastCommentID intValue]) {
 			// 由于我们的评论是最新的在最前面，所以发表评论后需要把自己最新的评论获取到
-			[_dataSource insertObject:commentItem atIndex:0];
+			[_dataSource insertObject:comment atIndex:0];
 			_lastCommentID = [[_dataSource lastObject] cmid];
 			return;
 		}
 	}
 
 	NSMutableArray *result = [[NSMutableArray alloc] init];
-	for (id item in comments) {
-		CommentItem *commentItem = [[CommentItem alloc] initWithDictionary:item];
-		[result addObject:commentItem];
-		_lastCommentID = commentItem.cmid;
-	}
+
+    for (id item in comments) {
+        HXComment *comment = [HXComment objectWithKeyValues:item];
+		[result addObject:comment];
+		_lastCommentID = comment.cmid;	}
 
 	if (self.dataSource) {
 		[self.dataSource addObjectsFromArray:result];
