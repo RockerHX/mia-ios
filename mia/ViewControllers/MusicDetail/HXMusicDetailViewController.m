@@ -24,6 +24,7 @@
 #import "HXInfectUserListView.h"
 #import "ProfileViewController.h"
 #import "InfectItem.h"
+#import "LocationMgr.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -36,11 +37,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+	[self reportViews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+
+#warning @andy 页面关闭的时候需要停止音乐播放
+	//[_detailHeaderView stopMusic];
 }
 
 - (void)viewDidLoad {
@@ -104,11 +109,10 @@
              if (success) {
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
                  [self.navigationController popViewControllerAnimated:YES];
-//                 [_detailHeaderView stopMusic];
-//                 
-//                 if (_customDelegate) {
-//                     [_customDelegate detailViewControllerDidDeleteShare];
-//                 }
+
+                 if (_customDelegate) {
+                     [_customDelegate detailViewControllerDidDeleteShare];
+                 }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"删除失败:%@", error] tap:nil];
@@ -120,7 +124,7 @@
     }];
     
     UIActionSheet *aActionSheet = nil;
-    if (_formProfile) {
+    if (_fromProfile) {
         aActionSheet = [[UIActionSheet alloc] initWithTitle:@"更多操作"
                                            cancelButtonItem:cancelItem
                                       destructiveButtonItem:reportItem
@@ -173,6 +177,21 @@
 //    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
 //    _footerView.frame = rect;
 //    [UIView commitAnimations];
+}
+
+- (void)reportViews {
+	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
+								   spID:_playItem.spID
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+#warning @andy 服务器需要返回最新的views数字，客户端需要更新下
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"views share timeout");
+	 }];
 }
 
 #pragma mark - Table View Data Source Methods

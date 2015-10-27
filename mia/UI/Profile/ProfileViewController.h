@@ -11,6 +11,7 @@
 @protocol ProfileViewControllerDelegate
 
 - (void)profileViewControllerWillDismiss;
+- (void)profileViewControllerUpdateUnreadCount:(int)count;
 
 @end
 

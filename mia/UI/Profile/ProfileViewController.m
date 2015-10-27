@@ -33,6 +33,7 @@
 #import "SongListPlayer.h"
 #import "MusicMgr.h"
 #import "FileLog.h"
+#import "HXMusicDetailViewController.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -50,7 +51,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 , ProfileHeaderViewDelegate
 , FavoriteViewControllerDelegate
 , FavoriteMgrDelegate
-, DetailViewControllerDelegate
+, HXMusicDetailViewControllerDelegate
 , SongListPlayerDelegate
 , SongListPlayerDataSource
 >
@@ -523,14 +524,20 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 NSLog(@"post read comment ret: %d", success);
+		 NSLog(@"post read comment ret: %d, %d", success, [userInfo[MiaAPIKey_Values][@"num"] intValue]);
+		 if (_customDelegate) {
+			 [_customDelegate profileViewControllerUpdateUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
+		 }
+
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 NSLog(@"post read comment timeout");
 	 }];
 
-	DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:[cell shareItem] fromMyProfile:_isMyProfile];
-	vc.customDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
+	HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
+	musicDetailViewController.playItem = [cell shareItem];
+	musicDetailViewController.fromProfile = YES;
+	musicDetailViewController.customDelegate = self;
+	[self.navigationController pushViewController:musicDetailViewController animated:YES];
 }
 
 - (FavoriteModel *)profileHeaderViewModel {
