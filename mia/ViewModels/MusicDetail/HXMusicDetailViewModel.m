@@ -165,9 +165,8 @@ typedef void(^CommentReuqestBlock)(BOOL);
                           completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-#warning @"Change View Count"
-//             _playItem.cView = ;
-             
+             _playItem.cView = _playItem.cView + 1;
+
              __strong __typeof__(self)strongSelf = weakSelf;
              if (strongSelf->_commentReuqestBlock) {
                  strongSelf->_commentReuqestBlock(YES);
