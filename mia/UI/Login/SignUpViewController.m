@@ -122,13 +122,13 @@
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 38;
 	static const CGFloat kSignUpMarginLeft			= 16;
 
- 	static const CGFloat kVerificationCodeButtonWidth			= 80;
-	static const CGFloat kVerificationCodeButtonHeight			= 25;
+	static const CGFloat kVerificationCodeButtonWidth			= 83;
+	static const CGFloat kVerificationCodeButtonHeight			= 28;
 
 	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
 	UIColor *textColor = [UIColor blackColor];
 	UIColor *lineColor = UIColorFromHex(@"#dcdcdc", 1.0);
-	UIFont *textFont = UIFontFromSize(15);
+	UIFont *textFont = UIFontFromSize(16);
 
 	_userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(kTextFieldMarginLeft,
 																	  kUserNameMarginTop,
@@ -264,7 +264,7 @@
 	 _signUpButton = [[MIAButton alloc] initWithFrame:signUpButtonFrame
 													   titleString:@"注册"
 														titleColor:[UIColor whiteColor]
-															  font:UIFontFromSize(15)
+															  font:UIFontFromSize(16)
 														   logoImg:nil
 												   backgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"000000", 1.0)]];
 	[_signUpButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"f2f2f2", 1.0)] forState:UIControlStateDisabled];

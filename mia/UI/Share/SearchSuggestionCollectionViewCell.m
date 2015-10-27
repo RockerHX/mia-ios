@@ -39,17 +39,16 @@
 	[contentView addSubview:_titleLabel];
 
 	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@20);
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-15);
 	}];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"f2f2f2", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.bottom.equalTo(contentView.mas_bottom).offset(-1);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right);

@@ -41,7 +41,7 @@
 	UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
 	MBProgressHUD *aProgressHUD = [[MBProgressHUD alloc] initWithView:window];
 	[window addSubview:aProgressHUD];
-	aProgressHUD.dimBackground = YES;
+	aProgressHUD.dimBackground = NO;
 	aProgressHUD.labelText = text;
 	[aProgressHUD show:YES];
 

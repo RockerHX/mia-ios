@@ -118,49 +118,50 @@ const static CGFloat kSearchVCHeight = 60;
 	_searchTextField = [[UITextField alloc] init];
 	_searchTextField.borderStyle = UITextBorderStyleNone;
 	_searchTextField.backgroundColor = [UIColor clearColor];
-	_searchTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	_searchTextField.textColor = [UIColor blackColor];
 	_searchTextField.placeholder = @"搜索你感兴趣的歌曲名或歌手名";
-	[_searchTextField setFont:UIFontFromSize(13)];
+	[_searchTextField setFont:UIFontFromSize(16)];
 	_searchTextField.keyboardType = UIKeyboardTypeDefault;
 	_searchTextField.returnKeyType = UIReturnKeySearch;
+	_searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_searchTextField.delegate = self;
-	[_searchTextField setValue:UIColorFromHex(@"#949494", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
+	[_searchTextField setValue:UIColorFromHex(@"#808080", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
 	[_searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 	[editBgView addSubview:_searchTextField];
 
 	_cancelButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									  titleString:@"取消"
-									   titleColor:[UIColor redColor]
-											 font:UIFontFromSize(15)
+									   titleColor:[UIColor blackColor]
+											 font:UIFontFromSize(16)
 										  logoImg:nil
 								  backgroundImage:nil];
 	[_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[topView addSubview:_cancelButton];
 
 	[editBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@30);
+		make.height.equalTo(@40);
 		make.top.equalTo(topView.mas_top).offset(20);
 		make.left.equalTo(topView.mas_left).offset(15);
-		make.right.equalTo(topView.mas_right).offset(-60);
+		make.right.equalTo(_cancelButton.mas_left).offset(-6);
 	}];
 
 	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(16, 16));
 		make.centerY.equalTo(editBgView.mas_centerY);
-		make.left.equalTo(editBgView.mas_left).with.offset(5);
+		make.left.equalTo(editBgView.mas_left).with.offset(8);
 	}];
 
 	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(editBgView.mas_top).with.offset(5);
-		make.left.equalTo(editBgView.mas_left).with.offset(25);
-		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-5);
-		make.right.equalTo(editBgView.mas_right).with.offset(-5);
+		make.top.equalTo(editBgView.mas_top).with.offset(10);
+		make.left.equalTo(searchIconImageView.mas_right).offset(6);
+		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-10);
+		make.right.equalTo(editBgView.mas_right).with.offset(-2);
 	}];
 
 	[_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(40, 18));
-		make.top.equalTo(topView.mas_top).offset(25);
-		make.right.equalTo(topView.mas_right).offset(-15);
+		make.centerY.equalTo(editBgView.mas_centerY);
+		make.right.equalTo(topView.mas_right).offset(-5);
 	}];
 }
 

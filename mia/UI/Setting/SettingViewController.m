@@ -123,6 +123,9 @@ UITextFieldDelegate>
 - (void)initUI {
 	static NSString *kSettingTitle = @"设置";
 	self.title = kSettingTitle;
+	NSDictionary *fontDictionary = @{NSForegroundColorAttributeName:[UIColor blackColor],
+								  NSFontAttributeName:UIFontFromSize(16)};
+	[self.navigationController.navigationBar setTitleTextAttributes:fontDictionary];
 
 	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	_scrollView.backgroundColor = UIColorFromHex(@"f0eff5", 1.0);
@@ -224,11 +227,11 @@ UITextFieldDelegate>
 }
 
 - (void)initAvatarView:(UIView *)contentView {
-	static const CGFloat avatarWidth = 45;
+	static const CGFloat avatarWidth = 40;
 
 	MIALabel *avatarTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"头像"
-															font:UIFontFromSize(15.0f)
+															font:UIFontFromSize(16.0f)
 													   textColor:[UIColor blackColor]
 												   textAlignment:NSTextAlignmentLeft
 													 numberLines:1];
@@ -238,12 +241,12 @@ UITextFieldDelegate>
 	_avatarImageView.layer.cornerRadius = avatarWidth / 2;
 	_avatarImageView.clipsToBounds = YES;
 	_avatarImageView.layer.borderWidth = 1.0f;
-	_avatarImageView.layer.borderColor = UIColorFromHex(@"a2a2a2", 1.0).CGColor;
+	_avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
 	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	[contentView addSubview:_avatarImageView];
 
 	UIView *avatarLineView = [[UIView alloc] init];
-	avatarLineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	avatarLineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:avatarLineView];
 
 	[avatarTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -258,7 +261,7 @@ UITextFieldDelegate>
 		make.centerY.equalTo(contentView.mas_centerY);
 	}];
 	[avatarLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
@@ -268,7 +271,7 @@ UITextFieldDelegate>
 - (void)initNickNameView:(UIView *)contentView {
 	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"昵称"
-															font:UIFontFromSize(15.0f)
+															font:UIFontFromSize(16.0f)
 													   textColor:[UIColor blackColor]
 												   textAlignment:NSTextAlignmentLeft
 													 numberLines:1];
@@ -277,7 +280,7 @@ UITextFieldDelegate>
 	_nickNameTextField = [[UITextField alloc] init];
 	_nickNameTextField.borderStyle = UITextBorderStyleNone;
 	_nickNameTextField.backgroundColor = [UIColor clearColor];
-	_nickNameTextField.textColor = UIColorFromHex(@"#a2a2a2", 1.0);
+	_nickNameTextField.textColor = UIColorFromHex(@"#808080", 1.0);
 	_nickNameTextField.placeholder = @"请输入昵称";
 	_nickNameTextField.text = [[UserSession standard] nick];
 	[_nickNameTextField setFont:UIFontFromSize(16)];
@@ -291,7 +294,7 @@ UITextFieldDelegate>
 	//[_nickNameTextField setHidden:YES];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -307,7 +310,7 @@ UITextFieldDelegate>
 		make.right.equalTo(contentView.mas_right).offset(-15);
 	}];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
@@ -317,7 +320,7 @@ UITextFieldDelegate>
 - (void)initGenderView:(UIView *)contentView {
 	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"性别"
-															font:UIFontFromSize(15.0f)
+															font:UIFontFromSize(16.0f)
 												 textColor:[UIColor blackColor]
 											 textAlignment:NSTextAlignmentLeft
 													 numberLines:1];
@@ -325,14 +328,14 @@ UITextFieldDelegate>
 
 	_genderLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"请选择"
-															font:UIFontFromSize(15.0f)
-													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+															font:UIFontFromSize(16.0f)
+													textColor:UIColorFromHex(@"808080", 1.0)
 												textAlignment:NSTextAlignmentRight
 													 numberLines:1];
 	[contentView addSubview:_genderLabel];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -348,7 +351,7 @@ UITextFieldDelegate>
 		make.right.equalTo(contentView.mas_right).offset(-15);
 	}];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
@@ -357,7 +360,7 @@ UITextFieldDelegate>
 - (void)initChangePasswordView:(UIView *)contentView {
 	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"密码"
-															font:UIFontFromSize(15.0f)
+															font:UIFontFromSize(16.0f)
 												 textColor:[UIColor blackColor]
 											 textAlignment:NSTextAlignmentLeft
 													 numberLines:1];
@@ -365,8 +368,8 @@ UITextFieldDelegate>
 
 	MIALabel *changePasswordNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"修改密码"
-															font:UIFontFromSize(15.0f)
-													textColor:UIColorFromHex(@"a2a2a2", 1.0)
+															font:UIFontFromSize(16.0f)
+													textColor:UIColorFromHex(@"808080", 1.0)
 												textAlignment:NSTextAlignmentRight
 													 numberLines:1];
 	[contentView addSubview:changePasswordNameLabel];
@@ -437,7 +440,7 @@ UITextFieldDelegate>
 - (void)initAutoPlayView:(UIView *)contentView {
 	MIALabel *autoPlayLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"启动后自动播放"
-														 font:UIFontFromSize(15.0f)
+														 font:UIFontFromSize(16.0f)
 													textColor:[UIColor blackColor]
 												textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
@@ -449,7 +452,7 @@ UITextFieldDelegate>
 	[contentView addSubview:_autoPlaySwitch];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[autoPlayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -465,7 +468,7 @@ UITextFieldDelegate>
 		make.bottom.equalTo(contentView.mas_bottom).offset(-10);
 	}];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
@@ -474,7 +477,7 @@ UITextFieldDelegate>
 - (void)initPlayWith3GView:(UIView *)contentView {
 	MIALabel *playWith3GLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														   text:@"在2G/3G/4G网络下播放"
-														   font:UIFontFromSize(15.0f)
+														   font:UIFontFromSize(16.0f)
 													  textColor:[UIColor blackColor]
 												  textAlignment:NSTextAlignmentLeft
 													numberLines:1];
@@ -486,7 +489,7 @@ UITextFieldDelegate>
 	[contentView addSubview:_playWith3GSwitch];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
 	[playWith3GLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -502,7 +505,7 @@ UITextFieldDelegate>
 		make.bottom.equalTo(contentView.mas_bottom).offset(-10);
 	}];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
@@ -512,7 +515,7 @@ UITextFieldDelegate>
 - (void)initCleanCache:(UIView *)contentView {
 	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:@"清除缓存"
-															font:UIFontFromSize(15.0f)
+															font:UIFontFromSize(16.0f)
 												 textColor:[UIColor blackColor]
 											 textAlignment:NSTextAlignmentLeft
 													 numberLines:1];
@@ -531,14 +534,14 @@ UITextFieldDelegate>
 
 	MIALabel *feedbackTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															 text:@"意见反馈"
-															 font:UIFontFromSize(15.0f)
+															 font:UIFontFromSize(16.0f)
 														textColor:[UIColor blackColor]
 													textAlignment:NSTextAlignmentLeft
 													  numberLines:1];
 	[_feedbackView addSubview:feedbackTitleLabel];
 
 	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"eaeaea", 1.0);
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[_feedbackView addSubview:lineView];
 
 	[_feedbackView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -556,7 +559,7 @@ UITextFieldDelegate>
 	}];
 
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@1);
+		make.height.equalTo(@0.5);
 		make.left.equalTo(_feedbackView.mas_left).offset(15);
 		make.right.equalTo(_feedbackView.mas_right);
 		make.bottom.equalTo(_feedbackView.mas_bottom);
@@ -571,7 +574,7 @@ UITextFieldDelegate>
 
 	MIALabel *versionTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"当前版本"
-														 font:UIFontFromSize(15.0f)
+														 font:UIFontFromSize(16.0f)
 													textColor:[UIColor blackColor]
 												textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
@@ -583,8 +586,8 @@ UITextFieldDelegate>
 
 	MIALabel *versionLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															 text:version
-															 font:UIFontFromSize(15.0f)
-														textColor:UIColorFromHex(@"a2a2a2", 1.0)
+															 font:UIFontFromSize(16.0f)
+														textColor:UIColorFromHex(@"808080", 1.0)
 													textAlignment:NSTextAlignmentRight
 													  numberLines:1];
 	[_versionView addSubview:versionLabel];
@@ -620,7 +623,7 @@ UITextFieldDelegate>
 
 	MIALabel *logoutTitleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															 text:@"退出登录"
-															 font:UIFontFromSize(15.0f)
+															 font:UIFontFromSize(16.0f)
 														textColor:[UIColor blackColor]
 													textAlignment:NSTextAlignmentLeft
 													  numberLines:1];
@@ -897,9 +900,9 @@ UITextFieldDelegate>
 						  timeOut:5.0
 					 successBlock:
 	 ^(id task, NSDictionary *jsonServerConfig) {
-		[HXAlertBanner showWithMessage:@"喵~ :)" tap:nil];
+		[HXAlertBanner showWithMessage:@"喵~" tap:nil];
 	} failBlock:^(id task, NSError *error) {
-		[HXAlertBanner showWithMessage:@"喵喵喵~ :( " tap:nil];
+		[HXAlertBanner showWithMessage:@"喵喵喵~" tap:nil];
 	}];
 }
 

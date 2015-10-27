@@ -35,10 +35,13 @@
 }
 
 - (void)initUI:(UIView *)contentView {
-
+//	contentView.backgroundColor = arc4random() %2 == 0 ? [UIColor redColor] : [UIColor greenColor];
 	_coverImageView = [[UIImageView alloc] init];
 	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
 	[contentView addSubview:_coverImageView];
+	_coverImageView.layer.borderWidth = 0.5f;
+	_coverImageView.layer.borderColor = UIColorFromHex(@"dcdcdc", 1.0).CGColor;
+
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									   titleString:nil
@@ -61,34 +64,31 @@
 
 	_albumLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@"王菲 - 匆匆那年"
-											font:UIFontFromSize(12.0f)
-									   textColor:UIColorFromHex(@"a2a2a2", 1.0)
+											font:UIFontFromSize(14.0f)
+									   textColor:UIColorFromHex(@"808080", 1.0)
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	[contentView addSubview:_albumLabel];
 
 	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
-		make.size.mas_equalTo(CGSizeMake(70, 70));
-		make.left.equalTo(contentView.mas_left).offset(15);
-		make.bottom.equalTo(contentView.mas_bottom).offset(-15);
+		make.size.mas_equalTo(CGSizeMake(75, 75));
+		make.left.equalTo(contentView.mas_left).offset(5);
 	}];
 	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.size.mas_equalTo(CGSizeMake(20, 20));
-		make.right.equalTo(_coverImageView.mas_right).offset(-5);
-		make.bottom.equalTo(_coverImageView.mas_bottom).offset(-5);
+		make.size.mas_equalTo(CGSizeMake(30, 30));
+		make.centerX.mas_equalTo(_coverImageView.mas_centerX);
+		make.centerY.mas_equalTo(_coverImageView.mas_centerY);
 	}];
 	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@20);
 		make.bottom.equalTo(contentView.mas_centerY);
 		make.left.equalTo(_coverImageView.mas_right).offset(15);
-		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.right.equalTo(contentView.mas_right).offset(-10);
 	}];
 	[_albumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@20);
-		make.top.equalTo(contentView.mas_centerY);
+		make.top.equalTo(contentView.mas_centerY).offset(6);
 		make.left.equalTo(_coverImageView.mas_right).offset(15);
-		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.right.equalTo(contentView.mas_right).offset(-10);
 	}];
 
 	UIView *lineView = [[UIView alloc] init];
@@ -96,8 +96,8 @@
 	[contentView addSubview:lineView];
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@1);
-		make.bottom.equalTo(contentView.mas_bottom).offset(-1);
-		make.left.equalTo(contentView.mas_left).offset(15);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.left.equalTo(contentView.mas_left).offset(5);
 		make.right.equalTo(contentView.mas_right);
 	}];
 }
