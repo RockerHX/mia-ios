@@ -22,7 +22,7 @@ NSString * const WebSocketMgrNotificationKey_Values					= @"values";
 NSString * const WebSocketMgrNotificationDidOpen			 		= @"WebSocketMgrNotificationDidOpen";
 NSString * const WebSocketMgrNotificationDidFailWithError			= @"WebSocketMgrNotificationDidFailWithError";
 NSString * const WebSocketMgrNotificationDidAutoReconnectFailed		= @"WebSocketMgrNotificationDidAutoReconnectFailed";
-NSString * const WebSocketMgrNotificationDidReceiveMessage			= @"WebSocketMgrNotificationDidReceiveMessage";
+NSString * const WebSocketMgrNotificationPushUnread					= @"WebSocketMgrNotificationPushUnread";
 NSString * const WebSocketMgrNotificationDidCloseWithCode			= @"WebSocketMgrNotificationDidCloseWithCode";
 NSString * const WebSocketMgrNotificationDidReceivePong				= @"WebSocketMgrNotificationDidReceivePong";
 
@@ -332,6 +332,11 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	NSString *command = userInfo[MiaAPIKey_ServerCommand];
 	NSLog(@"#WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
 
+	if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationPushUnread object:self userInfo:userInfo];
+		return;
+	}
+
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// 使用GDC同步锁保证读写同步
 		dispatch_sync(_requestDataSyncQueue, ^{
@@ -349,8 +354,6 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 			}
 		});
 	});
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceiveMessage object:self userInfo:userInfo];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {

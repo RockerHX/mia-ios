@@ -29,6 +29,7 @@
 #import "HXGuideView.h"
 #import "HXVersion.h"
 #import "HXMusicDetailViewController.h"
+#import "UIImage+ColorToImage.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -74,7 +75,7 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationPushUnread object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 
 	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
@@ -96,7 +97,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidReceiveMessage:) name:WebSocketMgrNotificationDidReceiveMessage object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketPushUnread:) name:WebSocketMgrNotificationPushUnread object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
 	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
 
@@ -149,9 +150,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		if ([NSString isNull:newAvatarUrl]) {
 			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
         } else {
-            [_profileButton sd_setImageWithURL:[NSURL URLWithString:newAvatarUrl]
-                                      forState:UIControlStateNormal
-                              placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+			int unreadCount = [[[UserSession standard] unreadCommCnt] intValue];
+			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
 	}
 }
@@ -182,27 +182,17 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[self showNoNetworkView];
 }
 
-- (void)notificationWebSocketDidReceiveMessage:(NSNotification *)notification {
-	NSString *command = [notification userInfo][MiaAPIKey_ServerCommand];
+- (void)notificationWebSocketPushUnread:(NSNotification *)notification {
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
-	//NSLog(@"%@", command);
-
-	if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
-		[self handlePushUnreadCommWithRet:[ret intValue] userInfo:[notification userInfo]];
+	if (0 == [ret intValue]) {
+		[self updateProfileButtonWithUnreadCount:[[notification userInfo][MiaAPIKey_Values][@"num"] intValue]];
+	} else {
+		NSLog(@"unread comment failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 }
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	NSLog(@"Connection Closed! (see logs)");
-}
-
-- (void)handlePushUnreadCommWithRet:(int)ret userInfo:(NSDictionary *) userInfo {
-	BOOL isSuccess = (0 == ret);
-	if (isSuccess) {
-		[self updateProfileButtonWithUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
-	} else {
-		NSLog(@"unread comment failed! error:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-	}
 }
 
 #pragma mark - Event Response
@@ -433,7 +423,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
                                   forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	} else {
-        _profileButton.backgroundColor = UIColorFromHex(@"0BDEBC", 1.0f);
+		[_profileButton setImage:nil forState:UIControlStateNormal];
+		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
@@ -454,15 +445,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
              [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
-             
+
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
              [[UserSession standard] setAvatar:avatarUrlWithTime];
-             
-             [_profileButton sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-                                       forState:UIControlStateNormal
-                               placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
-             
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
          }

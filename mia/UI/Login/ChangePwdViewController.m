@@ -32,7 +32,6 @@
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)viewDidLoad {
