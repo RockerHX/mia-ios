@@ -169,6 +169,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
     } else {
         [array addObject:@(HXMusicDetailRowNoComment)];
     }
+    _regularRow = array.count;
     _rowTypes = [array copy];
 }
 
