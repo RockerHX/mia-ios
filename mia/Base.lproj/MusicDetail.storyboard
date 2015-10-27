@@ -298,14 +298,61 @@
                                             <outlet property="viewCountLabel" destination="hRv-bG-Oto" id="YS5-fO-Kje"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailNoCommentCell" rowHeight="80" id="3F8-Qr-ALf" customClass="HXMusicDetailNoCommentCell">
+                                        <rect key="frame" x="0.0" y="511" width="320" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3F8-Qr-ALf" id="6Ca-6I-Y1E">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5O7-xr-t3Q">
+                                                    <rect key="frame" x="106" y="28" width="108" height="25"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MD-SofaIcon" translatesAutoresizingMaskIntoConstraints="NO" id="58Q-vF-k6I">
+                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                            <animations/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="25" id="qpv-aZ-db7"/>
+                                                                <constraint firstAttribute="width" secondItem="58Q-vF-k6I" secondAttribute="height" multiplier="1:1" id="tIS-3B-HNZ"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="沙发很寂寞..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6y-Hm-SEW">
+                                                            <rect key="frame" x="25" y="0.0" width="83" height="25"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <animations/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="58Q-vF-k6I" firstAttribute="leading" secondItem="5O7-xr-t3Q" secondAttribute="leading" id="13e-p3-jl6"/>
+                                                        <constraint firstAttribute="trailing" secondItem="r6y-Hm-SEW" secondAttribute="trailing" id="Bev-RX-yyT"/>
+                                                        <constraint firstItem="r6y-Hm-SEW" firstAttribute="leading" secondItem="58Q-vF-k6I" secondAttribute="trailing" id="HRG-Qv-TRv"/>
+                                                        <constraint firstItem="58Q-vF-k6I" firstAttribute="top" secondItem="5O7-xr-t3Q" secondAttribute="top" id="hLr-I2-RXF"/>
+                                                        <constraint firstAttribute="bottom" secondItem="r6y-Hm-SEW" secondAttribute="bottom" id="wos-yT-WJS"/>
+                                                        <constraint firstAttribute="bottom" secondItem="58Q-vF-k6I" secondAttribute="bottom" id="y9o-cz-Bnh"/>
+                                                        <constraint firstItem="r6y-Hm-SEW" firstAttribute="top" secondItem="5O7-xr-t3Q" secondAttribute="top" id="yoJ-uw-WLZ"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="5O7-xr-t3Q" firstAttribute="centerY" secondItem="6Ca-6I-Y1E" secondAttribute="centerY" id="8CQ-2P-P5E"/>
+                                                <constraint firstItem="5O7-xr-t3Q" firstAttribute="centerX" secondItem="6Ca-6I-Y1E" secondAttribute="centerX" id="fYf-of-E9b"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailCommentCell" rowHeight="50" id="nSA-Kz-XaD" customClass="HXMusicDetailCommentCell">
-                                        <rect key="frame" x="0.0" y="511" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="591" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nSA-Kz-XaD" id="mpf-06-yYn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ftz-PD-tq3">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ftz-PD-tq3">
                                                     <rect key="frame" x="15" y="0.0" width="35" height="35"/>
                                                     <animations/>
                                                     <constraints>
@@ -394,6 +441,7 @@
         <image name="MD-CommentsIcon" width="25" height="25"/>
         <image name="MD-LocationIcon" width="25" height="25"/>
         <image name="MD-MoreButtonIcon" width="25" height="25"/>
+        <image name="MD-SofaIcon" width="25" height="25"/>
         <image name="MD-UnStarIcon" width="20" height="20"/>
         <image name="MD-ViewCountIcon" width="25" height="25"/>
     </resources>

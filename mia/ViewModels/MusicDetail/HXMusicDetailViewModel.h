@@ -29,10 +29,14 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
 @property (nonatomic, assign, readonly) CGFloat  noCommentCellHeight;
 
 @property (nonatomic, assign, readonly) NSInteger  rows;
-@property (nonatomic, assign, readonly)   NSArray *rowTypes;
+@property (nonatomic, assign, readonly) NSInteger  regularRow;
+@property (nonatomic, copy, readonly)     NSArray *rowTypes;
+
+@property (nonatomic, copy, readonly)     NSArray *comments;
 
 @property (nonatomic, strong, readonly)     NSURL *frontCoverURL;
 
 - (instancetype)initWithItem:(ShareItem *)item;
+- (void)requestComments:(void(^)(BOOL success))block;
 
 @end

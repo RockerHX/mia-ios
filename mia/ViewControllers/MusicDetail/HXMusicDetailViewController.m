@@ -53,6 +53,12 @@
 #pragma mark - Config Methods
 - (void)initConfig {
     _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+    
+    __weak __typeof__(self)weakSelf = self;
+    [_viewModel requestComments:^(BOOL success) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.tableView reloadData];
+    }];
 }
 
 - (void)viewConfig {
@@ -133,7 +139,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = nil;
     if (_viewModel) {
-        HXMusicDetailRow rowType = indexPath.row;
+        HXMusicDetailRow rowType = [_viewModel.rowTypes[indexPath.row] integerValue];
         switch (rowType) {
             case HXMusicDetailRowCover: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCoverCell class]) forIndexPath:indexPath];
@@ -166,7 +172,7 @@
             }
             case HXMusicDetailRowComment: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCommentCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailCommentCell *)cell displayWithViewModel:_viewModel];
+                [(HXMusicDetailCommentCell *)cell displayWithComment:_viewModel.comments[indexPath.row - _viewModel.regularRow]];
                 break;
             }
         }
@@ -178,7 +184,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0.0f;
     if (_viewModel) {
-        HXMusicDetailRow rowType = indexPath.row;
+        HXMusicDetailRow rowType = [_viewModel.rowTypes[indexPath.row] integerValue];
         switch (rowType) {
             case HXMusicDetailRowCover: {
                 height = _viewModel.frontCoverCellHeight;
@@ -211,9 +217,9 @@
                 break;
             }
             case HXMusicDetailRowComment: {
-                [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailCommentCell class]) cacheByIndexPath:indexPath configuration:
+                height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailCommentCell class]) cacheByIndexPath:indexPath configuration:
                  ^(HXMusicDetailCommentCell *cell) {
-                     [cell displayWithViewModel:_viewModel];
+                     [cell displayWithComment:_viewModel.comments[indexPath.row - _viewModel.regularRow]];
                  }];
                 break;
             }
