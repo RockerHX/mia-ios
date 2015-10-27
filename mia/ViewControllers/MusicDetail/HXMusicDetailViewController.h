@@ -19,6 +19,7 @@
 @property (nonatomic, assign)      BOOL  formProfile;
 @property (nonatomic, strong) ShareItem *playItem;
 
+- (IBAction)backButtonPressed;
 - (IBAction)moreButtonPressed;
 - (IBAction)commentButtonPressed;
 

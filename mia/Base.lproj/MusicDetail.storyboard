@@ -435,6 +435,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="详情页" id="HAA-WS-VHh">
+                        <barButtonItem key="leftBarButtonItem" id="Mz0-Rv-JdN">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LES-gd-Nue">
+                                <rect key="frame" x="16" y="9" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <inset key="imageEdgeInsets" minX="-16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="MD-BackIcon"/>
+                                <connections>
+                                    <action selector="backButtonPressed" destination="ryk-wB-QfC" eventType="touchUpInside" id="fay-ae-jT8"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="MD-MoreButtonIcon" id="4u4-Bc-uhY">
                             <connections>
                                 <action selector="moreButtonPressed" destination="ryk-wB-QfC" id="MCM-WP-LVp"/>
@@ -447,7 +459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Rj-NN-4nf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="179" y="-153"/>
+            <point key="canvasLocation" x="-208" y="-139"/>
         </scene>
     </scenes>
     <resources>
@@ -455,6 +467,7 @@
         <image name="HP-DefaultCover" width="250" height="250"/>
         <image name="M-PauseIcon" width="35" height="35"/>
         <image name="M-PlayIcon" width="35" height="35"/>
+        <image name="MD-BackIcon" width="25" height="25"/>
         <image name="MD-CommentButtonIcon" width="345" height="41"/>
         <image name="MD-CommentsIcon" width="25" height="25"/>
         <image name="MD-LocationIcon" width="25" height="25"/>
