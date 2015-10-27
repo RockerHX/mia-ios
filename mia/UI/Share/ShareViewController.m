@@ -616,7 +616,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	NSLog(@"send button clicked.");
 	NSString *comment = _commentTextField.text;
 	if ([comment length] <= 0) {
-		comment = @"我要推荐这首歌曲";
+		comment = @"这首歌不错，记得帮我妙推一下哦";
 	}
 
 	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交分享"];

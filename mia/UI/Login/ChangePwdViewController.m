@@ -32,7 +32,6 @@
 }
 
 -(void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidReceiveMessage object:nil];
 }
 
 - (void)viewDidLoad {
@@ -309,6 +308,7 @@
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
 			 [self.navigationController popViewControllerAnimated:YES];
+			 [HXAlertBanner showWithMessage:@"密码修改成功" tap:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改密码失败：%@", error] tap:nil];
