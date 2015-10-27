@@ -68,7 +68,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (CGFloat)infectCellHeight {
-    return 35.0f;
+    return 55.0f;
 }
 
 - (CGFloat)promptCellHeight {

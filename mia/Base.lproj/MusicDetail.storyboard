@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment version="2320" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -165,20 +165,34 @@
                                             <outlet property="shareInfoLabel" destination="X4h-4S-1r1" id="4Kf-We-XEI"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailInfectCell" rowHeight="35" id="FZs-T9-91Z" customClass="HXMusicDetailInfectCell">
-                                        <rect key="frame" x="0.0" y="387" width="320" height="35"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailInfectCell" rowHeight="55" id="FZs-T9-91Z" customClass="HXMusicDetailInfectCell">
+                                        <rect key="frame" x="0.0" y="387" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FZs-T9-91Z" id="QzA-rY-4cl">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3VQ-w5-pkj" customClass="HXInfectUserView">
                                                     <rect key="frame" x="83" y="0.0" width="100" height="35"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="An3-Ya-C71">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                                                            <animations/>
+                                                        </stackView>
+                                                    </subviews>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="Hhd-FE-2De"/>
                                                         <constraint firstAttribute="height" constant="35" id="J1t-3B-xGO"/>
+                                                        <constraint firstItem="An3-Ya-C71" firstAttribute="leading" secondItem="3VQ-w5-pkj" secondAttribute="leading" id="O5S-X5-IFU"/>
+                                                        <constraint firstItem="An3-Ya-C71" firstAttribute="top" secondItem="3VQ-w5-pkj" secondAttribute="top" id="jXY-8y-hDb"/>
+                                                        <constraint firstAttribute="trailing" secondItem="An3-Ya-C71" secondAttribute="trailing" id="mLF-5Q-xjy"/>
+                                                        <constraint firstAttribute="bottom" secondItem="An3-Ya-C71" secondAttribute="bottom" id="pfv-gW-apM"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <outlet property="stacView" destination="An3-Ya-C71" id="En4-OC-Knu"/>
+                                                        <outlet property="widthConstraint" destination="Hhd-FE-2De" id="zAB-UN-mFe"/>
+                                                    </connections>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(人数)人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMb-l9-8Sj" customClass="TTTAttributedLabel">
                                                     <rect key="frame" x="188" y="9" width="86" height="18"/>
@@ -195,6 +209,7 @@
                                                 <constraint firstItem="3VQ-w5-pkj" firstAttribute="centerX" secondItem="QzA-rY-4cl" secondAttribute="centerX" constant="-27" id="Fnj-10-DK0"/>
                                                 <constraint firstItem="iMb-l9-8Sj" firstAttribute="centerY" secondItem="3VQ-w5-pkj" secondAttribute="centerY" id="Ifz-dn-Zen"/>
                                                 <constraint firstItem="3VQ-w5-pkj" firstAttribute="top" secondItem="QzA-rY-4cl" secondAttribute="top" id="lhf-K1-u6S"/>
+                                                <constraint firstAttribute="bottom" secondItem="3VQ-w5-pkj" secondAttribute="bottom" constant="20" id="nW8-Eh-taO"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -205,7 +220,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailPromptCell" rowHeight="89" id="Log-fI-kqW" customClass="HXMusicDetailPromptCell">
-                                        <rect key="frame" x="0.0" y="422" width="320" height="89"/>
+                                        <rect key="frame" x="0.0" y="442" width="320" height="89"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Log-fI-kqW" id="ldy-5C-Z9I">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
@@ -297,7 +312,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailNoCommentCell" rowHeight="40" id="3F8-Qr-ALf" customClass="HXMusicDetailNoCommentCell">
-                                        <rect key="frame" x="0.0" y="511" width="320" height="40"/>
+                                        <rect key="frame" x="0.0" y="531" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3F8-Qr-ALf" id="6Ca-6I-Y1E">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
@@ -344,7 +359,7 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailCommentCell" rowHeight="50" id="nSA-Kz-XaD" customClass="HXMusicDetailCommentCell">
-                                        <rect key="frame" x="0.0" y="551" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="571" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nSA-Kz-XaD" id="mpf-06-yYn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
