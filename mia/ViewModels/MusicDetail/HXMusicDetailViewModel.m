@@ -16,9 +16,10 @@ typedef void(^CommentReuqestBlock)(BOOL);
 
 @implementation HXMusicDetailViewModel {
     CommentReuqestBlock _commentReuqestBlock;
+    CommentReuqestBlock _lastCommentReuqestBlock;
     CommentReuqestBlock _reportViewsBlock;
     
-    NSInteger _regularRow;
+    NSInteger _rowCount;
     NSArray *_rowTypes;
     CommentModel *_dataModel;
     ShareItem *_playItem;
@@ -42,7 +43,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 - (void)initConfig {
     [self setupRowTypes];
     _dataModel = [[CommentModel alloc] init];
-    _regularRow = _rowTypes.count;
+    _rowCount = _rowTypes.count;
 }
 
 - (void)setupRowTypes {
@@ -82,11 +83,11 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (NSInteger)rows {
-    return (_playItem ? (_regularRow + _dataModel.dataSource.count) : 0);
+    return (_playItem ? _rowCount : 0);
 }
 
 - (NSInteger)regularRow {
-    return _regularRow;
+    return _playItem.infectUsers.count ? 5 : 4;
 }
 
 - (NSArray *)rowTypes {
@@ -131,27 +132,36 @@ typedef void(^CommentReuqestBlock)(BOOL);
      }];
 }
 
-- (void)requestLatestComments {
-//    [MiaAPIHelper getMusicCommentWithShareID:_playItem.sID
-//                                       start:_dataModel.latestCommentID
-//                                        item:1
-//                               completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         if (!success) {
-//             [self checkPlaceHolder];
-//             return;
-//         }
-//         
-//         NSArray *commentArray = userInfo[@"v"][@"info"];
-//         if (!commentArray || [commentArray count] <= 0) {
-//             [self checkPlaceHolder];
-//             return;
-//         }
-//         
-//         [_dataModel addComments:commentArray];
-//     } timeoutBlock:^(MiaRequestItem *requestItem) {
-//         NSLog(@"Time out");
-//     }];
+- (void)requestLatestComments:(void(^)(BOOL success))block {
+    _lastCommentReuqestBlock = block;
+    
+    __weak __typeof__(self)weakSelf = self;
+    [MiaAPIHelper getMusicCommentWithShareID:_playItem.sID
+                                       start:_dataModel.latestCommentID
+                                        item:1
+                               completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (!success) {
+             if (strongSelf->_lastCommentReuqestBlock) {
+                 strongSelf->_lastCommentReuqestBlock(NO);
+             }
+             return;
+         }
+         
+         NSArray *commentArray = userInfo[@"v"][@"info"];
+         [strongSelf->_dataModel addComments:commentArray];
+         [strongSelf reSetupRowTypes];
+         
+         if (strongSelf->_lastCommentReuqestBlock) {
+             strongSelf->_lastCommentReuqestBlock(YES);
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (strongSelf->_lastCommentReuqestBlock) {
+             strongSelf->_lastCommentReuqestBlock(NO);
+         }
+     }];
 }
 
 - (void)reportViews:(void(^)(BOOL success))block {
@@ -197,7 +207,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
     } else {
         [array addObject:@(HXMusicDetailRowNoComment)];
     }
-    _regularRow = array.count;
+    _rowCount = array.count;
     _rowTypes = [array copy];
 }
 

@@ -39,5 +39,6 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
 - (instancetype)initWithItem:(ShareItem *)item;
 - (void)requestComments:(void(^)(BOOL success))block;
 - (void)reportViews:(void(^)(BOOL success))block;
+- (void)requestLatestComments:(void(^)(BOOL success))block;
 
 @end
