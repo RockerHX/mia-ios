@@ -50,6 +50,11 @@
     [self viewConfig];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 #pragma mark - Config Methods
 - (void)initConfig {
     _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
@@ -59,10 +64,14 @@
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.tableView reloadData];
     }];
+    
+    //添加键盘监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewConfig {
-    [self refresh];
+//    [self refresh];
 }
 
 #pragma mark - Event Response
@@ -130,9 +139,40 @@
     
 }
 
+- (void)keyBoardWillShow:(NSNotification *)notification{
+    NSDictionary *info = [notification userInfo];
+    //获取当前显示的键盘高度
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
+    [self moveUpViewForKeyboard:keyboardSize];
+}
+
+- (void)keyBoardWillHide:(NSNotification *)notification{
+    [self resumeView];
+}
+
 #pragma mark - Private Methods
-- (void)refresh {
-//    [_detailView refreshWithItem:_playItem];
+- (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    //	float width = footerView.frame.size.width;
+//    //	float height = footerView.frame.size.height;
+//    //
+//    //	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
+//    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight - keyboardSize.height, self.view.bounds.size.width, kDetailFooterViewHeight);
+//    _footerView.frame = rect;
+//    [UIView commitAnimations];
+}
+
+- (void)resumeView {
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    //	float width = self.view.frame.size.width;
+//    //	float height = self.view.frame.size.height;
+//    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
+//    _footerView.frame = rect;
+//    [UIView commitAnimations];
 }
 
 #pragma mark - Table View Data Source Methods
