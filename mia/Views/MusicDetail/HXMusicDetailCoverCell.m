@@ -24,7 +24,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
-//    [_coverImageView sd_setImageWithURL:viewModel.frontCoverURL];
+    [_coverImageView sd_setImageWithURL:viewModel.frontCoverURL];
 }
 
 @end

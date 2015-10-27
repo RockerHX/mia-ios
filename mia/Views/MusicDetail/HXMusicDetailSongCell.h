@@ -8,16 +8,27 @@
 
 #import "UITableView+FDTemplateLayoutCell.h"
 
+@class MusicItem;
 @class TTTAttributedLabel;
-@class HXMusicDetailViewModel;
+@class HXMusicDetailSongCell;
+
+@protocol HXMusicDetailSongCellDelegate <NSObject>
+
+@required
+- (void)cellUserWouldLikeStar:(HXMusicDetailSongCell *)cell;
+
+@end
 
 @interface HXMusicDetailSongCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet          id  <HXMusicDetailSongCellDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *songInfoLabel;
 @property (weak, nonatomic) IBOutlet           UIButton *starButton;
 
 - (IBAction)starButtonPressed;
 
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
+- (void)displayWithMusicItem:(MusicItem *)item;
+- (void)updateStatStateWithFavorite:(BOOL)favorite;
 
 @end

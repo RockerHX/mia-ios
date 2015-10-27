@@ -6,7 +6,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--详情页-->
+        <!--Delegate-->
         <scene sceneID="JFE-pJ-zFL">
             <objects>
                 <viewController storyboardIdentifier="HXMusicDetailViewController" id="ryk-wB-QfC" customClass="HXMusicDetailViewController" sceneMemberID="viewController">
@@ -71,6 +71,13 @@
                                                         <action selector="playButtonPressed" destination="KBC-N0-qIX" eventType="touchUpInside" id="gWl-EB-jEm"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="Jrn-ws-wbU">
+                                                    <rect key="frame" x="72" y="185" width="175" height="40"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="5Tq-Y5-BaV"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
@@ -78,12 +85,16 @@
                                                 <constraint firstAttribute="bottom" secondItem="gqq-V3-m8q" secondAttribute="bottom" constant="15" id="6A4-E3-m3H"/>
                                                 <constraint firstItem="gqq-V3-m8q" firstAttribute="top" secondItem="2CD-9F-V4c" secondAttribute="top" constant="50" id="7zT-ze-1Sg"/>
                                                 <constraint firstItem="gqq-V3-m8q" firstAttribute="centerX" secondItem="2CD-9F-V4c" secondAttribute="centerX" id="HfD-i2-EZv"/>
+                                                <constraint firstItem="Jrn-ws-wbU" firstAttribute="leading" secondItem="gqq-V3-m8q" secondAttribute="leading" id="cRB-z0-bns"/>
+                                                <constraint firstItem="Jrn-ws-wbU" firstAttribute="trailing" secondItem="gqq-V3-m8q" secondAttribute="trailing" id="emy-G7-ySD"/>
                                                 <constraint firstItem="2D4-xl-Kk1" firstAttribute="centerX" secondItem="gqq-V3-m8q" secondAttribute="centerX" id="rEP-M4-rWL"/>
+                                                <constraint firstItem="Jrn-ws-wbU" firstAttribute="bottom" secondItem="gqq-V3-m8q" secondAttribute="bottom" id="uV3-Ts-WpE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
                                             <outlet property="coverImageView" destination="gqq-V3-m8q" id="C7m-dK-2fC"/>
+                                            <outlet property="delegate" destination="ryk-wB-QfC" id="5vV-AI-raD"/>
                                             <outlet property="playButton" destination="2D4-xl-Kk1" id="Ud7-6L-RxY"/>
                                         </connections>
                                     </tableViewCell>
@@ -94,7 +105,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="歌曲名  演唱者" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96B-4u-fhP" customClass="TTTAttributedLabel">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="歌曲名  演唱者" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="98" translatesAutoresizingMaskIntoConstraints="NO" id="96B-4u-fhP" customClass="TTTAttributedLabel">
                                                     <rect key="frame" x="96" y="0.0" width="98" height="29"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -102,7 +113,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJj-gt-4Y6">
-                                                    <rect key="frame" x="209" y="4" width="20" height="22"/>
+                                                    <rect key="frame" x="209" y="0.0" width="20" height="22"/>
                                                     <animations/>
                                                     <state key="normal" image="MD-UnStarIcon"/>
                                                     <connections>
@@ -112,28 +123,29 @@
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="lJj-gt-4Y6" firstAttribute="centerY" secondItem="96B-4u-fhP" secondAttribute="centerY" id="0Z5-le-4Gd"/>
                                                 <constraint firstAttribute="bottom" secondItem="96B-4u-fhP" secondAttribute="bottom" constant="15" id="A9i-nY-MBd"/>
                                                 <constraint firstItem="lJj-gt-4Y6" firstAttribute="leading" secondItem="96B-4u-fhP" secondAttribute="trailing" constant="15" id="PBh-DP-Qh4"/>
+                                                <constraint firstItem="lJj-gt-4Y6" firstAttribute="top" secondItem="96B-4u-fhP" secondAttribute="top" id="YEj-GU-bks"/>
                                                 <constraint firstItem="96B-4u-fhP" firstAttribute="top" secondItem="sXB-8U-GZ0" secondAttribute="top" id="oRO-qU-XNp"/>
                                                 <constraint firstItem="96B-4u-fhP" firstAttribute="centerX" secondItem="sXB-8U-GZ0" secondAttribute="centerX" constant="-15" id="yND-70-OLX"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
+                                            <outlet property="delegate" destination="ryk-wB-QfC" id="fgF-mv-iS7"/>
                                             <outlet property="songInfoLabel" destination="96B-4u-fhP" id="xmI-xe-3vr"/>
                                             <outlet property="starButton" destination="lJj-gt-4Y6" id="PJJ-YG-Qfr"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailShareCell" rowHeight="120" id="Icz-hF-7Qk" customClass="HXMusicDetailShareCell">
-                                        <rect key="frame" x="0.0" y="312" width="320" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailShareCell" rowHeight="75" id="Icz-hF-7Qk" customClass="HXMusicDetailShareCell">
+                                        <rect key="frame" x="0.0" y="312" width="320" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Icz-hF-7Qk" id="SMq-a6-L97">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="评论者：评论内容" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="120" translatesAutoresizingMaskIntoConstraints="NO" id="X4h-4S-1r1" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="100" y="0.0" width="120" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="评论者：评论内容" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="276" translatesAutoresizingMaskIntoConstraints="NO" id="X4h-4S-1r1" customClass="TTTAttributedLabel">
+                                                    <rect key="frame" x="22" y="0.0" width="276" height="30"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -142,9 +154,11 @@
                                             </subviews>
                                             <animations/>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="X4h-4S-1r1" secondAttribute="trailing" constant="22" id="L1c-6a-gZS"/>
+                                                <constraint firstItem="X4h-4S-1r1" firstAttribute="leading" secondItem="SMq-a6-L97" secondAttribute="leading" constant="22" id="YYn-JP-sxV"/>
                                                 <constraint firstItem="X4h-4S-1r1" firstAttribute="top" secondItem="SMq-a6-L97" secondAttribute="top" id="iRU-3f-LcA"/>
                                                 <constraint firstItem="X4h-4S-1r1" firstAttribute="centerX" secondItem="SMq-a6-L97" secondAttribute="centerX" id="puY-Sa-5V8"/>
-                                                <constraint firstAttribute="bottom" secondItem="X4h-4S-1r1" secondAttribute="bottom" constant="90" id="zWx-cD-thI"/>
+                                                <constraint firstAttribute="bottom" secondItem="X4h-4S-1r1" secondAttribute="bottom" constant="45" id="zWx-cD-thI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -153,23 +167,23 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailInfectCell" rowHeight="35" id="FZs-T9-91Z" customClass="HXMusicDetailInfectCell">
-                                        <rect key="frame" x="0.0" y="432" width="320" height="35"/>
+                                        <rect key="frame" x="0.0" y="387" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FZs-T9-91Z" id="QzA-rY-4cl">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3VQ-w5-pkj" customClass="HXInfectUserView">
-                                                    <rect key="frame" x="80" y="0.0" width="100" height="35"/>
+                                                    <rect key="frame" x="83" y="0.0" width="100" height="35"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="Hhd-FE-2De"/>
                                                         <constraint firstAttribute="height" constant="35" id="J1t-3B-xGO"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(人数)人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMb-l9-8Sj" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="185" y="9" width="86" height="18"/>
+                                                    <rect key="frame" x="188" y="9" width="86" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -179,7 +193,7 @@
                                             <animations/>
                                             <constraints>
                                                 <constraint firstItem="iMb-l9-8Sj" firstAttribute="leading" secondItem="3VQ-w5-pkj" secondAttribute="trailing" constant="5" id="7zA-Id-6br"/>
-                                                <constraint firstItem="3VQ-w5-pkj" firstAttribute="centerX" secondItem="QzA-rY-4cl" secondAttribute="centerX" constant="-30" id="Fnj-10-DK0"/>
+                                                <constraint firstItem="3VQ-w5-pkj" firstAttribute="centerX" secondItem="QzA-rY-4cl" secondAttribute="centerX" constant="-27" id="Fnj-10-DK0"/>
                                                 <constraint firstItem="iMb-l9-8Sj" firstAttribute="centerY" secondItem="3VQ-w5-pkj" secondAttribute="centerY" id="Ifz-dn-Zen"/>
                                                 <constraint firstItem="3VQ-w5-pkj" firstAttribute="top" secondItem="QzA-rY-4cl" secondAttribute="top" id="lhf-K1-u6S"/>
                                             </constraints>
@@ -191,7 +205,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailPromptCell" rowHeight="89" id="Log-fI-kqW" customClass="HXMusicDetailPromptCell">
-                                        <rect key="frame" x="0.0" y="467" width="320" height="89"/>
+                                        <rect key="frame" x="0.0" y="422" width="320" height="89"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Log-fI-kqW" id="ldy-5C-Z9I">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
@@ -283,7 +297,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailCommentCell" rowHeight="50" id="nSA-Kz-XaD" customClass="HXMusicDetailCommentCell">
-                                        <rect key="frame" x="0.0" y="556" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="511" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nSA-Kz-XaD" id="mpf-06-yYn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -304,7 +318,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="评论内容" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVH-v7-RDw">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="评论内容" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="yVH-v7-RDw">
                                                     <rect key="frame" x="62" y="18" width="250" height="17"/>
                                                     <animations/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -370,6 +384,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="HP-CoverMask" width="250" height="65"/>
         <image name="HP-DefaultCover" width="250" height="250"/>
         <image name="M-PauseIcon" width="35" height="35"/>
         <image name="M-PlayIcon" width="35" height="35"/>

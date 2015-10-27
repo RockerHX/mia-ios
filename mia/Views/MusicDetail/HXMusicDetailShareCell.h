@@ -8,13 +8,13 @@
 
 #import "UITableView+FDTemplateLayoutCell.h"
 
+@class ShareItem;
 @class TTTAttributedLabel;
-@class HXMusicDetailViewModel;
 
 @interface HXMusicDetailShareCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shareInfoLabel;
 
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
+- (void)displayWithShareItem:(ShareItem *)item;
 
 @end

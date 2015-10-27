@@ -22,16 +22,15 @@
 #import "LoginViewController.h"
 #import "UserSession.h"
 
-@interface HXMusicDetailViewController () {
-    HXMusicDetailViewModel *_viewModel;
-}
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate>
 @end
 
-@implementation HXMusicDetailViewController
+@implementation HXMusicDetailViewController {
+    HXMusicDetailViewModel *_viewModel;
+}
 
 #pragma mark - View Controller Life Cycle
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
@@ -140,12 +139,12 @@
             }
             case HXMusicDetailRowSong: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailSongCell *)cell displayWithViewModel:_viewModel];
+                [(HXMusicDetailSongCell *)cell displayWithMusicItem:_viewModel.playItem.music];
                 break;
             }
             case HXMusicDetailRowShare: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailShareCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailShareCell *)cell displayWithViewModel:_viewModel];
+                [(HXMusicDetailShareCell *)cell displayWithShareItem:_viewModel.playItem];
                 break;
             }
             case HXMusicDetailRowInfect: {
@@ -185,14 +184,14 @@
             case HXMusicDetailRowSong: {
                 height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) cacheByIndexPath:indexPath configuration:
                  ^(HXMusicDetailSongCell *cell) {
-                     [cell displayWithViewModel:_viewModel];
+                     [cell displayWithMusicItem:_viewModel.playItem.music];
                 }];
                 break;
             }
             case HXMusicDetailRowShare: {
                 height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailShareCell class]) cacheByIndexPath:indexPath configuration:
                  ^(HXMusicDetailShareCell *cell) {
-                     [cell displayWithViewModel:_viewModel];
+                     [cell displayWithShareItem:_viewModel.playItem];
                  }];
                 break;
             }
@@ -236,6 +235,37 @@
                  if ([strongSelf->_playItem.sID integerValue] == [sID intValue]) {
                      strongSelf->_playItem.favorite = favorite;
 //                     [strongSelf.detailView updateStarState:favorite];
+                 }
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+         }];
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        //vc.loginViewControllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+#pragma mark - HXMusicDetailSongCellDelegate Methods
+- (void)cellUserWouldLikeStar:(HXMusicDetailSongCell *)cell {
+    if ([[UserSession standard] isLogined]) {
+        ShareItem *playItem = _viewModel.playItem;
+        [MiaAPIHelper favoriteMusicWithShareID:playItem.sID
+                                    isFavorite:!playItem.favorite
+                                 completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             if (success) {
+                 id act = userInfo[MiaAPIKey_Values][@"act"];
+                 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
+                 if ([playItem.sID integerValue] == [sID intValue]) {
+                     playItem.favorite = favorite;
+                     [cell updateStatStateWithFavorite:favorite];
                  }
                  [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
              } else {
