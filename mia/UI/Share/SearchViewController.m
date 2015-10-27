@@ -42,7 +42,7 @@ const static CGFloat kSearchVCHeight = 60;
 	SearchResultView 		*_resultView;
 
 	UITextField 			*_searchTextField;
-	MBProgressHUD 			*_progressHUD;
+	MBProgressHUD 			*_searchProgressHUD;
 }
 
 - (id)init {
@@ -54,6 +54,8 @@ const static CGFloat kSearchVCHeight = 60;
 }
 
 -(void)dealloc {
+	[_searchProgressHUD removeFromSuperview];
+	_searchProgressHUD = nil;
 }
 
 - (void)viewDidLoad {
@@ -61,6 +63,7 @@ const static CGFloat kSearchVCHeight = 60;
 	// Do any additional setup after loading the view, typically from a nib.
 	[self initTopView];
 	[self initCollectionView];
+	[self initProgressHud];
 	[_searchTextField becomeFirstResponder];
 }
 
@@ -182,6 +185,15 @@ const static CGFloat kSearchVCHeight = 60;
 	[_resultView setHidden:YES];
 }
 
+- (void)initProgressHud {
+	UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+	_searchProgressHUD = [[MBProgressHUD alloc] initWithView:window];
+	[window addSubview:_searchProgressHUD];
+	_searchProgressHUD.dimBackground = NO;
+	_searchProgressHUD.labelText = @"正在搜索";
+	_searchProgressHUD.mode = MBProgressHUDModeIndeterminate;
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -198,7 +210,7 @@ const static CGFloat kSearchVCHeight = 60;
 		[_suggestionModel.dataSource removeAllObjects];
 		[_resultModel reset];
 
-		MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在搜索"];
+		[_searchProgressHUD show:YES];
 		[XiamiHelper requestSearchResultWithKey:_searchTextField.text
 										   page:_resultModel.currentPage
 								   successBlock:
@@ -206,9 +218,9 @@ const static CGFloat kSearchVCHeight = 60;
 			[_resultModel addItemsWithArray:responseObject];
 			[_resultView.collectionView reloadData];
 
-			[aMBProgressHUD removeFromSuperview];
+			[_searchProgressHUD hide:YES];
 		} failedBlock:^(NSError *error) {
-			[aMBProgressHUD removeFromSuperview];
+			[_searchProgressHUD hide:YES];
 			[HXAlertBanner showWithMessage:@"搜索失败，请稍后重试" tap:nil];
 		}];
 	}
@@ -252,14 +264,14 @@ const static CGFloat kSearchVCHeight = 60;
 	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
 	_searchTextField.text = key;
 
-	MBProgressHUD * aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在搜索"];
+	[_searchProgressHUD show:YES];
 	[XiamiHelper requestSearchResultWithKey:key page:_resultModel.currentPage successBlock:^(id responseObject) {
 		[_resultModel addItemsWithArray:responseObject];
 		[_resultView.collectionView reloadData];
-		[aMBProgressHUD removeFromSuperview];
+		[_searchProgressHUD hide:YES];
 	} failedBlock:^(NSError *error) {
 		NSLog(@"%@", error);
-		[aMBProgressHUD removeFromSuperview];
+		[_searchProgressHUD hide:YES];
 	}];
 }
 
