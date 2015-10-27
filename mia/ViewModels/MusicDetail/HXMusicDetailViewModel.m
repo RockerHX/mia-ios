@@ -10,11 +10,13 @@
 #import "MiaAPIHelper.h"
 #import "CommentModel.h"
 #import "HXComment.h"
+#import "LocationMgr.h"
 
 typedef void(^CommentReuqestBlock)(BOOL);
 
 @implementation HXMusicDetailViewModel {
     CommentReuqestBlock _commentReuqestBlock;
+    CommentReuqestBlock _reportViewsBlock;
     
     NSInteger _regularRow;
     NSArray *_rowTypes;
@@ -152,6 +154,33 @@ typedef void(^CommentReuqestBlock)(BOOL);
 //     }];
 }
 
+- (void)reportViews:(void(^)(BOOL success))block {
+    _reportViewsBlock = block;
+    
+    __weak __typeof__(self)weakSelf = self;
+    [MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                              longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                address:[[LocationMgr standard] currentAddress]
+                                   spID:_playItem.spID
+                          completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+#warning @"Change View Count"
+//             _playItem.cView = ;
+             
+             __strong __typeof__(self)strongSelf = weakSelf;
+             if (strongSelf->_commentReuqestBlock) {
+                 strongSelf->_commentReuqestBlock(YES);
+             }
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (strongSelf->_commentReuqestBlock) {
+             strongSelf->_commentReuqestBlock(NO);
+         }
+     }];
+}
+
 #pragma mark - Private Methods
 - (void)reSetupRowTypes {
     NSMutableArray *array = [NSMutableArray arrayWithArray:_rowTypes];
@@ -169,6 +198,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
     } else {
         [array addObject:@(HXMusicDetailRowNoComment)];
     }
+    _regularRow = array.count;
     _rowTypes = [array copy];
 }
 

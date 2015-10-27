@@ -421,20 +421,43 @@
                                     <outlet property="delegate" destination="ryk-wB-QfC" id="OsT-L7-LPk"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPW-L7-lOu">
+                                <rect key="frame" x="0.0" y="528" width="320" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="4h5-he-4iu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0iG-pd-edV" secondAttribute="trailing" id="BAR-j4-iJf"/>
                             <constraint firstItem="0iG-pd-edV" firstAttribute="top" secondItem="f1L-EU-SJ5" secondAttribute="bottom" id="KpE-Ci-4a3"/>
+                            <constraint firstItem="nPW-L7-lOu" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="Nl8-N8-RB8"/>
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="top" secondItem="0iG-pd-edV" secondAttribute="bottom" id="QG7-nx-CZL"/>
+                            <constraint firstItem="Yo9-3z-viB" firstAttribute="top" secondItem="nPW-L7-lOu" secondAttribute="bottom" id="Rtb-WG-QYK"/>
                             <constraint firstItem="Yo9-3z-viB" firstAttribute="top" secondItem="rOj-Ru-GcS" secondAttribute="bottom" id="SoK-aS-pf3"/>
                             <constraint firstItem="0iG-pd-edV" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="dBU-mX-omb"/>
+                            <constraint firstAttribute="trailing" secondItem="nPW-L7-lOu" secondAttribute="trailing" id="iGt-HH-Lcs"/>
                             <constraint firstAttribute="trailing" secondItem="rOj-Ru-GcS" secondAttribute="trailing" id="oQd-Xh-7j4"/>
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="wy2-Uh-9vA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="详情页" id="HAA-WS-VHh">
+                        <barButtonItem key="leftBarButtonItem" id="Mz0-Rv-JdN">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LES-gd-Nue">
+                                <rect key="frame" x="16" y="9" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <inset key="imageEdgeInsets" minX="-16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="MD-BackIcon"/>
+                                <connections>
+                                    <action selector="backButtonPressed" destination="ryk-wB-QfC" eventType="touchUpInside" id="fay-ae-jT8"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="MD-MoreButtonIcon" id="4u4-Bc-uhY">
                             <connections>
                                 <action selector="moreButtonPressed" destination="ryk-wB-QfC" id="MCM-WP-LVp"/>
@@ -447,7 +470,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Rj-NN-4nf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="179" y="-153"/>
+            <point key="canvasLocation" x="-208" y="-139"/>
         </scene>
     </scenes>
     <resources>
@@ -455,6 +478,7 @@
         <image name="HP-DefaultCover" width="250" height="250"/>
         <image name="M-PauseIcon" width="35" height="35"/>
         <image name="M-PlayIcon" width="35" height="35"/>
+        <image name="MD-BackIcon" width="25" height="25"/>
         <image name="MD-CommentButtonIcon" width="345" height="41"/>
         <image name="MD-CommentsIcon" width="25" height="25"/>
         <image name="MD-LocationIcon" width="25" height="25"/>

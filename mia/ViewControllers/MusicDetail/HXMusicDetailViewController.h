@@ -26,6 +26,7 @@
 @property (nonatomic, assign)      BOOL  fromProfile;
 @property (nonatomic, strong) ShareItem *playItem;
 
+- (IBAction)backButtonPressed;
 - (IBAction)moreButtonPressed;
 - (IBAction)commentButtonPressed;
 

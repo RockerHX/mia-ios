@@ -31,21 +31,21 @@
 
 @implementation HXMusicDetailViewController {
     HXMusicDetailViewModel *_viewModel;
+    
+    HXMusicDetailCoverCell *_coverCell;
 }
 
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-	[self reportViews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 
-#warning @andy 页面关闭的时候需要停止音乐播放
-	//[_detailHeaderView stopMusic];
+	[_coverCell stopPlay];
 }
 
 - (void)viewDidLoad {
@@ -53,6 +53,11 @@
     
     [self initConfig];
     [self viewConfig];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark - Config Methods
@@ -64,13 +69,27 @@
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.tableView reloadData];
     }];
+    [_viewModel reportViews:^(BOOL success) {
+        if (YES) {
+            __strong __typeof__(self)strongSelf = weakSelf;
+            [strongSelf.tableView reloadData];
+        }
+    }];
+    
+    //添加键盘监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewConfig {
-    [self refresh];
+//    [self refresh];
 }
 
 #pragma mark - Event Response
+- (IBAction)backButtonPressed {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)moreButtonPressed {
     RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
         NSLog(@"cancel");
@@ -130,24 +149,40 @@
     
 }
 
-#pragma mark - Private Methods
-- (void)refresh {
-//    [_detailView refreshWithItem:_playItem];
+- (void)keyBoardWillShow:(NSNotification *)notification{
+    NSDictionary *info = [notification userInfo];
+    //获取当前显示的键盘高度
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
+    [self moveUpViewForKeyboard:keyboardSize];
 }
 
-- (void)reportViews {
-	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-							  longitude:[[LocationMgr standard] currentCoordinate].longitude
-								address:[[LocationMgr standard] currentAddress]
-								   spID:_playItem.spID
-						  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-#warning @andy 服务器需要返回最新的views数字，客户端需要更新下
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 NSLog(@"views share timeout");
-	 }];
+- (void)keyBoardWillHide:(NSNotification *)notification{
+    [self resumeView];
+}
+
+#pragma mark - Private Methods
+- (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    //	float width = footerView.frame.size.width;
+//    //	float height = footerView.frame.size.height;
+//    //
+//    //	CGRect rect = CGRectMake(0.0f, -keyboardSize.height, width,height);
+//    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight - keyboardSize.height, self.view.bounds.size.width, kDetailFooterViewHeight);
+//    _footerView.frame = rect;
+//    [UIView commitAnimations];
+}
+
+- (void)resumeView {
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    //	float width = self.view.frame.size.width;
+//    //	float height = self.view.frame.size.height;
+//    CGRect rect = CGRectMake(0, self.view.bounds.size.height - kDetailFooterViewHeight, self.view.bounds.size.width, kDetailFooterViewHeight);
+//    _footerView.frame = rect;
+//    [UIView commitAnimations];
 }
 
 #pragma mark - Table View Data Source Methods
@@ -163,6 +198,7 @@
             case HXMusicDetailRowCover: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCoverCell class]) forIndexPath:indexPath];
                 [(HXMusicDetailCoverCell *)cell displayWithViewModel:_viewModel];
+                _coverCell = (HXMusicDetailCoverCell *)cell;
                 break;
             }
             case HXMusicDetailRowSong: {
