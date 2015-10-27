@@ -68,11 +68,11 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (CGFloat)infectCellHeight {
-    return 55.0f;
+    return 46.0f;
 }
 
 - (CGFloat)promptCellHeight {
-    return 89.0f;
+    return 77.0f;
 }
 
 - (CGFloat)noCommentCellHeight {
@@ -115,13 +115,6 @@ typedef void(^CommentReuqestBlock)(BOOL);
          }
          
          NSArray *commentArray = userInfo[@"v"][@"info"];
-         if (!commentArray.count) {
-             if (strongSelf->_commentReuqestBlock) {
-                 strongSelf->_commentReuqestBlock(NO);
-             }
-             return;
-         }
-         
          [strongSelf->_dataModel addComments:commentArray];
          [strongSelf reSetupRowTypes];
          
