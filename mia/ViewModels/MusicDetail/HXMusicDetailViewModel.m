@@ -69,7 +69,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (CGFloat)noCommentCellHeight {
-    return 80.0f;
+    return 40.0f;
 }
 
 static NSInteger RegularRow = 5;
