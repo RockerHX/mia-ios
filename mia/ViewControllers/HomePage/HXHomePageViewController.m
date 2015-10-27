@@ -34,7 +34,12 @@
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate, ProfileViewControllerDelegate, HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController ()
+<LoginViewControllerDelegate
+, HXBubbleViewDelegate
+, ProfileViewControllerDelegate
+, HXRadioViewControllerDelegate
+> {
     BOOL    _animating;             // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在妙推动作时默认不评论定时执行结束动画
@@ -202,6 +207,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
                                                                      nickName:[[UserSession standard] nick]
                                                                   isMyProfile:YES];
+		vc.customDelegate = self;
         [self.navigationController pushViewController:vc animated:YES];
 	} else {
         LoginViewController *vc = [[LoginViewController alloc] init];
@@ -693,6 +699,10 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 	if (![[WebSocketMgr standard] isOpen]) {
 		[self showNoNetworkView];
 	}
+}
+
+- (void)profileViewControllerUpdateUnreadCount:(int)count {
+	[self updateProfileButtonWithUnreadCount:count];
 }
 
 #pragma mark - HXRadioViewControllerDelegate Methods

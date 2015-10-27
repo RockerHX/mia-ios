@@ -523,7 +523,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 NSLog(@"post read comment ret: %d", success);
+		 NSLog(@"post read comment ret: %d, %d", success, [userInfo[MiaAPIKey_Values][@"num"] intValue]);
+		 if (_customDelegate) {
+			 [_customDelegate profileViewControllerUpdateUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
+		 }
+
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 NSLog(@"post read comment timeout");
 	 }];
