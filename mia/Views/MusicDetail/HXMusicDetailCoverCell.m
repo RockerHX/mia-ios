@@ -66,6 +66,10 @@
     [self updatePlayState];
 }
 
+- (void)stopPlay {
+    [self stopMusic];
+}
+
 #pragma mark - Private Methods
 - (void)updatePlayState {
     if (!_playItem) {

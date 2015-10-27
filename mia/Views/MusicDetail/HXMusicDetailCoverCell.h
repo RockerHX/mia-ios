@@ -26,5 +26,6 @@
 - (IBAction)playButtonPressed;
 
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
+- (void)stopPlay;
 
 @end

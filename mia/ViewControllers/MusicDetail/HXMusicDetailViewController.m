@@ -31,21 +31,21 @@
 
 @implementation HXMusicDetailViewController {
     HXMusicDetailViewModel *_viewModel;
+    
+    HXMusicDetailCoverCell *_coverCell;
 }
 
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-	[self reportViews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 
-#warning @andy 页面关闭的时候需要停止音乐播放
-	//[_detailHeaderView stopMusic];
+	[_coverCell stopPlay];
 }
 
 - (void)viewDidLoad {
@@ -68,6 +68,12 @@
     [_viewModel requestComments:^(BOOL success) {
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.tableView reloadData];
+    }];
+    [_viewModel reportViews:^(BOOL success) {
+        if (YES) {
+            __strong __typeof__(self)strongSelf = weakSelf;
+            [strongSelf.tableView reloadData];
+        }
     }];
     
     //添加键盘监听
@@ -179,21 +185,6 @@
 //    [UIView commitAnimations];
 }
 
-- (void)reportViews {
-	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-							  longitude:[[LocationMgr standard] currentCoordinate].longitude
-								address:[[LocationMgr standard] currentAddress]
-								   spID:_playItem.spID
-						  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-#warning @andy 服务器需要返回最新的views数字，客户端需要更新下
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 NSLog(@"views share timeout");
-	 }];
-}
-
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _viewModel.rows;
@@ -207,6 +198,7 @@
             case HXMusicDetailRowCover: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCoverCell class]) forIndexPath:indexPath];
                 [(HXMusicDetailCoverCell *)cell displayWithViewModel:_viewModel];
+                _coverCell = (HXMusicDetailCoverCell *)cell;
                 break;
             }
             case HXMusicDetailRowSong: {
