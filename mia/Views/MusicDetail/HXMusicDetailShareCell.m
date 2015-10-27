@@ -37,6 +37,17 @@
 
 #pragma mark - Private Methods
 - (void)displayShareContentLabelWithSharerName:(NSString *)sharerName {
+    CGFloat labelWidth = _shareInfoLabel.frame.size.width;
+    CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
+    UIFont *labelFont = _shareInfoLabel.font;
+    CGFloat textHeight = [_shareInfoLabel.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+    CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+    if (textHeight > lineHeight) {
+        _shareInfoLabel.textAlignment = NSTextAlignmentLeft;
+    } else {
+        _shareInfoLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    
     NSRange range = [_shareInfoLabel.text rangeOfString:(sharerName ?: @"")];
     [_shareInfoLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
 }
