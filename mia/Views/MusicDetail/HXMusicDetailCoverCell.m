@@ -34,7 +34,8 @@
 }
 
 - (void)viewConfig {
-    
+    _coverImageView.layer.borderColor = UIColorFromRGB(225.0f, 226.0f, 227.0f).CGColor;
+    _coverImageView.layer.borderWidth = 1.0f;
 }
 
 - (void)initData {
