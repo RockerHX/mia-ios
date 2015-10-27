@@ -155,7 +155,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 	_sendButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kSendButtonWidth, kSendButtonHeight)
 												 titleString:@"发送"
 												  titleColor:UIColorFromHex(@"ff300e", 1.0)
-														font:UIFontFromSize(15)
+														font:UIFontFromSize(16)
 													 logoImg:nil
 											 backgroundImage:nil];
 	[_sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
@@ -205,7 +205,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 														  _topView.bounds.size.width / 2 - kMusicNameMarginLeft + kMusicArtistMarginLeft,
 														  kMusicNameHeight)
 										  text:@""
-										  font:UIFontFromSize(15.0f)
+										  font:UIFontFromSize(16.0f)
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentRight
 								   numberLines:1];
@@ -216,7 +216,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 																  _topView.bounds.size.width / 2 - kMusicArtistMarginLeft,
 																  kMusicArtistHeight)
 												  text:@""
-												  font:UIFontFromSize(15.0f)
+												  font:UIFontFromSize(16.0f)
 											 textColor:[UIColor grayColor]
 										 textAlignment:NSTextAlignmentLeft
 										   numberLines:1];
@@ -227,7 +227,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 															 kSharerLabelWidth,
 															 kSharerHeight)
 											  text:[NSString stringWithFormat:@"%@:", [[UserSession standard] nick]]
-											 font:UIFontFromSize(15.0f)
+											 font:UIFontFromSize(16.0f)
 										textColor:[UIColor blueColor]
 									textAlignment:NSTextAlignmentRight
 									  numberLines:1];

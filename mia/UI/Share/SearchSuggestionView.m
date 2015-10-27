@@ -13,7 +13,7 @@
 static NSString * const kSuggestionCellReuseIdentifier 		= @"SuggestionCellId";
 
 static const CGFloat kSuggestionItemMarginH 	= 10;
-static const CGFloat kSuggestionItemMarginV 	= 10;
+static const CGFloat kSuggestionItemMarginV 	= 0;
 static const CGFloat kSuggestionItemHeight		= 50;
 
 @interface SearchSuggestionView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
