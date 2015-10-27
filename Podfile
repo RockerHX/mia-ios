@@ -13,6 +13,7 @@ pod 'FreeStreamer'
 
 # Utility
 pod 'Masonry'
+pod 'MJExtension'
 
 # Tool
 #pod 'IQKeyboardManager'
