@@ -43,6 +43,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+
+#warning @andy 页面关闭的时候需要停止音乐播放
+	//[_detailHeaderView stopMusic];
 }
 
 - (void)viewDidLoad {
@@ -93,8 +96,7 @@
              if (success) {
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
                  [self.navigationController popViewControllerAnimated:YES];
-//                 [_detailHeaderView stopMusic];
-//                 
+
                  if (_customDelegate) {
                      [_customDelegate detailViewControllerDidDeleteShare];
                  }
