@@ -11,6 +11,7 @@
 #import "UIImage+Extrude.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
+#import "Masonry.h"
 
 @interface ProfileCollectionViewCell()
 
@@ -39,94 +40,144 @@
 	_coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
 	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
 	[contentView addSubview:_coverImageView];
+
 	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"cover_mask"]];
 	[contentView addSubview:coverMaskImageView];
 
+	UIView *commentView = [[UIView alloc] init];
+	[contentView addSubview:commentView];
+	[self initCommentView:commentView];
+	[commentView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY);
+	}];
 
-	const static CGFloat kUnreadCountLabelHeight			= 40;
-	const static CGFloat kUnreadWordLabelMarginTop			= 9;
-	const static CGFloat kUnreadWordLabelHeight				= 20;
+	UIView *songInfoView = [[UIView alloc] init];
+//	songInfoView.backgroundColor = [UIColor redColor];
+	[contentView addSubview:songInfoView];
+	[self initSongInfoView:songInfoView];
+	[songInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY);
+	}];
 
-	_unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																  contentView.frame.size.height / 2 - kUnreadCountLabelHeight,
-																  contentView.frame.size.width,
-																  kUnreadCountLabelHeight)
-												  text:@"3"
-												  font:UIFontFromSize(45.0f)
+	UIView *pvView = [[UIView alloc] init];
+	[contentView addSubview:pvView];
+	[self initPVView:pvView];
+	[pvView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-12);
+	}];
+}
+
+- (void)initCommentView:(UIView *)contentView {
+	_unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												   text:@"3"
+												   font:UIFontFromSize(45.0f)
+											  textColor:[UIColor whiteColor]
+										  textAlignment:NSTextAlignmentCenter
+											numberLines:1];
+//	_unreadCountLabel.backgroundColor = [UIColor blueColor];
+	[contentView addSubview:_unreadCountLabel];
+
+	_unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												  text:@"条新评论"
+												  font:UIFontFromSize(16.0f)
 											 textColor:[UIColor whiteColor]
 										 textAlignment:NSTextAlignmentCenter
 										   numberLines:1];
-	//unreadCountLabel.backgroundColor = [UIColor blueColor];
-	[contentView addSubview:_unreadCountLabel];
-
-	_unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																 contentView.frame.size.height / 2 + kUnreadWordLabelMarginTop,
-																 contentView.frame.size.width,
-																 kUnreadWordLabelHeight)
-												 text:@"条新评论"
-												 font:UIFontFromSize(14.0f)
-											textColor:[UIColor whiteColor]
-										textAlignment:NSTextAlignmentCenter
-										  numberLines:1];
-	//unreadWordLabel.backgroundColor = [UIColor greenColor];
+//	_unreadWordLabel.backgroundColor = [UIColor greenColor];
 	[contentView addSubview:_unreadWordLabel];
 
-	static const CGFloat kViewsIconMarginMiddle 	= 2;
-	static const CGFloat kViewsIconMarginBottom		= 12;
-	static const CGFloat kViewsIconWidth			= 16;
+	[_unreadCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+	}];
+	[_unreadWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.top.equalTo(_unreadCountLabel.mas_bottom).offset(9);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+	}];
+}
 
-	static const CGFloat kViewsLabelMarginMiddle	= 6;
-	static const CGFloat kViewsLabelMarginBottom	= 12;
-	static const CGFloat kViewsLabelHeight			= 16;
+- (void)initSongInfoView:(UIView *)contentView {
+	CGFloat itemWidth = ([UIScreen mainScreen].bounds.size.width - kProfileItemMarginH * 3) / 2;
+	if (_isBiggerCell) {
+		itemWidth = [UIScreen mainScreen].bounds.size.width - kProfileItemMarginH * 2;
+	}
 
-	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle - kViewsIconWidth,
-																				contentView.frame.size.height - kViewsIconMarginBottom - kViewsIconWidth,
-																				kViewsIconWidth,
-																				kViewsIconWidth)];
+	CGFloat preferredMaxWidth = itemWidth - 30;
+
+	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												 text:@"All Around The World"
+												 font:UIFontFromSize(16.0f)
+											textColor:[UIColor whiteColor]
+										textAlignment:NSTextAlignmentCenter
+										  numberLines:0];
+	_musicNameLabel.preferredMaxLayoutWidth = preferredMaxWidth;
+	[_musicNameLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+//	_musicNameLabel.backgroundColor = [UIColor yellowColor];
+	_musicNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+	[contentView addSubview:_musicNameLabel];
+
+	_artistLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											  text:@"Justin"
+											  font:UIFontFromSize(14.0f)
+										 textColor:[UIColor whiteColor]
+									 textAlignment:NSTextAlignmentCenter
+									   numberLines:0];
+	_artistLabel.preferredMaxLayoutWidth = preferredMaxWidth;
+	[_artistLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+
+//	_artistLabel.backgroundColor = [UIColor greenColor];
+	_artistLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+	[contentView addSubview:_artistLabel];
+
+	[_musicNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+		make.height.mas_lessThanOrEqualTo(@45);
+	}];
+	[_artistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_musicNameLabel.mas_bottom).offset(5);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+		make.height.mas_lessThanOrEqualTo(@36);
+	}];
+}
+
+- (void)initPVView:(UIView *)contentView {
+	UIImageView *viewsImageView = [[UIImageView alloc] init];
 	[viewsImageView setImage:[UIImage imageNamed:@"MD-ViewCountIcon"]];
 	[contentView addSubview:viewsImageView];
 
-	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle + kViewsLabelMarginMiddle,
-															contentView.frame.size.height - kViewsLabelMarginBottom - kViewsLabelHeight,
-															contentView.frame.size.width / 2 - kViewsIconMarginMiddle - kViewsLabelMarginMiddle,
-															kViewsLabelHeight)
-											text:@"12"
-											font:UIFontFromSize(14.0f)
-									   textColor:[UIColor whiteColor]
-								   textAlignment:NSTextAlignmentLeft
-									 numberLines:1];
-	//viewsLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:_viewsLabel];
-
-	static const CGFloat kMusicNameLabelMarginLeft		= 16;
-	static const CGFloat kMusicNameLabelHeight			= 40;
-	static const CGFloat kArtistLabelHeight				= 20;
-
-	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kMusicNameLabelMarginLeft,
-																contentView.frame.size.height / 2 - kMusicNameLabelHeight / 2,
-																contentView.frame.size.width - 2 * kMusicNameLabelMarginLeft,
-																kMusicNameLabelHeight)
-												text:@"All Around The World"
-												font:UIFontFromSize(17.0f)
-												 textColor:[UIColor whiteColor]
-											 textAlignment:NSTextAlignmentCenter
-										 numberLines:2];
-	//musicNameLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:_musicNameLabel];
-
-	_artistLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-															 contentView.frame.size.height / 2 + kMusicNameLabelHeight / 2,
-															 contentView.frame.size.width,
-															 kArtistLabelHeight)
-											 text:@"Justin"
+	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											 text:@"12"
 											 font:UIFontFromSize(14.0f)
 										textColor:[UIColor whiteColor]
-									textAlignment:NSTextAlignmentCenter
+									textAlignment:NSTextAlignmentLeft
 									  numberLines:1];
-	//artistLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:_artistLabel];
+	[contentView addSubview:_viewsLabel];
 
+	[viewsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(contentView.mas_left);
+		make.size.mas_equalTo(CGSizeMake(16, 16));
+	}];
+
+	[_viewsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(viewsImageView.mas_right).offset(8);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
+	}];
 }
 
 - (void)setShareItem:(ShareItem *)shareItem {
@@ -145,6 +196,7 @@
 	_musicNameLabel.text = shareItem.music.name;
 	_artistLabel.text = shareItem.music.singerName;
 
+	_shareItem.newCommCnt = 10;
 	if (_shareItem.newCommCnt > 0 && _isMyProfile) {
 		[_unreadCountLabel setHidden:NO];
 		[_unreadWordLabel setHidden:NO];

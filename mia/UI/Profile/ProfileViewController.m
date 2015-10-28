@@ -39,8 +39,6 @@ static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
 static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
-static const CGFloat kProfileItemMarginH 	= 10;
-static const CGFloat kProfileItemMarginV 	= 10;
 static const CGFloat kProfileHeaderHeight 	= 250;
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 

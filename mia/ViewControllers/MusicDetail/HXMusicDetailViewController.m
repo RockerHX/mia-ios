@@ -27,6 +27,7 @@
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"
 #import "HXGrowingTextView.h"
+#import "GuestProfileViewController.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -377,9 +378,7 @@
 #pragma mark - HXMusicDetailShareCellDelegate Methods
 - (void)cellUserWouldLikeSeeSharerInfo:(HXMusicDetailShareCell *)cell {
     ShareItem *playItem = _viewModel.playItem;
-    ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:playItem.uID
-                                                                 nickName:playItem.sNick
-                                                              isMyProfile:NO];
+    GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:playItem.uID nickName:playItem.sNick];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -387,9 +386,7 @@
 - (void)cellUserWouldLikeShowInfectList:(HXMusicDetailInfectCell *)cell {
     [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
         InfectItem *selectedItem = item;
-        ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:selectedItem.uID
-                                                                     nickName:selectedItem.nick
-                                                                  isMyProfile:NO];
+		GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:selectedItem.uID nickName:selectedItem.nick];
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }

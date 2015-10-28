@@ -31,6 +31,7 @@
 #import "HXVersion.h"
 #import "HXMusicDetailViewController.h"
 #import "UIImage+ColorToImage.h"
+#import "GuestProfileViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -710,9 +711,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 #pragma mark - HXRadioViewControllerDelegate Methods
 - (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item {
-	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:item.uID
-																 nickName:item.sNick
-															  isMyProfile:NO];
+
+	GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:item.uID nickName:item.sNick];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

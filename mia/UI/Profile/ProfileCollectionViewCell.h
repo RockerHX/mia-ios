@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
 
+static const CGFloat kProfileItemMarginH 	= 15;
+static const CGFloat kProfileItemMarginV 	= 15;
+
 @interface ProfileCollectionViewCell : UICollectionViewCell
 
 @property (assign, nonatomic) BOOL isBiggerCell;

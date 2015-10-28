@@ -17,6 +17,7 @@
 		390963EB1BC652FF00E427BA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390963EA1BC652FF00E427BA /* SettingViewController.m */; };
 		3909696A1BDE60F600C55B20 /* SongPreloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 390969691BDE60F600C55B20 /* SongPreloader.m */; };
 		3909696C1BE0CADB00C55B20 /* profile_favorite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3909696B1BE0CADB00C55B20 /* profile_favorite@2x.png */; };
+		3909696F1BE0E9D000C55B20 /* GuestProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3909696E1BE0E9D000C55B20 /* GuestProfileViewController.m */; };
 		390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADBD1BAEB375006269FD /* CommentCollectionViewCell.m */; };
 		390BADC41BAECA73006269FD /* edit_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC21BAECA73006269FD /* edit_bg@2x.png */; };
 		390BADC51BAECA73006269FD /* edit_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 390BADC31BAECA73006269FD /* edit_logo@2x.png */; };
@@ -209,6 +210,8 @@
 		390969681BDE60F600C55B20 /* SongPreloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPreloader.h; sourceTree = "<group>"; };
 		390969691BDE60F600C55B20 /* SongPreloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPreloader.m; sourceTree = "<group>"; };
 		3909696B1BE0CADB00C55B20 /* profile_favorite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_favorite@2x.png"; sourceTree = "<group>"; };
+		3909696D1BE0E9D000C55B20 /* GuestProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestProfileViewController.h; sourceTree = "<group>"; };
+		3909696E1BE0E9D000C55B20 /* GuestProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestProfileViewController.m; sourceTree = "<group>"; };
 		390BADBC1BAEB375006269FD /* CommentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCollectionViewCell.h; sourceTree = "<group>"; };
 		390BADBD1BAEB375006269FD /* CommentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCollectionViewCell.m; sourceTree = "<group>"; };
 		390BADC21BAECA73006269FD /* edit_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit_bg@2x.png"; sourceTree = "<group>"; };
@@ -1244,6 +1247,8 @@
 		39BF8C661BB268B4003AB4FC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				3909696D1BE0E9D000C55B20 /* GuestProfileViewController.h */,
+				3909696E1BE0E9D000C55B20 /* GuestProfileViewController.m */,
 				393CE9A31BB7A28100FCF232 /* FavoriteCollectionViewCell.h */,
 				393CE9A41BB7A28100FCF232 /* FavoriteCollectionViewCell.m */,
 				393CE9981BB53B3B00FCF232 /* FavoriteViewController.h */,
@@ -1921,6 +1926,7 @@
 				390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */,
 				CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */,
 				3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */,
+				3909696F1BE0E9D000C55B20 /* GuestProfileViewController.m in Sources */,
 				CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */,
 				CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
