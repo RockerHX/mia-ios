@@ -24,8 +24,8 @@ static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 //static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
 
 static const CGFloat kFavoriteCVMarginTop	= 200;
-static const CGFloat kFavoriteItemMarginH 	= 10;
-static const CGFloat kFavoriteItemMarginV 	= 10;
+static const CGFloat kFavoriteItemMarginH 	= 15;
+static const CGFloat kFavoriteItemMarginV 	= 20;
 static const CGFloat kFavoriteHeaderHeight 	= 64;
 static const CGFloat kFavoriteItemHeight	= 50;
 const static CGFloat kBottomViewHeight 		= 40;
@@ -85,7 +85,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
+	[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -222,7 +222,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_favoriteHeaderView addSubview:_playButton];
 
 	_titleMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-												 text:@"0首"
+												 text:@"收藏(0首)"
 												 font:UIFontFromSize(16.0f)
 											textColor:[UIColor blackColor]
 										textAlignment:NSTextAlignmentCenter
@@ -246,7 +246,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.width.mas_greaterThanOrEqualTo(@50);
-		make.height.mas_greaterThanOrEqualTo(@50);
+		make.height.mas_greaterThanOrEqualTo(@70);
 	}];
 	[_titleLeftLabel setContentHuggingPriority:UILayoutPriorityRequired
 							   forAxis:UILayoutConstraintAxisHorizontal];
@@ -254,7 +254,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.size.mas_equalTo(CGSizeMake(40, 40));
-		make.left.equalTo(contentView.mas_left).offset(15);
+		make.left.equalTo(contentView.mas_left).offset(6);
 	}];
 
 
@@ -268,7 +268,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.right.equalTo(contentView.mas_right).offset(-15);
 		make.width.mas_greaterThanOrEqualTo(@50);
-		make.height.mas_greaterThanOrEqualTo(@50);
+		make.height.mas_greaterThanOrEqualTo(@70);
 	}];
 	[_titleRightLabel setContentHuggingPriority:UILayoutPriorityRequired
 									   forAxis:UILayoutConstraintAxisHorizontal];
