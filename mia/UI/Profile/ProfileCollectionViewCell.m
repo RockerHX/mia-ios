@@ -91,14 +91,12 @@
 	[contentView addSubview:_unreadWordLabel];
 
 	[_unreadCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(contentView.mas_centerX);
 		make.top.equalTo(contentView.mas_top);
 		make.left.equalTo(contentView.mas_left);
 		make.right.equalTo(contentView.mas_right);
 	}];
 	[_unreadWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(contentView.mas_centerX);
-		make.top.equalTo(_unreadCountLabel.mas_bottom).offset(9);
+		make.top.equalTo(_unreadCountLabel.mas_bottom);
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.left.equalTo(contentView.mas_left);
 		make.right.equalTo(contentView.mas_right);
@@ -196,7 +194,6 @@
 	_musicNameLabel.text = shareItem.music.name;
 	_artistLabel.text = shareItem.music.singerName;
 
-	_shareItem.newCommCnt = 10;
 	if (_shareItem.newCommCnt > 0 && _isMyProfile) {
 		[_unreadCountLabel setHidden:NO];
 		[_unreadWordLabel setHidden:NO];

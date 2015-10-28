@@ -495,7 +495,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	return UIEdgeInsetsMake(10, 10, 10, 10);
+	return UIEdgeInsetsMake(0, 15, 0, 15);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {

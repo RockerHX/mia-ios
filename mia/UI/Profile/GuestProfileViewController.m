@@ -202,6 +202,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[iconImageView setImage:[UIImage imageNamed:@"no_share"]];
 	[_noShareView addSubview:iconImageView];
+	[_noShareView setHidden:YES];
 
 	MIALabel *wordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 													 text:@"暂没有分享的歌曲"

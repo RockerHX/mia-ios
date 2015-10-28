@@ -157,7 +157,7 @@
 	const static CGFloat kFavoriteLabelWidth		= 30;
 	const static CGFloat kFavoriteLabelHeight		= 20;
 
-	const static CGFloat kShareIconMarginLeft		= 15;
+	const static CGFloat kShareIconMarginLeft		= 13;
 	const static CGFloat kShareIconMarginBottom		= 17;
 	const static CGFloat kShareIconWidth			= 16;
 
