@@ -21,7 +21,7 @@
 #import "UserDefaultsUtils.h"
 #import "HXAlertBanner.h"
 
-static const CGFloat kBackButtonMarginLeft		= 15;
+static const CGFloat kBackButtonMarginLeft		= 10;
 static const CGFloat kBackButtonMarginTop		= 32;
 static const CGFloat kLogoMarginTop				= 125;
 
@@ -97,17 +97,18 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[self initGuidView];
 	[self initLoginView];
 
-	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
+	UIImage *backButtonImage = [UIImage imageNamed:@"MD-BackIcon"];
 	CGRect backButtonFrame = {.origin.x = kBackButtonMarginLeft,
 		.origin.y = kBackButtonMarginTop,
-		.size.width = backButtonImage.size.width,
-		.size.height = backButtonImage.size.height};
+		.size.width = backButtonImage.size.width * 2,
+		.size.height = backButtonImage.size.height * 2};
 	_backButton = [[MIAButton alloc] initWithFrame:backButtonFrame
 									  titleString:@""
 									   titleColor:[UIColor whiteColor]
 											 font:UIFontFromSize(16)
-										  logoImg:nil
-								  backgroundImage:backButtonImage];
+										  logoImg:backButtonImage
+								  backgroundImage:nil];
+	[_backButton setContentMode:UIViewContentModeCenter];
 	[_backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_backButton];
 }
