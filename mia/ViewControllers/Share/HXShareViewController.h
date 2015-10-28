@@ -10,6 +10,16 @@
 
 @interface HXShareViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet      UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *singerLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *nickNameLabel;
+@property (weak, nonatomic) IBOutlet   UITextView *textView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottmonConstraint;
+
+- (IBAction)backButtonPressed;
+
 + (instancetype)instance;
 
 @end
