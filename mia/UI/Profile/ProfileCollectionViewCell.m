@@ -54,7 +54,7 @@
 	}];
 
 	UIView *songInfoView = [[UIView alloc] init];
-	songInfoView.backgroundColor = [UIColor redColor];
+//	songInfoView.backgroundColor = [UIColor redColor];
 	[contentView addSubview:songInfoView];
 	[self initSongInfoView:songInfoView];
 	[songInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,16 +78,16 @@
 											  textColor:[UIColor whiteColor]
 										  textAlignment:NSTextAlignmentCenter
 											numberLines:1];
-	_unreadCountLabel.backgroundColor = [UIColor blueColor];
+//	_unreadCountLabel.backgroundColor = [UIColor blueColor];
 	[contentView addSubview:_unreadCountLabel];
 
 	_unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												  text:@"条新评论"
-												  font:UIFontFromSize(14.0f)
+												  font:UIFontFromSize(16.0f)
 											 textColor:[UIColor whiteColor]
 										 textAlignment:NSTextAlignmentCenter
 										   numberLines:1];
-	_unreadWordLabel.backgroundColor = [UIColor greenColor];
+//	_unreadWordLabel.backgroundColor = [UIColor greenColor];
 	[contentView addSubview:_unreadWordLabel];
 
 	[_unreadCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -115,13 +115,13 @@
 
 	_musicNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												 text:@"All Around The World"
-												 font:UIFontFromSize(17.0f)
+												 font:UIFontFromSize(16.0f)
 											textColor:[UIColor whiteColor]
 										textAlignment:NSTextAlignmentCenter
 										  numberLines:0];
 	_musicNameLabel.preferredMaxLayoutWidth = preferredMaxWidth;
 	[_musicNameLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-	_musicNameLabel.backgroundColor = [UIColor yellowColor];
+//	_musicNameLabel.backgroundColor = [UIColor yellowColor];
 	_musicNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 	[contentView addSubview:_musicNameLabel];
 
@@ -134,7 +134,7 @@
 	_artistLabel.preferredMaxLayoutWidth = preferredMaxWidth;
 	[_artistLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
 
-	_artistLabel.backgroundColor = [UIColor greenColor];
+//	_artistLabel.backgroundColor = [UIColor greenColor];
 	_artistLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 	[contentView addSubview:_artistLabel];
 
@@ -145,7 +145,7 @@
 		make.height.mas_lessThanOrEqualTo(@45);
 	}];
 	[_artistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_musicNameLabel.mas_bottom).offset(9);
+		make.top.equalTo(_musicNameLabel.mas_bottom).offset(5);
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.left.equalTo(contentView.mas_left);
 		make.right.equalTo(contentView.mas_right);
@@ -196,6 +196,7 @@
 	_musicNameLabel.text = shareItem.music.name;
 	_artistLabel.text = shareItem.music.singerName;
 
+	_shareItem.newCommCnt = 10;
 	if (_shareItem.newCommCnt > 0 && _isMyProfile) {
 		[_unreadCountLabel setHidden:NO];
 		[_unreadWordLabel setHidden:NO];
