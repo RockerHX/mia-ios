@@ -18,6 +18,7 @@
 #import "MIALabel.h"
 #import "FavoriteModel.h"
 #import "FavoriteMgr.h"
+#import "Masonry.h"
 
 static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 //static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
@@ -36,12 +37,13 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 @implementation FavoriteViewController {
 	UIImageView	*_bgView;
-	MIAButton 	*_editButton;
 	MIAButton 	*_closeButton;
 
 	UIView 		*_favoriteHeaderView;
-	MIALabel	*_titleLabel;
+	MIALabel	*_titleLeftLabel;
+	MIALabel	*_titleMiddleLabel;
 	MIAButton 	*_playButton;
+	MIALabel	*_titleRightLabel;
 
 	BOOL 		_isEditing;
 }
@@ -51,7 +53,13 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (self) {
 		[self initBackground:backgroundImage];
 		[self initTopView];
-		[self initHeaderView];
+
+		_favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, kFavoriteCVMarginTop, self.view.bounds.size.width, kFavoriteHeaderHeight)];
+		_favoriteHeaderView.backgroundColor = [UIColor whiteColor];
+		_favoriteHeaderView.alpha = kFavoriteAlpha;
+		[self.view addSubview:_favoriteHeaderView];
+		[self initHeaderView:_favoriteHeaderView];
+
 		[self initCollectionView];
 		[self initBottomView];
 	}
@@ -76,7 +84,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[_titleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
+	[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -185,63 +193,75 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_favoriteCollectionView addFooterWithTarget:self action:@selector(requestFavoriteList)];
 }
 
-- (void)initHeaderView {
-	_favoriteHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, kFavoriteCVMarginTop, self.view.bounds.size.width, kFavoriteHeaderHeight)];
-	_favoriteHeaderView.backgroundColor = [UIColor whiteColor];
-	_favoriteHeaderView.alpha = kFavoriteAlpha;
-	[self.view addSubview:_favoriteHeaderView];
-
-	static const CGFloat kTitleMarginLeft		= 15;
-	static const CGFloat kTitleMarginTop		= 15;
-	static const CGFloat kTitleWidth			= 100;
-	static const CGFloat kTitleHeight			= 20;
-
-	_titleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kTitleMarginLeft,
-														  kTitleMarginTop,
-														  kTitleWidth,
-														  kTitleHeight)
+- (void)initHeaderView:(UIView *)contentView {
+	_titleLeftLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 										  text:@"收藏"
 										  font:UIFontFromSize(16.0f)
 										   textColor:[UIColor blackColor]
 									   textAlignment:NSTextAlignmentLeft
 								   numberLines:1];
-	//titleLabel.backgroundColor = [UIColor greenColor];
-	[_favoriteHeaderView addSubview:_titleLabel];
+	[_titleLeftLabel setUserInteractionEnabled:YES];
+	[_titleLeftLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleLeftLabelTouchAction:)]];
+//	_titleLeftLabel.backgroundColor = [UIColor greenColor];
+	[_favoriteHeaderView addSubview:_titleLeftLabel];
 
-	static const CGFloat kPlayButtonMarginLeft		= 112;
-	static const CGFloat kPlayButtonMarginTop		= 18;
-	static const CGFloat kPlayButtonWidth			= 16;
-	static const CGFloat kPlayButtonHeight			= 16;
-
-	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(kPlayButtonMarginLeft,
-																		kPlayButtonMarginTop,
-																		kPlayButtonWidth,
-																		kPlayButtonHeight)
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									  titleString:nil
 									   titleColor:nil
 											 font:nil
 										  logoImg:nil
 								  backgroundImage:[UIImage imageNamed:@"play_black"]];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	//playButton.backgroundColor = [UIColor yellowColor];
+//	_playButton.backgroundColor = [UIColor yellowColor];
 	[_favoriteHeaderView addSubview:_playButton];
 
-	static const CGFloat kEditButtonMarginRight		= 15;
-	static const CGFloat kEditButtonMarginTop		= 15;
-	static const CGFloat kEditButtonWidth			= 40;
-	static const CGFloat kEditButtonHeight			= 20;
+	_titleMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												 text:@"0首"
+												 font:UIFontFromSize(16.0f)
+											textColor:[UIColor blackColor]
+										textAlignment:NSTextAlignmentCenter
+										  numberLines:1];
+//	_titleMiddleLabel.backgroundColor = [UIColor orangeColor];
+	[_favoriteHeaderView addSubview:_titleMiddleLabel];
 
-	_editButton = [[MIAButton alloc] initWithFrame:CGRectMake(_favoriteHeaderView.bounds.size.width - kEditButtonMarginRight - kEditButtonWidth,
-																		kEditButtonMarginTop,
-																		kEditButtonWidth,
-																		kEditButtonHeight)
-												 titleString:@"编辑"
-												  titleColor:[UIColor blackColor]
-														font:UIFontFromSize(16)
-													 logoImg:nil
-											 backgroundImage:nil];
-	[_editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_favoriteHeaderView addSubview:_editButton];
+	_titleRightLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												 text:@"编辑"
+												 font:UIFontFromSize(16.0f)
+											textColor:[UIColor blackColor]
+										textAlignment:NSTextAlignmentLeft
+										  numberLines:1];
+	[_titleRightLabel setUserInteractionEnabled:YES];
+	[_titleRightLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleRightLabelTouchAction:)]];
+//	_titleRightLabel.backgroundColor = [UIColor greenColor];
+	[_favoriteHeaderView addSubview:_titleRightLabel];
+
+
+	[_titleLeftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(contentView.mas_left).offset(15);
+	}];
+	[_titleLeftLabel setContentHuggingPriority:UILayoutPriorityRequired
+							   forAxis:UILayoutConstraintAxisHorizontal];
+
+	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+		make.left.equalTo(_titleLeftLabel.mas_right).offset(8);
+	}];
+
+
+	[_titleMiddleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(_playButton.mas_right).offset(8);
+	}];
+
+	[_titleRightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(_titleMiddleLabel.mas_right).offset(8);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+		make.width.mas_lessThanOrEqualTo(@32);
+	}];
+
 
 }
 
@@ -394,14 +414,21 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	}
 }
 
-- (void)editButtonAction:(id)sender {
+- (void)titleLeftLabelTouchAction:(id)sender {
+}
+
+- (void)titleRightLabelTouchAction:(id)sender {
 	_isEditing = !_isEditing;
 	[_favoriteCollectionView reloadData];
 	if (_isEditing) {
-		[_editButton setTitle:@"完成" forState:UIControlStateNormal];
+		[_titleLeftLabel setText:@"全选"];
+		[_titleRightLabel setText:@"完成"];
+		[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%ld首", [[FavoriteMgr standard] favoriteCount]]];
 		[_closeButton setTitle:@"删除" forState:UIControlStateNormal];
 	} else {
-		[_editButton setTitle:@"编辑" forState:UIControlStateNormal];
+		[_titleLeftLabel setText:@"收藏"];
+		[_titleRightLabel setText:@"编辑"];
+		[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
 		[_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
 	}
 }
@@ -411,7 +438,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		if (_favoriteViewControllerDelegate) {
 			if ([_favoriteViewControllerDelegate favoriteViewControllerDeleteMusics]) {
 				[_favoriteCollectionView reloadData];
-				[_titleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
+				[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
 			}
 		}
 	} else {
