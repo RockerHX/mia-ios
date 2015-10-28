@@ -285,6 +285,12 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_favoriteCollectionView footerEndRefreshing];
 }
 
+- (void)updateSelectedCount {
+	if (_favoriteViewControllerDelegate) {
+		[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%d首", [_favoriteViewControllerDelegate favoriteViewControllerSelectedCount]]];
+	}
+}
+
 #pragma mark - delegate
 
 #pragma mark collectionView代理方法
@@ -370,6 +376,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		currentPlayingCell.dataItem.isSelected = !currentPlayingCell.dataItem.isSelected;
 		[currentPlayingCell updateSelectedState];
 		[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:indexPath, nil]];
+		[self updateSelectedCount];
 	} else {
 		if (lastPlayingRow == indexPath.row)
 			return;
@@ -415,6 +422,16 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)titleLeftLabelTouchAction:(id)sender {
+	if (!_isEditing) {
+		return;
+	}
+	if (!_favoriteViewControllerDelegate) {
+		return;
+	}
+
+	int selectedCount = [_favoriteViewControllerDelegate favoriteViewControllerSelectAll];
+	[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%d首", selectedCount]];
+	[_favoriteCollectionView reloadData];
 }
 
 - (void)titleRightLabelTouchAction:(id)sender {
@@ -423,13 +440,13 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (_isEditing) {
 		[_titleLeftLabel setText:@"全选"];
 		[_titleRightLabel setText:@"完成"];
-		[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%ld首", [[FavoriteMgr standard] favoriteCount]]];
 		[_closeButton setTitle:@"删除" forState:UIControlStateNormal];
+		[self updateSelectedCount];
 	} else {
 		[_titleLeftLabel setText:@"收藏"];
 		[_titleRightLabel setText:@"编辑"];
-		[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
 		[_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
+		[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
 	}
 }
 
