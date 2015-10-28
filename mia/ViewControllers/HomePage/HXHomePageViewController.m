@@ -14,6 +14,7 @@
 #import "UserSession.h"
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
+#import "ShareViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
 #import "NSString+IsNull.h"
@@ -219,8 +220,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)shareButtonPressed {
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
     if ([[UserSession standard] isLogined]) {
-        HXShareViewController *vc = [HXShareViewController instance];
+        ShareViewController *vc = [[ShareViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+//        HXShareViewController *vc = [HXShareViewController instance];
+//        [self.navigationController pushViewController:vc animated:YES];
     } else {
         LoginViewController *vc = [[LoginViewController alloc] init];
         vc.loginViewControllerDelegate = self;
