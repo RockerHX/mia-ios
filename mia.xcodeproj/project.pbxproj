@@ -155,6 +155,7 @@
 		CD57539E1BDF53F000E7CBC4 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD57539C1BDF53F000E7CBC4 /* CommentModel.m */; };
 		CD5753A11BDF541C00E7CBC4 /* HXComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A01BDF541C00E7CBC4 /* HXComment.m */; };
 		CD5753A41BDF5B5B00E7CBC4 /* CommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A31BDF5B5B00E7CBC4 /* CommentItem.m */; };
+		CD5753AA1BE0714300E7CBC4 /* HXGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */; };
 		CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
 		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; };
@@ -452,6 +453,8 @@
 		CD5753A01BDF541C00E7CBC4 /* HXComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXComment.m; sourceTree = "<group>"; };
 		CD5753A21BDF5B5B00E7CBC4 /* CommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentItem.h; sourceTree = "<group>"; };
 		CD5753A31BDF5B5B00E7CBC4 /* CommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentItem.m; sourceTree = "<group>"; };
+		CD5753A81BE0714300E7CBC4 /* HXGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGrowingTextView.h; sourceTree = "<group>"; };
+		CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGrowingTextView.m; sourceTree = "<group>"; };
 		CD7A95021BD78C2A0034E5DA /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
 		CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
@@ -1204,6 +1207,7 @@
 		39BCAD771BA02AFE00C6F7F2 /* UIComponment */ = {
 			isa = PBXGroup;
 			children = (
+				CD5753A71BE0714300E7CBC4 /* HXGrowingTextView */,
 				CD9D2EBE1BD77C2100A2D312 /* PlaceholderTextView */,
 				CD4F62DE1BC9188200E33121 /* FDStackView */,
 				39BF8C551BB0F801003AB4FC /* MBProgressHUDHelp */,
@@ -1460,6 +1464,15 @@
 				CD5753A01BDF541C00E7CBC4 /* HXComment.m */,
 			);
 			path = MusicDetail;
+			sourceTree = "<group>";
+		};
+		CD5753A71BE0714300E7CBC4 /* HXGrowingTextView */ = {
+			isa = PBXGroup;
+			children = (
+				CD5753A81BE0714300E7CBC4 /* HXGrowingTextView.h */,
+				CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */,
+			);
+			path = HXGrowingTextView;
 			sourceTree = "<group>";
 		};
 		CD9D2EB41BD7705A00A2D312 /* Setting */ = {
@@ -1816,6 +1829,7 @@
 				CD33626A1BD624A900240345 /* HXAppConstants.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
 				390BADBF1BAEB375006269FD /* CommentCollectionViewCell.m in Sources */,
+				CD5753AA1BE0714300E7CBC4 /* HXGrowingTextView.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */,
 				39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */,
