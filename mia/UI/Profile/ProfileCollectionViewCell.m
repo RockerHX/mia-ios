@@ -74,7 +74,7 @@
 - (void)initCommentView:(UIView *)contentView {
 	_unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												   text:@"3"
-												   font:UIFontFromSize(45.0f)
+												   font:UIFontFromSize(35.0f)
 											  textColor:[UIColor whiteColor]
 										  textAlignment:NSTextAlignmentCenter
 											numberLines:1];
@@ -189,6 +189,8 @@
 		[_coverImageView setImageToBlur:cutImage blurRadius:6.0 completionBlock:nil];
 	}
 
+	// for test
+//	_shareItem.newCommCnt = 16;
 	_unreadCountLabel.text = [NSString stringWithFormat:@"%d", shareItem.newCommCnt];
 	_viewsLabel.text = [NSString stringWithFormat:@"%d", shareItem.cView];
 	_musicNameLabel.text = shareItem.music.name;

@@ -22,7 +22,6 @@
 	MIAButton	*_playButton;
 	MIALabel 	*_favoriteCountLabel;
 	MIALabel 	*_cachedCountLabel;
-	MIALabel 	*_favoriteGuidLabel;
 	MIALabel 	*_wifiTipsLabel;
 }
 
@@ -45,7 +44,7 @@
 								   self.frame.size.height - kCoverMarginTop * 2);
 
 	_coverView = [[UIView alloc] initWithFrame:coverFrame];
-	[self initCoverView];
+	[self initCoverView:_coverView];
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverMaskTouchAction:)];
 	[_coverView addGestureRecognizer:tap];
 	[self addSubview:_coverView];
@@ -53,33 +52,39 @@
 	[self initSubTitles];
 }
 
-- (void)initCoverView {
-	_coverImageView = [[UIImageView alloc] initWithFrame:_coverView.bounds];
-	UIImage *bannerImage = [self getBannerImageFromCover:[UIImage imageNamed:@"default_cover"] containerSize:_coverView.bounds.size];
+- (void)initCoverView:(UIView *)contentView {
+	_coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
+	UIImage *bannerImage = [self getBannerImageFromCover:[UIImage imageNamed:@"default_cover"] containerSize:contentView.bounds.size];
 	[_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
-	[_coverView addSubview:_coverImageView];
+	[contentView addSubview:_coverImageView];
 
-	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:_coverView.bounds];
+	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"profile_banner_mask"]];
-	[_coverView addSubview:coverMaskImageView];
+	[contentView addSubview:coverMaskImageView];
 
+	UIView *cacheInfoView = [[UIView alloc] init];
+	cacheInfoView.backgroundColor = [UIColor redColor];
+	[contentView addSubview:cacheInfoView];
+	[self initCacheInfoView:cacheInfoView];
+}
 
+- (void)initCacheInfoView:(UIView *)contentView {
 	static const CGFloat kPlayButtonMarginRight = 76;
 	static const CGFloat kPlayButtonMarginTop = 65;
 	static const CGFloat kPlayButtonWidth = 40;
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
-																		kPlayButtonMarginTop,
-																		kPlayButtonWidth,
-																		kPlayButtonWidth)
-												 titleString:nil
-												  titleColor:nil
-														font:nil
-													 logoImg:nil
-											 backgroundImage:nil];
+															  kPlayButtonMarginTop,
+															  kPlayButtonWidth,
+															  kPlayButtonWidth)
+									   titleString:nil
+										titleColor:nil
+											  font:nil
+										   logoImg:nil
+								   backgroundImage:nil];
 	[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_coverView addSubview:_playButton];
+	[contentView addSubview:_playButton];
 
 	const static CGFloat kFavoriteCountLabelMarginRight		= 220;
 	const static CGFloat kFavoriteCountLabelMarginTop		= 64;
@@ -98,52 +103,32 @@
 	static const CGFloat kFavoriteGuidMarginLeft 			= 175;
 	static const CGFloat kFavoriteGuidLabelWidth 			= 160;
 
-	_favoriteCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																			  kFavoriteCountLabelMarginTop,
-																			  self.frame.size.width - kFavoriteCountLabelMarginRight,
-																			  kFavoriteCountLabelHeight)
-															  text:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]
-															  font:UIFontFromSize(52)
-														 textColor:[UIColor whiteColor]
-													 textAlignment:NSTextAlignmentRight
-													   numberLines:1];
-	//favoriteCountLabel.backgroundColor = [UIColor blueColor];
-	[_coverView addSubview:_favoriteCountLabel];
-	MIALabel *favoriteMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kFavoriteMiddleLabelMarginRight - kFavoriteMiddleLabelWidth,
-																			   kFavoriteMiddleLabelMarginTop,
-																			   kFavoriteMiddleLabelWidth,
-																			   kFavoriteMiddleLabelHeight)
+	_favoriteCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+													 text:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]
+													 font:UIFontFromSize(52)
+												textColor:[UIColor whiteColor]
+											textAlignment:NSTextAlignmentRight
+											  numberLines:1];
+	_favoriteCountLabel.backgroundColor = [UIColor blueColor];
+	[contentView addSubview:_favoriteCountLabel];
+	MIALabel *favoriteMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															   text:@"首收藏歌曲"
 															   font:UIFontFromSize(18.0f)
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentRight
 														numberLines:1];
-	//favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
-	[_coverView addSubview:favoriteMiddleLabel];
+	favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
+	[contentView addSubview:favoriteMiddleLabel];
 
-	_cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(self.frame.size.width - kCachedCountLabelMarginRight - kCachedCountLabelWidth,
-																			kCachedCountLabelMarginTop,
-																			kCachedCountLabelWidth,
-																			kCachedCountLabelHeight)
+	_cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															text:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]
 															font:UIFontFromSize(14.0f)
-														  textColor:[UIColor whiteColor]
-													  textAlignment:NSTextAlignmentLeft
-														numberLines:1];
-	//cachedCountLabel.backgroundColor = [UIColor greenColor];
-	[_coverView addSubview:_cachedCountLabel];
+											  textColor:[UIColor whiteColor]
+										  textAlignment:NSTextAlignmentLeft
+											numberLines:1];
+	_cachedCountLabel.backgroundColor = [UIColor greenColor];
+	[contentView addSubview:_cachedCountLabel];
 
-	_favoriteGuidLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteGuidMarginLeft,
-																	kCachedCountLabelMarginTop,
-																	kFavoriteGuidLabelWidth,
-																	kCachedCountLabelHeight)
-													text:@"点“红心”将歌曲收入这里"
-													font:UIFontFromSize(14.0f)
-											   textColor:[UIColor whiteColor]
-										   textAlignment:NSTextAlignmentLeft
-											 numberLines:1];
-//	_favoriteGuidLabel.backgroundColor = [UIColor greenColor];
-	[_coverView addSubview:_favoriteGuidLabel];
 }
 
 - (void)initSubTitles {
@@ -249,13 +234,10 @@
 	[_cachedCountLabel setText:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]];
 
 	if (0 == favoriteCount) {
-		[_favoriteGuidLabel setHidden:NO];
-		[_cachedCountLabel setHidden:YES];
+		[_cachedCountLabel setText:@"点“红心”将歌曲收入这里"];
 		[_wifiTipsLabel setHidden:YES];
 		[_playButton setHidden:YES];
 	} else {
-		[_favoriteGuidLabel setHidden:YES];
-		[_cachedCountLabel setHidden:NO];
 		[_wifiTipsLabel setHidden:NO];
 		[_playButton setHidden:NO];
 	}
