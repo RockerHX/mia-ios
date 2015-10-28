@@ -89,10 +89,6 @@
 }
 
 #pragma mark - Event Response
-//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-//    [self.view endEditing:YES];
-//}
-
 - (IBAction)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -173,8 +169,6 @@
 }
 
 - (void)keyBoardWillShow:(NSNotification *)notification {
-//    [self tableView:_tableView scrollTableToFoot:YES];
-    
     NSDictionary *info = [notification userInfo];
     //获取当前显示的键盘高度
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
@@ -344,6 +338,10 @@
         }
     }
     return height;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view endEditing:YES];
 }
 
 #pragma mark - HXMusicDetailSongCellDelegate Methods
