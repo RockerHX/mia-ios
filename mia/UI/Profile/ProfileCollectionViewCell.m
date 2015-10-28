@@ -53,7 +53,7 @@
 																  contentView.frame.size.width,
 																  kUnreadCountLabelHeight)
 												  text:@"3"
-												  font:UIFontFromSize(35.0f)
+												  font:UIFontFromSize(45.0f)
 											 textColor:[UIColor whiteColor]
 										 textAlignment:NSTextAlignmentCenter
 										   numberLines:1];
@@ -65,7 +65,7 @@
 																 contentView.frame.size.width,
 																 kUnreadWordLabelHeight)
 												 text:@"条新评论"
-												 font:UIFontFromSize(16.0f)
+												 font:UIFontFromSize(14.0f)
 											textColor:[UIColor whiteColor]
 										textAlignment:NSTextAlignmentCenter
 										  numberLines:1];
@@ -92,7 +92,7 @@
 															contentView.frame.size.width / 2 - kViewsIconMarginMiddle - kViewsLabelMarginMiddle,
 															kViewsLabelHeight)
 											text:@"12"
-											font:UIFontFromSize(12.0f)
+											font:UIFontFromSize(14.0f)
 									   textColor:[UIColor whiteColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
@@ -108,7 +108,7 @@
 																contentView.frame.size.width - 2 * kMusicNameLabelMarginLeft,
 																kMusicNameLabelHeight)
 												text:@"All Around The World"
-												font:UIFontFromSize(14.0f)
+												font:UIFontFromSize(17.0f)
 												 textColor:[UIColor whiteColor]
 											 textAlignment:NSTextAlignmentCenter
 										 numberLines:2];
@@ -120,7 +120,7 @@
 															 contentView.frame.size.width,
 															 kArtistLabelHeight)
 											 text:@"Justin"
-											 font:UIFontFromSize(12.0f)
+											 font:UIFontFromSize(14.0f)
 										textColor:[UIColor whiteColor]
 									textAlignment:NSTextAlignmentCenter
 									  numberLines:1];

@@ -9,7 +9,6 @@
 #import "ProfileViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
-#import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+Extrude.h"
 #import "ProfileCollectionViewCell.h"
@@ -34,6 +33,7 @@
 #import "MusicMgr.h"
 #import "FileLog.h"
 #import "HXMusicDetailViewController.h"
+#import "MJRefresh.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -41,7 +41,7 @@ static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
 static const CGFloat kProfileItemMarginH 	= 10;
 static const CGFloat kProfileItemMarginV 	= 10;
-static const CGFloat kProfileHeaderHeight 	= 240;
+static const CGFloat kProfileHeaderHeight 	= 250;
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
 @interface ProfileViewController ()
@@ -88,7 +88,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 		[self initUI];
 		[self initData];
-		[_profileCollectionView addFooterWithTarget:self action:@selector(requestShareList)];
+
+		MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
+		[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+		[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+		_profileCollectionView.footer = aFooter;
 
 		_favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
 		_favoriteViewController.favoriteViewControllerDelegate = self;
@@ -260,7 +264,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								start:_currentPageStart
 								 item:kShareListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							[_profileCollectionView footerEndRefreshing];
+							[_profileCollectionView.footer endRefreshing];
 							if (success) {
 								NSArray *shareList = userInfo[@"v"][@"info"];
 								if ([shareList count] <= 0) {
@@ -280,7 +284,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 							}
 
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
-							[_profileCollectionView footerEndRefreshing];
+							[_profileCollectionView.footer endRefreshing];
 							[self checkPlaceHolder];
 							if ([[WebSocketMgr standard] isOpen]) {
 								[HXAlertBanner showWithMessage:@"无法获取分享列表，网络请求超时" tap:nil];
