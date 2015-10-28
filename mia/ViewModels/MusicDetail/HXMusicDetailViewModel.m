@@ -194,16 +194,24 @@ typedef void(^CommentReuqestBlock)(BOOL);
 - (void)reSetupRowTypes {
     NSMutableArray *array = [NSMutableArray arrayWithArray:_rowTypes];
     NSArray *comments = [NSArray arrayWithArray:_dataModel.dataSource];
+    _playItem.cComm = (int)comments.count;
     
-    HXMusicDetailRow rowType = [[array lastObject] integerValue];
-    if (rowType == HXMusicDetailRowNoComment) {
+    HXMusicDetailRow lastRowType = [[array lastObject] integerValue];
+    if (lastRowType == HXMusicDetailRowNoComment) {
         [array removeLastObject];
     }
     
-    if (comments.count) {
-        for (NSInteger index = 0; index < comments.count; index++) {
-            [array addObject:@(HXMusicDetailRowComment)];
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXMusicDetailRow rowType = [obj integerValue];
+        if (rowType == HXMusicDetailRowComment) {
+            [array removeObject:obj];
         }
+    }];
+    
+    if (comments.count) {
+        [comments enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [array addObject:@(HXMusicDetailRowComment)];
+        }];
     } else {
         [array addObject:@(HXMusicDetailRowNoComment)];
     }
