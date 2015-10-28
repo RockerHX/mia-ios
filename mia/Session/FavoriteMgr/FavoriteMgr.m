@@ -251,13 +251,25 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		return NO;
 	}
 
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if(![fileManager fileExistsAtPath:[PathHelper genMusicFilenameWithUrl:item.music.murl]]) {
+	if (![self isItemCachedWithUrl:item.music.murl]) {
 		item.isCached = NO;
 		return NO;
 	}
 
 	item.isCached = YES;
+	return YES;
+}
+
+- (BOOL)isItemCachedWithUrl:(NSString *)url {
+	if ([NSString isNull:url]) {
+		return NO;
+	}
+
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if(![fileManager fileExistsAtPath:[PathHelper genMusicFilenameWithUrl:url]]) {
+		return NO;
+	}
+
 	return YES;
 }
 

@@ -14,6 +14,8 @@
 
 - (FavoriteModel *)favoriteViewControllerModel;
 - (NSArray *)favoriteViewControllerGetFavoriteList;
+- (int)favoriteViewControllerSelectAll:(BOOL)selected;
+- (int)favoriteViewControllerSelectedCount;
 - (BOOL)favoriteViewControllerDeleteMusics;
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row;
 - (void)favoriteViewControllerPauseMusic;

@@ -17,6 +17,7 @@
 #import "PathHelper.h"
 #import "FileLog.h"
 #import "NSTimer+BlockSupport.h"
+#import "FavoriteMgr.h"
 
 @interface SongPreloader()
 
@@ -58,6 +59,11 @@
 - (void)preloadWithMusicItem:(MusicItem *)item {
 	[_delayTimer invalidate];
 	_delayTimer = [NSTimer bs_scheduledTimerWithTimeInterval:30.0 block:^{
+		if ([[FavoriteMgr standard] isItemCachedWithUrl:item.murl]) {
+			NSLog(@"#SongPreloader# preload ignored, has downloaded");
+			return;
+		}
+
 		NSLog(@"#SongPreloader# preload");
 		if (_delegate) {
 			if ([_delegate songPreloaderIsPlayerLoadedThisUrl:item.murl]) {
