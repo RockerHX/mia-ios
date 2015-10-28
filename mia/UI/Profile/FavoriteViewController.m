@@ -9,7 +9,6 @@
 #import "FavoriteViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
-#import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
 #import "FavoriteCollectionViewCell.h"
@@ -19,6 +18,7 @@
 #import "FavoriteModel.h"
 #import "FavoriteMgr.h"
 #import "Masonry.h"
+#import "MJRefresh.h"
 
 static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 //static NSString * const kFavoriteHeaderReuseIdentifier 		= @"FavoriteHeaderId";
@@ -191,7 +191,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	_favoriteCollectionView.delegate = self;
 	_favoriteCollectionView.dataSource = self;
 
-	[_favoriteCollectionView addFooterWithTarget:self action:@selector(requestFavoriteList)];
+	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestFavoriteList)];
+	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	_favoriteCollectionView.footer = aFooter;
 }
 
 - (void)initHeaderView:(UIView *)contentView {
@@ -283,7 +286,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)endRequestFavoriteList:(BOOL)success {
-	[_favoriteCollectionView footerEndRefreshing];
+	[_favoriteCollectionView.footer endRefreshing];
 }
 
 - (void)updateSelectedCount {
