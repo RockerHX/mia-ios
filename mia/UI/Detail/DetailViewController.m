@@ -186,15 +186,16 @@ CommentCellDelegate>
 
 - (void)initBarButton {
 	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
-	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height)
+	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height * 2)
 												 titleString:nil
 												  titleColor:nil
 														font:nil
-													 logoImg:nil
-											 backgroundImage:backButtonImage];
+													 logoImg:backButtonImage
+											 backgroundImage:nil];
 	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 	self.navigationItem.leftBarButtonItem = leftButton;
 	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+
 
 	UIImage *moreButtonImage = [UIImage imageNamed:@"more"];
 	MIAButton *moreButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, moreButtonImage.size.width, moreButtonImage.size.height)
