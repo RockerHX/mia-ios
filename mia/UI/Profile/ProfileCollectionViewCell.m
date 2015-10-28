@@ -11,6 +11,7 @@
 #import "UIImage+Extrude.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
+#import "Masonry.h"
 
 @interface ProfileCollectionViewCell()
 
@@ -39,38 +40,20 @@
 	_coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
 	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
 	[contentView addSubview:_coverImageView];
+
 	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
 	[coverMaskImageView setImage:[UIImage imageNamed:@"cover_mask"]];
 	[contentView addSubview:coverMaskImageView];
 
+	UIView *commentView = [[UIView alloc] init];
+	commentView.backgroundColor = [UIColor redColor];
+	[contentView addSubview:commentView];
+	[self initCommentView:commentView];
 
-	const static CGFloat kUnreadCountLabelHeight			= 40;
-	const static CGFloat kUnreadWordLabelMarginTop			= 9;
-	const static CGFloat kUnreadWordLabelHeight				= 20;
-
-	_unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																  contentView.frame.size.height / 2 - kUnreadCountLabelHeight,
-																  contentView.frame.size.width,
-																  kUnreadCountLabelHeight)
-												  text:@"3"
-												  font:UIFontFromSize(45.0f)
-											 textColor:[UIColor whiteColor]
-										 textAlignment:NSTextAlignmentCenter
-										   numberLines:1];
-	//unreadCountLabel.backgroundColor = [UIColor blueColor];
-	[contentView addSubview:_unreadCountLabel];
-
-	_unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																 contentView.frame.size.height / 2 + kUnreadWordLabelMarginTop,
-																 contentView.frame.size.width,
-																 kUnreadWordLabelHeight)
-												 text:@"条新评论"
-												 font:UIFontFromSize(14.0f)
-											textColor:[UIColor whiteColor]
-										textAlignment:NSTextAlignmentCenter
-										  numberLines:1];
-	//unreadWordLabel.backgroundColor = [UIColor greenColor];
-	[contentView addSubview:_unreadWordLabel];
+	[commentView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY);
+	}];
 
 	static const CGFloat kViewsIconMarginMiddle 	= 2;
 	static const CGFloat kViewsIconMarginBottom		= 12;
@@ -127,6 +110,40 @@
 	//artistLabel.backgroundColor = [UIColor redColor];
 	[contentView addSubview:_artistLabel];
 
+}
+
+- (void)initCommentView:(UIView *)contentView {
+	_unreadCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												   text:@"3"
+												   font:UIFontFromSize(45.0f)
+											  textColor:[UIColor whiteColor]
+										  textAlignment:NSTextAlignmentCenter
+											numberLines:1];
+	_unreadCountLabel.backgroundColor = [UIColor blueColor];
+	[contentView addSubview:_unreadCountLabel];
+
+	_unreadWordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												  text:@"条新评论"
+												  font:UIFontFromSize(14.0f)
+											 textColor:[UIColor whiteColor]
+										 textAlignment:NSTextAlignmentCenter
+										   numberLines:1];
+	_unreadWordLabel.backgroundColor = [UIColor greenColor];
+	[contentView addSubview:_unreadWordLabel];
+
+	[_unreadCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
+	[_unreadWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.top.equalTo(_unreadCountLabel.mas_bottom).offset(9);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
 }
 
 - (void)setShareItem:(ShareItem *)shareItem {
