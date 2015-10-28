@@ -80,7 +80,8 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:
 	 ^(AFNetworkReachabilityStatus status) {
-		NSLog(@"Network status change: %ld", (long)status);
+		 [[FileLog standard] log:@"Network status change: %ld", (long)status];
+
 		_networkStatus = status;
 		 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 								   [NSNumber numberWithInteger:status], NetworkNotificationKey_Status,
@@ -93,7 +94,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 				 [self autoReconnect];
 			 }
 		 } else {
-			 NSLog(@"Network is broken, stopAutoReconnect");
+			 [[FileLog standard] log:@"Network is broken, stopAutoReconnect"];
 			 [[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidAutoReconnectFailed object:self];
 			 [self stopAutoReconnect];
 		 }
@@ -231,7 +232,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	return (_retryTimes > 0);
 }
 - (void)autoReconnect {
-	NSLog(@"auto reconnect, retry times: %ld", _retryTimes);
+	[[FileLog standard] log:@"auto reconnect, retry times: %ld", _retryTimes];
 	_retryTimes++;
 	[self reconnect];
 }
@@ -253,7 +254,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	// 心跳的定时发送时间间隔
 	static const NSTimeInterval kWebSocketPingTimeInterval = 30;
 
-	NSLog(@"Websocket Connected");
+	[[FileLog standard] log:@"Websocket Connected"];
 	_timer = [NSTimer scheduledTimerWithTimeInterval:kWebSocketPingTimeInterval
 											 target:self
 										   selector:@selector(pingTimerAction)
@@ -264,7 +265,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-	NSLog(@":( Websocket Failed With Error %@", error);
+	[[FileLog standard] log:@":( Websocket Failed With Error %@", error];
 	// 应用启动后的第一次连接失败，直接跳转无网络页面
 	if (_firstConnect) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidAutoReconnectFailed object:self];
@@ -275,7 +276,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	_webSocket = nil;
 
 	if (![self isNetworkEnable]) {
-		NSLog(@"Network is broken, ignore auto reconnect operations");
+		[[FileLog standard] log:@"Network is broken, ignore auto reconnect operations"];
 		return;
 	}
 
@@ -357,7 +358,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-	NSLog(@"WebSocket closed");
+	[[FileLog standard] log:@"WebSocket closed"];
 	_firstConnect = NO;
 	[_timer invalidate];
 	_webSocket = nil;

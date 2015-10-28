@@ -59,7 +59,7 @@
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
-	[[FileLog standard] log:@"playWithMusicItem %@", item.murl];
+	[[FileLog standard] log:@"playWithMusicItem %@, %@", item.name, item.murl];
 
 	if ([self isPlayingWithUrl:item.murl]) {
 		// 同一个模块再次播放同一首歌，什么都不做
