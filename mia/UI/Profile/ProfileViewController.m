@@ -592,12 +592,14 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
 }
 
-- (int)favoriteViewControllerSelectAll {
+- (int)favoriteViewControllerSelectAll:(BOOL)selected {
 	int selectedCount = 0;
 	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
-		item.isSelected = YES;
-		selectedCount++;
+		item.isSelected = selected;
+		if (selected) {
+			selectedCount++;
+		}
 	}
 
 	return selectedCount;

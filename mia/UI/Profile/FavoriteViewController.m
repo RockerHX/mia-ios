@@ -46,6 +46,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	MIALabel	*_titleRightLabel;
 
 	BOOL 		_isEditing;
+	BOOL		_isSelectAll;
 }
 
 - (id)initWitBackground:(UIImage *)backgroundImage {
@@ -429,8 +430,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		return;
 	}
 
-	int selectedCount = [_favoriteViewControllerDelegate favoriteViewControllerSelectAll];
-	[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%d首", selectedCount]];
+	_isSelectAll = !_isSelectAll;
+	[_titleLeftLabel setText:_isSelectAll ? @"取消选择" : @"全选"];
+	[_favoriteViewControllerDelegate favoriteViewControllerSelectAll:_isSelectAll];
+	[self updateSelectedCount];
 	[_favoriteCollectionView reloadData];
 }
 
@@ -438,7 +441,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	_isEditing = !_isEditing;
 	[_favoriteCollectionView reloadData];
 	if (_isEditing) {
-		[_titleLeftLabel setText:@"全选"];
+		[_titleLeftLabel setText:_isSelectAll ? @"取消选择" : @"全选"];
 		[_titleRightLabel setText:@"完成"];
 		[_closeButton setTitle:@"删除" forState:UIControlStateNormal];
 		[self updateSelectedCount];
