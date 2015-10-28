@@ -13,7 +13,8 @@
 #import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
-#import "MyProfileViewController.h"
+#import "ProfileViewController.h"
+#import "ShareViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
 #import "NSString+IsNull.h"
@@ -38,7 +39,7 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 @interface HXHomePageViewController ()
 <LoginViewControllerDelegate
 , HXBubbleViewDelegate
-, MyProfileViewControllerDelegate
+, ProfileViewControllerDelegate
 , HXRadioViewControllerDelegate
 > {
     BOOL    _animating;             // 动画执行标识
@@ -205,8 +206,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)profileButtonPressed {
     // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
     if ([[UserSession standard] isLogined]) {
-        MyProfileViewController *vc = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-                                                                     nickName:[[UserSession standard] nick]];
+        ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+                                                                     nickName:[[UserSession standard] nick]
+                                                                  isMyProfile:YES];
 		vc.customDelegate = self;
         [self.navigationController pushViewController:vc animated:YES];
 	} else {
@@ -219,8 +221,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)shareButtonPressed {
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
     if ([[UserSession standard] isLogined]) {
-        HXShareViewController *vc = [HXShareViewController instance];
+        ShareViewController *vc = [[ShareViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+//        HXShareViewController *vc = [HXShareViewController instance];
+//        [self.navigationController pushViewController:vc animated:YES];
     } else {
         LoginViewController *vc = [[LoginViewController alloc] init];
         vc.loginViewControllerDelegate = self;
@@ -498,8 +502,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
 	if ([[UserSession standard] isCachedLogin]) {
-		MyProfileViewController *vc = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-																	 nickName:[[UserSession standard] nick]];
+		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+																	 nickName:[[UserSession standard] nick]
+																  isMyProfile:YES];
 		vc.customDelegate = self;
 		vc.playFavoriteOnceTime = playFavorite;
 		[self.navigationController pushViewController:vc animated:playFavorite ? NO : YES];
@@ -693,14 +698,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }
 }
 
-#pragma mark - MyProfileViewControllerDelegate Methods
-- (void)myProfileViewControllerWillDismiss {
+#pragma mark - ProfileViewControllerDelegate Methods
+- (void)profileViewControllerWillDismiss {
 	if (![[WebSocketMgr standard] isOpen]) {
 		[self showNoNetworkView];
 	}
 }
 
-- (void)myProfileViewControllerUpdateUnreadCount:(int)count {
+- (void)profileViewControllerUpdateUnreadCount:(int)count {
 	[self updateProfileButtonWithUnreadCount:count];
 }
 
