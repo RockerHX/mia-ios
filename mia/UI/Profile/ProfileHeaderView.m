@@ -103,7 +103,7 @@
 																			  self.frame.size.width - kFavoriteCountLabelMarginRight,
 																			  kFavoriteCountLabelHeight)
 															  text:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]
-															  font:UIFontFromSize(35.0f)
+															  font:UIFontFromSize(52)
 														 textColor:[UIColor whiteColor]
 													 textAlignment:NSTextAlignmentRight
 													   numberLines:1];
@@ -114,7 +114,7 @@
 																			   kFavoriteMiddleLabelWidth,
 																			   kFavoriteMiddleLabelHeight)
 															   text:@"首收藏歌曲"
-															   font:UIFontFromSize(16.0f)
+															   font:UIFontFromSize(18.0f)
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentRight
 														numberLines:1];
@@ -126,7 +126,7 @@
 																			kCachedCountLabelWidth,
 																			kCachedCountLabelHeight)
 															text:[NSString stringWithFormat:@"%ld首已下载到本地", [[FavoriteMgr standard] cachedCount]]
-															font:UIFontFromSize(12.0f)
+															font:UIFontFromSize(14.0f)
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentLeft
 														numberLines:1];
@@ -138,7 +138,7 @@
 																	kFavoriteGuidLabelWidth,
 																	kCachedCountLabelHeight)
 													text:@"点“红心”将歌曲收入这里"
-													font:UIFontFromSize(12.0f)
+													font:UIFontFromSize(14.0f)
 											   textColor:[UIColor whiteColor]
 										   textAlignment:NSTextAlignmentLeft
 											 numberLines:1];
@@ -172,14 +172,14 @@
 																					   kFavoriteIconMarginTop,
 																					   kFavoriteIconMarginWidth,
 																					   kFavoriteIconMarginWidth)];
-	[favoriteIconImageView setImage:[UIImage imageNamed:@"favorite_white"]];
+	[favoriteIconImageView setImage:[UIImage imageNamed:@"profile_favorite"]];
 	[self addSubview:favoriteIconImageView];
 	MIALabel *favoriteLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteLabelMarginLeft,
 																		 kFavoriteLabelMarginTop,
 																		 kFavoriteLabelWidth,
 																		 kFavoriteLabelHeight)
 														 text:@"收藏"
-														 font:UIFontFromSize(12.0f)
+														 font:UIFontFromSize(14.0f)
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
@@ -196,7 +196,7 @@
 																		 kShareLabelWidth,
 																		 kShareLabelHeight)
 														 text:@"分享"
-														 font:UIFontFromSize(12.0f)
+														 font:UIFontFromSize(14.0f)
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
@@ -210,7 +210,7 @@
 																		 self.frame.size.width,
 																		 kWifiTipsLabelHeight)
 														 text:@"在非WIFI网络下，播放收藏歌曲不产生任何流量"
-														 font:UIFontFromSize(12.0f)
+														 font:UIFontFromSize(14.0f)
 										   textColor:[UIColor whiteColor]
 									   textAlignment:NSTextAlignmentCenter
 												  numberLines:1];

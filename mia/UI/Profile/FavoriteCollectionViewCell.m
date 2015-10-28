@@ -12,6 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIImageView+BlurredImage.h"
 #import "MIAButton.h"
+#import "Masonry.h"
 
 @interface FavoriteCollectionViewCell()
 
@@ -21,7 +22,7 @@
 	MIALabel 		*_indexLabel;
 	MIALabel 		*_sharerLabel;
 	UIImageView 	*_downloadStateImageView;
-	MIAButton 		*_checkBoxButton;
+	UIImageView 	*_checkboxImageView;
 	MIALabel 		*_songLabel;
 }
 
@@ -37,76 +38,73 @@
 }
 
 - (void)initUI:(UIView *)contentView {
-	//contentView.backgroundColor = [UIColor orangeColor];
-	const static CGFloat kFavoriteCellMarginLeft			= 30;
-	const static CGFloat kIndexLabelHeight					= 20;
-	const static CGFloat kIndexLabelMarginTop				= 26;
-
-	_indexLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																  kIndexLabelMarginTop,
-																  kFavoriteCellMarginLeft,
-																  kIndexLabelHeight)
+//	contentView.backgroundColor = [UIColor orangeColor];
+	_indexLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 												  text:@"1"
 												  font:UIFontFromSize(16.0f)
 											 textColor:[UIColor blackColor]
-										 textAlignment:NSTextAlignmentCenter
+										 textAlignment:NSTextAlignmentRight
 										   numberLines:1];
-	//indexLabel.backgroundColor = [UIColor blueColor];
+//	_indexLabel.backgroundColor = [UIColor blueColor];
 	[contentView addSubview:_indexLabel];
 
-	const static CGFloat kShareLabelMarginTop				= 0;
-	const static CGFloat kShareLabelHeight					= 20;
-
-	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteCellMarginLeft,
-																	  kShareLabelMarginTop,
-																	  contentView.bounds.size.width - kFavoriteCellMarginLeft,
-																	  kShareLabelHeight)
+	_sharerLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 													  text:@"Jackie分享的"
 													  font:UIFontFromSize(14.0f)
 												 textColor:[UIColor grayColor]
 											 textAlignment:NSTextAlignmentLeft
 											   numberLines:1];
-	//sharerLabel.backgroundColor = [UIColor yellowColor];
+//	_sharerLabel.backgroundColor = [UIColor yellowColor];
 	[contentView addSubview:_sharerLabel];
 
-	const static CGFloat kDownloadStateMarginLeft		= kFavoriteCellMarginLeft;
-	const static CGFloat kDownloadStateMarginTop		= kShareLabelMarginTop + kShareLabelHeight + 8;
-	const static CGFloat kDownloadStateWidth			= 15;
-
-	CGRect imageFrame = CGRectMake(kDownloadStateMarginLeft,
-								   kDownloadStateMarginTop,
-								   kDownloadStateWidth,
-								   kDownloadStateWidth);
-	_downloadStateImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+	_downloadStateImageView = [[UIImageView alloc] init];
 	[_downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloading"]];
 	[contentView addSubview:_downloadStateImageView];
 
-	_checkBoxButton = [[MIAButton alloc] initWithFrame:imageFrame
-												   titleString:nil
-													titleColor:nil
-														  font:nil
-													   logoImg:nil
-											   backgroundImage:[UIImage imageNamed:@"uncheckbox"]];
-	[_checkBoxButton setBackgroundImage:[UIImage imageNamed:@"checkbox"] forState:UIControlStateSelected];
-	//[_checkBoxButton addTarget:self action:@selector(selectCheckBoxAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_checkBoxButton setHidden:YES];
-	[contentView addSubview:_checkBoxButton];
+	_checkboxImageView = [[UIImageView alloc] init];
+	[_downloadStateImageView setImage:[UIImage imageNamed:@"uncheckbox"]];
+	[contentView addSubview:_downloadStateImageView];
+	[_checkboxImageView setHidden:YES];
+	[contentView addSubview:_checkboxImageView];
 
-	const static CGFloat kSongLabelHeight					= 20;
-	const static CGFloat kSongLabelMarginTop				= kShareLabelMarginTop + kShareLabelHeight + 5;
-	const static CGFloat kSongLabelMarginLeft				= kDownloadStateMarginLeft + kDownloadStateWidth + 5;
-
-	_songLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kSongLabelMarginLeft,
-																	  kSongLabelMarginTop,
-																	  contentView.bounds.size.width - kSongLabelMarginLeft,
-																	  kSongLabelHeight)
+	_songLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 													  text:@"爱情的枪-左小诅咒"
 													  font:UIFontFromSize(15.0f)
 												 textColor:[UIColor blackColor]
 											 textAlignment:NSTextAlignmentLeft
 											   numberLines:1];
-	//songLabel.backgroundColor = [UIColor greenColor];
+//	_songLabel.backgroundColor = [UIColor greenColor];
 	[contentView addSubview:_songLabel];
+
+
+	[_indexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(_sharerLabel.mas_left).offset(-15);
+		make.top.equalTo(contentView.mas_top).offset(25);
+	}];
+
+	[_sharerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(contentView.mas_left).offset(30);
+		make.top.equalTo(contentView.mas_top).offset(5);
+		make.right.equalTo(contentView.mas_right);
+	}];
+
+	[_downloadStateImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(contentView.mas_left).offset(30);
+		make.centerY.equalTo(_songLabel.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+
+	[_songLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(contentView.mas_left).offset(50);
+		make.right.equalTo(contentView.mas_right);
+		make.top.equalTo(_sharerLabel.mas_bottom).offset(7);
+	}];
+
+	[_checkboxImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(contentView.mas_left);
+		make.top.equalTo(_sharerLabel.mas_bottom).offset(1);
+		make.size.mas_equalTo(CGSizeMake(20, 20));
+	}];
 }
 
 - (void)setDataItem:(FavoriteItem *)item {
@@ -121,7 +119,14 @@
 
 	if (_isEditing) {
 		[_downloadStateImageView setHidden:YES];
-		[_checkBoxButton setHidden:NO];
+		[_indexLabel setHidden:YES];
+		[_checkboxImageView setHidden:NO];
+
+		[_songLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(_sharerLabel.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.top.equalTo(_sharerLabel.mas_bottom).offset(7);
+		}];
 	} else {
 		if (item.isCached) {
 			[_downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloaded"]];
@@ -129,14 +134,16 @@
 			[_downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloading"]];
 		}
 
+		[_indexLabel setHidden:NO];
 		[_downloadStateImageView setHidden:NO];
-		[_checkBoxButton setHidden:YES];
-	}
-}
+		[_checkboxImageView setHidden:YES];
 
-- (void)selectCheckBoxAction:(id)sender {
-	[_checkBoxButton setSelected:!_checkBoxButton.isSelected];
-	_dataItem.isSelected = _checkBoxButton.isSelected;
+		[_songLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self.mas_left).offset(50);
+			make.right.equalTo(self.mas_right);
+			make.top.equalTo(_sharerLabel.mas_bottom).offset(7);
+		}];
+	}
 }
 
 - (void)updatePlayingState {
@@ -150,7 +157,11 @@
 }
 
 - (void)updateSelectedState {
-	[_checkBoxButton setSelected:_dataItem.isSelected];
+	if (_dataItem.isSelected) {
+		[_checkboxImageView setImage:[UIImage imageNamed:@"checkbox"]];
+	} else {
+		[_checkboxImageView setImage:[UIImage imageNamed:@"uncheckbox"]];
+	}
 }
 
 @end
