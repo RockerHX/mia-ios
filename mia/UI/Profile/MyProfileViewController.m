@@ -305,7 +305,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	MIALabel *addMusicLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														   text:@"分享你喜欢的第一首歌"
-														   font:UIFontFromSize(10.0f)
+														   font:UIFontFromSize(16.0f)
 													  textColor:[UIColor blackColor]
 												  textAlignment:NSTextAlignmentCenter
 													numberLines:1];
@@ -313,7 +313,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[_addShareView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_profileCollectionView.mas_left).offset(kProfileItemMarginH);
-		make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-15);
+		make.top.mas_equalTo(kProfileHeaderHeight);
 		CGFloat imageSize = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
 		make.size.mas_equalTo(CGSizeMake(imageSize, imageSize));
 	}];
@@ -337,42 +337,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}];
 }
 
-- (void)initNoShareView {
-	_noShareView = [[UIView alloc] init];
-	[_profileCollectionView addSubview:_noShareView];
-
-	UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[iconImageView setImage:[UIImage imageNamed:@"no_share"]];
-	[_noShareView addSubview:iconImageView];
-
-	MIALabel *wordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-													 text:@"暂没有分享的歌曲"
-													 font:UIFontFromSize(12.0f)
-												textColor:[UIColor grayColor]
-											textAlignment:NSTextAlignmentCenter
-													numberLines:1];
-	[_noShareView addSubview:wordLabel];
-
-	[_noShareView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(_profileCollectionView.mas_centerX);
-		make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-150);
-	}];
-
-	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_noShareView.mas_top);
-		make.left.equalTo(_noShareView.mas_left);
-		make.right.equalTo(_noShareView.mas_right);
-		make.centerX.equalTo(_noShareView.mas_centerX);
-		make.size.mas_equalTo(CGSizeMake(75, 75));
-	}];
-	[wordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(_noShareView.mas_centerX);
-		make.top.equalTo(iconImageView.mas_bottom).offset(10);
-		make.bottom.equalTo(_noShareView.mas_bottom);
-	}];
-}
-
-
 - (void)initNoNetworkView {
 	_noNetWorkView = [[UIView alloc] init];
 	[_profileCollectionView addSubview:_noNetWorkView];
@@ -383,20 +347,15 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	MIALabel *wordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														   text:@"网络未连接"
-														   font:UIFontFromSize(12.0f)
-													  textColor:[UIColor grayColor]
+														   font:UIFontFromSize(16.0f)
+													  textColor:UIColorFromHex(@"808080", 1.0)
 												  textAlignment:NSTextAlignmentCenter
 													numberLines:1];
 	[_noNetWorkView addSubview:wordLabel];
 
 	[_noNetWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_profileCollectionView.mas_centerX);
-		if (_isMyProfile) {
-			make.centerY.equalTo(_profileCollectionView.mas_centerY);
-		} else {
-			make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-150);
-		}
-
+		make.top.mas_equalTo(kProfileHeaderHeight + 20);
 	}];
 
 	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -421,19 +380,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 
 	if ([[WebSocketMgr standard] isOpen]) {
-		if (_isMyProfile) {
-			if (_addShareView) {
-				[_addShareView setHidden:NO];
-				return;
-			}
-			[self initAddShareView];
-		} else {
-			if (_noShareView) {
-				[_noShareView setHidden:NO];
-				return;
-			}
-			[self initNoShareView];
+		if (_addShareView) {
+			[_addShareView setHidden:NO];
+			return;
 		}
+		[self initAddShareView];
 
 	} else {
 		if (_noNetWorkView) {
