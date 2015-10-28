@@ -25,7 +25,7 @@ static NSString * const kFavoriteCellReuseIdentifier 		= @"FavoriteCellId";
 
 static const CGFloat kFavoriteCVMarginTop	= 200;
 static const CGFloat kFavoriteItemMarginH 	= 15;
-static const CGFloat kFavoriteItemMarginV 	= 20;
+static const CGFloat kFavoriteItemMarginV 	= 14;
 static const CGFloat kFavoriteHeaderHeight 	= 64;
 static const CGFloat kFavoriteItemHeight	= 50;
 const static CGFloat kBottomViewHeight 		= 40;
@@ -85,7 +85,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
+	[self updateFavoriteCount:[[FavoriteMgr standard] favoriteCount]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -297,8 +297,15 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 - (void)updateSelectedCount {
 	if (_favoriteViewControllerDelegate) {
-		[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%d首", [_favoriteViewControllerDelegate favoriteViewControllerSelectedCount]]];
+		int selectedCount = [_favoriteViewControllerDelegate favoriteViewControllerSelectedCount];
+		[_titleMiddleLabel setText:[NSString stringWithFormat:@"已选择%d首", selectedCount]];
+		[_titleMiddleLabel setTextColor:selectedCount == 0 ? UIColorFromHex(@"808080", 1.0) : [UIColor blackColor]];
 	}
+}
+
+- (void)updateFavoriteCount:(long)count {
+	[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", count]];
+	[_titleMiddleLabel setTextColor:count == 0 ? UIColorFromHex(@"808080", 1.0) : [UIColor blackColor]];
 }
 
 #pragma mark - delegate
@@ -463,7 +470,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 		[_titleRightLabel setText:@"编辑"];
 		[_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
-		[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
+		[self updateFavoriteCount:[[FavoriteMgr standard] favoriteCount]];
 	}
 }
 
@@ -472,7 +479,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		if (_favoriteViewControllerDelegate) {
 			if ([_favoriteViewControllerDelegate favoriteViewControllerDeleteMusics]) {
 				[_favoriteCollectionView reloadData];
-				[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
+				[self updateFavoriteCount:[[FavoriteMgr standard] favoriteCount]];
 			}
 		}
 	} else {

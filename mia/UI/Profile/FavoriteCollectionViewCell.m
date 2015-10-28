@@ -22,7 +22,7 @@
 	MIALabel 		*_indexLabel;
 	MIALabel 		*_sharerLabel;
 	UIImageView 	*_downloadStateImageView;
-	MIAButton 		*_checkBoxButton;
+	UIImageView 	*_checkboxImageView;
 	MIALabel 		*_songLabel;
 }
 
@@ -61,16 +61,11 @@
 	[_downloadStateImageView setImage:[UIImage imageNamed:@"favorite_downloading"]];
 	[contentView addSubview:_downloadStateImageView];
 
-	_checkBoxButton = [[MIAButton alloc] initWithFrame:CGRectZero
-												   titleString:nil
-													titleColor:nil
-														  font:nil
-													   logoImg:nil
-											   backgroundImage:[UIImage imageNamed:@"uncheckbox"]];
-	[_checkBoxButton setBackgroundImage:[UIImage imageNamed:@"checkbox"] forState:UIControlStateSelected];
-//	[_checkBoxButton addTarget:self action:@selector(selectCheckBoxAction:) forControlEvents:UIControlEventTouchUpInside];
-	[_checkBoxButton setHidden:YES];
-	[contentView addSubview:_checkBoxButton];
+	_checkboxImageView = [[UIImageView alloc] init];
+	[_downloadStateImageView setImage:[UIImage imageNamed:@"uncheckbox"]];
+	[contentView addSubview:_downloadStateImageView];
+	[_checkboxImageView setHidden:YES];
+	[contentView addSubview:_checkboxImageView];
 
 	_songLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 													  text:@"爱情的枪-左小诅咒"
@@ -102,10 +97,10 @@
 	[_songLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(contentView.mas_left).offset(50);
 		make.right.equalTo(contentView.mas_right);
-		make.top.equalTo(_sharerLabel.mas_bottom).offset(5);
+		make.top.equalTo(_sharerLabel.mas_bottom).offset(7);
 	}];
 
-	[_checkBoxButton mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_checkboxImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(contentView.mas_left);
 		make.top.equalTo(_sharerLabel.mas_bottom).offset(1);
 		make.size.mas_equalTo(CGSizeMake(20, 20));
@@ -125,12 +120,12 @@
 	if (_isEditing) {
 		[_downloadStateImageView setHidden:YES];
 		[_indexLabel setHidden:YES];
-		[_checkBoxButton setHidden:NO];
+		[_checkboxImageView setHidden:NO];
 
 		[_songLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(_sharerLabel.mas_left);
 			make.right.equalTo(self.mas_right);
-			make.top.equalTo(_sharerLabel.mas_bottom).offset(5);
+			make.top.equalTo(_sharerLabel.mas_bottom).offset(7);
 		}];
 	} else {
 		if (item.isCached) {
@@ -141,19 +136,14 @@
 
 		[_indexLabel setHidden:NO];
 		[_downloadStateImageView setHidden:NO];
-		[_checkBoxButton setHidden:YES];
+		[_checkboxImageView setHidden:YES];
 
 		[_songLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self.mas_left).offset(50);
 			make.right.equalTo(self.mas_right);
-			make.top.equalTo(_sharerLabel.mas_bottom).offset(5);
+			make.top.equalTo(_sharerLabel.mas_bottom).offset(7);
 		}];
 	}
-}
-
-- (void)selectCheckBoxAction:(id)sender {
-	[_checkBoxButton setSelected:!_checkBoxButton.isSelected];
-	_dataItem.isSelected = _checkBoxButton.isSelected;
 }
 
 - (void)updatePlayingState {
@@ -167,7 +157,11 @@
 }
 
 - (void)updateSelectedState {
-	[_checkBoxButton setSelected:_dataItem.isSelected];
+	if (_dataItem.isSelected) {
+		[_checkboxImageView setImage:[UIImage imageNamed:@"checkbox"]];
+	} else {
+		[_checkboxImageView setImage:[UIImage imageNamed:@"uncheckbox"]];
+	}
 }
 
 @end
