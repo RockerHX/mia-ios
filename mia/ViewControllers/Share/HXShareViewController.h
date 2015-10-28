@@ -10,4 +10,6 @@
 
 @interface HXShareViewController : UIViewController
 
++ (instancetype)instance;
+
 @end

@@ -64,4 +64,9 @@ typedef void(^BLOCK)(void);
     [mainWindow addSubview:self];
 }
 
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    _pageControl.currentPage = scrollView.contentOffset.x/scrollView.frame.size.width;
+}
+
 @end
