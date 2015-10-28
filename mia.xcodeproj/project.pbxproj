@@ -173,6 +173,8 @@
 		CDD8315E1BD8B6B60067309B /* HXInfectUserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8315D1BD8B6B60067309B /* HXInfectUserListView.m */; };
 		CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */; };
 		CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */; };
+		CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDF739C71BE0AEF1009FA8CA /* Share.storyboard */; };
+		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
 /* End PBXBuildFile section */
@@ -483,6 +485,9 @@
 		CDD8315F1BD8BABF0067309B /* HXInfectUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListCell.h; sourceTree = "<group>"; };
 		CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListCell.m; sourceTree = "<group>"; };
 		CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
+		CDF739C81BE0AEF1009FA8CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Share.storyboard; sourceTree = SOURCE_ROOT; };
+		CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXShareViewController.h; sourceTree = "<group>"; };
+		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
 		CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGuideView.m; sourceTree = "<group>"; };
 		CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXGuideView.xib; sourceTree = "<group>"; };
@@ -1304,6 +1309,7 @@
 		CD221FC61BC79F0300FCD4E7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDF739CE1BE0BAAE009FA8CA /* Share */,
 				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
 				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
@@ -1314,6 +1320,7 @@
 		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CDF739CA1BE0AF3D009FA8CA /* Share */,
 				CD33D8201BDB682B00BB0A04 /* MusicDetail */,
 				CD9D2EB41BD7705A00A2D312 /* Setting */,
 				CD221FD21BC79FF800FCD4E7 /* HomePage */,
@@ -1600,6 +1607,23 @@
 			path = HXInfectUserListView;
 			sourceTree = "<group>";
 		};
+		CDF739CA1BE0AF3D009FA8CA /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				CDF739C71BE0AEF1009FA8CA /* Share.storyboard */,
+			);
+			name = Share;
+			sourceTree = "<group>";
+		};
+		CDF739CE1BE0BAAE009FA8CA /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */,
+				CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
 		CDFFAAEC1BD7BCE30074C0EF /* Guide */ = {
 			isa = PBXGroup;
 			children = (
@@ -1722,6 +1746,7 @@
 				393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */,
 				393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */,
 				CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */,
+				CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */,
 				397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */,
 				390BADD01BAFE188006269FD /* button_white@2x.png in Resources */,
 				390BADCB1BAFDDC3006269FD /* login_bg@2x.png in Resources */,
@@ -1837,6 +1862,7 @@
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
 				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,
 				CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */,
+				CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
 				CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */,
@@ -1993,6 +2019,14 @@
 				CD9D2EBC1BD7736500A2D312 /* Base */,
 			);
 			name = Setting.storyboard;
+			sourceTree = "<group>";
+		};
+		CDF739C71BE0AEF1009FA8CA /* Share.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDF739C81BE0AEF1009FA8CA /* Base */,
+			);
+			name = Share.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
