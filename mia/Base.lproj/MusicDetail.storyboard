@@ -422,19 +422,21 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPW-L7-lOu">
-                                <rect key="frame" x="0.0" y="568" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="588" width="320" height="30"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="w8R-Og-j0S">
-                                        <rect key="frame" x="8" y="8" width="266" height="34"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="w8R-Og-j0S" customClass="HXGrowingTextView">
+                                        <rect key="frame" x="8" y="8" width="266" height="14"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ik-hy-rwg">
-                                        <rect key="frame" x="282" y="0.0" width="30" height="50"/>
+                                        <rect key="frame" x="282" y="0.0" width="30" height="30"/>
                                         <animations/>
-                                        <state key="normal" title="发送"/>
+                                        <state key="normal" title="发送">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="sendButtonPressed" destination="ryk-wB-QfC" eventType="touchUpInside" id="Ppg-cD-s4u"/>
                                         </connections>
@@ -443,7 +445,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.88235294119999996" green="0.8862745098" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="4h5-he-4iu"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="4h5-he-4iu"/>
                                     <constraint firstItem="1ik-hy-rwg" firstAttribute="leading" secondItem="w8R-Og-j0S" secondAttribute="trailing" constant="8" id="6gB-99-SAe"/>
                                     <constraint firstAttribute="bottom" secondItem="1ik-hy-rwg" secondAttribute="bottom" id="KTe-k0-xaX"/>
                                     <constraint firstAttribute="bottom" secondItem="w8R-Og-j0S" secondAttribute="bottom" constant="8" id="Lql-PP-SHw"/>

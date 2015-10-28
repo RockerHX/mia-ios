@@ -26,6 +26,7 @@
 #import "InfectItem.h"
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"
+#import "HXGrowingTextView.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
