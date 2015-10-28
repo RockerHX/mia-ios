@@ -1,12 +1,12 @@
 //
-//  ProfileViewController.m
+//  MyProfileViewController.m
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "ProfileViewController.h"
+#import "MyProfileViewController.h"
 #import "MIAButton.h"
 #import "MIALabel.h"
 #import "UIImageView+WebCache.h"
@@ -42,7 +42,7 @@ static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 static const CGFloat kProfileHeaderHeight 	= 250;
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
-@interface ProfileViewController ()
+@interface MyProfileViewController ()
 <UICollectionViewDataSource
 , UICollectionViewDelegate
 , UICollectionViewDelegateFlowLayout
@@ -56,7 +56,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 @end
 
-@implementation ProfileViewController {
+@implementation MyProfileViewController {
 	SongListPlayer			*_songListPlayer;
 	NSString 				*_uid;
 	NSString 				*_nickName;
@@ -77,12 +77,12 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	UIView					*_noNetWorkView;
 }
 
-- (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName isMyProfile:(BOOL)isMyProfile {
+- (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName {
 	self = [super init];
 	if (self) {
 		_uid = uid;
 		_nickName = nickName;
-		_isMyProfile = isMyProfile;
+		_isMyProfile = YES;
 
 		[self initUI];
 		[self initData];
@@ -247,7 +247,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[[FavoriteMgr standard] setCustomDelegate:self];
 	_favoriteModel = [[FavoriteModel alloc] init];
 
-	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"ProfileViewController Song List"];
+	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"MyProfileViewController Song List"];
 	_songListPlayer.dataSource = self;
 	_songListPlayer.delegate = self;
 }
@@ -529,7 +529,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 NSLog(@"post read comment ret: %d, %d", success, [userInfo[MiaAPIKey_Values][@"num"] intValue]);
 		 if (_customDelegate) {
-			 [_customDelegate profileViewControllerUpdateUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
+			 [_customDelegate myProfileViewControllerUpdateUnreadCount:[userInfo[MiaAPIKey_Values][@"num"] intValue]];
 		 }
 
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
@@ -820,7 +820,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 
 	if (_customDelegate) {
-		[_customDelegate profileViewControllerWillDismiss];
+		[_customDelegate myProfileViewControllerWillDismiss];
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }

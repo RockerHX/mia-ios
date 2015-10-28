@@ -108,6 +108,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	self.title = _nickName;
 	[self initBarButton];
 	[self initCollectionView];
+	[self initNoShareView];
 }
 
 - (void)initCollectionView {
