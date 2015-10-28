@@ -15,6 +15,7 @@
 #import "FavoriteMgr.h"
 #import "FavoriteModel.h"
 #import "FavoriteItem.h"
+#import "Masonry.h"
 
 @implementation ProfileHeaderView {
 	UIView 		*_coverView;
@@ -63,53 +64,36 @@
 	[contentView addSubview:coverMaskImageView];
 
 	UIView *cacheInfoView = [[UIView alloc] init];
-	cacheInfoView.backgroundColor = [UIColor redColor];
+//	cacheInfoView.backgroundColor = [UIColor redColor];
 	[contentView addSubview:cacheInfoView];
 	[self initCacheInfoView:cacheInfoView];
+	[cacheInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY);
+	}];
+
+	_wifiTipsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+												text:@"在非WIFI网络下，播放收藏歌曲不产生任何流量"
+												font:UIFontFromSize(14.0f)
+										   textColor:[UIColor whiteColor]
+									   textAlignment:NSTextAlignmentCenter
+										 numberLines:1];
+	[contentView addSubview:_wifiTipsLabel];
+	[_wifiTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(contentView.mas_bottom).offset(-10);
+		make.centerX.equalTo(contentView.mas_centerX);
+	}];
+
 }
 
 - (void)initCacheInfoView:(UIView *)contentView {
-	static const CGFloat kPlayButtonMarginRight = 76;
-	static const CGFloat kPlayButtonMarginTop = 65;
-	static const CGFloat kPlayButtonWidth = 40;
-
-	_playButton = [[MIAButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kPlayButtonMarginRight - kPlayButtonWidth,
-															  kPlayButtonMarginTop,
-															  kPlayButtonWidth,
-															  kPlayButtonWidth)
-									   titleString:nil
-										titleColor:nil
-											  font:nil
-										   logoImg:nil
-								   backgroundImage:nil];
-	[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[contentView addSubview:_playButton];
-
-	const static CGFloat kFavoriteCountLabelMarginRight		= 220;
-	const static CGFloat kFavoriteCountLabelMarginTop		= 64;
-	const static CGFloat kFavoriteCountLabelHeight			= 38;
-
-	static const CGFloat kFavoriteMiddleLabelMarginRight 	= 120;
-	static const CGFloat kFavoriteMiddleLabelMarginTop 		= 64;
-	static const CGFloat kFavoriteMiddleLabelWidth 			= 100;
-	static const CGFloat kFavoriteMiddleLabelHeight 		= 20;
-
-	static const CGFloat kCachedCountLabelMarginRight 		= 120;
-	static const CGFloat kCachedCountLabelMarginTop 		= 86;
-	static const CGFloat kCachedCountLabelWidth 			= 100;
-	static const CGFloat kCachedCountLabelHeight 			= 20;
-
-	static const CGFloat kFavoriteGuidMarginLeft 			= 175;
-	static const CGFloat kFavoriteGuidLabelWidth 			= 160;
-
 	_favoriteCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 													 text:[NSString stringWithFormat:@"%ld", [[FavoriteMgr standard] favoriteCount]]
 													 font:UIFontFromSize(52)
 												textColor:[UIColor whiteColor]
 											textAlignment:NSTextAlignmentRight
 											  numberLines:1];
-	_favoriteCountLabel.backgroundColor = [UIColor blueColor];
+//	_favoriteCountLabel.backgroundColor = [UIColor blueColor];
 	[contentView addSubview:_favoriteCountLabel];
 	MIALabel *favoriteMiddleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 															   text:@"首收藏歌曲"
@@ -117,7 +101,7 @@
 														  textColor:[UIColor whiteColor]
 													  textAlignment:NSTextAlignmentRight
 														numberLines:1];
-	favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
+//	favoriteMiddleLabel.backgroundColor = [UIColor greenColor];
 	[contentView addSubview:favoriteMiddleLabel];
 
 	_cachedCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -126,9 +110,42 @@
 											  textColor:[UIColor whiteColor]
 										  textAlignment:NSTextAlignmentLeft
 											numberLines:1];
-	_cachedCountLabel.backgroundColor = [UIColor greenColor];
+//	_cachedCountLabel.backgroundColor = [UIColor greenColor];
 	[contentView addSubview:_cachedCountLabel];
 
+	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
+									   titleString:nil
+										titleColor:nil
+											  font:nil
+										   logoImg:nil
+								   backgroundImage:nil];
+	[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+//	_playButton.backgroundColor = [UIColor redColor];
+	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[contentView addSubview:_playButton];
+
+	[_favoriteCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(contentView.mas_left);
+		make.centerY.equalTo(contentView.mas_centerY);
+	}];
+
+	[favoriteMiddleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_favoriteCountLabel.mas_right).offset(8);
+		make.top.equalTo(contentView.mas_top);
+	}];
+
+	[_cachedCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_favoriteCountLabel.mas_right).offset(8);
+		make.top.equalTo(favoriteMiddleLabel.mas_bottom).offset(5);
+		make.bottom.equalTo(contentView.mas_bottom);
+	}];
+
+	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(_cachedCountLabel.mas_right).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.size.mas_equalTo(CGSizeMake(0, 0));
+	}];
 }
 
 - (void)initSubTitles {
@@ -186,20 +203,6 @@
 									   textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
 	[self addSubview:shareLabel];
-
-	static const CGFloat kWifiTipsLabelMarginBottom = 50;
-	static const CGFloat kWifiTipsLabelHeight		= 20;
-
-	_wifiTipsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(0,
-																		 self.frame.size.height - kWifiTipsLabelMarginBottom - kWifiTipsLabelHeight,
-																		 self.frame.size.width,
-																		 kWifiTipsLabelHeight)
-														 text:@"在非WIFI网络下，播放收藏歌曲不产生任何流量"
-														 font:UIFontFromSize(14.0f)
-										   textColor:[UIColor whiteColor]
-									   textAlignment:NSTextAlignmentCenter
-												  numberLines:1];
-	[self addSubview:_wifiTipsLabel];
 }
 
 - (void)setIsPlaying:(BOOL)isPlaying {
@@ -237,9 +240,16 @@
 		[_cachedCountLabel setText:@"点“红心”将歌曲收入这里"];
 		[_wifiTipsLabel setHidden:YES];
 		[_playButton setHidden:YES];
+
+		[_playButton mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.size.mas_equalTo(CGSizeMake(0, 0));
+		}];
 	} else {
 		[_wifiTipsLabel setHidden:NO];
 		[_playButton setHidden:NO];
+		[_playButton mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.size.mas_equalTo(CGSizeMake(40, 40));
+		}];
 	}
 
 	if ([[_profileHeaderViewDelegate profileHeaderViewModel].dataSource count] > 0) {
