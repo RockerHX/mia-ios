@@ -46,41 +46,21 @@
 	[contentView addSubview:coverMaskImageView];
 
 	UIView *commentView = [[UIView alloc] init];
-	commentView.backgroundColor = [UIColor redColor];
 	[contentView addSubview:commentView];
 	[self initCommentView:commentView];
-
 	[commentView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(contentView.mas_centerX);
 		make.centerY.equalTo(contentView.mas_centerY);
 	}];
 
-	static const CGFloat kViewsIconMarginMiddle 	= 2;
-	static const CGFloat kViewsIconMarginBottom		= 12;
-	static const CGFloat kViewsIconWidth			= 16;
-
-	static const CGFloat kViewsLabelMarginMiddle	= 6;
-	static const CGFloat kViewsLabelMarginBottom	= 12;
-	static const CGFloat kViewsLabelHeight			= 16;
-
-	UIImageView *viewsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle - kViewsIconWidth,
-																				contentView.frame.size.height - kViewsIconMarginBottom - kViewsIconWidth,
-																				kViewsIconWidth,
-																				kViewsIconWidth)];
-	[viewsImageView setImage:[UIImage imageNamed:@"MD-ViewCountIcon"]];
-	[contentView addSubview:viewsImageView];
-
-	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectMake(contentView.frame.size.width / 2 + kViewsIconMarginMiddle + kViewsLabelMarginMiddle,
-															contentView.frame.size.height - kViewsLabelMarginBottom - kViewsLabelHeight,
-															contentView.frame.size.width / 2 - kViewsIconMarginMiddle - kViewsLabelMarginMiddle,
-															kViewsLabelHeight)
-											text:@"12"
-											font:UIFontFromSize(14.0f)
-									   textColor:[UIColor whiteColor]
-								   textAlignment:NSTextAlignmentLeft
-									 numberLines:1];
-	//viewsLabel.backgroundColor = [UIColor redColor];
-	[contentView addSubview:_viewsLabel];
+	UIView *pvView = [[UIView alloc] init];
+	pvView.backgroundColor = [UIColor redColor];
+	[contentView addSubview:pvView];
+	[self initPVView:pvView];
+	[pvView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-12);
+	}];
 
 	static const CGFloat kMusicNameLabelMarginLeft		= 16;
 	static const CGFloat kMusicNameLabelHeight			= 40;
@@ -143,6 +123,33 @@
 		make.bottom.equalTo(contentView.mas_bottom);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
+}
+
+- (void)initPVView:(UIView *)contentView {
+	UIImageView *viewsImageView = [[UIImageView alloc] init];
+	[viewsImageView setImage:[UIImage imageNamed:@"MD-ViewCountIcon"]];
+	[contentView addSubview:viewsImageView];
+
+	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											 text:@"12"
+											 font:UIFontFromSize(14.0f)
+										textColor:[UIColor whiteColor]
+									textAlignment:NSTextAlignmentLeft
+									  numberLines:1];
+	[contentView addSubview:_viewsLabel];
+
+	[viewsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(contentView.mas_left);
+		make.size.mas_equalTo(CGSizeMake(16, 16));
+	}];
+
+	[_viewsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(viewsImageView.mas_right).offset(8);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 }
 
