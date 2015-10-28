@@ -85,6 +85,7 @@
 
 - (void)viewConfig {
     _tableView.scrollsToTop = YES;
+    _editCommentView.scrollsToTop = NO;
 }
 
 #pragma mark - Event Response
