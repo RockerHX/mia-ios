@@ -208,13 +208,15 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_titleLeftLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleLeftLabelTouchAction:)]];
 //	_titleLeftLabel.backgroundColor = [UIColor greenColor];
 	[_favoriteHeaderView addSubview:_titleLeftLabel];
+	[_titleLeftLabel setHidden:YES];
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									  titleString:nil
 									   titleColor:nil
 											 font:nil
-										  logoImg:nil
-								  backgroundImage:[UIImage imageNamed:@"play_black"]];
+										  logoImg:[UIImage imageNamed:@"play_black"]
+								  backgroundImage:nil];
+	[_playButton setContentMode:UIViewContentModeCenter];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 //	_playButton.backgroundColor = [UIColor yellowColor];
 	[_favoriteHeaderView addSubview:_playButton];
@@ -232,7 +234,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 												 text:@"编辑"
 												 font:UIFontFromSize(16.0f)
 											textColor:[UIColor blackColor]
-										textAlignment:NSTextAlignmentLeft
+										textAlignment:NSTextAlignmentRight
 										  numberLines:1];
 	[_titleRightLabel setUserInteractionEnabled:YES];
 	[_titleRightLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleRightLabelTouchAction:)]];
@@ -243,38 +245,42 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[_titleLeftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.left.equalTo(contentView.mas_left).offset(15);
+		make.width.mas_greaterThanOrEqualTo(@50);
+		make.height.mas_greaterThanOrEqualTo(@50);
 	}];
 	[_titleLeftLabel setContentHuggingPriority:UILayoutPriorityRequired
 							   forAxis:UILayoutConstraintAxisHorizontal];
 
 	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
-		make.size.mas_equalTo(CGSizeMake(15, 15));
-		make.left.equalTo(_titleLeftLabel.mas_right).offset(8);
+		make.size.mas_equalTo(CGSizeMake(40, 40));
+		make.left.equalTo(contentView.mas_left).offset(15);
 	}];
 
 
 	[_titleMiddleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
-		make.left.equalTo(_playButton.mas_right).offset(8);
+		make.left.equalTo(contentView.mas_left).offset(50);
+		make.right.equalTo(contentView.mas_right).offset(-50);
 	}];
 
 	[_titleRightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
-		make.left.equalTo(_titleMiddleLabel.mas_right).offset(8);
 		make.right.equalTo(contentView.mas_right).offset(-15);
-		make.width.mas_lessThanOrEqualTo(@32);
+		make.width.mas_greaterThanOrEqualTo(@50);
+		make.height.mas_greaterThanOrEqualTo(@50);
 	}];
-
+	[_titleRightLabel setContentHuggingPriority:UILayoutPriorityRequired
+									   forAxis:UILayoutConstraintAxisHorizontal];
 
 }
 
 - (void)setIsPlaying:(BOOL)isPlaying {
 	_isPlaying = isPlaying;
 	if (isPlaying) {
-		[_playButton setBackgroundImage:[UIImage imageNamed:@"pause_black"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"pause_black"] forState:UIControlStateNormal];
 	} else {
-		[_playButton setBackgroundImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
 	}
 }
 
@@ -444,15 +450,20 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	_isEditing = !_isEditing;
 	[_favoriteCollectionView reloadData];
 	if (_isEditing) {
+		[_titleLeftLabel setHidden:NO];
+		[_playButton setHidden:YES];
+
 		[_titleLeftLabel setText:_isSelectAll ? @"取消选择" : @"全选"];
 		[_titleRightLabel setText:@"完成"];
 		[_closeButton setTitle:@"删除" forState:UIControlStateNormal];
 		[self updateSelectedCount];
 	} else {
-		[_titleLeftLabel setText:@"收藏"];
+		[_titleLeftLabel setHidden:YES];
+		[_playButton setHidden:NO];
+
 		[_titleRightLabel setText:@"编辑"];
 		[_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
-		[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
+		[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
 	}
 }
 
@@ -461,7 +472,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		if (_favoriteViewControllerDelegate) {
 			if ([_favoriteViewControllerDelegate favoriteViewControllerDeleteMusics]) {
 				[_favoriteCollectionView reloadData];
-				[_titleMiddleLabel setText:[NSString stringWithFormat:@"%ld首", [[FavoriteMgr standard] favoriteCount]]];
+				[_titleMiddleLabel setText:[NSString stringWithFormat:@"收藏(%ld首)", [[FavoriteMgr standard] favoriteCount]]];
 			}
 		}
 	} else {
