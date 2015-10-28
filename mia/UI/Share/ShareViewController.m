@@ -553,14 +553,14 @@ const static CGFloat kShareTopViewHeight		= 280;
 /*
  *   即将显示键盘的处理
  */
-- (void)keyBoardWillShow:(NSNotification *)notification{
+- (void)keyBoardWillShow:(NSNotification *)notification {
 	NSDictionary *info = [notification userInfo];
 	//获取当前显示的键盘高度
 	CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
 	[self moveUpViewForKeyboard:keyboardSize];
 }
 
-- (void)keyBoardWillHide:(NSNotification *)notification{
+- (void)keyBoardWillHide:(NSNotification *)notification {
 	[self resumeView];
 }
 

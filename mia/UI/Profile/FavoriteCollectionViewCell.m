@@ -47,7 +47,7 @@
 																  kFavoriteCellMarginLeft,
 																  kIndexLabelHeight)
 												  text:@"1"
-												  font:UIFontFromSize(15.0f)
+												  font:UIFontFromSize(16.0f)
 											 textColor:[UIColor blackColor]
 										 textAlignment:NSTextAlignmentCenter
 										   numberLines:1];
@@ -62,7 +62,7 @@
 																	  contentView.bounds.size.width - kFavoriteCellMarginLeft,
 																	  kShareLabelHeight)
 													  text:@"Jackie分享的"
-													  font:UIFontFromSize(15.0f)
+													  font:UIFontFromSize(14.0f)
 												 textColor:[UIColor grayColor]
 											 textAlignment:NSTextAlignmentLeft
 											   numberLines:1];

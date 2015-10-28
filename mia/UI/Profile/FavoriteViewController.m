@@ -236,8 +236,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 																		kEditButtonWidth,
 																		kEditButtonHeight)
 												 titleString:@"编辑"
-												  titleColor:[UIColor redColor]
-														font:UIFontFromSize(12)
+												  titleColor:[UIColor blackColor]
+														font:UIFontFromSize(16)
 													 logoImg:nil
 											 backgroundImage:nil];
 	[_editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];

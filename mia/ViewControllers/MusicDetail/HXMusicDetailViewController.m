@@ -83,9 +83,14 @@
 }
 
 - (void)viewConfig {
+    _tableView.scrollsToTop = YES;
 }
 
 #pragma mark - Event Response
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    [self.view endEditing:YES];
+//}
+
 - (IBAction)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -146,13 +151,12 @@
 }
 
 - (IBAction)commentButtonPressed {
-    // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
-//    if ([[UserSession standard] isLogined]) {
-//        [_editCommentView becomeFirstResponder];
-//    } else {
-//        LoginViewController *vc = [[LoginViewController alloc] init];
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }
+    if ([[UserSession standard] isLogined]) {
+        [_editCommentView becomeFirstResponder];
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (IBAction)sendButtonPressed {
@@ -166,14 +170,16 @@
     }
 }
 
-- (void)keyBoardWillShow:(NSNotification *)notification{
+- (void)keyBoardWillShow:(NSNotification *)notification {
+//    [self tableView:_tableView scrollTableToFoot:YES];
+    
     NSDictionary *info = [notification userInfo];
     //获取当前显示的键盘高度
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
     [self moveUpViewForKeyboard:keyboardSize];
 }
 
-- (void)keyBoardWillHide:(NSNotification *)notification{
+- (void)keyBoardWillHide:(NSNotification *)notification {
     [self resumeView];
 }
 
@@ -227,6 +233,17 @@
             [strongSelf.tableView reloadData];
         }
     }];
+}
+
+- (void)tableView:(UITableView *)tableView scrollTableToFoot:(BOOL)animated {
+    NSInteger section = [tableView numberOfSections];
+    if (section < 1) return;
+    NSInteger row = [tableView numberOfRowsInSection:(section - 1)];
+    if (row < 1) return;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(row - 1) inSection:(section - 1)];
+    
+    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
 #pragma mark - Table View Data Source Methods
