@@ -31,5 +31,6 @@
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex;
 - (void)removeSelectedItems;
 - (BOOL)isItemCached:(FavoriteItem *)item;
+- (BOOL)isItemCachedWithUrl:(NSString *)url;
 
 @end
