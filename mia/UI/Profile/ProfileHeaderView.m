@@ -172,7 +172,7 @@
 																					   kFavoriteIconMarginTop,
 																					   kFavoriteIconMarginWidth,
 																					   kFavoriteIconMarginWidth)];
-	[favoriteIconImageView setImage:[UIImage imageNamed:@"favorite_white"]];
+	[favoriteIconImageView setImage:[UIImage imageNamed:@"profile_favorite"]];
 	[self addSubview:favoriteIconImageView];
 	MIALabel *favoriteLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteLabelMarginLeft,
 																		 kFavoriteLabelMarginTop,
