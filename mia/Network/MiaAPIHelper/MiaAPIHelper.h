@@ -15,8 +15,8 @@
 + (void)sendUUIDWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)getNearbyWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)getNearbyWithLatitude:(double)lat
+					longitude:(double)lon
 						start:(long)start
 						 item:(long)item
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -69,22 +69,22 @@
 + (void)getUploadAvatarAuthWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)InfectMusicWithLatitude:(float)lat
-					  longitude:(float)lon
++ (void)InfectMusicWithLatitude:(double)lat
+					  longitude:(double)lon
 						address:(NSString *)address
 						   spID:(NSString *)spID
 				  completeBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)SkipMusicWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)SkipMusicWithLatitude:(double)lat
+					longitude:(double)lon
 					  address:(NSString *)address
 						 spID:(NSString *)spID
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)viewShareWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)viewShareWithLatitude:(double)lat
+					longitude:(double)lon
 					  address:(NSString *)address
 						 spID:(NSString *)spID
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -107,8 +107,8 @@
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
-+ (void)postShareWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)postShareWithLatitude:(double)lat
+					longitude:(double)lon
 					  address:(NSString *)address
 					   songID:(NSString *)songID
 						 note:(NSString *)note

@@ -74,12 +74,13 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)getNearbyWithLatitude:(float)lat
-							longitude:(float)lon
-								start:(long)start
-								 item:(long)item
-						completeBlock:(MiaRequestCompleteBlock)completeBlock
-						 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
++ (void)getNearbyWithLatitude:(double)lat
+                    longitude:(double)lon
+                        start:(long)start
+                         item:(long)item
+                completeBlock:(MiaRequestCompleteBlock)completeBlock
+                 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock
+{
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 	[dictionary setValue:MiaAPICommand_Music_GetNearby forKey:MiaAPIKey_ClientCommand];
     [dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
@@ -461,8 +462,8 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)InfectMusicWithLatitude:(float)lat
-					  longitude:(float)lon
++ (void)InfectMusicWithLatitude:(double)lat
+					  longitude:(double)lon
 						address:(NSString *)address
 						   spID:(NSString *)spID
 				  completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -503,8 +504,8 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)SkipMusicWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)SkipMusicWithLatitude:(double)lat
+					longitude:(double)lon
 					  address:(NSString *)address
 						 spID:(NSString *)spID
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -545,8 +546,8 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)viewShareWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)viewShareWithLatitude:(double)lat
+					longitude:(double)lon
 					  address:(NSString *)address
 						 spID:(NSString *)spID
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
@@ -741,8 +742,8 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)postShareWithLatitude:(float)lat
-					longitude:(float)lon
++ (void)postShareWithLatitude:(double)lat
+					longitude:(double)lon
 					  address:(NSString *)address
 					   songID:(NSString *)songID
 						 note:(NSString *)note
