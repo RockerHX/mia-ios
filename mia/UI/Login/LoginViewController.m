@@ -179,6 +179,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[_userNameTextField setFont:UIFontFromSize(16)];
 	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
 	_userNameTextField.returnKeyType = UIReturnKeyNext;
+	_userNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_userNameTextField.delegate = self;
 	[_userNameTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 	//userNameTextField.backgroundColor = [UIColor redColor];
@@ -203,6 +204,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[_passwordTextField setFont:UIFontFromSize(16)];
 	_passwordTextField.keyboardType = UIKeyboardTypeDefault;
 	_passwordTextField.returnKeyType = UIReturnKeyDone;
+	_passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_passwordTextField.delegate = self;
 	[_passwordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 	[_loginView addSubview:_passwordTextField];

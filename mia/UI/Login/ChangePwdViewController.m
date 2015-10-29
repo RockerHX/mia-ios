@@ -127,6 +127,7 @@
 	_oldPasswordTextField.secureTextEntry = YES;
 	_oldPasswordTextField.keyboardType = UIKeyboardTypeDefault;
 	_oldPasswordTextField.returnKeyType = UIReturnKeyNext;
+	_oldPasswordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_oldPasswordTextField.delegate = self;
 	[_oldPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
 	[_inputView addSubview:_oldPasswordTextField];
@@ -150,6 +151,7 @@
 	_firstPasswordTextField.secureTextEntry = YES;
 	_firstPasswordTextField.keyboardType = UIKeyboardTypeDefault;
 	_firstPasswordTextField.returnKeyType = UIReturnKeyNext;
+	_firstPasswordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_firstPasswordTextField.delegate = self;
 	[_firstPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
 	[_inputView addSubview:_firstPasswordTextField];
@@ -173,6 +175,7 @@
 	_secondPasswordTextField.secureTextEntry = YES;
 	_secondPasswordTextField.keyboardType = UIKeyboardTypeDefault;
 	_secondPasswordTextField.returnKeyType = UIReturnKeyDone;
+	_secondPasswordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_secondPasswordTextField.delegate = self;
 	[_secondPasswordTextField setValue:placeHolderColor forKeyPath:@"_placeholderLabel.textColor"];
 	[_inputView addSubview:_secondPasswordTextField];
