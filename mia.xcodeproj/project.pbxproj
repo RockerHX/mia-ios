@@ -39,9 +39,6 @@
 		393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */; };
 		393CE9B11BB98D1300FCF232 /* play_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9AF1BB98D1300FCF232 /* play_black@2x.png */; };
 		393CE9B81BBA3B4500FCF232 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9B61BBA3B4500FCF232 /* ShareViewController.m */; };
-		393CE9BB1BBA768700FCF232 /* add_music_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */; };
-		393CE9BC1BBA768700FCF232 /* add_music_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */; };
-		393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9BD1BBA94BE00FCF232 /* close@2x.png */; };
 		393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */; };
 		395C727F1BCB94D900897734 /* PathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C727E1BCB94D900897734 /* PathHelper.m */; };
 		395CD5FF1BD9DEE8001A2528 /* FavoriteMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 395CD5F21BD9DEE8001A2528 /* FavoriteMgr.m */; };
@@ -242,9 +239,6 @@
 		393CE9AF1BB98D1300FCF232 /* play_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_black@2x.png"; sourceTree = "<group>"; };
 		393CE9B51BBA3B4500FCF232 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		393CE9B61BBA3B4500FCF232 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
-		393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_bg@2x.png"; sourceTree = "<group>"; };
-		393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_music_logo@2x.png"; sourceTree = "<group>"; };
-		393CE9BD1BBA94BE00FCF232 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
 		393CE9C01BBAA36700FCF232 /* CLLocation+YCLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+YCLocation.h"; sourceTree = "<group>"; };
 		393CE9C11BBAA36700FCF232 /* CLLocation+YCLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+YCLocation.m"; sourceTree = "<group>"; };
 		395C727D1BCB94D900897734 /* PathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathHelper.h; sourceTree = "<group>"; };
@@ -989,9 +983,6 @@
 				3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */,
 				3909696B1BE0CADB00C55B20 /* profile_favorite@2x.png */,
 				3908F3701BBB6CE300BACFD3 /* search_icon@2x.png */,
-				393CE9BD1BBA94BE00FCF232 /* close@2x.png */,
-				393CE9B91BBA768700FCF232 /* add_music_bg@2x.png */,
-				393CE9BA1BBA768700FCF232 /* add_music_logo@2x.png */,
 				393CE9AE1BB98D1300FCF232 /* pause_black@2x.png */,
 				393CE9AF1BB98D1300FCF232 /* play_black@2x.png */,
 				393CE9AA1BB958B000FCF232 /* checkbox@2x.png */,
@@ -1752,7 +1743,6 @@
 				39BF8C631BB23517003AB4FC /* default_cover@2x.png in Resources */,
 				39BF8C811BB2CDD5003AB4FC /* profile_banner_mask@2x.png in Resources */,
 				CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */,
-				393CE9BE1BBA94BE00FCF232 /* close@2x.png in Resources */,
 				393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */,
 				CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */,
 				CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */,
@@ -1760,14 +1750,12 @@
 				390BADD01BAFE188006269FD /* button_white@2x.png in Resources */,
 				390BADCB1BAFDDC3006269FD /* login_bg@2x.png in Resources */,
 				39BF8C761BB29E5C003AB4FC /* share@2x.png in Resources */,
-				393CE9BC1BBA768700FCF232 /* add_music_logo@2x.png in Resources */,
 				39BF8C651BB24A12003AB4FC /* info@2x.png in Resources */,
 				39CA06331BADC7390074FD13 /* more@2x.png in Resources */,
 				393CE9AC1BB958B000FCF232 /* checkbox@2x.png in Resources */,
 				39CA061A1BAD67CC0074FD13 /* profile_with_notification@2x.png in Resources */,
 				390BADCF1BAFE188006269FD /* button_blue@2x.png in Resources */,
 				CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */,
-				393CE9BB1BBA768700FCF232 /* add_music_bg@2x.png in Resources */,
 				393CE9A81BB7A8CA00FCF232 /* favorite_downloaded@2x.png in Resources */,
 				CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */,
 				CDD831581BD8B6550067309B /* HXNoNetworkView.xib in Resources */,
