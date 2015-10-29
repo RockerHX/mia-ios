@@ -295,7 +295,7 @@
 
 	// If you're using a simple `NSString` for your text,
 	// assign to the `text` property last so it can inherit other label properties.
-	NSString *text = @"说明：\n1、注册时你将收到验证短信。Mia绝不会在任何途径泄露你的手机号码和个人信息。\n2、注册代表你已阅读并同意《Mia用户协议和隐私条款》。";
+	NSString *text = @"说明：\n1、注册时你将收到验证短信。Mia绝不会在任何途径泄露你的手机号码和个人信息。\n2、注册代表你已阅读并同意《Mia音乐软件使用协议》。";
 	[bottomLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:
 	 ^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
 		 NSRange boldRange = [[mutableAttributedString string] rangeOfString:@"说明" options:NSCaseInsensitiveSearch];
@@ -311,7 +311,7 @@
 		 return mutableAttributedString;
 	}];
 
-	NSRange linkRange = [text rangeOfString:(@"《Mia用户协议和隐私条款》")];
+	NSRange linkRange = [text rangeOfString:(@"《Mia音乐软件使用协议》")];
 	[bottomLabel addLinkToURL:[NSURL URLWithString:@""] withRange:linkRange];
 
 	[self.view addSubview:bottomLabel];
