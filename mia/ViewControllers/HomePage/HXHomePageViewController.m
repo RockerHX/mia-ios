@@ -31,6 +31,7 @@
 #import "UIImage+ColorToImage.h"
 #import "GuestProfileViewController.h"
 #import "ShareItem.h"
+#import "UpdateHelper.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -166,6 +167,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[HXNoNetworkView hidden];
 	[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
+			[self checkUpdate];
 			if (![self autoLogin]) {
 				[_radioViewController loadShareList];
 				//[_radioView checkIsNeedToGetNewItems];
@@ -433,6 +435,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
 	}
+}
+
+- (void)checkUpdate {
+	UpdateHelper *aUpdateHelper = [[UpdateHelper alloc] init];
+	[aUpdateHelper checkNow];
 }
 
 - (BOOL)autoLogin {
