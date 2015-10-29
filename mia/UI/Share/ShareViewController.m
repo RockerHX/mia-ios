@@ -338,10 +338,10 @@ const static CGFloat kShareTopViewHeight		= 280;
 	[_addMusicView addGestureRecognizer:gesture];
 
 	UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:_addMusicView.bounds];
-	[bgImageView setImage:[UIImage imageNamed:@"add_music_bg"]];
+	[bgImageView setImage:[UIImage imageNamed:@"C-AddMusicBG"]];
 	[_addMusicView addSubview:bgImageView];
 
-	UIImage *logoImage = [UIImage imageNamed:@"add_music_logo"];
+	UIImage *logoImage = [UIImage imageNamed:@"C-AddMusicIcon"];
 	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((_addMusicView.bounds.size.width - logoImage.size.width) / 2,
 																			   _addMusicView.bounds.size.height / 2 - logoImage.size.height,
 																			   logoImage.size.width,
@@ -387,7 +387,7 @@ const static CGFloat kShareTopViewHeight		= 280;
 										  titleColor:nil
 												font:nil
 											 logoImg:nil
-									 backgroundImage:[UIImage imageNamed:@"close"]];
+									 backgroundImage:[UIImage imageNamed:@"C-CloseIcon-Red"]];
 	[closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	//closeButton.backgroundColor = [UIColor greenColor];
 	[_bottomView addSubview:closeButton];
@@ -602,9 +602,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)touchedAddMusic {
-	SearchViewController *vc = [[SearchViewController alloc] init];
-	vc.searchViewControllerDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
+    SearchViewController *shareViewController = [[SearchViewController alloc] init];
+    shareViewController.delegate = self;
+    [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
 #pragma mark - button Actions

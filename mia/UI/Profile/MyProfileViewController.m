@@ -296,11 +296,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[_addShareView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(noShareTouchAction:)]];
 
 	UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[bgImageView setImage:[UIImage imageNamed:@"add_music_bg"]];
+	[bgImageView setImage:[UIImage imageNamed:@"C-AddMusicBG"]];
 	[_addShareView addSubview:bgImageView];
 
 	UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	[logoImageView setImage:[UIImage imageNamed:@"add_music_logo"]];
+	[logoImageView setImage:[UIImage imageNamed:@"C-AddMusicIcon"]];
 	[_addShareView addSubview:logoImageView];
 
 	MIALabel *addMusicLabel = [[MIALabel alloc] initWithFrame:CGRectZero
