@@ -23,6 +23,10 @@
 @end
 
 @implementation HXShareViewController {
+    BOOL _closeLocation;
+    NSString *_address;
+    CLLocationCoordinate2D _coordinate;
+    
     MusicItem *_musicItem;
     SongListPlayer *_songListPlayer;
     SearchResultItem *_dataItem;
@@ -44,6 +48,7 @@
     
     [self initConfig];
     [self viewConfig];
+    [self startUpdatingLocation];
 }
 
 - (void)dealloc {
@@ -83,9 +88,9 @@
     }
     
     MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交分享"];
-    [MiaAPIHelper postShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-                              longitude:[[LocationMgr standard] currentCoordinate].longitude
-                                address:[[LocationMgr standard] currentAddress]
+    [MiaAPIHelper postShareWithLatitude:(_closeLocation ? 0 : _coordinate.latitude)
+                              longitude:(_closeLocation ? 0 : _coordinate.longitude)
+                                address:(_closeLocation ? @"" : _address)
                                  songID:_dataItem.songID
                                    note:comment
                           completeBlock:
@@ -110,6 +115,11 @@
     [self presentViewController:shareViewController animated:YES completion:nil];
 }
 
+- (IBAction)closeLocationPressed {
+    _closeLocation = YES;
+    _locationView.hidden = YES;
+}
+
 - (IBAction)tapGesture {
     [self.view endEditing:YES];
 }
@@ -131,6 +141,18 @@
 }
 
 #pragma mark - Private Methods
+- (void)startUpdatingLocation {
+    __weak __typeof__(self)weakSelf = self;
+    [[LocationMgr standard] startUpdatingLocationWithOnceBlock:^(CLLocationCoordinate2D coordinate, NSString *address) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (address.length) {
+            _coordinate = coordinate;
+            _address = address;
+            strongSelf.locationLabel.text = address;
+        }
+    }];
+}
+
 - (void)showKeyboardWithSize:(CGSize)keyboardSize {
     _scrollViewBottmonConstraint.constant = keyboardSize.height - _locationViewHeightConstraint.constant;
     [self.view layoutIfNeeded];
@@ -144,7 +166,6 @@
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.view layoutIfNeeded];
     }];
-//    [self scrollToBottom];
 }
 
 - (void)scrollToBottomWithAnimation:(BOOL)animated {
@@ -222,7 +243,7 @@
 
 #pragma mark - HXTextViewDelegate Methods
 - (void)textViewSizeChanged {
-    [self scrollToBottomWithAnimation:YES];
+    [self scrollToBottomWithAnimation:NO];
 }
 
 @end

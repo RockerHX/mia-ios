@@ -154,6 +154,9 @@
                                             <constraint firstAttribute="width" constant="30" id="gcN-SD-Of1"/>
                                         </constraints>
                                         <state key="normal" image="C-CloseIcon-Red"/>
+                                        <connections>
+                                            <action selector="closeLocationPressed" destination="Dxq-Jl-kQw" eventType="touchUpInside" id="ibi-oe-l9n"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
@@ -220,6 +223,7 @@
                         <outlet property="frontCover" destination="Nne-Bv-oUO" id="Wco-Us-vzL"/>
                         <outlet property="frontCoverTopConstraint" destination="iWd-oV-0Oc" id="0iP-9h-aVk"/>
                         <outlet property="locationLabel" destination="swU-V6-BBG" id="4Bb-h8-58V"/>
+                        <outlet property="locationView" destination="rG3-6h-wN2" id="JcZ-m5-xDZ"/>
                         <outlet property="locationViewHeightConstraint" destination="svq-sX-QoR" id="C90-VW-0ne"/>
                         <outlet property="nickNameLabel" destination="o9K-gF-vwm" id="Rdl-jh-fSj"/>
                         <outlet property="scrollView" destination="gWa-kU-Jf2" id="2jQ-x1-arT"/>
