@@ -489,8 +489,19 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
          ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
              if (success) {
                  __strong __typeof__(self)strongSelf = weakSelf;
-                 strongSelf->_playItem.isInfected = YES;
-                 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+
+				 int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+				 int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
+				 NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+#warning @eden 等小莫调试好接口
+//				 if ([sID isEqualToString:_shareItem.sID]) {
+				 strongSelf->_playItem.infectTotal = infectTotal;
+				 [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
+				 strongSelf->_playItem.isInfected = isInfected;
+				 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+//				 }
+
+
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
