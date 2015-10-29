@@ -15,6 +15,9 @@
 #import "UIImageView+WebCache.h"
 #import "UserSession.h"
 #import "HXTextView.h"
+#import "MBProgressHUDHelp.h"
+#import "LocationMgr.h"
+#import "HXAlertBanner.h"
 
 @interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>
 @end
@@ -74,7 +77,31 @@
 }
 
 - (IBAction)sendButtonPressed {
-    ;
+    NSString *comment = _commentTextView.text;
+    if ([comment length] <= 0) {
+        comment = @"这首歌不错，记得帮我妙推一下哦";
+    }
+    
+    MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交分享"];
+    [MiaAPIHelper postShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                              longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                address:[[LocationMgr standard] currentAddress]
+                                 songID:_dataItem.songID
+                                   note:comment
+                          completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [HXAlertBanner showWithMessage:@"分享成功" tap:nil];
+             [self.navigationController popViewControllerAnimated:YES];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"分享失败:%@", error] tap:nil];
+         }
+         [aMBProgressHUD removeFromSuperview];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [aMBProgressHUD removeFromSuperview];
+         [HXAlertBanner showWithMessage:@"分享失败，网络请求超时" tap:nil];
+     }];
 }
 
 - (IBAction)frontCoverPressed {
