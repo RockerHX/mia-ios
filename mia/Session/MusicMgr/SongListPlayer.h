@@ -22,6 +22,10 @@
 - (void)songListPlayerDidPause;
 - (void)songListPlayerDidCompletion;
 
+@optional
+- (void)songListPlayerShouldPlayNext;
+- (void)songListPlayerShouldPlayPrevios;
+
 @end
 
 @interface SongListPlayer : NSObject
@@ -42,6 +46,8 @@
 
 - (void)playCurrentItem;
 - (void)playWithMusicItem:(MusicItem *)item;
+- (void)playNext;
+- (void)playPrevios;
 
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;

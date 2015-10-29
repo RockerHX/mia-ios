@@ -183,10 +183,10 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 				[_currentPlayer pause];
 				break;
 			case UIEventSubtypeRemoteControlNextTrack:
-				NSLog(@"Next...");
+				[_currentPlayer playNext];
 				break;
 			case UIEventSubtypeRemoteControlPreviousTrack:
-				NSLog(@"Previous...");
+				[_currentPlayer playPrevios];
 				break;
 			case UIEventSubtypeRemoteControlBeginSeekingForward:
 				NSLog(@"Begin seek forward...");
