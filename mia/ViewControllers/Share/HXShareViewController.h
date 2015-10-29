@@ -8,17 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
+@class HXTextView;
+
 @interface HXShareViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet     UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet      UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet      UILabel *singerLabel;
+@property (weak, nonatomic) IBOutlet     UIButton *addMusicButton;
+@property (weak, nonatomic) IBOutlet  UIImageView *frontCover;
 @property (weak, nonatomic) IBOutlet      UILabel *nickNameLabel;
-@property (weak, nonatomic) IBOutlet   UITextView *textView;
+@property (weak, nonatomic) IBOutlet      UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet   HXTextView *commentTextView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottmonConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationViewHeightConstraint;
 
 - (IBAction)backButtonPressed;
+- (IBAction)sendButtonPressed;
+- (IBAction)frontCoverPressed;
+- (IBAction)tapGesture;
 
 + (instancetype)instance;
 

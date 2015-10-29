@@ -602,9 +602,9 @@ const static CGFloat kShareTopViewHeight		= 280;
 }
 
 - (void)touchedAddMusic {
-	SearchViewController *vc = [[SearchViewController alloc] init];
-	vc.searchViewControllerDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
+    SearchViewController *shareViewController = [[SearchViewController alloc] init];
+    shareViewController.delegate = self;
+    [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
 #pragma mark - button Actions

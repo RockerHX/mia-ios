@@ -174,6 +174,7 @@
 		CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */; };
 		CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDF739C71BE0AEF1009FA8CA /* Share.storyboard */; };
 		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
+		CDF739D41BE20BC9009FA8CA /* HXTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D31BE20BC9009FA8CA /* HXTextView.m */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
 /* End PBXBuildFile section */
@@ -487,6 +488,8 @@
 		CDF739C81BE0AEF1009FA8CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Share.storyboard; sourceTree = SOURCE_ROOT; };
 		CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXShareViewController.h; sourceTree = "<group>"; };
 		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
+		CDF739D21BE20BC9009FA8CA /* HXTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXTextView.h; sourceTree = "<group>"; };
+		CDF739D31BE20BC9009FA8CA /* HXTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXTextView.m; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
 		CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGuideView.m; sourceTree = "<group>"; };
 		CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXGuideView.xib; sourceTree = "<group>"; };
@@ -1475,6 +1478,8 @@
 		CD5753A71BE0714300E7CBC4 /* HXGrowingTextView */ = {
 			isa = PBXGroup;
 			children = (
+				CDF739D21BE20BC9009FA8CA /* HXTextView.h */,
+				CDF739D31BE20BC9009FA8CA /* HXTextView.m */,
 				CD5753A81BE0714300E7CBC4 /* HXGrowingTextView.h */,
 				CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */,
 			);
@@ -1959,6 +1964,7 @@
 				397FA5341BAC0CA7003FD186 /* MIAGrowingTextView.m in Sources */,
 				397E42CE1BA90812006BE9E7 /* NSData+Base64.m in Sources */,
 				39CA062C1BADBD6C0074FD13 /* DetailHeaderView.m in Sources */,
+				CDF739D41BE20BC9009FA8CA /* HXTextView.m in Sources */,
 				CD5753A11BDF541C00E7CBC4 /* HXComment.m in Sources */,
 				39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */,
 				397FA5331BAC0CA7003FD186 /* MIATexAlertView.m in Sources */,

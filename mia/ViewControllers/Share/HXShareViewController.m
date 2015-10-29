@@ -7,11 +7,23 @@
 //
 
 #import "HXShareViewController.h"
+#import "SearchViewController.h"
+#import "SearchResultItem.h"
+#import "MusicItem.h"
+#import "SongListPlayer.h"
+#import "MiaAPIHelper.h"
+#import "UIImageView+WebCache.h"
+#import "UserSession.h"
+#import "HXTextView.h"
 
-@interface HXShareViewController ()
+@interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>
 @end
 
-@implementation HXShareViewController
+@implementation HXShareViewController {
+    MusicItem *_musicItem;
+    SongListPlayer *_songListPlayer;
+    SearchResultItem *_dataItem;
+}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
@@ -21,7 +33,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewDidLoad {
@@ -38,13 +50,22 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    
+    _scrollView.scrollsToTop = YES;
+    _commentTextView.scrollsToTop = NO;
     //添加键盘监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewConfig {
+    _shareButton.enabled = NO;
+    _frontCover.hidden = YES;
+    
+    _songNameLabel.alpha = 0.0f;
+    _singerLabel.alpha = 0.0f;
+    
+    _nickNameLabel.text = [[UserSession standard] nick];
+    _locationLabel.text = @"定位中...";
 }
 
 #pragma mark - Event Response
@@ -52,26 +73,29 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)sendButtonPressed {
+    ;
+}
+
+- (IBAction)frontCoverPressed {
+    SearchViewController *shareViewController = [[SearchViewController alloc] init];
+    shareViewController.delegate = self;
+    [self presentViewController:shareViewController animated:YES completion:nil];
+}
+
+- (IBAction)tapGesture {
+    [self.view endEditing:YES];
+}
+
 - (void)keyBoardWillShow:(NSNotification *)notification {
     NSDictionary *info = [notification userInfo];
     //获取当前显示的键盘高度
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
-//    [self moveUpViewForKeyboard:keyboardSize];
-    
-    _scrollViewBottmonConstraint.constant = keyboardSize.height;
-    [self.view layoutIfNeeded];
-//    [_scrollView setContentOffset:CGPointMake(0.0f, _scrollView.contentSize.height) animated:YES];
-    CGPoint bottomOffset = CGPointMake(0, _scrollView.contentSize.height - _scrollView.bounds.size.height);
-    [_scrollView setContentOffset:bottomOffset animated:YES];
-//    __weak __typeof__(self)weakSelf = self;
-//    [UIView animateWithDuration:1.0f animations:^{
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf.view layoutIfNeeded];
-//    }];
+    [self showKeyboardWithSize:keyboardSize];
 }
 
 - (void)keyBoardWillHide:(NSNotification *)notification {
-    [self resumeView];
+    [self hiddenKeyboard];
 }
 
 #pragma mark - Public Methods
@@ -80,21 +104,98 @@
 }
 
 #pragma mark - Private Methods
-- (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
-    [self layoutCommentViewWithHeight:keyboardSize.height];
+- (void)showKeyboardWithSize:(CGSize)keyboardSize {
+    _scrollViewBottmonConstraint.constant = keyboardSize.height - _locationViewHeightConstraint.constant;
+    [self.view layoutIfNeeded];
+    [self scrollToBottomWithAnimation:YES];
 }
 
-- (void)resumeView {
-    [self layoutCommentViewWithHeight:-50.0f];
+- (void)hiddenKeyboard {
+    _scrollViewBottmonConstraint.constant = 0.0f;
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:1.0f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.view layoutIfNeeded];
+    }];
+//    [self scrollToBottom];
 }
 
-- (void)layoutCommentViewWithHeight:(CGFloat)height {
-//    __weak __typeof__(self)weakSelf = self;
-//    _commentViewBottomConstraint.constant = height;
-//    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf.view layoutIfNeeded];
-//    } completion:nil];
+- (void)scrollToBottomWithAnimation:(BOOL)animated {
+    CGPoint bottomOffset = CGPointMake(0, _scrollView.contentSize.height - _scrollView.bounds.size.height);
+    [_scrollView setContentOffset:bottomOffset animated:animated];
+}
+
+- (void)updateUI {
+    _addMusicButton.enabled = NO;
+    _frontCover.hidden = NO;
+    [_frontCover sd_setImageWithURL:[NSURL URLWithString:_dataItem.albumPic] placeholderImage:[UIImage imageNamed:@"default_cover"]];
+    
+    _songNameLabel.text = _dataItem.title;
+    _singerLabel.text = _dataItem.artist;
+    
+    [MiaAPIHelper getMusicById:_dataItem.songID
+                 completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         NSLog(@"GetMusicById %d", success);
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"GetMusicById timeout");
+     }];
+}
+
+- (void)startAnimation {
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.songNameLabel.alpha = 1.0f;
+        strongSelf.singerLabel.alpha = 1.0f;
+    } completion:nil];
+    
+    _frontCoverTopConstraint.constant = 115.0f;
+    [UIView animateWithDuration:0.8f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.commentTextView becomeFirstResponder];
+        strongSelf.shareButton.enabled = YES;
+    }];
+}
+
+#pragma mark - SearchViewControllerDelegate Methods
+- (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item {
+    _dataItem = item;
+    
+    _musicItem.singerName = _dataItem.artist;
+    _musicItem.albumName = _dataItem.albumName;
+    _musicItem.name = _dataItem.title;
+    _musicItem.purl = _dataItem.albumPic;
+    _musicItem.murl = _dataItem.songUrl;
+    
+    [self updateUI];
+}
+
+- (void)searchViewControllerDismissFinished {
+    [self startAnimation];
+}
+
+- (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item {
+//    if (_dataItem && [item.songUrl isEqualToString:_dataItem.songUrl]) {
+//        [self pauseMusic];
+//    } else {
+//        _dataItem = item;
+//        _musicItem.singerName = _dataItem.artist;
+//        _musicItem.albumName = _dataItem.albumName;
+//        _musicItem.name = _dataItem.title;
+//        _musicItem.purl = _dataItem.albumPic;
+//        _musicItem.murl = _dataItem.songUrl;
+//        
+//        [self playMusic];
+//    }
+}
+
+#pragma mark - HXTextViewDelegate Methods
+- (void)textViewSizeChanged {
+    [self scrollToBottomWithAnimation:YES];
 }
 
 @end
