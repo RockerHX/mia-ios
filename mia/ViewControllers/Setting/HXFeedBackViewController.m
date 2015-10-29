@@ -70,12 +70,7 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
     if (_feedContentTextView.text.length) {
         [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示"
-                                                            message:@"请先填写反馈内容才能发送噢！"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"确定"
-                                                  otherButtonTitles:nil, nil];
-        [alertView show];
+		[HXAlertBanner showWithMessage:@"反馈内容不能为空哦" tap:nil];
     }
 }
 

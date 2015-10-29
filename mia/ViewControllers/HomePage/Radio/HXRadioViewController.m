@@ -217,13 +217,27 @@
 		[_shareListMgr cursorShiftRight];
 		[self checkIsNeedToGetNewItems];
 		[_shareListMgr checkHistoryItemsMaxCount];
-
-		// 修复后台时的重复播放导致播放失败问题
-//		MusicItem *musicItem = [[_shareListMgr getCurrentItem].music copy];
-//		[_songListPlayer playWithMusicItem:musicItem];
 	}
     
 	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
+}
+
+- (void)songListPlayerShouldPlayNext {
+	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+		[_shareListMgr cursorShiftRight];
+		[self checkIsNeedToGetNewItems];
+		[_shareListMgr checkHistoryItemsMaxCount];
+	}
+
+	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
+}
+
+- (void)songListPlayerShouldPlayPrevios {
+	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+		[_shareListMgr cursorShiftLeft];
+	}
+
+	[_carousel scrollToItemAtIndex:[_helper previousItemIndex] animated:YES];
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods

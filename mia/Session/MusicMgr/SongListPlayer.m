@@ -76,6 +76,18 @@
 	[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
 }
 
+- (void)playNext {
+	if (_delegate && [_delegate respondsToSelector:@selector(songListPlayerShouldPlayNext)]) {
+		[_delegate songListPlayerShouldPlayNext];
+	}
+}
+
+- (void)playPrevios {
+	if (_delegate && [_delegate respondsToSelector:@selector(songListPlayerShouldPlayPrevios)]) {
+		[_delegate songListPlayerShouldPlayPrevios];
+	}
+}
+
 - (BOOL)isPlaying {
 	return [_player isPlaying];
 }
