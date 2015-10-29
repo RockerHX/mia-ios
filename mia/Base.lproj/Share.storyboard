@@ -48,13 +48,36 @@
                                                 </constraints>
                                                 <state key="normal" image="C-AddMusicIcon" backgroundImage="C-AddMusicBG"/>
                                                 <connections>
-                                                    <action selector="frontCoverPressed" destination="Dxq-Jl-kQw" eventType="touchUpInside" id="cWF-Wu-3OR"/>
+                                                    <action selector="addMusicButtonPressed" destination="Dxq-Jl-kQw" eventType="touchUpInside" id="T2J-N8-Wz2"/>
                                                 </connections>
                                             </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nne-Bv-oUO">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpK-2C-los">
                                                 <rect key="frame" x="35" y="60" width="250" height="250"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nne-Bv-oUO">
+                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                                        <animations/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ZK-C9-oiT">
+                                                        <rect key="frame" x="108" y="108" width="35" height="35"/>
+                                                        <animations/>
+                                                        <state key="normal" image="M-PlayIcon"/>
+                                                        <connections>
+                                                            <action selector="playButtonPressed" destination="Dxq-Jl-kQw" eventType="touchUpInside" id="n4G-B8-F7M"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
                                                 <animations/>
-                                            </imageView>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="3ZK-C9-oiT" firstAttribute="centerX" secondItem="kpK-2C-los" secondAttribute="centerX" id="4Ie-zk-rgA"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Nne-Bv-oUO" secondAttribute="trailing" id="9Ko-I5-c95"/>
+                                                    <constraint firstItem="Nne-Bv-oUO" firstAttribute="top" secondItem="kpK-2C-los" secondAttribute="top" id="GZQ-BH-gTh"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Nne-Bv-oUO" secondAttribute="bottom" id="H0c-qW-MM9"/>
+                                                    <constraint firstItem="Nne-Bv-oUO" firstAttribute="leading" secondItem="kpK-2C-los" secondAttribute="leading" id="mA4-0s-lIz"/>
+                                                    <constraint firstItem="3ZK-C9-oiT" firstAttribute="centerY" secondItem="kpK-2C-los" secondAttribute="centerY" id="yYk-4L-ncf"/>
+                                                </constraints>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9K-gF-vwm">
                                                 <rect key="frame" x="128" y="325" width="64" height="20"/>
                                                 <animations/>
@@ -99,20 +122,20 @@
                                             <constraint firstItem="o9K-gF-vwm" firstAttribute="centerX" secondItem="eqr-fl-Bew" secondAttribute="centerX" id="0By-pq-Akk"/>
                                             <constraint firstItem="S97-IU-UTo" firstAttribute="leading" secondItem="eqr-fl-Bew" secondAttribute="leading" id="2UJ-A4-mHg"/>
                                             <constraint firstItem="S97-IU-UTo" firstAttribute="top" secondItem="o9K-gF-vwm" secondAttribute="bottom" constant="8" id="4Gb-W3-GFY"/>
-                                            <constraint firstItem="Nne-Bv-oUO" firstAttribute="width" secondItem="eqr-fl-Bew" secondAttribute="width" id="4vJ-jw-jlR"/>
+                                            <constraint firstItem="kpK-2C-los" firstAttribute="width" secondItem="eqr-fl-Bew" secondAttribute="width" id="65O-Q7-VHj"/>
                                             <constraint firstItem="S97-IU-UTo" firstAttribute="trailing" secondItem="eqr-fl-Bew" secondAttribute="trailing" id="8kj-7h-h3X"/>
-                                            <constraint firstItem="Nne-Bv-oUO" firstAttribute="height" secondItem="eqr-fl-Bew" secondAttribute="height" id="CHp-yO-hlv"/>
                                             <constraint firstItem="tja-YF-1QB" firstAttribute="top" secondItem="e3c-v4-ZHl" secondAttribute="top" constant="60" id="DWG-QD-3a7"/>
-                                            <constraint firstItem="Nne-Bv-oUO" firstAttribute="centerY" secondItem="eqr-fl-Bew" secondAttribute="centerY" id="NKd-Ho-dw9"/>
+                                            <constraint firstItem="kpK-2C-los" firstAttribute="centerX" secondItem="eqr-fl-Bew" secondAttribute="centerX" id="GDB-eO-ewy"/>
                                             <constraint firstItem="aKA-Fg-Bsf" firstAttribute="top" secondItem="tja-YF-1QB" secondAttribute="bottom" id="S0A-2t-0De"/>
                                             <constraint firstItem="o9K-gF-vwm" firstAttribute="top" secondItem="eqr-fl-Bew" secondAttribute="bottom" constant="15" id="UPt-dY-GPd"/>
                                             <constraint firstItem="eqr-fl-Bew" firstAttribute="centerX" secondItem="e3c-v4-ZHl" secondAttribute="centerX" id="Zpq-BK-EyY"/>
                                             <constraint firstItem="aKA-Fg-Bsf" firstAttribute="centerX" secondItem="tja-YF-1QB" secondAttribute="centerX" id="a6P-gl-jHc"/>
-                                            <constraint firstItem="Nne-Bv-oUO" firstAttribute="centerX" secondItem="eqr-fl-Bew" secondAttribute="centerX" id="gDD-iw-Fqi"/>
                                             <constraint firstItem="S97-IU-UTo" firstAttribute="centerX" secondItem="o9K-gF-vwm" secondAttribute="centerX" id="gJy-W0-fkN"/>
+                                            <constraint firstItem="kpK-2C-los" firstAttribute="centerY" secondItem="eqr-fl-Bew" secondAttribute="centerY" id="hDX-Ri-k5B"/>
                                             <constraint firstItem="eqr-fl-Bew" firstAttribute="top" secondItem="e3c-v4-ZHl" secondAttribute="top" constant="60" id="iWd-oV-0Oc"/>
                                             <constraint firstAttribute="bottom" secondItem="S97-IU-UTo" secondAttribute="bottom" id="pKP-Bf-0at"/>
                                             <constraint firstItem="tja-YF-1QB" firstAttribute="centerX" secondItem="e3c-v4-ZHl" secondAttribute="centerX" id="v6N-cM-cYN"/>
+                                            <constraint firstItem="kpK-2C-los" firstAttribute="height" secondItem="eqr-fl-Bew" secondAttribute="height" id="xUW-No-Sga"/>
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="Pc7-Cd-SB5" appends="YES" id="Ccj-gj-7IK"/>
@@ -222,10 +245,12 @@
                         <outlet property="commentTextView" destination="zDk-Uf-Buq" id="tLh-ew-M6P"/>
                         <outlet property="frontCover" destination="Nne-Bv-oUO" id="Wco-Us-vzL"/>
                         <outlet property="frontCoverTopConstraint" destination="iWd-oV-0Oc" id="0iP-9h-aVk"/>
+                        <outlet property="frontCoverView" destination="kpK-2C-los" id="p4m-pV-4tk"/>
                         <outlet property="locationLabel" destination="swU-V6-BBG" id="4Bb-h8-58V"/>
                         <outlet property="locationView" destination="rG3-6h-wN2" id="JcZ-m5-xDZ"/>
                         <outlet property="locationViewHeightConstraint" destination="svq-sX-QoR" id="C90-VW-0ne"/>
                         <outlet property="nickNameLabel" destination="o9K-gF-vwm" id="Rdl-jh-fSj"/>
+                        <outlet property="playButton" destination="3ZK-C9-oiT" id="Zk2-S5-e8h"/>
                         <outlet property="scrollView" destination="gWa-kU-Jf2" id="2jQ-x1-arT"/>
                         <outlet property="scrollViewBottmonConstraint" destination="MY2-Yg-YS8" id="axI-fM-7ff"/>
                         <outlet property="shareButton" destination="72x-Sd-5g2" id="8XF-mN-XQL"/>
@@ -248,6 +273,7 @@
         <image name="C-AddMusicIcon" width="45" height="45"/>
         <image name="C-CloseIcon-Red" width="10" height="10"/>
         <image name="C-LocationIcon" width="12" height="17"/>
+        <image name="M-PlayIcon" width="35" height="35"/>
         <image name="MD-BackIcon" width="25" height="25"/>
     </resources>
 </document>
