@@ -9,6 +9,7 @@
 #import "SearchSuggestionView.h"
 #import "SearchSuggestionCollectionViewCell.h"
 #import "SearchSuggestionModel.h"
+#import "Masonry.h"
 
 static NSString * const kSuggestionCellReuseIdentifier 		= @"SuggestionCellId";
 
@@ -42,10 +43,12 @@ static const CGFloat kSuggestionItemHeight		= 50;
 	layout.itemSize =CGSizeMake(itemWidth, kSuggestionItemHeight);
 
 	//2.初始化collectionView
-	_collectionView = [[UICollectionView alloc] initWithFrame:self.bounds
-												 collectionViewLayout:layout];
+	_collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
 	_collectionView.backgroundColor = [UIColor whiteColor];
 	[self addSubview:_collectionView];
+	[_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+	}];
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
