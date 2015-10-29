@@ -264,6 +264,22 @@
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:_helper.currentItem];
+
+	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
+								   spID:_helper.currentItem.spID
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 NSLog(@"viewShareWithLatitude success");
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 NSLog(@"viewShareWithLatitude failed: %@", error);
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"viewShareWithLatitude timeout");
+	 }];
 }
 
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper {

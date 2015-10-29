@@ -182,15 +182,18 @@
 	_shareItem = shareItem;
 
 	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:shareItem.music.purl]
-					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	UIImage *cutImage = [self getBannerImageFromCover:_coverImageView.image containerSize:_coverImageView.bounds.size];
+					   placeholderImage:[UIImage imageNamed:@"default_cover"]
+								options:SDWebImageAvoidAutoSetImage
+							  completed:
+	 ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+		 if (_isBiggerCell && image) {
+			 UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:self.contentView.bounds.size];
+			 [_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+		 } else {
+			 [_coverImageView setImage:image];
+		 }
+		}];
 
-	if (_isBiggerCell) {
-		[_coverImageView setImageToBlur:cutImage blurRadius:6.0 completionBlock:nil];
-	}
-
-	// for test
-//	_shareItem.newCommCnt = 16;
 	_unreadCountLabel.text = [NSString stringWithFormat:@"%d", shareItem.newCommCnt];
 	_viewsLabel.text = [NSString stringWithFormat:@"%d", shareItem.cView];
 	_musicNameLabel.text = shareItem.music.name;

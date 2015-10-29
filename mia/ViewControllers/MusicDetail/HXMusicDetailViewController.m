@@ -134,12 +134,12 @@
     
     UIActionSheet *aActionSheet = nil;
     if (_fromProfile) {
-        aActionSheet = [[UIActionSheet alloc] initWithTitle:@"更多操作"
+        aActionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                            cancelButtonItem:cancelItem
                                       destructiveButtonItem:reportItem
                                            otherButtonItems:deleteItem, nil];
     } else {
-        aActionSheet = [[UIActionSheet alloc] initWithTitle:@"更多操作"
+        aActionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                            cancelButtonItem:cancelItem
                                       destructiveButtonItem:reportItem
                                            otherButtonItems:nil];

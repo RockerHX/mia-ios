@@ -86,6 +86,11 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[self updateFavoriteCount:[[FavoriteMgr standard] favoriteCount]];
+	if ([[WebSocketMgr standard] isOpen]) {
+		[_titleRightLabel setEnabled:YES];
+	} else {
+		[_titleRightLabel setEnabled:NO];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -454,6 +459,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 }
 
 - (void)titleRightLabelTouchAction:(id)sender {
+	if (![_titleRightLabel isEnabled]) {
+		return;
+	}
+
 	_isEditing = !_isEditing;
 	[_favoriteCollectionView reloadData];
 	if (_isEditing) {

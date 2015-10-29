@@ -27,8 +27,6 @@
 #import "SearchResultItem.h"
 #import "HXAlertBanner.h"
 
-const static CGFloat kSearchVCHeight = 60;
-
 @interface SearchViewController () <UITextFieldDelegate, SearchSuggestionViewDelegate, SearchResultViewDelegate>
 
 @end
@@ -61,10 +59,9 @@ const static CGFloat kSearchVCHeight = 60;
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	[self initTopView];
-	[self initCollectionView];
-	[self initProgressHud];
-	[_searchTextField becomeFirstResponder];
+
+	[self initUI];
+	[self initData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,20 +96,62 @@ const static CGFloat kSearchVCHeight = 60;
 	return YES;
 }
 
-- (void)initTopView {
-	UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kSearchVCHeight)];
+- (void)initUI {
+	UIView *topView = [[UIView alloc] init];
 	topView.backgroundColor = [UIColor whiteColor];
 	[self.view addSubview:topView];
+	[self initTopView:topView];
 
+	_suggestView = [[SearchSuggestionView alloc] init];
+	_suggestView.backgroundColor = [UIColor yellowColor];
+	_suggestView.searchSuggestionViewDelegate = self;
+	[self.view addSubview:_suggestView];
+
+	_resultView = [[SearchResultView alloc] init];
+	_resultView.backgroundColor = [UIColor grayColor];
+	_resultView.searchResultViewDelegate = self;
+	[self.view addSubview:_resultView];
+	[_resultView setHidden:YES];
+
+	[topView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view.mas_top);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+	}];
+
+	[_suggestView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(topView.mas_bottom);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+		make.bottom.equalTo(self.view.mas_bottom);
+	}];
+
+	[_resultView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(topView.mas_bottom);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+		make.bottom.equalTo(self.view.mas_bottom);
+	}];
+
+	[self initProgressHud];
+	[_searchTextField becomeFirstResponder];
+}
+
+- (void)initData {
+	_suggestionModel = [[SearchSuggestionModel alloc] init];
+	_resultModel = [[SearchResultModel alloc] init];
+}
+
+- (void)initTopView:(UIView *)contentView {
 	UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
 	gesture.numberOfTapsRequired = 1;
-	[topView addGestureRecognizer:gesture];
+	[contentView addGestureRecognizer:gesture];
 
 	UIView *editBgView = [[UIView alloc] init];
 	editBgView.backgroundColor = UIColorFromHex(@"f4f4f4", 1.0);
 	editBgView.layer.cornerRadius = 1;
 	editBgView.layer.masksToBounds = YES;
-	[topView addSubview:editBgView];
+	[contentView addSubview:editBgView];
 
 	UIImageView *searchIconImageView = [[UIImageView alloc] init];
 	[searchIconImageView setImage:[UIImage imageNamed:@"search_icon"]];
@@ -139,12 +178,16 @@ const static CGFloat kSearchVCHeight = 60;
 										  logoImg:nil
 								  backgroundImage:nil];
 	[_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[topView addSubview:_cancelButton];
+	[contentView addSubview:_cancelButton];
+
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
+	[contentView addSubview:lineView];
 
 	[editBgView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@40);
-		make.top.equalTo(topView.mas_top).offset(20);
-		make.left.equalTo(topView.mas_left).offset(15);
+		make.top.equalTo(contentView.mas_top).offset(15);
+		make.left.equalTo(contentView.mas_left).offset(15);
 		make.right.equalTo(_cancelButton.mas_left).offset(-6);
 	}];
 
@@ -164,25 +207,17 @@ const static CGFloat kSearchVCHeight = 60;
 	[_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(40, 18));
 		make.centerY.equalTo(editBgView.mas_centerY);
-		make.right.equalTo(topView.mas_right).offset(-5);
+		make.right.equalTo(contentView.mas_right).offset(-5);
 	}];
-}
 
-- (void)initCollectionView {
-	_suggestionModel = [[SearchSuggestionModel alloc] init];
-	CGRect collectionViewFrame = CGRectMake(0,
-											kSearchVCHeight,
-											self.view.bounds.size.width,
-											self.view.bounds.size.height - kSearchVCHeight);
-	_suggestView = [[SearchSuggestionView alloc] initWithFrame:collectionViewFrame];
-	_suggestView.searchSuggestionViewDelegate = self;
-	[self.view addSubview:_suggestView];
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@0.5);
+		make.top.equalTo(editBgView.mas_bottom).offset(5);
+		make.left.equalTo(contentView.mas_left).offset(15);
+		make.right.equalTo(contentView.mas_right);
+		make.bottom.equalTo(contentView.mas_bottom);
+	}];
 
-	_resultModel = [[SearchResultModel alloc] init];
-	_resultView = [[SearchResultView alloc] initWithFrame:collectionViewFrame];
-	_resultView.searchResultViewDelegate = self;
-	[self.view addSubview:_resultView];
-	[_resultView setHidden:YES];
 }
 
 - (void)initProgressHud {

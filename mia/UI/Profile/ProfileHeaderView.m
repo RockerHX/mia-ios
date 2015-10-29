@@ -20,6 +20,8 @@
 @implementation ProfileHeaderView {
 	UIView 		*_coverView;
 	UIImageView *_coverImageView;
+	NSString	*_coverImageUrl;
+
 	MIAButton	*_playButton;
 	MIALabel 	*_favoriteCountLabel;
 	MIALabel 	*_cachedCountLabel;
@@ -252,18 +254,32 @@
 		}];
 	}
 
+	[self updateCoverImage];
+}
+
+- (void)updateCoverImage {
 	if ([[_profileHeaderViewDelegate profileHeaderViewModel].dataSource count] > 0) {
 		FavoriteItem *item = [[_profileHeaderViewDelegate profileHeaderViewModel] dataSource][0];
+		if ([_coverImageUrl isEqualToString:item.music.purl]) {
+			return;
+		}
 
 		[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.music.purl]
 						   placeholderImage:_coverImageView.image
+									options:SDWebImageAvoidAutoSetImage
 								  completed:
 		 ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
 			 if (image) {
 				 UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
 				 [_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+
+				 CATransition *transition = [CATransition animation];
+				 transition.duration = 0.2f;
+				 transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+				 transition.type = kCATransitionFade;
+				 [_coverImageView.layer addAnimation:transition forKey:nil];
 			 }
-		}];
+		 }];
 	}
 }
 
