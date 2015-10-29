@@ -17,7 +17,6 @@
 #import "WebSocketMgr.h"
 #import "ProfileShareModel.h"
 #import "FavoriteModel.h"
-#import "DetailViewController.h"
 #import "FavoriteViewController.h"
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
@@ -27,7 +26,7 @@
 #import "NSString+IsNull.h"
 #import "UserSetting.h"
 #import "Masonry.h"
-#import "ShareViewController.h"
+#import "HXShareViewController.h"
 #import "HXAlertBanner.h"
 #import "SongListPlayer.h"
 #import "MusicMgr.h"
@@ -844,8 +843,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)noShareTouchAction:(id)sender {
-	ShareViewController *vc = [[ShareViewController alloc] init];
-	[self.navigationController pushViewController:vc animated:YES];
+    HXShareViewController *shareViewController = [HXShareViewController instance];
+    [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
 @end

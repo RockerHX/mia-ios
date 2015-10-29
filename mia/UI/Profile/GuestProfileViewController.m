@@ -21,7 +21,6 @@
 #import "NSString+IsNull.h"
 #import "UserSetting.h"
 #import "Masonry.h"
-#import "ShareViewController.h"
 #import "HXAlertBanner.h"
 #import "FileLog.h"
 #import "HXMusicDetailViewController.h"
