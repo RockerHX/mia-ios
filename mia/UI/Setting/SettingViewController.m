@@ -394,9 +394,9 @@ UITextFieldDelegate>
 	_playSettingView.backgroundColor = [UIColor whiteColor];
 	[_scrollContentView addSubview:_playSettingView];
 
-	UIView *autoPlayView = [[UIView alloc] init];
-	//autoPlayView.backgroundColor = [UIColor orangeColor];
-	[_playSettingView addSubview:autoPlayView];
+//	UIView *autoPlayView = [[UIView alloc] init];
+//	//autoPlayView.backgroundColor = [UIColor orangeColor];
+//	[_playSettingView addSubview:autoPlayView];
 
 	UIView *playWith3GView = [[UIView alloc] init];
 	//playWith3GView.backgroundColor = [UIColor greenColor];
@@ -408,22 +408,21 @@ UITextFieldDelegate>
 	[_playSettingView addSubview:cleanCacheView];
 
 	[_playSettingView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@150);
 		make.left.equalTo(_scrollContentView.mas_left);
 		make.top.equalTo(_userInfoView.mas_bottom).offset(15);
 		make.right.equalTo(_scrollContentView.mas_right);
 	}];
 
-	[autoPlayView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@50);
-		make.left.equalTo(_playSettingView.mas_left);
-		make.top.equalTo(_playSettingView.mas_top);
-		make.right.equalTo(_playSettingView.mas_right);
-	}];
+//	[autoPlayView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.height.equalTo(@50);
+//		make.left.equalTo(_playSettingView.mas_left);
+//		make.top.equalTo(_playSettingView.mas_top);
+//		make.right.equalTo(_playSettingView.mas_right);
+//	}];
 	[playWith3GView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@50);
 		make.left.equalTo(_playSettingView.mas_left);
-		make.top.equalTo(autoPlayView.mas_bottom);
+		make.top.equalTo(_playSettingView.mas_top);
 		make.right.equalTo(_playSettingView.mas_right);
 	}];
 	[cleanCacheView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -431,9 +430,10 @@ UITextFieldDelegate>
 		make.left.equalTo(_playSettingView.mas_left);
 		make.top.equalTo(playWith3GView.mas_bottom);
 		make.right.equalTo(_playSettingView.mas_right);
+		make.bottom.equalTo(_playSettingView.mas_bottom);
 	}];
 
-	[self initAutoPlayView:autoPlayView];
+//	[self initAutoPlayView:autoPlayView];
 	[self initPlayWith3GView:playWith3GView];
 	[self initCleanCache:cleanCacheView];
 }
