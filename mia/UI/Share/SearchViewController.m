@@ -14,7 +14,6 @@
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "DetailViewController.h"
 #import "MIALabel.h"
 #import "SearchSuggestionView.h"
 #import "Masonry.h"
