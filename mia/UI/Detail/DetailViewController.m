@@ -23,13 +23,14 @@
 #import "CommentItem.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
-#import "ProfileViewController.h"
+#import "MyProfileViewController.h"
 #import "Masonry.h"
 #import "LocationMgr.h"
 #import "UIActionSheet+Blocks.h"
 #import "HXAlertBanner.h"
 #import "InfectItem.h"
 #import "HXInfectUserListView.h"
+#import "GuestProfileViewController.h"
 
 static NSString * const kDetailCellReuseIdentifier 		= @"DetailCellId";
 static NSString * const kDetailHeaderReuseIdentifier 	= @"DetailHeaderId";
@@ -471,18 +472,16 @@ CommentCellDelegate>
 }
 
 - (void)detailHeaderViewClickedSharer {
-	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:_shareItem.uID
-																 nickName:_shareItem.sNick
-															  isMyProfile:NO];
+	GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:_shareItem.uID
+																 nickName:_shareItem.sNick];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)detailHeaderViewClickedInfectUsers {
     [HXInfectUserListView showWithSharerID:_shareItem.sID taped:^(id item, NSInteger index) {
         InfectItem *selectedItem = item;
-        ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:selectedItem.uID
-                                                                     nickName:selectedItem.nick
-                                                                  isMyProfile:NO];
+        GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:selectedItem.uID
+                                                                     nickName:selectedItem.nick];
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
@@ -492,9 +491,8 @@ CommentCellDelegate>
 }
 
 - (void)commentCellAvatarTouched:(CommentItem *)item {
-	ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:item.uid
-																 nickName:item.unick
-															  isMyProfile:NO];
+	GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:item.uid
+																 nickName:item.unick];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

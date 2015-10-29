@@ -108,7 +108,7 @@
 		39BF8C631BB23517003AB4FC /* default_cover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C621BB23517003AB4FC /* default_cover@2x.png */; };
 		39BF8C651BB24A12003AB4FC /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C641BB24A12003AB4FC /* info@2x.png */; };
 		39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6C1BB268B4003AB4FC /* ProfileCollectionViewCell.m */; };
-		39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6E1BB268B4003AB4FC /* ProfileViewController.m */; };
+		39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF8C6E1BB268B4003AB4FC /* MyProfileViewController.m */; };
 		39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C731BB26E92003AB4FC /* setting@2x.png */; };
 		39BF8C761BB29E5C003AB4FC /* share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C751BB29E5C003AB4FC /* share@2x.png */; };
 		39BF8C781BB29FA0003AB4FC /* cover_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39BF8C771BB29FA0003AB4FC /* cover_mask@2x.png */; };
@@ -374,8 +374,8 @@
 		39BF8C641BB24A12003AB4FC /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		39BF8C6B1BB268B4003AB4FC /* ProfileCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileCollectionViewCell.h; sourceTree = "<group>"; };
 		39BF8C6C1BB268B4003AB4FC /* ProfileCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCollectionViewCell.m; sourceTree = "<group>"; };
-		39BF8C6D1BB268B4003AB4FC /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
-		39BF8C6E1BB268B4003AB4FC /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		39BF8C6D1BB268B4003AB4FC /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
+		39BF8C6E1BB268B4003AB4FC /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
 		39BF8C731BB26E92003AB4FC /* setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting@2x.png"; sourceTree = "<group>"; };
 		39BF8C751BB29E5C003AB4FC /* share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share@2x.png"; sourceTree = "<group>"; };
 		39BF8C771BB29FA0003AB4FC /* cover_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cover_mask@2x.png"; sourceTree = "<group>"; };
@@ -1257,8 +1257,8 @@
 				39BF8C7A1BB2AC8A003AB4FC /* ProfileHeaderView.m */,
 				39BF8C6B1BB268B4003AB4FC /* ProfileCollectionViewCell.h */,
 				39BF8C6C1BB268B4003AB4FC /* ProfileCollectionViewCell.m */,
-				39BF8C6D1BB268B4003AB4FC /* ProfileViewController.h */,
-				39BF8C6E1BB268B4003AB4FC /* ProfileViewController.m */,
+				39BF8C6D1BB268B4003AB4FC /* MyProfileViewController.h */,
+				39BF8C6E1BB268B4003AB4FC /* MyProfileViewController.m */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1899,7 +1899,7 @@
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
-				39BF8C721BB268B4003AB4FC /* ProfileViewController.m in Sources */,
+				39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */,
 				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
 				CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */,

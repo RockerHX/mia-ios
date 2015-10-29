@@ -108,6 +108,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	self.title = _nickName;
 	[self initBarButton];
 	[self initCollectionView];
+	[self initNoShareView];
 }
 
 - (void)initCollectionView {
@@ -201,18 +202,19 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[iconImageView setImage:[UIImage imageNamed:@"no_share"]];
 	[_noShareView addSubview:iconImageView];
+	[_noShareView setHidden:YES];
 
 	MIALabel *wordLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 													 text:@"暂没有分享的歌曲"
-													 font:UIFontFromSize(12.0f)
-												textColor:[UIColor grayColor]
+													 font:UIFontFromSize(14.0f)
+												textColor:UIColorFromHex(@"808080", 1.0)
 											textAlignment:NSTextAlignmentCenter
 													numberLines:1];
 	[_noShareView addSubview:wordLabel];
 
 	[_noShareView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_profileCollectionView.mas_centerX);
-		make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-150);
+		make.centerY.equalTo(_profileCollectionView.mas_centerY).offset(-135);
 	}];
 
 	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -220,7 +222,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		make.left.equalTo(_noShareView.mas_left);
 		make.right.equalTo(_noShareView.mas_right);
 		make.centerX.equalTo(_noShareView.mas_centerX);
-		make.size.mas_equalTo(CGSizeMake(75, 75));
+		make.size.mas_equalTo(CGSizeMake(70, 70));
 	}];
 	[wordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_noShareView.mas_centerX);

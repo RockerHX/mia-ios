@@ -22,7 +22,6 @@
 #import "LoginViewController.h"
 #import "UserSession.h"
 #import "HXInfectUserListView.h"
-#import "ProfileViewController.h"
 #import "InfectItem.h"
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"

@@ -13,7 +13,7 @@
 #import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
-#import "ProfileViewController.h"
+#import "MyProfileViewController.h"
 #import "ShareViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
@@ -39,7 +39,7 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 @interface HXHomePageViewController ()
 <LoginViewControllerDelegate
 , HXBubbleViewDelegate
-, ProfileViewControllerDelegate
+, MyProfileViewControllerDelegate
 , HXRadioViewControllerDelegate
 > {
     BOOL    _animating;             // 动画执行标识
@@ -206,9 +206,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)profileButtonPressed {
     // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
     if ([[UserSession standard] isLogined]) {
-        ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-                                                                     nickName:[[UserSession standard] nick]
-                                                                  isMyProfile:YES];
+        MyProfileViewController *vc = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+                                                                     nickName:[[UserSession standard] nick]];
 		vc.customDelegate = self;
         [self.navigationController pushViewController:vc animated:YES];
 	} else {
@@ -502,9 +501,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
 	if ([[UserSession standard] isCachedLogin]) {
-		ProfileViewController *vc = [[ProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-																	 nickName:[[UserSession standard] nick]
-																  isMyProfile:YES];
+		MyProfileViewController *vc = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+																	 nickName:[[UserSession standard] nick]];
 		vc.customDelegate = self;
 		vc.playFavoriteOnceTime = playFavorite;
 		[self.navigationController pushViewController:vc animated:playFavorite ? NO : YES];
@@ -698,14 +696,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }
 }
 
-#pragma mark - ProfileViewControllerDelegate Methods
-- (void)profileViewControllerWillDismiss {
+#pragma mark - MyProfileViewControllerDelegate Methods
+- (void)myProfileViewControllerWillDismiss {
 	if (![[WebSocketMgr standard] isOpen]) {
 		[self showNoNetworkView];
 	}
 }
 
-- (void)profileViewControllerUpdateUnreadCount:(int)count {
+- (void)myProfileViewControllerUpdateUnreadCount:(int)count {
 	[self updateProfileButtonWithUnreadCount:count];
 }
 
