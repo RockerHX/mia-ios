@@ -35,7 +35,6 @@
 }
 
 - (void)viewConfig {
-//    [self setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
 }
 
 #pragma mark - Dealloc Methods

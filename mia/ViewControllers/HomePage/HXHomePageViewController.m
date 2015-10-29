@@ -220,10 +220,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)shareButtonPressed {
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
     if ([[UserSession standard] isLogined]) {
-        ShareViewController *vc = [[ShareViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-//        HXShareViewController *vc = [HXShareViewController instance];
+//        ShareViewController *vc = [[ShareViewController alloc] init];
 //        [self.navigationController pushViewController:vc animated:YES];
+        HXShareViewController *vc = [HXShareViewController instance];
+        [self.navigationController pushViewController:vc animated:YES];
     } else {
         LoginViewController *vc = [[LoginViewController alloc] init];
         vc.loginViewControllerDelegate = self;
@@ -479,6 +479,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)infectShare {
     if (!_playItem.isInfected) {
+        _playItem.isInfected = YES;
         __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
         [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
@@ -507,6 +508,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
              }
          } timeoutBlock:^(MiaRequestItem *requestItem) {
+             __strong __typeof__(self)strongSelf = weakSelf;
+             strongSelf->_playItem.isInfected = YES;
              [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
          }];
     }

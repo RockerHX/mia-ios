@@ -10,17 +10,21 @@
 
 @class SearchResultItem;
 
-@protocol SearchViewControllerDelegate
+@protocol SearchViewControllerDelegate <NSObject>
 
+@required
 - (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item;
 - (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item;
+
+@optional
+- (void)searchViewControllerDismissFinished;
 
 @end
 
 
 @interface SearchViewController : UIViewController
 
-@property (weak, nonatomic)id<SearchViewControllerDelegate> searchViewControllerDelegate;
+@property (weak, nonatomic) id  <SearchViewControllerDelegate>delegate;
 
 @end
 

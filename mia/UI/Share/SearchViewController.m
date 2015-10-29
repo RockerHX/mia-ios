@@ -315,8 +315,17 @@
 }
 
 - (void)searchResultViewDidSelectedItem:(SearchResultItem *)item {
-	[_searchViewControllerDelegate searchViewControllerDidSelectedItem:item];
-	[self.navigationController popViewControllerAnimated:YES];
+    [self hidenKeyboard];
+    if (_delegate && [_delegate respondsToSelector:@selector(searchViewControllerDidSelectedItem:)]) {
+        [_delegate searchViewControllerDidSelectedItem:item];
+    }
+    __weak __typeof__(self)weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(searchViewControllerDismissFinished)]) {
+            [strongSelf.delegate searchViewControllerDismissFinished];
+        }
+    }];
 }
 
 - (void)searchResultViewRequestMoreItems {
@@ -333,7 +342,9 @@
 }
 
 - (void)searchResultViewDidPlayItem:(SearchResultItem *)item {
-	[_searchViewControllerDelegate searchViewControllerClickedPlayButtonAtItem:item];
+    if (_delegate && [_delegate respondsToSelector:@selector(searchViewControllerClickedPlayButtonAtItem:)]) {
+        [_delegate searchViewControllerClickedPlayButtonAtItem:item];
+    }
 }
 
 #pragma mark - Notification
@@ -342,7 +353,8 @@
 #pragma mark - button Actions
 
 - (void)cancelButtonAction:(id)sender {
-	[self.navigationController popViewControllerAnimated:YES];
+    [self hidenKeyboard];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)settingButtonAction:(id)sender {
