@@ -33,6 +33,19 @@
     [userDefaults synchronize];
 }
 
++ (double)doubleValueWithKey:(NSString *)key
+{
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	return [userDefaults doubleForKey:key];
+}
+
++ (void)saveDoubleValue:(double)value withKey:(NSString *)key
+{
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults setDouble:value forKey:key];
+	[userDefaults synchronize];
+}
+
 + (void)removeObjectForKey:(NSString *)defaultName {
 	 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults removeObjectForKey:defaultName];

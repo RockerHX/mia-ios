@@ -69,6 +69,9 @@
 + (void)getUploadAvatarAuthWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)getUpdateInfoWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
+								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)InfectMusicWithLatitude:(double)lat
 					  longitude:(double)lon
 						address:(NSString *)address

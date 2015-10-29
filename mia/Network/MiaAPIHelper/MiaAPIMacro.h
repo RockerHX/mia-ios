@@ -89,10 +89,12 @@ static NSString * const MiaAPICommand_User_Feedback			= @"User.Post.Feedback";
 static NSString * const MiaAPIKey_Contact					= @"contact";
 static NSString * const MiaAPIKey_Platform					= @"platform";
 static NSString * const MiaAPIKey_OSVersion					= @"osversion";
+static NSString * const MiaAPIKey_Channel					= @"channel";
 
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
 static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";
 static NSString * const MiaAPICommand_User_GetClogo			= @"User.Get.Clogo";
+static NSString * const MiaAPICommand_User_GetUpdate		= @"User.Get.Update";
 
 static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
 

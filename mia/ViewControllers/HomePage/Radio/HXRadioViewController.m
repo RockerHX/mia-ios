@@ -279,6 +279,33 @@
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:_helper.currentItem];
 
+	// 更新单条分享的信息
+	[MiaAPIHelper getShareById:_helper.currentItem.sID completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+				NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+				id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+				id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+				id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+				id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+				NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+
+				if ([sID isEqualToString:_helper.currentItem.sID]) {
+					_helper.currentItem.cComm = [cComm intValue];
+					_helper.currentItem.cView = [cView intValue];
+					_helper.currentItem.favorite = [start intValue];
+					_helper.currentItem.infectTotal = [infectTotal intValue];
+					[_helper.currentItem parseInfectUsersFromJsonArray:infectArray];
+#warning @andy 更新单条数据后需要刷新下界面
+				}
+			} else {
+				NSLog(@"getShareById failed");
+			}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"getShareById timeout");
+	}];
+
+	// PV上报
 	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 							  longitude:[[LocationMgr standard] currentCoordinate].longitude
 								address:[[LocationMgr standard] currentAddress]
