@@ -15,11 +15,19 @@
 #import "UIImageView+WebCache.h"
 #import "UserSession.h"
 #import "HXTextView.h"
+#import "MBProgressHUDHelp.h"
+#import "LocationMgr.h"
+#import "HXAlertBanner.h"
+#import "MusicMgr.h"
 
-@interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>
+@interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate, SongListPlayerDelegate, SongListPlayerDataSource>
 @end
 
 @implementation HXShareViewController {
+    BOOL _closeLocation;
+    NSString *_address;
+    CLLocationCoordinate2D _coordinate;
+    
     MusicItem *_musicItem;
     SongListPlayer *_songListPlayer;
     SearchResultItem *_dataItem;
@@ -34,6 +42,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    [self stopMusic];
 }
 
 - (void)viewDidLoad {
@@ -41,6 +51,7 @@
     
     [self initConfig];
     [self viewConfig];
+    [self startUpdatingLocation];
 }
 
 - (void)dealloc {
@@ -52,14 +63,23 @@
 - (void)initConfig {
     _scrollView.scrollsToTop = YES;
     _commentTextView.scrollsToTop = NO;
+    
+    [self initData];
     //添加键盘监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)initData {
+    _songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
+    _songListPlayer.dataSource = self;
+    _songListPlayer.delegate = self;
+    _musicItem = [[MusicItem alloc] init];
+}
+
 - (void)viewConfig {
     _shareButton.enabled = NO;
-    _frontCover.hidden = YES;
+    _frontCoverView.hidden = YES;
     
     _songNameLabel.alpha = 0.0f;
     _singerLabel.alpha = 0.0f;
@@ -74,13 +94,50 @@
 }
 
 - (IBAction)sendButtonPressed {
-    ;
+    NSString *comment = _commentTextView.text;
+    if ([comment length] <= 0) {
+        comment = @"这首歌不错，记得帮我妙推一下哦";
+    }
+    
+    MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交分享"];
+    [MiaAPIHelper postShareWithLatitude:(_closeLocation ? 0 : _coordinate.latitude)
+                              longitude:(_closeLocation ? 0 : _coordinate.longitude)
+                                address:(_closeLocation ? @"" : _address)
+                                 songID:_dataItem.songID
+                                   note:comment
+                          completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [HXAlertBanner showWithMessage:@"分享成功" tap:nil];
+             [self.navigationController popViewControllerAnimated:YES];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"分享失败:%@", error] tap:nil];
+         }
+         [aMBProgressHUD removeFromSuperview];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [aMBProgressHUD removeFromSuperview];
+         [HXAlertBanner showWithMessage:@"分享失败，网络请求超时" tap:nil];
+     }];
 }
 
-- (IBAction)frontCoverPressed {
+- (IBAction)addMusicButtonPressed {
     SearchViewController *shareViewController = [[SearchViewController alloc] init];
     shareViewController.delegate = self;
     [self presentViewController:shareViewController animated:YES completion:nil];
+}
+
+- (IBAction)playButtonPressed {
+    if ([_songListPlayer isPlaying]) {
+        [self pauseMusic];
+    } else {
+        [self playMusic];
+    }
+}
+
+- (IBAction)closeLocationPressed {
+    _closeLocation = YES;
+    _locationView.hidden = YES;
 }
 
 - (IBAction)tapGesture {
@@ -98,12 +155,47 @@
     [self hiddenKeyboard];
 }
 
+
+#pragma mark - audio operations
+- (void)playMusic {
+    if (!_musicItem.murl || !_musicItem.name || !_musicItem.singerName) {
+        NSLog(@"Music is nil, stop play it.");
+        return;
+    }
+    
+    [[MusicMgr standard] setCurrentPlayer:_songListPlayer];
+    [_songListPlayer playWithMusicItem:_musicItem];
+    [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+}
+
+- (void)pauseMusic {
+    [_songListPlayer pause];
+    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+}
+
+- (void)stopMusic {
+    [_songListPlayer stop];
+    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+}
+
 #pragma mark - Public Methods
 + (instancetype)instance {
     return [[UIStoryboard storyboardWithName:@"Share" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXShareViewController class])];
 }
 
 #pragma mark - Private Methods
+- (void)startUpdatingLocation {
+    __weak __typeof__(self)weakSelf = self;
+    [[LocationMgr standard] startUpdatingLocationWithOnceBlock:^(CLLocationCoordinate2D coordinate, NSString *address) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (address.length) {
+            _coordinate = coordinate;
+            _address = address;
+            strongSelf.locationLabel.text = address;
+        }
+    }];
+}
+
 - (void)showKeyboardWithSize:(CGSize)keyboardSize {
     _scrollViewBottmonConstraint.constant = keyboardSize.height - _locationViewHeightConstraint.constant;
     [self.view layoutIfNeeded];
@@ -117,7 +209,6 @@
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.view layoutIfNeeded];
     }];
-//    [self scrollToBottom];
 }
 
 - (void)scrollToBottomWithAnimation:(BOOL)animated {
@@ -127,7 +218,7 @@
 
 - (void)updateUI {
     _addMusicButton.enabled = NO;
-    _frontCover.hidden = NO;
+    _frontCoverView.hidden = NO;
     [_frontCover sd_setImageWithURL:[NSURL URLWithString:_dataItem.albumPic] placeholderImage:[UIImage imageNamed:@"default_cover"]];
     
     _songNameLabel.text = _dataItem.title;
@@ -179,23 +270,51 @@
 }
 
 - (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item {
-//    if (_dataItem && [item.songUrl isEqualToString:_dataItem.songUrl]) {
-//        [self pauseMusic];
-//    } else {
-//        _dataItem = item;
-//        _musicItem.singerName = _dataItem.artist;
-//        _musicItem.albumName = _dataItem.albumName;
-//        _musicItem.name = _dataItem.title;
-//        _musicItem.purl = _dataItem.albumPic;
-//        _musicItem.murl = _dataItem.songUrl;
-//        
-//        [self playMusic];
-//    }
+    if (_dataItem && [item.songUrl isEqualToString:_dataItem.songUrl]) {
+        [self pauseMusic];
+    } else {
+        _dataItem = item;
+        _musicItem.singerName = _dataItem.artist;
+        _musicItem.albumName = _dataItem.albumName;
+        _musicItem.name = _dataItem.title;
+        _musicItem.purl = _dataItem.albumPic;
+        _musicItem.murl = _dataItem.songUrl;
+        
+        [self playMusic];
+    }
 }
 
 #pragma mark - HXTextViewDelegate Methods
 - (void)textViewSizeChanged {
-    [self scrollToBottomWithAnimation:YES];
+    [self scrollToBottomWithAnimation:NO];
+}
+
+#pragma mark - SongListPlayerDataSource
+- (NSInteger)songListPlayerCurrentItemIndex {
+    // 只有一首歌
+    return 0;
+}
+
+- (NSInteger)songListPlayerNextItemIndex {
+    return 0;
+}
+
+- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+    // 只有一首歌
+    return _musicItem;
+}
+
+#pragma mark - SongListPlayerDelegate
+- (void)songListPlayerDidPlay {
+    [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+}
+
+- (void)songListPlayerDidPause {
+    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+}
+
+- (void)songListPlayerDidCompletion {
+    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 @end
