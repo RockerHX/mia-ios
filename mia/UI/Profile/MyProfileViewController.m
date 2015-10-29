@@ -675,6 +675,25 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 }
 
+- (void)songListPlayerShouldPlayNext {
+	if (_playingFavorite) {
+		_favoriteModel.currentPlaying++;
+		[self playFavoriteMusic];
+		if (_favoriteViewController) {
+			[_favoriteViewController.favoriteCollectionView reloadData];
+		}
+	}
+}
+
+- (void)songListPlayerShouldPlayPrevios {
+	if (_playingFavorite) {
+		[self playPreviosFavoriteMusic];
+		if (_favoriteViewController) {
+			[_favoriteViewController.favoriteCollectionView reloadData];
+		}
+	}
+}
+
 
 #pragma mark - Notification
 
@@ -729,6 +748,48 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
 }
 
+- (void)playPreviosFavoriteMusic {
+	if (_favoriteModel.dataSource.count <= 0) {
+		return;
+	}
+	if ((_favoriteModel.currentPlaying - 1) < 0) {
+		return;
+	}
+
+	_favoriteModel.currentPlaying--;
+
+	FavoriteItem *itemForPlay = _favoriteModel.dataSource[_favoriteModel.currentPlaying];
+
+	// Wifi环境或者歌曲已经缓存，直接播放
+	if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
+		[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
+		return;
+	}
+
+	// 用户允许3G环境下播放歌曲
+	if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.murl]) {
+		[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
+		return;
+	}
+
+	// 寻找上一首已经缓存了的歌曲
+	itemForPlay = nil;
+	for (long i = _favoriteModel.dataSource.count - 1; i >= 0; i--) {
+		FavoriteItem* item = _favoriteModel.dataSource[i];
+		if ([[FavoriteMgr standard] isItemCached:item]) {
+			itemForPlay = item;
+			_favoriteModel.currentPlaying = i;
+			break;
+		}
+	}
+
+	if (nil == itemForPlay) {
+		NSLog(@"没有可以播放的离线歌曲");
+		return;
+	}
+
+	[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
+}
 
 - (void)playFavoriteMusicWithoutCheckNetwork:(FavoriteItem *)aFavoriteItem {
 	if (!aFavoriteItem) {
