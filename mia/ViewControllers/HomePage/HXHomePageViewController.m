@@ -14,7 +14,6 @@
 #import "UserSession.h"
 #import "LoginViewController.h"
 #import "MyProfileViewController.h"
-#import "ShareViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
 #import "NSString+IsNull.h"
@@ -25,13 +24,13 @@
 #import "InfectUserItem.h"
 #import "UIImageView+WebCache.h"
 #import "LocationMgr.h"
-#import "DetailViewController.h"
 #import "HXAlertBanner.h"
 #import "HXGuideView.h"
 #import "HXVersion.h"
 #import "HXMusicDetailViewController.h"
 #import "UIImage+ColorToImage.h"
 #import "GuestProfileViewController.h"
+#import "ShareItem.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -220,10 +219,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)shareButtonPressed {
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
     if ([[UserSession standard] isLogined]) {
-//        ShareViewController *vc = [[ShareViewController alloc] init];
-//        [self.navigationController pushViewController:vc animated:YES];
-        HXShareViewController *vc = [HXShareViewController instance];
-        [self.navigationController pushViewController:vc animated:YES];
+        HXShareViewController *shareViewController = [HXShareViewController instance];
+        [self.navigationController pushViewController:shareViewController animated:YES];
     } else {
         LoginViewController *vc = [[LoginViewController alloc] init];
         vc.loginViewControllerDelegate = self;
@@ -237,8 +234,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [self cancelLoginOperate];
         }
     } else {
-//        DetailViewController *vc = [[DetailViewController alloc] initWitShareItem:_playItem fromMyProfile:NO];
-//        [self.navigationController pushViewController:vc animated:YES];
         HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
         musicDetailViewController.playItem = _playItem;
         [self.navigationController pushViewController:musicDetailViewController animated:YES];
