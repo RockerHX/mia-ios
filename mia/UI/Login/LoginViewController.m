@@ -177,7 +177,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	_userNameTextField.textColor = [UIColor whiteColor];
 	_userNameTextField.placeholder = @"输入手机号";
 	[_userNameTextField setFont:UIFontFromSize(16)];
-	_userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_userNameTextField.keyboardType = UIKeyboardTypePhonePad;
 	_userNameTextField.returnKeyType = UIReturnKeyNext;
 	_userNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	_userNameTextField.delegate = self;
