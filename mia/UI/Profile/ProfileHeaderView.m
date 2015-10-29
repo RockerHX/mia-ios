@@ -272,6 +272,12 @@
 			 if (image) {
 				 UIImage *bannerImage = [self getBannerImageFromCover:image containerSize:_coverView.bounds.size];
 				 [_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+
+				 CATransition *transition = [CATransition animation];
+				 transition.duration = 0.2f;
+				 transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+				 transition.type = kCATransitionFade;
+				 [_coverImageView.layer addAnimation:transition forKey:nil];
 			 }
 		 }];
 	}
