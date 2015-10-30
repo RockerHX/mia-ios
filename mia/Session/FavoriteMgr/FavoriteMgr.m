@@ -29,6 +29,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSMutableArray 				*_tempItems;
 	BOOL						_isSyncing;
 
+	dispatch_queue_t 			_downloadQueue;
 	NSURLSessionDownloadTask 	*_downloadTask;
 	long						_currentDownloadIndex;
 }
@@ -140,10 +141,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	_isSyncing = NO;
 
-	if (isSuccess && 0 == _currentDownloadIndex) {
+	if (isSuccess) {
 		[self downloadFavorite];
-	} else {
-		NSLog(@"download task did not started: %d", isSuccess);
 	}
 }
 
@@ -191,8 +190,26 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)downloadFavorite {
+	if (_downloadQueue) {
+		[[FileLog standard] log:@"last download queue is still running."];
+		return;
+	}
+
+	[[FileLog standard] log:@"start download queue"];
+	_downloadQueue = dispatch_queue_create("com.miamusic.downloadfavoritequeue", NULL);
+
+	[self downloadNextItem:_downloadQueue];
+}
+
+- (void)downloadNextItem:(dispatch_queue_t)taskQueue {
+	if (!taskQueue) {
+		[[FileLog standard] log:@"downloadNextItem error, taskQueue is nil"];
+		return;
+	}
+
 	// 多线程下载收藏的歌曲
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+	dispatch_async(taskQueue, ^()
+	{
 		FavoriteItem *item = [self getNextDownloadItem];
 		if (!item
 			|| [NSString isNull:item.music.murl]
@@ -206,29 +223,30 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 				}
 			});
 
+			_downloadQueue = nil;
 			return;
 		}
 
 		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
-											  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
-										 completeBlock:
-						 ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-							 [[FileLog standard] log:@"download file: %@, error:%@", item.music.murl, error];
-							 if (nil == error) {
-								 [_favoriteItems[_currentDownloadIndex] setIsCached:YES];
-								 [self saveData];
-							 } else {
-								 [_favoriteItems[_currentDownloadIndex] setIsCached:NO];
-								 if (filePath) {
-									 NSError *fileError;
-									 [[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
-								 }
-							 }
+										  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
+									 completeBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error)
+		{
+			[[FileLog standard] log:@"download %@, %@, error:%@", item.music.name, item.music.murl, error];
+			if (nil == error) {
+				[_favoriteItems[_currentDownloadIndex] setIsCached:YES];
+				[self saveData];
+			} else {
+				[_favoriteItems[_currentDownloadIndex] setIsCached:NO];
+				if (filePath) {
+					NSError *fileError;
+					[[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
+				}
+			}
 
-							 _downloadTask = nil;
-							 _currentDownloadIndex++;
-							 [self downloadFavorite];
-						 }];
+			_downloadTask = nil;
+			_currentDownloadIndex++;
+			[self downloadNextItem:_downloadQueue];
+		}];
 	});
 }
 
