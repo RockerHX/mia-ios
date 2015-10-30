@@ -18,5 +18,7 @@
 
 @property (weak, nonatomic)id<LoginViewControllerDelegate> loginViewControllerDelegate;
 
+- (void)loginSuccess:(void(^)(BOOL success))success;
+
 @end
 

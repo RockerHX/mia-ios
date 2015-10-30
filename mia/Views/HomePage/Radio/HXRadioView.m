@@ -53,9 +53,20 @@
 
 - (void)dealloc {
     [_timer invalidate];
+    
+    [_currentItem removeObserver:self forKeyPath:@"favorite"];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HXMusicPlayerMgrDidPlayNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HXMusicPlayerMgrDidPauseNotification object:nil];
 
+}
+
+#pragma mark - KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"favorite"]) {
+        NSNumber *favorite = change[NSKeyValueChangeNewKey];
+        [_starButton setImage:[UIImage imageNamed:([favorite boolValue] ? @"HP-StarIcon" : @"HP-UnStarIcon")] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - Config Methods
@@ -111,17 +122,19 @@
 }
 
 - (IBAction)starButtonPressed:(UIButton *)button {
+    __weak __typeof__(self)weakSelf = self;
 	if ([[UserSession standard] isLogined]) {
 		[MiaAPIHelper favoriteMusicWithShareID:_currentItem.sID
 									isFavorite:!_currentItem.favorite
 								 completeBlock:
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             __strong __typeof__(self)strongSelf = weakSelf;
 			 if (success) {
 				 id act = userInfo[MiaAPIKey_Values][@"act"];
 				 id sID = userInfo[MiaAPIKey_Values][@"id"];
                  BOOL favorite = [act intValue];
-				 if ([_currentItem.sID integerValue] == [sID intValue]) {
-					 _currentItem.favorite = favorite;
+				 if ([strongSelf->_currentItem.sID integerValue] == [sID intValue]) {
+					 strongSelf->_currentItem.favorite = favorite;
 				 }
                  
                  [button setImage:[UIImage imageNamed:(favorite ? @"HP-StarIcon" : @"HP-UnStarIcon")] forState:UIControlStateNormal];
@@ -153,8 +166,9 @@
 
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
+    [self hanleItem:item];
+    
     _progressView.progress = 0.0f;
-    _currentItem = item;
     _playButton.selected = NO;
     MusicItem *music = item.music;
     
@@ -171,6 +185,12 @@
 }
 
 #pragma mark - Private Methods
+- (void)hanleItem:(ShareItem *)item {
+    [_currentItem removeObserver:self forKeyPath:@"favorite"];
+    _currentItem = item;
+    [_currentItem addObserver:self forKeyPath:@"favorite" options:NSKeyValueObservingOptionNew context:nil];
+}
+
 static NSInteger MaxLine = 3;
 static NSString *HanWorld = @"肖";
 - (void)displayShareContentLabelWithContent:(NSString *)content locationInfo:(NSString *)locationInfo {

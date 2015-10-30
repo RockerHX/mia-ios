@@ -32,6 +32,7 @@
 #import "GuestProfileViewController.h"
 #import "ShareItem.h"
 #import "UpdateHelper.h"
+#import "FavoriteMgr.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -216,7 +217,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         myProfileViewController.customDelegate = self;
         [self.navigationController pushViewController:myProfileViewController animated:YES];
 	} else {
-        [self presentLoginViewController];
+        [self presentLoginViewController:nil];
     }
 }
 
@@ -226,7 +227,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         HXShareViewController *shareViewController = [HXShareViewController instance];
         [self.navigationController pushViewController:shareViewController animated:YES];
     } else {
-        [self presentLoginViewController];
+        [self presentLoginViewController:nil];
     }
 }
 
@@ -417,7 +418,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 		 }];
 		[self startFinishedAnimation];
     } else {
-        [self presentLoginViewController];
+        [self presentLoginViewController:nil];
     }
 }
 
@@ -522,7 +523,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
         myProfileViewController.playFavoriteOnceTime = playFavorite;
         [self.navigationController pushViewController:myProfileViewController animated:playFavorite ? NO : YES];
     } else {
-        [self presentLoginViewController];
+        [self presentLoginViewController:nil];
 	}
 }
 
@@ -552,10 +553,11 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     }
 }
 
-- (void)presentLoginViewController {
+- (void)presentLoginViewController:(void(^)(BOOL success))success {
     _toLogin = YES;
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
     loginViewController.loginViewControllerDelegate = self;
+    [loginViewController loginSuccess:success];
     __weak __typeof__(self)weakSelf = self;
     [self presentViewController:loginViewController animated:YES completion:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -604,8 +606,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    [_waveView waveMoveDownAnimation:^{
-    }];
+    [_waveView waveMoveDownAnimation:nil];
 }
 
 // 波浪升起动画
@@ -708,7 +709,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)bubbleViewShouldLogin:(HXBubbleView *)bubbleView {
-    [self userStartNeedLogin];
+    [self presentLoginViewController:nil];
     [self cancelLoginOperate];
 }
 
@@ -739,7 +740,32 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)userStartNeedLogin {
-    [self presentLoginViewController];
+    [self presentLoginViewController:^(BOOL success) {
+        __weak __typeof__(self)weakSelf = self;
+        [MiaAPIHelper favoriteMusicWithShareID:_playItem.sID
+                                    isFavorite:!_playItem.favorite
+                                 completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             __strong __typeof__(self)strongSelf = weakSelf;
+             if (success) {
+                 id act = userInfo[MiaAPIKey_Values][@"act"];
+                 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
+                 if ([strongSelf->_playItem.sID integerValue] == [sID intValue]) {
+                     strongSelf->_playItem.favorite = favorite;
+                 }
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                 
+                 // 收藏操作成功后同步下收藏列表并检查下载
+                 [[FavoriteMgr standard] syncFavoriteList];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+         }];
+    }];
 }
 
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {

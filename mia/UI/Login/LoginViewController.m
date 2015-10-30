@@ -21,6 +21,9 @@
 #import "UserDefaultsUtils.h"
 #import "HXAlertBanner.h"
 
+
+typedef void(^BackBlock)(BOOL success);
+
 static const CGFloat kBackButtonMarginLeft		= 10;
 static const CGFloat kBackButtonMarginTop		= 32;
 static const CGFloat kLogoMarginTop				= 125;
@@ -44,6 +47,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	UITextField 	*_passwordTextField;
 
 	MBProgressHUD 	*_progressHUD;
+    
+    BackBlock _backBlock;
 }
 
 - (void)viewDidLoad {
@@ -225,8 +230,91 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
 }
 
-#pragma mark - delegate
+#pragma mark - Actions
+- (void)backButtonAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
+- (void)signUpButtonAction:(id)sender {
+    SignUpViewController *vc = [[SignUpViewController alloc] init];
+    vc.signUpViewControllerDelegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)signInButtonAction:(id)sender {
+    [_guidView setHidden:YES];
+    [_loginView setHidden:NO];
+    [_userNameTextField becomeFirstResponder];
+}
+
+
+- (void)forgotPwdButtonAction:(id)sender {
+    ResetPwdViewController *vc = [[ResetPwdViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)loginButtonAction:(id)sender {
+    if (_userNameTextField.text.length <= 0) {
+        [HXAlertBanner showWithMessage:@"手机号码不能为空" tap:nil];
+        return;
+    }
+    
+    if (_passwordTextField.text.length <= 0) {
+        [HXAlertBanner showWithMessage:@"密码不能为空" tap:nil];
+        return;
+    }
+    
+    __weak __typeof__(self)weakSelf = self;
+    MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"登录中..."];
+    NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
+    [MiaAPIHelper loginWithPhoneNum:_userNameTextField.text
+                       passwordHash:passwordHash
+                      completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (success) {
+             [strongSelf.view endEditing:YES];
+             
+             [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+             [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+             
+             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+             [[UserSession standard] setAvatar:avatarUrlWithTime];
+             
+             [strongSelf saveAuthInfo];
+             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
+             
+             if (strongSelf.loginViewControllerDelegate) {
+                 [strongSelf.loginViewControllerDelegate loginViewControllerDidSuccess];
+             }
+             
+             if (_backBlock) {
+                 _backBlock(YES);
+             }
+             
+             [strongSelf dismissViewControllerAnimated:YES completion:nil];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+         }
+         
+         [aMBProgressHUD removeFromSuperview];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [HXAlertBanner showWithMessage:@"请求超时，请稍后重试" tap:nil];
+         [aMBProgressHUD removeFromSuperview];
+     }];
+}
+
+#pragma mark - Public Methods
+- (void)loginSuccess:(void (^)(BOOL))success {
+    _backBlock = success;
+}
+
+#pragma mark - delegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	if (textField == _userNameTextField) {
 		[_passwordTextField becomeFirstResponder];
@@ -238,86 +326,9 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	return true;
 }
 
-- (void)signUpViewControllerDidSuccess{
+- (void)signUpViewControllerDidSuccess {
 	[_guidView setHidden:YES];
 	[_loginView setHidden:NO];
-}
-
-#pragma mark - Notification
-
-#pragma mark - Actions
-
-- (void)backButtonAction:(id)sender {
-	[self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)signUpButtonAction:(id)sender {
-	SignUpViewController *vc = [[SignUpViewController alloc] init];
-	vc.signUpViewControllerDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)signInButtonAction:(id)sender {
-	[_guidView setHidden:YES];
-	[_loginView setHidden:NO];
-	[_userNameTextField becomeFirstResponder];
-}
-
-
-- (void)forgotPwdButtonAction:(id)sender {
-	ResetPwdViewController *vc = [[ResetPwdViewController alloc] init];
-	[self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)loginButtonAction:(id)sender {
-	if (_userNameTextField.text.length <= 0) {
-		[HXAlertBanner showWithMessage:@"手机号码不能为空" tap:nil];
-		return;
-	}
-
-	if (_passwordTextField.text.length <= 0) {
-		[HXAlertBanner showWithMessage:@"密码不能为空" tap:nil];
-		return;
-	}
-
-    __weak __typeof__(self)weakSelf = self;
-	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"登录中..."];
-	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
-	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text
-					   passwordHash:passwordHash
-					  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         __strong __typeof__(self)strongSelf = weakSelf;
-		 if (success) {
-             [strongSelf.view endEditing:YES];
-             
-			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
-			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-			 [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
-
-			 NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-			 [[UserSession standard] setAvatar:avatarUrlWithTime];
-
-			 [strongSelf saveAuthInfo];
-			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
-			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
-
-			 if (strongSelf.loginViewControllerDelegate) {
-				 [strongSelf.loginViewControllerDelegate loginViewControllerDidSuccess];
-             }
-             [strongSelf dismissViewControllerAnimated:YES completion:nil];
-		 } else {
-			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-		 }
-
-		 [aMBProgressHUD removeFromSuperview];
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [HXAlertBanner showWithMessage:@"请求超时，请稍后重试" tap:nil];
-		 [aMBProgressHUD removeFromSuperview];
-	 }];
 }
 
 @end

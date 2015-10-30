@@ -9,6 +9,7 @@
 #import "HXNoNetworkView.h"
 #import "AAPullToRefresh.h"
 #import "AppDelegate.h"
+#import "FavoriteMgr.h"
 
 typedef void(^BLOCK)(void);
 
@@ -33,6 +34,7 @@ typedef void(^BLOCK)(void);
 #pragma mark - Config Methods
 - (void)viewConfig {
     _playButton.layer.cornerRadius = _playButton.frame.size.height/2;
+    _playButton.hidden = ![[FavoriteMgr standard] cachedCount];
 }
 
 #pragma mark - Event Response
@@ -70,13 +72,13 @@ typedef void(^BLOCK)(void);
 }
 
 - (void)showOnViewController:(UIViewController *)viewController show:(void(^)(void))showBlock play:(void(^)(void))playBlock {
+    [viewController.navigationController popToRootViewControllerAnimated:NO];
     _showBlock = showBlock;
     _playBlock = playBlock;
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
     UIWindow *mainWindow = delegate.window;
     self.frame = mainWindow.frame;
     [mainWindow addSubview:self];
-    [viewController.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)hidden {
