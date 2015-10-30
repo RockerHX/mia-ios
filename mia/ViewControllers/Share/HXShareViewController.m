@@ -34,15 +34,8 @@
 }
 
 #pragma mark - View Controller Life Cycle
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
     [self stopMusic];
 }
 
@@ -247,7 +240,6 @@
         [strongSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.commentTextView becomeFirstResponder];
         strongSelf.shareButton.enabled = YES;
     }];
 }

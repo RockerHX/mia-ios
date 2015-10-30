@@ -88,25 +88,6 @@ UITextFieldDelegate>
 	 }];
 }
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:NO];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-
 - (void)viewDidLayoutSubviews {
 	[super viewDidLayoutSubviews];
 	_scrollView.contentSize = _scrollContentView.frame.size;

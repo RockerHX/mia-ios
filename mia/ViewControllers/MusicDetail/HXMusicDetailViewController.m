@@ -39,15 +39,8 @@
 }
 
 #pragma mark - View Controller Life Cycle
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-
 	[_coverCell stopPlay];
 }
 
@@ -156,8 +149,8 @@
     if ([[UserSession standard] isLogined]) {
         [_editCommentView becomeFirstResponder];
     } else {
-        LoginViewController *vc = [[LoginViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+        LoginViewController *loginViewController = [[LoginViewController alloc] init];
+        [self presentViewController:loginViewController animated:YES completion:nil];
     }
 }
 
@@ -376,8 +369,8 @@
              [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
          }];
     } else {
-        LoginViewController *vc = [[LoginViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+        LoginViewController *loginViewController = [[LoginViewController alloc] init];
+        [self presentViewController:loginViewController animated:YES completion:nil];
     }
 }
 

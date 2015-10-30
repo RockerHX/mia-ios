@@ -46,37 +46,10 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	MBProgressHUD 	*_progressHUD;
 }
 
--(void)dealloc {
-}
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
 	[self initUI];
-}
-
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
-	[super viewDidDisappear:animated];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -275,7 +248,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 #pragma mark - Actions
 
 - (void)backButtonAction:(id)sender {
-	[self.navigationController popViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)signUpButtonAction:(id)sender {
@@ -307,13 +280,17 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 		return;
 	}
 
+    __weak __typeof__(self)weakSelf = self;
 	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"登录中..."];
 	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
 	[MiaAPIHelper loginWithPhoneNum:_userNameTextField.text
 					   passwordHash:passwordHash
 					  completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
 		 if (success) {
+             [strongSelf.view endEditing:YES];
+             
 			 [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
 			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
 			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
@@ -323,14 +300,14 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 			 [[UserSession standard] setAvatar:avatarUrlWithTime];
 
-			 [self saveAuthInfo];
+			 [strongSelf saveAuthInfo];
 			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
 			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
 
-			 if (_loginViewControllerDelegate) {
-				 [_loginViewControllerDelegate loginViewControllerDidSuccess];
-			 }
-			 [self.navigationController popViewControllerAnimated:YES];
+			 if (strongSelf.loginViewControllerDelegate) {
+				 [strongSelf.loginViewControllerDelegate loginViewControllerDidSuccess];
+             }
+             [strongSelf dismissViewControllerAnimated:YES completion:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
