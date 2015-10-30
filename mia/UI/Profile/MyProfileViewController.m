@@ -130,11 +130,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
-	[_shareListModel.dataSource removeAllObjects];
-	_currentPageStart = kDefaultPageFrom;
-	[self requestShareList];
-
-	[[FavoriteMgr standard] syncFavoriteList];
 	if (_playFavoriteOnceTime) {
 		_playFavoriteOnceTime = NO;
 
@@ -241,11 +236,17 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)initData {
+	// 分享数据
 	_shareListModel = [[ProfileShareModel alloc] init];
+	_currentPageStart = kDefaultPageFrom;
+	[self requestShareList];
 
+	// 收藏数据
 	[[FavoriteMgr standard] setCustomDelegate:self];
 	_favoriteModel = [[FavoriteModel alloc] init];
+	[[FavoriteMgr standard] syncFavoriteList];
 
+	// 播放器
 	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"MyProfileViewController Song List"];
 	_songListPlayer.dataSource = self;
 	_songListPlayer.delegate = self;

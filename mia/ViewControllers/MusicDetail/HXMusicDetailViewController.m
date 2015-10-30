@@ -27,6 +27,7 @@
 #import "MBProgressHUDHelp.h"
 #import "HXGrowingTextView.h"
 #import "GuestProfileViewController.h"
+#import "FavoriteMgr.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -361,6 +362,9 @@
                      [cell updateStatStateWithFavorite:favorite];
                  }
                  [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+
+				 // 收藏操作成功后同步下收藏列表并检查下载
+				 [[FavoriteMgr standard] syncFavoriteList];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
