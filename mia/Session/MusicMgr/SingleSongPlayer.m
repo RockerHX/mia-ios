@@ -18,6 +18,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "MusicMgr.h"
 #import "FileLog.h"
+#import "SDWebImageDownloader.h"
 
 @interface SingleSongPlayer()
 
@@ -68,11 +69,11 @@
 	}
 
 	if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
-		[self checkBeforePlayWithUrl:item.murl title:item.name artist:item.singerName];
+		[self checkBeforePlayWithMusicItem:item];
 		return;
 	}
 
-	[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName];
+	[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName cover:item.purl];
 	_currentItem = item;
 }
 
@@ -154,7 +155,7 @@
 
 #pragma mark -private method
 
-- (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+- (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist cover:(NSString *)cover{
 	// 不要根据url来判断是否有歌曲在播放，因为播放完成或者stop都会把url清掉
 	if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
@@ -170,7 +171,15 @@
 		[self playAnotherWirUrl:url];
 	}
 
-	[self setMediaInfo:nil andTitle:title andArtist:artist];
+	[[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:cover]
+														  options:0 progress:nil completed:
+	 ^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+		if (image && finished) {
+			[self setMediaInfo:image andTitle:title andArtist:artist];
+		} else {
+			[self setMediaInfo:nil andTitle:title andArtist:artist];
+		}
+	}];
 
 	if (_delegate) {
 		[_delegate singleSongPlayerDidPlay];
@@ -187,23 +196,25 @@
 	} afterDelay:0.5f];
 }
 
-- (void)checkBeforePlayWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist {
+- (void)checkBeforePlayWithMusicItem:(MusicItem *)item {
 	[[MusicMgr standard] checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
 		if (isAllowed) {
-			[self playWithoutCheckWithUrl:url title:title artist:artist];
+			[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName cover:item.purl];
 		}
 	}];
 }
 
 #pragma mark - audio operations
-- (void)setMediaInfo:(UIImage *)img andTitle:(NSString *)title andArtist:(NSString *)artist {
+- (void)setMediaInfo:(UIImage *)coverImage andTitle:(NSString *)title andArtist:(NSString *)artist {
 	if ([NSString isNull:title] || [NSString isNull:artist]) {
 		return;
 	}
 
-	if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
-		NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+	dispatch_sync(dispatch_get_main_queue(), ^ {
+		if (!NSClassFromString(@"MPNowPlayingInfoCenter"))
+			return ;
 
+		NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
 
 		[dict setObject:title forKey:MPMediaItemPropertyAlbumTitle];
 		[dict setObject:artist forKey:MPMediaItemPropertyArtist];
@@ -212,11 +223,11 @@
 		[dict setObject:[NSNumber numberWithFloat:totalSeconds] forKey:MPMediaItemPropertyPlaybackDuration];
 		[dict setObject:[NSNumber numberWithFloat:[_audioStream currentTimePlayed].playbackTimeInSeconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
 
-		//		MPMediaItemArtwork * mArt = [[MPMediaItemArtwork alloc] initWithImage:img];
-		//		[dict setObject:mArt forKey:MPMediaItemPropertyArtwork];
-		[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
+		MPMediaItemArtwork * mArt = [[MPMediaItemArtwork alloc] initWithImage:coverImage];
+		[dict setObject:mArt forKey:MPMediaItemPropertyArtwork];
 		[[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
-	}
+
+	});
 }
 
 
