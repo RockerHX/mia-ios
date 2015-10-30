@@ -16,6 +16,7 @@
 #import "HXAlertBanner.h"
 #import "MusicMgr.h"
 #import "SongListPlayer.h"
+#import "FavoriteMgr.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -125,6 +126,9 @@
                  
                  [button setImage:[UIImage imageNamed:(favorite ? @"HP-StarIcon" : @"HP-UnStarIcon")] forState:UIControlStateNormal];
                  [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+
+				 // 收藏操作成功后同步下收藏列表并检查下载
+				 [[FavoriteMgr standard] syncFavoriteList];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
