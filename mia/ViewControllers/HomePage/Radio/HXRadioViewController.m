@@ -274,29 +274,30 @@
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
 	[self playMusic:_helper.currentItem];
-
+    
+    __weak __typeof__(self)weakSelf = self;
 	// 更新单条分享的信息
 	[MiaAPIHelper getShareById:_helper.currentItem.sID completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-				NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-				id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
-				id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-				id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-				id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
-				NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-
-				if ([sID isEqualToString:_helper.currentItem.sID]) {
-					_helper.currentItem.cComm = [cComm intValue];
-					_helper.currentItem.cView = [cView intValue];
-					_helper.currentItem.favorite = [start intValue];
-					_helper.currentItem.infectTotal = [infectTotal intValue];
-					[_helper.currentItem parseInfectUsersFromJsonArray:infectArray];
-#warning @andy 更新单条数据后需要刷新下界面
-				}
-			} else {
-				NSLog(@"getShareById failed");
-			}
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (success) {
+             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+             
+             if ([sID isEqualToString:strongSelf->_helper.currentItem.sID]) {
+                 strongSelf->_helper.currentItem.cComm = [cComm intValue];
+                 strongSelf->_helper.currentItem.cView = [cView intValue];
+                 strongSelf->_helper.currentItem.favorite = [start intValue];
+                 strongSelf->_helper.currentItem.infectTotal = [infectTotal intValue];
+                 [strongSelf->_helper.currentItem parseInfectUsersFromJsonArray:infectArray];
+             }
+         } else {
+             NSLog(@"getShareById failed");
+         }
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		NSLog(@"getShareById timeout");
 	}];
