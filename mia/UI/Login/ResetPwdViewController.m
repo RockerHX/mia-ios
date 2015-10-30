@@ -362,7 +362,7 @@
 									   scode:_verificationCodeTextField.text
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [HXAlertBanner showWithMessage:@"注册成功" tap:nil];
+			 [HXAlertBanner showWithMessage:@"修改密码成功" tap:nil];
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
