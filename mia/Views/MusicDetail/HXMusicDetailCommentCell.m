@@ -7,7 +7,6 @@
 //
 
 #import "HXMusicDetailCommentCell.h"
-#import "HXComment.h"
 #import "UIImageView+WebCache.h"
 
 @implementation HXMusicDetailCommentCell
@@ -31,7 +30,6 @@
 
 #pragma mark - Public Methods
 - (void)displayWithComment:(HXComment *)comment {
-    
     [_header sd_setImageWithURL:[NSURL URLWithString:comment.headerURL]];
     _nameLabel.text = comment.nickName;
     _contentLabel.text = comment.content;

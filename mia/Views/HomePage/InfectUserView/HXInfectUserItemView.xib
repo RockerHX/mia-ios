@@ -21,7 +21,7 @@
                         <constraint firstAttribute="width" secondItem="rS0-ee-IVB" secondAttribute="height" multiplier="1:1" id="jpu-fg-LJ5"/>
                     </constraints>
                 </view>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p7H-W7-LeR">
+                <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p7H-W7-LeR">
                     <rect key="frame" x="144" y="268" width="32" height="32"/>
                     <animations/>
                     <constraints>
