@@ -734,9 +734,8 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 #pragma mark - HXRadioViewControllerDelegate Methods
 - (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item {
-
-	GuestProfileViewController *vc = [[GuestProfileViewController alloc] initWitUID:item.uID nickName:item.sNick];
-	[self.navigationController pushViewController:vc animated:YES];
+	GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:item.uID nickName:item.sNick];
+	[self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)userStartNeedLogin {

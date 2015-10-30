@@ -7,8 +7,7 @@
 //
 
 #import "UITableView+FDTemplateLayoutCell.h"
-
-@class HXComment;
+#import "HXComment.h"
 
 @interface HXMusicDetailCommentCell : UITableViewCell
 
