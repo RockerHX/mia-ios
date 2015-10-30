@@ -23,8 +23,10 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectUsersTaped)];
-    [_infectPromptLabel addGestureRecognizer:tapGesture];
+    UITapGestureRecognizer *infectViewTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectUsersTaped)];
+    UITapGestureRecognizer *infectLabelTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectUsersTaped)];
+    [_infectUserView addGestureRecognizer:infectViewTapGesture];
+    [_infectPromptLabel addGestureRecognizer:infectLabelTapGesture];
 }
 
 #pragma mark - Public Methods

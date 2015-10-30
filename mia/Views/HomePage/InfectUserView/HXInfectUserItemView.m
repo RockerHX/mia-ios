@@ -35,7 +35,9 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    
+    _header.userInteractionEnabled = YES;
+    _whiteBorder.userInteractionEnabled = YES;
+    self.userInteractionEnabled = YES;
 }
 
 - (void)viewConfig {
