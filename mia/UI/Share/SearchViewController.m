@@ -41,15 +41,7 @@
 	MBProgressHUD 			*_searchProgressHUD;
 }
 
-- (id)init {
-	self = [super init];
-	if (self) {
-	}
-
-	return self;
-}
-
--(void)dealloc {
+- (void)dealloc {
 	[_searchProgressHUD removeFromSuperview];
 	_searchProgressHUD = nil;
 }
@@ -62,13 +54,7 @@
 	[self initData];
 }
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
 }

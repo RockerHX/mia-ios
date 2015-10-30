@@ -36,13 +36,9 @@
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
-@interface HXHomePageViewController ()
-<LoginViewControllerDelegate
-, HXBubbleViewDelegate
-, MyProfileViewControllerDelegate
-, HXRadioViewControllerDelegate
-> {
-    BOOL    _animating;             // 动画执行标识
+@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
+    BOOL _toLogin;
+    BOOL _animating;                // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在妙推动作时默认不评论定时执行结束动画
     ShareItem *_playItem;
@@ -54,6 +50,16 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 @implementation HXHomePageViewController
 
 #pragma mark - View Controller Life Cycle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:_toLogin animated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -121,8 +127,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)viewConfig {
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
     _shareButton.backgroundColor = [UIColor whiteColor];
     _profileButton.layer.borderWidth = 0.5f;
     _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
@@ -207,14 +211,12 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)profileButtonPressed {
     // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
     if ([[UserSession standard] isLogined]) {
-        MyProfileViewController *vc = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-                                                                     nickName:[[UserSession standard] nick]];
-		vc.customDelegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+                                                                                              nickName:[[UserSession standard] nick]];
+        myProfileViewController.customDelegate = self;
+        [self.navigationController pushViewController:myProfileViewController animated:YES];
 	} else {
-        LoginViewController *vc = [[LoginViewController alloc] init];
-        vc.loginViewControllerDelegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self presentLoginViewController];
     }
 }
 
@@ -224,9 +226,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         HXShareViewController *shareViewController = [HXShareViewController instance];
         [self.navigationController pushViewController:shareViewController animated:YES];
     } else {
-        LoginViewController *vc = [[LoginViewController alloc] init];
-        vc.loginViewControllerDelegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self presentLoginViewController];
     }
 }
 
@@ -417,9 +417,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 		 }];
 		[self startFinishedAnimation];
     } else {
-        LoginViewController *vc = [[LoginViewController alloc] init];
-        vc.loginViewControllerDelegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self presentLoginViewController];
     }
 }
 
@@ -517,16 +515,14 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
-	if ([[UserSession standard] isCachedLogin]) {
-		MyProfileViewController *vc = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-																	 nickName:[[UserSession standard] nick]];
-		vc.customDelegate = self;
-		vc.playFavoriteOnceTime = playFavorite;
-		[self.navigationController pushViewController:vc animated:playFavorite ? NO : YES];
-	} else {
-		LoginViewController *vc = [[LoginViewController alloc] init];
-		vc.loginViewControllerDelegate = self;
-		[self.navigationController pushViewController:vc animated:YES];
+    if ([[UserSession standard] isCachedLogin]) {
+        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+                                                                                              nickName:[[UserSession standard] nick]];
+        myProfileViewController.customDelegate = self;
+        myProfileViewController.playFavoriteOnceTime = playFavorite;
+        [self.navigationController pushViewController:myProfileViewController animated:playFavorite ? NO : YES];
+    } else {
+        [self presentLoginViewController];
 	}
 }
 
@@ -554,6 +550,17 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     } else {
         [self startUnInfectedStateAnimation];
     }
+}
+
+- (void)presentLoginViewController {
+    _toLogin = YES;
+    LoginViewController *loginViewController = [[LoginViewController alloc] init];
+    loginViewController.loginViewControllerDelegate = self;
+    __weak __typeof__(self)weakSelf = self;
+    [self presentViewController:loginViewController animated:YES completion:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf->_toLogin = NO;
+    }];
 }
 
 #pragma mark - Animation
@@ -732,9 +739,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 }
 
 - (void)userStartNeedLogin {
-	LoginViewController *vc = [[LoginViewController alloc] init];
-	vc.loginViewControllerDelegate = self;
-	[self.navigationController pushViewController:vc animated:YES];
+    [self presentLoginViewController];
 }
 
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {

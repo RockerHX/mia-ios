@@ -76,7 +76,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	UIView					*_noNetWorkView;
 }
 
-- (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName {
+- (instancetype)initWitUID:(NSString *)uid nickName:(NSString *)nickName {
 	self = [super init];
 	if (self) {
 		_uid = uid;
@@ -104,7 +104,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	return self;
 }
 
--(void)dealloc {
+- (void)dealloc {
 	_songListPlayer.dataSource = nil;
 	_songListPlayer.delegate = nil;
 	
@@ -117,18 +117,10 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
 	if (_playFavoriteOnceTime) {
 		_playFavoriteOnceTime = NO;
@@ -141,19 +133,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 																   frame:self.view.bounds]];
 		[self.navigationController pushViewController:_favoriteViewController animated:YES];
 	}
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

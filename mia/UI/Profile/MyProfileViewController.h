@@ -18,7 +18,7 @@
 
 @interface MyProfileViewController : UIViewController
 
-- (id)initWitUID:(NSString *)uid nickName:(NSString *)nickName;
+- (instancetype)initWitUID:(NSString *)uid nickName:(NSString *)nickName;
 
 @property (weak, nonatomic)id<MyProfileViewControllerDelegate> customDelegate;
 @property (assign, nonatomic) BOOL playFavoriteOnceTime;

@@ -68,17 +68,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	return self;
 }
 
--(void)dealloc {
-}
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated
