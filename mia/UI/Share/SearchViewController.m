@@ -27,7 +27,6 @@
 #import "HXAlertBanner.h"
 
 @interface SearchViewController () <UITextFieldDelegate, SearchSuggestionViewDelegate, SearchResultViewDelegate>
-
 @end
 
 @implementation SearchViewController {

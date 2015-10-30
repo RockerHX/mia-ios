@@ -54,9 +54,13 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpK-2C-los">
                                                 <rect key="frame" x="35" y="60" width="250" height="250"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nne-Bv-oUO">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nne-Bv-oUO">
                                                         <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
                                                         <animations/>
+                                                        <gestureRecognizers/>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="Erq-xD-ggx" appends="YES" id="0oi-6z-TYP"/>
+                                                        </connections>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ZK-C9-oiT">
                                                         <rect key="frame" x="108" y="108" width="35" height="35"/>
@@ -262,6 +266,11 @@
                 <tapGestureRecognizer id="Pc7-Cd-SB5">
                     <connections>
                         <action selector="tapGesture" destination="Dxq-Jl-kQw" id="PFm-8D-z4R"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="Erq-xD-ggx">
+                    <connections>
+                        <action selector="playButtonPressed" destination="Dxq-Jl-kQw" id="2QM-Cm-T31"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

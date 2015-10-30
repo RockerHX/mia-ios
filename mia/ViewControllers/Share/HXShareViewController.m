@@ -247,7 +247,6 @@
         [strongSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.commentTextView becomeFirstResponder];
         strongSelf.shareButton.enabled = YES;
     }];
 }
