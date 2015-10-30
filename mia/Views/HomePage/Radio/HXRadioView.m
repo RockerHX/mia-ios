@@ -68,7 +68,7 @@
 - (void)viewConfig {
     [self configLabel];
     
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(displayPlayProgress) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(displayPlayProgress) userInfo:nil repeats:YES];
 }
 
 - (void)configLabel {
