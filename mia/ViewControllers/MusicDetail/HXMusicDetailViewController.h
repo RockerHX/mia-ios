@@ -14,6 +14,7 @@
 @protocol HXMusicDetailViewControllerDelegate
 
 - (void)detailViewControllerDidDeleteShare;
+- (void)detailViewControllerDismissWithoutDelete;
 
 @end
 

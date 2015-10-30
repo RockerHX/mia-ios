@@ -637,6 +637,10 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self requestShareList];
 }
 
+- (void)detailViewControllerDismissWithoutDelete {
+	[_profileCollectionView reloadData];
+}
+
 #pragma mark - SongListPlayerDataSource
 - (NSInteger)songListPlayerCurrentItemIndex {
 	return _favoriteModel.currentPlaying;

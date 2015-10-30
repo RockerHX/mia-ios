@@ -92,6 +92,9 @@
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
+	if (_customDelegate) {
+		[_customDelegate detailViewControllerDismissWithoutDelete];
+	}
 }
 
 - (IBAction)moreButtonPressed {
