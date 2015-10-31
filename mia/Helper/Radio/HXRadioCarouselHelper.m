@@ -63,10 +63,6 @@
 }
 
 #pragma mark - Setter And Getter
-- (void)setWarp:(BOOL)warp {
-    _warp = warp;
-}
-
 - (void)setItems:(NSArray *)items {
     if (items.count >= 3) {
         _items = [items copy];
@@ -86,6 +82,7 @@
             }
         }
         _canChange = NO;
+        _warp = preiousItem.hasData;
         [_carousel reloadData];
     }
 }

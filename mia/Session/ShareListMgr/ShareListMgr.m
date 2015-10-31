@@ -65,7 +65,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (BOOL)cursorShiftLeft {
 	NSInteger newIndex = _currentItem - 1;
-	if (newIndex <= 0)
+	if (newIndex < 0)
 		return NO;
 
 	_currentItem = newIndex;
