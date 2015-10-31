@@ -466,6 +466,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		 NSLog(@"post read comment timeout");
 	 }];
 
+	// 点击查看详情就把本地的未读评论清掉
+	cell.shareItem.newCommCnt = 0;
+
 	HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
 	musicDetailViewController.playItem = [cell shareItem];
 	musicDetailViewController.fromProfile = YES;
