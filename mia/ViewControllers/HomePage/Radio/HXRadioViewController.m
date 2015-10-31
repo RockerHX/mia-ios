@@ -241,7 +241,7 @@
     switch (action) {
         case HXRadioCarouselHelperActionPlayPrevious: {
             NSLog(@"Previous");
-            _helper.warp = [_shareListMgr cursorShiftLeft];
+            [_shareListMgr cursorShiftLeft];
 			[_shareListMgr checkHistoryItemsMaxCount];
             break;
         }
@@ -252,7 +252,7 @@
         case HXRadioCarouselHelperActionPlayNext: {
             NSLog(@"Next");
 			if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
-				_helper.warp = [_shareListMgr cursorShiftRight];
+                [_shareListMgr cursorShiftRight];
 				[self checkIsNeedToGetNewItems];
 				[_shareListMgr checkHistoryItemsMaxCount];
 			}
