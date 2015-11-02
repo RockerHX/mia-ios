@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,11 +15,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="Adt-yX-Kcn">
-                    <rect key="frame" x="35" y="80" width="250" height="250"/>
+                    <rect key="frame" x="53" y="80" width="214" height="214"/>
                     <animations/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="250" id="4NV-0u-f8A"/>
                         <constraint firstAttribute="width" secondItem="Adt-yX-Kcn" secondAttribute="height" multiplier="1:1" id="QpK-Bh-3pn"/>
                     </constraints>
                     <connections>
@@ -26,14 +26,14 @@
                     </connections>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="D9t-6x-o7k">
-                    <rect key="frame" x="35" y="265" width="250" height="65"/>
+                    <rect key="frame" x="53" y="229" width="214" height="65"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="65" id="qLo-i7-3fg"/>
                     </constraints>
                 </imageView>
                 <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
-                    <rect key="frame" x="35" y="325" width="250" height="5"/>
+                    <rect key="frame" x="53" y="289" width="214" height="5"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="4" id="PUk-Ch-fA0"/>
@@ -42,7 +42,7 @@
                     <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                 </progressView>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
-                    <rect key="frame" x="133" y="177" width="55" height="55"/>
+                    <rect key="frame" x="133" y="160" width="55" height="55"/>
                     <animations/>
                     <state key="normal" image="HP-PauseIcon"/>
                     <state key="selected" image="HP-PlayIcon"/>
@@ -51,7 +51,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzP-as-myT">
-                    <rect key="frame" x="140" y="350" width="40" height="40"/>
+                    <rect key="frame" x="140" y="314" width="40" height="40"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="wzP-as-myT" secondAttribute="height" multiplier="1:1" id="Inj-Jl-gVj"/>
@@ -63,7 +63,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" contentMode="left" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
-                    <rect key="frame" x="35" y="458" width="250" height="20"/>
+                    <rect key="frame" x="53" y="422" width="214" height="20"/>
                     <animations/>
                     <gestureRecognizers/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -76,21 +76,21 @@
                     </userDefinedRuntimeAttributes>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZT2-TF-oW0">
-                    <rect key="frame" x="35" y="14" width="250" height="20"/>
+                    <rect key="frame" x="53" y="14" width="214" height="20"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朴树" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRy-kE-hZ9">
-                    <rect key="frame" x="35" y="34" width="250" height="17"/>
+                    <rect key="frame" x="53" y="34" width="214" height="17"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBx-px-WgB">
-                    <rect key="frame" x="120" y="424" width="80" height="20"/>
+                    <rect key="frame" x="120" y="388" width="80" height="20"/>
                     <animations/>
                     <gestureRecognizers/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -120,6 +120,7 @@
                 <constraint firstItem="fmy-Es-e4Z" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="Ogg-gF-1RN"/>
                 <constraint firstItem="D9t-6x-o7k" firstAttribute="leading" secondItem="Adt-yX-Kcn" secondAttribute="leading" id="PEr-Bm-9E7"/>
                 <constraint firstItem="Adt-yX-Kcn" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="R15-Zk-3Zd"/>
+                <constraint firstItem="Adt-yX-Kcn" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="2:3" id="SyY-xB-YQz"/>
                 <constraint firstItem="XRy-kE-hZ9" firstAttribute="centerX" secondItem="ZT2-TF-oW0" secondAttribute="centerX" id="ZDg-s5-PqR"/>
                 <constraint firstItem="gBx-px-WgB" firstAttribute="top" secondItem="wzP-as-myT" secondAttribute="bottom" constant="34" id="aJZ-qb-c3q"/>
                 <constraint firstItem="wzP-as-myT" firstAttribute="top" secondItem="Adt-yX-Kcn" secondAttribute="bottom" constant="20" id="gDx-VG-7kD"/>
@@ -130,14 +131,19 @@
                 <constraint firstItem="WMI-Wc-Fx1" firstAttribute="trailing" secondItem="Adt-yX-Kcn" secondAttribute="trailing" id="w2n-fo-0qt"/>
             </constraints>
             <connections>
+                <outlet property="frontCoverToStarVerticallySpaceConstraint" destination="gDx-VG-7kD" id="ka0-uR-hVJ"/>
+                <outlet property="frontCoverToTopVerticallySpaceConstraint" destination="lGy-uv-HfU" id="0q7-Lb-VL8"/>
                 <outlet property="frontCoverView" destination="Adt-yX-Kcn" id="p3x-e1-iFU"/>
                 <outlet property="playButton" destination="EuO-ig-wsS" id="pra-Sy-2Dp"/>
                 <outlet property="progressView" destination="WMI-Wc-Fx1" id="mi0-TT-bf2"/>
                 <outlet property="sharerNickNameLabel" destination="gBx-px-WgB" id="Tej-py-xns"/>
+                <outlet property="sharerNickNameToShrareContentVerticallySpaceConstraint" destination="4hM-fA-H9p" id="fh4-v9-vdh"/>
                 <outlet property="shrareContentLabel" destination="fmy-Es-e4Z" id="4yO-YB-NY4"/>
                 <outlet property="songNameLabel" destination="ZT2-TF-oW0" id="sQw-zK-RJv"/>
+                <outlet property="songNameToSongerNameVerticallySpaceConstraint" destination="4C9-vI-fnM" id="tcg-WU-hEz"/>
                 <outlet property="songerNameLabel" destination="XRy-kE-hZ9" id="Efp-qQ-71O"/>
                 <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
+                <outlet property="starToSharerNickNameVerticallySpaceConstraint" destination="aJZ-qb-c3q" id="QJj-xs-llG"/>
             </connections>
             <point key="canvasLocation" x="535" y="383"/>
         </view>

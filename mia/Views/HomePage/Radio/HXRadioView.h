@@ -38,6 +38,12 @@
 @property (weak, nonatomic) IBOutlet            UILabel *sharerNickNameLabel;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *songNameToSongerNameVerticallySpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverToTopVerticallySpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverToStarVerticallySpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *starToSharerNickNameVerticallySpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sharerNickNameToShrareContentVerticallySpaceConstraint;
+
 - (IBAction)coverTaped;
 - (IBAction)sharerNickNameTaped;
 - (IBAction)playButtonPressed:(UIButton *)button;
