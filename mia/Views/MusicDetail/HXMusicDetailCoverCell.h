@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet    UIButton *playButton;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverToTopConstraint;
+
 - (IBAction)playButtonPressed;
 
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
