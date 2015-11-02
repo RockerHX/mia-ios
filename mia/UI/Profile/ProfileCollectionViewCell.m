@@ -153,7 +153,7 @@
 
 - (void)initPVView:(UIView *)contentView {
 	UIImageView *viewsImageView = [[UIImageView alloc] init];
-	[viewsImageView setImage:[UIImage imageNamed:@"MD-ViewCountIcon"]];
+	[viewsImageView setImage:[UIImage imageNamed:@"profile_views"]];
 	[contentView addSubview:viewsImageView];
 
 	_viewsLabel = [[MIALabel alloc] initWithFrame:CGRectZero
@@ -167,11 +167,11 @@
 	[viewsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
 		make.left.equalTo(contentView.mas_left);
-		make.size.mas_equalTo(CGSizeMake(16, 16));
+		make.size.mas_equalTo(CGSizeMake(25, 25));
 	}];
 
 	[_viewsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(contentView.mas_centerY);
+		make.centerY.equalTo(contentView.mas_centerY).offset(1);
 		make.left.equalTo(viewsImageView.mas_right).offset(8);
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
