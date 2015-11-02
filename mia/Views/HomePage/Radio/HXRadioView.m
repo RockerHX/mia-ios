@@ -84,6 +84,7 @@
 
 - (void)configLabel {
     _progressView.progress = 0.0f;
+    _shrareContentLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 70.0f;
     _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
 }
