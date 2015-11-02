@@ -223,8 +223,11 @@
 		[dict setObject:[NSNumber numberWithFloat:totalSeconds] forKey:MPMediaItemPropertyPlaybackDuration];
 		[dict setObject:[NSNumber numberWithFloat:[_audioStream currentTimePlayed].playbackTimeInSeconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
 
-		MPMediaItemArtwork * mArt = [[MPMediaItemArtwork alloc] initWithImage:coverImage];
-		[dict setObject:mArt forKey:MPMediaItemPropertyArtwork];
+		if (coverImage) {
+			MPMediaItemArtwork * mArt = [[MPMediaItemArtwork alloc] initWithImage:coverImage];
+			[dict setObject:mArt forKey:MPMediaItemPropertyArtwork];
+		}
+		
 		[[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
 
 	});
