@@ -9,6 +9,7 @@
 
 #import "LocationMgr.h"
 #import "CLLocation+YCLocation.h"
+#import "NSString+IsNull.h"
 
 @interface LocationMgr() <CLLocationManagerDelegate>
 
@@ -102,7 +103,11 @@
 			}
 
 			_currentCoordinate = marsLoction.coordinate;
-			_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
+			if ([NSString isNull:placemark.locality] || [NSString isNull:placemark.subLocality]) {
+				_currentAddress = nil;
+			} else {
+				_currentAddress = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.subLocality];
+			}
 		}
 	}];
 
