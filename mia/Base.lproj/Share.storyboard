@@ -32,7 +32,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌手" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKA-Fg-Bsf">
-                                                <rect key="frame" x="146" y="80" width="28" height="17"/>
+                                                <rect key="frame" x="146" y="82" width="28" height="17"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
@@ -130,7 +130,7 @@
                                             <constraint firstItem="S97-IU-UTo" firstAttribute="trailing" secondItem="eqr-fl-Bew" secondAttribute="trailing" id="8kj-7h-h3X"/>
                                             <constraint firstItem="tja-YF-1QB" firstAttribute="top" secondItem="e3c-v4-ZHl" secondAttribute="top" constant="60" id="DWG-QD-3a7"/>
                                             <constraint firstItem="kpK-2C-los" firstAttribute="centerX" secondItem="eqr-fl-Bew" secondAttribute="centerX" id="GDB-eO-ewy"/>
-                                            <constraint firstItem="aKA-Fg-Bsf" firstAttribute="top" secondItem="tja-YF-1QB" secondAttribute="bottom" id="S0A-2t-0De"/>
+                                            <constraint firstItem="aKA-Fg-Bsf" firstAttribute="top" secondItem="tja-YF-1QB" secondAttribute="bottom" constant="2" id="S0A-2t-0De"/>
                                             <constraint firstItem="o9K-gF-vwm" firstAttribute="top" secondItem="eqr-fl-Bew" secondAttribute="bottom" constant="15" id="UPt-dY-GPd"/>
                                             <constraint firstItem="eqr-fl-Bew" firstAttribute="centerX" secondItem="e3c-v4-ZHl" secondAttribute="centerX" id="Zpq-BK-EyY"/>
                                             <constraint firstItem="aKA-Fg-Bsf" firstAttribute="centerX" secondItem="tja-YF-1QB" secondAttribute="centerX" id="a6P-gl-jHc"/>

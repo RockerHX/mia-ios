@@ -62,7 +62,7 @@
                         <action selector="starButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="cgy-dx-Mke"/>
                     </connections>
                 </button>
-                <label opaque="NO" contentMode="left" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="207" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
+                <label opaque="NO" contentMode="left" text="评论内容+♫地理位置信息" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="fmy-Es-e4Z" customClass="TTTAttributedLabel">
                     <rect key="frame" x="35" y="458" width="250" height="20"/>
                     <animations/>
                     <gestureRecognizers/>
