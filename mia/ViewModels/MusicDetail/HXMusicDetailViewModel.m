@@ -11,6 +11,7 @@
 #import "CommentModel.h"
 #import "HXComment.h"
 #import "LocationMgr.h"
+#import "HXVersion.h"
 
 typedef void(^CommentReuqestBlock)(BOOL);
 
@@ -67,7 +68,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (CGFloat)frontCoverCellHeight {
-    return 240.0f;
+    return [HXVersion isIPhone5SPrior] ? 225.0f : 240.0f;
 }
 
 - (CGFloat)infectCellHeight {

@@ -16,8 +16,9 @@
 
 @end
 
-@interface HXTextView: UITextView
+@interface HXTextView: UITextView <NSLayoutManagerDelegate>
 
+@property (nonatomic, assign)           IBInspectable  CGFloat  lineSpacing;
 @property (nullable, nonatomic, copy)   IBInspectable NSString *placeholderText;
 @property (nullable, nonatomic, strong) IBInspectable  UIColor *placeholderColor;
 

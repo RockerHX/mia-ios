@@ -38,22 +38,12 @@
     _firstLoad = YES;
     
     self.text = @"";
+    self.layoutManager.delegate = self;
     if (!self.backgroundColor) {
         self.backgroundColor = [UIColor clearColor];
     }
     _placeholderColor = [UIColor lightGrayColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextViewTextDidChangeNotification object:self];
-    [self addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"contentSize"]) {
-        
-    }
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - DrawRect Methods
@@ -138,6 +128,14 @@
 #pragma mark - Parent Methods
 - (void)setText:(NSString *)text {
     [super setText:text];
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineHeightMultiple = 100.0f;
+    NSString *string = text;
+    NSDictionary *ats = @{NSFontAttributeName : self.font,
+                          NSParagraphStyleAttributeName : paragraphStyle};
+    self.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
+    
     [self updateLayout];
     [self layoutGUI];
 }
@@ -157,6 +155,11 @@
         [_delegate textViewSizeChanged];
     }
     _firstLoad = NO;
+}
+
+#pragma mark - NSLayoutManagerDelegate Methods
+- (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect {
+    return _lineSpacing; // For really wide spacing; pick your own value
 }
 
 @end

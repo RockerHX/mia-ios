@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "SongListPlayer.h"
 #import "MusicMgr.h"
+#import "HXVersion.h"
 
 @interface HXMusicDetailCoverCell () <SongListPlayerDataSource, SongListPlayerDelegate>
 @end
@@ -36,6 +37,10 @@
 - (void)viewConfig {
     _coverImageView.layer.borderColor = UIColorFromRGB(225.0f, 226.0f, 227.0f).CGColor;
     _coverImageView.layer.borderWidth = 1.0f;
+    
+    if ([HXVersion isIPhone5SPrior]) {
+        _coverToTopConstraint.constant = 25.0f;
+    }
 }
 
 - (void)initData {

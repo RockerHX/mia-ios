@@ -94,6 +94,7 @@
                                         <animations/>
                                         <connections>
                                             <outlet property="coverImageView" destination="gqq-V3-m8q" id="C7m-dK-2fC"/>
+                                            <outlet property="coverToTopConstraint" destination="7zT-ze-1Sg" id="FFI-Cv-6CN"/>
                                             <outlet property="delegate" destination="ryk-wB-QfC" id="5vV-AI-raD"/>
                                             <outlet property="playButton" destination="2D4-xl-Kk1" id="Ud7-6L-RxY"/>
                                         </connections>

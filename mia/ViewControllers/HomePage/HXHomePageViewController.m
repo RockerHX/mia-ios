@@ -136,7 +136,14 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.backgroundColor = [UIColor whiteColor];
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
+    [self hanleUnderiPhone6Size];
     [self animationViewConfig];
+}
+
+- (void)hanleUnderiPhone6Size {
+    if ([HXVersion isIPhone5SPrior]) {
+        _fishBottomConstraint.constant = _fishBottomConstraint.constant - 5.0f;
+    }
 }
 
 - (void)animationViewConfig {
@@ -386,7 +393,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     [_waveView reset];
     
     // 重新布局
-    _fishBottomConstraint.constant = 20.0f;
+    _fishBottomConstraint.constant = [HXVersion isIPhone5SPrior] ? 15.0f : 20.0f;
     _headerViewBottomConstraint.constant = 2.0f;
     _fishView.alpha = 1.0f;
     _bubbleView.alpha = 1.0f;
@@ -558,8 +565,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
     loginViewController.loginViewControllerDelegate = self;
     [loginViewController loginSuccess:success];
+    UINavigationController *loginNavigationViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     __weak __typeof__(self)weakSelf = self;
-    [self presentViewController:loginViewController animated:YES completion:^{
+    [self presentViewController:loginNavigationViewController animated:YES completion:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf->_toLogin = NO;
     }];
@@ -576,7 +584,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 // 小鱼跳出动画
 - (void)startPopFishAnimation {
-    _fishBottomConstraint.constant = self.view.frame.size.height/2 - 140.0f;
+    _fishBottomConstraint.constant = self.view.frame.size.height/2 - ([HXVersion isIPhone5SPrior] ? 110.0f : 140.0f);
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;

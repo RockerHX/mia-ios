@@ -17,6 +17,7 @@
 #import "MusicMgr.h"
 #import "SongListPlayer.h"
 #import "FavoriteMgr.h"
+#import "HXVersion.h"
 
 @interface HXRadioView () <TTTAttributedLabelDelegate> {
 	ShareItem *_currentItem;
@@ -78,7 +79,7 @@
 
 - (void)viewConfig {
     [self configLabel];
-    
+    [self hanleUnderiPhone6Size];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(displayPlayProgress) userInfo:nil repeats:YES];
 }
 
@@ -87,6 +88,20 @@
     _shrareContentLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 70.0f;
     _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
+}
+
+- (void)hanleUnderiPhone6Size {
+    if ([HXVersion isIPhone5SPrior]) {
+        _shrareContentLabel.lineSpacing = 5.0f;
+        
+        _songNameToSongerNameVerticallySpaceConstraint.constant = _songNameToSongerNameVerticallySpaceConstraint.constant - 2.0f;
+        _frontCoverToTopVerticallySpaceConstraint.constant = _frontCoverToTopVerticallySpaceConstraint.constant - 12.0f;
+        _frontCoverToStarVerticallySpaceConstraint.constant = _frontCoverToStarVerticallySpaceConstraint.constant - 10.0f;
+        _starToSharerNickNameVerticallySpaceConstraint.constant = _starToSharerNickNameVerticallySpaceConstraint.constant - 15.0f;
+        _sharerNickNameToShrareContentVerticallySpaceConstraint.constant = _sharerNickNameToShrareContentVerticallySpaceConstraint.constant - 3.0f;
+        
+        [self layoutIfNeeded];
+    }
 }
 
 #pragma mark - Notification
