@@ -96,6 +96,7 @@
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
 		3990B1E31BCDF5C100D8B54B /* default_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */; };
+		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39AD4DA21BD7C8530065BA06 /* no_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39AD4DA11BD7C8530065BA06 /* no_share@2x.png */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -348,6 +349,8 @@
 		397FA5381BAC0CF3003FD186 /* UIScrollView+MIARefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MIARefresh.h"; sourceTree = "<group>"; };
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
 		3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar@2x.png"; sourceTree = "<group>"; };
+		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
+		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		39AD4DA11BD7C8530065BA06 /* no_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_share@2x.png"; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
 		39B4351F1BD5272400D6CB13 /* LocationMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationMgr.m; sourceTree = "<group>"; };
@@ -1175,6 +1178,15 @@
 			path = MIAUIButton;
 			sourceTree = "<group>";
 		};
+		3997F8311BE750A000F6597D /* CacheHelper */ = {
+			isa = PBXGroup;
+			children = (
+				3997F8321BE750A000F6597D /* CacheHelper.h */,
+				3997F8331BE750A000F6597D /* CacheHelper.m */,
+			);
+			path = CacheHelper;
+			sourceTree = "<group>";
+		};
 		39B4351D1BD5272400D6CB13 /* LocationMgr */ = {
 			isa = PBXGroup;
 			children = (
@@ -1187,6 +1199,7 @@
 		39BCAD3D1B9F141B00C6F7F2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3997F8311BE750A000F6597D /* CacheHelper */,
 				39FBCC951BE24F8900527A6C /* UpdateHelper */,
 				39DA9BF01BDB630E001C0CD1 /* FileLog */,
 				39B4351D1BD5272400D6CB13 /* LocationMgr */,
@@ -1924,6 +1937,7 @@
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
+				3997F8341BE750A000F6597D /* CacheHelper.m in Sources */,
 				3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */,
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,

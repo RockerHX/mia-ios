@@ -45,6 +45,15 @@
 	return dirPath;
 }
 
++ (NSString *)userDir {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *dirPath = [DOCUMENT_PATH stringByAppendingPathComponent:@"/User"];
+	if(![fileManager fileExistsAtPath:dirPath]) {
+		[fileManager createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	return dirPath;
+}
+
 + (NSString *)userDirWithUID:(NSString *)uid {
 	NSString *uidPath = [NSString isNull:uid] ? @"0" : uid;
 	NSString *subDir = [NSString stringWithFormat:@"/User/%@", uidPath];

@@ -9,6 +9,8 @@
 
 @interface PathHelper : NSObject
 
++ (NSString *)cacheDir;
+
 /**
  *  播放器缓存目录
  *
@@ -20,6 +22,8 @@
  *
  */
 + (NSString *)favoriteCacheDir;
+
++ (NSString *)userDir;
 
 /**
  *  以UID为目录名的用户目录

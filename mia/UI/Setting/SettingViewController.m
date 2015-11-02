@@ -23,6 +23,7 @@
 #import "HXAlertBanner.h"
 #import "AFNHttpClient.h"
 #import "FileLog.h"
+#import "CacheHelper.h"
 
 @interface SettingViewController ()
 <UINavigationControllerDelegate,
@@ -47,6 +48,7 @@ UITextFieldDelegate>
 	MIALabel 		*_genderLabel;
 	UISwitch 		*_autoPlaySwitch;
 	UISwitch 		*_playWith3GSwitch;
+	MIALabel 		*_cacheSizeLabel;
 
 	MBProgressHUD 	*_uploadAvatarProgressHUD;
 
@@ -66,6 +68,7 @@ UITextFieldDelegate>
 	// Do any additional setup after loading the view, typically from a nib.
 
 	[self initUI];
+	[self checkCacheSize];
 
 	[MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid]
 	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -503,9 +506,25 @@ UITextFieldDelegate>
 													 numberLines:1];
 	[contentView addSubview:titleLabel];
 
+	_cacheSizeLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+														text:@""
+														font:UIFontFromSize(16.0f)
+												   textColor:UIColorFromHex(@"808080", 1.0)
+											   textAlignment:NSTextAlignmentRight
+												 numberLines:1];
+	[contentView addSubview:_cacheSizeLabel];
+
+
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.edges.equalTo(contentView).insets(UIEdgeInsetsMake(15, 15, 15, 15));
 	}];
+	[_cacheSizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(contentView.mas_top);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.width.equalTo(@200);
+		make.right.equalTo(contentView.mas_right).offset(-15);
+	}];
+
 }
 
 - (void)initFeedbackView {
@@ -715,6 +734,13 @@ UITextFieldDelegate>
 	}];
 }
 
+- (void)checkCacheSize {
+	[CacheHelper checkCacheSizeWithCompleteBlock:^(unsigned long long cacheSize) {
+		float sizeWithMB = cacheSize / 1024 / 1024;
+		[_cacheSizeLabel setText:[NSString stringWithFormat:@"%.0f MB", sizeWithMB]];
+	}];
+}
+
 #pragma mark - delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -877,7 +903,13 @@ UITextFieldDelegate>
 }
 
 - (void)cleanCacheTouchAction:(id)sender {
-	NSLog(@"clean cache");
+	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在清除缓存..."];
+	[CacheHelper cleanCacheWithCompleteBlock:^{
+		[_cacheSizeLabel setText:@"缓存已清除"];
+
+		[aMBProgressHUD removeFromSuperview];
+		[HXAlertBanner showWithMessage:@"缓存清除成功" tap:nil];
+	}];
 }
 
 - (void)versionTouchAction:(id)sender {
