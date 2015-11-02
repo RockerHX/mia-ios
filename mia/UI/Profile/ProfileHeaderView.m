@@ -39,7 +39,7 @@
 }
 
 - (void)initUI {
-	static const CGFloat kCoverMarginTop = 44;
+	static const CGFloat kCoverMarginTop = 40;
 
 	CGRect coverFrame = CGRectMake(0,
 								   kCoverMarginTop,
@@ -162,11 +162,11 @@
 	const static CGFloat kFavoriteLabelHeight		= 20;
 
 	const static CGFloat kShareIconMarginLeft		= 13;
-	const static CGFloat kShareIconMarginBottom		= 17;
+	const static CGFloat kShareIconMarginBottom		= 13;
 	const static CGFloat kShareIconWidth			= 16;
 
 	const static CGFloat kShareLabelMarginLeft		= kShareIconMarginLeft + kShareIconWidth + 8;
-	const static CGFloat kShareLabelMarginBottom	= 14;
+	const static CGFloat kShareLabelMarginBottom	= 10;
 	const static CGFloat kShareLabelWidth			= 30;
 	const static CGFloat kShareLabelHeight			= 20;
 
