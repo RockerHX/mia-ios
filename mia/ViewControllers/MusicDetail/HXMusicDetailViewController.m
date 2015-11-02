@@ -149,8 +149,7 @@
     if ([[UserSession standard] isLogined]) {
         [_editCommentView becomeFirstResponder];
     } else {
-        LoginViewController *loginViewController = [[LoginViewController alloc] init];
-        [self presentViewController:loginViewController animated:YES completion:nil];
+        [self presentLoginViewController];
     }
 }
 
@@ -237,6 +236,12 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(row - 1) inSection:(section - 1)];
     
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+}
+
+- (void)presentLoginViewController {
+    LoginViewController *loginViewController = [[LoginViewController alloc] init];
+    UINavigationController *loginNavigationViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    [self presentViewController:loginNavigationViewController animated:YES completion:nil];
 }
 
 #pragma mark - Table View Data Source Methods
@@ -375,8 +380,7 @@
              [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
          }];
     } else {
-        LoginViewController *loginViewController = [[LoginViewController alloc] init];
-        [self presentViewController:loginViewController animated:YES completion:nil];
+        [self presentLoginViewController];
     }
 }
 

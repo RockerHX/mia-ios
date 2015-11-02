@@ -565,8 +565,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
     loginViewController.loginViewControllerDelegate = self;
     [loginViewController loginSuccess:success];
+    UINavigationController *loginNavigationViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     __weak __typeof__(self)weakSelf = self;
-    [self presentViewController:loginViewController animated:YES completion:^{
+    [self presentViewController:loginNavigationViewController animated:YES completion:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf->_toLogin = NO;
     }];
