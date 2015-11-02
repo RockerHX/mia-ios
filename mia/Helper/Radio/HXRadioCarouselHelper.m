@@ -181,6 +181,24 @@
     _firstLoad = NO;
 }
 
+- (void)carouselDidScroll:(iCarousel *)carousel {
+    if (!_firstLoad) {
+        CGFloat scrollOffset = carousel.scrollOffset;
+        CGFloat width = carousel.frame.size.width;
+        if (scrollOffset < 0) {
+            CGFloat offsetX = fabs(width * scrollOffset);
+            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoLastest:offsetX:)]) {
+                [_delegate helperScrollNoLastest:self offsetX:offsetX];
+            }
+        } else if (scrollOffset > 2) {
+            CGFloat offsetX = width * (scrollOffset - 2);
+            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoNewest:offsetX:)]) {
+                [_delegate helperScrollNoNewest:self offsetX:offsetX];
+            }
+        }
+    }
+}
+
 #pragma mark - HXRadioViewDelegate Methods
 - (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item {
 	if ([_items[_carousel.currentItemIndex] isEqual:item]) {

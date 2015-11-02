@@ -19,31 +19,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F49-bH-9BK">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-NoMoreLastest" translatesAutoresizingMaskIntoConstraints="NO" id="DZz-PE-QxU">
+                                <rect key="frame" x="-35" y="157" width="35" height="70"/>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="I0a-H5-MNS"/>
+                                    <constraint firstAttribute="width" constant="35" id="rt3-Fw-Bi9"/>
+                                </constraints>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8o-h5-qi0" customClass="iCarousel">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="384"/>
                                 <animations/>
                                 <gestureRecognizers/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-NoMoreNewest" translatesAutoresizingMaskIntoConstraints="NO" id="fR7-r2-rfU">
+                                <rect key="frame" x="320" y="157" width="35" height="70"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="KBC-98-S49"/>
+                                    <constraint firstAttribute="height" constant="70" id="SCw-Am-GGT"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <constraints>
                             <constraint firstItem="W8o-h5-qi0" firstAttribute="top" secondItem="mYa-hk-Nog" secondAttribute="top" id="3yn-6y-zj6"/>
-                            <constraint firstItem="F49-bH-9BK" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="APT-WH-mWw"/>
+                            <constraint firstItem="DZz-PE-QxU" firstAttribute="trailing" secondItem="W8o-h5-qi0" secondAttribute="leading" id="6lx-ci-tDf"/>
+                            <constraint firstItem="DZz-PE-QxU" firstAttribute="centerY" secondItem="W8o-h5-qi0" secondAttribute="centerY" id="K7W-lt-mOs"/>
                             <constraint firstItem="W8o-h5-qi0" firstAttribute="leading" secondItem="mYa-hk-Nog" secondAttribute="leading" id="Os9-um-XnM"/>
                             <constraint firstAttribute="trailing" secondItem="W8o-h5-qi0" secondAttribute="trailing" id="TMe-gv-kvC"/>
-                            <constraint firstItem="F49-bH-9BK" firstAttribute="top" secondItem="mYa-hk-Nog" secondAttribute="top" id="drk-BI-WCQ"/>
+                            <constraint firstItem="fR7-r2-rfU" firstAttribute="centerY" secondItem="W8o-h5-qi0" secondAttribute="centerY" id="X2O-j7-4yL"/>
                             <constraint firstAttribute="bottom" secondItem="W8o-h5-qi0" secondAttribute="bottom" constant="120" id="pP9-HX-7Tl"/>
-                            <constraint firstAttribute="trailing" secondItem="F49-bH-9BK" secondAttribute="trailing" id="qLV-5l-Iwm"/>
-                            <constraint firstAttribute="bottom" secondItem="F49-bH-9BK" secondAttribute="bottom" id="sJy-if-FCY"/>
+                            <constraint firstItem="fR7-r2-rfU" firstAttribute="leading" secondItem="W8o-h5-qi0" secondAttribute="trailing" id="v5N-d9-zhH"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="carousel" destination="W8o-h5-qi0" id="ldq-6s-GDn"/>
+                        <outlet property="noMoreLastestLogo" destination="DZz-PE-QxU" id="ao4-F5-5k2"/>
+                        <outlet property="noMoreLastestLogoRightConstraint" destination="6lx-ci-tDf" id="ymQ-kd-Rmf"/>
+                        <outlet property="noMoreLogoWidthConstraint" destination="rt3-Fw-Bi9" id="9Iy-mh-F0c"/>
+                        <outlet property="noMoreNewestLogo" destination="fR7-r2-rfU" id="JTm-4g-ZKA"/>
+                        <outlet property="noMoreNewestLogoLeftConstraint" destination="v5N-d9-zhH" id="gZm-B3-qG8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zeR-tz-v1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,6 +322,8 @@
     <resources>
         <image name="1" width="111" height="120"/>
         <image name="HP-Bubble" width="185" height="185"/>
+        <image name="HP-NoMoreLastest" width="35" height="70"/>
+        <image name="HP-NoMoreNewest" width="35" height="70"/>
         <image name="HP-ProfileIcon" width="32" height="32"/>
         <image name="HP-ShareIcon" width="32" height="32"/>
     </resources>

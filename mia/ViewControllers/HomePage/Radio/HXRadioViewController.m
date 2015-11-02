@@ -342,4 +342,25 @@
 	}
 }
 
+static CGFloat offsetXThreshold = 60.0f;
+- (void)helperScrollNoLastest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX {
+    CGFloat offset = (offsetX - offsetXThreshold);
+    CGFloat logoWidth = _noMoreLogoWidthConstraint.constant;
+    if ((offset > 0.0f) && (offset < (logoWidth * 3))) {
+        _noMoreLastestLogo.center = CGPointMake((-(logoWidth/2) + offset/3), _noMoreLastestLogo.center.y);
+    } else if (offset < 0.0f) {
+        _noMoreLastestLogo.center = CGPointMake(-(logoWidth/2), _noMoreLastestLogo.center.y);
+    }
+}
+
+- (void)helperScrollNoNewest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX {
+    CGFloat offset = (offsetX - offsetXThreshold);
+    CGFloat logoWidth = _noMoreLogoWidthConstraint.constant;
+    if ((offset > 0.0f) && (offset < (logoWidth * 3))) {
+        _noMoreNewestLogo.center = CGPointMake((SCREEN_WIDTH + (logoWidth/2) - offset/3), _noMoreLastestLogo.center.y);
+    } else if (offset < 0.0f) {
+        _noMoreNewestLogo.center = CGPointMake(SCREEN_WIDTH + (logoWidth/2), _noMoreLastestLogo.center.y);
+    }
+}
+
 @end
