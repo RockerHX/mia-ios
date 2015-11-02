@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--分享-->
@@ -22,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e3c-v4-ZHl">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="403"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tja-YF-1QB">
                                                 <rect key="frame" x="136" y="60" width="48" height="20"/>
@@ -39,11 +40,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqr-fl-Bew">
-                                                <rect key="frame" x="35" y="60" width="250" height="250"/>
+                                                <rect key="frame" x="53" y="60" width="214" height="214"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="250" id="Ptk-7z-Nqa"/>
                                                     <constraint firstAttribute="width" secondItem="eqr-fl-Bew" secondAttribute="height" multiplier="1:1" id="hbR-hq-cmr"/>
                                                 </constraints>
                                                 <state key="normal" image="C-AddMusicIcon" backgroundImage="C-AddMusicBG"/>
@@ -52,10 +52,10 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpK-2C-los">
-                                                <rect key="frame" x="35" y="60" width="250" height="250"/>
+                                                <rect key="frame" x="53" y="60" width="214" height="214"/>
                                                 <subviews>
                                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nne-Bv-oUO">
-                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="214" height="214"/>
                                                         <animations/>
                                                         <gestureRecognizers/>
                                                         <connections>
@@ -63,7 +63,7 @@
                                                         </connections>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ZK-C9-oiT">
-                                                        <rect key="frame" x="108" y="108" width="35" height="35"/>
+                                                        <rect key="frame" x="90" y="90" width="35" height="35"/>
                                                         <animations/>
                                                         <state key="normal" image="M-PlayIcon"/>
                                                         <connections>
@@ -83,17 +83,17 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9K-gF-vwm">
-                                                <rect key="frame" x="128" y="325" width="64" height="20"/>
+                                                <rect key="frame" x="128" y="289" width="64" height="20"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="250" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="S97-IU-UTo">
-                                                <rect key="frame" x="35" y="353" width="250" height="50"/>
+                                                <rect key="frame" x="53" y="317" width="214" height="50"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDk-Uf-Buq" customClass="HXTextView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="214" height="50"/>
                                                         <animations/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -102,6 +102,9 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="“说说此刻的想法”"/>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="placeholderAlignment">
                                                                 <integer key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="lineSpacing">
+                                                                <real key="value" value="5"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -206,6 +209,7 @@
                         <constraints>
                             <constraint firstItem="rG3-6h-wN2" firstAttribute="centerX" secondItem="7dM-sR-MB7" secondAttribute="centerX" id="B7q-Hf-X33"/>
                             <constraint firstItem="gWa-kU-Jf2" firstAttribute="leading" secondItem="7dM-sR-MB7" secondAttribute="leading" id="EPu-8T-pX9"/>
+                            <constraint firstItem="eqr-fl-Bew" firstAttribute="width" secondItem="7dM-sR-MB7" secondAttribute="width" multiplier="2:3" id="Jaf-3i-DwA"/>
                             <constraint firstItem="rG3-6h-wN2" firstAttribute="top" secondItem="gWa-kU-Jf2" secondAttribute="bottom" id="MY2-Yg-YS8"/>
                             <constraint firstItem="gWa-kU-Jf2" firstAttribute="top" secondItem="7dM-sR-MB7" secondAttribute="top" id="VUk-y0-OQZ"/>
                             <constraint firstAttribute="trailing" secondItem="gWa-kU-Jf2" secondAttribute="trailing" id="mZn-Ts-cve"/>
