@@ -812,6 +812,18 @@ UITextFieldDelegate>
 	[MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
 			[[UserSession standard] logout];
+
+			[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+				if (success) {
+					NSLog(@"logout then sendUUID success");
+				} else {
+					id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+					NSLog(@"logout then sendUUID failed:%@", error);
+				}
+			} timeoutBlock:^(MiaRequestItem *requestItem) {
+				NSLog(@"logout then sendUUID timeout");
+			}];
+
 			[HXAlertBanner showWithMessage:@"退出登录成功" tap:nil];
 			[self.navigationController popToRootViewControllerAnimated:YES];
 		} else {
