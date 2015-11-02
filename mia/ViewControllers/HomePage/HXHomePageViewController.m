@@ -33,6 +33,7 @@
 #import "ShareItem.h"
 #import "UpdateHelper.h"
 #import "FavoriteMgr.h"
+#import "HXNavigationController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -53,7 +54,7 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -565,7 +566,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
     loginViewController.loginViewControllerDelegate = self;
     [loginViewController loginSuccess:success];
-    UINavigationController *loginNavigationViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
     __weak __typeof__(self)weakSelf = self;
     [self presentViewController:loginNavigationViewController animated:YES completion:^{
         __strong __typeof__(self)strongSelf = weakSelf;
