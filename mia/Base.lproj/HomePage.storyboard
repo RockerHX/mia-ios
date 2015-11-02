@@ -69,7 +69,7 @@
         <!--Navigation Controller-->
         <scene sceneID="hbo-UC-g8U">
             <objects>
-                <navigationController id="QLH-xI-kzT" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXNavigationController" id="QLH-xI-kzT" customClass="HXNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xvg-4o-76r">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

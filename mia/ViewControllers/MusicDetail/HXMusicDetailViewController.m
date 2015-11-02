@@ -28,6 +28,7 @@
 #import "HXGrowingTextView.h"
 #import "GuestProfileViewController.h"
 #import "FavoriteMgr.h"
+#import "HXNavigationController.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -240,7 +241,7 @@
 
 - (void)presentLoginViewController {
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    UINavigationController *loginNavigationViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
     [self presentViewController:loginNavigationViewController animated:YES completion:nil];
 }
 
