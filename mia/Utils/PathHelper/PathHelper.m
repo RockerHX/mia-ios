@@ -45,12 +45,30 @@
 	return dirPath;
 }
 
++ (NSString *)userDir {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *dirPath = [DOCUMENT_PATH stringByAppendingPathComponent:@"/User"];
+	if(![fileManager fileExistsAtPath:dirPath]) {
+		[fileManager createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	return dirPath;
+}
+
 + (NSString *)userDirWithUID:(NSString *)uid {
 	NSString *uidPath = [NSString isNull:uid] ? @"0" : uid;
 	NSString *subDir = [NSString stringWithFormat:@"/User/%@", uidPath];
 
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSString *dirPath = [DOCUMENT_PATH stringByAppendingPathComponent:subDir];
+	if(![fileManager fileExistsAtPath:dirPath]) {
+		[fileManager createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	return dirPath;
+}
+
++ (NSString *)logDir {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *dirPath = [DOCUMENT_PATH stringByAppendingPathComponent:@"/Log"];
 	if(![fileManager fileExistsAtPath:dirPath]) {
 		[fileManager createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
 	}
@@ -68,6 +86,11 @@
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url {
 	return [NSString stringWithFormat:@"%@/%@", [self favoriteCacheDir], [NSString md5HexDigest:url]];
 }
+
++ (NSString *)logFileName {
+	return [NSString stringWithFormat:@"%@/app.log", [self logDir]];
+}
+
 @end
 
 

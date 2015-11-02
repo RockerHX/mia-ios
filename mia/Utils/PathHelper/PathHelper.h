@@ -9,6 +9,8 @@
 
 @interface PathHelper : NSObject
 
++ (NSString *)cacheDir;
+
 /**
  *  播放器缓存目录
  *
@@ -21,6 +23,8 @@
  */
 + (NSString *)favoriteCacheDir;
 
++ (NSString *)userDir;
+
 /**
  *  以UID为目录名的用户目录
  *
@@ -28,6 +32,8 @@
  *
  */
 + (NSString *)userDirWithUID:(NSString *)uid;
+
++ (NSString *)logDir;
 
 /**
  *  分享列表的本地缓存文件路径
@@ -44,4 +50,7 @@
 + (NSString *)favoriteArchivePathWithUID:(NSString *)uid;
 
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url;
+
++ (NSString *)logFileName;
+
 @end

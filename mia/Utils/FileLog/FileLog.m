@@ -7,6 +7,7 @@
 //
 
 #import "FileLog.h"
+#import "PathHelper.h"
 
 const static unsigned long long kMaxLogFileSize		= 1024 * 100;	// 单位字节，Log文件大小，超过这个大小会删除文件
 const static unsigned long long kLatestLogSize 		= 1024 * 20;	// 单位字节，读取的Log长度
@@ -29,7 +30,7 @@ const static long kLogTimesForCheckFileSize			= 1000;			// 单次生命周期内
 
 - (id) init {
     if (self == [super init]) {
-		_logFilePath = [self logFilePath];
+		_logFilePath = [PathHelper logFileName];
 
 		if (![[NSFileManager defaultManager] fileExistsAtPath:_logFilePath]) {
 			[[NSFileManager defaultManager] createFileAtPath:_logFilePath contents:nil attributes:nil];
@@ -88,13 +89,6 @@ const static long kLogTimesForCheckFileSize			= 1000;			// 单次生命周期内
 }
 
 #pragma mark - Private Methods
-- (NSString *)logFilePath {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"app.log"];
-
-	return filePath;
-}
 
 - (unsigned long long)logFieSize {
 	NSError* error;
