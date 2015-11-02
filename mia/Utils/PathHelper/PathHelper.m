@@ -57,6 +57,15 @@
 	return dirPath;
 }
 
++ (NSString *)logDir {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *dirPath = [DOCUMENT_PATH stringByAppendingPathComponent:@"/Log"];
+	if(![fileManager fileExistsAtPath:dirPath]) {
+		[fileManager createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	return dirPath;
+}
+
 + (NSString *)shareArchivePathWithUID:(NSString *)uid {
 	return [NSString stringWithFormat:@"%@/sharelist.archive", [self userDirWithUID:uid]];
 }
@@ -68,6 +77,11 @@
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url {
 	return [NSString stringWithFormat:@"%@/%@", [self favoriteCacheDir], [NSString md5HexDigest:url]];
 }
+
++ (NSString *)logFileName {
+	return [NSString stringWithFormat:@"%@/app.log", [self logDir]];
+}
+
 @end
 
 

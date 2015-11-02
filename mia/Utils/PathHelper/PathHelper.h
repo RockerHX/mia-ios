@@ -29,6 +29,8 @@
  */
 + (NSString *)userDirWithUID:(NSString *)uid;
 
++ (NSString *)logDir;
+
 /**
  *  分享列表的本地缓存文件路径
  *
@@ -44,4 +46,7 @@
 + (NSString *)favoriteArchivePathWithUID:(NSString *)uid;
 
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url;
+
++ (NSString *)logFileName;
+
 @end
