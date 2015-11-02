@@ -91,7 +91,7 @@
 
 	static const CGFloat kTextFieldMarginLeft		= 18;
 	static const CGFloat kTextFieldHeight			= 45;
-	static const CGFloat kUserNameMarginTop			= 64 + 30;
+	static const CGFloat kUserNameMarginTop			= 25;
 	static const CGFloat kVerificationCodeMarginTop	= kUserNameMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kNickNameMarginTop			= kVerificationCodeMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kFirstPasswordMarginTop	= kNickNameMarginTop + kTextFieldHeight + 5;
@@ -346,7 +346,7 @@
 	float width = _inputView.frame.size.width;
 	float height = _inputView.frame.size.height;
 
-	static const CGFloat kOffsetForKeyboard = 30;
+	static const CGFloat kOffsetForKeyboard = 80;
 	CGRect rect = CGRectMake(0.0f, -kOffsetForKeyboard, width,height);
 	_inputView.frame = rect;
 	[UIView commitAnimations];
