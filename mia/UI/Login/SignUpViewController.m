@@ -48,14 +48,6 @@
 	[self initUI];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
-- (BOOL)prefersStatusBarHidden {
-	return NO;
-}
-
 - (void)initUI {
 	static NSString *kSignUpTitle = @"注册";
 	self.title = kSignUpTitle;

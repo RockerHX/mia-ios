@@ -71,10 +71,6 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	return UIStatusBarStyleLightContent;
 }
 
-- (BOOL)prefersStatusBarHidden {
-	return YES;
-}
-
 - (void)initUI {
 	self.view.backgroundColor = [UIColor redColor];
 

@@ -44,14 +44,6 @@
 	[self initUI];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
-- (BOOL)prefersStatusBarHidden {
-	return NO;
-}
-
 - (void)initUI {
 	static NSString *kResetTitle = @"忘记密码";
 	self.title = kResetTitle;
