@@ -27,6 +27,9 @@ typedef NS_ENUM(NSUInteger, HXRadioCarouselHelperAction) {
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper;
 
+- (void)helperScrollNoLastest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX;
+- (void)helperScrollNoNewest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX;
+
 @end
 
 @class ShareItem;
