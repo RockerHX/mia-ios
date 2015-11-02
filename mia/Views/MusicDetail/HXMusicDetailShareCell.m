@@ -50,6 +50,9 @@
     
     NSRange range = [_shareInfoLabel.text rangeOfString:(sharerName ?: @"")];
     [_shareInfoLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+    NSMutableDictionary *linkAttributes = _shareInfoLabel.linkAttributes.mutableCopy;
+    [linkAttributes setValue:@(0) forKey:@"NSUnderline"];
+    _shareInfoLabel.linkAttributes = linkAttributes;
 }
 
 

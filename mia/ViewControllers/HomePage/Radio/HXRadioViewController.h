@@ -22,8 +22,14 @@
 
 @interface HXRadioViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet 		id  <HXRadioViewControllerDelegate>delegate;
-@property (nonatomic, weak) IBOutlet iCarousel *carousel;
+@property (weak, nonatomic) IBOutlet 		  id  <HXRadioViewControllerDelegate>delegate;
+@property (nonatomic, weak) IBOutlet   iCarousel *carousel;
+@property (nonatomic, weak) IBOutlet UIImageView *noMoreLastestLogo;
+@property (nonatomic, weak) IBOutlet UIImageView *noMoreNewestLogo;
+
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *noMoreLogoWidthConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *noMoreLastestLogoRightConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *noMoreNewestLogoLeftConstraint;
 
 - (void)loadShareList;
 
