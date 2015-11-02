@@ -25,8 +25,8 @@
 		unsigned long long logDirSize = [self calcDiskSizeOfDir:[PathHelper logDir]];
 		totalSize += logDirSize;
 
-		unsigned long long cacheDirSize = [self calcDiskSizeOfDir:[PathHelper cacheDir]];
-		totalSize += cacheDirSize;
+		unsigned long long playCacheDirSize = [self calcDiskSizeOfDir:[PathHelper playCacheDir]];
+		totalSize += playCacheDirSize;
 
 		unsigned long long userDirSize = [self calcDiskSizeOfDir:[PathHelper userDir]];
 		totalSize += userDirSize;
@@ -44,7 +44,7 @@
 		[[SDImageCache sharedImageCache] cleanDisk];
 
 		[self deleteFilesInDir:[PathHelper logDir]];
-		[self deleteFilesInDir:[PathHelper cacheDir]];
+		[self deleteFilesInDir:[PathHelper playCacheDir]];
 		[self deleteFilesInDir:[PathHelper userDir]];
 
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -56,7 +56,7 @@
 }
 
 #pragma mark - Private Methods
-+ (unsigned long long)calcDiskSizeOfDir:(NSString *)cacheDir {
++ (unsigned long long)calcDiskSizeOfDir:(NSString *)dirPath {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSArray *cacheFileList;
 	NSEnumerator *cacheEnumerator;
@@ -64,23 +64,23 @@
 
 	unsigned long long cacheFolderSize = 0;
 
-	cacheFileList = [fileManager subpathsOfDirectoryAtPath:cacheDir error:nil];
+	cacheFileList = [fileManager subpathsOfDirectoryAtPath:dirPath error:nil];
 	cacheEnumerator = [cacheFileList objectEnumerator];
 	while (itemFilePath = [cacheEnumerator nextObject]) {
-		NSDictionary *cacheFileAttributes = [fileManager attributesOfItemAtPath:[cacheDir stringByAppendingPathComponent:itemFilePath] error:nil];
+		NSDictionary *cacheFileAttributes = [fileManager attributesOfItemAtPath:[dirPath stringByAppendingPathComponent:itemFilePath] error:nil];
 		cacheFolderSize += [cacheFileAttributes fileSize];
 	}
 
 	return cacheFolderSize;
 }
 
-+ (void)deleteFilesInDir:(NSString *)cacheDir {
++ (void)deleteFilesInDir:(NSString *)dirPath {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSArray *contents = [fileManager contentsOfDirectoryAtPath:cacheDir error:NULL];
+	NSArray *contents = [fileManager contentsOfDirectoryAtPath:dirPath error:NULL];
 	NSEnumerator *enumer = [contents objectEnumerator];
 	NSString *filename;
 	while ((filename = [enumer nextObject])) {
-		[fileManager removeItemAtPath:[cacheDir stringByAppendingPathComponent:filename] error:NULL];
+		[fileManager removeItemAtPath:[dirPath stringByAppendingPathComponent:filename] error:NULL];
 	}
 }
 
