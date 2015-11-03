@@ -387,7 +387,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
-    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count + 1), ((count > 5) ? @"等" : @"")];
+    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count), ((count > 5) ? @"等" : @"")];
     _pushPromptLabel.text = prompt;
 }
 
@@ -492,6 +492,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)infectShare {
     if (!_playItem.isInfected) {
         _playItem.isInfected = YES;
+        _playItem.infectTotal += 1;
         __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
         [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
@@ -655,6 +656,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
         if (!add) {
+            [strongSelf updatePromptLabel];
             [strongSelf startPushPromptLabelAnimation];
         }
     }];
