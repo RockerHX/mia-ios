@@ -23,7 +23,8 @@
 
 @property (weak, nonatomic) IBOutlet         id  <HXBubbleViewDelegate>delegate;
 
-@property (nonatomic, weak) IBOutlet    UILabel *promptLabel;
+@property (nonatomic, weak) IBOutlet    UILabel *topPromptLabel;
+@property (nonatomic, weak) IBOutlet    UILabel *bottomPromptLabel;
 @property (nonatomic, weak) IBOutlet UITextView *textView;
 @property (nonatomic, weak) IBOutlet   UIButton *sendButton;
 @property (nonatomic, weak) IBOutlet   UIButton *loginButton;

@@ -151,8 +151,15 @@
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                         <animations/>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="妙推成功" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ic0-aV-MRw">
+                                        <rect key="frame" x="44" y="59" width="72" height="22"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="说说你的想法" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nl7-Tv-v26">
-                                        <rect key="frame" x="26" y="69" width="108" height="22"/>
+                                        <rect key="frame" x="26" y="79" width="108" height="22"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -201,25 +208,28 @@
                                     <constraint firstAttribute="bottom" secondItem="OVV-CR-7XL" secondAttribute="bottom" constant="10" id="3Sf-Ht-viz"/>
                                     <constraint firstItem="GFl-sp-KPY" firstAttribute="centerX" secondItem="JKz-RM-aIq" secondAttribute="centerX" id="9Fc-GZ-HIb"/>
                                     <constraint firstItem="JKz-RM-aIq" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" constant="-5" id="E3E-Ab-Ovw"/>
+                                    <constraint firstItem="Ic0-aV-MRw" firstAttribute="centerX" secondItem="i7R-7R-kAw" secondAttribute="centerX" id="FdV-7d-KXl"/>
                                     <constraint firstItem="JKz-RM-aIq" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="20" id="Gqu-7X-999"/>
                                     <constraint firstAttribute="bottom" secondItem="rZD-az-a6y" secondAttribute="bottom" id="Hz7-9t-wsD"/>
                                     <constraint firstAttribute="trailing" secondItem="rZD-az-a6y" secondAttribute="trailing" id="NaB-Fi-o6j"/>
                                     <constraint firstAttribute="trailing" secondItem="OVV-CR-7XL" secondAttribute="trailing" constant="10" id="PiA-ps-bLt"/>
-                                    <constraint firstItem="nl7-Tv-v26" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" id="SKZ-FL-glv"/>
+                                    <constraint firstItem="nl7-Tv-v26" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" constant="10" id="SKZ-FL-glv"/>
                                     <constraint firstItem="rZD-az-a6y" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" id="Sz6-O8-5U2"/>
                                     <constraint firstItem="OVV-CR-7XL" firstAttribute="leading" secondItem="i7R-7R-kAw" secondAttribute="leading" constant="10" id="bIJ-XF-NV2"/>
                                     <constraint firstAttribute="width" secondItem="i7R-7R-kAw" secondAttribute="height" multiplier="1:1" id="gXr-zl-kpH"/>
                                     <constraint firstItem="rZD-az-a6y" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" id="jRJ-uD-tIV"/>
                                     <constraint firstItem="GFl-sp-KPY" firstAttribute="top" secondItem="JKz-RM-aIq" secondAttribute="bottom" id="kMd-v3-2I6"/>
                                     <constraint firstItem="nl7-Tv-v26" firstAttribute="centerX" secondItem="i7R-7R-kAw" secondAttribute="centerX" id="lQd-K0-p8o"/>
+                                    <constraint firstItem="Ic0-aV-MRw" firstAttribute="centerY" secondItem="i7R-7R-kAw" secondAttribute="centerY" constant="-10" id="m8a-hN-QK6"/>
                                     <constraint firstItem="OVV-CR-7XL" firstAttribute="top" secondItem="i7R-7R-kAw" secondAttribute="top" constant="10" id="ml5-lF-rMy"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="bottomPromptLabel" destination="nl7-Tv-v26" id="GAg-M0-WaE"/>
                                     <outlet property="delegate" destination="Vwv-7l-Pgq" id="eMX-nV-3tr"/>
                                     <outlet property="loginButton" destination="OVV-CR-7XL" id="6qy-8K-m6r"/>
-                                    <outlet property="promptLabel" destination="nl7-Tv-v26" id="r3A-b0-8Fc"/>
                                     <outlet property="sendButton" destination="GFl-sp-KPY" id="lpD-9x-SYp"/>
                                     <outlet property="textView" destination="JKz-RM-aIq" id="9vj-G3-yWX"/>
+                                    <outlet property="topPromptLabel" destination="Ic0-aV-MRw" id="PeT-64-9It"/>
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bC-Qy-IVf" customClass="HXInfectUserView">

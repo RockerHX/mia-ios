@@ -29,7 +29,8 @@
 #pragma mark - Event Response
 - (void)tapGesture {
     if (_canTap) {
-        _promptLabel.hidden = _canTap;
+        _topPromptLabel.hidden = _canTap;
+        _bottomPromptLabel.hidden = _canTap;
         _textView.hidden = !_canTap;
         _sendButton.hidden = !_canTap;
         
@@ -59,7 +60,8 @@
     _canTap = YES;
     _textView.text = @"";
     
-    _promptLabel.hidden = !_canTap;
+    _topPromptLabel.hidden = !_canTap;
+    _bottomPromptLabel.hidden = !_canTap;
     _textView.hidden = _canTap;
     _sendButton.hidden = _canTap;
 }
@@ -68,7 +70,8 @@
     _canTap = login;
     _loginButton.hidden = login;
     if (!login) {
-        _promptLabel.hidden = !login;
+        _topPromptLabel.hidden = !login;
+        _bottomPromptLabel.hidden = !login;
         _textView.hidden = !login;
         _sendButton.hidden = !login;
     } else {

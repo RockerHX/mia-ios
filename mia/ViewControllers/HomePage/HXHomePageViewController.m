@@ -251,20 +251,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }
 }
 
-static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动画阀值
+static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动画阀值
 - (IBAction)gestureEvent:(UIGestureRecognizer *)gesture {
-    if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]]) {
-        // 滑动手势
-        UISwipeGestureRecognizer *swipeGesture = (UISwipeGestureRecognizer *)gesture;
-        switch (swipeGesture.direction) {
-            case UISwipeGestureRecognizerDirectionUp: {
-                [self startAnimation];
-                break;
-            }
-            default:
-                break;
-        }
-    } else if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+    if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
         // 拖动手势
         UIPanGestureRecognizer *panGesture = (UIPanGestureRecognizer *)gesture;
         switch (panGesture.state) {
@@ -306,6 +295,19 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
                 break;
             }
                 
+            default:
+                break;
+        }
+    } else if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        // 滑动手势
+        UISwipeGestureRecognizer *swipeGesture = (UISwipeGestureRecognizer *)gesture;
+        switch (swipeGesture.direction) {
+            case UISwipeGestureRecognizerDirectionUp: {
+                if (!_playItem.isInfected) {
+                    [self startAnimation];
+                }
+                break;
+            }
             default:
                 break;
         }
@@ -509,7 +511,6 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 					 strongSelf->_playItem.infectTotal = infectTotal;
 					 [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
 					 strongSelf->_playItem.isInfected = isInfected;
-					 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
 				 }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
