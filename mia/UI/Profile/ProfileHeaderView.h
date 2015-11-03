@@ -12,7 +12,7 @@
 
 @protocol ProfileHeaderViewDelegate
 
-- (FavoriteModel *)profileHeaderViewModel;
+//- (FavoriteModel *)profileHeaderViewModel;
 - (void)profileHeaderViewDidTouchedCover;
 - (void)profileHeaderViewDidTouchedPlay;
 

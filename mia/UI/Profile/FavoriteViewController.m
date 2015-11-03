@@ -15,7 +15,6 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "MIALabel.h"
-#import "FavoriteModel.h"
 #import "FavoriteMgr.h"
 #import "Masonry.h"
 #import "MJRefresh.h"
@@ -187,10 +186,10 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	_favoriteCollectionView.delegate = self;
 	_favoriteCollectionView.dataSource = self;
 
-	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestFavoriteList)];
-	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
-	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
-	_favoriteCollectionView.footer = aFooter;
+//	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestFavoriteList)];
+//	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+//	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+//	_favoriteCollectionView.footer = aFooter;
 }
 
 - (void)initHeaderView:(UIView *)contentView {
@@ -280,12 +279,12 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	}
 }
 
-- (void)requestFavoriteList {
-	NSArray *items = [_favoriteViewControllerDelegate favoriteViewControllerGetFavoriteList];
-	[[_favoriteViewControllerDelegate favoriteViewControllerModel] addItemsWithArray:items];
-	[_favoriteCollectionView reloadData];
-	[self endRequestFavoriteList:YES];
-}
+//- (void)requestFavoriteList {
+//	NSArray *items = [_favoriteViewControllerDelegate favoriteViewControllerGetFavoriteList];
+//	[[_favoriteViewControllerDelegate favoriteViewControllerModel] addItemsWithArray:items];
+//	[_favoriteCollectionView reloadData];
+//	[self endRequestFavoriteList:YES];
+//}
 
 - (void)endRequestFavoriteList:(BOOL)success {
 	[_favoriteCollectionView.footer endRefreshing];
@@ -315,7 +314,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource.count;
+	return [FavoriteMgr standard].dataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -324,8 +323,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	cell.rowIndex = indexPath.row;
 	cell.isEditing = _isEditing;
 	if (_favoriteViewControllerDelegate) {
-		FavoriteItem *item = [_favoriteViewControllerDelegate favoriteViewControllerModel].dataSource[indexPath.row];
-		item.isPlaying = ([_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying == indexPath.row);
+		FavoriteItem *item = [FavoriteMgr standard].dataSource[indexPath.row];
+		item.isPlaying = ([FavoriteMgr standard].currentPlaying == indexPath.row);
 		cell.dataItem = item;
 	}
 
@@ -383,7 +382,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSInteger lastPlayingRow = [_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying;
+	NSInteger lastPlayingRow = [FavoriteMgr standard].currentPlaying;
 	if (_isEditing) {
 		FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 		currentPlayingCell.dataItem.isSelected = !currentPlayingCell.dataItem.isSelected;
@@ -403,8 +402,8 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		currentPlayingCell.dataItem.isPlaying = YES;
 		[currentPlayingCell updatePlayingState];
 
-		[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying = indexPath.row;
-		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];
+		[FavoriteMgr standard].currentPlaying = indexPath.row;
+		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[FavoriteMgr standard].currentPlaying];
 
 		[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
 	}
@@ -430,7 +429,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (_isPlaying) {
 		[_favoriteViewControllerDelegate favoriteViewControllerPauseMusic];
 	} else {
-		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[_favoriteViewControllerDelegate favoriteViewControllerModel].currentPlaying];
+		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[FavoriteMgr standard].currentPlaying];
 	}
 }
 

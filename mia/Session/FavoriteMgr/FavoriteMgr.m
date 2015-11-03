@@ -25,7 +25,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 @end
 
 @implementation FavoriteMgr {
-	NSMutableArray 				*_favoriteItems;
 	NSMutableArray 				*_tempItems;
 	BOOL						_isSyncing;
 
@@ -38,7 +37,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
  *  使用单例初始化
  *
  */
-+(id)standard{
++ (FavoriteMgr *)standard {
     static FavoriteMgr *aMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
@@ -64,13 +63,21 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
+- (NSInteger)currentPlaying {
+	if (_currentPlaying < 0 || _currentPlaying >= _dataSource.count) {
+		_currentPlaying = 0;
+	}
+
+	return _currentPlaying;
+}
+
 - (long)favoriteCount {
-	return [_favoriteItems count];
+	return [_dataSource count];
 }
 
 - (long)cachedCount {
 	long count = 0;
-	for (FavoriteItem *item in _favoriteItems) {
+	for (FavoriteItem *item in _dataSource) {
 		if (item.isCached) {
 			count++;
 		}
@@ -99,17 +106,27 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
 	const static long kFavoriteListItemCountPerPage = 10;
 	NSMutableArray * items = [[NSMutableArray alloc] init];
-	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _favoriteItems.count; i++) {
-		[items addObject:_favoriteItems[i + lastIndex]];
+	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _dataSource.count; i++) {
+		[items addObject:_dataSource[i + lastIndex]];
 	}
 
 	return items;
 }
 
-- (void)removeSelectedItems {
-	NSEnumerator *enumerator = [_favoriteItems reverseObjectEnumerator];
+- (void)removeSelectedItemsWithCompleteBlock:(void (^)(BOOL isChanged, BOOL deletePlaying, NSArray *idArray))completeBlock {
+	BOOL isChanged = NO;
+	BOOL deletePlaying = NO;
+	NSMutableArray *idArray = [[NSMutableArray alloc] init];
+
+	NSEnumerator *enumerator = [_dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (item.isSelected) {
+			if (item.isPlaying) {
+				deletePlaying = YES;
+			}
+
+			[idArray addObject:item.sID];
+			isChanged = YES;
 
 			// 如果删除的是当前正在下载的任务
 			if (_downloadTask
@@ -118,11 +135,17 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			}
 
 			[self deleteCacheFileWithUrl:item.music.murl];
-			[_favoriteItems removeObject:item];
+			[_dataSource removeObject:item];
 		}
 	}
-	
-	[self saveData];
+
+	if (isChanged) {
+		[self saveData];
+	}
+
+	if (completeBlock) {
+		completeBlock(isChanged, deletePlaying, idArray);
+	}
 }
 
 #pragma mark - private method
@@ -160,12 +183,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	BOOL hasDataChanged = NO;
 
 	// 寻找删除的元素
-	NSEnumerator *deleteEnumerator = [_favoriteItems reverseObjectEnumerator];
+	NSEnumerator *deleteEnumerator = [_dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in deleteEnumerator) {
 		if (![self isItemInArray:item array:_tempItems]) {
 			[self deleteCacheFileWithUrl:item.music.murl];
 			item.isCached = NO;
-			[_favoriteItems removeObject:item];
+			[_dataSource removeObject:item];
 			hasDataChanged = YES;
 		}
 	}
@@ -173,8 +196,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	// 新增的反序枚举，如果是新的就插入在最前面，让最新数据是在前面
 	NSEnumerator *insertEnumerator = [_tempItems reverseObjectEnumerator];
 	for (FavoriteItem *newItem in insertEnumerator) {
-		if (![self isItemInArray:newItem array:_favoriteItems]) {
-			[_favoriteItems insertObject:newItem atIndex:0];
+		if (![self isItemInArray:newItem array:_dataSource]) {
+			[_dataSource insertObject:newItem atIndex:0];
 			hasDataChanged = YES;
 		}
 	}
@@ -233,10 +256,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		{
 			[[FileLog standard] log:@"download %@, %@, error:%@", item.music.name, item.music.murl, error];
 			if (nil == error) {
-				[_favoriteItems[_currentDownloadIndex] setIsCached:YES];
+				[_dataSource[_currentDownloadIndex] setIsCached:YES];
 				[self saveData];
 			} else {
-				[_favoriteItems[_currentDownloadIndex] setIsCached:NO];
+				[_dataSource[_currentDownloadIndex] setIsCached:NO];
 				if (filePath) {
 					NSError *fileError;
 					[[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
@@ -252,8 +275,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 - (FavoriteItem *)getNextDownloadItem {
 	FavoriteItem *item = nil;
-	for (; _currentDownloadIndex < _favoriteItems.count; _currentDownloadIndex++) {
-		item = _favoriteItems[_currentDownloadIndex];
+	for (; _currentDownloadIndex < _dataSource.count; _currentDownloadIndex++) {
+		item = _dataSource[_currentDownloadIndex];
 		if (![self isItemCached:item]) {
 			return item;
 		}
@@ -338,15 +361,15 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)loadData {
-	_favoriteItems = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]]];
-	if (!_favoriteItems) {
-		_favoriteItems = [[NSMutableArray alloc] init];
+	_dataSource = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]]];
+	if (!_dataSource) {
+		_dataSource = [[NSMutableArray alloc] init];
 	}
 }
 
 - (BOOL)saveData {
 	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]];
-	if (![NSKeyedArchiver archiveRootObject:_favoriteItems toFile:fileName]) {
+	if (![NSKeyedArchiver archiveRootObject:_dataSource toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
 			NSLog(@"delete share list archive file.");
@@ -359,13 +382,13 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 //将对象编码(即:序列化)
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-	[aCoder encodeObject:_favoriteItems forKey:@"favoriteItems"];
+	[aCoder encodeObject:_dataSource forKey:@"favoriteItems"];
 }
 
 //将对象解码(反序列化)
 -(id) initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
-		_favoriteItems = [aDecoder decodeObjectForKey:@"favoriteItems"];
+		_dataSource = [aDecoder decodeObjectForKey:@"favoriteItems"];
 	}
 
 	return (self);

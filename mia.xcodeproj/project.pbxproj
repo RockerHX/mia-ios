@@ -28,7 +28,6 @@
 		390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD31BB00A5E006269FD /* SignUpViewController.m */; };
 		390BADD71BB03A3E006269FD /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BADD61BB03A3E006269FD /* ResetPwdViewController.m */; };
 		393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */; };
-		393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE99D1BB789C400FCF232 /* FavoriteModel.m */; };
 		393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9A11BB7953E00FCF232 /* FavoriteItem.m */; };
 		393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CE9A41BB7A28100FCF232 /* FavoriteCollectionViewCell.m */; };
 		393CE9A81BB7A8CA00FCF232 /* favorite_downloaded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 393CE9A61BB7A8CA00FCF232 /* favorite_downloaded@2x.png */; };
@@ -226,8 +225,6 @@
 		390BADD61BB03A3E006269FD /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
 		393CE9981BB53B3B00FCF232 /* FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteViewController.h; sourceTree = "<group>"; };
 		393CE9991BB53B3B00FCF232 /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
-		393CE99C1BB789C400FCF232 /* FavoriteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteModel.h; sourceTree = "<group>"; };
-		393CE99D1BB789C400FCF232 /* FavoriteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteModel.m; sourceTree = "<group>"; };
 		393CE9A01BB7953E00FCF232 /* FavoriteItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteItem.h; sourceTree = "<group>"; };
 		393CE9A11BB7953E00FCF232 /* FavoriteItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteItem.m; sourceTree = "<group>"; };
 		393CE9A31BB7A28100FCF232 /* FavoriteCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteCollectionViewCell.h; sourceTree = "<group>"; };
@@ -588,15 +585,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		393CE99B1BB789C400FCF232 /* FavoriteModel */ = {
-			isa = PBXGroup;
-			children = (
-				393CE99C1BB789C400FCF232 /* FavoriteModel.h */,
-				393CE99D1BB789C400FCF232 /* FavoriteModel.m */,
-			);
-			path = FavoriteModel;
-			sourceTree = "<group>";
-		};
 		393CE99F1BB7953E00FCF232 /* FavoriteItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,7 +761,6 @@
 				3908F37F1BBB9FF300BACFD3 /* SuggestionItem */,
 				3976E35E1BBACDD3006FA5E2 /* SearchSuggestionModel */,
 				393CE99F1BB7953E00FCF232 /* FavoriteItem */,
-				393CE99B1BB789C400FCF232 /* FavoriteModel */,
 				39BF8C7C1BB2C79A003AB4FC /* ProfileShareModel */,
 				397E42971BA83131006BE9E7 /* ShareItem */,
 				397E42931BA81836006BE9E7 /* MusicItem */,
@@ -1908,7 +1895,6 @@
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */,
-				393CE99E1BB789C400FCF232 /* FavoriteModel.m in Sources */,
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
 				CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */,
 				395CD6141BD9F5F4001A2528 /* SongListPlayer.m in Sources */,
