@@ -426,7 +426,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 				 [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"提交评论失败:%@", error] tap:nil];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 			 }
 		 } timeoutBlock:^(MiaRequestItem *requestItem) {
 			 [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
@@ -519,7 +519,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 				 }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"妙推失败:%@", error] tap:nil];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
              }
          } timeoutBlock:^(MiaRequestItem *requestItem) {
              __strong __typeof__(self)strongSelf = weakSelf;
@@ -774,7 +774,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
                  [[FavoriteMgr standard] syncFavoriteList];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
              }
          } timeoutBlock:^(MiaRequestItem *requestItem) {
              [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];

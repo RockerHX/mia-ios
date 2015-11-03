@@ -13,7 +13,6 @@
 #import "UIImageView+BlurredImage.h"
 #import "UIImage+Extrude.h"
 #import "FavoriteMgr.h"
-#import "FavoriteModel.h"
 #import "FavoriteItem.h"
 #import "Masonry.h"
 
@@ -258,8 +257,8 @@
 }
 
 - (void)updateCoverImage {
-	if ([[_profileHeaderViewDelegate profileHeaderViewModel].dataSource count] > 0) {
-		FavoriteItem *item = [[_profileHeaderViewDelegate profileHeaderViewModel] dataSource][0];
+	if ([[FavoriteMgr standard].dataSource count] > 0) {
+		FavoriteItem *item = [FavoriteMgr standard].dataSource[0];
 		if ([_coverImageUrl isEqualToString:item.music.purl]) {
 			return;
 		}

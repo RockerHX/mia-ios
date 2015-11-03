@@ -16,7 +16,6 @@
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "ProfileShareModel.h"
-#import "FavoriteModel.h"
 #import "FavoriteViewController.h"
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
@@ -69,7 +68,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	FavoriteViewController	*_favoriteViewController;
 
 	ProfileShareModel 		*_shareListModel;
-	FavoriteModel 			*_favoriteModel;
+//	FavoriteModel 			*_favoriteModel;
 
 	UIView					*_addShareView;
 	UIView					*_noShareView;
@@ -222,7 +221,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	// 收藏数据
 	[[FavoriteMgr standard] setCustomDelegate:self];
-	_favoriteModel = [[FavoriteModel alloc] init];
+//	_favoriteModel = [[FavoriteModel alloc] init];
 	[[FavoriteMgr standard] syncFavoriteList];
 
 	// 播放器
@@ -256,7 +255,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								[self checkPlaceHolder];
 							} else {
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"无法获取分享列表:%@", error] tap:nil];
+								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 								[self checkPlaceHolder];
 							}
 
@@ -476,9 +475,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self.navigationController pushViewController:musicDetailViewController animated:YES];
 }
 
-- (FavoriteModel *)profileHeaderViewModel {
-	return _favoriteModel;
-}
+//- (FavoriteModel *)profileHeaderViewModel {
+//	return _favoriteModel;
+//}
 
 - (void)profileHeaderViewDidTouchedCover {
 	if (!_playingFavorite) {
@@ -504,8 +503,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)favoriteMgrDidFinishSync {
-	NSArray *items = [self favoriteViewControllerGetFavoriteList];
-	[_favoriteModel addItemsWithArray:items];
+//	NSArray *items = [self favoriteViewControllerGetFavoriteList];
+//	[_favoriteModel addItemsWithArray:items];
 	if (_favoriteViewController) {
 		[_favoriteViewController.favoriteCollectionView reloadData];
 	}
@@ -520,17 +519,17 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[_profileHeaderView updateFavoriteCount];
 }
 
-- (FavoriteModel *)favoriteViewControllerModel {
-	return _favoriteModel;
-}
+//- (FavoriteModel *)favoriteViewControllerModel {
+//	return _favoriteModel;
+//}
 
-- (NSArray *)favoriteViewControllerGetFavoriteList {
-	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
-}
+//- (NSArray *)favoriteViewControllerGetFavoriteList {
+//	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
+//}
 
 - (int)favoriteViewControllerSelectAll:(BOOL)selected {
 	int selectedCount = 0;
-	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
+	NSEnumerator *enumerator = [[FavoriteMgr standard].dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		item.isSelected = selected;
 		if (selected) {
@@ -543,7 +542,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (int)favoriteViewControllerSelectedCount {
 	int selectedCount = 0;
-	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
+	NSEnumerator *enumerator = [[FavoriteMgr standard].dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in enumerator) {
 		if (item.isSelected) {
 			selectedCount++;
@@ -554,26 +553,16 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (BOOL)favoriteViewControllerDeleteMusics {
-	BOOL isChanged = NO;
-	BOOL deletePlaying = NO;
-	NSMutableArray *idArray = [[NSMutableArray alloc] init];
-	NSEnumerator *enumerator = [_favoriteModel.dataSource reverseObjectEnumerator];
-	for (FavoriteItem *item in enumerator) {
-		if (item.isSelected) {
-			if (item.isPlaying) {
-				deletePlaying = YES;
-			}
+	__block BOOL retIsChanged = NO;
+	[[FavoriteMgr standard] removeSelectedItemsWithCompleteBlock:^(BOOL isChanged, BOOL deletePlaying, NSArray *idArray) {
+		retIsChanged = isChanged;
 
-			[idArray addObject:item.sID];
-			[_favoriteModel.dataSource removeObject:item];
-			isChanged = YES;
+		if (!isChanged) {
+			return ;
 		}
-	}
 
-	[[FavoriteMgr standard] removeSelectedItems];
-	if (isChanged) {
 		if (deletePlaying) {
-			if ([_favoriteModel.dataSource count] > 0) {
+			if ([[FavoriteMgr standard].dataSource count] > 0) {
 				[self playFavoriteMusic];
 			} else {
 				[self pauseMusic];
@@ -581,30 +570,30 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		}
 
 		[_profileHeaderView updateFavoriteCount];
-	}
 
-	[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 [HXAlertBanner showWithMessage:@"删除收藏成功" tap:nil];
-		 } else {
-			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"删除收藏失败:%@", error] tap:nil];
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+		[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"删除收藏成功" tap:nil];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
 
+		 }];
 	}];
 
-	return isChanged;
+	return retIsChanged;
 }
 
 - (void)favoriteViewControllerPlayMusic:(NSInteger)row {
-	if (_favoriteModel.dataSource.count <= 0) {
+	if ([FavoriteMgr standard].dataSource.count <= 0) {
 		return;
 	}
 
-	FavoriteItem *aFavoriteItem = _favoriteModel.dataSource[row];
+	FavoriteItem *aFavoriteItem = [FavoriteMgr standard].dataSource[row];
 	[self playFavoriteMusicWithoutCheckNetwork:aFavoriteItem];
 }
 
@@ -625,12 +614,12 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 #pragma mark - SongListPlayerDataSource
 - (NSInteger)songListPlayerCurrentItemIndex {
-	return _favoriteModel.currentPlaying;
+	return [FavoriteMgr standard].currentPlaying;
 }
 
 - (NSInteger)songListPlayerNextItemIndex {
-	NSInteger nextIndex = _favoriteModel.currentPlaying + 1;
-	if (nextIndex >= _favoriteModel.dataSource.count) {
+	NSInteger nextIndex = [FavoriteMgr standard].currentPlaying + 1;
+	if (nextIndex >= [FavoriteMgr standard].dataSource.count) {
 		nextIndex = 0;
 	}
 
@@ -638,7 +627,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
-	FavoriteItem *aFavoriteItem =  _favoriteModel.dataSource[index];
+	FavoriteItem *aFavoriteItem =  [FavoriteMgr standard].dataSource[index];
 	return [aFavoriteItem.music copy];
 }
 
@@ -653,7 +642,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)songListPlayerDidCompletion {
 	if (_playingFavorite) {
-		_favoriteModel.currentPlaying++;
+		[FavoriteMgr standard].currentPlaying++;
 		[self playFavoriteMusic];
 		if (_favoriteViewController) {
 			[_favoriteViewController.favoriteCollectionView reloadData];
@@ -663,7 +652,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)songListPlayerShouldPlayNext {
 	if (_playingFavorite) {
-		_favoriteModel.currentPlaying++;
+		[FavoriteMgr standard].currentPlaying++;
 		[self playFavoriteMusic];
 		if (_favoriteViewController) {
 			[_favoriteViewController.favoriteCollectionView reloadData];
@@ -697,11 +686,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 #pragma mark - audio operations
 - (void)playFavoriteMusic {
-	if (_favoriteModel.dataSource.count <= 0) {
+	if ([FavoriteMgr standard].dataSource.count <= 0) {
 		return;
 	}
 
-	FavoriteItem *itemForPlay = _favoriteModel.dataSource[_favoriteModel.currentPlaying];
+	FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].currentPlaying];
 
 	// Wifi环境或者歌曲已经缓存，直接播放
 	if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
@@ -717,11 +706,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	// 寻找下一首已经缓存了的歌曲
 	itemForPlay = nil;
-	for (unsigned long i = 0; i < _favoriteModel.dataSource.count; i++) {
-		FavoriteItem* item = _favoriteModel.dataSource[i];
+	for (unsigned long i = 0; i < [FavoriteMgr standard].dataSource.count; i++) {
+		FavoriteItem* item = [FavoriteMgr standard].dataSource[i];
 		if ([[FavoriteMgr standard] isItemCached:item]) {
 			itemForPlay = item;
-			_favoriteModel.currentPlaying = i;
+			[FavoriteMgr standard].currentPlaying = i;
 			break;
 		}
 	}
@@ -735,16 +724,16 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)playPreviosFavoriteMusic {
-	if (_favoriteModel.dataSource.count <= 0) {
+	if ([FavoriteMgr standard].dataSource.count <= 0) {
 		return;
 	}
-	if ((_favoriteModel.currentPlaying - 1) < 0) {
+	if (([FavoriteMgr standard].currentPlaying - 1) < 0) {
 		return;
 	}
 
-	_favoriteModel.currentPlaying--;
+	[FavoriteMgr standard].currentPlaying--;
 
-	FavoriteItem *itemForPlay = _favoriteModel.dataSource[_favoriteModel.currentPlaying];
+	FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].currentPlaying];
 
 	// Wifi环境或者歌曲已经缓存，直接播放
 	if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
@@ -760,11 +749,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	// 寻找上一首已经缓存了的歌曲
 	itemForPlay = nil;
-	for (long i = _favoriteModel.dataSource.count - 1; i >= 0; i--) {
-		FavoriteItem* item = _favoriteModel.dataSource[i];
+	for (long i = [FavoriteMgr standard].dataSource.count - 1; i >= 0; i--) {
+		FavoriteItem* item = [FavoriteMgr standard].dataSource[i];
 		if ([[FavoriteMgr standard] isItemCached:item]) {
 			itemForPlay = item;
-			_favoriteModel.currentPlaying = i;
+			[FavoriteMgr standard].currentPlaying = i;
 			break;
 		}
 	}

@@ -41,34 +41,12 @@
 + (void)sendUUIDWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSString *currentUUID = [self getUUID];
-	//NSLog(@"%@, %lu", currentUUID, (unsigned long)currentUUID.length);
-
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostGuest forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
 
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:currentUUID forKey:MiaAPIKey_GUID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-														  jsonString:jsonString
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostGuest
+														  parameters:dictValues
 													   completeBlock:completeBlock
 														timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
@@ -81,37 +59,16 @@
                 completeBlock:(MiaRequestCompleteBlock)completeBlock
                  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock
 {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_GetNearby forKey:MiaAPIKey_ClientCommand];
-    [dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
 	[dictValues setValue:[NSNumber numberWithFloat:lon] forKey:MiaAPIKey_Longitude];
 	//[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetNearby
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -120,36 +77,15 @@
 							  item:(long)item
 					 completeBlock:(MiaRequestCompleteBlock)completeBlock
 						 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_GetMcomm forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_ID];
 	[dictValues setValue:start forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetMcomm
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -158,36 +94,15 @@
 					   item:(long)item
 			  completeBlock:(MiaRequestCompleteBlock)completeBlock
 			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_GetShlist forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:uID forKey:MiaAPIKey_UID];
 	[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetShlist
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -196,172 +111,67 @@
 					   item:(long)item
 			  completeBlock:(MiaRequestCompleteBlock)completeBlock
 			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_GetInfectList forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 	[dictValues setValue:startID forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetInfectList
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)getShareById:(NSString *)sID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_GetSharem forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetSharem
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)reportShareById:(NSString *)sID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_PostReport forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_PostReport
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)postReadCommentWithsID:(NSString *)sID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostRcomm forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostRcomm
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)getMusicById:(NSString *)mid
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_Music_GetByid forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:mid forKey:MiaAPIKey_MID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetByid
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -369,128 +179,49 @@
 							item:(long)item
 				   completeBlock:(MiaRequestCompleteBlock)completeBlock
 					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_GetStart forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:start forKey:MiaAPIKey_Start];
 	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_GetStart
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)getUserInfoWithUID:(NSString *)uid
 			 completeBlock:(MiaRequestCompleteBlock)completeBlock
 					timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_GetUinfo forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:uid forKey:MiaAPIKey_UID];
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_GetUinfo
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)getUploadAvatarAuthWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_GetClogo forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_GetClogo
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)getUpdateInfoWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_GetUpdate forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:@"ios" forKey:MiaAPIKey_Platform];
-	[dictionary setValue:@"firim" forKey:MiaAPIKey_Channel];
+	[dictValues setValue:@"firim" forKey:MiaAPIKey_Channel];
 
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_GetUpdate
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -500,12 +231,6 @@
 						   spID:(NSString *)spID
 				  completeBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostInfectm forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	if (![NSString isNull:address]) {
 		[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
@@ -514,25 +239,10 @@
 	}
 	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostInfectm
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -542,12 +252,6 @@
 						 spID:(NSString *)spID
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostSkipm forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	if (![NSString isNull:address]) {
 		[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
@@ -556,25 +260,10 @@
 	}
 	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostSkipm
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -584,12 +273,6 @@
 						 spID:(NSString *)spID
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostViewm forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	if (![NSString isNull:address]) {
 		[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
@@ -598,25 +281,10 @@
 	}
 	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostViewm
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -624,12 +292,6 @@
 					  isFavorite:(BOOL)isFavorite
 				   completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostFavorite forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_ID];
 	if (isFavorite) {
@@ -639,37 +301,16 @@
 		[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Act];
 	}
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostFavorite
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)deleteFavoritesWithIDs:(NSArray *)idArray
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostFavorite forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	// 拼接id字符串
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	NSMutableString *ids = [[NSMutableString alloc] init];
@@ -682,25 +323,10 @@
 	[dictValues setValue:ids forKey:MiaAPIKey_ID];
 
 	[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Act];
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostFavorite
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -708,69 +334,27 @@
 					   comment:(NSString *)comment
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostComment forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 	[dictValues setValue:comment forKey:MiaAPIKey_Comm];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostComment
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)deleteShareById:(NSString *)sID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_DeleteSharem forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_DeleteSharem
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -781,12 +365,6 @@
 						 note:(NSString *)note
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostShare forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithFloat:lat] forKey:MiaAPIKey_Latitude];
 	[dictValues setValue:[NSNumber numberWithFloat:lon] forKey:MiaAPIKey_Longitude];
@@ -794,25 +372,10 @@
 	[dictValues setValue:songID forKey:MiaAPIKey_ID];
 	[dictValues setValue:note forKey:MiaAPIKey_Note];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostShare
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -820,12 +383,6 @@
 						 contact:(NSString *)contact
 				completeBlock:(MiaRequestCompleteBlock)completeBlock
 				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_Feedback forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:note forKey:MiaAPIKey_Note];
 	if (![NSString isNull:contact]) {
@@ -835,25 +392,10 @@
 	[dictValues setValue:[UIDevice currentDevice].systemName forKey:MiaAPIKey_Platform];
 	[dictValues setValue:[UIDevice currentDevice].systemVersion forKey:MiaAPIKey_OSVersion];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_Feedback
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -861,36 +403,15 @@
 						phoneNumber:(NSString *)phoneNumber
 					  completeBlock:(MiaRequestCompleteBlock)completeBlock
 					   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostPauth forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithLong:type] forKey:MiaAPIKey_Type];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:MiaAPIDefaultIMEI forKey:MiaAPIKey_IMEI];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostPauth
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -900,37 +421,16 @@
 				passwordHash:(NSString *)passwordHash
 			   completeBlock:(MiaRequestCompleteBlock)completeBlock
 				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostRegister forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:scode forKey:MiaAPIKey_SCode];
 	[dictValues setValue:nickName forKey:MiaAPIKey_NickName];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Password];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostRegister
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -939,37 +439,16 @@
 							scode:(NSString *)scode
 					completeBlock:(MiaRequestCompleteBlock)completeBlock
 					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Type];
 	[dictValues setValue:scode forKey:MiaAPIKey_OldPwd];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_NewPwd];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostChangePwd
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -977,104 +456,41 @@
 						  newPasswordHash:(NSString *)newPasswordHash
 							completeBlock:(MiaRequestCompleteBlock)completeBlock
 							 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostChangePwd forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithLong:0] forKey:MiaAPIKey_Type];
 	[dictValues setValue:oldPasswordHash forKey:MiaAPIKey_OldPwd];
 	[dictValues setValue:newPasswordHash forKey:MiaAPIKey_NewPwd];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostChangePwd
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)changeNickName:(NSString *)nick
 		 completeBlock:(MiaRequestCompleteBlock)completeBlock
 		  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostCnick forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:nick forKey:MiaAPIKey_NickName];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostCnick
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)changeGender:(long)gender
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostGender forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:[NSNumber numberWithLong:gender] forKey:MiaAPIKey_Gender];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostGender
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
@@ -1082,68 +498,26 @@
 			 passwordHash:(NSString *)passwordHash
 			completeBlock:(MiaRequestCompleteBlock)completeBlock
 			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostLogin forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Dev];
 	[dictValues setValue:MiaAPIDefaultIMEI forKey:MiaAPIKey_IMEI];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Pwd];
 
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostLogin
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:MiaAPICommand_User_PostLogout forKey:MiaAPIKey_ClientCommand];
-	[dictionary setValue:MiaAPIProtocolVersion forKey:MiaAPIKey_Version];
-	long timestamp = [self genTimestamp];
-	[dictionary setValue:[NSString stringWithFormat:@"%ld", timestamp] forKey:MiaAPIKey_Timestamp];
-
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
-	[dictionary setValue:dictValues forKey:MiaAPIKey_Values];
-
-	NSError *error = nil;
-	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-													   options:NSJSONWritingPrettyPrinted
-														 error:&error];
-	if (error) {
-		NSLog(@"conver to json error: dic->%@", error);
-		return;
-	}
-
-	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@", jsonString);
-
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithTimeStamp:timestamp
-																	command:dictionary[MiaAPIKey_ClientCommand]
-																 jsonString:jsonString
-															  completeBlock:completeBlock
-															   timeoutBlock:timeoutBlock];
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostLogout
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 

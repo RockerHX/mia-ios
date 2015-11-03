@@ -91,7 +91,7 @@
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 38;
 	static const CGFloat kSignUpMarginLeft			= 16;
 
-	static const CGFloat kVerificationCodeButtonWidth			= 83;
+	static const CGFloat kVerificationCodeButtonWidth			= 87;
 	static const CGFloat kVerificationCodeButtonHeight			= 28;
 
 	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
@@ -383,7 +383,7 @@
 		return YES;
 	}
 
-	[HXAlertBanner showWithMessage:@"请输入正确的手机号码" tap:nil];
+	[HXAlertBanner showWithMessage:@"手机号码不符合规范，请重新输入" tap:nil];
 
 	return NO;
 }
@@ -441,7 +441,7 @@
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"注册失败：%@", error] tap:nil];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		 }
 
 		 [aMBProgressHUD removeFromSuperview];
@@ -472,7 +472,7 @@
 			 [HXAlertBanner showWithMessage:@"验证码已经发送" tap:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"验证码发送失败：%@", error] tap:nil];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 			 [self resetCountdown];
 		 }
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {

@@ -119,6 +119,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 														  font:UIFontFromSize(16)
 													   logoImg:nil
 											   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"button_white"]]];
+	[signUpButton setBackgroundImage:[UIImage imageNamed:@"button_gray"] forState:UIControlStateHighlighted];
 	[signUpButton addTarget:self action:@selector(signUpButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_guidView addSubview:signUpButton];
 
@@ -132,6 +133,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 														  font:UIFontFromSize(16)
 													   logoImg:nil
 											   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"button_blue"]]];
+	[signInButton setBackgroundImage:[UIImage imageNamed:@"button_dark_blue"] forState:UIControlStateHighlighted];
 	[signInButton addTarget:self action:@selector(signInButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_guidView addSubview:signInButton];
 }
@@ -224,6 +226,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 														  font:UIFontFromSize(16)
 													   logoImg:nil
 											   backgroundImage:[UIImage imageExtrude:[UIImage imageNamed:@"button_blue"]]];
+	[loginButton setBackgroundImage:[UIImage imageNamed:@"button_dark_blue"] forState:UIControlStateHighlighted];
 	[loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[_loginView addSubview:loginButton];
 }
@@ -261,12 +264,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 - (void)loginButtonAction:(id)sender {
     if (_userNameTextField.text.length <= 0) {
-        [HXAlertBanner showWithMessage:@"手机号码不能为空" tap:nil];
+        [HXAlertBanner showWithMessage:@"请输入登录手机号码" tap:nil];
         return;
     }
     
     if (_passwordTextField.text.length <= 0) {
-        [HXAlertBanner showWithMessage:@"密码不能为空" tap:nil];
+        [HXAlertBanner showWithMessage:@"请输入登录密码" tap:nil];
         return;
     }
     

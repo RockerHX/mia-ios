@@ -160,7 +160,7 @@
 				 [[FavoriteMgr standard] syncFavoriteList];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"收藏失败:%@", error] tap:nil];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 			 }
 		 } timeoutBlock:^(MiaRequestItem *requestItem) {
 			 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
