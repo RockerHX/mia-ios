@@ -358,7 +358,7 @@
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"重置密码失败：%@", error] tap:nil];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		 }
 
 		 [aMBProgressHUD removeFromSuperview];

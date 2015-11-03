@@ -105,7 +105,7 @@
              [self.navigationController popViewControllerAnimated:YES];
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"分享失败:%@", error] tap:nil];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
          }
          [aMBProgressHUD removeFromSuperview];
      } timeoutBlock:^(MiaRequestItem *requestItem) {

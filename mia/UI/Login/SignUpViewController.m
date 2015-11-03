@@ -441,7 +441,7 @@
 			 [self.navigationController popViewControllerAnimated:YES];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"注册失败：%@", error] tap:nil];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		 }
 
 		 [aMBProgressHUD removeFromSuperview];
@@ -472,7 +472,7 @@
 			 [HXAlertBanner showWithMessage:@"验证码已经发送" tap:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"验证码发送失败：%@", error] tap:nil];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 			 [self resetCountdown];
 		 }
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {

@@ -256,7 +256,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								[self checkPlaceHolder];
 							} else {
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"无法获取分享列表:%@", error] tap:nil];
+								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 								[self checkPlaceHolder];
 							}
 
@@ -589,7 +589,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 			 [HXAlertBanner showWithMessage:@"删除收藏成功" tap:nil];
 		 } else {
 			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"删除收藏失败:%@", error] tap:nil];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		 }
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];

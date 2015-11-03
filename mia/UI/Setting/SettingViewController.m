@@ -727,7 +727,7 @@ UITextFieldDelegate>
 			[HXAlertBanner showWithMessage:@"修改昵称成功" tap:nil];
 		} else {
 			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改昵称失败:%@", error] tap:nil];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		}
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		[HXAlertBanner showWithMessage:@"修改昵称失败，网络请求超时" tap:nil];
@@ -764,7 +764,7 @@ UITextFieldDelegate>
 			[self uploadAvatarWithUrl:uploadUrl auth:auth contentType:contentType filename:filename image:_uploadingImage];
 		} else {
 			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改昵称失败:%@", error] tap:nil];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 			[_uploadAvatarProgressHUD removeFromSuperview];
 			_uploadAvatarProgressHUD = nil;
 		}
@@ -787,7 +787,7 @@ UITextFieldDelegate>
 			[HXAlertBanner showWithMessage:@"修改性别成功" tap:nil];
 		} else {
 			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"修改性别失败:%@", error] tap:nil];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		}
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		[HXAlertBanner showWithMessage:@"修改性别失败，网络请求超时" tap:nil];
@@ -854,7 +854,7 @@ UITextFieldDelegate>
 			[self.navigationController popToRootViewControllerAnimated:YES];
 		} else {
 			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"退出登录失败:%@", error] tap:nil];
+			[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 		}
 
 		[aMBProgressHUD removeFromSuperview];

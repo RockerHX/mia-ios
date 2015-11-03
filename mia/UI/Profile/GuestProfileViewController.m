@@ -156,7 +156,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								[self checkPlaceHolder];
 							} else {
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"无法获取分享列表:%@", error] tap:nil];
+								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 								[self checkPlaceHolder];
 							}
 
