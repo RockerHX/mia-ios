@@ -26,4 +26,9 @@ typedef void (^MiaRequestTimeoutBlock)(MiaRequestItem *requestItem);
 					completeBlock:(MiaRequestCompleteBlock)completeBlock
 					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
+- (instancetype)initWithCommand:(NSString *)command
+					   parameters:(NSDictionary *)parameters
+					completeBlock:(MiaRequestCompleteBlock)completeBlock
+					 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 @end
