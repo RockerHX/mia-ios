@@ -11,8 +11,9 @@
 @class ShareItem;
 @class HXGrowingTextView;
 
-@protocol HXMusicDetailViewControllerDelegate
+@protocol HXMusicDetailViewControllerDelegate <NSObject>
 
+@optional
 - (void)detailViewControllerDidDeleteShare;
 - (void)detailViewControllerDismissWithoutDelete;
 

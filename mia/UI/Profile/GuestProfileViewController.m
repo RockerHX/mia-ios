@@ -36,6 +36,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 <UICollectionViewDataSource
 , UICollectionViewDelegate
 , UICollectionViewDelegateFlowLayout
+, HXMusicDetailViewControllerDelegate
 >
 
 @end
@@ -275,7 +276,13 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
 	musicDetailViewController.playItem = [cell shareItem];
 	musicDetailViewController.fromProfile = NO;
+	musicDetailViewController.customDelegate = self;
 	[self.navigationController pushViewController:musicDetailViewController animated:YES];
+}
+
+#pragma mark - HXMusicDetailViewControllerDelegate
+- (void)detailViewControllerDismissWithoutDelete {
+	[_profileCollectionView reloadData];
 }
 
 #pragma mark - button Actions
