@@ -248,6 +248,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [self startFinishedAnimation];
         }
     } else {
+        [self stopAnimation];
         HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
         musicDetailViewController.playItem = _playItem;
         [self.navigationController pushViewController:musicDetailViewController animated:YES];
@@ -681,7 +682,10 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
         [strongSelf.infectUserView layoutIfNeeded];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf stopAnimation];
+    }];
 }
 
 // 妙推完成，结束动画
