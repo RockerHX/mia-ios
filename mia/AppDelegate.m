@@ -54,6 +54,11 @@
 
 #pragma mark - App Delegate Methods
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+	// 设置后台播放模式
+	AVAudioSession *audioSession=[AVAudioSession sharedInstance];
+	[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+	[audioSession setActive:YES error:nil];
+
     if (_backBecomeActive) {
         [[NSNotificationCenter defaultCenter] postNotificationName:HXApplicationDidBecomeActiveNotification object:nil];
     }
