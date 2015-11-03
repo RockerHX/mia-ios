@@ -100,7 +100,6 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	return YES;
 }
 
-
 - (BOOL)isNeedGetNearbyItems {
 	if (([_shareList count] - _currentItem) <= kNeedGetNearbyCount){
 		[[FileLog standard] log:@"isNeedGetNearbyItems: %lu - %lu <= %lu YES", [_shareList count], _currentItem, kNeedGetNearbyCount];
@@ -109,6 +108,10 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 	[[FileLog standard] log:@"isNeedGetNearbyItems: %lu - %lu <= %lu NO", [_shareList count], _currentItem, kNeedGetNearbyCount];
 	return NO;
+}
+
+- (BOOL)isEnd {
+    return ([_shareList count] == _currentItem);
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {

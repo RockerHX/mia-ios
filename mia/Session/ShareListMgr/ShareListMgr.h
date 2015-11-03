@@ -16,6 +16,7 @@
 + (id)initFromArchive;
 
 - (BOOL)isNeedGetNearbyItems;
+- (BOOL)isEnd;
 - (ShareItem *)getCurrentItem;
 - (ShareItem *)getLeftItem;
 - (ShareItem *)getRightItem;
