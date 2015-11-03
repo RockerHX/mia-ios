@@ -15,4 +15,6 @@
 + (void)requestSearchResultWithKey:(NSString *)key page:(NSUInteger)page successBlock:(SuccessBlock)successBlock failedBlock:(FailedBlock)failedBlock;
 + (NSString *)decodeXiamiUrl:(NSString *)encodeUrl;
 
++ (NSString *)requestXiamiUrlBySongID:(NSString *)songID;
+
 @end

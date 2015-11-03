@@ -140,6 +140,25 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 
 }
 
++ (NSString *)requestXiamiUrlBySongID:(NSString *)songID {
+	NSString *songUrl = nil;
+	NSString *requestInfoUrl = [NSString stringWithFormat:kSearchSongInfoURLFormat, songID];
+	NSDictionary *songInfo = [AFNHttpClient requestWaitUntilFinishedWithURL:requestInfoUrl
+																requestType:AFNHttpRequestGet
+																 parameters:nil
+																	timeOut:kSearchSyncTimeout];
+	if (nil != songInfo) {
+		NSArray *trackList = songInfo[@"data"][@"trackList"];
+		if ([NSNull null] != (NSNull *)trackList && trackList.count > 0) {
+			songUrl = [self decodeXiamiUrl:trackList[0][@"location"]];
+		} else {
+			NSLog(@"song without trackList.");
+		}
+	}
+
+	return songUrl;
+}
+
 + (NSString *)removeBoldTag:(NSString *)html {
 	if (nil == html || html.length == 0) {
 		return html;
