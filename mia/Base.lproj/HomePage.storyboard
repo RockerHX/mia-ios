@@ -267,6 +267,13 @@
                                     <outlet property="widthConstraint" destination="Xs6-uh-kVk" id="uRc-LP-FD1"/>
                                 </connections>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="妙推一下" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGi-8V-WGj">
+                                <rect key="frame" x="128" y="538" width="64" height="20"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWo-qg-cwb">
                                 <rect key="frame" x="135" y="578" width="51" height="17"/>
                                 <animations/>
@@ -287,8 +294,10 @@
                             <constraint firstItem="QnW-Sx-Tnv" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="15" id="Fqx-BI-cio"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="W4h-Kd-Mqg" secondAttribute="bottom" id="Fx8-tN-lWx"/>
                             <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="15" id="GCF-La-sRx"/>
+                            <constraint firstItem="rGi-8V-WGj" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="GLv-ad-a0L"/>
                             <constraint firstAttribute="bottom" secondItem="K76-u6-UI7" secondAttribute="bottom" constant="20" id="Gji-wQ-Z6e"/>
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="centerX" secondItem="K76-u6-UI7" secondAttribute="centerX" id="ITI-a2-PHK"/>
+                            <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="rGi-8V-WGj" secondAttribute="bottom" constant="10" id="Jrb-Fc-8gt"/>
                             <constraint firstItem="W4h-Kd-Mqg" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Oh3-3m-go7"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Rcp-NR-a1u"/>
                             <constraint firstItem="KWo-qg-cwb" firstAttribute="centerX" secondItem="1bC-Qy-IVf" secondAttribute="centerX" id="ZZZ-SF-vHq"/>
@@ -312,10 +321,11 @@
                         <outlet property="fishBottomConstraint" destination="Gji-wQ-Z6e" id="08a-67-gj3"/>
                         <outlet property="fishView" destination="K76-u6-UI7" id="lyD-gc-dvz"/>
                         <outlet property="headerViewBottomConstraint" destination="suh-eh-pfG" id="3cj-Uq-eNc"/>
+                        <outlet property="infectCountPromptLabel" destination="KWo-qg-cwb" id="eNd-HB-RWV"/>
                         <outlet property="infectUserView" destination="1bC-Qy-IVf" id="OyI-2j-FoL"/>
                         <outlet property="panGesture" destination="uZS-pI-r12" id="WF9-Of-6pe"/>
                         <outlet property="profileButton" destination="97C-zd-yXF" id="tZ1-SO-1QU"/>
-                        <outlet property="pushPromptLabel" destination="KWo-qg-cwb" id="5JK-IF-qsL"/>
+                        <outlet property="pushPromptLabel" destination="rGi-8V-WGj" id="Q20-ns-avT"/>
                         <outlet property="shareButton" destination="QnW-Sx-Tnv" id="koK-DW-kVT"/>
                         <outlet property="swipeGesture" destination="jzJ-RZ-SS8" id="kXF-oe-x5U"/>
                         <outlet property="waveView" destination="W4h-Kd-Mqg" id="TWw-ve-AEv"/>

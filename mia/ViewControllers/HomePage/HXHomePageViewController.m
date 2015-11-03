@@ -138,6 +138,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.backgroundColor = [UIColor whiteColor];
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
+    _pushPromptLabel.alpha = 0.0f;
+    
     [self hanleUnderiPhone6Size];
     [self animationViewConfig];
 }
@@ -155,7 +157,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
     
     // 配置提示条，设置为隐藏
-    _pushPromptLabel.alpha = 0.0f;
+    _infectCountPromptLabel.alpha = 0.0f;
 }
 
 - (void)initLocationMgr {
@@ -352,7 +354,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
     [_infectUserView removeAllItem];
-    if (infectUsers.count) {
+    NSInteger infectUserCount = infectUsers.count;
+    if (infectUserCount) {
         NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
         for (InfectUserItem *item in infectUsers) {
             [itmes addObject:[NSURL URLWithString:item.avatar]];
@@ -368,6 +371,16 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
             [strongSelf.infectUserView refreshItemWithAnimation];
         }];
     }
+    
+    [self showPushPromptLabel:!infectUserCount];
+}
+
+- (void)showPushPromptLabel:(BOOL)show {
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.4f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.pushPromptLabel.alpha = show ? 1.0f : 0.0f;
+    }];
 }
 
 - (void)addPushUserHeader {
@@ -390,7 +403,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
     NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count), ((count > 5) ? @"等" : @"")];
-    _pushPromptLabel.text = prompt;
+    _infectCountPromptLabel.text = prompt;
 }
 
 - (void)reset {
@@ -555,7 +568,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)displayWithInfectState:(BOOL)infected {
-    _pushPromptLabel.alpha = 0.0f;
+    _infectCountPromptLabel.alpha = 0.0f;
     _bubbleView.hidden = infected;
     _fishView.hidden = infected;
     
@@ -671,7 +684,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.3f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.pushPromptLabel.alpha = 1.0f;
+        strongSelf.infectCountPromptLabel.alpha = 1.0f;
     } completion:nil];
 }
 
