@@ -34,6 +34,7 @@
 #import "UpdateHelper.h"
 #import "FavoriteMgr.h"
 #import "HXNavigationController.h"
+#import "HXInfectUserItemView.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -349,7 +350,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
     [_infectUserView removeAllItem];
-    if (infectUsers) {
+    if (infectUsers.count) {
         NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
         for (InfectUserItem *item in infectUsers) {
             [itmes addObject:[NSURL URLWithString:item.avatar]];
@@ -370,7 +371,9 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)addPushUserHeader {
     [self updatePromptLabel];
     // 妙推用户头像添加以及动画
-    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
+    if (!_playItem.isInfected) {
+        [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
+    }
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
