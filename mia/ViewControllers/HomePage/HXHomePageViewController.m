@@ -243,6 +243,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     if (_animating) {
         if (![[UserSession standard] isLogined]) {
             [self cancelLoginOperate];
+        } else {
+            [self startFinishedAnimation];
         }
     } else {
         HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
