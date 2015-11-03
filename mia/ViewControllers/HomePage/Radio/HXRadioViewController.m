@@ -312,8 +312,7 @@
 		 if (success) {
 			 NSLog(@"viewShareWithLatitude success");
 		 } else {
-			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-			 NSLog(@"viewShareWithLatitude failed: %@", error);
+			 NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 		 }
 	 } timeoutBlock:^(MiaRequestItem *requestItem) {
 		 NSLog(@"viewShareWithLatitude timeout");
