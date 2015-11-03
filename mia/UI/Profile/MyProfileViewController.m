@@ -333,7 +333,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[_noNetWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_profileCollectionView.mas_centerX);
-		make.top.mas_equalTo(kProfileHeaderHeight + 20);
+		make.top.mas_equalTo(kProfileHeaderHeight + 60);
 	}];
 
 	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
