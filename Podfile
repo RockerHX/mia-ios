@@ -27,6 +27,7 @@ pod 'TTTAttributedLabel'
 pod 'UIAlertView-Blocks'
 pod 'MJRefresh'
 pod 'UITableView+FDTemplateLayoutCell'
+pod 'UICollectionViewLeftAlignedLayout'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'
