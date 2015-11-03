@@ -8,13 +8,11 @@
 
 #import "SearchViewController.h"
 #import "MIAButton.h"
-#import "MIALabel.h"
 #import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "MIALabel.h"
 #import "SearchSuggestionView.h"
 #import "Masonry.h"
 #import "SearchSuggestionModel.h"
@@ -215,8 +213,7 @@
 
 #pragma mark - delegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	if (textField == _searchTextField) {
 		[textField resignFirstResponder];
 
@@ -234,10 +231,10 @@
 										   page:_resultModel.currentPage
 								   successBlock:
 		 ^(id responseObject) {
-			[_resultModel addItemsWithArray:responseObject];
-			[_resultView.collectionView reloadData];
-
-			[_searchProgressHUD hide:YES];
+			 [_resultModel addItemsWithArray:responseObject];
+			 [_resultView setNoDataTipsHidden:_resultModel.dataSource.count != 0];
+			 [_resultView.collectionView reloadData];
+			 [_searchProgressHUD hide:YES];
 		} failedBlock:^(NSError *error) {
 			[_searchProgressHUD hide:YES];
 			[HXAlertBanner showWithMessage:@"搜索失败，请稍后重试" tap:nil];
@@ -286,6 +283,7 @@
 	[_searchProgressHUD show:YES];
 	[XiamiHelper requestSearchResultWithKey:key page:_resultModel.currentPage successBlock:^(id responseObject) {
 		[_resultModel addItemsWithArray:responseObject];
+		[_resultView setNoDataTipsHidden:_resultModel.dataSource.count != 0];
 		[_resultView.collectionView reloadData];
 		[_searchProgressHUD hide:YES];
 	} failedBlock:^(NSError *error) {

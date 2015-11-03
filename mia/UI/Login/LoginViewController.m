@@ -10,7 +10,6 @@
 #import "UIImage+ColorToImage.h"
 #import "UIImage+Extrude.h"
 #import "MIAButton.h"
-#import "MIALabel.h"
 #import "SignUpViewController.h"
 #import "ResetPwdViewController.h"
 #import "MiaAPIHelper.h"
