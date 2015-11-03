@@ -346,7 +346,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.view endEditing:YES];
-    if (indexPath.row >= _viewModel.regularRow) {
+    if ((indexPath.row >= _viewModel.regularRow) && (_viewModel.comments.count)) {
         HXComment *comment = _viewModel.comments[indexPath.row - _viewModel.regularRow];
         GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
         [self.navigationController pushViewController:viewController animated:YES];
