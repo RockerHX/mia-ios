@@ -75,14 +75,14 @@
 
 	static const CGFloat kTextFieldMarginLeft		= 18;
 	static const CGFloat kTextFieldHeight			= 45;
-	static const CGFloat kUserNameMarginTop			= 64 + 30;
+	static const CGFloat kUserNameMarginTop			= 25;
 	static const CGFloat kVerificationCodeMarginTop	= kUserNameMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kFirstPasswordMarginTop	= kVerificationCodeMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSecondPasswordMarginTop	= kFirstPasswordMarginTop + kTextFieldHeight + 5;
 	static const CGFloat kSiginUpMarginTop			= kSecondPasswordMarginTop + kTextFieldHeight + 38;
 	static const CGFloat kSignUpMarginLeft			= 16;
 
- 	static const CGFloat kVerificationCodeButtonWidth			= 83;
+ 	static const CGFloat kVerificationCodeButtonWidth			= 87;
 	static const CGFloat kVerificationCodeButtonHeight			= 28;
 
 	UIColor *placeHolderColor = UIColorFromHex(@"#808080", 1.0);
@@ -260,7 +260,7 @@
 	float width = _inputView.frame.size.width;
 	float height = _inputView.frame.size.height;
 
-	static const CGFloat kOffsetForKeyboard = 30;
+	static const CGFloat kOffsetForKeyboard = 80;
 	CGRect rect = CGRectMake(0.0f, -kOffsetForKeyboard, width,height);
 	_inputView.frame = rect;
 	[UIView commitAnimations];
