@@ -245,10 +245,10 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bC-Qy-IVf" customClass="HXInfectUserView">
-                                <rect key="frame" x="60" y="526" width="200" height="42"/>
+                                <rect key="frame" x="50" y="526" width="220" height="42"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M6x-Ec-2XC">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="42"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="220" height="42"/>
                                         <animations/>
                                     </stackView>
                                 </subviews>
@@ -257,7 +257,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="M6x-Ec-2XC" secondAttribute="bottom" id="5D5-EF-vg6"/>
                                     <constraint firstItem="M6x-Ec-2XC" firstAttribute="top" secondItem="1bC-Qy-IVf" secondAttribute="top" id="72o-aT-oFb"/>
-                                    <constraint firstAttribute="width" constant="200" id="Xs6-uh-kVk"/>
+                                    <constraint firstAttribute="width" constant="220" id="Xs6-uh-kVk"/>
                                     <constraint firstAttribute="height" constant="42" id="aPg-c8-Lo4"/>
                                     <constraint firstItem="M6x-Ec-2XC" firstAttribute="leading" secondItem="1bC-Qy-IVf" secondAttribute="leading" id="ggl-2r-6Z3"/>
                                     <constraint firstAttribute="trailing" secondItem="M6x-Ec-2XC" secondAttribute="trailing" id="vjy-Go-2jq"/>

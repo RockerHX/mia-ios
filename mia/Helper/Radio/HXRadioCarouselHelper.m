@@ -70,7 +70,6 @@
         ShareItem *nextItem = items[1];
         ShareItem *preiousItem = items[2];
         NSInteger currentIndex = _carousel.currentItemIndex;
-        NSLog(@"currentIndex：%zd", currentIndex);
         switch (currentIndex) {
             case 1: {
                 _items = @[preiousItem, currentItem, nextItem];
