@@ -121,11 +121,12 @@
 }
 
 - (IBAction)playButtonPressed {
-    if ([_songListPlayer isPlaying]) {
-        [self pauseMusic];
-    } else {
-        [self playMusic];
-    }
+	if ([[MusicMgr standard] isPlayingWithUrl:_dataItem.songUrl]) {
+		[[MusicMgr standard] pause];
+		[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+	} else {
+		[self playMusic];
+	}
 }
 
 - (IBAction)closeLocationPressed {
@@ -216,7 +217,13 @@
     
     _songNameLabel.text = _dataItem.title;
     _singerLabel.text = _dataItem.artist;
-    
+
+	if ([[MusicMgr standard] isPlayingWithUrl:_dataItem.songUrl]) {
+		[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+	} else {
+		[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+	}
+
     [MiaAPIHelper getMusicById:_dataItem.songID
                  completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
