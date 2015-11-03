@@ -34,6 +34,7 @@
 #import "UpdateHelper.h"
 #import "FavoriteMgr.h"
 #import "HXNavigationController.h"
+#import "HXInfectUserItemView.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -243,6 +244,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     if (_animating) {
         if (![[UserSession standard] isLogined]) {
             [self cancelLoginOperate];
+        } else {
+            [self startFinishedAnimation];
         }
     } else {
         HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
@@ -251,20 +254,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }
 }
 
-static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动画阀值
+static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动画阀值
 - (IBAction)gestureEvent:(UIGestureRecognizer *)gesture {
-    if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]]) {
-        // 滑动手势
-        UISwipeGestureRecognizer *swipeGesture = (UISwipeGestureRecognizer *)gesture;
-        switch (swipeGesture.direction) {
-            case UISwipeGestureRecognizerDirectionUp: {
-                [self startAnimation];
-                break;
-            }
-            default:
-                break;
-        }
-    } else if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+    if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
         // 拖动手势
         UIPanGestureRecognizer *panGesture = (UIPanGestureRecognizer *)gesture;
         switch (panGesture.state) {
@@ -309,6 +301,19 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
             default:
                 break;
         }
+    } else if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        // 滑动手势
+        UISwipeGestureRecognizer *swipeGesture = (UISwipeGestureRecognizer *)gesture;
+        switch (swipeGesture.direction) {
+            case UISwipeGestureRecognizerDirectionUp: {
+                if (!_playItem.isInfected) {
+                    [self startAnimation];
+                }
+                break;
+            }
+            default:
+                break;
+        }
     }
 }
 
@@ -345,7 +350,7 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
     [_infectUserView removeAllItem];
-    if (infectUsers) {
+    if (infectUsers.count) {
         NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
         for (InfectUserItem *item in infectUsers) {
             [itmes addObject:[NSURL URLWithString:item.avatar]];
@@ -366,7 +371,9 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 - (void)addPushUserHeader {
     [self updatePromptLabel];
     // 妙推用户头像添加以及动画
-    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
+    if (!_playItem.isInfected) {
+        [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
+    }
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -509,7 +516,6 @@ static CGFloat OffsetHeightThreshold = 200.0f;  // 用户拖动手势触发动�
 					 strongSelf->_playItem.infectTotal = infectTotal;
 					 [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
 					 strongSelf->_playItem.isInfected = isInfected;
-					 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
 				 }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];

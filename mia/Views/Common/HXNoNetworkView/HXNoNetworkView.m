@@ -18,6 +18,7 @@ typedef void(^BLOCK)(void);
     BLOCK _playBlock;
 }
 
+@property (weak, nonatomic) IBOutlet  UILabel *playPrePromptLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 @end
@@ -35,6 +36,7 @@ typedef void(^BLOCK)(void);
 - (void)viewConfig {
     _playButton.layer.cornerRadius = _playButton.frame.size.height/2;
     _playButton.hidden = ![[FavoriteMgr standard] cachedCount];
+    _playPrePromptLabel.hidden = _playButton.hidden;
 }
 
 #pragma mark - Event Response

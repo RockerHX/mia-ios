@@ -32,6 +32,9 @@
 #pragma mark - Config Methods
 - (void)initConfig {
     [self initData];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playButtonPressed)];
+    [_coverView addGestureRecognizer:tap];
 }
 
 - (void)viewConfig {

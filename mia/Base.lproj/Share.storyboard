@@ -51,6 +51,13 @@
                                                     <action selector="addMusicButtonPressed" destination="Dxq-Jl-kQw" eventType="touchUpInside" id="T2J-N8-Wz2"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加音乐" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2CH-Dd-Jyt">
+                                                <rect key="frame" x="132" y="199" width="56" height="17"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpK-2C-los">
                                                 <rect key="frame" x="53" y="60" width="214" height="214"/>
                                                 <subviews>
@@ -134,9 +141,11 @@
                                             <constraint firstItem="tja-YF-1QB" firstAttribute="top" secondItem="e3c-v4-ZHl" secondAttribute="top" constant="60" id="DWG-QD-3a7"/>
                                             <constraint firstItem="kpK-2C-los" firstAttribute="centerX" secondItem="eqr-fl-Bew" secondAttribute="centerX" id="GDB-eO-ewy"/>
                                             <constraint firstItem="aKA-Fg-Bsf" firstAttribute="top" secondItem="tja-YF-1QB" secondAttribute="bottom" constant="2" id="S0A-2t-0De"/>
+                                            <constraint firstItem="2CH-Dd-Jyt" firstAttribute="centerX" secondItem="eqr-fl-Bew" secondAttribute="centerX" id="TCd-1b-q5Q"/>
                                             <constraint firstItem="o9K-gF-vwm" firstAttribute="top" secondItem="eqr-fl-Bew" secondAttribute="bottom" constant="15" id="UPt-dY-GPd"/>
                                             <constraint firstItem="eqr-fl-Bew" firstAttribute="centerX" secondItem="e3c-v4-ZHl" secondAttribute="centerX" id="Zpq-BK-EyY"/>
                                             <constraint firstItem="aKA-Fg-Bsf" firstAttribute="centerX" secondItem="tja-YF-1QB" secondAttribute="centerX" id="a6P-gl-jHc"/>
+                                            <constraint firstItem="2CH-Dd-Jyt" firstAttribute="centerY" secondItem="eqr-fl-Bew" secondAttribute="centerY" constant="40" id="cav-Ys-3sc"/>
                                             <constraint firstItem="S97-IU-UTo" firstAttribute="centerX" secondItem="o9K-gF-vwm" secondAttribute="centerX" id="gJy-W0-fkN"/>
                                             <constraint firstItem="kpK-2C-los" firstAttribute="centerY" secondItem="eqr-fl-Bew" secondAttribute="centerY" id="hDX-Ri-k5B"/>
                                             <constraint firstItem="eqr-fl-Bew" firstAttribute="top" secondItem="e3c-v4-ZHl" secondAttribute="top" constant="60" id="iWd-oV-0Oc"/>

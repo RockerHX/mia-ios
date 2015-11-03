@@ -15,6 +15,8 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerWidthContraint;
 
+@property (nonatomic, strong) NSURL *url;
+
 + (instancetype)instance;
 
 - (void)reduce;
