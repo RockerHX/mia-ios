@@ -81,7 +81,16 @@
             }
         }
         _canChange = NO;
-        _warp = preiousItem.hasData;
+        _warp = (preiousItem.hasData && nextItem.hasData);
+        NSMutableArray *temp = _items.mutableCopy;
+        [temp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            ShareItem *item = obj;
+            if (!item.hasData) {
+                [temp removeObject:item];
+            }
+        }];
+        _items = [temp copy];
+        
         [_carousel reloadData];
     }
 }
