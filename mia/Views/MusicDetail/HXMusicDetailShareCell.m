@@ -48,16 +48,16 @@
         _shareInfoLabel.textAlignment = NSTextAlignmentCenter;
     }
     
+    _shareInfoLabel.text = text;
     NSRange range = [_shareInfoLabel.text rangeOfString:(sharerName ?: @"")];
     [_shareInfoLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
     NSMutableDictionary *linkAttributes = _shareInfoLabel.linkAttributes.mutableCopy;
     [linkAttributes setValue:@(0) forKey:@"NSUnderline"];
+    [linkAttributes setValue:UIColorFromHex(@"4383e9", 1.0f) forKey:@"CTForegroundColor"];
     _shareInfoLabel.linkAttributes = linkAttributes;
-    [_shareInfoLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-        NSRange boldRange = [[mutableAttributedString string] rangeOfString:sharerName options:NSCaseInsensitiveSearch];
-        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)UIColorFromHex(@"4383e9", 1.0f).CGColor range:boldRange];
-        return mutableAttributedString;
-    }];
+    NSMutableDictionary *activeLinkAttributes = _shareInfoLabel.activeLinkAttributes.mutableCopy;
+    [activeLinkAttributes setValue:UIColorFromHex(@"4383e9", 1.0f) forKey:@"CTForegroundColor"];
+    _shareInfoLabel.activeLinkAttributes = activeLinkAttributes;
 }
 
 
