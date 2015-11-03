@@ -70,7 +70,6 @@
         ShareItem *nextItem = items[1];
         ShareItem *preiousItem = items[2];
         NSInteger currentIndex = _carousel.currentItemIndex;
-        NSLog(@"currentIndex：%zd", currentIndex);
         switch (currentIndex) {
             case 1: {
                 _items = @[preiousItem, currentItem, nextItem];
@@ -82,7 +81,16 @@
             }
         }
         _canChange = NO;
-        _warp = preiousItem.hasData;
+        _warp = (preiousItem.hasData && nextItem.hasData);
+        NSMutableArray *temp = _items.mutableCopy;
+        [temp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            ShareItem *item = obj;
+            if (!item.hasData) {
+                [temp removeObject:item];
+            }
+        }];
+        _items = [temp copy];
+        
         [_carousel reloadData];
     }
 }

@@ -43,9 +43,6 @@ static CGFloat ItemDefaultWidth = 42.0f;
 }
 
 - (void)refreshItemWithAnimation {
-    for (HXInfectUserItemView *view in _stacView.arrangedSubviews) {
-        NSLog(@"%@", view.url);
-    }
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;

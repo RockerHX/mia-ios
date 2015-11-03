@@ -324,9 +324,9 @@
 }
 
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-//    if (_delegate && [_delegate respondsToSelector:@selector(shouldPushToRadioDetailViewController)]) {
-//        [_delegate shouldPushToRadioDetailViewController];
-//    }
+    if (_delegate && [_delegate respondsToSelector:@selector(raidoViewDidTaped)]) {
+        [_delegate raidoViewDidTaped];
+    }
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {

@@ -119,11 +119,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
-    for (NSInteger index = 1; index <= 67; index ++) {
-        [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%zd", index]]];
+    for (NSInteger index = 1; index <= 34; index ++) {
+        [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"fish-%zd", index]]];
     }
     _fishView.animationImages = fishIcons;
-    _fishView.animationDuration = 3.0f;         //设置小鱼动画为20帧左右
+    _fishView.animationDuration = 1.5f;
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
@@ -137,6 +137,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     
     _shareButton.backgroundColor = [UIColor whiteColor];
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
+    
+    _pushPromptLabel.alpha = 0.0f;
     
     [self hanleUnderiPhone6Size];
     [self animationViewConfig];
@@ -155,7 +157,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
     
     // 配置提示条，设置为隐藏
-    _pushPromptLabel.alpha = 0.0f;
+    _infectCountPromptLabel.alpha = 0.0f;
 }
 
 - (void)initLocationMgr {
@@ -241,6 +243,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)tapGesture {
+    [self.view endEditing:YES];
     if (_animating) {
         if (![[UserSession standard] isLogined]) {
             [self cancelLoginOperate];
@@ -248,6 +251,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [self startFinishedAnimation];
         }
     } else {
+        [self stopAnimation];
         HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
         musicDetailViewController.playItem = _playItem;
         [self.navigationController pushViewController:musicDetailViewController animated:YES];
@@ -350,7 +354,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
     [_infectUserView removeAllItem];
-    if (infectUsers.count) {
+    NSInteger infectUserCount = infectUsers.count;
+    if (infectUserCount) {
         NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
         for (InfectUserItem *item in infectUsers) {
             [itmes addObject:[NSURL URLWithString:item.avatar]];
@@ -366,6 +371,16 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
             [strongSelf.infectUserView refreshItemWithAnimation];
         }];
     }
+    
+    [self showPushPromptLabel:!infectUserCount];
+}
+
+- (void)showPushPromptLabel:(BOOL)show {
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.4f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.pushPromptLabel.alpha = show ? 1.0f : 0.0f;
+    }];
 }
 
 - (void)addPushUserHeader {
@@ -388,7 +403,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
     NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count), ((count > 5) ? @"等" : @"")];
-    _pushPromptLabel.text = prompt;
+    _infectCountPromptLabel.text = prompt;
 }
 
 - (void)reset {
@@ -553,7 +568,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)displayWithInfectState:(BOOL)infected {
-    _pushPromptLabel.alpha = 0.0f;
+    _infectCountPromptLabel.alpha = 0.0f;
     _bubbleView.hidden = infected;
     _fishView.hidden = infected;
     
@@ -618,7 +633,11 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    [_waveView waveMoveDownAnimation:nil];
+    __weak __typeof__(self)weakSelf = self;
+    [_waveView waveMoveDownAnimation:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.fishView stopAnimating];
+    }];
 }
 
 // 波浪升起动画
@@ -627,6 +646,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [_waveView waveMoveUpAnimation:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf reset];
+        [strongSelf.fishView startAnimating];
     }];
 }
 
@@ -669,7 +689,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.3f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.pushPromptLabel.alpha = 1.0f;
+        strongSelf.infectCountPromptLabel.alpha = 1.0f;
     } completion:nil];
 }
 
@@ -681,7 +701,12 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
         [strongSelf.infectUserView layoutIfNeeded];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (strongSelf->_animating) {
+            [strongSelf stopAnimation];
+        }
+    }];
 }
 
 // 妙推完成，结束动画
@@ -802,6 +827,10 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)musicDidChange:(ShareItem *)item {
 //    _playItem = item;
 //    [self displayWithInfectState:item.isInfected];
+}
+
+- (void)raidoViewDidTaped {
+    [self tapGesture];
 }
 
 @end

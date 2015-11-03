@@ -27,6 +27,7 @@
 @property (nonatomic, weak) IBOutlet    UILabel *bottomPromptLabel;
 @property (nonatomic, weak) IBOutlet UITextView *textView;
 @property (nonatomic, weak) IBOutlet   UIButton *sendButton;
+@property (nonatomic, weak) IBOutlet    UILabel *loginPromptLabel;
 @property (nonatomic, weak) IBOutlet   UIButton *loginButton;
 
 - (IBAction)sendButtonPressed;

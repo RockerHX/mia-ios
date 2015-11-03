@@ -87,7 +87,7 @@
 
 - (void)configLabel {
     _progressView.progress = 0.0f;
-    _shrareContentLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 70.0f;
+    _shrareContentLabel.preferredMaxLayoutWidth = (SCREEN_WIDTH/3)*2;
     _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
 }
@@ -219,7 +219,7 @@ static NSString *HanWorld = @"肖";
 - (void)displayShareContentLabelWithContent:(NSString *)content locationInfo:(NSString *)locationInfo {
     NSString *text = [NSString stringWithFormat:@"%@%@", (content.length ? [NSString stringWithFormat:@"“%@”  ", content] : @""), (locationInfo ?: @"")];
     
-    CGFloat labelWidth = _shrareContentLabel.frame.size.width;
+    CGFloat labelWidth = _shrareContentLabel.preferredMaxLayoutWidth;
     CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
     UIFont *labelFont = _shrareContentLabel.font;
     CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
@@ -235,7 +235,7 @@ static NSString *HanWorld = @"肖";
             CGFloat worldWith = [HanWorld boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.width;
             CGFloat locationInfoWidth = [coutText boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:_shrareContentLabel.font} context:nil].size.width;
             CGFloat commentSurplusWidth = maxWidth - locationInfoWidth;
-            NSInteger commentWorldCount = (commentSurplusWidth/worldWith) - 1;
+            NSInteger commentWorldCount = (commentSurplusWidth/worldWith) + 1;
             text = [NSString stringWithFormat:@"%@%@", [text substringWithRange:(NSRange){0, commentWorldCount}], coutText];
         }
     } else {
