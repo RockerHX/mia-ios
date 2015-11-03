@@ -10,11 +10,13 @@
 
 @class BRPlaceholderTextView;
 
-@interface HXFeedBackViewController : UIViewController
+@interface HXFeedBackViewController : UIViewController <UITextViewDelegate>
 
+@property (weak, nonatomic) IBOutlet              UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet BRPlaceholderTextView *feedContentTextView;
 @property (weak, nonatomic) IBOutlet           UITextField *feedContactTextField;
 
+- (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;
 
 @end
