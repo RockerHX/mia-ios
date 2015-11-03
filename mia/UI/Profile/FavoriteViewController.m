@@ -185,11 +185,6 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	//4.设置代理
 	_favoriteCollectionView.delegate = self;
 	_favoriteCollectionView.dataSource = self;
-
-//	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestFavoriteList)];
-//	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
-//	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
-//	_favoriteCollectionView.footer = aFooter;
 }
 
 - (void)initHeaderView:(UIView *)contentView {
@@ -277,17 +272,6 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	} else {
 		[_playButton setImage:[UIImage imageNamed:@"play_black"] forState:UIControlStateNormal];
 	}
-}
-
-//- (void)requestFavoriteList {
-//	NSArray *items = [_favoriteViewControllerDelegate favoriteViewControllerGetFavoriteList];
-//	[[_favoriteViewControllerDelegate favoriteViewControllerModel] addItemsWithArray:items];
-//	[_favoriteCollectionView reloadData];
-//	[self endRequestFavoriteList:YES];
-//}
-
-- (void)endRequestFavoriteList:(BOOL)success {
-	[_favoriteCollectionView.footer endRefreshing];
 }
 
 - (void)updateSelectedCount {

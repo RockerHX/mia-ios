@@ -28,7 +28,6 @@
 
 - (id)initWitBackground:(UIImage *)backgroundImage;
 - (void)setBackground:(UIImage *)backgroundImage;
-- (void)endRequestFavoriteList:(BOOL)success;
 
 @end
 
