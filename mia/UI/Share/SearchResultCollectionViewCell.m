@@ -36,12 +36,12 @@
 
 - (void)initUI:(UIView *)contentView {
 //	contentView.backgroundColor = arc4random() %2 == 0 ? [UIColor redColor] : [UIColor greenColor];
-	_coverImageView = [[UIImageView alloc] init];
+    _coverImageView = [[UIImageView alloc] init];
+    _coverImageView.backgroundColor = UIColorFromHex(@"f1f5f5", 1.0f);
+    _coverImageView.layer.borderColor = UIColorFromHex(@"d7dede", 1.0f).CGColor;
+    _coverImageView.layer.borderWidth = 0.5f;
 	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
-	[contentView addSubview:_coverImageView];
-	_coverImageView.layer.borderWidth = 0.5f;
-	_coverImageView.layer.borderColor = UIColorFromHex(@"dcdcdc", 1.0).CGColor;
-
+    [contentView addSubview:_coverImageView];
 
 	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									   titleString:nil

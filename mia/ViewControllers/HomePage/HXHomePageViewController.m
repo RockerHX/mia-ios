@@ -123,7 +123,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%zd", index]]];
     }
     _fishView.animationImages = fishIcons;
-    _fishView.animationDuration = 3.0f;         //profileButton 设置小鱼动画为20帧左右
+    _fishView.animationDuration = 3.0f;         //设置小鱼动画为20帧左右
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
@@ -371,9 +371,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)addPushUserHeader {
     [self updatePromptLabel];
     // 妙推用户头像添加以及动画
-    if (!_playItem.isInfected) {
-        [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
-    }
+    [_infectUserView addItemAtFirstIndex:[NSURL URLWithString:[[UserSession standard] avatar]]];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
@@ -383,15 +381,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         // 妙推用户头像跳动动画
         [strongSelf.infectUserView refreshItemWithAnimation];
         // 妙推提示条显示动画
-        [UIView animateWithDuration:0.3f animations:^{
-            strongSelf.pushPromptLabel.alpha = 1.0f;
-        } completion:nil];
+        [strongSelf startPushPromptLabelAnimation];
     }];
 }
 
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
-    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count + 1), ((count > 5) ? @"等" : @"")];
+    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count), ((count > 5) ? @"等" : @"")];
     _pushPromptLabel.text = prompt;
 }
 
@@ -439,12 +435,12 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
     if (unreadCommentCount <= 0) {
-		_profileButton.layer.borderWidth = 0;
+        _profileButton.layer.borderWidth = 0.5f;
         [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
                                   forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	} else {
-		_profileButton.layer.borderWidth = 0.5f;
+        _profileButton.layer.borderWidth = 0.0f;
 		[_profileButton setImage:nil forState:UIControlStateNormal];
 		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
@@ -496,6 +492,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)infectShare {
     if (!_playItem.isInfected) {
         _playItem.isInfected = YES;
+        _playItem.infectTotal += 1;
         __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
         [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
@@ -601,7 +598,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     
     [self startBubbleScaleAnimation];
     [self startWaveMoveDownAnimation];
-    [self startHeaderViewPopAnimation];
+    [self startHeaderViewPopAnimationAddUser:YES];
 }
 
 // 气泡弹出动画
@@ -649,17 +646,31 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 // 头像弹出动画
-- (void)startHeaderViewPopAnimation {
+- (void)startHeaderViewPopAnimationAddUser:(BOOL)add {
     _headerViewBottomConstraint.constant = 40.0f;
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.4f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.infectUserView.transform = CGAffineTransformIdentity;
         [strongSelf.infectUserView layoutIfNeeded];
-    } completion:nil];
-    if ([[UserSession standard] isLogined]) {
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (!add) {
+            [strongSelf updatePromptLabel];
+            [strongSelf startPushPromptLabelAnimation];
+        }
+    }];
+    if ([[UserSession standard] isLogined] && add) {
         [self addPushUserHeader];
     }
+}
+
+- (void)startPushPromptLabelAnimation {
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.3f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.pushPromptLabel.alpha = 1.0f;
+    } completion:nil];
 }
 
 // 头像收回动画
@@ -703,7 +714,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)startInfectedStateAnimation {
     [self startWaveMoveDownAnimation];
-    [self startHeaderViewPopAnimation];
+    [self startHeaderViewPopAnimationAddUser:NO];
 }
 
 - (void)startUnInfectedStateAnimation {

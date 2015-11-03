@@ -34,9 +34,11 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 #pragma mark - Config Methods
 - (void)initConfig {
     _feedContentTextView.placeholder = FeedContentPrompt;
+    _feedContentTextView.delegate = self;
 }
 
 - (void)viewConfig {
+    _sendButton.enabled = NO;
     _feedContentTextView.layer.borderWidth = 0.5f;
     _feedContentTextView.layer.borderColor = UIColorFromRGB(230.0f, 230.0f, 230.0f).CGColor;
     
@@ -44,6 +46,19 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
     _feedContactTextField.leftViewMode = UITextFieldViewModeAlways;
     _feedContactTextField.layer.borderWidth = 0.5f;
     _feedContactTextField.layer.borderColor = UIColorFromRGB(230.0f, 230.0f, 230.0f).CGColor;
+}
+
+#pragma mark - Event Response
+- (IBAction)backButtonPressed {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)sendButtonPressed {
+    if (_feedContentTextView.text.length) {
+        [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
+    } else {
+        [HXAlertBanner showWithMessage:@"反馈内容不能为空哦" tap:nil];
+    }
 }
 
 #pragma mark - Private Methods
@@ -63,15 +78,6 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 		[_progressHUD removeFromSuperview];
 		_progressHUD = nil;
 	}
-}
-
-#pragma mark - Event Response
-- (IBAction)sendButtonPressed {
-    if (_feedContentTextView.text.length) {
-        [self userFeedBackReuqestWithContact:_feedContactTextField.text content:_feedContentTextView.text];
-    } else {
-		[HXAlertBanner showWithMessage:@"反馈内容不能为空哦" tap:nil];
-    }
 }
 
 #pragma mark - Private Methods
@@ -96,6 +102,11 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 		 [HXAlertBanner showWithMessage:@"反馈超时，请稍后重试" tap:nil];
 		 [self removeMBProgressHUD];
 	}];
+}
+
+#pragma mark - UITextViewDelegate Methods
+- (void)textViewDidChange:(UITextView *)textView {
+    _sendButton.enabled = textView.text.length;
 }
 
 @end

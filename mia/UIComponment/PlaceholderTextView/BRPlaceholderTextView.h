@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-
 @interface BRPlaceholderTextView : UITextView
 
 @property(copy,nonatomic)   NSString *placeholder;
 
-@property(strong,nonatomic) NSIndexPath * indexPath;
+@property(strong,nonatomic) NSIndexPath *indexPath;
 
 //最大长度设置
 @property(assign,nonatomic) NSInteger maxTextLength;
@@ -28,40 +27,40 @@
  *  @param maxLength <#maxLength description#>
  *  @param limit     <#limit description#>
  */
--(void)addMaxTextLengthWithMaxLength:(NSInteger)maxLength andEvent:(void(^)(BRPlaceholderTextView*text))limit;
+- (void)addMaxTextLengthWithMaxLength:(NSInteger)maxLength andEvent:(void(^)(BRPlaceholderTextView*text))limit;
 /**
  *  开始编辑 的 回调
  *
  *  @param begin <#begin description#>
  */
--(void)addTextViewBeginEvent:(void(^)(BRPlaceholderTextView*text))begin;
+- (void)addTextViewBeginEvent:(void(^)(BRPlaceholderTextView*text))begin;
 
 /**
  *  结束编辑 的 回调
  *
  *  @param begin <#begin description#>
  */
--(void)addTextViewEndEvent:(void(^)(BRPlaceholderTextView*text))End;
+- (void)addTextViewEndEvent:(void(^)(BRPlaceholderTextView*text))End;
 
 /**
  *  设置Placeholder 颜色
  *
  *  @param color <#color description#>
  */
--(void)setPlaceholderColor:(UIColor*)color;
+- (void)setPlaceholderColor:(UIColor*)color;
 
 /**
  *  设置Placeholder 字体
  *
  *  @param font <#font description#>
  */
--(void)setPlaceholderFont:(UIFont*)font;
+- (void)setPlaceholderFont:(UIFont*)font;
 
 /**
  *  设置透明度
  *
  *  @param opacity <#opacity description#>
  */
--(void)setPlaceholderOpacity:(float)opacity;
+- (void)setPlaceholderOpacity:(float)opacity;
 
 @end

@@ -57,9 +57,10 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="grJ-QU-1Rz">
                                                     <rect key="frame" x="73" y="50" width="175" height="175"/>
                                                     <subviews>
-                                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-V3-m8q">
+                                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-V3-m8q">
                                                             <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
                                                             <animations/>
+                                                            <color key="backgroundColor" red="0.94509803920000002" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                             <gestureRecognizers/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D4-xl-Kk1">
@@ -515,7 +516,6 @@
     </scenes>
     <resources>
         <image name="HP-CoverMask" width="250" height="65"/>
-        <image name="HP-DefaultCover" width="250" height="250"/>
         <image name="M-PauseIcon" width="35" height="35"/>
         <image name="M-PlayIcon" width="35" height="35"/>
         <image name="MD-BackIcon" width="25" height="25"/>

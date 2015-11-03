@@ -122,16 +122,43 @@
                             <constraint firstItem="afH-gm-1uR" firstAttribute="top" secondItem="cB8-ot-ZNc" secondAttribute="bottom" constant="30" id="tIK-eI-kti"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="意见反馈" id="GeY-r4-vzK">
-                        <barButtonItem key="rightBarButtonItem" title="发送" id="NOT-5M-EFR">
-                            <connections>
-                                <action selector="sendButtonPressed" destination="SZ7-Ve-eya" id="hlf-Ur-NtC"/>
-                            </connections>
+                        <barButtonItem key="leftBarButtonItem" id="hDn-86-snA">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OGV-wr-Wpu">
+                                <rect key="frame" x="16" y="9" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <inset key="imageEdgeInsets" minX="-16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="MD-BackIcon"/>
+                                <connections>
+                                    <action selector="backButtonPressed" destination="SZ7-Ve-eya" eventType="touchUpInside" id="HKQ-hD-WSv"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="jdi-ht-Jjc">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jbb-5w-NkZ">
+                                <rect key="frame" x="233" y="7" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <inset key="titleEdgeInsets" minX="40" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="发送">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendButtonPressed" destination="SZ7-Ve-eya" eventType="touchUpInside" id="FYv-Ep-YNE"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="feedContactTextField" destination="TYU-wE-xSE" id="v59-Ir-nTl"/>
                         <outlet property="feedContentTextView" destination="cB8-ot-ZNc" id="Jyu-Gh-13V"/>
+                        <outlet property="sendButton" destination="Jbb-5w-NkZ" id="T1L-yI-jn1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKM-2u-WeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -139,4 +166,7 @@
             <point key="canvasLocation" x="-202" y="330"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="MD-BackIcon" width="25" height="25"/>
+    </resources>
 </document>

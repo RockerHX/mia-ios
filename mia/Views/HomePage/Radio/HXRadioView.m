@@ -79,7 +79,9 @@
 
 - (void)viewConfig {
     [self configLabel];
+    [self configFrontCover];
     [self hanleUnderiPhone6Size];
+    
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(displayPlayProgress) userInfo:nil repeats:YES];
 }
 
@@ -88,6 +90,11 @@
     _shrareContentLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 70.0f;
     _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
+}
+
+- (void)configFrontCover {
+    _frontCoverView.layer.borderColor = UIColorFromHex(@"d7dede", 1.0f).CGColor;
+    _frontCoverView.layer.borderWidth = 0.5f;
 }
 
 - (void)hanleUnderiPhone6Size {

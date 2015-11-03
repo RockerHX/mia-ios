@@ -38,12 +38,16 @@
 }
 
 - (void)viewConfig {
-    _coverImageView.layer.borderColor = UIColorFromRGB(225.0f, 226.0f, 227.0f).CGColor;
-    _coverImageView.layer.borderWidth = 1.0f;
+    [self configFrontCover];
     
     if ([HXVersion isIPhone5SPrior]) {
         _coverToTopConstraint.constant = 25.0f;
     }
+}
+
+- (void)configFrontCover {
+    _coverImageView.layer.borderColor = UIColorFromHex(@"d7dede", 1.0f).CGColor;
+    _coverImageView.layer.borderWidth = 0.5f;
 }
 
 - (void)initData {
