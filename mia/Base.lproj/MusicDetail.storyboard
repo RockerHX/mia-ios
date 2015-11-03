@@ -21,7 +21,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-Ru-GcS">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81u-60-SHd">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81u-60-SHd">
                                         <rect key="frame" x="15" y="4" width="290" height="41"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -54,47 +54,58 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-V3-m8q">
-                                                    <rect key="frame" x="72" y="50" width="175" height="175"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="grJ-QU-1Rz">
+                                                    <rect key="frame" x="73" y="50" width="175" height="175"/>
+                                                    <subviews>
+                                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-DefaultCover" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-V3-m8q">
+                                                            <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
+                                                            <animations/>
+                                                            <gestureRecognizers/>
+                                                        </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D4-xl-Kk1">
+                                                            <rect key="frame" x="70" y="70" width="35" height="35"/>
+                                                            <animations/>
+                                                            <state key="normal" image="M-PlayIcon"/>
+                                                            <state key="selected" image="M-PauseIcon"/>
+                                                            <connections>
+                                                                <action selector="playButtonPressed" destination="KBC-N0-qIX" eventType="touchUpInside" id="gWl-EB-jEm"/>
+                                                            </connections>
+                                                        </button>
+                                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="Jrn-ws-wbU">
+                                                            <rect key="frame" x="0.0" y="135" width="175" height="40"/>
+                                                            <animations/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="40" id="5Tq-Y5-BaV"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
                                                     <animations/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="gqq-V3-m8q" secondAttribute="height" multiplier="1:1" id="Mun-Hl-rWK"/>
-                                                        <constraint firstAttribute="width" constant="175" id="WcL-sN-X8J"/>
+                                                        <constraint firstItem="2D4-xl-Kk1" firstAttribute="centerX" secondItem="grJ-QU-1Rz" secondAttribute="centerX" id="ABz-hL-EIh"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Jrn-ws-wbU" secondAttribute="trailing" id="KRH-LE-0GE"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gqq-V3-m8q" secondAttribute="trailing" id="Lm3-Bp-CGR"/>
+                                                        <constraint firstItem="Jrn-ws-wbU" firstAttribute="leading" secondItem="grJ-QU-1Rz" secondAttribute="leading" id="Mzx-i9-VXy"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Jrn-ws-wbU" secondAttribute="bottom" id="Nhr-Nr-a1Y"/>
+                                                        <constraint firstItem="2D4-xl-Kk1" firstAttribute="centerY" secondItem="grJ-QU-1Rz" secondAttribute="centerY" id="Nut-tl-dCO"/>
+                                                        <constraint firstItem="gqq-V3-m8q" firstAttribute="leading" secondItem="grJ-QU-1Rz" secondAttribute="leading" id="QMj-Hd-HEU"/>
+                                                        <constraint firstItem="gqq-V3-m8q" firstAttribute="top" secondItem="grJ-QU-1Rz" secondAttribute="top" id="TtU-LI-PIn"/>
+                                                        <constraint firstAttribute="bottom" secondItem="gqq-V3-m8q" secondAttribute="bottom" id="nkJ-Xx-5yH"/>
+                                                        <constraint firstAttribute="width" constant="175" id="oLU-Nf-vVt"/>
+                                                        <constraint firstAttribute="width" secondItem="grJ-QU-1Rz" secondAttribute="height" multiplier="1:1" id="rqO-it-qnt"/>
                                                     </constraints>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D4-xl-Kk1">
-                                                    <rect key="frame" x="142" y="120" width="35" height="35"/>
-                                                    <animations/>
-                                                    <state key="normal" image="M-PlayIcon"/>
-                                                    <state key="selected" image="M-PauseIcon"/>
-                                                    <connections>
-                                                        <action selector="playButtonPressed" destination="KBC-N0-qIX" eventType="touchUpInside" id="gWl-EB-jEm"/>
-                                                    </connections>
-                                                </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="Jrn-ws-wbU">
-                                                    <rect key="frame" x="72" y="185" width="175" height="40"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="5Tq-Y5-BaV"/>
-                                                    </constraints>
-                                                </imageView>
+                                                </view>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="2D4-xl-Kk1" firstAttribute="centerY" secondItem="gqq-V3-m8q" secondAttribute="centerY" id="3jA-18-1za"/>
-                                                <constraint firstAttribute="bottom" secondItem="gqq-V3-m8q" secondAttribute="bottom" constant="15" id="6A4-E3-m3H"/>
-                                                <constraint firstItem="gqq-V3-m8q" firstAttribute="top" secondItem="2CD-9F-V4c" secondAttribute="top" constant="50" id="7zT-ze-1Sg"/>
-                                                <constraint firstItem="gqq-V3-m8q" firstAttribute="centerX" secondItem="2CD-9F-V4c" secondAttribute="centerX" id="HfD-i2-EZv"/>
-                                                <constraint firstItem="Jrn-ws-wbU" firstAttribute="leading" secondItem="gqq-V3-m8q" secondAttribute="leading" id="cRB-z0-bns"/>
-                                                <constraint firstItem="Jrn-ws-wbU" firstAttribute="trailing" secondItem="gqq-V3-m8q" secondAttribute="trailing" id="emy-G7-ySD"/>
-                                                <constraint firstItem="2D4-xl-Kk1" firstAttribute="centerX" secondItem="gqq-V3-m8q" secondAttribute="centerX" id="rEP-M4-rWL"/>
-                                                <constraint firstItem="Jrn-ws-wbU" firstAttribute="bottom" secondItem="gqq-V3-m8q" secondAttribute="bottom" id="uV3-Ts-WpE"/>
+                                                <constraint firstItem="grJ-QU-1Rz" firstAttribute="centerX" secondItem="2CD-9F-V4c" secondAttribute="centerX" id="9Sc-Y5-NkC"/>
+                                                <constraint firstItem="grJ-QU-1Rz" firstAttribute="top" secondItem="2CD-9F-V4c" secondAttribute="top" constant="50" id="v3G-en-JaQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
                                             <outlet property="coverImageView" destination="gqq-V3-m8q" id="C7m-dK-2fC"/>
-                                            <outlet property="coverToTopConstraint" destination="7zT-ze-1Sg" id="FFI-Cv-6CN"/>
+                                            <outlet property="coverView" destination="grJ-QU-1Rz" id="UZ6-NW-cdx"/>
                                             <outlet property="delegate" destination="ryk-wB-QfC" id="5vV-AI-raD"/>
                                             <outlet property="playButton" destination="2D4-xl-Kk1" id="Ud7-6L-RxY"/>
                                         </connections>

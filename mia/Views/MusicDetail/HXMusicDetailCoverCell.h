@@ -20,6 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet          id  <HXMusicDetailCoverCellDelegate>delegate;
 
+@property (weak, nonatomic) IBOutlet      UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet    UIButton *playButton;
 
