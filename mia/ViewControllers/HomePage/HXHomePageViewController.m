@@ -119,11 +119,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
-    for (NSInteger index = 1; index <= 67; index ++) {
-        [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%zd", index]]];
+    for (NSInteger index = 1; index <= 34; index ++) {
+        [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"fish-%zd", index]]];
     }
     _fishView.animationImages = fishIcons;
-    _fishView.animationDuration = 3.0f;         //设置小鱼动画为20帧左右
+    _fishView.animationDuration = 1.5f;
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
@@ -633,7 +633,11 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    [_waveView waveMoveDownAnimation:nil];
+    __weak __typeof__(self)weakSelf = self;
+    [_waveView waveMoveDownAnimation:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.fishView stopAnimating];
+    }];
 }
 
 // 波浪升起动画
@@ -642,6 +646,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [_waveView waveMoveUpAnimation:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf reset];
+        [strongSelf.fishView startAnimating];
     }];
 }
 

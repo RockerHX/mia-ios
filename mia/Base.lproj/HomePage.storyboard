@@ -136,7 +136,7 @@
                                     <constraint firstAttribute="height" constant="200" id="kMW-ZW-N2V"/>
                                 </constraints>
                             </view>
-                            <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="K76-u6-UI7">
+                            <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fish-1" translatesAutoresizingMaskIntoConstraints="NO" id="K76-u6-UI7">
                                 <rect key="frame" x="120" y="428" width="80" height="120"/>
                                 <animations/>
                                 <constraints>
@@ -352,11 +352,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1" width="111" height="120"/>
         <image name="HP-Bubble" width="185" height="185"/>
         <image name="HP-NoMoreLastest" width="35" height="70"/>
         <image name="HP-NoMoreNewest" width="35" height="70"/>
         <image name="HP-ProfileIcon" width="32" height="32"/>
         <image name="HP-ShareIcon" width="32" height="32"/>
+        <image name="fish-1" width="111" height="120"/>
     </resources>
 </document>
