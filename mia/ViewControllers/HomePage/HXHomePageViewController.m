@@ -123,7 +123,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         [fishIcons addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%zd", index]]];
     }
     _fishView.animationImages = fishIcons;
-    _fishView.animationDuration = 3.0f;         //profileButton 设置小鱼动画为20帧左右
+    _fishView.animationDuration = 3.0f;         //设置小鱼动画为20帧左右
     
     // 处理手势响应先后顺序
     [_swipeGesture requireGestureRecognizerToFail:_panGesture];
@@ -435,12 +435,12 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
     if (unreadCommentCount <= 0) {
-		_profileButton.layer.borderWidth = 0;
+        _profileButton.layer.borderWidth = 0.5f;
         [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
                                   forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	} else {
-		_profileButton.layer.borderWidth = 0.5f;
+        _profileButton.layer.borderWidth = 0.0f;
 		[_profileButton setImage:nil forState:UIControlStateNormal];
 		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
