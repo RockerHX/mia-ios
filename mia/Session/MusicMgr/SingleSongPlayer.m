@@ -9,6 +9,7 @@
 
 #import "SingleSongPlayer.h"
 #import "FSAudioStream.h"
+#import <AVFoundation/AVFoundation.h>
 #import "PathHelper.h"
 #import "UserSetting.h"
 #import "WebSocketMgr.h"
@@ -25,7 +26,8 @@
 @end
 
 @implementation SingleSongPlayer {
-	FSAudioStream 	*_audioStream;
+	FSAudioStream 		*_audioStream;
+	BOOL				_isInterruption;
 }
 
 - (id)init {
@@ -47,16 +49,22 @@
 				[[strongPlayer delegate] singleSongPlayerDidCompletion];
 			}
 		};
+		_audioStream.onStateChange = ^(FSAudioStreamState state) {
+			NSLog(@"FSAudioStreamState change:%u", state);
+		};
 
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			[[FileLog standard] log:@"AudioStream onFailure:%d, %@", error, errorDescription];
 		};
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
 	}
 	return self;
 }
 
 - (void)dealloc {
 	NSLog(@"SingleSongPlayer dealoc");
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
@@ -155,11 +163,14 @@
 
 #pragma mark -private method
 
-- (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist cover:(NSString *)cover{
-	// 不要根据url来判断是否有歌曲在播放，因为播放完成或者stop都会把url清掉
+- (void)playWithoutCheckWithUrl:(NSString*)url title:(NSString *)title artist:(NSString *)artist cover:(NSString *)cover {
 	if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
+		// 不要根据url来判断是否有歌曲在播放，因为播放完成或者stop都会把url清掉
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
-		if ([_audioStream isPlaying]) {
+		if (_isInterruption) {
+			NSLog(@"resume music from interruption.");
+			[self playFromInterruption:url];
+		} else if ([_audioStream isPlaying]) {
 			NSLog(@"resume music from pause error, stop and play again.");
 			[self playAnotherWirUrl:url];
 		} else {
@@ -186,7 +197,7 @@
 	}
 }
 
-- (void)playAnotherWirUrl:(NSString *)url{
+- (void)playAnotherWirUrl:(NSString *)url {
 	NSLog(@"#SingleSongPlayer# stop - stop before playAnotherWirUrl");
 	[_audioStream stop];
 	NSLog(@"#SingleSongPlayer# performBlock");
@@ -196,12 +207,38 @@
 	} afterDelay:0.5f];
 }
 
+- (void)playFromInterruption:(NSString *)url {
+	_isInterruption = NO;
+	[self playAnotherWirUrl:url];
+}
+
 - (void)checkBeforePlayWithMusicItem:(MusicItem *)item {
 	[[MusicMgr standard] checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
 		if (isAllowed) {
 			[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName cover:item.purl];
 		}
 	}];
+}
+
+#pragma mark - Notification
+- (void)interruption:(NSNotification*)notification {
+	NSDictionary *interuptionDict = notification.userInfo;
+	NSInteger interuptionType = [[interuptionDict valueForKey:AVAudioSessionInterruptionTypeKey] integerValue];
+	switch (interuptionType) {
+		case AVAudioSessionInterruptionTypeBegan:
+			NSLog(@"Audio Session Interruption case started.");
+			_isInterruption = YES;
+			break;
+
+		case AVAudioSessionInterruptionTypeEnded:
+			NSLog(@"Audio Session Interruption case ended.");
+			_isInterruption = NO;
+			break;
+
+		default:
+			NSLog(@"Audio Session Interruption Notification case default.");
+			break;
+	}
 }
 
 #pragma mark - audio operations

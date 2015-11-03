@@ -43,11 +43,6 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 - (id)init {
 	self = [super init];
 	if (self) {
-		// 设置后台播放模式
-		AVAudioSession *audioSession=[AVAudioSession sharedInstance];
-		[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-		[audioSession setActive:YES error:nil];
-
 		// 添加通知，拔出耳机后暂停播放
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
@@ -146,7 +141,6 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 }
 
 #pragma mark - Notification
-
 /**
  *  一旦输出改变则执行此方法
  *
