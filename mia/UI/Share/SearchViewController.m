@@ -223,6 +223,7 @@
 
 		[_suggestView setHidden:YES];
 		[_resultView setHidden:NO];
+		[_resultView setNoDataTipsHidden:YES];
 		[_suggestionModel.dataSource removeAllObjects];
 		[_resultModel reset];
 
@@ -274,6 +275,7 @@
 
 	[_suggestView setHidden:YES];
 	[_resultView setHidden:NO];
+	[_resultView setNoDataTipsHidden:YES];
 	[_suggestionModel.dataSource removeAllObjects];
 	[_resultModel reset];
 
