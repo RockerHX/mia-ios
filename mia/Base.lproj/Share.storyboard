@@ -64,6 +64,7 @@
                                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nne-Bv-oUO">
                                                         <rect key="frame" x="0.0" y="0.0" width="214" height="214"/>
                                                         <animations/>
+                                                        <color key="backgroundColor" red="0.94509803920000002" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                         <gestureRecognizers/>
                                                         <connections>
                                                             <outletCollection property="gestureRecognizers" destination="Erq-xD-ggx" appends="YES" id="0oi-6z-TYP"/>

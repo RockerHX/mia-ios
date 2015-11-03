@@ -72,13 +72,20 @@
 
 - (void)viewConfig {
     _shareButton.enabled = NO;
-    _frontCoverView.hidden = YES;
     
     _songNameLabel.alpha = 0.0f;
     _singerLabel.alpha = 0.0f;
     
     _nickNameLabel.text = [[UserSession standard] nick];
     _locationLabel.text = @"定位中...";
+    
+    [self configFrontCover];
+}
+
+- (void)configFrontCover {
+    _frontCoverView.hidden = YES;
+    _frontCover.layer.borderColor = UIColorFromHex(@"d7dede", 1.0f).CGColor;
+    _frontCover.layer.borderWidth = 0.5f;
 }
 
 #pragma mark - Event Response
