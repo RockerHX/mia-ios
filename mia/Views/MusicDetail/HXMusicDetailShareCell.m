@@ -31,16 +31,16 @@
 
 #pragma mark - Public Methods
 - (void)displayWithShareItem:(ShareItem *)item {
-    _shareInfoLabel.text = [NSString stringWithFormat:@"%@：%@", item.sNick, item.sNote];
-    [self displayShareContentLabelWithSharerName:item.sNick];
+    [self displayShareContentLabelWithSharerName:[item.sNick stringByAppendingString:@"："] note:item.sNote];
 }
 
 #pragma mark - Private Methods
-- (void)displayShareContentLabelWithSharerName:(NSString *)sharerName {
+- (void)displayShareContentLabelWithSharerName:(NSString *)sharerName note:(NSString *)note {
+    NSString *text = [NSString stringWithFormat:@"%@%@", sharerName, note];
     CGFloat labelWidth = _shareInfoLabel.frame.size.width;
     CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
     UIFont *labelFont = _shareInfoLabel.font;
-    CGFloat textHeight = [_shareInfoLabel.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+    CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
     CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
     if (textHeight > lineHeight) {
         _shareInfoLabel.textAlignment = NSTextAlignmentLeft;
@@ -53,6 +53,11 @@
     NSMutableDictionary *linkAttributes = _shareInfoLabel.linkAttributes.mutableCopy;
     [linkAttributes setValue:@(0) forKey:@"NSUnderline"];
     _shareInfoLabel.linkAttributes = linkAttributes;
+    [_shareInfoLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+        NSRange boldRange = [[mutableAttributedString string] rangeOfString:sharerName options:NSCaseInsensitiveSearch];
+        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)UIColorFromHex(@"4383e9", 1.0f).CGColor range:boldRange];
+        return mutableAttributedString;
+    }];
 }
 
 
