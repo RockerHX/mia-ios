@@ -261,12 +261,12 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 
 - (void)loginButtonAction:(id)sender {
     if (_userNameTextField.text.length <= 0) {
-        [HXAlertBanner showWithMessage:@"手机号码不能为空" tap:nil];
+        [HXAlertBanner showWithMessage:@"请输入登录手机号码" tap:nil];
         return;
     }
     
     if (_passwordTextField.text.length <= 0) {
-        [HXAlertBanner showWithMessage:@"密码不能为空" tap:nil];
+        [HXAlertBanner showWithMessage:@"请输入登录密码" tap:nil];
         return;
     }
     

@@ -383,7 +383,7 @@
 		return YES;
 	}
 
-	[HXAlertBanner showWithMessage:@"请输入正确的手机号码" tap:nil];
+	[HXAlertBanner showWithMessage:@"手机号码不符合规范，请重新输入" tap:nil];
 
 	return NO;
 }
