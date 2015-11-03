@@ -122,6 +122,7 @@
             </constraints>
             <connections>
                 <outlet property="playButton" destination="tQo-iW-Kn0" id="mz5-WA-bYN"/>
+                <outlet property="playPrePromptLabel" destination="P2a-mJ-R74" id="A4B-4S-AU5"/>
             </connections>
             <point key="canvasLocation" x="400" y="350"/>
         </view>
