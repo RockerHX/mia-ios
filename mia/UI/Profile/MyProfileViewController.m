@@ -84,11 +84,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		[self initUI];
 		[self initData];
 
-		MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
-		[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
-		[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
-		_profileCollectionView.footer = aFooter;
-
 		_favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
@@ -178,6 +173,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	_profileCollectionView.dataSource = self;
 
 	[self initHeaderView];
+
+	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
+	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	_profileCollectionView.footer = aFooter;
 }
 
 - (void)initBarButton {

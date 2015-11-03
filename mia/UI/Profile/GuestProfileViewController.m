@@ -107,7 +107,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	_profileCollectionView.delegate = self;
 	_profileCollectionView.dataSource = self;
 
-	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
+	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
 	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
 	_profileCollectionView.footer = aFooter;
