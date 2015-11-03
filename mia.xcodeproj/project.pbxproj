@@ -98,6 +98,8 @@
 		3990B1E31BCDF5C100D8B54B /* default_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		3997F8361BE76EF700F6597D /* profile_views@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3997F8351BE76EF700F6597D /* profile_views@2x.png */; };
+		3997F8381BE856C400F6597D /* button_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3997F8371BE856C400F6597D /* button_gray@2x.png */; };
+		3997F83A1BE858E300F6597D /* button_dark_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3997F8391BE858E300F6597D /* button_dark_blue@2x.png */; };
 		39AD4DA21BD7C8530065BA06 /* no_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39AD4DA11BD7C8530065BA06 /* no_share@2x.png */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -354,6 +356,8 @@
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
 		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		3997F8351BE76EF700F6597D /* profile_views@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_views@2x.png"; sourceTree = "<group>"; };
+		3997F8371BE856C400F6597D /* button_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_gray@2x.png"; sourceTree = "<group>"; };
+		3997F8391BE858E300F6597D /* button_dark_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_dark_blue@2x.png"; sourceTree = "<group>"; };
 		39AD4DA11BD7C8530065BA06 /* no_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_share@2x.png"; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
 		39B4351F1BD5272400D6CB13 /* LocationMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationMgr.m; sourceTree = "<group>"; };
@@ -976,10 +980,12 @@
 		397E42DD1BA90CBC006BE9E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3997F8351BE76EF700F6597D /* profile_views@2x.png */,
 				CD221FD11BC79FEE00FCD4E7 /* UI */,
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
+				3997F8391BE858E300F6597D /* button_dark_blue@2x.png */,
+				3997F8371BE856C400F6597D /* button_gray@2x.png */,
+				3997F8351BE76EF700F6597D /* profile_views@2x.png */,
 				39AD4DA11BD7C8530065BA06 /* no_share@2x.png */,
 				3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */,
 				3909696B1BE0CADB00C55B20 /* profile_favorite@2x.png */,
@@ -1744,6 +1750,7 @@
 			files = (
 				3909696C1BE0CADB00C55B20 /* profile_favorite@2x.png in Resources */,
 				390BADC51BAECA73006269FD /* edit_logo@2x.png in Resources */,
+				3997F83A1BE858E300F6597D /* button_dark_blue@2x.png in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
 				CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */,
 				393CE9AD1BB958B000FCF232 /* uncheckbox@2x.png in Resources */,
@@ -1756,6 +1763,7 @@
 				CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */,
 				393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */,
 				CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */,
+				3997F8381BE856C400F6597D /* button_gray@2x.png in Resources */,
 				CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */,
 				397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */,
 				390BADD01BAFE188006269FD /* button_white@2x.png in Resources */,
