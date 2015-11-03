@@ -178,8 +178,8 @@
                                             <outlet property="delegate" destination="i7R-7R-kAw" id="hn2-ik-TOk"/>
                                         </connections>
                                     </textView>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFl-sp-KPY">
-                                        <rect key="frame" x="63" y="105" width="34" height="33"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFl-sp-KPY">
+                                        <rect key="frame" x="64" y="105" width="32" height="32"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="发送">
