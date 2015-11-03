@@ -28,9 +28,6 @@
 		unsigned long long playCacheDirSize = [self calcDiskSizeOfDir:[PathHelper playCacheDir]];
 		totalSize += playCacheDirSize;
 
-		unsigned long long userDirSize = [self calcDiskSizeOfDir:[PathHelper userDir]];
-		totalSize += userDirSize;
-
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (completeBlock) {
 				completeBlock(totalSize);
@@ -45,7 +42,6 @@
 
 		[self deleteFilesInDir:[PathHelper logDir]];
 		[self deleteFilesInDir:[PathHelper playCacheDir]];
-		[self deleteFilesInDir:[PathHelper userDir]];
 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (completeBlock) {
