@@ -225,7 +225,7 @@ UITextFieldDelegate>
 	_avatarImageView = [[UIImageView alloc] init];
 	_avatarImageView.layer.cornerRadius = avatarWidth / 2;
 	_avatarImageView.clipsToBounds = YES;
-	_avatarImageView.layer.borderWidth = 1.0f;
+	_avatarImageView.layer.borderWidth = 0.5f;
 	_avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
 	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	[contentView addSubview:_avatarImageView];
