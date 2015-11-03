@@ -12,6 +12,7 @@
 #import "SearchResultItem.h"
 #import "UIScrollView+MIARefresh.h"
 #import "Masonry.h"
+#import "MIALabel.h"
 
 static NSString * const kSearchResultCellReuseIdentifier 		= @"SearchResultCellId";
 
@@ -25,12 +26,14 @@ static const CGFloat kSearchResultItemHeight	= 100;
 
 
 @implementation SearchResultView {
+	UIView		*_noDataView;
 }
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
 		[self initCollectionView];
+		[self initNoDataView:self];
 	}
 
 	return self;
@@ -63,8 +66,33 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
 }
 
+- (void)initNoDataView:(UIView *)contentView {
+	_noDataView = [[UIView alloc] init];
+	[contentView addSubview:_noDataView];
+
+	MIALabel *noDataLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"暂没有找到相关歌曲"
+															font:UIFontFromSize(16.0f)
+													   textColor:UIColorFromHex(@"808080", 1.0)
+												   textAlignment:NSTextAlignmentCenter
+													 numberLines:1];
+	[_noDataView addSubview:noDataLabel];
+
+	[_noDataView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.centerY.equalTo(contentView.mas_centerY).offset(-20);
+	}];
+	[noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+	}];
+}
+
 - (void)requestMoreItems {
 	[_searchResultViewDelegate searchResultViewRequestMoreItems];
+}
+
+- (void)setNoDataTipsHidden:(BOOL)hidden {
+	[_noDataView setHidden:hidden];
 }
 
 - (void)endRefreshing {

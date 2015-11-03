@@ -25,6 +25,7 @@
 @property (weak, nonatomic)id<SearchResultViewDelegate> searchResultViewDelegate;
 @property (strong, nonatomic) UICollectionView *collectionView;
 
+- (void)setNoDataTipsHidden:(BOOL)hidden;
 - (void)endRefreshing;
 
 @end

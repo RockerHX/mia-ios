@@ -843,8 +843,7 @@ UITextFieldDelegate>
 				if (success) {
 					NSLog(@"logout then sendUUID success");
 				} else {
-					id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-					NSLog(@"logout then sendUUID failed:%@", error);
+					NSLog(@"logout then sendUUID failed:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
 				}
 			} timeoutBlock:^(MiaRequestItem *requestItem) {
 				NSLog(@"logout then sendUUID timeout");

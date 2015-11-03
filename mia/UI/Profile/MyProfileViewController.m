@@ -68,7 +68,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	FavoriteViewController	*_favoriteViewController;
 
 	ProfileShareModel 		*_shareListModel;
-//	FavoriteModel 			*_favoriteModel;
 
 	UIView					*_addShareView;
 	UIView					*_noShareView;
@@ -84,11 +83,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 		[self initUI];
 		[self initData];
-
-		MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
-		[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
-		[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
-		_profileCollectionView.footer = aFooter;
 
 		_favoriteViewController = [[FavoriteViewController alloc] initWitBackground:nil];
 		_favoriteViewController.favoriteViewControllerDelegate = self;
@@ -179,6 +173,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	_profileCollectionView.dataSource = self;
 
 	[self initHeaderView];
+
+	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
+	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	_profileCollectionView.footer = aFooter;
 }
 
 - (void)initBarButton {
@@ -221,7 +220,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	// 收藏数据
 	[[FavoriteMgr standard] setCustomDelegate:self];
-//	_favoriteModel = [[FavoriteModel alloc] init];
 	[[FavoriteMgr standard] syncFavoriteList];
 
 	// 播放器
@@ -333,7 +331,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[_noNetWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_profileCollectionView.mas_centerX);
-		make.top.mas_equalTo(kProfileHeaderHeight + 20);
+		make.top.mas_equalTo(kProfileHeaderHeight + 60);
 	}];
 
 	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -475,10 +473,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self.navigationController pushViewController:musicDetailViewController animated:YES];
 }
 
-//- (FavoriteModel *)profileHeaderViewModel {
-//	return _favoriteModel;
-//}
-
 - (void)profileHeaderViewDidTouchedCover {
 	if (!_playingFavorite) {
 		[self playFavoriteMusic];
@@ -503,8 +497,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)favoriteMgrDidFinishSync {
-//	NSArray *items = [self favoriteViewControllerGetFavoriteList];
-//	[_favoriteModel addItemsWithArray:items];
 	if (_favoriteViewController) {
 		[_favoriteViewController.favoriteCollectionView reloadData];
 	}
@@ -518,14 +510,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 	[_profileHeaderView updateFavoriteCount];
 }
-
-//- (FavoriteModel *)favoriteViewControllerModel {
-//	return _favoriteModel;
-//}
-
-//- (NSArray *)favoriteViewControllerGetFavoriteList {
-//	return [[FavoriteMgr standard] getFavoriteListFromIndex:_favoriteModel.dataSource.count];
-//}
 
 - (int)favoriteViewControllerSelectAll:(BOOL)selected {
 	int selectedCount = 0;

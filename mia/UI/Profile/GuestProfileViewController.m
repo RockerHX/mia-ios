@@ -25,6 +25,7 @@
 #import "FileLog.h"
 #import "HXMusicDetailViewController.h"
 #import "MJRefresh.h"
+#import "UICollectionViewLeftAlignedLayout.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
@@ -87,7 +88,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)initCollectionView {
 	//1.初始化layout
-	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+	UICollectionViewLeftAlignedLayout *layout = [[UICollectionViewLeftAlignedLayout alloc] init];
 
 	//设置headerView的尺寸大小
 	layout.headerReferenceSize = CGSizeZero;
@@ -106,7 +107,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	_profileCollectionView.delegate = self;
 	_profileCollectionView.dataSource = self;
 
-	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
+	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
 	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
 	_profileCollectionView.footer = aFooter;

@@ -8,7 +8,6 @@
 
 #import "ResetPwdViewController.h"
 #import "MIAButton.h"
-#import "MIALabel.h"
 #import "UIImage+Extrude.h"
 #import "UIImage+ColorToImage.h"
 #import "MiaAPIHelper.h"

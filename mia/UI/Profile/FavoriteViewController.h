@@ -12,8 +12,6 @@
 
 @protocol FavoriteViewControllerDelegate
 
-//- (FavoriteModel *)favoriteViewControllerModel;
-//- (NSArray *)favoriteViewControllerGetFavoriteList;
 - (int)favoriteViewControllerSelectAll:(BOOL)selected;
 - (int)favoriteViewControllerSelectedCount;
 - (BOOL)favoriteViewControllerDeleteMusics;
@@ -30,7 +28,6 @@
 
 - (id)initWitBackground:(UIImage *)backgroundImage;
 - (void)setBackground:(UIImage *)backgroundImage;
-- (void)endRequestFavoriteList:(BOOL)success;
 
 @end
 
