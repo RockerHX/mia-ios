@@ -972,7 +972,6 @@
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
 				3997F8391BE858E300F6597D /* button_dark_blue@2x.png */,
 				3997F8371BE856C400F6597D /* button_gray@2x.png */,
-				3997F8351BE76EF700F6597D /* profile_views@2x.png */,
 				39AD4DA11BD7C8530065BA06 /* no_share@2x.png */,
 				3997F8351BE76EF700F6597D /* profile_views@2x.png */,
 				3990B1E21BCDF5C100D8B54B /* default_avatar@2x.png */,

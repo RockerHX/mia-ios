@@ -86,7 +86,7 @@
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
-	if (_customDelegate) {
+	if (_customDelegate && [_customDelegate respondsToSelector:@selector(detailViewControllerDismissWithoutDelete)]) {
 		[_customDelegate detailViewControllerDismissWithoutDelete];
 	}
 }
@@ -117,7 +117,7 @@
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
                  [self.navigationController popViewControllerAnimated:YES];
 
-                 if (_customDelegate) {
+                 if (_customDelegate && [_customDelegate respondsToSelector:@selector(detailViewControllerDidDeleteShare)]) {
                      [_customDelegate detailViewControllerDidDeleteShare];
                  }
              } else {
