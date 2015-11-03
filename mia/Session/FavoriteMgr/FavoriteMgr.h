@@ -21,15 +21,17 @@
  *  使用单例初始化
  *
  */
-+ (id)standard;
++ (FavoriteMgr *)standard;
 
 @property (weak, nonatomic)id<FavoriteMgrDelegate> customDelegate;
+@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, assign) NSInteger currentPlaying;
 
 - (long)favoriteCount;
 - (long)cachedCount;
 - (void)syncFavoriteList;
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex;
-- (void)removeSelectedItems;
+- (void)removeSelectedItemsWithCompleteBlock:(void (^)(BOOL isChanged, BOOL deletePlaying, NSArray *idArray))completeBlock;
 - (BOOL)isItemCached:(FavoriteItem *)item;
 - (BOOL)isItemCachedWithUrl:(NSString *)url;
 

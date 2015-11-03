@@ -12,8 +12,8 @@
 
 @protocol FavoriteViewControllerDelegate
 
-- (FavoriteModel *)favoriteViewControllerModel;
-- (NSArray *)favoriteViewControllerGetFavoriteList;
+//- (FavoriteModel *)favoriteViewControllerModel;
+//- (NSArray *)favoriteViewControllerGetFavoriteList;
 - (int)favoriteViewControllerSelectAll:(BOOL)selected;
 - (int)favoriteViewControllerSelectedCount;
 - (BOOL)favoriteViewControllerDeleteMusics;
