@@ -241,6 +241,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)tapGesture {
+    [self.view endEditing:YES];
     if (_animating) {
         if (![[UserSession standard] isLogined]) {
             [self cancelLoginOperate];
@@ -684,7 +685,9 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         [strongSelf.infectUserView layoutIfNeeded];
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf stopAnimation];
+        if (strongSelf->_animating) {
+            [strongSelf stopAnimation];
+        }
     }];
 }
 
@@ -806,6 +809,10 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)musicDidChange:(ShareItem *)item {
 //    _playItem = item;
 //    [self displayWithInfectState:item.isInfected];
+}
+
+- (void)raidoViewDidTaped {
+    [self tapGesture];
 }
 
 @end
