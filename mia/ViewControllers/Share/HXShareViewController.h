@@ -10,6 +10,13 @@
 
 @class HXTextView;
 
+@protocol HXShareViewControllerDelegate <NSObject>
+
+@optional
+- (void)shareViewControllerDidShareMusic;
+
+@end
+
 @interface HXShareViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet     UIButton *shareButton;
@@ -28,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottmonConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationViewHeightConstraint;
+
+@property (weak, nonatomic) id<HXShareViewControllerDelegate> customDelegate;
 
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;

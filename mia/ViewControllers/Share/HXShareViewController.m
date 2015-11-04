@@ -110,6 +110,9 @@
          if (success) {
              [HXAlertBanner showWithMessage:@"分享成功" tap:nil];
              [self.navigationController popViewControllerAnimated:YES];
+			 if (_customDelegate && [_customDelegate respondsToSelector:@selector(shareViewControllerDidShareMusic)]) {
+				 [_customDelegate shareViewControllerDidShareMusic];
+			 }
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
              [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];

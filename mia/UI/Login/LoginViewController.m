@@ -241,6 +241,9 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 #pragma mark - Actions
 - (void)backButtonAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+	if (_customDelegate && [_customDelegate respondsToSelector:@selector(loginViewControllerDismissWithoutLogin)]) {
+		[_customDelegate loginViewControllerDismissWithoutLogin];
+	}
 }
 
 - (void)signUpButtonAction:(id)sender {
@@ -296,8 +299,8 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
              
-             if (strongSelf.loginViewControllerDelegate) {
-                 [strongSelf.loginViewControllerDelegate loginViewControllerDidSuccess];
+             if (strongSelf.customDelegate && [strongSelf.customDelegate respondsToSelector:@selector(loginViewControllerDidSuccess)]) {
+                 [strongSelf.customDelegate loginViewControllerDidSuccess];
              }
              
              if (_backBlock) {

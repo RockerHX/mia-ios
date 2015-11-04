@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol LoginViewControllerDelegate
+@protocol LoginViewControllerDelegate <NSObject>
 
+- (void)loginViewControllerDismissWithoutLogin;
 - (void)loginViewControllerDidSuccess;
 
 @end
 
 @interface LoginViewController : UIViewController
 
-@property (weak, nonatomic)id<LoginViewControllerDelegate> loginViewControllerDelegate;
+@property (weak, nonatomic)id<LoginViewControllerDelegate> customDelegate;
 
 - (void)loginSuccess:(void(^)(BOOL success))success;
 

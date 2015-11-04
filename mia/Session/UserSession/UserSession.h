@@ -10,9 +10,14 @@
  "{"C":"User.Post.Login","s":"1442905599693","v":{"ret":0,"uid":"291","nick":"eden","utype":"1","unreadCommCnt":"0"}}"
  */
 
-static NSString * const UserDefaultsKey_UserName			= @"name";
-static NSString * const UserDefaultsKey_PasswordHash		= @"hash";
-static NSString * const UserDefaultsKey_UID					= @"uid";
+typedef NS_ENUM(BOOL, UserSessionLoginState) {
+    UserSessionLoginStateLogin = YES,
+    UserSessionLoginStateLogout = NO
+};
+
+static NSString * const UserDefaultsKey_UserName            = @"name";
+static NSString * const UserDefaultsKey_PasswordHash        = @"hash";
+static NSString * const UserDefaultsKey_UID                 = @"uid";
 static NSString * const UserDefaultsKey_Nick				= @"nick";
 
 static NSString * const UserSessionKey_NickName				= @"nick";
@@ -26,11 +31,13 @@ static NSString * const UserSessionKey_Avatar				= @"avatar";
 @property (strong, nonatomic) NSString *utype;
 @property (strong, nonatomic) NSString *unreadCommCnt;
 
+@property (nonatomic, assign) UserSessionLoginState state;
+
 /**
  *  使用单例初始化
  *
  */
-+ (id)standard;
++ (instancetype)standard;
 
 - (BOOL)isLogined;
 - (BOOL)isCachedLogin;

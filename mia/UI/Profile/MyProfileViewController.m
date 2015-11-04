@@ -50,6 +50,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 , HXMusicDetailViewControllerDelegate
 , SongListPlayerDelegate
 , SongListPlayerDataSource
+, HXShareViewControllerDelegate
 >
 
 @end
@@ -585,15 +586,23 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self pauseMusic];
 }
 
+#pragma mark - HXMusicDetailViewControllerDelegate
 - (void)detailViewControllerDidDeleteShare {
 	// 删除分享后需要从新获取分享列表
 	_currentPageStart = kDefaultPageFrom;
 	[_shareListModel.dataSource removeAllObjects];
+	[_profileCollectionView reloadData];
 	[self requestShareList];
 }
 
 - (void)detailViewControllerDismissWithoutDelete {
 	[_profileCollectionView reloadData];
+}
+
+#pragma mark - HXShareViewControllerDelegate
+- (void)shareViewControllerDidShareMusic {
+	// 只有分享列表为空的时候才能在个人页面触发分享页面，所以请求之前不需要清数据
+	[self requestShareList];
 }
 
 #pragma mark - SongListPlayerDataSource
@@ -804,6 +813,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)noShareTouchAction:(id)sender {
     HXShareViewController *shareViewController = [HXShareViewController instance];
+	shareViewController.customDelegate = self;
     [self.navigationController pushViewController:shareViewController animated:YES];
 }
 

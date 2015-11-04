@@ -120,6 +120,7 @@
 		39CA061C1BAD67CC0074FD13 /* share_music@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06101BAD67CC0074FD13 /* share_music@2x.png */; };
 		39CA06331BADC7390074FD13 /* more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CA06321BADC7390074FD13 /* more@2x.png */; };
 		39DA9BF31BDB630E001C0CD1 /* FileLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DA9BF21BDB630E001C0CD1 /* FileLog.m */; };
+		39DC9D961BEA09C100677237 /* profile_default_cover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39DC9D951BEA09C100677237 /* profile_default_cover@2x.png */; };
 		39FBCC981BE24F8900527A6C /* UpdateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FBCC971BE24F8900527A6C /* UpdateHelper.m */; };
 		66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE68AFFBF4F159DD2430486 /* libPods.a */; };
 		CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0398AF1BD6477A0036F43D /* HXInfectUserView.m */; };
@@ -380,6 +381,7 @@
 		39CA06321BADC7390074FD13 /* more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more@2x.png"; sourceTree = "<group>"; };
 		39DA9BF11BDB630E001C0CD1 /* FileLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileLog.h; sourceTree = "<group>"; };
 		39DA9BF21BDB630E001C0CD1 /* FileLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileLog.m; sourceTree = "<group>"; };
+		39DC9D951BEA09C100677237 /* profile_default_cover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_default_cover@2x.png"; sourceTree = "<group>"; };
 		39FBCC961BE24F8900527A6C /* UpdateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateHelper.h; sourceTree = "<group>"; };
 		39FBCC971BE24F8900527A6C /* UpdateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateHelper.m; sourceTree = "<group>"; };
 		834D0885FF5069CC428F3F54 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1296,6 +1298,7 @@
 		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				39DC9D951BEA09C100677237 /* profile_default_cover@2x.png */,
 				CDF739CA1BE0AF3D009FA8CA /* Share */,
 				CD33D8201BDB682B00BB0A04 /* MusicDetail */,
 				CD9D2EB41BD7705A00A2D312 /* Setting */,
@@ -1717,6 +1720,7 @@
 				393CE9A81BB7A8CA00FCF232 /* favorite_downloaded@2x.png in Resources */,
 				CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */,
 				CDD831581BD8B6550067309B /* HXNoNetworkView.xib in Resources */,
+				39DC9D961BEA09C100677237 /* profile_default_cover@2x.png in Resources */,
 				CDD8315B1BD8B6980067309B /* HXInfectUserListView.xib in Resources */,
 				390BADD11BAFE188006269FD /* login_logo@2x.png in Resources */,
 				3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */,

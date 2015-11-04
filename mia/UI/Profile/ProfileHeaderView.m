@@ -56,8 +56,7 @@
 
 - (void)initCoverView:(UIView *)contentView {
 	_coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
-	UIImage *bannerImage = [self getBannerImageFromCover:[UIImage imageNamed:@"default_cover"] containerSize:contentView.bounds.size];
-	[_coverImageView setImageToBlur:bannerImage blurRadius:6.0 completionBlock:nil];
+	[_coverImageView setImage:[UIImage imageNamed:@"profile_default_cover"]];
 	[contentView addSubview:_coverImageView];
 
 	UIImageView *coverMaskImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];

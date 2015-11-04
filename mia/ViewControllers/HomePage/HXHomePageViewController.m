@@ -584,11 +584,14 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)displayWithInfectState:(BOOL)infected {
-    _infectCountPromptLabel.alpha = 0.0f;
-    _bubbleView.hidden = infected;
-    _fishView.hidden = infected;
+    BOOL logined = [[UserSession standard] isLogined];
+    if (logined) {
+        _infectCountPromptLabel.alpha = 0.0f;
+        _bubbleView.hidden = infected;
+        _fishView.hidden = infected;
+    }
     
-    if (infected) {
+    if (infected && logined) {
         [self startInfectedStateAnimation];
     } else {
         [self startUnInfectedStateAnimation];
@@ -598,7 +601,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
     _toLogin = YES;
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    loginViewController.loginViewControllerDelegate = self;
+    loginViewController.customDelegate = self;
     [loginViewController loginSuccess:success];
     HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
     __weak __typeof__(self)weakSelf = self;
@@ -776,7 +779,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [self cancelLoginOperate];
 }
 
-#pragma mark - Login View Controller Delegate Methods
+#pragma mark - LoginViewControllerDelegate
+- (void)loginViewControllerDismissWithoutLogin {
+	if (![[WebSocketMgr standard] isOpen]) {
+		[self showNoNetworkView];
+	}
+}
+
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
         int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];

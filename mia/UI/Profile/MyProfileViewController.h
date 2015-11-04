@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol MyProfileViewControllerDelegate
+@protocol MyProfileViewControllerDelegate <NSObject>
 
 - (void)myProfileViewControllerWillDismiss;
 - (void)myProfileViewControllerUpdateUnreadCount:(int)count;
