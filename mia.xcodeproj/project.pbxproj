@@ -135,14 +135,6 @@
 		CD48CD7C1BDDFA79009607DE /* HXMusicDetailCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7B1BDDFA79009607DE /* HXMusicDetailCommentCell.m */; };
 		CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */; };
 		CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD48CD811BDE0054009607DE /* MusicDetail.storyboard */; };
-		CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */; };
-		CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */; };
-		CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E41BC9188200E33121 /* FDStackView.m */; };
-		CD4F62F21BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E61BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m */; };
-		CD4F62F31BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62E81BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m */; };
-		CD4F62F41BC9188200E33121 /* FDStackViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */; };
-		CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */; };
-		CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; };
 		CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */; };
 		CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */; };
@@ -415,22 +407,6 @@
 		CD48CD7E1BDDFD43009607DE /* HXMusicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailViewController.h; sourceTree = "<group>"; };
 		CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailViewController.m; sourceTree = "<group>"; };
 		CD48CD821BDE0054009607DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/MusicDetail.storyboard; sourceTree = SOURCE_ROOT; };
-		CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDGapLayoutGuide.h; sourceTree = "<group>"; };
-		CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDGapLayoutGuide.m; sourceTree = "<group>"; };
-		CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLayoutSpacer.h; sourceTree = "<group>"; };
-		CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDLayoutSpacer.m; sourceTree = "<group>"; };
-		CD4F62E31BC9188200E33121 /* FDStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackView.h; sourceTree = "<group>"; };
-		CD4F62E41BC9188200E33121 /* FDStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackView.m; sourceTree = "<group>"; };
-		CD4F62E51BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewAlignmentLayoutArrangement.h; sourceTree = "<group>"; };
-		CD4F62E61BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewAlignmentLayoutArrangement.m; sourceTree = "<group>"; };
-		CD4F62E71BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewDistributionLayoutArrangement.h; sourceTree = "<group>"; };
-		CD4F62E81BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewDistributionLayoutArrangement.m; sourceTree = "<group>"; };
-		CD4F62E91BC9188200E33121 /* FDStackViewExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewExtensions.h; sourceTree = "<group>"; };
-		CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewExtensions.m; sourceTree = "<group>"; };
-		CD4F62EB1BC9188200E33121 /* FDStackViewLayoutArrangement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStackViewLayoutArrangement.h; sourceTree = "<group>"; };
-		CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStackViewLayoutArrangement.m; sourceTree = "<group>"; };
-		CD4F62ED1BC9188200E33121 /* FDTransformLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTransformLayer.h; sourceTree = "<group>"; };
-		CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTransformLayer.m; sourceTree = "<group>"; };
 		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
 		CD5753801BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailCoverCell.h; sourceTree = "<group>"; };
@@ -1215,7 +1191,6 @@
 			children = (
 				CD5753A71BE0714300E7CBC4 /* HXGrowingTextView */,
 				CD9D2EBE1BD77C2100A2D312 /* PlaceholderTextView */,
-				CD4F62DE1BC9188200E33121 /* FDStackView */,
 				39BF8C551BB0F801003AB4FC /* MBProgressHUDHelp */,
 				397FA50B1BAC0CA7003FD186 /* MIALabel */,
 				397FA50E1BAC0CA7003FD186 /* MIARefresh */,
@@ -1402,29 +1377,6 @@
 				CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */,
 			);
 			path = MusicDetail;
-			sourceTree = "<group>";
-		};
-		CD4F62DE1BC9188200E33121 /* FDStackView */ = {
-			isa = PBXGroup;
-			children = (
-				CD4F62DF1BC9188200E33121 /* FDGapLayoutGuide.h */,
-				CD4F62E01BC9188200E33121 /* FDGapLayoutGuide.m */,
-				CD4F62E11BC9188200E33121 /* FDLayoutSpacer.h */,
-				CD4F62E21BC9188200E33121 /* FDLayoutSpacer.m */,
-				CD4F62E31BC9188200E33121 /* FDStackView.h */,
-				CD4F62E41BC9188200E33121 /* FDStackView.m */,
-				CD4F62E51BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.h */,
-				CD4F62E61BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m */,
-				CD4F62E71BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.h */,
-				CD4F62E81BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m */,
-				CD4F62E91BC9188200E33121 /* FDStackViewExtensions.h */,
-				CD4F62EA1BC9188200E33121 /* FDStackViewExtensions.m */,
-				CD4F62EB1BC9188200E33121 /* FDStackViewLayoutArrangement.h */,
-				CD4F62EC1BC9188200E33121 /* FDStackViewLayoutArrangement.m */,
-				CD4F62ED1BC9188200E33121 /* FDTransformLayer.h */,
-				CD4F62EE1BC9188200E33121 /* FDTransformLayer.m */,
-			);
-			path = FDStackView;
 			sourceTree = "<group>";
 		};
 		CD4F62F71BCB4E3400E33121 /* Helper */ = {
@@ -1863,7 +1815,6 @@
 				39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
-				CD4F62F01BC9188200E33121 /* FDLayoutSpacer.m in Sources */,
 				CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */,
 				CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
@@ -1892,7 +1843,6 @@
 				CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */,
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
-				CD4F62F61BC9188200E33121 /* FDTransformLayer.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */,
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
 				CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */,
@@ -1901,7 +1851,6 @@
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
 				CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */,
 				39BF8C7B1BB2AC8A003AB4FC /* ProfileHeaderView.m in Sources */,
-				CD4F62F51BC9188200E33121 /* FDStackViewLayoutArrangement.m in Sources */,
 				397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */,
 				397E42D31BA90812006BE9E7 /* NSString+MD5.m in Sources */,
 				395CD6021BD9DEE8001A2528 /* UserSession.m in Sources */,
@@ -1910,7 +1859,6 @@
 				3976E35D1BBACB6F006FA5E2 /* SearchSuggestionView.m in Sources */,
 				397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */,
 				CD5753A41BDF5B5B00E7CBC4 /* CommentItem.m in Sources */,
-				CD4F62F21BC9188200E33121 /* FDStackViewAlignmentLayoutArrangement.m in Sources */,
 				39DA9BF31BDB630E001C0CD1 /* FileLog.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				395CD5FF1BD9DEE8001A2528 /* FavoriteMgr.m in Sources */,
@@ -1925,15 +1873,12 @@
 				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,
 				CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */,
-				CD4F62F11BC9188200E33121 /* FDStackView.m in Sources */,
 				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,
 				397218921BCF8F9400721A6D /* InfectUserItem.m in Sources */,
-				CD4F62EF1BC9188200E33121 /* FDGapLayoutGuide.m in Sources */,
 				397E42D21BA90812006BE9E7 /* NSString+IsNull.m in Sources */,
 				CD57539E1BDF53F000E7CBC4 /* CommentModel.m in Sources */,
 				CD48CD7C1BDDFA79009607DE /* HXMusicDetailCommentCell.m in Sources */,
 				397FA52B1BAC0CA7003FD186 /* MIALabel.m in Sources */,
-				CD4F62F41BC9188200E33121 /* FDStackViewExtensions.m in Sources */,
 				3976E35A1BBAC78B006FA5E2 /* SearchViewController.m in Sources */,
 				390963EB1BC652FF00E427BA /* SettingViewController.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
@@ -1955,7 +1900,6 @@
 				390BADC91BAFD9FB006269FD /* LoginViewController.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
 				393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */,
-				CD4F62F31BC9188200E33121 /* FDStackViewDistributionLayoutArrangement.m in Sources */,
 				397FA52E1BAC0CA7003FD186 /* MIARefreshFooterView.m in Sources */,
 				CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
