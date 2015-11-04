@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-D2-W16">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="L-LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-D2-W16">
                                 <rect key="frame" x="32" y="87" width="257" height="257"/>
                                 <animations/>
                             </imageView>
@@ -26,7 +26,7 @@
                                 <rect key="frame" x="133" y="526" width="54" height="22"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -46,6 +46,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchLogo" width="257" height="257"/>
+        <image name="L-LaunchLogo" width="257" height="257"/>
     </resources>
 </document>
