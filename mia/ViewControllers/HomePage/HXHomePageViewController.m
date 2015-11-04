@@ -291,7 +291,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
             case UIGestureRecognizerStateCancelled: {
                 if (!_playItem.isInfected) {
                     if (!_animating) {
-                        [_fishView stopAnimating];
                         __weak __typeof__(self)weakSelf = self;
                         [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
                             __strong __typeof__(self)strongSelf = weakSelf;
@@ -633,11 +632,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    __weak __typeof__(self)weakSelf = self;
-    [_waveView waveMoveDownAnimation:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.fishView stopAnimating];
-    }];
+    [_waveView waveMoveDownAnimation:nil];
 }
 
 // 波浪升起动画
