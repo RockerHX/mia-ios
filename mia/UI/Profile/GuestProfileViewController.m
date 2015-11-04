@@ -266,13 +266,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-	[MiaAPIHelper postReadCommentWithsID:[[cell shareItem] sID]
-	 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 NSLog(@"post read comment ret: %d, %d", success, [userInfo[MiaAPIKey_Values][@"num"] intValue]);
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 NSLog(@"post read comment timeout");
-	 }];
-
 	HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
 	musicDetailViewController.playItem = [cell shareItem];
 	musicDetailViewController.fromProfile = NO;
