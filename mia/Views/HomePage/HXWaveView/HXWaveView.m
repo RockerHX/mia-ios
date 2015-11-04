@@ -50,8 +50,8 @@ static CGFloat LineWidth = 1.0f;
     
     CGFloat lightLineY = _offsetY;
     CGPathMoveToPoint(lightColorPath, nil, Zero, lightLineY);
-    for (CGFloat x = -(width/2); x <= width*1.5 ; x++) {
-        lightLineY = (_attenuation ? _vibrationAmplitudeMin : _vibrationAmplitude) * sin(x/180.0f*M_PI + 6.0f*_vibrationAmplitudeMax/M_PI) * 3.0f + _offsetY;
+    for (CGFloat x = Zero; x <= width ; x++) {
+        lightLineY = (_attenuation ? _vibrationAmplitudeMin : _vibrationAmplitude) * cos(x/120.0f*M_PI + 6.0f*_vibrationAmplitudeMax/M_PI) * 3.0f + _offsetY;
         CGPathAddLineToPoint(lightColorPath, nil, x, lightLineY);
     }
     
