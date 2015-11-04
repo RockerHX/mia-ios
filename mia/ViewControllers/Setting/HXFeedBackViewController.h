@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet BRPlaceholderTextView *feedContentTextView;
 @property (weak, nonatomic) IBOutlet           UITextField *feedContactTextField;
 
++ (instancetype)instance;
+
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;
 

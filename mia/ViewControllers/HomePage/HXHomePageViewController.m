@@ -35,6 +35,7 @@
 #import "FavoriteMgr.h"
 #import "HXNavigationController.h"
 #import "HXInfectUserItemView.h"
+#import "HXFeedBackViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -93,8 +94,9 @@ static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationPushUnread object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
-
-	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
+    
+    [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
+    [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_LoginState context:nil];
 }
 
 #pragma mark - Prepare
@@ -114,8 +116,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketPushUnread:) name:WebSocketMgrNotificationPushUnread object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
-	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+    [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
+    [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_LoginState options:NSKeyValueObservingOptionNew context:nil];
 
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
@@ -177,7 +180,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 			int unreadCount = [[[UserSession standard] unreadCommCnt] intValue];
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
-	}
+    } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
+//        [self shouldDisplayInfectUsers:_playItem];
+    }
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
@@ -243,6 +248,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }
 }
 
+- (IBAction)feedBackButtonPressed {
+    HXFeedBackViewController *feedBackViewController = [HXFeedBackViewController instance];
+    [self.navigationController pushViewController:feedBackViewController animated:YES];
+}
+
 - (IBAction)tapGesture {
     [self.view endEditing:YES];
     if (_animating) {
@@ -272,7 +282,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
             }
             // 拖动手势位移，配合拖动阀值移动小鱼并出发动画
             case UIGestureRecognizerStateChanged: {
-                if (!_playItem.isInfected) {
+                if (!_playItem.isInfected || ![UserSession standard].state) {
                     CGFloat offsetHeight = [panGesture translationInView:self.view].y;
                     if (offsetHeight < 0.0f) {
                         CGFloat fabsOffsetHeightY = fabs(offsetHeight);
@@ -503,6 +513,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
              [[UserSession standard] setAvatar:avatarUrlWithTime];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
+             [UserSession standard].state = UserSessionLoginStateLogin;
          }
          
          [_radioViewController loadShareList];
@@ -596,6 +607,11 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     } else {
         [self startUnInfectedStateAnimation];
     }
+    [self displayFeedBackButtonColor];
+}
+
+- (void)displayFeedBackButtonColor {
+    [_feedBackButton setTitleColor:_playItem.isInfected ? UIColorFromHex(@"3DC6B6", 1.0f) : [UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
@@ -614,6 +630,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView.waveView startAnimating];
+    [self displayFeedBackButtonColor];
 }
 
 - (void)stopWaveAnimation {
