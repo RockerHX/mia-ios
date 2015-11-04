@@ -598,7 +598,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
     _toLogin = YES;
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    loginViewController.loginViewControllerDelegate = self;
+    loginViewController.customDelegate = self;
     [loginViewController loginSuccess:success];
     HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
     __weak __typeof__(self)weakSelf = self;
@@ -776,7 +776,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [self cancelLoginOperate];
 }
 
-#pragma mark - Login View Controller Delegate Methods
+#pragma mark - LoginViewControllerDelegate
+- (void)loginViewControllerDismissWithoutLogin {
+	if (![[WebSocketMgr standard] isOpen]) {
+		[self showNoNetworkView];
+	}
+}
+
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
         int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
