@@ -873,7 +873,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)raidoViewDidTaped {
-    [self tapGesture];
+//    [self tapGesture];
 }
 
 @end
