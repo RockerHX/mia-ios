@@ -282,8 +282,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	MIALabel *addMusicLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														   text:@"分享你喜欢的第一首歌"
-														   font:UIFontFromSize(16.0f)
-													  textColor:[UIColor blackColor]
+														   font:UIFontFromSize(14.0f)
+													  textColor:UIColorFromHex(@"808080", 1.0)
 												  textAlignment:NSTextAlignmentCenter
 													numberLines:1];
 	[_addShareView addSubview:addMusicLabel];
