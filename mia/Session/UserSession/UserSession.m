@@ -86,6 +86,7 @@
 	
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
+    self.state = UserSessionLoginStateLogout;
 }
 
 @end

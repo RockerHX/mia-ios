@@ -949,6 +949,7 @@
 				397F02DF1B9EEEF500C413FE /* Images.xcassets */,
 				CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */,
 				3997F8391BE858E300F6597D /* button_dark_blue@2x.png */,
+				39DC9D951BEA09C100677237 /* profile_default_cover@2x.png */,
 				3997F8371BE856C400F6597D /* button_gray@2x.png */,
 				39AD4DA11BD7C8530065BA06 /* no_share@2x.png */,
 				3997F8351BE76EF700F6597D /* profile_views@2x.png */,
@@ -1298,7 +1299,6 @@
 		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				39DC9D951BEA09C100677237 /* profile_default_cover@2x.png */,
 				CDF739CA1BE0AF3D009FA8CA /* Share */,
 				CD33D8201BDB682B00BB0A04 /* MusicDetail */,
 				CD9D2EB41BD7705A00A2D312 /* Setting */,

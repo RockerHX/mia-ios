@@ -53,7 +53,14 @@ typedef void(^BLOCK)(void);
 }
 
 - (void)hidden {
-    [self removeFromSuperview];
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.8f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf removeFromSuperview];
+    }];
 }
 
 #pragma mark - Private Methods
@@ -66,7 +73,11 @@ typedef void(^BLOCK)(void);
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    _pageControl.currentPage = scrollView.contentOffset.x/scrollView.frame.size.width;
+    CGFloat page = scrollView.contentOffset.x/scrollView.frame.size.width;
+    _pageControl.currentPage = page;
+    if (page > 3.2f) {
+        [self locationButtonPressed];
+    }
 }
 
 @end

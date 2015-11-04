@@ -23,6 +23,11 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 
 @implementation HXFeedBackViewController
 
+#pragma mark - Class Methods
++ (instancetype)instance {
+    return [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXFeedBackViewController class])];
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];

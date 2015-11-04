@@ -19,14 +19,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-D2-W16">
-                                <rect key="frame" x="92" y="147" width="137" height="137"/>
+                                <rect key="frame" x="32" y="87" width="257" height="257"/>
                                 <animations/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试用版" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jia-0p-UTY">
+                                <rect key="frame" x="133" y="526" width="54" height="22"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="LVg-D2-W16" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Usk-30-hMv"/>
+                            <constraint firstItem="Jia-0p-UTY" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2ee-cy-vXo"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Jia-0p-UTY" secondAttribute="bottom" constant="20" id="BmZ-YP-mun"/>
+                            <constraint firstItem="LVg-D2-W16" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="60" id="Usk-30-hMv"/>
                             <constraint firstItem="LVg-D2-W16" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qF7-l1-Qne"/>
                         </constraints>
                     </view>
@@ -37,6 +46,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchLogo" width="137" height="137"/>
+        <image name="LaunchLogo" width="257" height="257"/>
     </resources>
 </document>

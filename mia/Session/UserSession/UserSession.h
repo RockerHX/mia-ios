@@ -22,6 +22,7 @@ static NSString * const UserDefaultsKey_Nick				= @"nick";
 
 static NSString * const UserSessionKey_NickName				= @"nick";
 static NSString * const UserSessionKey_Avatar				= @"avatar";
+static NSString * const UserSessionKey_LoginState           = @"state";
 
 @interface UserSession : NSObject
 

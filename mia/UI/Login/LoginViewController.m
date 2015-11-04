@@ -306,6 +306,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
              if (_backBlock) {
                  _backBlock(YES);
              }
+             [UserSession standard].state = UserSessionLoginStateLogin;
              
              [strongSelf dismissViewControllerAnimated:YES completion:nil];
          } else {
