@@ -18,11 +18,12 @@
 @implementation UserSession {
 }
 
+#pragma mark - Class Methods
 /**
  *  使用单例初始化
  *
  */
-+ (id)standard{
++ (instancetype)standard{
     static UserSession *aUserSession = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
@@ -31,7 +32,8 @@
     return aUserSession;
 }
 
-- (id)init {
+#pragma mark - Init Methods
+- (instancetype)init {
 	self = [super init];
 	if (self) {
 		_uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
@@ -40,22 +42,25 @@
 	return self;
 }
 
-- (void)dealloc {
+#pragma mark - Setter And Getter
+- (UserSessionLoginState)state {
+    // 为了和无网络时的缓存登录区分开，加了utype的判断
+    if ([NSString isNull:_utype]) {
+        return UserSessionLoginStateLogout;
+    }
+    if ([NSString isNull:_uid]) {
+        return UserSessionLoginStateLogout;
+    }
+    if ([NSString isNull:_nick]) {
+        return UserSessionLoginStateLogout;
+    }
+    
+    return UserSessionLoginStateLogin;
 }
 
+#pragma mark - Public Methods
 - (BOOL)isLogined {
-	// 为了和无网络时的缓存登录区分开，加了utype的判断
-	if ([NSString isNull:_utype]) {
-		return NO;
-	}
-	if ([NSString isNull:_uid]) {
-		return NO;
-	}
-	if ([NSString isNull:_nick]) {
-		return NO;
-	}
-
-	return YES;
+    return self.state;
 }
 
 - (BOOL)isCachedLogin {
@@ -64,11 +69,11 @@
 	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
 		return NO;
 	}
-
+    
 	if ([NSString isNull:_uid] || [NSString isNull:_nick]) {
 		return NO;
 	}
-
+    
 	return YES;
 }
 
@@ -82,20 +87,5 @@
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
 }
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
