@@ -281,6 +281,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="妙推人数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X3v-nK-bAd">
+                                <rect key="frame" x="236" y="537" width="64" height="20"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -297,6 +304,7 @@
                             <constraint firstItem="rGi-8V-WGj" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="GLv-ad-a0L"/>
                             <constraint firstAttribute="bottom" secondItem="K76-u6-UI7" secondAttribute="bottom" constant="20" id="Gji-wQ-Z6e"/>
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="centerX" secondItem="K76-u6-UI7" secondAttribute="centerX" id="ITI-a2-PHK"/>
+                            <constraint firstAttribute="trailing" secondItem="X3v-nK-bAd" secondAttribute="trailing" constant="20" id="Iyw-UR-Ig3"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="rGi-8V-WGj" secondAttribute="bottom" constant="10" id="Jrb-Fc-8gt"/>
                             <constraint firstItem="W4h-Kd-Mqg" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Oh3-3m-go7"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Rcp-NR-a1u"/>
@@ -304,6 +312,7 @@
                             <constraint firstAttribute="bottom" secondItem="6LO-Lb-msR" secondAttribute="bottom" id="clv-Jc-zsc"/>
                             <constraint firstItem="97C-zd-yXF" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" constant="15" id="eMs-u1-fsy"/>
                             <constraint firstAttribute="trailing" secondItem="W4h-Kd-Mqg" secondAttribute="trailing" id="eoU-oB-4Sw"/>
+                            <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="X3v-nK-bAd" secondAttribute="bottom" constant="11" id="gfj-Kv-1yD"/>
                             <constraint firstAttribute="trailing" secondItem="6LO-Lb-msR" secondAttribute="trailing" id="pvq-K7-uG1"/>
                             <constraint firstAttribute="bottom" secondItem="1bC-Qy-IVf" secondAttribute="bottom" id="suh-eh-pfG"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" id="uP2-Ce-bLl"/>
@@ -321,6 +330,7 @@
                         <outlet property="fishBottomConstraint" destination="Gji-wQ-Z6e" id="08a-67-gj3"/>
                         <outlet property="fishView" destination="K76-u6-UI7" id="lyD-gc-dvz"/>
                         <outlet property="headerViewBottomConstraint" destination="suh-eh-pfG" id="3cj-Uq-eNc"/>
+                        <outlet property="infectCountLeftPromptLabel" destination="X3v-nK-bAd" id="y5m-Qx-HdH"/>
                         <outlet property="infectCountPromptLabel" destination="KWo-qg-cwb" id="eNd-HB-RWV"/>
                         <outlet property="infectUserView" destination="1bC-Qy-IVf" id="OyI-2j-FoL"/>
                         <outlet property="panGesture" destination="uZS-pI-r12" id="WF9-Of-6pe"/>

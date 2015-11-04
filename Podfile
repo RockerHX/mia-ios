@@ -20,14 +20,17 @@ pod 'MJExtension'
 
 # View Controller Componment
 
-# View
-pod 'MBProgressHUD'
+# UIComponment
 pod 'iCarousel'
+pod 'MJRefresh'
+pod 'MBProgressHUD'
 pod 'TTTAttributedLabel'
 pod 'UIAlertView-Blocks'
-pod 'MJRefresh'
+
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'UICollectionViewLeftAlignedLayout'
+
+pod 'FDStackView', '1.0-alpha'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'

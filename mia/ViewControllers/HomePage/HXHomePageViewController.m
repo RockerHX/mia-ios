@@ -139,6 +139,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
     _pushPromptLabel.alpha = 0.0f;
+    _infectCountLeftPromptLabel.alpha = 0.0f;
     
     [self hanleUnderiPhone6Size];
     [self animationViewConfig];
@@ -291,7 +292,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
             case UIGestureRecognizerStateCancelled: {
                 if (!_playItem.isInfected) {
                     if (!_animating) {
-                        [_fishView stopAnimating];
                         __weak __typeof__(self)weakSelf = self;
                         [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
                             __strong __typeof__(self)strongSelf = weakSelf;
@@ -354,6 +354,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
     [_infectUserView removeAllItem];
+    
     NSInteger infectUserCount = infectUsers.count;
     if (infectUserCount) {
         NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
@@ -381,6 +382,19 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.pushPromptLabel.alpha = show ? 1.0f : 0.0f;
     }];
+}
+
+- (void)showInfectCountLeftPromptLabel:(BOOL)show withCount:(NSInteger)count {
+    if (count) {
+        _infectCountLeftPromptLabel.text = [NSString stringWithFormat:@"%@人妙推", @(count)];
+    }
+    if ([[UserSession standard] isLogined]) {
+        __weak __typeof__(self)weakSelf = self;
+        [UIView animateWithDuration:0.3f animations:^{
+            __strong __typeof__(self)strongSelf = weakSelf;
+            strongSelf.infectCountLeftPromptLabel.alpha = show ? 1.0f : 0.0f;
+        }];
+    }
 }
 
 - (void)addPushUserHeader {
@@ -508,6 +522,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if (!_playItem.isInfected) {
         _playItem.isInfected = YES;
         _playItem.infectTotal += 1;
+        [self showInfectCountLeftPromptLabel:NO withCount:_playItem.infectTotal];
+        
         __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
         [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
@@ -633,11 +649,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 // 波浪退出动画
 - (void)startWaveMoveDownAnimation {
-    __weak __typeof__(self)weakSelf = self;
-    [_waveView waveMoveDownAnimation:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.fishView stopAnimating];
-    }];
+    [_waveView waveMoveDownAnimation:nil];
 }
 
 // 波浪升起动画
@@ -820,8 +832,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
-    [self showInfectUsers:item.infectUsers];
-    [self displayWithInfectState:item.isInfected];
+    BOOL isInfected = item.isInfected;
+    NSArray *infectUsers = item.infectUsers;
+    [self showInfectUsers:infectUsers];
+    [self displayWithInfectState:isInfected];
+    
+    NSInteger infectUsersCount = infectUsers.count;
+    [self showInfectCountLeftPromptLabel:(infectUsersCount && !isInfected) withCount:infectUsersCount];
 }
 
 - (void)musicDidChange:(ShareItem *)item {

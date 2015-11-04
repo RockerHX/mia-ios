@@ -286,14 +286,17 @@
              id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
              id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
              id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
              NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
              
-             if ([sID isEqualToString:strongSelf->_helper.currentItem.sID]) {
-                 strongSelf->_helper.currentItem.cComm = [cComm intValue];
-                 strongSelf->_helper.currentItem.cView = [cView intValue];
-                 strongSelf->_helper.currentItem.favorite = [start intValue];
-                 strongSelf->_helper.currentItem.infectTotal = [infectTotal intValue];
-                 [strongSelf->_helper.currentItem parseInfectUsersFromJsonArray:infectArray];
+             ShareItem *item = strongSelf->_helper.currentItem;
+             if ([sID isEqualToString:item.sID]) {
+                 item.isInfected = isInfected;
+                 item.cComm = [cComm intValue];
+                 item.cView = [cView intValue];
+                 item.favorite = [start intValue];
+                 item.infectTotal = [infectTotal intValue];
+                 [item parseInfectUsersFromJsonArray:infectArray];
              }
          } else {
              NSLog(@"getShareById failed");
