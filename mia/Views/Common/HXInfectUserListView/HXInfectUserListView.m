@@ -12,6 +12,7 @@
 #import "MiaAPIHelper.h"
 #import "MJRefresh.h"
 #import "HXVersion.h"
+#import "HXAlertBanner.h"
 
 typedef void(^BLOCK)(id item, NSInteger index);
 
@@ -76,39 +77,46 @@ static NSInteger kInfectListItemCountInPage = 10;
 }
 
 - (void)showWithSharerID:(NSString *)sID taped:(void(^)(id item, NSInteger index))taped {
-    _sID = sID;
-    _tapBlock = taped;
-    __weak __typeof__(self)weakSelf = self;
-    _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        // 分页需要传入上一次拉取到的最后一条的infectid作为参数
-        _lastInfectID = @"0";
-        [MiaAPIHelper getInfectListWithSID:sID
-                                   startID:_lastInfectID
-                                      item:kInfectListItemCountInPage
-                             completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-             if (success) {
-                 NSArray *infectList = userInfo[@"v"][@"data"];
-                 if (!infectList) {
-                     return;
-                 }
-                 
-                 [_listItems removeAllObjects];
-                 for (NSDictionary *dictItem in infectList) {
-                     InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
-                     strongSelf->_lastInfectID = item.infectid;
-                     [strongSelf->_listItems addObject:item];
-                 }
-                 [strongSelf reloadList];
-                 if (!strongSelf.tableView.footer) {
-                     [strongSelf addRefreshFooterWithSharerID:sID];
-                 }
-             }
-         } timeoutBlock:^(MiaRequestItem *requestItem) {
-             NSLog(@"Timeout");
-         }];
-    }];
-    [self showWithRefeshControl];
+	_sID = sID;
+	_tapBlock = taped;
+	__weak __typeof__(self)weakSelf = self;
+	_tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+		__strong __typeof__(self)strongSelf = weakSelf;
+		// 分页需要传入上一次拉取到的最后一条的infectid作为参数
+		_lastInfectID = @"0";
+		[MiaAPIHelper getInfectListWithSID:sID
+								   startID:_lastInfectID
+									  item:kInfectListItemCountInPage
+							 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 NSArray *infectList = userInfo[@"v"][@"data"];
+				 if (!infectList) {
+					 return;
+				 }
+
+				 [_listItems removeAllObjects];
+				 for (NSDictionary *dictItem in infectList) {
+					 InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
+					 strongSelf->_lastInfectID = item.infectid;
+					 [strongSelf->_listItems addObject:item];
+				 }
+
+				 [strongSelf reloadList];
+				 if (!strongSelf.tableView.footer) {
+					 [strongSelf addRefreshFooterWithSharerID:sID];
+				 }
+			 } else {
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]] tap:nil];
+			 }
+
+			 [strongSelf endRefreshing];
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"showWithSharerID getInfectListWithSID Timeout");
+			 [strongSelf reloadList];
+		 }];
+	}];
+	[self showWithRefeshControl];
 }
 
 #pragma mark - Private Methods
@@ -117,7 +125,7 @@ static NSInteger kInfectListItemCountInPage = 10;
     UIWindow *mainWindow = delegate.window;
     self.frame = mainWindow.frame;
     [mainWindow addSubview:self];
-    
+
     [self updateTitleLabel];
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f usingSpringWithDamping:0.8f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -152,36 +160,45 @@ static NSInteger kInfectListItemCountInPage = 10;
 - (void)reloadList {
     [self updateTitleLabel];
     [_tableView reloadData];
-    [_tableView.header endRefreshing];
-    [_tableView.footer endRefreshing];
+}
+
+- (void)endRefreshing {
+	[_tableView.header endRefreshing];
+	[_tableView.footer endRefreshing];
 }
 
 - (void)addRefreshFooterWithSharerID:(NSString *)sID {
     __weak __typeof__(self)weakSelf = self;
-    _tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    _tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         __strong __typeof__(self)strongSelf = weakSelf;
-        // 分页需要传入上一次拉取到的最后一条的infectid作为参数
-        [MiaAPIHelper getInfectListWithSID:sID
-                                   startID:_lastInfectID
-                                      item:kInfectListItemCountInPage
-                             completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                                 if (success) {
-                                     NSArray *infectList = userInfo[@"v"][@"data"];
-                                     if (!infectList) {
-                                         return;
-                                     }
-                                     
-                                     for (NSDictionary *dictItem in infectList) {
-                                         InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
-                                         strongSelf->_lastInfectID = item.infectid;
-                                         [strongSelf->_listItems addObject:item];
-                                     }
-                                     [strongSelf reloadList];
-                                 }
-                             } timeoutBlock:^(MiaRequestItem *requestItem) {
-                                 NSLog(@"Timeout");
-                             }];
-    }];
+		// 分页需要传入上一次拉取到的最后一条的infectid作为参数
+		[MiaAPIHelper getInfectListWithSID:sID
+								   startID:_lastInfectID
+									  item:kInfectListItemCountInPage
+							 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 NSArray *infectList = userInfo[@"v"][@"data"];
+				 if (!infectList) {
+					 return;
+				 }
+
+				 for (NSDictionary *dictItem in infectList) {
+					 InfectItem *item = [[InfectItem alloc] initWithDictionary:dictItem];
+					 strongSelf->_lastInfectID = item.infectid;
+					 [strongSelf->_listItems addObject:item];
+				 }
+				 [strongSelf reloadList];
+			 } else {
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]] tap:nil];
+			 }
+
+			 [strongSelf endRefreshing];
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"addRefreshFooterWithSharerID Timeout");
+			 [strongSelf endRefreshing];
+		 }];
+	}];
 }
 
 - (void)hidden:(void(^)(void))completed {
