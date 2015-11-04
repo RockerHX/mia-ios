@@ -34,6 +34,10 @@
 
 #pragma mark - Public Methods
 - (void)displayWithPlayItem:(ShareItem *)item {
+	if (!item.hasData) {
+		return;
+	}
+	
     MusicItem *musicItem = item.music;
     [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@"  " stringByAppendingString:musicItem.singerName]];
     [self updateStatStateWithFavorite:item.favorite];
