@@ -24,11 +24,11 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewBottomConstraint;
-@property (weak, nonatomic) IBOutlet  HXGrowingTextView *editCommentView;
+@property (weak, nonatomic) IBOutlet HXGrowingTextView *editCommentView;
 
-@property (weak, nonatomic)          id  <HXMusicDetailViewControllerDelegate>customDelegate;
+@property (weak, nonatomic) id<HXMusicDetailViewControllerDelegate> customDelegate;
 
-@property (nonatomic, assign)      BOOL  fromProfile;
+@property (nonatomic, assign) BOOL fromProfile;
 @property (nonatomic, strong) ShareItem *playItem;
 
 - (IBAction)backButtonPressed;
