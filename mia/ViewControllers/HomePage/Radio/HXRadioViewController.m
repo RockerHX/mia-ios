@@ -22,7 +22,6 @@
 
 	ShareListMgr 	*_shareListMgr;
 	SongListPlayer	*_songListPlayer;
-	BOOL 			_isLoading;
 }
 
 @end
@@ -89,7 +88,6 @@
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
         [self requestNewShares];
-		_isLoading = YES;
 	} else {
 		[self reloadLoopPlayerData];
 	}
@@ -121,12 +119,8 @@
 									  return;
 								  }
 
-								  [_shareListMgr addSharesWithArray:shareList];
-
-								  if (_isLoading) {
-									  [strongSelf reloadLoopPlayerData];
-									  _isLoading = NO;
-								  }
+								  [strongSelf->_shareListMgr addSharesWithArray:shareList];
+                                  [strongSelf reloadLoopPlayerData];
 							  } else {
 								  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 								  [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
@@ -166,11 +160,11 @@
 
 #pragma mark - SongListPlayerDataSource
 - (NSInteger)songListPlayerCurrentItemIndex {
-	return _shareListMgr.currentItem;
+	return _shareListMgr.currentIndex;
 }
 
 - (NSInteger)songListPlayerNextItemIndex {
-	NSInteger nextIndex = _shareListMgr.currentItem + 1;
+	NSInteger nextIndex = _shareListMgr.currentIndex + 1;
 	if (nextIndex >= _shareListMgr.shareList.count) {
 		nextIndex = 0;
 	}
@@ -203,7 +197,6 @@
 
 - (void)songListPlayerShouldPlayNext {
 //	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-//		[_shareListMgr cursorShiftRight];
 //		[self checkIsNeedToGetNewItems];
 //		[_shareListMgr checkHistoryItemsMaxCount];
 //	}
@@ -226,51 +219,68 @@
 }
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
-    ShareItem *playItem = _helper.items[_carousel.currentItemIndex];
-	[self playMusic:playItem];
+    NSInteger currentIndex = _shareListMgr.currentIndex;
+    @try {
+        NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_carousel.currentItemIndex));
+        NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥++++++🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_helper.items.count));
+        ShareItem *playItem = _helper.items[currentIndex];
+        [self playMusic:playItem];
+        
+        _shareListMgr.currentIndex = _carousel.currentItemIndex;
+        [self checkIsNeedToGetNewItems];
+        if ([_shareListMgr checkHistoryItemsMaxCount]) {
+            _carousel.currentItemIndex = _shareListMgr.currentIndex;
+            [self reloadLoopPlayerData];
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception.reason);
+    }
+    @finally {
+    }
     
-	// 更新单条分享的信息
-	[MiaAPIHelper getShareById:playItem.sID completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         if (success) {
-             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
-             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
-             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
-             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-             
-             if ([sID isEqualToString:playItem.sID]) {
-                 playItem.isInfected = isInfected;
-                 playItem.cComm = [cComm intValue];
-                 playItem.cView = [cView intValue];
-                 playItem.favorite = [start intValue];
-                 playItem.infectTotal = [infectTotal intValue];
-                 [playItem parseInfectUsersFromJsonArray:infectArray];
-             }
-         } else {
-             NSLog(@"getShareById failed");
-         }
-	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		NSLog(@"getShareById timeout");
-	}];
-
-	// PV上报
-	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-							  longitude:[[LocationMgr standard] currentCoordinate].longitude
-								address:[[LocationMgr standard] currentAddress]
-								   spID:playItem.spID
-						  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 NSLog(@"viewShareWithLatitude success");
-		 } else {
-			 NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 NSLog(@"viewShareWithLatitude timeout");
-	 }];
+//	// 更新单条分享的信息
+//	[MiaAPIHelper getShareById:playItem.sID completeBlock:
+//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+//         if (success) {
+//             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+//             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+//             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+//             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+//             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+//             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+//             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+//             
+//             if ([sID isEqualToString:playItem.sID]) {
+//                 playItem.isInfected = isInfected;
+//                 playItem.cComm = [cComm intValue];
+//                 playItem.cView = [cView intValue];
+//                 playItem.favorite = [start intValue];
+//                 playItem.infectTotal = [infectTotal intValue];
+//                 [playItem parseInfectUsersFromJsonArray:infectArray];
+//             }
+//         } else {
+//             NSLog(@"getShareById failed");
+//         }
+//	} timeoutBlock:^(MiaRequestItem *requestItem) {
+//		NSLog(@"getShareById timeout");
+//	}];
+//
+//	// PV上报
+//	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+//							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+//								address:[[LocationMgr standard] currentAddress]
+//								   spID:playItem.spID
+//						  completeBlock:
+//	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+//		 if (success) {
+//			 NSLog(@"viewShareWithLatitude success");
+//		 } else {
+//			 NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+//		 }
+//	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+//		 NSLog(@"viewShareWithLatitude timeout");
+//	 }];
 }
 
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper {

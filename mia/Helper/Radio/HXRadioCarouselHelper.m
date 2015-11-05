@@ -42,6 +42,7 @@
 #pragma mark - Setter And Getter
 - (void)setItems:(NSArray *)items {
     _items = items;
+    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥-----🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(items.count));
     [_carousel reloadData];
 }
 
@@ -64,7 +65,7 @@
         radioView = (HXRadioView *)[view viewWithTag:1];
     }
     
-    if (_items.count) {
+    if ((_items.count) && (index < _items.count)) {
         [radioView displayWithItem:_items[index]];
     }
     
@@ -99,6 +100,7 @@
 }
 
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
+    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(carousel.currentItemIndex));
     if (_items.count) {
         NSLog(@"-----------[carouselDidEndScrollingAnimation]-----------");
         if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
