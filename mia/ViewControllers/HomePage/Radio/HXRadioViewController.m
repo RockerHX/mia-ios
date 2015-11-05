@@ -85,11 +85,10 @@
 		return;
 	}
 
-	_shareListMgr = [ShareListMgr initFromArchive];
+    _shareListMgr = [ShareListMgr initFromArchive];
+    [self reloadLoopPlayerData];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
         [self requestNewShares];
-	} else {
-		[self reloadLoopPlayerData];
 	}
 }
 
@@ -115,7 +114,7 @@
 							  if (success) {
 								  __strong __typeof__(self)strongSelf = weakSelf;
 								  NSArray *shareList = userInfo[@"v"][@"data"];
-								  if (!shareList) {
+								  if (!shareList.count) {
 									  [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
 									  return;
 								  }

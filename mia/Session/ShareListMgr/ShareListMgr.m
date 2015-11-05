@@ -12,7 +12,7 @@
 #import "FileLog.h"
 
 const int kShareListCapacity					= 25;
-const int kHistoryItemsMaxCount					= 5;
+const int kHistoryItemsMaxCount					= 15;
 const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下会有两首新歌和界面元素绑定:current, right
 
 @implementation ShareListMgr
