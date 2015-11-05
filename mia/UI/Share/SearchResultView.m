@@ -99,6 +99,16 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	[_collectionView footerEndRefreshing];
 }
 
+- (void)playCompletion {
+	NSLog(@"playCompletion");
+
+	NSInteger lastPlayingRow = [_searchResultViewDelegate searchResultViewModel].currentPlaying;
+	NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastPlayingRow inSection:0];
+	SearchResultCollectionViewCell *lastPlayingCell = (SearchResultCollectionViewCell *)[_collectionView cellForItemAtIndexPath:lastIndexPath];
+	lastPlayingCell.dataItem.isPlaying = NO;
+	[_collectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, nil]];
+}
+
 #pragma mark collectionView代理方法
 
 //返回section个数

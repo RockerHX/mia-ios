@@ -15,6 +15,7 @@
 @required
 - (void)searchViewControllerDidSelectedItem:(SearchResultItem *)item;
 - (void)searchViewControllerClickedPlayButtonAtItem:(SearchResultItem *)item;
+- (void)searchViewControllerWillDismiss;
 
 @optional
 - (void)searchViewControllerDismissFinished;
@@ -25,6 +26,8 @@
 @interface SearchViewController : UIViewController
 
 @property (weak, nonatomic) id  <SearchViewControllerDelegate>delegate;
+
+- (void)playCompletion;
 
 @end
 

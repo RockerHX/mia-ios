@@ -27,5 +27,6 @@
 
 - (void)setNoDataTipsHidden:(BOOL)hidden;
 - (void)endRefreshing;
+- (void)playCompletion;
 
 @end
