@@ -98,11 +98,14 @@
 }
 
 - (void)reloadLoopPlayerData {
-	ShareItem *currentItem = [_shareListMgr getCurrentItem];
-	ShareItem *previousItem = [_shareListMgr getLeftItem];
-	ShareItem *nextItem = [_shareListMgr getRightItem];
+    ShareItem *previousItem = [_shareListMgr getLeftItem];
+    NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️previousItem⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", previousItem.music.name);
+    ShareItem *currentItem = [_shareListMgr getCurrentItem];
+    NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️currentItem⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", currentItem.music.name);
+    ShareItem *nextItem = [_shareListMgr getRightItem];
+    NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️nextItem⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", nextItem.music.name);
     
-	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
+    [self playCurrentItems:@[currentItem, nextItem, previousItem]];
     if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
         [_delegate shouldDisplayInfectUsers:currentItem];
     }

@@ -66,20 +66,21 @@
         _items = [items copy];
         ShareItem *currentItem = items[0];
         ShareItem *nextItem = items[1];
-        ShareItem *preiousItem = items[2];
+        ShareItem *previousItem = items[2];
         NSInteger currentIndex = _carousel.currentItemIndex;
+        NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", @(currentIndex));
         switch (currentIndex) {
             case 1: {
-                _items = @[preiousItem, currentItem, nextItem];
+                _items = @[previousItem, currentItem, nextItem];
                 break;
             }
             case 2: {
-                _items = @[nextItem, preiousItem, currentItem];
+                _items = @[nextItem, previousItem, currentItem];
                 break;
             }
         }
         _canChange = NO;
-        _warp = (preiousItem.hasData && nextItem.hasData);
+        _warp = (previousItem.hasData && nextItem.hasData);
         NSMutableArray *temp = _items.mutableCopy;
         [temp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             ShareItem *item = obj;
@@ -87,7 +88,15 @@
                 [temp removeObject:item];
             }
         }];
+        
+        if (temp.count == 2) {
+            _carousel.currentItemIndex = 0;
+        }
         _items = [temp copy];
+        
+        for (ShareItem *item in _items) {
+            NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", item.music.name);
+        }
         
         [_carousel reloadData];
     }
@@ -146,7 +155,7 @@
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
     if (!_firstLoad) {
-        NSLog(@"------[carouselCurrentItemIndexDidChange]");
+        NSLog(@"-----------[carouselCurrentItemIndexDidChange]-----------");
         CGFloat scrollOffset = carousel.scrollOffset;
         NSInteger currentIndex = carousel.currentItemIndex;
         HXRadioCarouselHelperAction playAction = HXRadioCarouselHelperActionPlayCurrent;
@@ -173,7 +182,7 @@
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
     if (!_firstLoad) {
         if (_canChange) {
-            NSLog(@"------[carouselDidEndScrollingAnimation]");
+            NSLog(@"-----------[carouselDidEndScrollingAnimation]-----------");
             if (_delegate && [_delegate respondsToSelector:@selector(helperDidChange:)]) {
                 [_delegate helperDidChange:self];
             }
