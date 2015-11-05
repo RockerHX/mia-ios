@@ -21,13 +21,13 @@
 - (ShareItem *)getLeftItem;
 - (ShareItem *)getRightItem;
 
-// 游标向左移动
-- (BOOL)cursorShiftLeft;
-// 游标向右移动
-- (BOOL)cursorShiftRight;
-
-// 右边向右，同时把歌曲从列表中移除（电台的垃圾箱操作）
-- (BOOL)cursorShiftRightWithRemoveCurrent;
+//// 游标向左移动
+//- (BOOL)cursorShiftLeft;
+//// 游标向右移动
+//- (BOOL)cursorShiftRight;
+//
+//// 右边向右，同时把歌曲从列表中移除（电台的垃圾箱操作）
+//- (BOOL)cursorShiftRightWithRemoveCurrent;
 
 - (void)addSharesWithArray:(NSArray *) shareList;
 - (void)checkHistoryItemsMaxCount;

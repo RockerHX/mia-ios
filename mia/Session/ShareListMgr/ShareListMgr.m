@@ -63,42 +63,42 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	}
 }
 
-- (BOOL)cursorShiftLeft {
-	NSInteger newIndex = _currentItem - 1;
-	if (newIndex < 0)
-		return NO;
-
-	_currentItem = newIndex;
-	[self saveChanges];
-	return YES;
-}
-
-- (BOOL)cursorShiftRight {
-	NSInteger newIndex = _currentItem + 1;
-	if (newIndex >= [_shareList count]) {
-		[[FileLog standard] log:@"cursorShiftRight failed: %d, %lu", newIndex, [_shareList count]];
-		return  NO;
-	}
-
-	_currentItem = newIndex;
-	[self saveChanges];
-
-	return YES;
-}
-
-- (BOOL)cursorShiftRightWithRemoveCurrent {
-	// 简单处理，如果是最后一个元素，不允许删除
-	// 这个逻辑通过及时获取列表来规避
-	if ((_currentItem + 1) >= [_shareList count]) {
-		NSLog(@"no more item at right, you need to request more.");
-		return NO;
-	}
-
-	[_shareList removeObjectAtIndex:_currentItem];
-	[self saveChanges];
-
-	return YES;
-}
+//- (BOOL)cursorShiftLeft {
+//	NSInteger newIndex = _currentItem - 1;
+//	if (newIndex < 0)
+//		return NO;
+//
+//	_currentItem = newIndex;
+//	[self saveChanges];
+//	return YES;
+//}
+//
+//- (BOOL)cursorShiftRight {
+//	NSInteger newIndex = _currentItem + 1;
+//	if (newIndex >= [_shareList count]) {
+//		[[FileLog standard] log:@"cursorShiftRight failed: %d, %lu", newIndex, [_shareList count]];
+//		return  NO;
+//	}
+//
+//	_currentItem = newIndex;
+//	[self saveChanges];
+//
+//	return YES;
+//}
+//
+//- (BOOL)cursorShiftRightWithRemoveCurrent {
+//	// 简单处理，如果是最后一个元素，不允许删除
+//	// 这个逻辑通过及时获取列表来规避
+//	if ((_currentItem + 1) >= [_shareList count]) {
+//		NSLog(@"no more item at right, you need to request more.");
+//		return NO;
+//	}
+//
+//	[_shareList removeObjectAtIndex:_currentItem];
+//	[self saveChanges];
+//
+//	return YES;
+//}
 
 - (BOOL)isNeedGetNearbyItems {
 	if (([_shareList count] - _currentItem) <= kNeedGetNearbyCount){

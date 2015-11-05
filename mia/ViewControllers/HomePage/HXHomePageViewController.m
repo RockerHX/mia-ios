@@ -873,11 +873,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [self showInfectCountLeftPromptLabel:(infectUsersCount && !isInfected) withCount:infectUsersCount];
 }
 
-- (void)musicDidChange:(ShareItem *)item {
-//    _playItem = item;
-//    [self displayWithInfectState:item.isInfected];
-}
-
 - (void)raidoViewDidTaped {
     [self viewTapedCanShowMusicDetail:NO];
 }

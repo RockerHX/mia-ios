@@ -12,7 +12,6 @@
 
 @interface HXRadioCarouselHelper () <HXRadioViewDelegate> {
 	iCarousel *_carousel;
-    BOOL _canChange;
     BOOL _firstLoad;
 }
 
@@ -20,6 +19,7 @@
 
 @implementation HXRadioCarouselHelper
 
+#pragma mark - Init Methods
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -39,67 +39,10 @@
     carousel.delegate = self;
 }
 
-- (ShareItem *)currentItem {
-    NSInteger currentIndex = _carousel.currentItemIndex;
-    return ((currentIndex >=0) && (currentIndex <= 2)) ? _items[currentIndex] : [ShareItem new];
-}
-
-- (NSInteger)previousItemIndex {
-    if (_carousel.currentItemIndex == 0) {
-        return 2;
-    } else {
-        return _carousel.currentItemIndex - 1;
-    }
-}
-
-- (NSInteger)nextItemIndex {
-    if (_carousel.currentItemIndex == 2) {
-        return 0;
-    } else {
-        return _carousel.currentItemIndex + 1;
-    }
-}
-
 #pragma mark - Setter And Getter
 - (void)setItems:(NSArray *)items {
-    if (items.count >= 3) {
-        _items = [items copy];
-        ShareItem *currentItem = items[0];
-        ShareItem *nextItem = items[1];
-        ShareItem *previousItem = items[2];
-        NSInteger currentIndex = _carousel.currentItemIndex;
-        NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", @(currentIndex));
-        switch (currentIndex) {
-            case 1: {
-                _items = @[previousItem, currentItem, nextItem];
-                break;
-            }
-            case 2: {
-                _items = @[nextItem, previousItem, currentItem];
-                break;
-            }
-        }
-        _canChange = NO;
-        _warp = (previousItem.hasData && nextItem.hasData);
-        NSMutableArray *temp = _items.mutableCopy;
-        [temp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            ShareItem *item = obj;
-            if (!item.hasData) {
-                [temp removeObject:item];
-            }
-        }];
-        
-        if (temp.count == 2) {
-            _carousel.currentItemIndex = 0;
-        }
-        _items = [temp copy];
-        
-        for (ShareItem *item in _items) {
-            NSLog(@"⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️⌛️:%@", item.music.name);
-        }
-        
-        [_carousel reloadData];
-    }
+    _items = items;
+    [_carousel reloadData];
 }
 
 #pragma mark - iCarousel Data Source Methods
@@ -133,7 +76,7 @@
     //customize carousel display
     switch (option) {
         case iCarouselOptionWrap: {
-            return _warp;
+            return NO;
             break;
         }
         case iCarouselOptionSpacing: {
@@ -148,77 +91,42 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperDidTaped:)]) {
-        [_delegate helperDidTaped:self];
-    }
-}
-
-- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
-    if (!_firstLoad) {
-        NSLog(@"-----------[carouselCurrentItemIndexDidChange]-----------");
-        CGFloat scrollOffset = carousel.scrollOffset;
-        NSInteger currentIndex = carousel.currentItemIndex;
-        HXRadioCarouselHelperAction playAction = HXRadioCarouselHelperActionPlayCurrent;
-        if (currentIndex == 0) {
-            if (scrollOffset > 2) {
-                playAction = HXRadioCarouselHelperActionPlayNext;
-            } else if (scrollOffset < 1 && scrollOffset > 0) {
-                playAction = HXRadioCarouselHelperActionPlayPrevious;
-            }
-        } else if (currentIndex == 1 || currentIndex == 2) {
-            if (scrollOffset > currentIndex) {
-                playAction = HXRadioCarouselHelperActionPlayPrevious;
-            } else if (scrollOffset < currentIndex) {
-                playAction = HXRadioCarouselHelperActionPlayNext;
-            }
+    if (_items.count) {
+        if (_delegate && [_delegate respondsToSelector:@selector(helperDidTaped:)]) {
+            [_delegate helperDidTaped:self];
         }
-        if (_delegate && [_delegate respondsToSelector:@selector(helper:shouldChangeMusic:)]) {
-            [_delegate helper:self shouldChangeMusic:playAction];
-        }
-        _canChange = YES;
     }
 }
 
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-    if (!_firstLoad) {
-        if (_canChange) {
-            NSLog(@"-----------[carouselDidEndScrollingAnimation]-----------");
-            if (_delegate && [_delegate respondsToSelector:@selector(helperDidChange:)]) {
-                [_delegate helperDidChange:self];
-            }
+    if (_items.count) {
+        NSLog(@"-----------[carouselDidEndScrollingAnimation]-----------");
+        if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
+            [_delegate helperShouldPlay:self];
         }
     }
-    _firstLoad = NO;
 }
 
 - (void)carouselDidScroll:(iCarousel *)carousel {
-    if (!_firstLoad) {
-        CGFloat scrollOffset = carousel.scrollOffset;
-        CGFloat width = carousel.frame.size.width;
-        if (scrollOffset < 0) {
-            CGFloat offsetX = fabs(width * scrollOffset);
-            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoLastest:offsetX:)]) {
-                [_delegate helperScrollNoLastest:self offsetX:offsetX];
-            }
-        } else if (scrollOffset > 2) {
-            CGFloat offsetX = width * (scrollOffset - 2);
-            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoNewest:offsetX:)]) {
-                [_delegate helperScrollNoNewest:self offsetX:offsetX];
-            }
-        }
-    }
+//    if (!_firstLoad) {
+//        CGFloat scrollOffset = carousel.scrollOffset;
+//        CGFloat width = carousel.frame.size.width;
+//        if (scrollOffset < 0) {
+//            CGFloat offsetX = fabs(width * scrollOffset);
+//            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoLastest:offsetX:)]) {
+//                [_delegate helperScrollNoLastest:self offsetX:offsetX];
+//            }
+//        } else if (scrollOffset > 2) {
+//            CGFloat offsetX = width * (scrollOffset - 2);
+//            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoNewest:offsetX:)]) {
+//                [_delegate helperScrollNoNewest:self offsetX:offsetX];
+//            }
+//        }
+//        _firstLoad = NO;
+//    }
 }
 
 #pragma mark - HXRadioViewDelegate Methods
-- (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item {
-	if ([_items[_carousel.currentItemIndex] isEqual:item]) {
-        NSLog(@"----------%s----------", __func__);
-		if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
-			[_delegate helperShouldPlay:self];
-		}
-	}
-}
-
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView {
 	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
 		[_delegate helperStarTapedNeedLogin:self];

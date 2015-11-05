@@ -14,7 +14,6 @@
 @protocol HXRadioViewDelegate <NSObject>
 
 @optional
-- (void)radioViewDidLoad:(HXRadioView *)radioView item:(ShareItem *)item;
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
 - (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
 - (void)radioViewShouldPlay:(HXRadioView *)radioView;
