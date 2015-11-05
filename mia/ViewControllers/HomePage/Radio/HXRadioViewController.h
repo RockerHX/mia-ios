@@ -16,7 +16,6 @@
 - (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item;
 - (void)userStartNeedLogin;
 - (void)shouldDisplayInfectUsers:(ShareItem *)item;
-- (void)musicDidChange:(ShareItem *)item;
 - (void)raidoViewDidTaped;
 
 @end
