@@ -14,7 +14,6 @@
 	iCarousel *_carousel;
     BOOL _canChange;
     BOOL _firstLoad;
-    BOOL _secondAutoScroll;
 }
 
 @end
@@ -25,7 +24,6 @@
     self = [super init];
     if (self) {
         _firstLoad = YES;
-        _secondAutoScroll = YES;
     }
     return self;
 }
@@ -174,17 +172,12 @@
 
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
     if (!_firstLoad) {
-        if (!_secondAutoScroll) {
-            NSLog(@"~~~~~~~~~~~~~First:%@", _firstLoad ? @"YES": @"NO");
-            NSLog(@"~~~~~~~~~~~~~Can:%@", _canChange ? @"YES": @"NO");
-            if (_canChange) {
-                NSLog(@"------[carouselDidEndScrollingAnimation]");
-                if (_delegate && [_delegate respondsToSelector:@selector(helperDidChange:)]) {
-                    [_delegate helperDidChange:self];
-                }
+        if (_canChange) {
+            NSLog(@"------[carouselDidEndScrollingAnimation]");
+            if (_delegate && [_delegate respondsToSelector:@selector(helperDidChange:)]) {
+                [_delegate helperDidChange:self];
             }
         }
-        _secondAutoScroll = NO;
     }
     _firstLoad = NO;
 }
