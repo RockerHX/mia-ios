@@ -219,68 +219,61 @@
 }
 
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
+    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_carousel.currentItemIndex));
+    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥++++++🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_helper.items.count));
     NSInteger currentIndex = _shareListMgr.currentIndex;
-    @try {
-        NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_carousel.currentItemIndex));
-        NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥++++++🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_helper.items.count));
-        ShareItem *playItem = _helper.items[currentIndex];
-        [self playMusic:playItem];
-        
-        _shareListMgr.currentIndex = _carousel.currentItemIndex;
-        [self checkIsNeedToGetNewItems];
-        if ([_shareListMgr checkHistoryItemsMaxCount]) {
-            _carousel.currentItemIndex = _shareListMgr.currentIndex;
-            [self reloadLoopPlayerData];
-        }
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception.reason);
-    }
-    @finally {
+    ShareItem *playItem = _helper.items[currentIndex];
+    [self playMusic:playItem];
+    
+    _shareListMgr.currentIndex = _carousel.currentItemIndex;
+    [self checkIsNeedToGetNewItems];
+    if ([_shareListMgr checkHistoryItemsMaxCount]) {
+        _carousel.currentItemIndex = _shareListMgr.currentIndex;
+        [self reloadLoopPlayerData];
     }
     
-//	// 更新单条分享的信息
-//	[MiaAPIHelper getShareById:playItem.sID completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         if (success) {
-//             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-//             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
-//             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-//             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-//             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
-//             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
-//             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-//             
-//             if ([sID isEqualToString:playItem.sID]) {
-//                 playItem.isInfected = isInfected;
-//                 playItem.cComm = [cComm intValue];
-//                 playItem.cView = [cView intValue];
-//                 playItem.favorite = [start intValue];
-//                 playItem.infectTotal = [infectTotal intValue];
-//                 [playItem parseInfectUsersFromJsonArray:infectArray];
-//             }
-//         } else {
-//             NSLog(@"getShareById failed");
-//         }
-//	} timeoutBlock:^(MiaRequestItem *requestItem) {
-//		NSLog(@"getShareById timeout");
-//	}];
-//
-//	// PV上报
-//	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-//							  longitude:[[LocationMgr standard] currentCoordinate].longitude
-//								address:[[LocationMgr standard] currentAddress]
-//								   spID:playItem.spID
-//						  completeBlock:
-//	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//		 if (success) {
-//			 NSLog(@"viewShareWithLatitude success");
-//		 } else {
-//			 NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-//		 }
-//	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-//		 NSLog(@"viewShareWithLatitude timeout");
-//	 }];
+	// 更新单条分享的信息
+	[MiaAPIHelper getShareById:playItem.sID completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+             
+             if ([sID isEqualToString:playItem.sID]) {
+                 playItem.isInfected = isInfected;
+                 playItem.cComm = [cComm intValue];
+                 playItem.cView = [cView intValue];
+                 playItem.favorite = [start intValue];
+                 playItem.infectTotal = [infectTotal intValue];
+                 [playItem parseInfectUsersFromJsonArray:infectArray];
+             }
+         } else {
+             NSLog(@"getShareById failed");
+         }
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"getShareById timeout");
+	}];
+
+	// PV上报
+	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+							  longitude:[[LocationMgr standard] currentCoordinate].longitude
+								address:[[LocationMgr standard] currentAddress]
+								   spID:playItem.spID
+						  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 NSLog(@"viewShareWithLatitude success");
+		 } else {
+			 NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 NSLog(@"viewShareWithLatitude timeout");
+	 }];
 }
 
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
@@ -294,9 +287,9 @@
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {
-//	if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerHomePageWithItem:)]) {
-//		[_delegate userWouldLikeSeeSharerHomePageWithItem:helper.currentItem];
-//	}
+	if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerHomePageWithItem:)]) {
+		[_delegate userWouldLikeSeeSharerHomePageWithItem:_helper.items[_shareListMgr.currentIndex]];
+	}
 }
 
 - (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper {
