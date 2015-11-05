@@ -22,6 +22,8 @@
 
 	ShareListMgr 	*_shareListMgr;
 	SongListPlayer	*_songListPlayer;
+    
+    BOOL _canPlay;
 }
 
 @end
@@ -60,6 +62,8 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
+    _canPlay = YES;
+    
 	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"HXRadioViewController Song List"];
 	_songListPlayer.dataSource = self;
 	_songListPlayer.delegate = self;
@@ -86,15 +90,17 @@
 	}
 
     _shareListMgr = [ShareListMgr initFromArchive];
-    [self reloadLoopPlayerData];
+    [self reloadLoopPlayerData:YES];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
         [self requestNewShares];
 	}
 }
 
-- (void)reloadLoopPlayerData {
+- (void)reloadLoopPlayerData:(BOOL)scroll {
     _helper.items = _shareListMgr.shareList;
-    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:NO];
+    if (scroll) {
+        [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:NO];
+    }
 }
 
 - (void)checkIsNeedToGetNewItems {
@@ -120,7 +126,7 @@
 								  }
 
 								  [strongSelf->_shareListMgr addSharesWithArray:shareList];
-                                  [strongSelf reloadLoopPlayerData];
+                                  [strongSelf reloadLoopPlayerData:NO];
 							  } else {
 								  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 								  [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
@@ -211,17 +217,24 @@
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
-    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_carousel.currentItemIndex));
-    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥++++++🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_helper.items.count));
+    if (!_canPlay) {
+        _canPlay = YES;
+        return;
+    }
+    
     _shareListMgr.currentIndex = _carousel.currentItemIndex;
     NSInteger currentIndex = _shareListMgr.currentIndex;
     ShareItem *playItem = _helper.items[currentIndex];
     [self playMusic:playItem];
-    
     [self checkIsNeedToGetNewItems];
     if ([_shareListMgr checkHistoryItemsMaxCount]) {
         _carousel.currentItemIndex = _shareListMgr.currentIndex;
-        [self reloadLoopPlayerData];
+        [self reloadLoopPlayerData:NO];
+        _canPlay = NO;
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
+        [_delegate shouldDisplayInfectUsers:playItem];
     }
     
 	// 更新单条分享的信息
