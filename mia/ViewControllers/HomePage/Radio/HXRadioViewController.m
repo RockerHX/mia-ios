@@ -22,7 +22,6 @@
 
 	ShareListMgr 	*_shareListMgr;
 	SongListPlayer	*_songListPlayer;
-	BOOL 			_isLoading;
 }
 
 @end
@@ -79,8 +78,6 @@
     [_helper configWithCarousel:_carousel];
 }
 
-#pragma mark - Event Response
-
 #pragma mark - Private Methods
 - (void)loadShareList {
 	if (_shareListMgr) {
@@ -91,35 +88,20 @@
 	_shareListMgr = [ShareListMgr initFromArchive];
 	if ([_shareListMgr isNeedGetNearbyItems]) {
         [self requestNewShares];
-		_isLoading = YES;
 	} else {
 		[self reloadLoopPlayerData];
 	}
 }
 
 - (void)reloadLoopPlayerData {
-	ShareItem *currentItem = [_shareListMgr getCurrentItem];
-	ShareItem *previousItem = [_shareListMgr getLeftItem];
-	ShareItem *nextItem = [_shareListMgr getRightItem];
-    
-	[self playCurrentItems:@[currentItem, nextItem, previousItem]];
-    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
-        [_delegate shouldDisplayInfectUsers:currentItem];
-    }
+    _helper.items = _shareListMgr.shareList;
+    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:NO];
 }
 
 - (void)checkIsNeedToGetNewItems {
 	if ([_shareListMgr isNeedGetNearbyItems]) {
 		[self requestNewShares];
 	}
-}
-
-- (void)playCurrentItems:(NSArray *)items {
-	[self updateStatusWithItems:items];
-}
-
-- (void)updateStatusWithItems:(NSArray *)items {
-    _helper.items = items;
 }
 
 - (void)requestNewShares {
@@ -138,12 +120,8 @@
 									  return;
 								  }
 
-								  [_shareListMgr addSharesWithArray:shareList];
-
-								  if (_isLoading) {
-									  [strongSelf reloadLoopPlayerData];
-									  _isLoading = NO;
-								  }
+								  [strongSelf->_shareListMgr addSharesWithArray:shareList];
+                                  [strongSelf reloadLoopPlayerData];
 							  } else {
 								  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 								  [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
@@ -154,7 +132,7 @@
 }
 
 - (void)viewShouldDisplay {
-	if ([[MusicMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
+	if ([[MusicMgr standard] isPlayingWithUrl:((ShareItem *)_helper.items[_shareListMgr.currentIndex]).music.murl]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
@@ -181,13 +159,25 @@
 	[_songListPlayer stop];
 }
 
+- (void)playPrevious {
+    [_shareListMgr cursorShiftLeft];
+    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:YES];
+}
+
+- (void)playNext {
+    [_shareListMgr cursorShiftRight];
+    [self checkIsNeedToGetNewItems];
+    [_shareListMgr checkHistoryItemsMaxCount];
+    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:YES];
+}
+
 #pragma mark - SongListPlayerDataSource
 - (NSInteger)songListPlayerCurrentItemIndex {
-	return _shareListMgr.currentItem;
+	return _shareListMgr.currentIndex;
 }
 
 - (NSInteger)songListPlayerNextItemIndex {
-	NSInteger nextIndex = _shareListMgr.currentItem + 1;
+	NSInteger nextIndex = _shareListMgr.currentIndex + 1;
 	if (nextIndex >= _shareListMgr.shareList.count) {
 		nextIndex = 0;
 	}
@@ -209,77 +199,35 @@
 }
 
 - (void)songListPlayerDidCompletion {
-	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-		[_shareListMgr cursorShiftRight];
-		[self checkIsNeedToGetNewItems];
-		[_shareListMgr checkHistoryItemsMaxCount];
-	}
-    
-	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
-}
-
-- (void)songListPlayerShouldPlayNext {
-	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-		[_shareListMgr cursorShiftRight];
-		[self checkIsNeedToGetNewItems];
-		[_shareListMgr checkHistoryItemsMaxCount];
-	}
-
-	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
+    [self playNext];
 }
 
 - (void)songListPlayerShouldPlayPrevios {
-	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-		[_shareListMgr cursorShiftLeft];
-	}
+    [self playPrevious];
+}
 
-	[_carousel scrollToItemAtIndex:[_helper previousItemIndex] animated:YES];
+- (void)songListPlayerShouldPlayNext {
+    [self playNext];
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
-- (void)helper:(HXRadioCarouselHelper *)helper shouldChangeMusic:(HXRadioCarouselHelperAction)action {
-    switch (action) {
-        case HXRadioCarouselHelperActionPlayPrevious: {
-            NSLog(@"Previous");
-            [_shareListMgr cursorShiftLeft];
-			[_shareListMgr checkHistoryItemsMaxCount];
-            break;
-        }
-        case HXRadioCarouselHelperActionPlayCurrent: {
-            NSLog(@"Current");
-            break;
-        }
-        case HXRadioCarouselHelperActionPlayNext: {
-            NSLog(@"Next");
-			if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
-                [_shareListMgr cursorShiftRight];
-				[self checkIsNeedToGetNewItems];
-				[_shareListMgr checkHistoryItemsMaxCount];
-			}
-            break;
-        }
-    }
-    if (action != HXRadioCarouselHelperActionPlayCurrent) {
-        if (_delegate && [_delegate respondsToSelector:@selector(musicDidChange:)]) {
-            ShareItem *currentItem = [_shareListMgr getCurrentItem];
-            [_delegate musicDidChange:currentItem];
-        }
-    }
-}
-
-- (void)helperDidChange:(HXRadioCarouselHelper *)helper {
-    NSLog(@"change");
-    [self reloadLoopPlayerData];
-}
-
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
-	[self playMusic:_helper.currentItem];
+    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_carousel.currentItemIndex));
+    NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥++++++🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_helper.items.count));
+    _shareListMgr.currentIndex = _carousel.currentItemIndex;
+    NSInteger currentIndex = _shareListMgr.currentIndex;
+    ShareItem *playItem = _helper.items[currentIndex];
+    [self playMusic:playItem];
     
-    __weak __typeof__(self)weakSelf = self;
+    [self checkIsNeedToGetNewItems];
+    if ([_shareListMgr checkHistoryItemsMaxCount]) {
+        _carousel.currentItemIndex = _shareListMgr.currentIndex;
+        [self reloadLoopPlayerData];
+    }
+    
 	// 更新单条分享的信息
-	[MiaAPIHelper getShareById:_helper.currentItem.sID completeBlock:
+	[MiaAPIHelper getShareById:playItem.sID completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
              NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
              id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
@@ -289,14 +237,13 @@
              int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
              NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
              
-             ShareItem *item = strongSelf->_helper.currentItem;
-             if ([sID isEqualToString:item.sID]) {
-                 item.isInfected = isInfected;
-                 item.cComm = [cComm intValue];
-                 item.cView = [cView intValue];
-                 item.favorite = [start intValue];
-                 item.infectTotal = [infectTotal intValue];
-                 [item parseInfectUsersFromJsonArray:infectArray];
+             if ([sID isEqualToString:playItem.sID]) {
+                 playItem.isInfected = isInfected;
+                 playItem.cComm = [cComm intValue];
+                 playItem.cView = [cView intValue];
+                 playItem.favorite = [start intValue];
+                 playItem.infectTotal = [infectTotal intValue];
+                 [playItem parseInfectUsersFromJsonArray:infectArray];
              }
          } else {
              NSLog(@"getShareById failed");
@@ -309,7 +256,7 @@
 	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
 							  longitude:[[LocationMgr standard] currentCoordinate].longitude
 								address:[[LocationMgr standard] currentAddress]
-								   spID:_helper.currentItem.spID
+								   spID:playItem.spID
 						  completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
@@ -334,7 +281,7 @@
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {
 	if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerHomePageWithItem:)]) {
-		[_delegate userWouldLikeSeeSharerHomePageWithItem:helper.currentItem];
+		[_delegate userWouldLikeSeeSharerHomePageWithItem:_helper.items[_shareListMgr.currentIndex]];
 	}
 }
 
