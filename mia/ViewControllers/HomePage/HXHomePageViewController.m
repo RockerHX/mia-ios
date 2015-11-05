@@ -254,19 +254,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)tapGesture {
-    [self.view endEditing:YES];
-    if (_animating) {
-        if (![[UserSession standard] isLogined]) {
-            [self cancelLoginOperate];
-        } else {
-            [self startFinishedAnimation];
-        }
-    } else {
-        [self stopAnimation];
-        HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
-        musicDetailViewController.playItem = _playItem;
-        [self.navigationController pushViewController:musicDetailViewController animated:YES];
-    }
+    [self viewTapedCanShowMusicDetail:YES];
 }
 
 static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动画阀值
@@ -627,6 +615,24 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }];
 }
 
+- (void)viewTapedCanShowMusicDetail:(BOOL)show {
+    [self.view endEditing:YES];
+    if (_animating) {
+        if (![[UserSession standard] isLogined]) {
+            [self cancelLoginOperate];
+        } else {
+            [self startFinishedAnimation];
+        }
+    } else {
+        if (show) {
+            [self stopAnimation];
+            HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
+            musicDetailViewController.playItem = _playItem;
+            [self.navigationController pushViewController:musicDetailViewController animated:YES];
+        }
+    }
+}
+
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView.waveView startAnimating];
@@ -873,7 +879,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)raidoViewDidTaped {
-//    [self tapGesture];
+    [self viewTapedCanShowMusicDetail:NO];
 }
 
 @end
