@@ -24,13 +24,14 @@
 @end
 
 @implementation HXShareViewController {
-    BOOL _closeLocation;
-    NSString *_address;
-    CLLocationCoordinate2D _coordinate;
+    BOOL 					_closeLocation;
+    NSString 				*_address;
+    CLLocationCoordinate2D	_coordinate;
     
-    MusicItem *_musicItem;
-    SongListPlayer *_songListPlayer;
-    SearchResultItem *_dataItem;
+    MusicItem 				*_musicItem;
+    SongListPlayer 			*_songListPlayer;
+    SearchResultItem 		*_dataItem;
+	SearchViewController 	*_searchViewController;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -125,9 +126,10 @@
 }
 
 - (IBAction)addMusicButtonPressed {
-    SearchViewController *shareViewController = [[SearchViewController alloc] init];
-    shareViewController.delegate = self;
-    [self presentViewController:shareViewController animated:YES completion:nil];
+	_searchViewController = nil;
+    _searchViewController = [[SearchViewController alloc] init];
+    _searchViewController.delegate = self;
+    [self presentViewController:_searchViewController animated:YES completion:nil];
 }
 
 - (IBAction)playButtonPressed {
@@ -274,6 +276,10 @@
     [self updateUI];
 }
 
+- (void)searchViewControllerWillDismiss {
+	_searchViewController = nil;
+}
+
 - (void)searchViewControllerDismissFinished {
     [self startAnimation];
 }
@@ -324,6 +330,7 @@
 
 - (void)songListPlayerDidCompletion {
     [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+	[_searchViewController playCompletion];
 }
 
 @end

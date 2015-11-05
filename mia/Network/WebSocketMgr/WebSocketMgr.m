@@ -198,7 +198,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 		dispatch_sync(_requestDataSyncQueue, ^{
 			// 这里不考虑时间戳相同的情况
 			[_requestData setObject:requestItem forKey:[NSNumber numberWithLong:[requestItem timestamp]]];
-			NSLog(@"#WebSocketWithBlock# BEGIN %ld %@", [requestItem timestamp], [requestItem command]);
+//			NSLog(@"#WebSocketWithBlock# BEGIN %ld %@", [requestItem timestamp], [requestItem command]);
 		});
 
 		// 超时检测
@@ -331,7 +331,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 
 	long timestamp = (long)[userInfo[MiaAPIKey_Timestamp] doubleValue];
 	NSString *command = userInfo[MiaAPIKey_ServerCommand];
-	NSLog(@"#WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
+//	NSLog(@"#WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
 
 	if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationPushUnread object:self userInfo:userInfo];
@@ -376,7 +376,6 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload {
-	NSLog(@"Websocket received pong");
 	[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationDidReceivePong object:self];
 }
 

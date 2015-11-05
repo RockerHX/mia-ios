@@ -211,6 +211,11 @@
 	_searchProgressHUD.mode = MBProgressHUDModeIndeterminate;
 }
 
+#pragma mark - Public Methods
+- (void)playCompletion {
+	[_resultView playCompletion];
+}
+
 #pragma mark - delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -310,6 +315,10 @@
             [strongSelf.delegate searchViewControllerDismissFinished];
         }
     }];
+
+	if (_delegate && [_delegate respondsToSelector:@selector(searchViewControllerWillDismiss)]) {
+		[_delegate searchViewControllerWillDismiss];
+	}
 }
 
 - (void)searchResultViewRequestMoreItems {
@@ -339,6 +348,9 @@
 - (void)cancelButtonAction:(id)sender {
     [self hidenKeyboard];
     [self dismissViewControllerAnimated:YES completion:nil];
+	if (_delegate && [_delegate respondsToSelector:@selector(searchViewControllerWillDismiss)]) {
+		[_delegate searchViewControllerWillDismiss];
+	}
 }
 
 - (void)settingButtonAction:(id)sender {
