@@ -15,6 +15,11 @@
 
 + (instancetype)initFromArchive;
 
+// 游标向左移动
+- (BOOL)cursorShiftLeft;
+// 游标向右移动
+- (BOOL)cursorShiftRight;
+
 - (BOOL)isNeedGetNearbyItems;
 - (BOOL)isEnd;
 

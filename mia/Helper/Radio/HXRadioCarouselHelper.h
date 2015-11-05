@@ -13,7 +13,6 @@
 @protocol HXRadioCarouselHelperDelegate <NSObject>
 
 @optional
-- (void)helperDidChange:(HXRadioCarouselHelper *)helper;
 - (void)helperDidTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper;
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper;

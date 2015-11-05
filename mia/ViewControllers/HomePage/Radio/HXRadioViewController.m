@@ -95,6 +95,7 @@
 
 - (void)reloadLoopPlayerData {
     _helper.items = _shareListMgr.shareList;
+    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:NO];
 }
 
 - (void)checkIsNeedToGetNewItems {
@@ -131,11 +132,11 @@
 }
 
 - (void)viewShouldDisplay {
-//	if ([[MusicMgr standard] isPlayingWithUrl:_helper.currentItem.music.murl]) {
-//		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
-//	} else {
-//		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
-//	}
+	if ([[MusicMgr standard] isPlayingWithUrl:((ShareItem *)_helper.items[_shareListMgr.currentIndex]).music.murl]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
+	}
 }
 
 #pragma mark - Audio Operations
@@ -156,6 +157,18 @@
 
 - (void)stopMusic {
 	[_songListPlayer stop];
+}
+
+- (void)playPrevious {
+    [_shareListMgr cursorShiftLeft];
+    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:YES];
+}
+
+- (void)playNext {
+    [_shareListMgr cursorShiftRight];
+    [self checkIsNeedToGetNewItems];
+    [_shareListMgr checkHistoryItemsMaxCount];
+    [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:YES];
 }
 
 #pragma mark - SongListPlayerDataSource
@@ -186,46 +199,26 @@
 }
 
 - (void)songListPlayerDidCompletion {
-//	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-//		[_shareListMgr cursorShiftRight];
-//		[self checkIsNeedToGetNewItems];
-//		[_shareListMgr checkHistoryItemsMaxCount];
-//	}
-//    
-//	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
-}
-
-- (void)songListPlayerShouldPlayNext {
-//	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-//		[self checkIsNeedToGetNewItems];
-//		[_shareListMgr checkHistoryItemsMaxCount];
-//	}
-//
-//	[_carousel scrollToItemAtIndex:[_helper nextItemIndex] animated:YES];
+    [self playNext];
 }
 
 - (void)songListPlayerShouldPlayPrevios {
-//	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-//		[_shareListMgr cursorShiftLeft];
-//	}
-//
-//	[_carousel scrollToItemAtIndex:[_helper previousItemIndex] animated:YES];
+    [self playPrevious];
+}
+
+- (void)songListPlayerShouldPlayNext {
+    [self playNext];
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
-- (void)helperDidChange:(HXRadioCarouselHelper *)helper {
-//    NSLog(@"change");
-//    [self reloadLoopPlayerData];
-}
-
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
     NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_carousel.currentItemIndex));
     NSLog(@"🐥🐥🐥🐥🐥🐥🐥🐥🐥++++++🐥🐥🐥🐥🐥🐥🐥🐥🐥: %@", @(_helper.items.count));
+    _shareListMgr.currentIndex = _carousel.currentItemIndex;
     NSInteger currentIndex = _shareListMgr.currentIndex;
     ShareItem *playItem = _helper.items[currentIndex];
     [self playMusic:playItem];
     
-    _shareListMgr.currentIndex = _carousel.currentItemIndex;
     [self checkIsNeedToGetNewItems];
     if ([_shareListMgr checkHistoryItemsMaxCount]) {
         _carousel.currentItemIndex = _shareListMgr.currentIndex;
