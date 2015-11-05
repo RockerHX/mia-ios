@@ -40,11 +40,18 @@
 		_audioStream.defaultContentType = @"audio/mpeg";
 
 		__weak SongPreloader *weakPlayer = self;
+
 		_audioStream.onCompletion = ^() {
 			SongPreloader *strongPlayer = weakPlayer;
 			[strongPlayer stop];
 		};
-
+		_audioStream.onStateChange = ^(FSAudioStreamState state) {
+			if (kFSAudioStreamEndOfFile == state) {
+				NSLog(@"Preload EndOfFile, stop audio stream");
+				SongPreloader *strongPlayer = weakPlayer;
+				[strongPlayer stop];
+			}
+		};
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			[[FileLog standard] log:@"Preload AudioStream onFailure:%d, %@", error, errorDescription];
 		};
