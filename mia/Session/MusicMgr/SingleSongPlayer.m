@@ -105,7 +105,7 @@
 }
 
 - (void)play {
-	[[FileLog standard] log:@"play %@", [[_audioStream url] absoluteString]];
+	[[FileLog standard] log:@"play: %@", [[_audioStream url] absoluteString]];
 	if (![_audioStream url])
 		return;
 
@@ -119,8 +119,7 @@
 		return;
 	}
 
-	NSLog(@"play:%@", [_audioStream url]);
-	NSLog(@"#SingleSongPlayer# play - resume play from pause");
+	NSLog(@"play - resume play from pause");
 	[_audioStream pause];
 
 	if (_delegate) {
@@ -129,7 +128,7 @@
 }
 
 - (void)pause {
-	NSLog(@"#SingleSongPlayer# pause");
+	[[FileLog standard] log:@"pause: %@", [[_audioStream url] absoluteString]];
 	[_audioStream pause];
 
 	if ([_audioStream isPlaying]) {
@@ -174,7 +173,7 @@
 			NSLog(@"resume music from pause error, stop and play again.");
 			[self playAnotherWirUrl:url];
 		} else {
-			NSLog(@"#SingleSongPlayer# playWithUrl - resume play from pause");
+			NSLog(@"playWithUrl - resume play from pause");
 			[_audioStream pause];
 		}
 	} else {
@@ -198,11 +197,10 @@
 }
 
 - (void)playAnotherWirUrl:(NSString *)url {
-	NSLog(@"#SingleSongPlayer# stop - stop before playAnotherWirUrl");
+	NSLog(@"stop - stop before playAnotherWirUrl");
 	[_audioStream stop];
-	NSLog(@"#SingleSongPlayer# performBlock");
 	[self bs_performBlock:^{
-		NSLog(@"#SingleSongPlayer# delayPlayHandlerWithUrl");
+		NSLog(@"delayPlayHandlerWithUrl");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} afterDelay:0.5f];
 }
@@ -226,17 +224,16 @@
 	NSInteger interuptionType = [[interuptionDict valueForKey:AVAudioSessionInterruptionTypeKey] integerValue];
 	switch (interuptionType) {
 		case AVAudioSessionInterruptionTypeBegan:
-			NSLog(@"Audio Session Interruption case started.");
+			[[FileLog standard] log:@"Audio Session Interruption case started."];
 			_isInterruption = YES;
 			break;
 
 		case AVAudioSessionInterruptionTypeEnded:
-			NSLog(@"Audio Session Interruption case ended.");
+			[[FileLog standard] log:@"Audio Session Interruption case ended."];
 			_isInterruption = NO;
 			break;
-
 		default:
-			NSLog(@"Audio Session Interruption Notification case default.");
+			[[FileLog standard] log:@"Audio Session Interruption Notification case default: %d", interuptionType];
 			break;
 	}
 }
