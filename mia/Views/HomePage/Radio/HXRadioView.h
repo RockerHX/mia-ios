@@ -14,10 +14,11 @@
 @protocol HXRadioViewDelegate <NSObject>
 
 @optional
-- (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
-- (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
 - (void)radioViewShouldPlay:(HXRadioView *)radioView;
 - (void)radioViewShouldPause:(HXRadioView *)radioView;
+- (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
+- (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
+- (void)radioViewShareContentTaped:(HXRadioView *)radioView;
 
 @end
 
@@ -45,6 +46,7 @@
 
 - (IBAction)coverTaped;
 - (IBAction)sharerNickNameTaped;
+- (IBAction)shareContentTaped;
 - (IBAction)playButtonPressed:(UIButton *)button;
 - (IBAction)starButtonPressed:(UIButton *)button;
 

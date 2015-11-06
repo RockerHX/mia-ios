@@ -127,6 +127,18 @@
 }
 
 #pragma mark - HXRadioViewDelegate Methods
+- (void)radioViewShouldPlay:(HXRadioView *)radioView {
+    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
+        [_delegate helperShouldPlay:self];
+    }
+}
+
+- (void)radioViewShouldPause:(HXRadioView *)radioView {
+    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPause:)]) {
+        [_delegate helperShouldPause:self];
+    }
+}
+
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView {
 	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
 		[_delegate helperStarTapedNeedLogin:self];
@@ -139,15 +151,9 @@
 	}
 }
 
-- (void)radioViewShouldPlay:(HXRadioView *)radioView {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
-        [_delegate helperShouldPlay:self];
-    }
-}
-
-- (void)radioViewShouldPause:(HXRadioView *)radioView {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPause:)]) {
-        [_delegate helperShouldPause:self];
+- (void)radioViewShareContentTaped:(HXRadioView *)radioView {
+    if (_delegate && [_delegate respondsToSelector:@selector(helperShareContentTaped:)]) {
+        [_delegate helperShareContentTaped:self];
     }
 }
 

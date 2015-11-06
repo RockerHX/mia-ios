@@ -66,6 +66,9 @@
                             <real key="value" value="7"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="W0X-B7-fvY" appends="YES" id="J3t-Ff-4eA"/>
+                    </connections>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZT2-TF-oW0">
                     <rect key="frame" x="53" y="14" width="214" height="20"/>
@@ -156,6 +159,11 @@
         <tapGestureRecognizer id="crf-jz-X8m">
             <connections>
                 <action selector="sharerNickNameTaped" destination="iN0-l3-epB" id="Ot7-c5-xOF"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="W0X-B7-fvY">
+            <connections>
+                <action selector="shareContentTaped" destination="iN0-l3-epB" id="8io-Fk-CeF"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

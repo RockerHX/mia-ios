@@ -128,12 +128,12 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4h-Kd-Mqg" customClass="HXHomePageWaveView">
-                                <rect key="frame" x="0.0" y="368" width="320" height="200"/>
+                                <rect key="frame" x="0.0" y="468" width="320" height="100"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="kMW-ZW-N2V"/>
+                                    <constraint firstAttribute="height" constant="100" id="kMW-ZW-N2V"/>
                                 </constraints>
                             </view>
                             <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fish-1" translatesAutoresizingMaskIntoConstraints="NO" id="K76-u6-UI7">

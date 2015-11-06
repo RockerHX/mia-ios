@@ -13,10 +13,11 @@
 @protocol HXRadioViewControllerDelegate <NSObject>
 
 @optional
-- (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item;
 - (void)userStartNeedLogin;
-- (void)shouldDisplayInfectUsers:(ShareItem *)item;
 - (void)raidoViewDidTaped;
+- (void)userWouldLikeSeeSharerWithItem:(ShareItem *)item;
+- (void)userWouldLikeSeeShareDetialWithItem:(ShareItem *)item;
+- (void)shouldDisplayInfectUsers:(ShareItem *)item;
 
 @end
 

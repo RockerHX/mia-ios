@@ -292,15 +292,21 @@
 }
 
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {
-	if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerHomePageWithItem:)]) {
-		[_delegate userWouldLikeSeeSharerHomePageWithItem:_helper.items[_shareListMgr.currentIndex]];
-	}
+    if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerWithItem:)]) {
+        [_delegate userWouldLikeSeeSharerWithItem:_helper.items[_shareListMgr.currentIndex]];
+    }
+}
+
+- (void)helperShareContentTaped:(HXRadioCarouselHelper *)helper {
+    if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeShareDetialWithItem:)]) {
+        [_delegate userWouldLikeSeeShareDetialWithItem:_helper.items[_shareListMgr.currentIndex]];
+    }
 }
 
 - (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper {
-	if (_delegate && [_delegate respondsToSelector:@selector(userStartNeedLogin)]) {
-		[_delegate userStartNeedLogin];
-	}
+    if (_delegate && [_delegate respondsToSelector:@selector(userStartNeedLogin)]) {
+        [_delegate userStartNeedLogin];
+    }
 }
 
 static CGFloat offsetXThreshold = 60.0f;

@@ -828,11 +828,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 #pragma mark - HXRadioViewControllerDelegate Methods
-- (void)userWouldLikeSeeSharerHomePageWithItem:(ShareItem *)item {
-	GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:item.uID nickName:item.sNick];
-	[self.navigationController pushViewController:viewController animated:YES];
-}
-
 - (void)userStartNeedLogin {
     [self presentLoginViewController:^(BOOL success) {
         __weak __typeof__(self)weakSelf = self;
@@ -862,6 +857,19 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }];
 }
 
+- (void)raidoViewDidTaped {
+    [self viewTapedCanShowMusicDetail:NO];
+}
+
+- (void)userWouldLikeSeeSharerWithItem:(ShareItem *)item {
+	GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:item.uID nickName:item.sNick];
+	[self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)userWouldLikeSeeShareDetialWithItem:(ShareItem *)item {
+    [self viewTapedCanShowMusicDetail:YES];
+}
+
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
     BOOL isInfected = item.isInfected;
@@ -871,10 +879,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     
     NSInteger infectUsersCount = infectUsers.count;
     [self showInfectCountLeftPromptLabel:(infectUsersCount && !isInfected) withCount:infectUsersCount];
-}
-
-- (void)raidoViewDidTaped {
-    [self viewTapedCanShowMusicDetail:NO];
 }
 
 @end

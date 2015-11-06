@@ -131,6 +131,12 @@
     }
 }
 
+- (IBAction)shareContentTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewShareContentTaped:)]) {
+        [_delegate radioViewShareContentTaped:self];
+    }
+}
+
 - (IBAction)playButtonPressed:(UIButton *)button {
     button.selected = !button.selected;
     if (button.selected) {
