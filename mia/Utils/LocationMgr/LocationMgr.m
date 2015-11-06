@@ -78,12 +78,12 @@
 // 获取地理位置变化的起始点和终点,didUpdateToLocation：
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 
-	CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-	CLLocation * marsLoction =   [location locationMarsFromEarth];
-	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", marsLoction.coordinate.latitude, marsLoction.coordinate.longitude);
+	CLLocation * earthlocation = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	//CLLocation *marsLoction = [location locationMarsFromEarth];
+	NSLog(@"didUpdateToLocation 当前位置的纬度:%.2f--经度%.2f", earthlocation.coordinate.latitude, earthlocation.coordinate.longitude);
 
-	CLGeocoder *geocoder=[[CLGeocoder alloc]init];
-	[geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error) {
+	CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+	[geocoder reverseGeocodeLocation:earthlocation completionHandler:^(NSArray *placemarks,NSError *error) {
 		if (placemarks.count > 0) {
 			CLPlacemark *placemark = [placemarks objectAtIndex:0];
 			NSLog(@"______%@", placemark.name); 					// eg. Apple Inc.
@@ -102,7 +102,7 @@
 				NSLog(@"______%@", placemark.areasOfInterest[0]); 	// eg. Golden Gate Park
 			}
 
-			_currentCoordinate = marsLoction.coordinate;
+			_currentCoordinate = earthlocation.coordinate;
 			if ([NSString isNull:placemark.locality] || [NSString isNull:placemark.subLocality]) {
 				_currentAddress = nil;
 			} else {
