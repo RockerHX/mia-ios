@@ -30,7 +30,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithComment:(HXComment *)comment {
-    [_header sd_setImageWithURL:[NSURL URLWithString:comment.headerURL]];
+    [_header sd_setImageWithURL:[NSURL URLWithString:comment.headerURL] placeholderImage:[UIImage imageNamed:@"HP-ProfileIcon"]];
     _nameLabel.text = comment.nickName;
     _contentLabel.text = comment.content;
 }
