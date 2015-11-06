@@ -13,10 +13,11 @@
 @protocol HXRadioCarouselHelperDelegate <NSObject>
 
 @optional
-- (void)helperDidTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperShouldPlay:(HXRadioCarouselHelper *)helper;
 - (void)helperShouldPause:(HXRadioCarouselHelper *)helper;
+- (void)helperDidTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper;
+- (void)helperShareContentTaped:(HXRadioCarouselHelper *)helper;
 - (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper;
 
 - (void)helperScrollNoLastest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX;
