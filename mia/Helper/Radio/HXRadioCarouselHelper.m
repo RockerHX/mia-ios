@@ -11,12 +11,22 @@
 #import "ShareItem.h"
 
 @interface HXRadioCarouselHelper () <HXRadioViewDelegate> {
-	iCarousel *_carousel;
+    iCarousel *_carousel;
+    BOOL _firstLoad;
 }
 
 @end
 
 @implementation HXRadioCarouselHelper
+
+#pragma mark - Init Methods
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _firstLoad = YES;
+    }
+    return self;
+}
 
 #pragma mark - Public Methods
 - (void)configWithCarousel:(iCarousel *)carousel {
@@ -98,18 +108,21 @@
 }
 
 - (void)carouselDidScroll:(iCarousel *)carousel {
-    CGFloat scrollOffset = carousel.scrollOffset;
-    CGFloat width = carousel.frame.size.width;
-    if (scrollOffset < 0) {
-        CGFloat offsetX = fabs(width * scrollOffset);
-        if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoLastest:offsetX:)]) {
-            [_delegate helperScrollNoLastest:self offsetX:offsetX];
+    if (!_firstLoad) {
+        CGFloat scrollOffset = carousel.scrollOffset;
+        CGFloat width = carousel.frame.size.width;
+        if (scrollOffset < 0) {
+            CGFloat offsetX = fabs(width * scrollOffset);
+            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoLastest:offsetX:)]) {
+                [_delegate helperScrollNoLastest:self offsetX:offsetX];
+            }
+        } else if (scrollOffset > (carousel.currentItemIndex + 1)) {
+            CGFloat offsetX = width * (scrollOffset - carousel.currentItemIndex);
+            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoNewest:offsetX:)]) {
+                [_delegate helperScrollNoNewest:self offsetX:offsetX];
+            }
         }
-    } else if (scrollOffset > (carousel.currentItemIndex + 1)) {
-        CGFloat offsetX = width * (scrollOffset - carousel.currentItemIndex);
-        if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoNewest:offsetX:)]) {
-            [_delegate helperScrollNoNewest:self offsetX:offsetX];
-        }
+        _firstLoad = NO;
     }
 }
 
