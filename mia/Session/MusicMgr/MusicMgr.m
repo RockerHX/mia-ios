@@ -14,6 +14,7 @@
 #import "WebSocketMgr.h"
 #import "UIAlertView+Blocks.h"
 #import "UserSetting.h"
+#import "FileLog.h"
 
 NSString * const MusicMgrNotificationKey_Msg 			= @"msg";
 NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotificationRemoteControlEvent";
@@ -147,16 +148,17 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
  *  @param notification 输出改变通知对象
  */
 - (void)routeChange:(NSNotification *)notification {
-	NSDictionary *dic=notification.userInfo;
-	int changeReason= [dic[AVAudioSessionRouteChangeReasonKey] intValue];
+	NSDictionary *dic = notification.userInfo;
+	int changeReason = [dic[AVAudioSessionRouteChangeReasonKey] intValue];
 	//等于AVAudioSessionRouteChangeReasonOldDeviceUnavailable表示旧输出不可用
-	if (changeReason==AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
-		AVAudioSessionRouteDescription *routeDescription=dic[AVAudioSessionRouteChangePreviousRouteKey];
-		AVAudioSessionPortDescription *portDescription= [routeDescription.outputs firstObject];
+	if (changeReason == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
+		AVAudioSessionRouteDescription *routeDescription = dic[AVAudioSessionRouteChangePreviousRouteKey];
+		AVAudioSessionPortDescription *portDescription = [routeDescription.outputs firstObject];
 		//原设备为耳机则暂停
 		if ([portDescription.portType isEqualToString:@"Headphones"]) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[_currentPlayer pause];
+				[[FileLog standard] log:@"routechange last device is headphone, pause"];
 			});
 		}
 	}
@@ -165,7 +167,7 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 - (void)remountControlEvent:(NSNotification *)notification {
 	UIEvent* event = [[notification userInfo] valueForKey:MusicMgrNotificationKey_Msg];
 	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
-	if(event.type==UIEventTypeRemoteControl){
+	if(event.type == UIEventTypeRemoteControl){
 		switch (event.subtype) {
 			case UIEventSubtypeRemoteControlPlay:
 				[_currentPlayer playCurrentItem];
