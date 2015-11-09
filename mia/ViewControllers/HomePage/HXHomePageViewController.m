@@ -181,6 +181,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
+		if (UserSessionLoginStateLogout == [UserSession standard].state) {
+			[_radioViewController cleanShareListUserState];
+		}
 //        [self shouldDisplayInfectUsers:_playItem];
     }
 }

@@ -140,4 +140,11 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
     return change;
 }
 
+- (void)cleanUserState {
+	for(ShareItem *item in _shareList){
+		item.isInfected = NO;
+		item.favorite = NO;
+	}
+}
+
 @end

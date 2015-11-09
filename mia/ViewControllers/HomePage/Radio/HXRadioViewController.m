@@ -96,6 +96,10 @@
 	}
 }
 
+- (void)cleanShareListUserState {
+	[_shareListMgr cleanUserState];
+}
+
 - (void)reloadLoopPlayerData:(BOOL)scroll {
     _helper.items = _shareListMgr.shareList;
     if (scroll) {
