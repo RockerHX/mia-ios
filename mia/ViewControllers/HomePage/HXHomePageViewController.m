@@ -142,7 +142,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
     _pushPromptLabel.alpha = 0.0f;
-    _infectCountLeftPromptLabel.alpha = 0.0f;
+    _infectCountRightPromptLabel.alpha = 0.0f;
     
     [self hanleUnderiPhone6Size];
     [self animationViewConfig];
@@ -382,15 +382,15 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }];
 }
 
-- (void)showInfectCountLeftPromptLabel:(BOOL)show withCount:(NSInteger)count {
+- (void)showinfectCountRightPromptLabel:(BOOL)show withCount:(NSInteger)count {
     if (count) {
-        _infectCountLeftPromptLabel.text = [NSString stringWithFormat:@"%@人妙推", @(count)];
+        _infectCountRightPromptLabel.text = [NSString stringWithFormat:@"%@人妙推", @(count)];
     }
     if ([[UserSession standard] isLogined]) {
         __weak __typeof__(self)weakSelf = self;
         [UIView animateWithDuration:0.3f animations:^{
             __strong __typeof__(self)strongSelf = weakSelf;
-            strongSelf.infectCountLeftPromptLabel.alpha = show ? 1.0f : 0.0f;
+            strongSelf.infectCountRightPromptLabel.alpha = show ? 1.0f : 0.0f;
         }];
     }
 }
@@ -521,7 +521,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if (!_playItem.isInfected) {
         _playItem.isInfected = YES;
         _playItem.infectTotal += 1;
-        [self showInfectCountLeftPromptLabel:NO withCount:_playItem.infectTotal];
+        [self showinfectCountRightPromptLabel:NO withCount:_playItem.infectTotal];
         
         __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
@@ -878,7 +878,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [self displayWithInfectState:isInfected];
     
     NSInteger infectUsersCount = infectUsers.count;
-    [self showInfectCountLeftPromptLabel:(infectUsersCount && !isInfected) withCount:infectUsersCount];
+    [self showinfectCountRightPromptLabel:(infectUsersCount && !isInfected) withCount:item.infectTotal];
 }
 
 @end
