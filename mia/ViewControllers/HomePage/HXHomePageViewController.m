@@ -386,13 +386,11 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if (count) {
         _infectCountRightPromptLabel.text = [NSString stringWithFormat:@"%@人妙推", @(count)];
     }
-    if ([[UserSession standard] isLogined]) {
-        __weak __typeof__(self)weakSelf = self;
-        [UIView animateWithDuration:0.3f animations:^{
-            __strong __typeof__(self)strongSelf = weakSelf;
-            strongSelf.infectCountRightPromptLabel.alpha = show ? 1.0f : 0.0f;
-        }];
-    }
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.3f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.infectCountRightPromptLabel.alpha = show ? 1.0f : 0.0f;
+    }];
 }
 
 - (void)addPushUserHeader {
