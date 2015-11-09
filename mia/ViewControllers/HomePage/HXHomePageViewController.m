@@ -142,7 +142,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
     _pushPromptLabel.alpha = 0.0f;
-    _infectCountLeftPromptLabel.alpha = 0.0f;
+    _infectCountRightPromptLabel.alpha = 0.0f;
     
     [self hanleUnderiPhone6Size];
     [self animationViewConfig];
@@ -181,10 +181,40 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
-		if (UserSessionLoginStateLogout == [UserSession standard].state) {
-			[_radioViewController cleanShareListUserState];
-		}
-//        [self shouldDisplayInfectUsers:_playItem];
+		if ([UserSession standard].state) {
+            __weak __typeof__(self)weakSelf = self;
+            // 更新单条分享的信息
+            [MiaAPIHelper getShareById:_playItem.sID completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 __strong __typeof__(self)strongSelf = weakSelf;
+                 if (success) {
+                     NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+                     id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+                     id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+                     id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+                     id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+                     int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+                     NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+                     
+                     if ([sID isEqualToString:strongSelf->_playItem.sID]) {
+                         strongSelf->_playItem.isInfected = isInfected;
+                         strongSelf->_playItem.cComm = [cComm intValue];
+                         strongSelf->_playItem.cView = [cView intValue];
+                         strongSelf->_playItem.favorite = [start intValue];
+                         strongSelf->_playItem.infectTotal = [infectTotal intValue];
+                         [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
+                     }
+                     [strongSelf shouldDisplayInfectUsers:_playItem];
+                 } else {
+                     NSLog(@"getShareById failed");
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 NSLog(@"getShareById timeout");
+             }];
+        } else {
+            [_radioViewController cleanShareListUserState];
+            [self shouldDisplayInfectUsers:_playItem];
+        }
     }
 }
 
@@ -385,17 +415,15 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }];
 }
 
-- (void)showInfectCountLeftPromptLabel:(BOOL)show withCount:(NSInteger)count {
+- (void)showinfectCountRightPromptLabel:(BOOL)show withCount:(NSInteger)count {
     if (count) {
-        _infectCountLeftPromptLabel.text = [NSString stringWithFormat:@"%@人妙推", @(count)];
+        _infectCountRightPromptLabel.text = [NSString stringWithFormat:@"%@人妙推", @(count)];
     }
-    if ([[UserSession standard] isLogined]) {
-        __weak __typeof__(self)weakSelf = self;
-        [UIView animateWithDuration:0.3f animations:^{
-            __strong __typeof__(self)strongSelf = weakSelf;
-            strongSelf.infectCountLeftPromptLabel.alpha = show ? 1.0f : 0.0f;
-        }];
-    }
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.3f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.infectCountRightPromptLabel.alpha = show ? 1.0f : 0.0f;
+    }];
 }
 
 - (void)addPushUserHeader {
@@ -524,7 +552,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if (!_playItem.isInfected) {
         _playItem.isInfected = YES;
         _playItem.infectTotal += 1;
-        [self showInfectCountLeftPromptLabel:NO withCount:_playItem.infectTotal];
+        [self showinfectCountRightPromptLabel:NO withCount:_playItem.infectTotal];
         
         __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
@@ -590,8 +618,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if (logined) {
         _infectCountPromptLabel.alpha = 0.0f;
         _bubbleView.hidden = infected;
-        _fishView.hidden = infected;
     }
+    _fishView.hidden = infected;
     
     if (infected && logined) {
         [self startInfectedStateAnimation];
@@ -602,7 +630,11 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)displayFeedBackButtonColor {
-    [_feedBackButton setTitleColor:_playItem.isInfected ? UIColorFromHex(@"3DC6B6", 1.0f) : [UIColor whiteColor] forState:UIControlStateNormal];
+    if ([UserSession standard].state) {
+        [_feedBackButton setTitleColor:_playItem.isInfected ? UIColorFromHex(@"3DC6B6", 1.0f) : [UIColor whiteColor] forState:UIControlStateNormal];
+    } else {
+        [_feedBackButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
 }
 
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
@@ -881,7 +913,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     [self displayWithInfectState:isInfected];
     
     NSInteger infectUsersCount = infectUsers.count;
-    [self showInfectCountLeftPromptLabel:(infectUsersCount && !isInfected) withCount:infectUsersCount];
+    [self showinfectCountRightPromptLabel:(infectUsersCount && !isInfected) withCount:item.infectTotal];
 }
 
 @end
