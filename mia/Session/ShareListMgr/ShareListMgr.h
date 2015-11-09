@@ -26,6 +26,6 @@
 - (void)addSharesWithArray:(NSArray *)shareList;
 - (BOOL)checkHistoryItemsMaxCount;
 
-//- (BOOL)saveChanges;
+- (void)cleanUserState;
 
 @end

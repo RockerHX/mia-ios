@@ -837,8 +837,6 @@ UITextFieldDelegate>
 	MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"退出登录中..."];
 	[MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
-			[[UserSession standard] logout];
-
 			[MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 				if (success) {
 					NSLog(@"logout then sendUUID success");
@@ -849,6 +847,7 @@ UITextFieldDelegate>
 				NSLog(@"logout then sendUUID timeout");
 			}];
 
+			[[UserSession standard] logout];
 			[HXAlertBanner showWithMessage:@"退出登录成功" tap:nil];
 			[self.navigationController popToRootViewControllerAnimated:YES];
 		} else {

@@ -33,5 +33,6 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *noMoreNewestLogoLeftConstraint;
 
 - (void)loadShareList;
+- (void)cleanShareListUserState;
 
 @end

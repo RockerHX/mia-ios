@@ -181,7 +181,40 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
-        [self shouldDisplayInfectUsers:_playItem];
+		if ([UserSession standard].state) {
+            __weak __typeof__(self)weakSelf = self;
+            // 更新单条分享的信息
+            [MiaAPIHelper getShareById:_playItem.sID completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 __strong __typeof__(self)strongSelf = weakSelf;
+                 if (success) {
+                     NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+                     id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+                     id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+                     id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+                     id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+                     int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+                     NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+                     
+                     if ([sID isEqualToString:strongSelf->_playItem.sID]) {
+                         strongSelf->_playItem.isInfected = isInfected;
+                         strongSelf->_playItem.cComm = [cComm intValue];
+                         strongSelf->_playItem.cView = [cView intValue];
+                         strongSelf->_playItem.favorite = [start intValue];
+                         strongSelf->_playItem.infectTotal = [infectTotal intValue];
+                         [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
+                     }
+                     [strongSelf shouldDisplayInfectUsers:_playItem];
+                 } else {
+                     NSLog(@"getShareById failed");
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 NSLog(@"getShareById timeout");
+             }];
+        } else {
+            [_radioViewController cleanShareListUserState];
+            [self shouldDisplayInfectUsers:_playItem];
+        }
     }
 }
 
@@ -585,8 +618,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if (logined) {
         _infectCountPromptLabel.alpha = 0.0f;
         _bubbleView.hidden = infected;
-        _fishView.hidden = infected;
     }
+    _fishView.hidden = infected;
     
     if (infected && logined) {
         [self startInfectedStateAnimation];
