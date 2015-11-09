@@ -414,7 +414,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)updatePromptLabel {
     NSInteger count = _playItem.infectTotal;
-    NSString *prompt = [NSString stringWithFormat:@"%@人%@妙推", @(count), ((count > 5) ? @"等" : @"")];
+    NSString *prompt = [NSString stringWithFormat:@"%@人妙推", @(count)];
     _infectCountPromptLabel.text = prompt;
 }
 
