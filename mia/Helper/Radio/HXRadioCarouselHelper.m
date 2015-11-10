@@ -122,11 +122,14 @@
                 [_delegate helperScrollNoNewest:self offsetX:offsetX];
             }
         }
-        _firstLoad = NO;
     }
 }
 
 #pragma mark - HXRadioViewDelegate Methods
+- (void)radioViewDidLoad:(HXRadioView *)radioView {
+    _firstLoad = NO;
+}
+
 - (void)radioViewShouldPlay:(HXRadioView *)radioView {
     if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
         [_delegate helperShouldPlay:self];

@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet 		  id  <HXRadioViewControllerDelegate>delegate;
 @property (nonatomic, weak) IBOutlet   iCarousel *carousel;
 @property (nonatomic, weak) IBOutlet UIImageView *noMoreLastestLogo;
+@property (nonatomic, weak) IBOutlet     UILabel *waringLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *noMoreNewestLogo;
 
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *noMoreLogoWidthConstraint;
