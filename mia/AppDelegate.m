@@ -54,6 +54,9 @@
 
 #pragma mark - App Delegate Methods
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+	// 切换回前台主动取消被打断状态
+	[MusicMgr standard].isInterruption = NO;
+
 	// 设置后台播放模式
 	AVAudioSession *audioSession=[AVAudioSession sharedInstance];
 	[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
