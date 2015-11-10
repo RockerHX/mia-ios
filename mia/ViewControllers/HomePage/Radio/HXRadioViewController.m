@@ -79,6 +79,7 @@
 }
 
 - (void)viewConfig {
+    _waringLabel.alpha = 0.0f;
     [_helper configWithCarousel:_carousel];
 }
 
@@ -322,6 +323,14 @@ static CGFloat offsetXThreshold = 60.0f;
     } else if (offset < 0.0f) {
         _noMoreLastestLogo.center = CGPointMake(-(logoWidth/2), _noMoreLastestLogo.center.y);
     }
+    BOOL show = (offset > logoWidth * 2);
+    
+    _waringLabel.hidden = !show;
+    __weak __typeof__(self)weakSelf = self;
+    [UIView animateWithDuration:0.4f animations:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf.waringLabel.alpha = show ? 1.0f : 0.0f;
+    }];
 }
 
 - (void)helperScrollNoNewest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX {

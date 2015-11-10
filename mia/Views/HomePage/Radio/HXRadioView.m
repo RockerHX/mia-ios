@@ -207,6 +207,10 @@
     _sharerNickNameLabel.text = item.sNick;
     [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
     [self displayShareContentLabelWithContent:item.sNote locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:)]) {
+        [_delegate radioViewDidLoad:self];
+    }
 }
 
 #pragma mark - Private Methods
