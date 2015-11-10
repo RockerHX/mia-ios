@@ -226,7 +226,11 @@
         _canPlay = YES;
         return;
     }
-    
+	if ([MusicMgr standard].isInterruption) {
+		NSLog(@"helperShouldPlay has been ignored, app is interruption.");
+		return;
+	}
+
     _shareListMgr.currentIndex = _carousel.currentItemIndex;
     NSInteger currentIndex = _shareListMgr.currentIndex;
     ShareItem *playItem = _helper.items[currentIndex];

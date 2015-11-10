@@ -32,7 +32,7 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
  *  使用单例初始化
  *
  */
-+ (id)standard{
++ (MusicMgr *)standard{
     static MusicMgr *aMusicMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
@@ -48,6 +48,7 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
 	}
 
 	return self;
@@ -57,6 +58,7 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationRemoteControlEvent object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
 }
 
 #pragma mark - Public Methods
@@ -215,6 +217,25 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 			[_currentPlayer playCurrentItem];
 		}
 	}];
+}
+
+- (void)interruption:(NSNotification*)notification {
+	NSDictionary *interuptionDict = notification.userInfo;
+	NSInteger interuptionType = [[interuptionDict valueForKey:AVAudioSessionInterruptionTypeKey] integerValue];
+	switch (interuptionType) {
+		case AVAudioSessionInterruptionTypeBegan:
+			[[FileLog standard] log:@"Audio Session Interruption case started."];
+			_isInterruption = YES;
+			break;
+
+		case AVAudioSessionInterruptionTypeEnded:
+			[[FileLog standard] log:@"Audio Session Interruption case ended."];
+			_isInterruption = NO;
+			break;
+		default:
+			[[FileLog standard] log:@"Audio Session Interruption Notification case default: %d", interuptionType];
+			break;
+	}
 }
 
 @end

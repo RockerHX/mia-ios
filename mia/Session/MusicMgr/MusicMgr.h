@@ -19,9 +19,10 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  *  使用单例初始化
  *
  */
-+ (id)standard;
++ (MusicMgr *)standard;
 
-@property (strong, nonatomic) SongListPlayer *currentPlayer;
+@property (strong, nonatomic) SongListPlayer 	*currentPlayer;
+@property (assign, nonatomic) BOOL				isInterruption;
 
 - (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlayingWithUrl:(NSString *)url;

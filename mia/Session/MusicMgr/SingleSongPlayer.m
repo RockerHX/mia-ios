@@ -27,7 +27,6 @@
 
 @implementation SingleSongPlayer {
 	FSAudioStream 		*_audioStream;
-	BOOL				_isInterruption;
 }
 
 - (id)init {
@@ -56,15 +55,12 @@
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			[[FileLog standard] log:@"AudioStream onFailure:%d, %@", error, errorDescription];
 		};
-
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
 	}
 	return self;
 }
 
 - (void)dealloc {
 	NSLog(@"SingleSongPlayer dealoc");
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
@@ -166,7 +162,8 @@
 	if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 不要根据url来判断是否有歌曲在播放，因为播放完成或者stop都会把url清掉
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
-		if (_isInterruption) {
+#warning @eden
+		if ([MusicMgr standard].isInterruption) {
 			NSLog(@"resume music from interruption.");
 			[self playFromInterruption:url];
 		} else if ([_audioStream isPlaying]) {
@@ -206,7 +203,8 @@
 }
 
 - (void)playFromInterruption:(NSString *)url {
-	_isInterruption = NO;
+#warning @eden
+	[MusicMgr standard].isInterruption = NO;
 	[self playAnotherWirUrl:url];
 }
 
@@ -216,26 +214,6 @@
 			[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName cover:item.purl];
 		}
 	}];
-}
-
-#pragma mark - Notification
-- (void)interruption:(NSNotification*)notification {
-	NSDictionary *interuptionDict = notification.userInfo;
-	NSInteger interuptionType = [[interuptionDict valueForKey:AVAudioSessionInterruptionTypeKey] integerValue];
-	switch (interuptionType) {
-		case AVAudioSessionInterruptionTypeBegan:
-			[[FileLog standard] log:@"Audio Session Interruption case started."];
-			_isInterruption = YES;
-			break;
-
-		case AVAudioSessionInterruptionTypeEnded:
-			[[FileLog standard] log:@"Audio Session Interruption case ended."];
-			_isInterruption = NO;
-			break;
-		default:
-			[[FileLog standard] log:@"Audio Session Interruption Notification case default: %d", interuptionType];
-			break;
-	}
 }
 
 #pragma mark - audio operations
