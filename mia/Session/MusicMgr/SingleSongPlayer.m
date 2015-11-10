@@ -27,6 +27,7 @@
 
 @implementation SingleSongPlayer {
 	FSAudioStream 		*_audioStream;
+	FSAudioStreamState	_audioState;
 }
 
 - (id)init {
@@ -42,7 +43,7 @@
 
 		__weak SingleSongPlayer *weakPlayer = self;
 		_audioStream.onCompletion = ^() {
-			SingleSongPlayer *strongPlayer = weakPlayer;
+			__strong SingleSongPlayer *strongPlayer = weakPlayer;
 			[strongPlayer stop];
 			if ([strongPlayer delegate]) {
 				[[strongPlayer delegate] singleSongPlayerDidCompletion];
@@ -50,6 +51,8 @@
 		};
 		_audioStream.onStateChange = ^(FSAudioStreamState state) {
 			NSLog(@"FSAudioStreamState change:%u", state);
+			__strong SingleSongPlayer *strongPlayer = weakPlayer;
+			strongPlayer->_audioState = state;
 		};
 
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
@@ -162,10 +165,9 @@
 	if ([[[_audioStream url] absoluteString] isEqualToString:url]) {
 		// 不要根据url来判断是否有歌曲在播放，因为播放完成或者stop都会把url清掉
 		// 同一首歌，暂停状态，直接调用pause恢复播放就可以了
-#warning @eden
-		if ([MusicMgr standard].isInterruption) {
+		if (_audioState == kFsAudioStreamStopped) {
 			NSLog(@"resume music from interruption.");
-			[self playFromInterruption:url];
+			[self playAnotherWirUrl:url];
 		} else if ([_audioStream isPlaying]) {
 			NSLog(@"resume music from pause error, stop and play again.");
 			[self playAnotherWirUrl:url];
@@ -200,12 +202,6 @@
 		NSLog(@"delayPlayHandlerWithUrl");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
 	} afterDelay:0.5f];
-}
-
-- (void)playFromInterruption:(NSString *)url {
-#warning @eden
-	[MusicMgr standard].isInterruption = NO;
-	[self playAnotherWirUrl:url];
 }
 
 - (void)checkBeforePlayWithMusicItem:(MusicItem *)item {
