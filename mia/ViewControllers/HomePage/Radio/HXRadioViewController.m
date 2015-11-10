@@ -177,7 +177,6 @@
 - (void)playNext {
     [_shareListMgr cursorShiftRight];
     [self checkIsNeedToGetNewItems];
-    [_shareListMgr checkHistoryItemsMaxCount];
     [_carousel scrollToItemAtIndex:_shareListMgr.currentIndex animated:YES];
 }
 
