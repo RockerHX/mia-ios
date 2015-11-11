@@ -15,6 +15,7 @@
 #import "MobClick.h"
 #import "HXVersion.h"
 #import "UIImage+ColorToImage.h"
+#import <TestinAgent/TestinAgent.h>
 
 @interface AppDelegate () {
     BOOL _backBecomeActive;
@@ -38,17 +39,21 @@
 
 	[self registerUserDefaults];
     
-#pragma mark - UMeng Analytics SDK
 #ifdef DEBUG
 #else
+#pragma mark - UMeng Analytics SDK
     // 设置版本号
     [MobClick setAppVersion:[[HXVersion appVersion] stringByAppendingFormat:@"(%@)", [HXVersion appBuildVersion]]];
     [MobClick setEncryptEnabled:YES];       // 日志加密
     // 启动[友盟统计]
-    //    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"App Store"];
-    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"Fir.im"];
+//    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:AppstoreChannel];
+    [MobClick setCrashReportEnabled:NO];
+    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:FirimChannel];
+    
+#pragma mark - Testin Crash SDK
+    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
 #endif
-
+    
 	return YES;
 }
 
