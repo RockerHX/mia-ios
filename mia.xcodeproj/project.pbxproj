@@ -126,6 +126,7 @@
 		CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0398AF1BD6477A0036F43D /* HXInfectUserView.m */; };
 		CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0398B21BD647930036F43D /* HXInfectUserItemView.m */; };
 		CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD0398B41BD6479D0036F43D /* HXInfectUserItemView.xib */; };
+		CD0C96D31BF31D540032F77D /* TestinAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0C96D21BF31D540032F77D /* TestinAgent.framework */; };
 		CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */; };
 		CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* HomePage.storyboard */; };
 		CD33626A1BD624A900240345 /* HXAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362661BD624A900240345 /* HXAppConstants.m */; };
@@ -137,6 +138,8 @@
 		CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */; };
 		CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD48CD811BDE0054009607DE /* MusicDetail.storyboard */; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; };
+		CD524DEB1BF318EC005E3B8B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD524DEA1BF318EC005E3B8B /* CoreTelephony.framework */; };
+		CD524DED1BF318F2005E3B8B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD524DEC1BF318F2005E3B8B /* SystemConfiguration.framework */; };
 		CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */; };
 		CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */; };
 		CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753891BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m */; };
@@ -392,6 +395,7 @@
 		CD0398B11BD647930036F43D /* HXInfectUserItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserItemView.h; sourceTree = "<group>"; };
 		CD0398B21BD647930036F43D /* HXInfectUserItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserItemView.m; sourceTree = "<group>"; };
 		CD0398B41BD6479D0036F43D /* HXInfectUserItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserItemView.xib; sourceTree = "<group>"; };
+		CD0C96D21BF31D540032F77D /* TestinAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TestinAgent.framework; path = mia/Frameworks/TestinAgent.framework; sourceTree = "<group>"; };
 		CD221FCC1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/HomePage.storyboard; sourceTree = "<group>"; };
 		CD3362651BD624A900240345 /* HXAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAppConstants.h; sourceTree = "<group>"; };
@@ -411,6 +415,8 @@
 		CD48CD821BDE0054009607DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/MusicDetail.storyboard; sourceTree = SOURCE_ROOT; };
 		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
+		CD524DEA1BF318EC005E3B8B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		CD524DEC1BF318F2005E3B8B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CD5753801BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailCoverCell.h; sourceTree = "<group>"; };
 		CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailCoverCell.m; sourceTree = "<group>"; };
 		CD5753851BDE33C400E7CBC4 /* HXMusicDetailSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailSongCell.h; sourceTree = "<group>"; };
@@ -478,7 +484,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD524DED1BF318F2005E3B8B /* SystemConfiguration.framework in Frameworks */,
+				CD524DEB1BF318EC005E3B8B /* CoreTelephony.framework in Frameworks */,
 				66BB03BFEDEB5B4F4504614C /* libPods.a in Frameworks */,
+				CD0C96D31BF31D540032F77D /* TestinAgent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1266,6 +1275,9 @@
 		7A46D70C0C154D948D2217B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD0C96D21BF31D540032F77D /* TestinAgent.framework */,
+				CD524DEC1BF318F2005E3B8B /* SystemConfiguration.framework */,
+				CD524DEA1BF318EC005E3B8B /* CoreTelephony.framework */,
 				8FE68AFFBF4F159DD2430486 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -2074,6 +2086,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/mia/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mia/mia-Prefix.pch";
 				INFOPLIST_FILE = mia/Info.plist;
@@ -2094,6 +2110,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/mia/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mia/mia-Prefix.pch";
 				INFOPLIST_FILE = mia/Info.plist;
