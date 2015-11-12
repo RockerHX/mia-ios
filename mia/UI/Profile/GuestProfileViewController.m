@@ -111,7 +111,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
 	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
-	_profileCollectionView.footer = aFooter;
+	_profileCollectionView.mj_footer = aFooter;
 }
 
 - (void)initBarButton {
@@ -143,7 +143,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								start:_currentPageStart
 								 item:kShareListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							[_profileCollectionView.footer endRefreshing];
+							[_profileCollectionView.mj_footer endRefreshing];
 							if (success) {
 								NSArray *shareList = userInfo[@"v"][@"info"];
 								if ([shareList count] <= 0) {
@@ -163,7 +163,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 							}
 
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
-							[_profileCollectionView.footer endRefreshing];
+							[_profileCollectionView.mj_footer endRefreshing];
 							[self checkPlaceHolder];
 							if ([[WebSocketMgr standard] isOpen]) {
 								[HXAlertBanner showWithMessage:@"无法获取分享列表，网络请求超时" tap:nil];
