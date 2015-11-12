@@ -80,7 +80,7 @@ static NSInteger kInfectListItemCountInPage = 10;
 	_sID = sID;
 	_tapBlock = taped;
 	__weak __typeof__(self)weakSelf = self;
-	_tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+	_tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 		__strong __typeof__(self)strongSelf = weakSelf;
 		// 分页需要传入上一次拉取到的最后一条的infectid作为参数
 		_lastInfectID = @"0";
@@ -103,7 +103,7 @@ static NSInteger kInfectListItemCountInPage = 10;
 				 }
 
 				 [strongSelf reloadList];
-				 if (!strongSelf.tableView.footer) {
+				 if (!strongSelf.tableView.mj_footer) {
 					 [strongSelf addRefreshFooterWithSharerID:sID];
 				 }
 			 } else {
@@ -149,7 +149,7 @@ static NSInteger kInfectListItemCountInPage = 10;
         strongSelf.containerView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.tableView.header beginRefreshing];
+        [strongSelf.tableView.mj_header beginRefreshing];
     }];
 }
 
@@ -163,13 +163,13 @@ static NSInteger kInfectListItemCountInPage = 10;
 }
 
 - (void)endRefreshing {
-	[_tableView.header endRefreshing];
-	[_tableView.footer endRefreshing];
+	[_tableView.mj_header endRefreshing];
+	[_tableView.mj_footer endRefreshing];
 }
 
 - (void)addRefreshFooterWithSharerID:(NSString *)sID {
     __weak __typeof__(self)weakSelf = self;
-    _tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         __strong __typeof__(self)strongSelf = weakSelf;
 		// 分页需要传入上一次拉取到的最后一条的infectid作为参数
 		[MiaAPIHelper getInfectListWithSID:sID
