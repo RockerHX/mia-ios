@@ -9,7 +9,7 @@
 
 #pragma mark - Third SDK Key
 FOUNDATION_EXPORT NSString *const UMengAPPKEY;              // 友盟SDK对应的APPKEY
-FOUNDATION_EXPORT NSString *const TestinAPPKEY;             // 云测SDK对应的APPKEY
+FOUNDATION_EXPORT NSString *const BugHDGeneralKey;          // BugHD对应的GeneralKey
 FOUNDATION_EXPORT NSString *const BaiDuMapKEY;              // 百度地图SDK对应的APPKEY
 FOUNDATION_EXPORT NSString *const WeiXinKEY;                // 微信SDK对应的APPKEY
 

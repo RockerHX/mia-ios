@@ -24,7 +24,7 @@
 
 - (void)addComments:(NSArray *) comments {
 	if (comments.count == 1 && _dataSource) {
-        HXComment *comment = [HXComment objectWithKeyValues:comments[0]];
+        HXComment *comment = [HXComment mj_objectWithKeyValues:comments[0]];
 		if ([comment.cmid intValue] > [_lastCommentID intValue]) {
 			// 由于我们的评论是最新的在最前面，所以发表评论后需要把自己最新的评论获取到
 			[_dataSource insertObject:comment atIndex:0];
@@ -36,7 +36,7 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 
     for (id item in comments) {
-        HXComment *comment = [HXComment objectWithKeyValues:item];
+        HXComment *comment = [HXComment mj_objectWithKeyValues:item];
 		[result addObject:comment];
 		_lastCommentID = comment.cmid;	}
 

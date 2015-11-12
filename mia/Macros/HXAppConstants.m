@@ -9,7 +9,7 @@
 
 #pragma mark - Third SDK Key
 NSString *const UMengAPPKEY                                = @"562730aee0f55ab9370019d8";
-NSString *const TestinAPPKEY                               = @"341b2ac47c99919526cf833d6957a08b";
+NSString *const BugHDGeneralKey                            = @"9c95e21f5bf4606d704e5a60b6d18c4c";
 NSString *const BaiDuMapKEY                                = @"wNZGKBVyuCobA8GcksWWx9xD";
 NSString *const WeiXinKEY                                  = @"wx6194bafa9ae065cc";
 
