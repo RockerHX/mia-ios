@@ -14,6 +14,7 @@ pod 'FreeStreamer'
 # Utility
 pod 'Masonry'
 pod 'MJExtension'
+pod 'APAddressBook'
 
 # Tool
 #pod 'IQKeyboardManager'
