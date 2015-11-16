@@ -15,7 +15,7 @@
 #import "MobClick.h"
 #import "HXVersion.h"
 #import "UIImage+ColorToImage.h"
-#import <BugHD/BugHD.h>
+#import <TestinAgent/TestinAgent.h>
 
 @interface AppDelegate () {
     BOOL _backBecomeActive;
@@ -50,8 +50,8 @@
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:FirimChannel];
     
-#pragma mark - BugHD SDK
-    [BugHD handleCrashWithKey:BugHDGeneralKey];
+#pragma mark - Testin Crash SDK
+    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
 #endif
     
 	return YES;
