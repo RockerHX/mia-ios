@@ -36,8 +36,6 @@
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
-//static const CGFloat kProfileHeaderHeight 	= 240;
-//static const CGFloat kProfileHeaderHeight 	= 295;
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
 @interface MyProfileViewController ()
@@ -161,16 +159,16 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)initHeaderView {
-	_headerView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
+	_headerView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0,
+																	  0,
+																	  self.view.bounds.size.width,
+																	  [ProfileHeaderView headerHeight])];
 	_headerView.profileHeaderViewDelegate = self;
 }
 
 - (void)initCollectionView {
 	//1.初始化layout
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-
-	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
 
 	//该方法也可以设置itemSize
 	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
@@ -275,7 +273,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[_addShareView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(_collectionView.mas_left).offset(kProfileItemMarginH);
-		make.top.mas_equalTo(kProfileHeaderHeight);
+		make.top.mas_equalTo([ProfileHeaderView headerHeight]);
 		CGFloat imageSize = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
 		make.size.mas_equalTo(CGSizeMake(imageSize, imageSize));
 	}];
@@ -317,7 +315,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	[_noNetWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_collectionView.mas_centerX);
-		make.top.mas_equalTo(kProfileHeaderHeight + 60);
+		make.top.mas_equalTo([ProfileHeaderView headerHeight] + 60);
 	}];
 
 	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -402,6 +400,10 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginV;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+	return CGSizeMake(self.view.frame.size.width, [ProfileHeaderView headerHeight]);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {

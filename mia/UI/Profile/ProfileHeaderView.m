@@ -15,6 +15,10 @@
 #import "FavoriteMgr.h"
 #import "FavoriteItem.h"
 #import "Masonry.h"
+#import "UserSession.h"
+
+static const CGFloat kProfileHeaderHeight 					= 240;
+static const CGFloat kProfileHeaderHeightWithNotification 	= 295;
 
 @implementation ProfileHeaderView {
 	UIView		*_notificationView;
@@ -41,13 +45,18 @@
 	return self;
 }
 
-#pragma mark - getter and setter
-- (CGFloat)headerHeight {
-	if (_hasNotification) {
++ (CGFloat)headerHeight {
+	int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+	if (unreadCommentCount > 0) {
 		return kProfileHeaderHeightWithNotification;
 	} else {
 		return kProfileHeaderHeight;
 	}
+}
+
+- (BOOL)hasNotification {
+	int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+	return (unreadCommentCount > 0);
 }
 
 #pragma mark - Private Meghtods

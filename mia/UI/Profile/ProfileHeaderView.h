@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-static const CGFloat kProfileHeaderHeight 					= 240;
-static const CGFloat kProfileHeaderHeightWithNotification 	= 295;
-
 @class FavoriteModel;
 
 @protocol ProfileHeaderViewDelegate
@@ -25,7 +22,8 @@ static const CGFloat kProfileHeaderHeightWithNotification 	= 295;
 @property (weak, nonatomic)id<ProfileHeaderViewDelegate> profileHeaderViewDelegate;
 @property (assign, nonatomic) BOOL isPlaying;
 @property (assign, nonatomic) BOOL hasNotification;
-@property (assign, nonatomic) CGFloat headerHeight;
+
++ (CGFloat)headerHeight;
 
 - (void)updateFavoriteCount;
 
