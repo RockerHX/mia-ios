@@ -12,16 +12,13 @@
 
 @interface HXHomePageViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIButton *profileButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (weak, nonatomic) IBOutlet           UIButton *profileButton;
+@property (weak, nonatomic) IBOutlet           UIButton *shareButton;
 
 @property (nonatomic, weak) HXRadioViewController *radioViewController;
 
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;
 - (IBAction)feedBackButtonPressed;
-- (IBAction)commentButtonPressed;
-- (IBAction)favoriteButtonPressed;
-- (IBAction)moreButtonPressed;
 
 @end
