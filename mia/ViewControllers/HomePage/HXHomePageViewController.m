@@ -240,6 +240,18 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     [self.navigationController pushViewController:feedBackViewController animated:YES];
 }
 
+- (IBAction)commentButtonPressed {
+    
+}
+
+- (IBAction)favoriteButtonPressed {
+    
+}
+
+- (IBAction)moreButtonPressed {
+    
+}
+
 #pragma mark - Private Methods
 - (BOOL)needShowGuideView {
     NSNumber *showed = [[NSUserDefaults standardUserDefaults] valueForKey:kGuideViewShowKey];

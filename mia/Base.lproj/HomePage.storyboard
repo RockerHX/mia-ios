@@ -160,18 +160,27 @@
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="更  多"/>
+                                        <connections>
+                                            <action selector="moreButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="kW1-Wk-v3M"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rxF-Re-FEQ">
                                         <rect key="frame" x="112" y="14" width="32" height="32"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="评论"/>
+                                        <connections>
+                                            <action selector="commentButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="bjy-xM-d7B"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPC-AP-28U">
                                         <rect key="frame" x="176" y="14" width="32" height="32"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="搜藏"/>
+                                        <connections>
+                                            <action selector="favoriteButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="Bx2-hw-ZgE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
