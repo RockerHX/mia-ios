@@ -36,7 +36,7 @@
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
 static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
-static const CGFloat kProfileHeaderHeight 	= 240;
+//static const CGFloat kProfileHeaderHeight 	= 240;
 //static const CGFloat kProfileHeaderHeight 	= 295;
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
@@ -393,7 +393,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	return UIEdgeInsetsMake(15, 15, 0, 15);
+	return UIEdgeInsetsMake(1, 15, 0, 15);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {

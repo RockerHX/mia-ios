@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static const CGFloat kProfileHeaderHeight 					= 240;
+static const CGFloat kProfileHeaderHeightWithNotification 	= 295;
+
 @class FavoriteModel;
 
 @protocol ProfileHeaderViewDelegate

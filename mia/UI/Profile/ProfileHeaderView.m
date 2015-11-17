@@ -16,9 +16,6 @@
 #import "FavoriteItem.h"
 #import "Masonry.h"
 
-static const CGFloat kProfileHeaderHeight 					= 240;
-static const CGFloat kProfileHeaderHeightWithNotification 	= 295;
-
 @implementation ProfileHeaderView {
 	UIView		*_notificationView;
 	UIImageView	*_avatarImageView;
