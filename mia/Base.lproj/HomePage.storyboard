@@ -93,7 +93,7 @@
             </objects>
             <point key="canvasLocation" x="-204" y="409"/>
         </scene>
-        <!--Delegate-->
+        <!--Home Page View Controller-->
         <scene sceneID="cVn-Eb-2yp">
             <objects>
                 <viewController storyboardIdentifier="HXHomePageViewController" id="Vwv-7l-Pgq" customClass="HXHomePageViewController" sceneMemberID="viewController">
@@ -141,16 +141,61 @@
                                     <constraint firstItem="wYL-XZ-eoB" firstAttribute="bottom" secondItem="fLC-L9-4kO" secondAttribute="centerY" multiplier="1.2" id="gcR-UY-jfb"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AfJ-JT-HN6" customClass="HXBottomBar">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AfJ-JT-HN6">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjQ-6i-CWc">
+                                        <rect key="frame" x="12" y="14" width="41" height="32"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="反  馈">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="feedBackButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="crO-Is-wMz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDD-51-MrB">
+                                        <rect key="frame" x="267" y="14" width="41" height="32"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="更  多"/>
+                                        <connections>
+                                            <action selector="moreButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="kW1-Wk-v3M"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rxF-Re-FEQ">
+                                        <rect key="frame" x="112" y="14" width="32" height="32"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="评论"/>
+                                        <connections>
+                                            <action selector="commentButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="bjy-xM-d7B"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPC-AP-28U">
+                                        <rect key="frame" x="176" y="14" width="32" height="32"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="搜藏"/>
+                                        <connections>
+                                            <action selector="favoriteButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="Bx2-hw-ZgE"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="aDD-51-MrB" secondAttribute="trailing" constant="12" id="4y5-09-zNn"/>
+                                    <constraint firstItem="aDD-51-MrB" firstAttribute="centerY" secondItem="AfJ-JT-HN6" secondAttribute="centerY" id="BmY-de-4xR"/>
+                                    <constraint firstItem="rxF-Re-FEQ" firstAttribute="trailing" secondItem="AfJ-JT-HN6" secondAttribute="centerX" multiplier="0.9" id="LWO-SV-6Su"/>
+                                    <constraint firstItem="NPC-AP-28U" firstAttribute="leading" secondItem="AfJ-JT-HN6" secondAttribute="centerX" multiplier="1.1" id="WfL-T7-hXK"/>
                                     <constraint firstAttribute="height" constant="60" id="YEX-dH-wPw"/>
+                                    <constraint firstItem="rxF-Re-FEQ" firstAttribute="centerY" secondItem="AfJ-JT-HN6" secondAttribute="centerY" id="gmY-Ts-QWa"/>
+                                    <constraint firstItem="zjQ-6i-CWc" firstAttribute="centerY" secondItem="AfJ-JT-HN6" secondAttribute="centerY" id="kyR-Qb-dL3"/>
+                                    <constraint firstItem="NPC-AP-28U" firstAttribute="centerY" secondItem="AfJ-JT-HN6" secondAttribute="centerY" id="v9m-0a-495"/>
+                                    <constraint firstItem="zjQ-6i-CWc" firstAttribute="leading" secondItem="AfJ-JT-HN6" secondAttribute="leading" constant="12" id="vhH-hR-BE2"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="delegate" destination="Vwv-7l-Pgq" id="5K7-1r-hdF"/>
-                                </connections>
                             </view>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
                                 <rect key="frame" x="15" y="79" width="32" height="32"/>
@@ -200,7 +245,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="kAH-Nc-SYo"/>
                     <connections>
-                        <outlet property="bottomBar" destination="AfJ-JT-HN6" id="rof-WJ-7c1"/>
                         <outlet property="profileButton" destination="97C-zd-yXF" id="tZ1-SO-1QU"/>
                         <outlet property="shareButton" destination="QnW-Sx-Tnv" id="koK-DW-kVT"/>
                     </connections>
