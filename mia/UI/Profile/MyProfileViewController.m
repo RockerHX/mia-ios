@@ -58,7 +58,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	SongListPlayer			*_songListPlayer;
 	NSString 				*_uid;
 	NSString 				*_nickName;
-	BOOL 					_isMyProfile;
 	BOOL 					_playingFavorite;
 
 	long 					_currentPageStart;
@@ -79,7 +78,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	if (self) {
 		_uid = uid;
 		_nickName = nickName;
-		_isMyProfile = YES;
 
 		[self initUI];
 		[self initData];
@@ -88,10 +86,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-
-		if (_isMyProfile) {
-			[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NickName options:NSKeyValueObservingOptionNew context:nil];
-		}
+		[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NickName options:NSKeyValueObservingOptionNew context:nil];
 	}
 
 	return self;
@@ -102,10 +97,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	_songListPlayer.delegate = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-
-	if (_isMyProfile) {
-		[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NickName context:nil];
-	}
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NickName context:nil];
 }
 
 - (void)viewDidLoad {
@@ -155,19 +147,16 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	self.navigationItem.leftBarButtonItem = leftButton;
 	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
-
-	if (_isMyProfile) {
-		UIImage *settingButtonImage = [UIImage imageNamed:@"setting"];
-		MIAButton *settingButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, settingButtonImage.size.width, settingButtonImage.size.height * 2)
-														titleString:nil
-														 titleColor:nil
-															   font:nil
-															logoImg:settingButtonImage
-													backgroundImage:nil];
-		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
-		self.navigationItem.rightBarButtonItem = rightButton;
-		[settingButton addTarget:self action:@selector(settingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	}
+	UIImage *settingButtonImage = [UIImage imageNamed:@"setting"];
+	MIAButton *settingButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, settingButtonImage.size.width, settingButtonImage.size.height * 2)
+													titleString:nil
+													 titleColor:nil
+														   font:nil
+														logoImg:settingButtonImage
+												backgroundImage:nil];
+	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
+	self.navigationItem.rightBarButtonItem = rightButton;
+	[settingButton addTarget:self action:@selector(settingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)initHeaderView {
@@ -178,14 +167,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 - (void)initCollectionView {
 	//1.初始化layout
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-	//设置collectionView滚动方向
-	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+
 	//设置headerView的尺寸大小
-	if (_isMyProfile) {
-		layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
-	} else {
-		layout.headerReferenceSize = CGSizeZero;
-	}
+	layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
 
 	//该方法也可以设置itemSize
 	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
@@ -397,7 +381,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 																											 forIndexPath:indexPath];
 	cell.isBiggerCell = NO;
-	cell.isMyProfile = _isMyProfile;
+	cell.isMyProfile = YES;
 	cell.shareItem = _shareListModel.dataSource[indexPath.row];
 	return cell;
 }
@@ -420,9 +404,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	if (!_isMyProfile)
-		return nil;
-
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {

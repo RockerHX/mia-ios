@@ -29,9 +29,8 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
-	if(self){
+	if(self) {
 		[self initUI];
-
 	}
 
 	return self;
