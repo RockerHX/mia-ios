@@ -672,7 +672,7 @@ UITextFieldDelegate>
 		float compressionQuality = 0.9f;
 		NSData *imageData;
 
-		const static CGFloat kUploadAvatarMaxSize = 200;
+		const static CGFloat kUploadAvatarMaxSize = 320;
 		UIImage *squareImage = [UIImage imageWithCutImage:image moduleSize:CGSizeMake(kUploadAvatarMaxSize, kUploadAvatarMaxSize)];
 		imageData = UIImageJPEGRepresentation(squareImage, compressionQuality);
 		[request setValue:[NSString stringWithFormat:@"%ld", (unsigned long)imageData.length] forHTTPHeaderField:@"Content-Length"];
