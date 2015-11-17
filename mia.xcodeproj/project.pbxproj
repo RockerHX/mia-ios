@@ -132,8 +132,6 @@
 		CD33626A1BD624A900240345 /* HXAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362661BD624A900240345 /* HXAppConstants.m */; };
 		CD33626B1BD624A900240345 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362681BD624A900240345 /* HXVersion.m */; };
 		CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4334EE1BD8CBF400A5E34C /* InfectItem.m */; };
-		CD48CD701BDB84AA009607DE /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD6F1BDB84AA009607DE /* HXWaveView.m */; };
-		CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD721BDB84E3009607DE /* HXHomePageWaveView.m */; };
 		CD48CD7C1BDDFA79009607DE /* HXMusicDetailCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7B1BDDFA79009607DE /* HXMusicDetailCommentCell.m */; };
 		CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */; };
 		CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD48CD811BDE0054009607DE /* MusicDetail.storyboard */; };
@@ -172,6 +170,8 @@
 		CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDF739C71BE0AEF1009FA8CA /* Share.storyboard */; };
 		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
 		CDF739D41BE20BC9009FA8CA /* HXTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D31BE20BC9009FA8CA /* HXTextView.m */; };
+		CDF9FF371BFACA450043D50C /* HXMiaoPushView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF9FF361BFACA450043D50C /* HXMiaoPushView.m */; };
+		CDF9FF391BFACA570043D50C /* HXMiaoPushView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDF9FF381BFACA570043D50C /* HXMiaoPushView.xib */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
 /* End PBXBuildFile section */
@@ -404,10 +404,6 @@
 		CD3362681BD624A900240345 /* HXVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVersion.m; sourceTree = "<group>"; };
 		CD4334ED1BD8CBF400A5E34C /* InfectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectItem.h; sourceTree = "<group>"; };
 		CD4334EE1BD8CBF400A5E34C /* InfectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectItem.m; sourceTree = "<group>"; };
-		CD48CD6E1BDB84AA009607DE /* HXWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXWaveView.h; sourceTree = "<group>"; };
-		CD48CD6F1BDB84AA009607DE /* HXWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXWaveView.m; sourceTree = "<group>"; };
-		CD48CD711BDB84E3009607DE /* HXHomePageWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageWaveView.h; sourceTree = "<group>"; };
-		CD48CD721BDB84E3009607DE /* HXHomePageWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageWaveView.m; sourceTree = "<group>"; };
 		CD48CD7A1BDDFA79009607DE /* HXMusicDetailCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailCommentCell.h; sourceTree = "<group>"; };
 		CD48CD7B1BDDFA79009607DE /* HXMusicDetailCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailCommentCell.m; sourceTree = "<group>"; };
 		CD48CD7E1BDDFD43009607DE /* HXMusicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailViewController.h; sourceTree = "<group>"; };
@@ -474,6 +470,9 @@
 		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
 		CDF739D21BE20BC9009FA8CA /* HXTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXTextView.h; sourceTree = "<group>"; };
 		CDF739D31BE20BC9009FA8CA /* HXTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXTextView.m; sourceTree = "<group>"; };
+		CDF9FF351BFACA450043D50C /* HXMiaoPushView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMiaoPushView.h; sourceTree = "<group>"; };
+		CDF9FF361BFACA450043D50C /* HXMiaoPushView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMiaoPushView.m; sourceTree = "<group>"; };
+		CDF9FF381BFACA570043D50C /* HXMiaoPushView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMiaoPushView.xib; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
 		CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGuideView.m; sourceTree = "<group>"; };
 		CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXGuideView.xib; sourceTree = "<group>"; };
@@ -1355,15 +1354,6 @@
 			path = InfectItem;
 			sourceTree = "<group>";
 		};
-		CD48CD6D1BDB84AA009607DE /* HXWaveView */ = {
-			isa = PBXGroup;
-			children = (
-				CD48CD6E1BDB84AA009607DE /* HXWaveView.h */,
-				CD48CD6F1BDB84AA009607DE /* HXWaveView.m */,
-			);
-			path = HXWaveView;
-			sourceTree = "<group>";
-		};
 		CD48CD761BDDF97E009607DE /* MusicDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1495,12 +1485,10 @@
 			isa = PBXGroup;
 			children = (
 				CDC5FE941BD1EA85001D154E /* Radio */,
+				CDF9FF341BFACA270043D50C /* MiaoPush */,
 				CD0398AD1BD6477A0036F43D /* InfectUserView */,
-				CD48CD6D1BDB84AA009607DE /* HXWaveView */,
 				CDC5FE8E1BD102AB001D154E /* HXBubbleView.h */,
 				CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */,
-				CD48CD711BDB84E3009607DE /* HXHomePageWaveView.h */,
-				CD48CD721BDB84E3009607DE /* HXHomePageWaveView.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1592,6 +1580,16 @@
 				CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */,
 			);
 			path = Share;
+			sourceTree = "<group>";
+		};
+		CDF9FF341BFACA270043D50C /* MiaoPush */ = {
+			isa = PBXGroup;
+			children = (
+				CDF9FF351BFACA450043D50C /* HXMiaoPushView.h */,
+				CDF9FF361BFACA450043D50C /* HXMiaoPushView.m */,
+				CDF9FF381BFACA570043D50C /* HXMiaoPushView.xib */,
+			);
+			path = MiaoPush;
 			sourceTree = "<group>";
 		};
 		CDFFAAEC1BD7BCE30074C0EF /* Guide */ = {
@@ -1738,6 +1736,7 @@
 				3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */,
 				39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */,
 				397FA52C1BAC0CA7003FD186 /* arrow@2x.png in Resources */,
+				CDF9FF391BFACA570043D50C /* HXMiaoPushView.xib in Resources */,
 				CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */,
 				CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */,
 				39CA061C1BAD67CC0074FD13 /* share_music@2x.png in Resources */,
@@ -1884,7 +1883,6 @@
 				3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */,
 				3909696F1BE0E9D000C55B20 /* GuestProfileViewController.m in Sources */,
 				CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */,
-				CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,
@@ -1920,12 +1918,12 @@
 				CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
 				397FA5321BAC0CA7003FD186 /* UIView+Extension.m in Sources */,
-				CD48CD701BDB84AA009607DE /* HXWaveView.m in Sources */,
 				397FA5341BAC0CA7003FD186 /* MIAGrowingTextView.m in Sources */,
 				397E42CE1BA90812006BE9E7 /* NSData+Base64.m in Sources */,
 				CDF739D41BE20BC9009FA8CA /* HXTextView.m in Sources */,
 				CDC7C2511BE76D1A0024FEB6 /* HXNavigationController.m in Sources */,
 				CD5753A11BDF541C00E7CBC4 /* HXComment.m in Sources */,
+				CDF9FF371BFACA450043D50C /* HXMiaoPushView.m in Sources */,
 				39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */,
 				397FA5331BAC0CA7003FD186 /* MIATexAlertView.m in Sources */,
 				395CD6011BD9DEE8001A2528 /* ShareListMgr.m in Sources */,
