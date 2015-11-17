@@ -9,6 +9,7 @@
 #import "HXHomePageViewController.h"
 #import "HXNavigationController.h"
 #import "HXRadioViewController.h"
+#import "HXBottomBar.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
 #import "MyProfileViewController.h"
@@ -36,7 +37,7 @@
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController () <HXBottomBarDelegate, LoginViewControllerDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
     BOOL _toLogin;
     ShareItem *_playItem;
 }
@@ -235,23 +236,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }
 }
 
-- (IBAction)feedBackButtonPressed {
-    HXFeedBackViewController *feedBackViewController = [HXFeedBackViewController instance];
-    [self.navigationController pushViewController:feedBackViewController animated:YES];
-}
-
-- (IBAction)commentButtonPressed {
-    
-}
-
-- (IBAction)favoriteButtonPressed {
-    
-}
-
-- (IBAction)moreButtonPressed {
-    
-}
-
 #pragma mark - Private Methods
 - (BOOL)needShowGuideView {
     NSNumber *showed = [[NSUserDefaults standardUserDefaults] valueForKey:kGuideViewShowKey];
@@ -356,6 +340,29 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf->_toLogin = NO;
     }];
+}
+
+#pragma mark - HXBottomBarDelegate Methods
+- (void)bottomBarButtonPressed:(HXBottomBarButtonType)buttonType {
+    switch (buttonType) {
+        case HXBottomBarButtonTypeFeedBack: {
+            HXFeedBackViewController *feedBackViewController = [HXFeedBackViewController instance];
+            [self.navigationController pushViewController:feedBackViewController animated:YES];
+            break;
+        }
+        case HXBottomBarButtonTypeComment: {
+            ;
+            break;
+        }
+        case HXBottomBarButtonTypeFavorite: {
+            ;
+            break;
+        }
+        case HXBottomBarButtonTypeMore: {
+            ;
+            break;
+        }
+    }
 }
 
 #pragma mark - LoginViewControllerDelegate
