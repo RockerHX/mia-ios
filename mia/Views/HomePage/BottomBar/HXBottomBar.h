@@ -8,23 +8,23 @@
 
 #import "HXXibView.h"
 
-typedef NS_ENUM(NSUInteger, HXBottomBarButtonType) {
-    HXBottomBarButtonTypeFeedBack,
-    HXBottomBarButtonTypeComment,
-    HXBottomBarButtonTypeFavorite,
-    HXBottomBarButtonTypeMore
+typedef NS_ENUM(NSUInteger, HXBottomBarAction) {
+    HXBottomBarActionFeedBack,
+    HXBottomBarActionComment,
+    HXBottomBarActionFavorite,
+    HXBottomBarActionMore
 };
 
 @protocol HXBottomBarDelegate <NSObject>
 
 @required
-- (void)bottomBarButtonPressed:(HXBottomBarButtonType)buttonType;
+- (void)bottomBarButtonPressed:(HXBottomBarAction)action;
 
 @end
 
 @interface HXBottomBar : HXXibView
 
-@property (weak, nullable, nonatomic) IBOutlet id<HXBottomBarDelegate>delegate;
+@property (nonatomic, weak, nullable) IBOutlet id  <HXBottomBarDelegate>delegate;
 
 - (IBAction)feedBackButtonPressed;
 - (IBAction)commentButtonPressed;

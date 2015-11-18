@@ -13,25 +13,25 @@
 #pragma mark - Event Response
 - (IBAction)feedBackButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(bottomBarButtonPressed:)]) {
-        [_delegate bottomBarButtonPressed:HXBottomBarButtonTypeFeedBack];
+        [_delegate bottomBarButtonPressed:HXBottomBarActionFeedBack];
     }
 }
 
 - (IBAction)commentButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(bottomBarButtonPressed:)]) {
-        [_delegate bottomBarButtonPressed:HXBottomBarButtonTypeComment];
+        [_delegate bottomBarButtonPressed:HXBottomBarActionComment];
     }
 }
 
 - (IBAction)favoriteButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(bottomBarButtonPressed:)]) {
-        [_delegate bottomBarButtonPressed:HXBottomBarButtonTypeFavorite];
+        [_delegate bottomBarButtonPressed:HXBottomBarActionFavorite];
     }
 }
 
 - (IBAction)moreButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(bottomBarButtonPressed:)]) {
-        [_delegate bottomBarButtonPressed:HXBottomBarButtonTypeMore];
+        [_delegate bottomBarButtonPressed:HXBottomBarActionMore];
     }
 }
 
