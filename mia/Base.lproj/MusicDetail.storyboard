@@ -542,16 +542,25 @@
                                     <constraint firstAttribute="height" constant="60" id="8bl-el-LjM"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GTM-9E-ajt" customClass="HXCardDetailView">
+                                <rect key="frame" x="0.0" y="80" width="320" height="428"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="GTM-9E-ajt" firstAttribute="top" secondItem="MQg-Ee-GDd" secondAttribute="bottom" id="CY3-2E-exk"/>
                             <constraint firstItem="MQg-Ee-GDd" firstAttribute="leading" secondItem="IZK-ay-8K5" secondAttribute="leading" id="E5w-Gq-uvg"/>
+                            <constraint firstItem="Tgm-4z-uZg" firstAttribute="top" secondItem="GTM-9E-ajt" secondAttribute="bottom" id="KBO-a5-JGG"/>
                             <constraint firstAttribute="trailing" secondItem="MQg-Ee-GDd" secondAttribute="trailing" id="NVb-kS-1Dg"/>
                             <constraint firstAttribute="trailing" secondItem="Tgm-4z-uZg" secondAttribute="trailing" id="NdY-M9-J9I"/>
+                            <constraint firstItem="GTM-9E-ajt" firstAttribute="leading" secondItem="IZK-ay-8K5" secondAttribute="leading" id="beJ-8W-BWP"/>
                             <constraint firstItem="Tgm-4z-uZg" firstAttribute="leading" secondItem="IZK-ay-8K5" secondAttribute="leading" id="jLt-sg-q0p"/>
                             <constraint firstItem="s66-DH-tRc" firstAttribute="top" secondItem="Tgm-4z-uZg" secondAttribute="bottom" id="sgD-CT-QID"/>
                             <constraint firstItem="MQg-Ee-GDd" firstAttribute="top" secondItem="Xkg-PB-jeF" secondAttribute="bottom" id="tDX-HJ-1Gf"/>
+                            <constraint firstAttribute="trailing" secondItem="GTM-9E-ajt" secondAttribute="trailing" id="za7-5r-GHN"/>
                         </constraints>
                     </view>
                 </viewController>
