@@ -699,6 +699,16 @@ UITextFieldDelegate>
 		return;
 	}
 
+	[MiaAPIHelper notifyAfterUploadPicWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		if (success) {
+			NSLog(@"notify after upload pic success");
+		} else {
+			NSLog(@"notify after upload pic failed:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"notify after upload pic timeout");
+	}];
+
 	[_avatarImageView setImage:avatarImage];
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
 	[[UserSession standard] setAvatar:avatarUrlWithTime];
