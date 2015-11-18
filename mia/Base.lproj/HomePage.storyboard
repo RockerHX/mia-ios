@@ -3,9 +3,6 @@
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Radio View Controller-->
@@ -112,34 +109,16 @@
                                     <segue destination="ln9-6M-WL7" kind="embed" identifier="HomePageContainerIdentifier" id="pnm-F6-F8h"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLC-L9-4kO">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLC-L9-4kO" customClass="HXTopBar">
                                 <rect key="frame" x="0.0" y="64" width="320" height="60"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生如夏花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYL-XZ-eoB">
-                                        <rect key="frame" x="128" y="16" width="64" height="20"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朴树" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s7m-1B-kTf">
-                                        <rect key="frame" x="128" y="36" width="64" height="17"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="8nY-55-nKZ"/>
-                                    <constraint firstItem="s7m-1B-kTf" firstAttribute="centerX" secondItem="wYL-XZ-eoB" secondAttribute="centerX" id="CN6-cr-1yG"/>
-                                    <constraint firstItem="s7m-1B-kTf" firstAttribute="top" secondItem="wYL-XZ-eoB" secondAttribute="baseline" constant="5" id="L6C-Nm-NZA"/>
-                                    <constraint firstItem="wYL-XZ-eoB" firstAttribute="centerX" secondItem="fLC-L9-4kO" secondAttribute="centerX" id="RjZ-Jr-qZX"/>
-                                    <constraint firstItem="s7m-1B-kTf" firstAttribute="width" secondItem="wYL-XZ-eoB" secondAttribute="width" id="fQ6-vL-f0e"/>
-                                    <constraint firstItem="wYL-XZ-eoB" firstAttribute="bottom" secondItem="fLC-L9-4kO" secondAttribute="centerY" multiplier="1.2" id="gcR-UY-jfb"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="Vwv-7l-Pgq" id="tjc-fl-rRo"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AfJ-JT-HN6" customClass="HXBottomBar">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
@@ -152,48 +131,19 @@
                                     <outlet property="delegate" destination="Vwv-7l-Pgq" id="5K7-1r-hdF"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97C-zd-yXF">
-                                <rect key="frame" x="15" y="79" width="32" height="32"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="HwM-rn-UP3"/>
-                                    <constraint firstAttribute="width" secondItem="97C-zd-yXF" secondAttribute="height" multiplier="1:1" id="JWT-kJ-duk"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" image="HP-ProfileIcon"/>
-                                <connections>
-                                    <action selector="profileButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="zRS-VX-wCN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnW-Sx-Tnv">
-                                <rect key="frame" x="273" y="79" width="32" height="32"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="6Mx-sE-kxZ"/>
-                                    <constraint firstAttribute="width" secondItem="QnW-Sx-Tnv" secondAttribute="height" multiplier="1:1" id="OQw-1u-u6N"/>
-                                </constraints>
-                                <state key="normal" image="HP-ShareIcon"/>
-                                <connections>
-                                    <action selector="shareButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="uQ2-48-6NT"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="AfJ-JT-HN6" secondAttribute="trailing" id="7Ve-M9-20W"/>
-                            <constraint firstAttribute="trailing" secondItem="QnW-Sx-Tnv" secondAttribute="trailing" constant="15" id="7h9-ei-d5Z"/>
                             <constraint firstItem="fLC-L9-4kO" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="C3J-Fs-Jo9"/>
-                            <constraint firstItem="QnW-Sx-Tnv" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="15" id="Fqx-BI-cio"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="AfJ-JT-HN6" secondAttribute="bottom" id="G3b-rI-X2T"/>
-                            <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="15" id="GCF-La-sRx"/>
                             <constraint firstAttribute="trailing" secondItem="fLC-L9-4kO" secondAttribute="trailing" id="Hp3-cK-yZS"/>
                             <constraint firstItem="AfJ-JT-HN6" firstAttribute="top" secondItem="6LO-Lb-msR" secondAttribute="bottom" id="MOc-cd-qyD"/>
                             <constraint firstItem="AfJ-JT-HN6" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="RUt-LO-6Q3"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" id="Rcp-NR-a1u"/>
                             <constraint firstItem="fLC-L9-4kO" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" id="aZj-Ob-Lrw"/>
-                            <constraint firstItem="97C-zd-yXF" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" constant="15" id="eMs-u1-fsy"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="fLC-L9-4kO" secondAttribute="bottom" id="lpZ-Ui-mMy"/>
                             <constraint firstAttribute="trailing" secondItem="6LO-Lb-msR" secondAttribute="trailing" id="pvq-K7-uG1"/>
                         </constraints>
@@ -201,8 +151,7 @@
                     <navigationItem key="navigationItem" id="kAH-Nc-SYo"/>
                     <connections>
                         <outlet property="bottomBar" destination="AfJ-JT-HN6" id="rof-WJ-7c1"/>
-                        <outlet property="profileButton" destination="97C-zd-yXF" id="tZ1-SO-1QU"/>
-                        <outlet property="shareButton" destination="QnW-Sx-Tnv" id="koK-DW-kVT"/>
+                        <outlet property="topBar" destination="fLC-L9-4kO" id="kxg-tb-GOa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxh-Bf-n1A" sceneMemberID="firstResponder"/>
@@ -213,7 +162,5 @@
     <resources>
         <image name="HP-NoMoreLastest" width="35" height="70"/>
         <image name="HP-NoMoreNewest" width="35" height="70"/>
-        <image name="HP-ProfileIcon" width="32" height="32"/>
-        <image name="HP-ShareIcon" width="32" height="32"/>
     </resources>
 </document>

@@ -162,6 +162,8 @@
 		CDCEDCE31BFB2E7E002A9706 /* HXBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDCE21BFB2E7E002A9706 /* HXBottomBar.m */; };
 		CDCEDCE51BFB2E88002A9706 /* HXBottomBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDCE41BFB2E88002A9706 /* HXBottomBar.xib */; };
 		CDCEDCE81BFB2FB7002A9706 /* HXXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDCE71BFB2FB7002A9706 /* HXXibView.m */; };
+		CDCEDCEC1BFC1013002A9706 /* HXTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDCEB1BFC1013002A9706 /* HXTopBar.m */; };
+		CDCEDCEE1BFC101D002A9706 /* HXTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDCED1BFC101D002A9706 /* HXTopBar.xib */; };
 		CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8314F1BD8B6550067309B /* HXAlertBanner.m */; };
 		CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831501BD8B6550067309B /* HXAlertBanner.xib */; };
 		CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831531BD8B6550067309B /* HXNoNetworkView.m */; };
@@ -461,6 +463,9 @@
 		CDCEDCE41BFB2E88002A9706 /* HXBottomBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXBottomBar.xib; sourceTree = "<group>"; };
 		CDCEDCE61BFB2FB7002A9706 /* HXXibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXXibView.h; sourceTree = "<group>"; };
 		CDCEDCE71BFB2FB7002A9706 /* HXXibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXXibView.m; sourceTree = "<group>"; };
+		CDCEDCEA1BFC1013002A9706 /* HXTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXTopBar.h; sourceTree = "<group>"; };
+		CDCEDCEB1BFC1013002A9706 /* HXTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXTopBar.m; sourceTree = "<group>"; };
+		CDCEDCED1BFC101D002A9706 /* HXTopBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXTopBar.xib; sourceTree = "<group>"; };
 		CDD8314E1BD8B6550067309B /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
 		CDD8314F1BD8B6550067309B /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
 		CDD831501BD8B6550067309B /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
@@ -1494,6 +1499,7 @@
 		CDC5FE851BD0FF7F001D154E /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				CDCEDCE91BFC0FFE002A9706 /* TopBar */,
 				CDCEDCE01BFB2E69002A9706 /* BottomBar */,
 				CDC5FE941BD1EA85001D154E /* Radio */,
 				CDF9FF341BFACA270043D50C /* MiaoPush */,
@@ -1551,6 +1557,16 @@
 				CDCEDCE41BFB2E88002A9706 /* HXBottomBar.xib */,
 			);
 			path = BottomBar;
+			sourceTree = "<group>";
+		};
+		CDCEDCE91BFC0FFE002A9706 /* TopBar */ = {
+			isa = PBXGroup;
+			children = (
+				CDCEDCEA1BFC1013002A9706 /* HXTopBar.h */,
+				CDCEDCEB1BFC1013002A9706 /* HXTopBar.m */,
+				CDCEDCED1BFC101D002A9706 /* HXTopBar.xib */,
+			);
+			path = TopBar;
 			sourceTree = "<group>";
 		};
 		CDD8314D1BD8B6550067309B /* HXAlertBanner */ = {
@@ -1744,6 +1760,7 @@
 				39BF8C761BB29E5C003AB4FC /* share@2x.png in Resources */,
 				39BF8C651BB24A12003AB4FC /* info@2x.png in Resources */,
 				39CA06331BADC7390074FD13 /* more@2x.png in Resources */,
+				CDCEDCEE1BFC101D002A9706 /* HXTopBar.xib in Resources */,
 				393CE9AC1BB958B000FCF232 /* checkbox@2x.png in Resources */,
 				39CA061A1BAD67CC0074FD13 /* profile_with_notification@2x.png in Resources */,
 				390BADCF1BAFE188006269FD /* button_blue@2x.png in Resources */,
@@ -1907,6 +1924,7 @@
 				3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */,
 				3909696F1BE0E9D000C55B20 /* GuestProfileViewController.m in Sources */,
 				CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */,
+				CDCEDCEC1BFC1013002A9706 /* HXTopBar.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,

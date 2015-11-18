@@ -9,6 +9,7 @@
 #import "HXHomePageViewController.h"
 #import "HXNavigationController.h"
 #import "HXRadioViewController.h"
+#import "HXTopBar.h"
 #import "HXBottomBar.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
@@ -37,7 +38,7 @@
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
-@interface HXHomePageViewController () <HXBottomBarDelegate, LoginViewControllerDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController () <HXTopBarDelegate, HXBottomBarDelegate, LoginViewControllerDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
     BOOL _toLogin;
     ShareItem *_playItem;
 }
@@ -110,13 +111,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)viewConfig {
-    _shareButton.backgroundColor = [UIColor whiteColor];
-    _profileButton.layer.borderWidth = 0.5f;
-    _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
-    _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
-    
-    _shareButton.backgroundColor = [UIColor whiteColor];
-    _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
 }
 
 - (void)initLocationMgr {
@@ -130,10 +124,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
 		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
 		if ([NSString isNull:newAvatarUrl]) {
-			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
+            [_topBar updateProfileButtonImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
         } else {
 			int unreadCount = [[[UserSession standard] unreadCommCnt] intValue];
-			[self updateProfileButtonWithUnreadCount:unreadCount];
+			[_topBar updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
 		if ([UserSession standard].state) {
@@ -203,7 +197,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)notificationWebSocketPushUnread:(NSNotification *)notification {
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	if (0 == [ret intValue]) {
-		[self updateProfileButtonWithUnreadCount:[[notification userInfo][MiaAPIKey_Values][@"num"] intValue]];
+		[_topBar updateProfileButtonWithUnreadCount:[[notification userInfo][MiaAPIKey_Values][@"num"] intValue]];
 	} else {
 		NSLog(@"unread comment failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
@@ -211,29 +205,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
 	NSLog(@"Connection Closed! (see logs)");
-}
-
-#pragma mark - Event Response
-- (IBAction)profileButtonPressed {
-    // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
-    if ([[UserSession standard] isLogined]) {
-        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-                                                                                              nickName:[[UserSession standard] nick]];
-        myProfileViewController.customDelegate = self;
-        [self.navigationController pushViewController:myProfileViewController animated:YES];
-	} else {
-        [self presentLoginViewController:nil];
-    }
-}
-
-- (IBAction)shareButtonPressed {
-    // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
-    if ([[UserSession standard] isLogined]) {
-        HXShareViewController *shareViewController = [HXShareViewController instance];
-        [self.navigationController pushViewController:shareViewController animated:YES];
-    } else {
-        [self presentLoginViewController:nil];
-    }
 }
 
 #pragma mark - Private Methods
@@ -250,20 +221,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)startLoadMusic {
     [[WebSocketMgr standard] watchNetworkStatus];
     [self initLocationMgr];
-}
-
-- (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
-    if (unreadCommentCount <= 0) {
-        _profileButton.layer.borderWidth = 0.5f;
-        [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
-                                  forState:UIControlStateNormal
-                          placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
-	} else {
-        _profileButton.layer.borderWidth = 0.0f;
-		[_profileButton setImage:nil forState:UIControlStateNormal];
-		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
-		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
-	}
 }
 
 - (void)checkUpdate {
@@ -342,23 +299,51 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }];
 }
 
+#pragma mark - HXTopBarDelegate Methods
+- (void)topBarButtonPressed:(HXTopBarAction)action {
+    switch (action) {
+        case HXTopBarActionProfile: {
+            // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
+            if ([[UserSession standard] isLogined]) {
+                MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+                                                                                                      nickName:[[UserSession standard] nick]];
+                myProfileViewController.customDelegate = self;
+                [self.navigationController pushViewController:myProfileViewController animated:YES];
+            } else {
+                [self presentLoginViewController:nil];
+            }
+            break;
+        }
+        case HXTopBarActionShare: {
+            // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
+            if ([[UserSession standard] isLogined]) {
+                HXShareViewController *shareViewController = [HXShareViewController instance];
+                [self.navigationController pushViewController:shareViewController animated:YES];
+            } else {
+                [self presentLoginViewController:nil];
+            }
+            break;
+        }
+    }
+}
+
 #pragma mark - HXBottomBarDelegate Methods
-- (void)bottomBarButtonPressed:(HXBottomBarButtonType)buttonType {
-    switch (buttonType) {
-        case HXBottomBarButtonTypeFeedBack: {
+- (void)bottomBarButtonPressed:(HXBottomBarAction)action {
+    switch (action) {
+        case HXBottomBarActionFeedBack: {
             HXFeedBackViewController *feedBackViewController = [HXFeedBackViewController instance];
             [self.navigationController pushViewController:feedBackViewController animated:YES];
             break;
         }
-        case HXBottomBarButtonTypeComment: {
+        case HXBottomBarActionComment: {
             ;
             break;
         }
-        case HXBottomBarButtonTypeFavorite: {
+        case HXBottomBarActionFavorite: {
             ;
             break;
         }
-        case HXBottomBarButtonTypeMore: {
+        case HXBottomBarActionMore: {
             ;
             break;
         }
@@ -375,7 +360,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
         int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
-        [self updateProfileButtonWithUnreadCount:unreadCommentCount];
+        [_topBar updateProfileButtonWithUnreadCount:unreadCommentCount];
     }
 }
 
@@ -387,7 +372,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (void)myProfileViewControllerUpdateUnreadCount:(int)count {
-	[self updateProfileButtonWithUnreadCount:count];
+	[_topBar updateProfileButtonWithUnreadCount:count];
 }
 
 #pragma mark - HXRadioViewControllerDelegate Methods

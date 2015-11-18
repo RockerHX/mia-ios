@@ -8,19 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class HXTopBar;
 @class HXBottomBar;
 @class HXRadioViewController;
 
 @interface HXHomePageViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIButton *profileButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
-
-@property (weak, nonatomic) IBOutlet HXBottomBar *bottomBar;
+@property (weak, nonatomic) IBOutlet     HXTopBar *topBar;
+@property (weak, nonatomic) IBOutlet  HXBottomBar *bottomBar;
 
 @property (nonatomic, weak) HXRadioViewController *radioViewController;
-
-- (IBAction)profileButtonPressed;
-- (IBAction)shareButtonPressed;
 
 @end
