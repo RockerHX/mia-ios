@@ -34,10 +34,8 @@
 #import "MJRefresh.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
-static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
 static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
 
-static const CGFloat kProfileHeaderHeight 	= 240;
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
 @interface MyProfileViewController ()
@@ -59,15 +57,14 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	SongListPlayer			*_songListPlayer;
 	NSString 				*_uid;
 	NSString 				*_nickName;
-	BOOL 					_isMyProfile;
 	BOOL 					_playingFavorite;
 
 	long 					_currentPageStart;
 
-	UICollectionView 		*_profileCollectionView;
-	ProfileHeaderView 		*_profileHeaderView;
-	FavoriteViewController	*_favoriteViewController;
+	UICollectionView 		*_collectionView;
+	ProfileHeaderView 		*_headerView;
 
+	FavoriteViewController	*_favoriteViewController;
 	ProfileShareModel 		*_shareListModel;
 
 	UIView					*_addShareView;
@@ -80,7 +77,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	if (self) {
 		_uid = uid;
 		_nickName = nickName;
-		_isMyProfile = YES;
 
 		[self initUI];
 		[self initData];
@@ -89,10 +85,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		_favoriteViewController.favoriteViewControllerDelegate = self;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-
-		if (_isMyProfile) {
-			[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NickName options:NSKeyValueObservingOptionNew context:nil];
-		}
+		[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NickName options:NSKeyValueObservingOptionNew context:nil];
 	}
 
 	return self;
@@ -103,10 +96,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	_songListPlayer.delegate = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-
-	if (_isMyProfile) {
-		[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NickName context:nil];
-	}
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NickName context:nil];
 }
 
 - (void)viewDidLoad {
@@ -140,45 +130,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 - (void)initUI {
 	self.title = _nickName;
 	[self initBarButton];
-
-	//1.初始化layout
-	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-	//设置collectionView滚动方向
-	//    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-	//设置headerView的尺寸大小
-	if (_isMyProfile) {
-		layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, kProfileHeaderHeight);
-	} else {
-		layout.headerReferenceSize = CGSizeZero;
-	}
-
-	//该方法也可以设置itemSize
-	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
-	layout.itemSize =CGSizeMake(itemWidth, itemWidth);
-
-	//2.初始化collectionView
-	_profileCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-	[self.view addSubview:_profileCollectionView];
-	_profileCollectionView.backgroundColor = [UIColor whiteColor];
-
-	//3.注册collectionViewCell
-	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
-	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
-
-	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
-	[_profileCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
-
-	//4.设置代理
-	_profileCollectionView.delegate = self;
-	_profileCollectionView.dataSource = self;
-
 	[self initHeaderView];
-
-	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
-	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
-	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
-	_profileCollectionView.mj_footer = aFooter;
+	[self initCollectionView];
 }
 
 - (void)initBarButton {
@@ -193,24 +146,54 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	self.navigationItem.leftBarButtonItem = leftButton;
 	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
-
-	if (_isMyProfile) {
-		UIImage *settingButtonImage = [UIImage imageNamed:@"setting"];
-		MIAButton *settingButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, settingButtonImage.size.width, settingButtonImage.size.height * 2)
-														titleString:nil
-														 titleColor:nil
-															   font:nil
-															logoImg:settingButtonImage
-													backgroundImage:nil];
-		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
-		self.navigationItem.rightBarButtonItem = rightButton;
-		[settingButton addTarget:self action:@selector(settingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	}
+	UIImage *settingButtonImage = [UIImage imageNamed:@"setting"];
+	MIAButton *settingButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, settingButtonImage.size.width, settingButtonImage.size.height * 2)
+													titleString:nil
+													 titleColor:nil
+														   font:nil
+														logoImg:settingButtonImage
+												backgroundImage:nil];
+	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
+	self.navigationItem.rightBarButtonItem = rightButton;
+	[settingButton addTarget:self action:@selector(settingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)initHeaderView {
-	_profileHeaderView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kProfileHeaderHeight)];
-	_profileHeaderView.profileHeaderViewDelegate = self;
+	_headerView = [[ProfileHeaderView alloc] initWithFrame:CGRectMake(0,
+																	  0,
+																	  self.view.bounds.size.width,
+																	  [ProfileHeaderView headerHeight])];
+	_headerView.profileHeaderViewDelegate = self;
+}
+
+- (void)initCollectionView {
+	//1.初始化layout
+	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+
+	//该方法也可以设置itemSize
+	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
+	layout.itemSize =CGSizeMake(itemWidth, itemWidth);
+
+	//2.初始化collectionView
+	_collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+	[self.view addSubview:_collectionView];
+	_collectionView.backgroundColor = [UIColor whiteColor];
+
+	//3.注册collectionViewCell
+	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
+	[_collectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+
+	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
+	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
+
+	//4.设置代理
+	_collectionView.delegate = self;
+	_collectionView.dataSource = self;
+
+	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestShareList)];
+	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	_collectionView.mj_footer = aFooter;
 }
 
 - (void)initData {
@@ -239,7 +222,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								start:_currentPageStart
 								 item:kShareListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							[_profileCollectionView.mj_footer endRefreshing];
+							[_collectionView.mj_footer endRefreshing];
 							if (success) {
 								NSArray *shareList = userInfo[@"v"][@"info"];
 								if ([shareList count] <= 0) {
@@ -249,7 +232,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 								}
 
 								[_shareListModel addSharesWithArray:shareList];
-								[_profileCollectionView reloadData];
+								[_collectionView reloadData];
 								++_currentPageStart;
 								[self checkPlaceHolder];
 							} else {
@@ -259,7 +242,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 							}
 
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
-							[_profileCollectionView.mj_footer endRefreshing];
+							[_collectionView.mj_footer endRefreshing];
 							[self checkPlaceHolder];
 							if ([[WebSocketMgr standard] isOpen]) {
 								[HXAlertBanner showWithMessage:@"无法获取分享列表，网络请求超时" tap:nil];
@@ -269,7 +252,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)initAddShareView {
 	_addShareView = [[UIView alloc] init];
-	[_profileCollectionView addSubview:_addShareView];
+	[_collectionView addSubview:_addShareView];
 	[_addShareView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(noShareTouchAction:)]];
 
 	UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -289,8 +272,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[_addShareView addSubview:addMusicLabel];
 
 	[_addShareView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(_profileCollectionView.mas_left).offset(kProfileItemMarginH);
-		make.top.mas_equalTo(kProfileHeaderHeight);
+		make.left.equalTo(_collectionView.mas_left).offset(kProfileItemMarginH);
+		make.top.mas_equalTo([ProfileHeaderView headerHeight]);
 		CGFloat imageSize = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
 		make.size.mas_equalTo(CGSizeMake(imageSize, imageSize));
 	}];
@@ -316,7 +299,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)initNoNetworkView {
 	_noNetWorkView = [[UIView alloc] init];
-	[_profileCollectionView addSubview:_noNetWorkView];
+	[_collectionView addSubview:_noNetWorkView];
 
 	UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 	[iconImageView setImage:[UIImage imageNamed:@"NN-WiFiIcon"]];
@@ -331,8 +314,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[_noNetWorkView addSubview:wordLabel];
 
 	[_noNetWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(_profileCollectionView.mas_centerX);
-		make.top.mas_equalTo(kProfileHeaderHeight + 60);
+		make.centerX.equalTo(_collectionView.mas_centerX);
+		make.top.mas_equalTo([ProfileHeaderView headerHeight] + 60);
 	}];
 
 	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -393,37 +376,22 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (!_isMyProfile && indexPath.row == 0) {
-		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier
-																												 forIndexPath:indexPath];
-		cell.isBiggerCell = YES;
-		cell.isMyProfile = _isMyProfile;
-		cell.shareItem = _shareListModel.dataSource[indexPath.row];
-		return cell;
-	} else {
-		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
+	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier
 
-																												 forIndexPath:indexPath];
-		cell.isBiggerCell = NO;
-		cell.isMyProfile = _isMyProfile;
-		cell.shareItem = _shareListModel.dataSource[indexPath.row];
-		return cell;
-	}
+																											 forIndexPath:indexPath];
+	cell.isBiggerCell = NO;
+	cell.isMyProfile = YES;
+	cell.shareItem = _shareListModel.dataSource[indexPath.row];
+	return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
-
-	// 如果是客人态的话，第一个cell显示成长方形
-	if (!_isMyProfile && indexPath.row == 0) {
-		return CGSizeMake(self.view.frame.size.width - 2 * kProfileItemMarginH, itemWidth);
-	} else {
-		return CGSizeMake(itemWidth, itemWidth);
-	}
+	return CGSizeMake(itemWidth, itemWidth);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	return UIEdgeInsetsMake(0, 15, 0, 15);
+	return UIEdgeInsetsMake(1, 15, 0, 15);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -434,14 +402,15 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	return kProfileItemMarginV;
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	if (!_isMyProfile)
-		return nil;
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+	return CGSizeMake(self.view.frame.size.width, [ProfileHeaderView headerHeight]);
+}
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
 		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
 		if (contentView.subviews.count == 0) {
-			[contentView addSubview:_profileHeaderView];
+			[contentView addSubview:_headerView];
 		}
 		return contentView;
 	} else {
@@ -502,14 +471,14 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		[_favoriteViewController.favoriteCollectionView reloadData];
 	}
 
-	[_profileHeaderView updateFavoriteCount];
+	[_headerView updateFavoriteCount];
 }
 
 - (void)favoriteMgrDidFinishDownload {
 	if (_favoriteViewController) {
 		[_favoriteViewController.favoriteCollectionView reloadData];
 	}
-	[_profileHeaderView updateFavoriteCount];
+	[_headerView updateFavoriteCount];
 }
 
 - (int)favoriteViewControllerSelectAll:(BOOL)selected {
@@ -554,7 +523,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 			}
 		}
 
-		[_profileHeaderView updateFavoriteCount];
+		[_headerView updateFavoriteCount];
 
 		[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -591,12 +560,12 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	// 删除分享后需要从新获取分享列表
 	_currentPageStart = kDefaultPageFrom;
 	[_shareListModel.dataSource removeAllObjects];
-	[_profileCollectionView reloadData];
+	[_collectionView reloadData];
 	[self requestShareList];
 }
 
 - (void)detailViewControllerDismissWithoutDelete {
-	[_profileCollectionView reloadData];
+	[_collectionView reloadData];
 }
 
 #pragma mark - HXShareViewControllerDelegate
@@ -626,11 +595,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
-	[_profileHeaderView setIsPlaying:YES];
+	[_headerView setIsPlaying:YES];
 }
 
 - (void)songListPlayerDidPause {
-	[_profileHeaderView setIsPlaying:NO];
+	[_headerView setIsPlaying:NO];
 }
 
 - (void)songListPlayerDidCompletion {
@@ -782,13 +751,13 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[[MusicMgr standard] setCurrentPlayer:_songListPlayer];
 	[_songListPlayer playWithMusicItem:musicItem];
 
-	[_profileHeaderView setIsPlaying:YES];
+	[_headerView setIsPlaying:YES];
 	[_favoriteViewController setIsPlaying:YES];
 }
 
 - (void)pauseMusic {
 	[_songListPlayer pause];
-	[_profileHeaderView setIsPlaying:NO];
+	[_headerView setIsPlaying:NO];
 	[_favoriteViewController setIsPlaying:NO];
 }
 

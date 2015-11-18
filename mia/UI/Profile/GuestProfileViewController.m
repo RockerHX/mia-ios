@@ -28,7 +28,8 @@
 #import "UICollectionViewLeftAlignedLayout.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
-static NSString * const kProfileBiggerCellReuseIdentifier 	= @"ProfileBiggerCellId";
+static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
+static const CGFloat kProfileHeaderHeight					= 220;
 
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
@@ -46,6 +47,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	NSString 				*_nickName;
 
 	long 					_currentPageStart;
+
+	UIView					*_headerView;
+	UIImageView 			*_avatarImageView;
 
 	UICollectionView 		*_profileCollectionView;
 	ProfileShareModel 		*_shareListModel;
@@ -72,8 +76,18 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self initData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+	return UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -82,9 +96,69 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)initUI {
 	self.title = _nickName;
-	[self initBarButton];
+
+	_headerView = [[UIView alloc] initWithFrame:CGRectMake(0,
+														   0,
+														   self.view.bounds.size.width,
+														   kProfileHeaderHeight)];
+	_headerView.backgroundColor = [UIColor whiteColor];
+	[self initHeaderView:_headerView];
+
 	[self initCollectionView];
 	[self initNoShareView];
+
+	[_profileCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view.mas_top);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+		make.bottom.equalTo(self.view.mas_bottom);
+	}];
+}
+
+- (void)initHeaderView:(UIView *)contentView {
+	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
+	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height * 2)
+												 titleString:nil
+												  titleColor:nil
+														font:nil
+													 logoImg:backButtonImage
+											 backgroundImage:nil];
+	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[contentView addSubview:backButton];
+
+	[backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(contentView.mas_left).offset(13);
+		make.top.equalTo(contentView.mas_top).offset(30);
+	}];
+
+	static CGFloat kAvatarWidth = 70;
+	_avatarImageView = [[UIImageView alloc] init];
+	_avatarImageView.layer.cornerRadius = kAvatarWidth / 2;
+	_avatarImageView.clipsToBounds = YES;
+	_avatarImageView.layer.borderWidth = 0.5f;
+	_avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
+	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+	[contentView addSubview:_avatarImageView];
+
+	MIALabel *nickNameLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:_nickName
+															font:UIFontFromSize(17.0f)
+													   textColor:[UIColor blackColor]
+												   textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:nickNameLabel];
+
+	[_avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(kAvatarWidth, kAvatarWidth));
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.top.equalTo(contentView.mas_top).offset(85);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-65);
+	}];
+
+	[nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(contentView.mas_centerX);
+		make.top.equalTo(_avatarImageView.mas_bottom).offset(10);
+	}];
 }
 
 - (void)initCollectionView {
@@ -92,7 +166,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	UICollectionViewLeftAlignedLayout *layout = [[UICollectionViewLeftAlignedLayout alloc] init];
 
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeZero;
+	layout.headerReferenceSize = CGSizeMake(self.view.bounds.size.width, kProfileHeaderHeight);
 
 	//2.初始化collectionView
 	_profileCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -102,7 +176,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
 	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
-	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier];
+
+	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
+	[_profileCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
 
 	//4.设置代理
 	_profileCollectionView.delegate = self;
@@ -112,19 +188,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
 	_profileCollectionView.mj_footer = aFooter;
-}
-
-- (void)initBarButton {
-	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
-	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height * 2)
-												 titleString:nil
-												  titleColor:nil
-														font:nil
-													 logoImg:backButtonImage
-											 backgroundImage:nil];
-	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-	self.navigationItem.leftBarButtonItem = leftButton;
-	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)initData {
@@ -227,32 +290,20 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 0) {
-		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileBiggerCellReuseIdentifier forIndexPath:indexPath];
-		cell.isBiggerCell = YES;
-		cell.isMyProfile = NO;
-		cell.shareItem = _shareListModel.dataSource[indexPath.row];
-		return cell;
-	} else {
-		ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier forIndexPath:indexPath];
-		cell.isBiggerCell = NO;
-		cell.isMyProfile = NO;
-		cell.shareItem = _shareListModel.dataSource[indexPath.row];
-		return cell;
-	}
+	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kProfileCellReuseIdentifier forIndexPath:indexPath];
+	cell.isBiggerCell = NO;
+	cell.isMyProfile = NO;
+	cell.shareItem = _shareListModel.dataSource[indexPath.row];
+	return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 	CGFloat itemWidth = (self.view.frame.size.width - kProfileItemMarginH * 3) / 2;
-	if (indexPath.row == 0) {
-		return CGSizeMake(self.view.frame.size.width - 2 * kProfileItemMarginH, itemWidth);
-	} else {
-		return CGSizeMake(itemWidth, itemWidth);
-	}
+	return CGSizeMake(itemWidth, itemWidth);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	return UIEdgeInsetsMake(15, 15, 15, 15);
+	return UIEdgeInsetsMake(1, 15, 15, 15);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -261,6 +312,19 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginV;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
+		if (contentView.subviews.count == 0) {
+			[contentView addSubview:_headerView];
+		}
+		return contentView;
+	} else {
+		NSLog(@"It's maybe a bug.");
+		return nil;
+	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
