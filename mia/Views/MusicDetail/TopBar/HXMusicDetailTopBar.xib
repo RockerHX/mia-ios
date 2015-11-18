@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXMusicDetailTopBar">
+            <connections>
+                <outlet property="singerNameLabel" destination="NTK-qW-mZ0" id="iDf-3z-1PT"/>
+                <outlet property="songNameLabel" destination="OAz-hb-s37" id="PQl-RO-Qma"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="341" height="62"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-fr-NVx" userLabel="返回按钮">
+                    <rect key="frame" x="15" y="15" width="32" height="32"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="iQu-c2-fE3"/>
+                        <constraint firstAttribute="width" secondItem="1hW-fr-NVx" secondAttribute="height" multiplier="1:1" id="m5b-h5-sDX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" image="HP-ProfileIcon"/>
+                    <connections>
+                        <action selector="backButtonPressed" destination="-1" eventType="touchUpInside" id="Qfg-ec-eNp"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAz-hb-s37" userLabel="歌曲名显示栏">
+                    <rect key="frame" x="55" y="13" width="232" height="20"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="KjD-IJ-CIm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTK-qW-mZ0" userLabel="歌手名显示栏">
+                    <rect key="frame" x="55" y="33" width="232" height="17"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="LvN-L6-Ahb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="1hW-fr-NVx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="39e-Ui-Rbv"/>
+                <constraint firstItem="OAz-hb-s37" firstAttribute="top" secondItem="1hW-fr-NVx" secondAttribute="top" constant="-2" id="3d7-IS-tUg"/>
+                <constraint firstItem="NTK-qW-mZ0" firstAttribute="centerX" secondItem="OAz-hb-s37" secondAttribute="centerX" id="PaJ-df-MZh"/>
+                <constraint firstItem="NTK-qW-mZ0" firstAttribute="width" secondItem="OAz-hb-s37" secondAttribute="width" id="UWy-01-gFp"/>
+                <constraint firstItem="NTK-qW-mZ0" firstAttribute="top" secondItem="OAz-hb-s37" secondAttribute="baseline" constant="5" id="Yw2-aG-87F"/>
+                <constraint firstItem="OAz-hb-s37" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dR3-k9-4MB"/>
+                <constraint firstItem="OAz-hb-s37" firstAttribute="leading" secondItem="1hW-fr-NVx" secondAttribute="trailing" constant="8" id="kG3-Cw-pEQ"/>
+                <constraint firstItem="1hW-fr-NVx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="m72-vS-dSF"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="333.5" y="264"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="HP-ProfileIcon" width="32" height="32"/>
+    </resources>
+</document>
