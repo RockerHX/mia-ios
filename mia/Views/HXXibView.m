@@ -27,13 +27,14 @@
     return self;
 }
 
-#pragma mark - Private Methods
+#pragma mark - Public Methods
 - (void)xibSetup {
     UIView *view = [self loadViewFromNib];
     view.frame = self.bounds;
     [self addSubview:view];
 }
 
+#pragma mark - Private Methods
 - (UIView *)loadViewFromNib {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     UINib *nib = [UINib nibWithNibName:NSStringFromClass([self class]) bundle:bundle];
