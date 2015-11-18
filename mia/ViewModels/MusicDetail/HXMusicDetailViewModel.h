@@ -11,10 +11,8 @@
 
 typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
     HXMusicDetailRowCover,
-    HXMusicDetailRowSong,
     HXMusicDetailRowShare,
     HXMusicDetailRowInfect,
-    HXMusicDetailRowPrompt,
     HXMusicDetailRowNoComment,
     HXMusicDetailRowComment
 };

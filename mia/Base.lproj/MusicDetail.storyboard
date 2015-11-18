@@ -54,6 +54,9 @@
                             <constraint firstAttribute="trailing" secondItem="GTM-9E-ajt" secondAttribute="trailing" id="za7-5r-GHN"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="detailView" destination="GTM-9E-ajt" id="FtB-x1-n9d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nUW-tx-ep7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

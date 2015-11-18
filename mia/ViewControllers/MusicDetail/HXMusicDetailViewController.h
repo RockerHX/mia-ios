@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class ShareItem;
-@class HXGrowingTextView;
+@class HXCardDetailView;
 
 @protocol HXMusicDetailViewControllerDelegate <NSObject>
 
@@ -19,21 +19,12 @@
 
 @end
 
-@interface HXMusicDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface HXMusicDetailViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, weak, nullable) IBOutlet id  <HXMusicDetailViewControllerDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewBottomConstraint;
-@property (weak, nonatomic) IBOutlet HXGrowingTextView *editCommentView;
+@property (nonatomic, weak, nullable) IBOutlet HXCardDetailView *detailView;
 
-@property (weak, nonatomic) id<HXMusicDetailViewControllerDelegate> customDelegate;
-
-@property (nonatomic, assign) BOOL fromProfile;
-@property (nonatomic, strong) ShareItem *playItem;
-
-- (IBAction)backButtonPressed;
-- (IBAction)moreButtonPressed;
-- (IBAction)commentButtonPressed;
-- (IBAction)sendButtonPressed;
+@property (nonatomic, strong, nullable) ShareItem *playItem;
 
 @end

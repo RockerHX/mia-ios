@@ -15,17 +15,17 @@
 @protocol HXMusicDetailShareCellDelegate <NSObject>
 
 @required
-- (void)cellUserWouldLikeSeeSharerInfo:(HXMusicDetailShareCell *)cell;
+- (void)cellUserWouldLikeSeeSharerInfo:(nullable HXMusicDetailShareCell *)cell;
 
 @end
 
 @interface HXMusicDetailShareCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet                 id  <HXMusicDetailShareCellDelegate>delegate;
+@property (nonatomic, weak, nullable) IBOutlet                 id  <HXMusicDetailShareCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet            UILabel *shareNickNameLabel;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *shareReasonLabel;
+@property (nonatomic, weak, nullable) IBOutlet            UILabel *shareNickNameLabel;
+@property (nonatomic, weak, nullable) IBOutlet TTTAttributedLabel *shareReasonLabel;
 
-- (void)displayWithShareItem:(ShareItem *)item;
+- (void)displayWithShareItem:(nullable ShareItem *)item;
 
 @end

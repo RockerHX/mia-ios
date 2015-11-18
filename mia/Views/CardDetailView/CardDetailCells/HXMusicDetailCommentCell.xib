@@ -3,63 +3,51 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXMusicDetailCommentCell" rowHeight="139" id="jl4-z2-hci" customClass="HXMusicDetailCommentCell">
-            <rect key="frame" x="0.0" y="0.0" width="387" height="139"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXMusicDetailCommentCell" rowHeight="59" id="jl4-z2-hci" customClass="HXMusicDetailCommentCell">
+            <rect key="frame" x="0.0" y="0.0" width="244" height="59"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jl4-z2-hci" id="yVN-rt-keI">
-                <rect key="frame" x="0.0" y="0.0" width="387" height="138"/>
+                <rect key="frame" x="0.0" y="0.0" width="244" height="58"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vBu-Ek-VLj">
-                        <rect key="frame" x="15" y="0.0" width="35" height="35"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ycF-rq-chY" userLabel="Container View">
+                        <rect key="frame" x="30" y="0.0" width="144" height="50"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评论者：评论内容" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vu-RW-vQh" userLabel="评论内容">
+                                <rect key="frame" x="8" y="8" width="128" height="34"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="35" id="0za-6p-Sh5"/>
-                            <constraint firstAttribute="width" secondItem="vBu-Ek-VLj" secondAttribute="height" multiplier="1:1" id="Gl9-kO-aSb"/>
+                            <constraint firstAttribute="trailing" secondItem="1Vu-RW-vQh" secondAttribute="trailing" constant="8" id="1St-qt-dO9"/>
+                            <constraint firstItem="1Vu-RW-vQh" firstAttribute="leading" secondItem="ycF-rq-chY" secondAttribute="leading" constant="8" id="C6o-9O-KZH"/>
+                            <constraint firstItem="1Vu-RW-vQh" firstAttribute="top" secondItem="ycF-rq-chY" secondAttribute="top" constant="8" id="xGJ-9Z-jv2"/>
+                            <constraint firstAttribute="bottom" secondItem="1Vu-RW-vQh" secondAttribute="bottom" constant="8" id="xcU-Kc-T9A"/>
                         </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评论者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvM-xo-7ws">
-                        <rect key="frame" x="62" y="0.0" width="317" height="17"/>
-                        <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="评论内容" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="P7b-yo-qyi">
-                        <rect key="frame" x="62" y="17" width="317" height="106"/>
-                        <animations/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="vBu-Ek-VLj" firstAttribute="leading" secondItem="yVN-rt-keI" secondAttribute="leading" constant="15" id="4dr-lw-lYf"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="vBu-Ek-VLj" secondAttribute="bottom" constant="15" id="8cn-1i-w9V"/>
-                    <constraint firstAttribute="trailing" secondItem="cvM-xo-7ws" secondAttribute="trailing" constant="8" id="Qcp-Va-8Lk"/>
-                    <constraint firstItem="cvM-xo-7ws" firstAttribute="leading" secondItem="vBu-Ek-VLj" secondAttribute="trailing" constant="12" id="T1X-lC-lLh"/>
-                    <constraint firstItem="vBu-Ek-VLj" firstAttribute="top" secondItem="yVN-rt-keI" secondAttribute="top" id="dj8-wA-YLL"/>
-                    <constraint firstItem="P7b-yo-qyi" firstAttribute="trailing" secondItem="cvM-xo-7ws" secondAttribute="trailing" id="hk6-Bu-BJ5"/>
-                    <constraint firstItem="P7b-yo-qyi" firstAttribute="leading" secondItem="cvM-xo-7ws" secondAttribute="leading" id="i64-BH-lRh"/>
-                    <constraint firstItem="cvM-xo-7ws" firstAttribute="top" secondItem="vBu-Ek-VLj" secondAttribute="top" id="qxA-uI-UMK"/>
-                    <constraint firstAttribute="bottom" secondItem="P7b-yo-qyi" secondAttribute="bottom" constant="15" id="sVT-5H-tJ5"/>
-                    <constraint firstItem="P7b-yo-qyi" firstAttribute="top" secondItem="cvM-xo-7ws" secondAttribute="bottom" id="y1o-IG-sf5"/>
+                    <constraint firstAttribute="bottom" secondItem="ycF-rq-chY" secondAttribute="bottom" constant="8" id="9gz-D9-gYZ"/>
+                    <constraint firstItem="ycF-rq-chY" firstAttribute="leading" secondItem="yVN-rt-keI" secondAttribute="leading" constant="30" id="JND-cU-mAx"/>
+                    <constraint firstItem="ycF-rq-chY" firstAttribute="top" secondItem="yVN-rt-keI" secondAttribute="top" id="p8I-8G-Qsa"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
-                <outlet property="contentLabel" destination="P7b-yo-qyi" id="aEj-lq-sTB"/>
-                <outlet property="header" destination="vBu-Ek-VLj" id="z6N-ci-JLd"/>
-                <outlet property="nameLabel" destination="cvM-xo-7ws" id="GWW-77-D4j"/>
+                <outlet property="containerView" destination="ycF-rq-chY" id="Vnp-aF-8wu"/>
+                <outlet property="contentLabel" destination="1Vu-RW-vQh" id="dGR-2B-Wa2"/>
             </connections>
-            <point key="canvasLocation" x="221.5" y="332.5"/>
+            <point key="canvasLocation" x="150" y="292.5"/>
         </tableViewCell>
     </objects>
 </document>

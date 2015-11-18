@@ -14,8 +14,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04d-if-Unn" customClass="HXInfectUserView">
-                        <rect key="frame" x="83" y="0.0" width="100" height="35"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04d-if-Unn" userLabel="妙推头像视图" customClass="HXInfectUserView">
+                        <rect key="frame" x="30" y="0.0" width="100" height="35"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hv8-Yf-Fym">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
@@ -36,20 +36,20 @@
                             <outlet property="widthConstraint" destination="xky-zf-DVJ" id="vId-NQ-qne"/>
                         </connections>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(人数)人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ax6-bk-Gq3" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="188" y="9" width="86" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(人数)人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ax6-bk-Gq3" userLabel="妙推人数提示栏" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="135" y="9" width="86" height="18"/>
                         <animations/>
                         <gestureRecognizers/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="04d-if-Unn" firstAttribute="centerX" secondItem="6hL-98-9FG" secondAttribute="centerX" constant="-27" id="3B1-CY-86b"/>
                     <constraint firstItem="Ax6-bk-Gq3" firstAttribute="leading" secondItem="04d-if-Unn" secondAttribute="trailing" constant="5" id="X9W-Yw-fX5"/>
                     <constraint firstItem="04d-if-Unn" firstAttribute="top" secondItem="6hL-98-9FG" secondAttribute="top" id="bHm-Th-kli"/>
+                    <constraint firstItem="04d-if-Unn" firstAttribute="leading" secondItem="6hL-98-9FG" secondAttribute="leading" constant="30" id="h69-xo-Uy0"/>
                     <constraint firstItem="Ax6-bk-Gq3" firstAttribute="centerY" secondItem="04d-if-Unn" secondAttribute="centerY" id="oia-eM-JP3"/>
                 </constraints>
             </tableViewCellContentView>

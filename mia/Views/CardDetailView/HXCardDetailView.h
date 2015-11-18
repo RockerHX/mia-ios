@@ -8,8 +8,12 @@
 
 #import "HXXibView.h"
 
+@class HXMusicDetailViewModel;
+
 @interface HXCardDetailView : HXXibView <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak, nullable) IBOutlet UITableView *tableView;
+
+- (void)displayWithViewModel:(nullable HXMusicDetailViewModel *)viewModel;
 
 @end

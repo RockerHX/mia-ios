@@ -30,7 +30,7 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
+- (void)displayWithViewModel:(nullable HXMusicDetailViewModel *)viewModel {
     ShareItem *item = viewModel.playItem;
     [self showInfectUsers:viewModel.playItem.infectUsers];
     [self displayPromptLabelWithCount:@(item.infectTotal).stringValue prompt:@"人妙推"];

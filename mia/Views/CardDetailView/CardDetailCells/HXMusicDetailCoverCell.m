@@ -68,7 +68,7 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
+- (void)displayWithViewModel:(nullable HXMusicDetailViewModel *)viewModel {
     _playItem = viewModel.playItem;
     [_coverImageView sd_setImageWithURL:viewModel.frontCoverURL];
     [self updatePlayState];

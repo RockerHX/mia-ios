@@ -50,15 +50,11 @@ typedef void(^CommentReuqestBlock)(BOOL);
 - (void)setupRowTypes {
     if (_playItem.infectUsers.count) {
         _rowTypes = @[@(HXMusicDetailRowCover),
-                      @(HXMusicDetailRowSong),
                       @(HXMusicDetailRowShare),
-                      @(HXMusicDetailRowInfect),
-                      @(HXMusicDetailRowPrompt)];
+                      @(HXMusicDetailRowInfect)];
     } else {
         _rowTypes = @[@(HXMusicDetailRowCover),
-                      @(HXMusicDetailRowSong),
-                      @(HXMusicDetailRowShare),
-                      @(HXMusicDetailRowPrompt)];
+                      @(HXMusicDetailRowShare)];
     }
 }
 

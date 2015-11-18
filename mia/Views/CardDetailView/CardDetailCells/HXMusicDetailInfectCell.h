@@ -16,17 +16,17 @@
 @protocol HXMusicDetailInfectCellDelegate <NSObject>
 
 @optional
-- (void)cellUserWouldLikeShowInfectList:(HXMusicDetailInfectCell *)cell;
+- (void)cellUserWouldLikeShowInfectList:(nullable HXMusicDetailInfectCell *)cell;
 
 @end
 
 @interface HXMusicDetailInfectCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet                 id  <HXMusicDetailInfectCellDelegate>delegate;
+@property (nonatomic, weak, nullable) IBOutlet                 id  <HXMusicDetailInfectCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet   HXInfectUserView *infectUserView;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *infectPromptLabel;
+@property (nonatomic, weak, nullable) IBOutlet   HXInfectUserView *infectUserView;
+@property (nonatomic, weak, nullable) IBOutlet TTTAttributedLabel *infectPromptLabel;
 
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
+- (void)displayWithViewModel:(nullable HXMusicDetailViewModel *)viewModel;
 
 @end

@@ -11,10 +11,9 @@
 
 @interface HXMusicDetailCommentCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *header;
-@property (weak, nonatomic) IBOutlet     UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *contentLabel;
+@property (nonatomic, weak, nullable) IBOutlet  UIView *containerView;
+@property (nonatomic, weak, nullable) IBOutlet UILabel *contentLabel;
 
-- (void)displayWithComment:(HXComment *)comment;
+- (void)displayWithComment:(nullable HXComment *)comment;
 
 @end

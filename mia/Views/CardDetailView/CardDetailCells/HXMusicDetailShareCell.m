@@ -30,7 +30,7 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayWithShareItem:(ShareItem *)item {
+- (void)displayWithShareItem:(nullable ShareItem *)item {
     [self displayShareContentLabelWithSharerName:[item.sNick stringByAppendingString:@"："] note:item.sNote];
 }
 

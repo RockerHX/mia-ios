@@ -438,8 +438,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 	HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
 	musicDetailViewController.playItem = [cell shareItem];
-	musicDetailViewController.fromProfile = YES;
-	musicDetailViewController.customDelegate = self;
+//	musicDetailViewController.fromProfile = YES;
+	musicDetailViewController.delegate = self;
 	[self.navigationController pushViewController:musicDetailViewController animated:YES];
 }
 

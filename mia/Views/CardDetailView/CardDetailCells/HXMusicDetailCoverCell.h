@@ -12,13 +12,13 @@
 
 @interface HXMusicDetailCoverCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet      UIView *coverView;
-@property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
-@property (weak, nonatomic) IBOutlet    UIButton *playButton;
+@property (nonatomic, weak, nullable) IBOutlet      UIView *coverView;
+@property (nonatomic, weak, nullable) IBOutlet UIImageView *coverImageView;
+@property (nonatomic, weak, nullable) IBOutlet    UIButton *playButton;
 
 - (IBAction)playButtonPressed;
 
-- (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
+- (void)displayWithViewModel:(nullable HXMusicDetailViewModel *)viewModel;
 - (void)stopPlay;
 
 @end
