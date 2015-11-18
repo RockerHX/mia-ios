@@ -12,4 +12,6 @@ IB_DESIGNABLE
 
 @interface HXXibView : UIView
 
+- (void)xibSetup;
+
 @end
