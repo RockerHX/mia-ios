@@ -55,7 +55,7 @@
     HXRadioView *radioView = nil;
     //create new view if no view is available for recycling
     if (!view){
-        view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.frame.size.width, carousel.frame.size.height)];
+        view = [[UIView alloc] initWithFrame:carousel.bounds];
         radioView = [HXRadioView initWithFrame:view.bounds delegate:self];
         radioView.tag = 1;
         [view addSubview:radioView];
