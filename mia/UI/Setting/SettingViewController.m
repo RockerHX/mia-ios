@@ -46,7 +46,7 @@ UITextFieldDelegate>
 	UIImageView 	*_avatarImageView;
 	UITextField 	*_nickNameTextField;
 	MIALabel 		*_genderLabel;
-	UISwitch 		*_autoPlaySwitch;
+	UISwitch 		*_locationSwitch;
 	UISwitch 		*_playWith3GSwitch;
 	MIALabel 		*_cacheSizeLabel;
 
@@ -378,9 +378,9 @@ UITextFieldDelegate>
 	_playSettingView.backgroundColor = [UIColor whiteColor];
 	[_scrollContentView addSubview:_playSettingView];
 
-//	UIView *autoPlayView = [[UIView alloc] init];
-//	//autoPlayView.backgroundColor = [UIColor orangeColor];
-//	[_playSettingView addSubview:autoPlayView];
+	UIView *locationSettingView = [[UIView alloc] init];
+	//locationSettingView.backgroundColor = [UIColor orangeColor];
+	[_playSettingView addSubview:locationSettingView];
 
 	UIView *playWith3GView = [[UIView alloc] init];
 	//playWith3GView.backgroundColor = [UIColor greenColor];
@@ -397,16 +397,16 @@ UITextFieldDelegate>
 		make.right.equalTo(_scrollContentView.mas_right);
 	}];
 
-//	[autoPlayView mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.height.equalTo(@50);
-//		make.left.equalTo(_playSettingView.mas_left);
-//		make.top.equalTo(_playSettingView.mas_top);
-//		make.right.equalTo(_playSettingView.mas_right);
-//	}];
-	[playWith3GView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[locationSettingView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@50);
 		make.left.equalTo(_playSettingView.mas_left);
 		make.top.equalTo(_playSettingView.mas_top);
+		make.right.equalTo(_playSettingView.mas_right);
+	}];
+	[playWith3GView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@50);
+		make.left.equalTo(_playSettingView.mas_left);
+		make.top.equalTo(locationSettingView.mas_bottom);
 		make.right.equalTo(_playSettingView.mas_right);
 	}];
 	[cleanCacheView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -417,36 +417,36 @@ UITextFieldDelegate>
 		make.bottom.equalTo(_playSettingView.mas_bottom);
 	}];
 
-//	[self initAutoPlayView:autoPlayView];
+	[self initLocationSettingView:locationSettingView];
 	[self initPlayWith3GView:playWith3GView];
 	[self initCleanCache:cleanCacheView];
 }
 
-- (void)initAutoPlayView:(UIView *)contentView {
-	MIALabel *autoPlayLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-														 text:@"启动后自动播放"
+- (void)initLocationSettingView:(UIView *)contentView {
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+														 text:@"不接收附近人分享的音乐"
 														 font:UIFontFromSize(16.0f)
 													textColor:[UIColor blackColor]
 												textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
-	[contentView addSubview:autoPlayLabel];
+	[contentView addSubview:titleLabel];
 
-	_autoPlaySwitch = [[UISwitch alloc] init];
-	[_autoPlaySwitch setOn:[UserSetting autoPlay]];
-	[_autoPlaySwitch addTarget:self action:@selector(autoPlaySwitchAction:) forControlEvents:UIControlEventValueChanged];
-	[contentView addSubview:_autoPlaySwitch];
+	_locationSwitch = [[UISwitch alloc] init];
+	[_locationSwitch setOn:[UserSession standard].disableNearbyRecommend];
+	[_locationSwitch addTarget:self action:@selector(locationSwitchAction:) forControlEvents:UIControlEventValueChanged];
+	[contentView addSubview:_locationSwitch];
 
 	UIView *lineView = [[UIView alloc] init];
 	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
 	[contentView addSubview:lineView];
 
-	[autoPlayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@200);
 		make.left.equalTo(contentView.mas_left).offset(15);
 		make.top.equalTo(contentView.mas_top);
 		make.bottom.equalTo(contentView.mas_bottom);
 	}];
-	[_autoPlaySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_locationSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.width.equalTo(@50);
 		make.right.equalTo(contentView.mas_right).offset(-15);
 		make.top.equalTo(contentView.mas_top).offset(10);
@@ -459,6 +459,7 @@ UITextFieldDelegate>
 		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 }
+
 - (void)initPlayWith3GView:(UIView *)contentView {
 	MIALabel *playWith3GLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														   text:@"在2G/3G/4G网络下播放"
@@ -825,8 +826,9 @@ UITextFieldDelegate>
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)autoPlaySwitchAction:(id)sender {
-	[UserSetting setAutoPlay:_autoPlaySwitch.isOn];
+- (void)locationSwitchAction:(id)sender {
+#warning TODO @eden
+	// 配合服务器修改
 }
 
 - (void)playWith3GSwitchAction:(id)sender {
