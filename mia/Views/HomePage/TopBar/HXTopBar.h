@@ -8,6 +8,8 @@
 
 #import "HXXibView.h"
 
+@class ShareItem;
+
 typedef NS_ENUM(NSUInteger, HXTopBarAction) {
     HXTopBarActionProfile,
     HXTopBarActionShare
@@ -33,5 +35,6 @@ typedef NS_ENUM(NSUInteger, HXTopBarAction) {
 
 - (void)updateProfileButtonImage:(nullable UIImage *)image;
 - (void)updateProfileButtonWithUnreadCount:(NSInteger)unreadCommentCount;
+- (void)updateMusicInfoWithItem:(nullable ShareItem *)item;
 
 @end

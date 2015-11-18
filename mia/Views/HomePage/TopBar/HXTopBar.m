@@ -9,6 +9,7 @@
 #import "HXTopBar.h"
 #import "UserSession.h"
 #import "UIButton+WebCache.h"
+#import "ShareItem.h"
 
 @implementation HXTopBar
 
@@ -48,7 +49,7 @@
 }
 
 #pragma mark - Public Methods
-- (void)updateProfileButtonImage:(UIImage *)image {
+- (void)updateProfileButtonImage:(nullable UIImage *)image {
     [_profileButton setImage:image forState:UIControlStateNormal];
 }
 
@@ -64,6 +65,11 @@
         [_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
         [_profileButton setTitle:[NSString stringWithFormat:@"%zd", unreadCommentCount] forState:UIControlStateNormal];
     }
+}
+
+- (void)updateMusicInfoWithItem:(nullable ShareItem *)item {
+    _songNameLabel.text = item.music.name;
+    _singerNameLabel.text = item.music.singerName;
 }
 
 @end

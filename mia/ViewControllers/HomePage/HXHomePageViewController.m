@@ -412,13 +412,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 
 - (void)shouldDisplayInfectUsers:(ShareItem *)item {
     _playItem = item;
-//    BOOL isInfected = item.isInfected;
-//    NSArray *infectUsers = item.infectUsers;
-//    [self showInfectUsers:infectUsers];
-//    [self displayWithInfectState:isInfected];
-//    
-//    NSInteger infectUsersCount = infectUsers.count;
-//    [self showinfectCountRightPromptLabel:(infectUsersCount && !isInfected) withCount:item.infectTotal];
+    [_topBar updateMusicInfoWithItem:item];
 }
 
 @end

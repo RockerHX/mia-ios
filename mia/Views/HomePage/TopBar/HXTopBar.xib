@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="341" height="62"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-fr-NVx">
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-fr-NVx" userLabel="个人详情页按钮">
                     <rect key="frame" x="15" y="15" width="32" height="32"/>
                     <animations/>
                     <constraints>
@@ -33,7 +33,7 @@
                         <action selector="profileButtonPressed" destination="-1" eventType="touchUpInside" id="mqI-80-Z0G"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaU-K2-t2i">
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaU-K2-t2i" userLabel="分享按钮">
                     <rect key="frame" x="295" y="15" width="32" height="32"/>
                     <animations/>
                     <constraints>
@@ -45,16 +45,22 @@
                         <action selector="shareButtonPressed" destination="-1" eventType="touchUpInside" id="T2d-2M-yJX"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAz-hb-s37">
-                    <rect key="frame" x="147" y="13" width="48" height="20"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAz-hb-s37" userLabel="歌曲名显示栏">
+                    <rect key="frame" x="55" y="13" width="232" height="20"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="KjD-IJ-CIm"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌手名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTK-qW-mZ0">
-                    <rect key="frame" x="147" y="33" width="48" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTK-qW-mZ0" userLabel="歌手名显示栏">
+                    <rect key="frame" x="55" y="33" width="232" height="17"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="LvN-L6-Ahb"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -71,7 +77,9 @@
                 <constraint firstItem="NTK-qW-mZ0" firstAttribute="top" secondItem="OAz-hb-s37" secondAttribute="baseline" constant="5" id="Yw2-aG-87F"/>
                 <constraint firstItem="PaU-K2-t2i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="a9K-oW-suM"/>
                 <constraint firstItem="OAz-hb-s37" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dR3-k9-4MB"/>
+                <constraint firstItem="OAz-hb-s37" firstAttribute="leading" secondItem="1hW-fr-NVx" secondAttribute="trailing" constant="8" id="kG3-Cw-pEQ"/>
                 <constraint firstItem="1hW-fr-NVx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="m72-vS-dSF"/>
+                <constraint firstItem="PaU-K2-t2i" firstAttribute="leading" secondItem="OAz-hb-s37" secondAttribute="trailing" constant="8" id="rXc-CI-7k9"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
