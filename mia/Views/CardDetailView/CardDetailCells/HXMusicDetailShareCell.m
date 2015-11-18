@@ -25,8 +25,8 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _shareInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 95.0f;
-    _shareInfoLabel.delegate = self;
+    _shareReasonLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 95.0f;
+    _shareReasonLabel.delegate = self;
 }
 
 #pragma mark - Public Methods
@@ -37,27 +37,27 @@
 #pragma mark - Private Methods
 - (void)displayShareContentLabelWithSharerName:(NSString *)sharerName note:(NSString *)note {
     NSString *text = [NSString stringWithFormat:@"%@%@", sharerName, note];
-    CGFloat labelWidth = _shareInfoLabel.frame.size.width;
+    CGFloat labelWidth = _shareReasonLabel.frame.size.width;
     CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
-    UIFont *labelFont = _shareInfoLabel.font;
+    UIFont *labelFont = _shareReasonLabel.font;
     CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
     CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
     if (textHeight > lineHeight) {
-        _shareInfoLabel.textAlignment = NSTextAlignmentLeft;
+        _shareReasonLabel.textAlignment = NSTextAlignmentLeft;
     } else {
-        _shareInfoLabel.textAlignment = NSTextAlignmentCenter;
+        _shareReasonLabel.textAlignment = NSTextAlignmentCenter;
     }
     
-    _shareInfoLabel.text = text;
-    NSRange range = [_shareInfoLabel.text rangeOfString:(sharerName ?: @"")];
-    [_shareInfoLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
-    NSMutableDictionary *linkAttributes = _shareInfoLabel.linkAttributes.mutableCopy;
+    _shareReasonLabel.text = text;
+    NSRange range = [_shareReasonLabel.text rangeOfString:(sharerName ?: @"")];
+    [_shareReasonLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+    NSMutableDictionary *linkAttributes = _shareReasonLabel.linkAttributes.mutableCopy;
     [linkAttributes setValue:@(0) forKey:@"NSUnderline"];
     [linkAttributes setValue:UIColorFromHex(@"4383e9", 1.0f) forKey:@"CTForegroundColor"];
-    _shareInfoLabel.linkAttributes = linkAttributes;
-    NSMutableDictionary *activeLinkAttributes = _shareInfoLabel.activeLinkAttributes.mutableCopy;
+    _shareReasonLabel.linkAttributes = linkAttributes;
+    NSMutableDictionary *activeLinkAttributes = _shareReasonLabel.activeLinkAttributes.mutableCopy;
     [activeLinkAttributes setValue:UIColorFromHex(@"4383e9", 1.0f) forKey:@"CTForegroundColor"];
-    _shareInfoLabel.activeLinkAttributes = activeLinkAttributes;
+    _shareReasonLabel.activeLinkAttributes = activeLinkAttributes;
 }
 
 

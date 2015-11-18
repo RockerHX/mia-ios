@@ -39,10 +39,6 @@
 
 - (void)viewConfig {
     [self configFrontCover];
-    
-    if ([HXVersion isIPhone5SPrior]) {
-        _coverToTopConstraint.constant = 25.0f;
-    }
 }
 
 - (void)configFrontCover {

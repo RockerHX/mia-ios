@@ -167,9 +167,12 @@
 		CDCEDD1B1BFC21D1002A9706 /* HXMusicDetailCoverCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDD0F1BFC21D1002A9706 /* HXMusicDetailCoverCell.m */; };
 		CDCEDD1C1BFC21D1002A9706 /* HXMusicDetailInfectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDD111BFC21D1002A9706 /* HXMusicDetailInfectCell.m */; };
 		CDCEDD1D1BFC21D1002A9706 /* HXMusicDetailNoCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDD131BFC21D1002A9706 /* HXMusicDetailNoCommentCell.m */; };
-		CDCEDD1E1BFC21D1002A9706 /* HXMusicDetailPromptCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDD151BFC21D1002A9706 /* HXMusicDetailPromptCell.m */; };
 		CDCEDD1F1BFC21D1002A9706 /* HXMusicDetailShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDD171BFC21D1002A9706 /* HXMusicDetailShareCell.m */; };
-		CDCEDD201BFC21D1002A9706 /* HXMusicDetailSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCEDD191BFC21D1002A9706 /* HXMusicDetailSongCell.m */; };
+		CDCEDD221BFC2290002A9706 /* HXMusicDetailCoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDD211BFC2290002A9706 /* HXMusicDetailCoverCell.xib */; };
+		CDCEDD261BFC22A1002A9706 /* HXMusicDetailShareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDD251BFC22A1002A9706 /* HXMusicDetailShareCell.xib */; };
+		CDCEDD281BFC22A7002A9706 /* HXMusicDetailInfectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDD271BFC22A7002A9706 /* HXMusicDetailInfectCell.xib */; };
+		CDCEDD2C1BFC22B5002A9706 /* HXMusicDetailNoCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDD2B1BFC22B5002A9706 /* HXMusicDetailNoCommentCell.xib */; };
+		CDCEDD2E1BFC22BA002A9706 /* HXMusicDetailCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDCEDD2D1BFC22BA002A9706 /* HXMusicDetailCommentCell.xib */; };
 		CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8314F1BD8B6550067309B /* HXAlertBanner.m */; };
 		CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831501BD8B6550067309B /* HXAlertBanner.xib */; };
 		CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831531BD8B6550067309B /* HXNoNetworkView.m */; };
@@ -473,12 +476,13 @@
 		CDCEDD111BFC21D1002A9706 /* HXMusicDetailInfectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailInfectCell.m; sourceTree = "<group>"; };
 		CDCEDD121BFC21D1002A9706 /* HXMusicDetailNoCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailNoCommentCell.h; sourceTree = "<group>"; };
 		CDCEDD131BFC21D1002A9706 /* HXMusicDetailNoCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailNoCommentCell.m; sourceTree = "<group>"; };
-		CDCEDD141BFC21D1002A9706 /* HXMusicDetailPromptCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailPromptCell.h; sourceTree = "<group>"; };
-		CDCEDD151BFC21D1002A9706 /* HXMusicDetailPromptCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailPromptCell.m; sourceTree = "<group>"; };
 		CDCEDD161BFC21D1002A9706 /* HXMusicDetailShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailShareCell.h; sourceTree = "<group>"; };
 		CDCEDD171BFC21D1002A9706 /* HXMusicDetailShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailShareCell.m; sourceTree = "<group>"; };
-		CDCEDD181BFC21D1002A9706 /* HXMusicDetailSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailSongCell.h; sourceTree = "<group>"; };
-		CDCEDD191BFC21D1002A9706 /* HXMusicDetailSongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailSongCell.m; sourceTree = "<group>"; };
+		CDCEDD211BFC2290002A9706 /* HXMusicDetailCoverCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMusicDetailCoverCell.xib; sourceTree = "<group>"; };
+		CDCEDD251BFC22A1002A9706 /* HXMusicDetailShareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMusicDetailShareCell.xib; sourceTree = "<group>"; };
+		CDCEDD271BFC22A7002A9706 /* HXMusicDetailInfectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMusicDetailInfectCell.xib; sourceTree = "<group>"; };
+		CDCEDD2B1BFC22B5002A9706 /* HXMusicDetailNoCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMusicDetailNoCommentCell.xib; sourceTree = "<group>"; };
+		CDCEDD2D1BFC22BA002A9706 /* HXMusicDetailCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMusicDetailCommentCell.xib; sourceTree = "<group>"; };
 		CDD8314E1BD8B6550067309B /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
 		CDD8314F1BD8B6550067309B /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
 		CDD831501BD8B6550067309B /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
@@ -1601,20 +1605,21 @@
 		CDCEDD0B1BFC21D1002A9706 /* CardDetailCells */ = {
 			isa = PBXGroup;
 			children = (
-				CDCEDD0C1BFC21D1002A9706 /* HXMusicDetailCommentCell.h */,
-				CDCEDD0D1BFC21D1002A9706 /* HXMusicDetailCommentCell.m */,
 				CDCEDD0E1BFC21D1002A9706 /* HXMusicDetailCoverCell.h */,
 				CDCEDD0F1BFC21D1002A9706 /* HXMusicDetailCoverCell.m */,
-				CDCEDD101BFC21D1002A9706 /* HXMusicDetailInfectCell.h */,
-				CDCEDD111BFC21D1002A9706 /* HXMusicDetailInfectCell.m */,
-				CDCEDD121BFC21D1002A9706 /* HXMusicDetailNoCommentCell.h */,
-				CDCEDD131BFC21D1002A9706 /* HXMusicDetailNoCommentCell.m */,
-				CDCEDD141BFC21D1002A9706 /* HXMusicDetailPromptCell.h */,
-				CDCEDD151BFC21D1002A9706 /* HXMusicDetailPromptCell.m */,
+				CDCEDD211BFC2290002A9706 /* HXMusicDetailCoverCell.xib */,
 				CDCEDD161BFC21D1002A9706 /* HXMusicDetailShareCell.h */,
 				CDCEDD171BFC21D1002A9706 /* HXMusicDetailShareCell.m */,
-				CDCEDD181BFC21D1002A9706 /* HXMusicDetailSongCell.h */,
-				CDCEDD191BFC21D1002A9706 /* HXMusicDetailSongCell.m */,
+				CDCEDD251BFC22A1002A9706 /* HXMusicDetailShareCell.xib */,
+				CDCEDD101BFC21D1002A9706 /* HXMusicDetailInfectCell.h */,
+				CDCEDD111BFC21D1002A9706 /* HXMusicDetailInfectCell.m */,
+				CDCEDD271BFC22A7002A9706 /* HXMusicDetailInfectCell.xib */,
+				CDCEDD121BFC21D1002A9706 /* HXMusicDetailNoCommentCell.h */,
+				CDCEDD131BFC21D1002A9706 /* HXMusicDetailNoCommentCell.m */,
+				CDCEDD2B1BFC22B5002A9706 /* HXMusicDetailNoCommentCell.xib */,
+				CDCEDD0C1BFC21D1002A9706 /* HXMusicDetailCommentCell.h */,
+				CDCEDD0D1BFC21D1002A9706 /* HXMusicDetailCommentCell.m */,
+				CDCEDD2D1BFC22BA002A9706 /* HXMusicDetailCommentCell.xib */,
 			);
 			path = CardDetailCells;
 			sourceTree = "<group>";
@@ -1792,10 +1797,12 @@
 				CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */,
 				39BF8C631BB23517003AB4FC /* default_cover@2x.png in Resources */,
 				39BF8C811BB2CDD5003AB4FC /* profile_banner_mask@2x.png in Resources */,
+				CDCEDD221BFC2290002A9706 /* HXMusicDetailCoverCell.xib in Resources */,
 				393CE9B01BB98D1300FCF232 /* pause_black@2x.png in Resources */,
 				CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */,
 				3997F8381BE856C400F6597D /* button_gray@2x.png in Resources */,
 				CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */,
+				CDCEDD2E1BFC22BA002A9706 /* HXMusicDetailCommentCell.xib in Resources */,
 				397F02E01B9EEEF500C413FE /* Images.xcassets in Resources */,
 				390BADD01BAFE188006269FD /* button_white@2x.png in Resources */,
 				390BADCB1BAFDDC3006269FD /* login_bg@2x.png in Resources */,
@@ -1807,6 +1814,7 @@
 				39CA061A1BAD67CC0074FD13 /* profile_with_notification@2x.png in Resources */,
 				390BADCF1BAFE188006269FD /* button_blue@2x.png in Resources */,
 				CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */,
+				CDCEDD2C1BFC22B5002A9706 /* HXMusicDetailNoCommentCell.xib in Resources */,
 				393CE9A81BB7A8CA00FCF232 /* favorite_downloaded@2x.png in Resources */,
 				CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */,
 				CDD831581BD8B6550067309B /* HXNoNetworkView.xib in Resources */,
@@ -1816,6 +1824,7 @@
 				390BADD11BAFE188006269FD /* login_logo@2x.png in Resources */,
 				3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */,
 				39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */,
+				CDCEDD281BFC22A7002A9706 /* HXMusicDetailInfectCell.xib in Resources */,
 				397FA52C1BAC0CA7003FD186 /* arrow@2x.png in Resources */,
 				CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */,
 				CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */,
@@ -1829,6 +1838,7 @@
 				393CE9B11BB98D1300FCF232 /* play_black@2x.png in Resources */,
 				3990B1E31BCDF5C100D8B54B /* default_avatar@2x.png in Resources */,
 				3997F8361BE76EF700F6597D /* profile_views@2x.png in Resources */,
+				CDCEDD261BFC22A1002A9706 /* HXMusicDetailShareCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1928,7 +1938,6 @@
 				CD33626B1BD624A900240345 /* HXVersion.m in Sources */,
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				397CD59B1BDA16F200CCEE11 /* SingleSongPlayer.m in Sources */,
-				CDCEDD201BFC21D1002A9706 /* HXMusicDetailSongCell.m in Sources */,
 				397CD5A21BDA7F6100CCEE11 /* MusicMgr.m in Sources */,
 				3909696A1BDE60F600C55B20 /* SongPreloader.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
@@ -1990,7 +1999,6 @@
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
 				CDD8315E1BD8B6B60067309B /* HXInfectUserListView.m in Sources */,
 				393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */,
-				CDCEDD1E1BFC21D1002A9706 /* HXMusicDetailPromptCell.m in Sources */,
 				39FBCC981BE24F8900527A6C /* UpdateHelper.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,

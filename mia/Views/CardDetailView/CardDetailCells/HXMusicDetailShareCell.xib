@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailSongCell" rowHeight="95" id="2mh-vK-fow" customClass="HXMusicDetailShareCell">
+            <rect key="frame" x="0.0" y="0.0" width="404" height="95"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2mh-vK-fow" id="5di-y8-gdL">
+                <rect key="frame" x="0.0" y="0.0" width="404" height="94"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xaW-A2-3mu" userLabel="分享者昵称">
+                        <rect key="frame" x="30" y="0.0" width="344" height="21"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="分享理由" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XV5-p1-NR4" userLabel="分享理由" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="30" y="33" width="344" height="31"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pah-nl-kYo" userLabel="底部分隔线条">
+                        <rect key="frame" x="30" y="94" width="344" height="0.0"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.88235294119999996" green="0.8862745098" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="3iE-Tn-LaU"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="pah-nl-kYo" secondAttribute="trailing" constant="30" id="1N5-iI-Mlv"/>
+                    <constraint firstItem="xaW-A2-3mu" firstAttribute="width" secondItem="pah-nl-kYo" secondAttribute="width" id="69U-9H-dr6"/>
+                    <constraint firstItem="XV5-p1-NR4" firstAttribute="width" secondItem="pah-nl-kYo" secondAttribute="width" id="NLw-lU-zU7"/>
+                    <constraint firstItem="pah-nl-kYo" firstAttribute="leading" secondItem="5di-y8-gdL" secondAttribute="leading" constant="30" id="UxE-jO-aBn"/>
+                    <constraint firstAttribute="bottom" secondItem="pah-nl-kYo" secondAttribute="bottom" id="Wjj-Tx-8S3"/>
+                    <constraint firstItem="XV5-p1-NR4" firstAttribute="centerX" secondItem="5di-y8-gdL" secondAttribute="centerX" id="bgn-yF-uWN"/>
+                    <constraint firstItem="xaW-A2-3mu" firstAttribute="top" secondItem="5di-y8-gdL" secondAttribute="top" id="bi0-5T-hki"/>
+                    <constraint firstItem="XV5-p1-NR4" firstAttribute="top" secondItem="xaW-A2-3mu" secondAttribute="bottom" constant="12" id="dH5-7r-8c8"/>
+                    <constraint firstItem="pah-nl-kYo" firstAttribute="top" secondItem="XV5-p1-NR4" secondAttribute="bottom" constant="30" id="iNU-CQ-gGC"/>
+                    <constraint firstItem="xaW-A2-3mu" firstAttribute="centerX" secondItem="5di-y8-gdL" secondAttribute="centerX" id="yAB-0T-1Dd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="shareNickNameLabel" destination="xaW-A2-3mu" id="lkl-Np-5q5"/>
+                <outlet property="shareReasonLabel" destination="XV5-p1-NR4" id="HC1-AF-4Ys"/>
+            </connections>
+            <point key="canvasLocation" x="356" y="389.5"/>
+        </tableViewCell>
+    </objects>
+</document>

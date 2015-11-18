@@ -9,10 +9,8 @@
 #import "HXMusicDetailViewController.h"
 #import "HXMusicDetailViewModel.h"
 #import "HXMusicDetailCoverCell.h"
-#import "HXMusicDetailSongCell.h"
 #import "HXMusicDetailShareCell.h"
 #import "HXMusicDetailInfectCell.h"
-#import "HXMusicDetailPromptCell.h"
 #import "HXMusicDetailNoCommentCell.h"
 #import "HXMusicDetailCommentCell.h"
 #import "ShareItem.h"
@@ -30,7 +28,7 @@
 #import "FavoriteMgr.h"
 #import "HXNavigationController.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -262,8 +260,8 @@
                 break;
             }
             case HXMusicDetailRowSong: {
-                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailSongCell *)cell displayWithPlayItem:_viewModel.playItem];
+//                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) forIndexPath:indexPath];
+//                [(HXMusicDetailSongCell *)cell displayWithPlayItem:_viewModel.playItem];
                 break;
             }
             case HXMusicDetailRowShare: {
@@ -277,8 +275,8 @@
                 break;
             }
             case HXMusicDetailRowPrompt: {
-                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailPromptCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
+//                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailPromptCell class]) forIndexPath:indexPath];
+//                [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
                 break;
             }
             case HXMusicDetailRowNoComment: {
@@ -306,10 +304,10 @@
                 break;
             }
             case HXMusicDetailRowSong: {
-                height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) cacheByIndexPath:indexPath configuration:
-                 ^(HXMusicDetailSongCell *cell) {
-                     [cell displayWithPlayItem:_viewModel.playItem];
-                }];
+//                height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) cacheByIndexPath:indexPath configuration:
+//                 ^(HXMusicDetailSongCell *cell) {
+//                     [cell displayWithPlayItem:_viewModel.playItem];
+//                }];
                 break;
             }
             case HXMusicDetailRowShare: {
@@ -350,38 +348,6 @@
         HXComment *comment = _viewModel.comments[indexPath.row - _viewModel.regularRow];
         GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
         [self.navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-#pragma mark - HXMusicDetailSongCellDelegate Methods
-- (void)cellUserWouldLikeStar:(HXMusicDetailSongCell *)cell {
-    if ([[UserSession standard] isLogined]) {
-        ShareItem *playItem = _viewModel.playItem;
-        [MiaAPIHelper favoriteMusicWithShareID:playItem.sID
-                                    isFavorite:!playItem.favorite
-                                 completeBlock:
-         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-             if (success) {
-                 id act = userInfo[MiaAPIKey_Values][@"act"];
-                 id sID = userInfo[MiaAPIKey_Values][@"id"];
-                 BOOL favorite = [act intValue];
-                 if ([playItem.sID integerValue] == [sID intValue]) {
-                     playItem.favorite = favorite;
-                     [cell updateStatStateWithFavorite:favorite];
-                 }
-                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
-
-				 // 收藏操作成功后同步下收藏列表并检查下载
-				 [[FavoriteMgr standard] syncFavoriteList];
-             } else {
-                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-             }
-         } timeoutBlock:^(MiaRequestItem *requestItem) {
-             [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
-         }];
-    } else {
-        [self presentLoginViewController];
     }
 }
 

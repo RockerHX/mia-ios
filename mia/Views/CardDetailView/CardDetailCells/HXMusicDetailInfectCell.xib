@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment version="2304" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailInfectCell" rowHeight="46" id="lTs-iJ-7Xd" customClass="HXMusicDetailInfectCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lTs-iJ-7Xd" id="6hL-98-9FG">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04d-if-Unn" customClass="HXInfectUserView">
+                        <rect key="frame" x="83" y="0.0" width="100" height="35"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hv8-Yf-Fym">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                                <animations/>
+                            </stackView>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstItem="hv8-Yf-Fym" firstAttribute="top" secondItem="04d-if-Unn" secondAttribute="top" id="LKq-vG-KwT"/>
+                            <constraint firstAttribute="bottom" secondItem="hv8-Yf-Fym" secondAttribute="bottom" id="TvC-Pe-GYg"/>
+                            <constraint firstItem="hv8-Yf-Fym" firstAttribute="leading" secondItem="04d-if-Unn" secondAttribute="leading" id="aAE-7d-iBh"/>
+                            <constraint firstAttribute="trailing" secondItem="hv8-Yf-Fym" secondAttribute="trailing" id="h36-6b-kEj"/>
+                            <constraint firstAttribute="height" constant="35" id="qgK-Qt-HQE"/>
+                            <constraint firstAttribute="width" constant="100" id="xky-zf-DVJ"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="stacView" destination="hv8-Yf-Fym" id="5qR-cp-rDY"/>
+                            <outlet property="widthConstraint" destination="xky-zf-DVJ" id="vId-NQ-qne"/>
+                        </connections>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(人数)人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ax6-bk-Gq3" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="188" y="9" width="86" height="18"/>
+                        <animations/>
+                        <gestureRecognizers/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="04d-if-Unn" firstAttribute="centerX" secondItem="6hL-98-9FG" secondAttribute="centerX" constant="-27" id="3B1-CY-86b"/>
+                    <constraint firstItem="Ax6-bk-Gq3" firstAttribute="leading" secondItem="04d-if-Unn" secondAttribute="trailing" constant="5" id="X9W-Yw-fX5"/>
+                    <constraint firstItem="04d-if-Unn" firstAttribute="top" secondItem="6hL-98-9FG" secondAttribute="top" id="bHm-Th-kli"/>
+                    <constraint firstItem="Ax6-bk-Gq3" firstAttribute="centerY" secondItem="04d-if-Unn" secondAttribute="centerY" id="oia-eM-JP3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="infectPromptLabel" destination="Ax6-bk-Gq3" id="YF3-e5-XRf"/>
+                <outlet property="infectUserView" destination="04d-if-Unn" id="TMa-A9-g3K"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

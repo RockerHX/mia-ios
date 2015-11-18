@@ -32,6 +32,15 @@
                         <constraint firstAttribute="height" constant="65" id="qLo-i7-3fg"/>
                     </constraints>
                 </imageView>
+                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
+                    <rect key="frame" x="53" y="219" width="214" height="5"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="4" id="PUk-Ch-fA0"/>
+                    </constraints>
+                    <color key="progressTintColor" red="0.2666666667" green="0.81960784310000001" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                </progressView>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EuO-ig-wsS">
                     <rect key="frame" x="133" y="90" width="55" height="55"/>
                     <animations/>
@@ -80,15 +89,6 @@
                         <outletCollection property="gestureRecognizers" destination="crf-jz-X8m" appends="YES" id="7DN-nD-6zh"/>
                     </connections>
                 </label>
-                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-Wc-Fx1">
-                    <rect key="frame" x="53" y="229" width="214" height="5"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="4" id="PUk-Ch-fA0"/>
-                    </constraints>
-                    <color key="progressTintColor" red="0.2666666667" green="0.81960784310000001" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                </progressView>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

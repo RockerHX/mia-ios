@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailCoverCell" rowHeight="342" id="scy-Y5-rb1" customClass="HXMusicDetailCoverCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="342"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="scy-Y5-rb1" id="WEb-4b-X3N">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="boy-mo-yBX" userLabel="Cover Content View">
+                        <rect key="frame" x="53" y="0.0" width="214" height="214"/>
+                        <subviews>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NTC-Yv-yJ3" userLabel="封面">
+                                <rect key="frame" x="0.0" y="0.0" width="214" height="214"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.94509803920000002" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                            </imageView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-CoverMask" translatesAutoresizingMaskIntoConstraints="NO" id="2E5-RE-pYD" userLabel="封面蒙版">
+                                <rect key="frame" x="0.0" y="149" width="214" height="65"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="w1j-gh-G8k"/>
+                                </constraints>
+                            </imageView>
+                            <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6F7-nz-4h4" userLabel="进度条">
+                                <rect key="frame" x="0.0" y="212" width="214" height="3"/>
+                                <animations/>
+                                <color key="progressTintColor" red="0.2666666667" green="0.81960784310000001" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gF9-ra-SwM" userLabel="播放按钮">
+                                <rect key="frame" x="79" y="80" width="55" height="55"/>
+                                <animations/>
+                                <state key="normal" image="HP-PauseIcon"/>
+                                <state key="selected" image="HP-PlayIcon"/>
+                                <connections>
+                                    <action selector="playButtonPressed" destination="scy-Y5-rb1" eventType="touchUpInside" id="Oyy-8h-Wmo"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2E5-RE-pYD" firstAttribute="leading" secondItem="boy-mo-yBX" secondAttribute="leading" id="27L-m4-I5x"/>
+                            <constraint firstAttribute="trailing" secondItem="6F7-nz-4h4" secondAttribute="trailing" id="EsW-ri-p1j"/>
+                            <constraint firstAttribute="bottom" secondItem="NTC-Yv-yJ3" secondAttribute="bottom" id="JJ9-hG-OxB"/>
+                            <constraint firstAttribute="bottom" secondItem="2E5-RE-pYD" secondAttribute="bottom" id="KJz-ru-f4i"/>
+                            <constraint firstItem="NTC-Yv-yJ3" firstAttribute="leading" secondItem="boy-mo-yBX" secondAttribute="leading" id="YDo-9y-86P"/>
+                            <constraint firstItem="gF9-ra-SwM" firstAttribute="centerY" secondItem="boy-mo-yBX" secondAttribute="centerY" id="aj7-Ys-qux"/>
+                            <constraint firstAttribute="trailing" secondItem="2E5-RE-pYD" secondAttribute="trailing" id="dhc-BF-Kyp"/>
+                            <constraint firstAttribute="bottom" secondItem="6F7-nz-4h4" secondAttribute="bottom" id="ey2-dx-PeA"/>
+                            <constraint firstAttribute="width" secondItem="boy-mo-yBX" secondAttribute="height" multiplier="1:1" id="gHz-OX-ulD"/>
+                            <constraint firstItem="6F7-nz-4h4" firstAttribute="leading" secondItem="boy-mo-yBX" secondAttribute="leading" id="iIl-mD-3aq"/>
+                            <constraint firstItem="gF9-ra-SwM" firstAttribute="centerX" secondItem="boy-mo-yBX" secondAttribute="centerX" id="jGR-qw-XSu"/>
+                            <constraint firstItem="NTC-Yv-yJ3" firstAttribute="top" secondItem="boy-mo-yBX" secondAttribute="top" id="rmH-dq-piD"/>
+                            <constraint firstAttribute="trailing" secondItem="NTC-Yv-yJ3" secondAttribute="trailing" id="wu2-wt-SgO"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="boy-mo-yBX" firstAttribute="centerX" secondItem="WEb-4b-X3N" secondAttribute="centerX" id="4Pb-cj-SQm"/>
+                    <constraint firstItem="boy-mo-yBX" firstAttribute="width" secondItem="WEb-4b-X3N" secondAttribute="width" multiplier="2:3" id="hel-PE-sY4"/>
+                    <constraint firstItem="boy-mo-yBX" firstAttribute="top" secondItem="WEb-4b-X3N" secondAttribute="top" id="nZx-gA-7ZG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="coverImageView" destination="NTC-Yv-yJ3" id="ebk-aO-Nsa"/>
+                <outlet property="coverView" destination="boy-mo-yBX" id="sYI-em-Pke"/>
+                <outlet property="playButton" destination="gF9-ra-SwM" id="VHO-ac-MX1"/>
+            </connections>
+            <point key="canvasLocation" x="452" y="431"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="HP-CoverMask" width="250" height="65"/>
+        <image name="HP-PauseIcon" width="55" height="55"/>
+        <image name="HP-PlayIcon" width="55" height="55"/>
+    </resources>
+</document>

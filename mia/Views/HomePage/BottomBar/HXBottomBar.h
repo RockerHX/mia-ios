@@ -26,9 +26,13 @@ typedef NS_ENUM(NSUInteger, HXBottomBarAction) {
 
 @property (nonatomic, weak, nullable) IBOutlet id  <HXBottomBarDelegate>delegate;
 
+@property (nonatomic, weak, nullable) IBOutlet UIButton *favoriteButton;
+
 - (IBAction)feedBackButtonPressed;
 - (IBAction)commentButtonPressed;
 - (IBAction)favoriteButtonPressed;
 - (IBAction)moreButtonPressed;
+
+- (void)updateFavoriteStateWithFavorite:(BOOL)favorite;
 
 @end

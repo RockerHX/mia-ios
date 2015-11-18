@@ -23,7 +23,8 @@
 
 @property (weak, nonatomic) IBOutlet                 id  <HXMusicDetailShareCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *shareInfoLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *shareNickNameLabel;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *shareReasonLabel;
 
 - (void)displayWithShareItem:(ShareItem *)item;
 

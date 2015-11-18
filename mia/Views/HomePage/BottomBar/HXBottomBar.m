@@ -35,4 +35,13 @@
     }
 }
 
+#pragma mark - Public Methods
+- (void)updateFavoriteStateWithFavorite:(BOOL)favorite {
+    if (favorite) {
+        [_favoriteButton setImage:[UIImage imageNamed:@"MD-StarIcon"] forState:UIControlStateNormal];
+    } else {
+        [_favoriteButton setImage:[UIImage imageNamed:@"MD-UnStarIcon"] forState:UIControlStateNormal];
+    }
+}
+
 @end
