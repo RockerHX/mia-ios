@@ -28,6 +28,9 @@
 #import "UICollectionViewLeftAlignedLayout.h"
 
 static NSString * const kProfileCellReuseIdentifier 		= @"ProfileCellId";
+static NSString * const kProfileHeaderReuseIdentifier 		= @"ProfileHeaderId";
+static const CGFloat kProfileHeaderHeight					= 220;
+
 static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器定的
 
 @interface GuestProfileViewController ()
@@ -84,7 +87,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+	return UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -94,22 +97,18 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 - (void)initUI {
 	self.title = _nickName;
 
-	_headerView = [[UIView alloc] init];
+	_headerView = [[UIView alloc] initWithFrame:CGRectMake(0,
+														   0,
+														   self.view.bounds.size.width,
+														   kProfileHeaderHeight)];
 	_headerView.backgroundColor = [UIColor whiteColor];
-	[self.view addSubview:_headerView];
 	[self initHeaderView:_headerView];
 
 	[self initCollectionView];
 	[self initNoShareView];
 
-	[_headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view.mas_top);
-		make.left.equalTo(self.view.mas_left);
-		make.right.equalTo(self.view.mas_right);
-	}];
-
 	[_profileCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_headerView.mas_bottom);
+		make.top.equalTo(self.view.mas_top);
 		make.left.equalTo(self.view.mas_left);
 		make.right.equalTo(self.view.mas_right);
 		make.bottom.equalTo(self.view.mas_bottom);
@@ -167,7 +166,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	UICollectionViewLeftAlignedLayout *layout = [[UICollectionViewLeftAlignedLayout alloc] init];
 
 	//设置headerView的尺寸大小
-	layout.headerReferenceSize = CGSizeZero;
+	layout.headerReferenceSize = CGSizeMake(self.view.bounds.size.width, kProfileHeaderHeight);
 
 	//2.初始化collectionView
 	_profileCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -177,6 +176,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
 	[_profileCollectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:kProfileCellReuseIdentifier];
+
+	//注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
+	[_profileCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier];
 
 	//4.设置代理
 	_profileCollectionView.delegate = self;
@@ -310,6 +312,19 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 	return kProfileItemMarginV;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+	if ([kind isEqual:UICollectionElementKindSectionHeader]) {
+		UICollectionReusableView *contentView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kProfileHeaderReuseIdentifier forIndexPath:indexPath];
+		if (contentView.subviews.count == 0) {
+			[contentView addSubview:_headerView];
+		}
+		return contentView;
+	} else {
+		NSLog(@"It's maybe a bug.");
+		return nil;
+	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
