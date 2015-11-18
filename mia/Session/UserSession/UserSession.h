@@ -31,6 +31,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 @property (strong, nonatomic) NSString *avatar;
 @property (strong, nonatomic) NSString *utype;
 @property (strong, nonatomic) NSString *unreadCommCnt;
+@property (assign, nonatomic) BOOL disableNearbyRecommend;
 
 @property (nonatomic, assign) UserSessionLoginState state;
 
