@@ -15,8 +15,17 @@
 #import "FavoriteMgr.h"
 #import "FavoriteItem.h"
 #import "Masonry.h"
+#import "UserSession.h"
+
+static const CGFloat kProfileHeaderHeight 					= 240;
+static const CGFloat kProfileHeaderHeightWithNotification 	= 295;
 
 @implementation ProfileHeaderView {
+	UIView		*_notificationView;
+	UIImageView	*_avatarImageView;
+	MIALabel	*_notificationCountLabel;
+
+	UIView		*_infoView;
 	UIView 		*_coverView;
 	UIImageView *_coverImageView;
 	NSString	*_coverImageUrl;
@@ -29,33 +38,140 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
-	if(self){
+	if(self) {
 		[self initUI];
-
 	}
 
 	return self;
 }
 
++ (CGFloat)headerHeight {
+	int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+	if (unreadCommentCount > 0) {
+		return kProfileHeaderHeightWithNotification;
+	} else {
+		return kProfileHeaderHeight;
+	}
+}
+
+- (BOOL)hasNotification {
+	int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+	return (unreadCommentCount > 0);
+}
+
+#pragma mark - Private Meghtods
 - (void)initUI {
-	static const CGFloat kCoverMarginTop = 40;
+	_notificationView = [[UIView alloc] init];
+	[self addSubview:_notificationView];
+	[self initNotificationView:_notificationView];
 
-	CGRect coverFrame = CGRectMake(0,
-								   kCoverMarginTop,
-								   self.frame.size.width,
-								   self.frame.size.height - kCoverMarginTop * 2);
+	_infoView = [[UIView alloc] init];
+	[self addSubview:_infoView];
+	[self initInfoView:_infoView];
 
-	_coverView = [[UIView alloc] initWithFrame:coverFrame];
+	[_notificationView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@45);
+		make.top.equalTo(self.mas_top).offset(15);
+		make.centerX.equalTo(self.mas_centerX);
+	}];
+	[self updateConstraintsWithNotification:_hasNotification];
+}
+
+- (void)updateConstraintsWithNotification:(BOOL)hasNotification {
+	if (hasNotification) {
+		[_notificationView setHidden:NO];
+
+		[_infoView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.height.equalTo(@240);
+			make.left.equalTo(self.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.top.equalTo(_notificationView.mas_bottom).offset(5);
+		}];
+	} else {
+		[_notificationView setHidden:YES];
+
+		[_infoView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.height.equalTo(@240);
+			make.left.equalTo(self.mas_left);
+			make.right.equalTo(self.mas_right);
+			make.top.equalTo(self.mas_top).offset(0);
+		}];
+	}
+}
+
+- (void)initNotificationView:(UIView *)contentView {
+	contentView.backgroundColor = UIColorFromHex(@"0bd0bc", 1.0);
+	contentView.layer.cornerRadius = 10;
+	contentView.clipsToBounds = YES;
+
+	static CGFloat kAvatarWidth = 27;
+	_avatarImageView = [[UIImageView alloc] init];
+	_avatarImageView.layer.cornerRadius = kAvatarWidth / 2;
+	_avatarImageView.clipsToBounds = YES;
+//	_avatarImageView.layer.borderWidth = 0.5f;
+//	_avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
+	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+	[contentView addSubview:_avatarImageView];
+
+	_notificationCountLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+															text:@"10条新消息"
+															font:UIFontFromSize(16.0f)
+													textColor:[UIColor whiteColor]
+												textAlignment:NSTextAlignmentLeft
+													 numberLines:1];
+	[contentView addSubview:_notificationCountLabel];
+
+	[_avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(kAvatarWidth, kAvatarWidth));
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(contentView.mas_left).offset(20);
+	}];
+
+	[_notificationCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(_avatarImageView.mas_right).offset(15);
+		make.right.equalTo(contentView.mas_right).offset(-20);
+	}];
+
+}
+
+- (void)initInfoView:(UIView *)contentView {
+	_coverView = [[UIView alloc] init];
 	[self initCoverView:_coverView];
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverMaskTouchAction:)];
 	[_coverView addGestureRecognizer:tap];
-	[self addSubview:_coverView];
+	[contentView addSubview:_coverView];
 
-	[self initSubTitles];
+	UIView *favoriteTitleView = [[UIView alloc] init];
+	[contentView addSubview:favoriteTitleView];
+	[self initFavoriteTitle:favoriteTitleView];
+
+	UIView *shareTitleView = [[UIView alloc] init];
+	[contentView addSubview:shareTitleView];
+	[self initShareTitle:shareTitleView];
+
+	[_coverView mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@160);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+		make.top.equalTo(contentView.mas_top).offset(40);
+	}];
+
+	[favoriteTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@40);
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left).offset(15);
+	}];
+
+	[shareTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.height.equalTo(@40);
+		make.bottom.equalTo(contentView.mas_bottom);
+		make.left.equalTo(contentView.mas_left).offset(15);
+	}];
 }
 
 - (void)initCoverView:(UIView *)contentView {
-	_coverImageView = [[UIImageView alloc] initWithFrame:contentView.bounds];
+	_coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 160)];
 	[_coverImageView setImage:[UIImage imageNamed:@"profile_default_cover"]];
 	[contentView addSubview:_coverImageView];
 
@@ -148,61 +264,54 @@
 	}];
 }
 
-- (void)initSubTitles {
-
-	const static CGFloat kFavoriteIconMarginLeft	= 15;
-	const static CGFloat kFavoriteIconMarginTop		= 15;
-	const static CGFloat kFavoriteIconMarginWidth	= 16;
-
-	const static CGFloat kFavoriteLabelMarginLeft	= kFavoriteIconMarginLeft + kFavoriteIconMarginWidth + 8;
-	const static CGFloat kFavoriteLabelMarginTop	= 13;
-	const static CGFloat kFavoriteLabelWidth		= 30;
-	const static CGFloat kFavoriteLabelHeight		= 20;
-
-	const static CGFloat kShareIconMarginLeft		= 13;
-	const static CGFloat kShareIconMarginBottom		= 13;
-	const static CGFloat kShareIconWidth			= 16;
-
-	const static CGFloat kShareLabelMarginLeft		= kShareIconMarginLeft + kShareIconWidth + 8;
-	const static CGFloat kShareLabelMarginBottom	= 10;
-	const static CGFloat kShareLabelWidth			= 30;
-	const static CGFloat kShareLabelHeight			= 20;
-
-
-	// 两个子标题
-	UIImageView *favoriteIconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kFavoriteIconMarginLeft,
-																					   kFavoriteIconMarginTop,
-																					   kFavoriteIconMarginWidth,
-																					   kFavoriteIconMarginWidth)];
-	[favoriteIconImageView setImage:[UIImage imageNamed:@"profile_favorite"]];
-	[self addSubview:favoriteIconImageView];
-	MIALabel *favoriteLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kFavoriteLabelMarginLeft,
-																		 kFavoriteLabelMarginTop,
-																		 kFavoriteLabelWidth,
-																		 kFavoriteLabelHeight)
+- (void)initFavoriteTitle:(UIView *)contentView {
+	UIImageView *iconImageView = [[UIImageView alloc] init];
+	[iconImageView setImage:[UIImage imageNamed:@"profile_favorite"]];
+	[contentView addSubview:iconImageView];
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"收藏"
 														 font:UIFontFromSize(14.0f)
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
-	[self addSubview:favoriteLabel];
+	[contentView addSubview:titleLabel];
 
-	UIImageView *shareIconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kShareIconMarginLeft,
-																					self.frame.size.height - kShareIconMarginBottom - kShareIconWidth,
-																					kShareIconWidth,
-																					kShareIconWidth)];
-	[shareIconImageView setImage:[UIImage imageNamed:@"share"]];
-	[self addSubview:shareIconImageView];
-	MIALabel *shareLabel = [[MIALabel alloc] initWithFrame:CGRectMake(kShareLabelMarginLeft,
-																	  self.frame.size.height - kShareLabelMarginBottom - kShareLabelHeight,
-																		 kShareLabelWidth,
-																		 kShareLabelHeight)
+	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(16, 16));
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(contentView.mas_left);
+	}];
+
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(iconImageView.mas_right).offset(8);
+		make.right.equalTo(contentView.mas_right);
+	}];
+}
+
+- (void)initShareTitle:(UIView *)contentView {
+	UIImageView *iconImageView = [[UIImageView alloc] init];
+	[iconImageView setImage:[UIImage imageNamed:@"share"]];
+	[contentView addSubview:iconImageView];
+	MIALabel *titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 														 text:@"分享"
 														 font:UIFontFromSize(14.0f)
 										   textColor:UIColorFromHex(@"a2a2a2", 1.0)
 									   textAlignment:NSTextAlignmentLeft
 												  numberLines:1];
-	[self addSubview:shareLabel];
+	[contentView addSubview:titleLabel];
+
+	[iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(16, 16));
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(contentView.mas_left);
+	}];
+
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(contentView.mas_centerY);
+		make.left.equalTo(iconImageView.mas_right).offset(8);
+		make.right.equalTo(contentView.mas_right);
+	}];
 }
 
 - (void)setIsPlaying:(BOOL)isPlaying {

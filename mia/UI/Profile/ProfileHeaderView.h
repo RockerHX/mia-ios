@@ -21,6 +21,9 @@
 
 @property (weak, nonatomic)id<ProfileHeaderViewDelegate> profileHeaderViewDelegate;
 @property (assign, nonatomic) BOOL isPlaying;
+@property (assign, nonatomic) BOOL hasNotification;
+
++ (CGFloat)headerHeight;
 
 - (void)updateFavoriteCount;
 
