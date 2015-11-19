@@ -25,7 +25,6 @@
 
 @implementation SongPreloader {
 	FSAudioStream 	*_audioStream;
-	NSTimer			*_delayTimer;
 }
 
 - (id)init {
@@ -64,34 +63,30 @@
 }
 
 - (void)preloadWithMusicItem:(MusicItem *)item {
-	[_delayTimer invalidate];
-	_delayTimer = [NSTimer bs_scheduledTimerWithTimeInterval:30.0 block:^{
-		if ([[FavoriteMgr standard] isItemCachedWithUrl:item.murl]) {
-			NSLog(@"#SongPreloader# preload ignored, has downloaded");
+	if ([[FavoriteMgr standard] isItemCachedWithUrl:item.murl]) {
+		NSLog(@"#SongPreloader# preload ignored, has downloaded");
+		return;
+	}
+
+	NSLog(@"#SongPreloader# preload");
+	if (_delegate) {
+		if ([_delegate songPreloaderIsPlayerLoadedThisUrl:item.murl]) {
 			return;
 		}
+	}
 
-		NSLog(@"#SongPreloader# preload");
-		if (_delegate) {
-			if ([_delegate songPreloaderIsPlayerLoadedThisUrl:item.murl]) {
-				return;
-			}
-		}
+	if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
+		return;
+	}
 
-		if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
-			return;
-		}
-
-		[[FileLog standard] log:@"preloadWithMusicItem %@", item.murl];
-		_audioStream.url = [NSURL URLWithString:item.murl];
-		[_audioStream preload];
-	} repeats:NO];
+	[[FileLog standard] log:@"preloadWithMusicItem %@", item.murl];
+	_audioStream.url = [NSURL URLWithString:item.murl];
+	[_audioStream preload];
 
 	_currentItem = item;
 }
 
 - (void)stop {
-	[_delayTimer invalidate];
 	[_audioStream stop];
 	_audioStream.url = nil;
 }
