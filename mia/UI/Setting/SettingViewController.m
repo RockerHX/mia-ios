@@ -672,7 +672,7 @@ UITextFieldDelegate>
 		float compressionQuality = 0.9f;
 		NSData *imageData;
 
-		const static CGFloat kUploadAvatarMaxSize = 200;
+		const static CGFloat kUploadAvatarMaxSize = 320;
 		UIImage *squareImage = [UIImage imageWithCutImage:image moduleSize:CGSizeMake(kUploadAvatarMaxSize, kUploadAvatarMaxSize)];
 		imageData = UIImageJPEGRepresentation(squareImage, compressionQuality);
 		[request setValue:[NSString stringWithFormat:@"%ld", (unsigned long)imageData.length] forHTTPHeaderField:@"Content-Length"];
@@ -698,6 +698,16 @@ UITextFieldDelegate>
 	if (!success) {
 		return;
 	}
+
+	[MiaAPIHelper notifyAfterUploadPicWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		if (success) {
+			NSLog(@"notify after upload pic success");
+		} else {
+			NSLog(@"notify after upload pic failed:%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+		}
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		NSLog(@"notify after upload pic timeout");
+	}];
 
 	[_avatarImageView setImage:avatarImage];
 	NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
