@@ -70,10 +70,7 @@
 
 - (void)playWithMusicItem:(MusicItem *)item {
 	[_preloader stop];
-
 	[_player playWithMusicItem:item];
-
-	[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
 }
 
 - (void)playNext {
@@ -126,6 +123,10 @@
 	if (_delegate) {
 		[_delegate songListPlayerDidCompletion];
 	}
+}
+
+- (void)singleSongPlayerDidBufferStream {
+	[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
 }
 
 - (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {
