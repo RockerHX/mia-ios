@@ -142,11 +142,13 @@
 }
 
 - (void)viewShouldDisplay {
-	if ([[MusicMgr standard] isPlayingWithUrl:((ShareItem *)_helper.items[_shareListMgr.currentIndex]).music.murl]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
-	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
-	}
+    if (_helper.items.count > _shareListMgr.currentIndex) {
+        if ([[MusicMgr standard] isPlayingWithUrl:((ShareItem *)_helper.items[_shareListMgr.currentIndex]).music.murl]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
+        }
+    }
 }
 
 #pragma mark - Audio Operations
