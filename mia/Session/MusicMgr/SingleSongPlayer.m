@@ -53,6 +53,12 @@
 			NSLog(@"FSAudioStreamState change:%u", state);
 			__strong SingleSongPlayer *strongPlayer = weakPlayer;
 			strongPlayer->_audioState = state;
+
+			if (kFSAudioStreamEndOfFile == state) {
+				if ([strongPlayer delegate]) {
+					[[strongPlayer delegate] singleSongPlayerDidBufferStream];
+				}
+			}
 		};
 
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
