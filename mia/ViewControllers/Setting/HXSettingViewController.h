@@ -10,4 +10,6 @@
 
 @interface HXSettingViewController : UITableViewController
 
++ (instancetype)instance;
+
 @end

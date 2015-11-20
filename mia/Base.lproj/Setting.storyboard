@@ -61,10 +61,10 @@
             </objects>
             <point key="canvasLocation" x="249" y="330"/>
         </scene>
-        <!--Table View Controller-->
+        <!--设置-->
         <scene sceneID="jDW-dn-2yo">
             <objects>
-                <tableViewController id="8eW-st-scr" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="HXSettingViewController" id="8eW-st-scr" customClass="HXSettingViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="CuI-JI-jLX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -380,6 +380,7 @@
                             <outlet property="delegate" destination="8eW-st-scr" id="mtB-Sq-B6B"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="设置" id="7bL-5x-xJ4"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9kc-o0-gjr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
