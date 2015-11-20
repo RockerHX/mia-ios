@@ -19,6 +19,7 @@
 #import "FavoriteViewController.h"
 #import "FavoriteItem.h"
 #import "SettingViewController.h"
+#import "HXSettingViewController.h"
 #import "FavoriteMgr.h"
 #import "PathHelper.h"
 #import "UserSession.h"
@@ -809,6 +810,8 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	NSLog(@"setting button clicked.");
 	SettingViewController *vc = [[SettingViewController alloc] init];
 	[self.navigationController pushViewController:vc animated:YES];
+//    HXSettingViewController *settingViewController = [HXSettingViewController instance];
+//    [self.navigationController pushViewController:settingViewController animated:YES];
 }
 
 - (void)noShareTouchAction:(id)sender {

@@ -152,6 +152,7 @@
 		CD5753A41BDF5B5B00E7CBC4 /* CommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A31BDF5B5B00E7CBC4 /* CommentItem.m */; };
 		CD5753AA1BE0714300E7CBC4 /* HXGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */; };
 		CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */; };
+		CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
 		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; };
 		CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */; };
@@ -441,6 +442,8 @@
 		CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGrowingTextView.m; sourceTree = "<group>"; };
 		CD7A95021BD78C2A0034E5DA /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
 		CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
+		CD8A5B4F1BFF19BB00F1CB67 /* HXSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
+		CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
 		CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedBackViewController.m; sourceTree = "<group>"; };
 		CD9D2EBC1BD7736500A2D312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Setting.storyboard; sourceTree = SOURCE_ROOT; };
@@ -1463,6 +1466,8 @@
 		CD9D2EB71BD7729400A2D312 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				CD8A5B4F1BFF19BB00F1CB67 /* HXSettingViewController.h */,
+				CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */,
 				CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */,
 				CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */,
 				CD7A95021BD78C2A0034E5DA /* HXUserTermsViewController.h */,
@@ -1863,6 +1868,7 @@
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
 				CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */,
 				395CD6141BD9F5F4001A2528 /* SongListPlayer.m in Sources */,
+				CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */,
 				CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */,
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
 				CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */,
