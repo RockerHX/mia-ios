@@ -15,7 +15,6 @@
 #import "MobClick.h"
 #import "HXVersion.h"
 #import "UIImage+ColorToImage.h"
-#import <BugHD/BugHD.h>
 
 @interface AppDelegate () {
     BOOL _backBecomeActive;
@@ -49,9 +48,6 @@
 //    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:AppstoreChannel];
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:FirimChannel];
-    
-#pragma mark - BugHD SDK
-    [BugHD handleCrashWithKey:BugHDGeneralKey];
 #endif
     
 	return YES;
