@@ -35,3 +35,6 @@ pod 'FDStackView', '1.0-alpha'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'
+
+# BugHD SDK
+pod 'BugHD'
