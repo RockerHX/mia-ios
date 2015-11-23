@@ -52,7 +52,7 @@ UITextFieldDelegate>
 
 	MBProgressHUD 	*_uploadAvatarProgressHUD;
 
-	MIAGender		_gender;
+	MIAGender		_lastGender;
 
 	UIImage 		*_uploadingImage;
 	long			_uploadTimeOutCount;
@@ -646,7 +646,7 @@ UITextFieldDelegate>
 }
 
 - (void)updateGenderLabel:(MIAGender)gender {
-	_gender = gender;
+	_lastGender = gender;
 
 	if (1 == gender) {
 		[_genderLabel setText:@"男"];
@@ -796,6 +796,10 @@ UITextFieldDelegate>
 }
 
 - (void)genderPickerDidSelected:(MIAGender)gender {
+	if (_lastGender == gender) {
+		return;
+	}
+
 	[self updateGenderLabel:gender];
 
 	[MiaAPIHelper changeGender:gender completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -901,7 +905,7 @@ UITextFieldDelegate>
 	[_nickNameTextField resignFirstResponder];
 
 	GenderPickerView *pickerView = [[GenderPickerView alloc] initWithFrame:self.view.bounds];
-	pickerView.gender = _gender;
+	pickerView.gender = _lastGender;
 	pickerView.customDelegate = self;
 	[self.view addSubview:pickerView];
 }
