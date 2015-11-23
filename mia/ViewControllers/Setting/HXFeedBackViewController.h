@@ -10,6 +10,8 @@
 
 @class BRPlaceholderTextView;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HXFeedBackViewController : UIViewController <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet              UIButton *sendButton;
@@ -20,5 +22,7 @@
 
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;
+
+NS_ASSUME_NONNULL_END
 
 @end
