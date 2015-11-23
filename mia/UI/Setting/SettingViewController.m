@@ -52,11 +52,12 @@ UITextFieldDelegate>
 
 	MBProgressHUD 	*_uploadAvatarProgressHUD;
 
-	MIAGender		_gender;
+	MIAGender		_lastGender;
 
 	UIImage 		*_uploadingImage;
 	long			_uploadTimeOutCount;
 
+	NSString		*_lastNickName;
 	long			_uploadLogClickTimes;
 }
 
@@ -78,6 +79,7 @@ UITextFieldDelegate>
 			 long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
 
 			 [_nickNameTextField setText:nickName];
+			 _lastNickName = nickName;
 
 			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 			 [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
@@ -644,7 +646,7 @@ UITextFieldDelegate>
 }
 
 - (void)updateGenderLabel:(MIAGender)gender {
-	_gender = gender;
+	_lastGender = gender;
 
 	if (1 == gender) {
 		[_genderLabel setText:@"男"];
@@ -730,10 +732,14 @@ UITextFieldDelegate>
 	if ([NSString isNull:nick]) {
 		return;
 	}
+	if ([nick isEqualToString:_lastNickName]) {
+		return;
+	}
 
 	[MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
 			[[UserSession standard] setNick:_nickNameTextField.text];
+			_lastNickName = _nickNameTextField.text;
 			[HXAlertBanner showWithMessage:@"修改昵称成功" tap:nil];
 		} else {
 			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -790,6 +796,10 @@ UITextFieldDelegate>
 }
 
 - (void)genderPickerDidSelected:(MIAGender)gender {
+	if (_lastGender == gender) {
+		return;
+	}
+
 	[self updateGenderLabel:gender];
 
 	[MiaAPIHelper changeGender:gender completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -895,7 +905,7 @@ UITextFieldDelegate>
 	[_nickNameTextField resignFirstResponder];
 
 	GenderPickerView *pickerView = [[GenderPickerView alloc] initWithFrame:self.view.bounds];
-	pickerView.gender = _gender;
+	pickerView.gender = _lastGender;
 	pickerView.customDelegate = self;
 	[self.view addSubview:pickerView];
 }
