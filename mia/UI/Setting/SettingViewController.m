@@ -57,6 +57,7 @@ UITextFieldDelegate>
 	UIImage 		*_uploadingImage;
 	long			_uploadTimeOutCount;
 
+	NSString		*_lastNickName;
 	long			_uploadLogClickTimes;
 }
 
@@ -78,6 +79,7 @@ UITextFieldDelegate>
 			 long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
 
 			 [_nickNameTextField setText:nickName];
+			 _lastNickName = nickName;
 
 			 NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
 			 [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
@@ -730,10 +732,14 @@ UITextFieldDelegate>
 	if ([NSString isNull:nick]) {
 		return;
 	}
+	if ([nick isEqualToString:_lastNickName]) {
+		return;
+	}
 
 	[MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		if (success) {
 			[[UserSession standard] setNick:_nickNameTextField.text];
+			_lastNickName = _nickNameTextField.text;
 			[HXAlertBanner showWithMessage:@"修改昵称成功" tap:nil];
 		} else {
 			id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
