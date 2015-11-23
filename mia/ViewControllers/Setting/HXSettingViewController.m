@@ -24,4 +24,14 @@
     
 }
 
+#pragma mark - Table View Delegate Methods
+static CGFloat SectionSpace = 16.0f;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return section ? 0.1f : SectionSpace;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return SectionSpace;
+}
+
 @end
