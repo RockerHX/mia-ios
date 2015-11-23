@@ -90,8 +90,8 @@ const static NSInteger kGenderPickerComponentIndex = 0;
 		result = MIAGenderFemale;
 	}
 
-	if (_customDelegate) {
-		[_customDelegate genderPickerDidSelected:result];
+	if (_delegate && [_delegate respondsToSelector:@selector(genderPickerDidSelected:)]) {
+		[_delegate genderPickerDidSelected:result];
 	}
 	[self removeFromSuperview];
 }
