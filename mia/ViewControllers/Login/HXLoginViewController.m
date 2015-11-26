@@ -42,7 +42,6 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    
 }
 
 - (void)viewConfig {
@@ -51,6 +50,10 @@
 }
 
 #pragma mark - Event Response
+- (IBAction)backButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)registerButtonPressed {
     
 }

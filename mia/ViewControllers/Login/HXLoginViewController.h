@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
+- (IBAction)backButtonPressed;
 - (IBAction)registerButtonPressed;
 - (IBAction)loginButtonPressed;
 
