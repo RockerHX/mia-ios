@@ -9,6 +9,8 @@
 #import "HXLoginViewController.h"
 #import <ShareSDK/ShareSDK.h>
 #import "MiaAPIHelper.h"
+#import "UserDefaultsUtils.h"
+#import "UserSession.h"
 
 @interface HXLoginViewController ()
 @end
@@ -75,11 +77,13 @@
 			 [MiaAPIHelper postPassportWithOpenID:user.uid
 											token:user.credential.token
 										 nickname:user.nickname
-											  sex:(user.gender + 1)
+											  sex:(user.gender + 1)	// 微信的男女是0和1，我们的是1和2
 									   headimgurl:user.icon
 									completeBlock:
 			  ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-				  NSLog(@"hello world");
+				  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+				  [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"token"] forKey:UserDefaultsKey_Token];
+
 			  } timeoutBlock:^(MiaRequestItem *requestItem) {
 				  NSLog(@"time out");
 			  }];
