@@ -62,4 +62,12 @@
     
 }
 
+- (IBAction)weixinButtonPressed {
+    
+}
+
+- (IBAction)weiboButtonPressed {
+    
+}
+
 @end

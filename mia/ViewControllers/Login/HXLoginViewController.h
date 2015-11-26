@@ -16,6 +16,8 @@
 - (IBAction)backButtonPressed;
 - (IBAction)registerButtonPressed;
 - (IBAction)loginButtonPressed;
+- (IBAction)weixinButtonPressed;
+- (IBAction)weiboButtonPressed;
 
 + (instancetype)instance;
 
