@@ -7,6 +7,7 @@
 //
 
 #import "HXLoginViewController.h"
+#import <ShareSDK/ShareSDK.h>
 
 @interface HXLoginViewController ()
 @end
@@ -63,7 +64,16 @@
 }
 
 - (IBAction)weixinButtonPressed {
-    
+    [ShareSDK getUserInfo:SSDKPlatformTypeWechat onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+         if (state == SSDKResponseStateSuccess) {
+             NSLog(@"uid=%@",user.uid);
+             NSLog(@"%@",user.credential);
+             NSLog(@"token=%@",user.credential.token);
+             NSLog(@"nickname=%@",user.nickname);
+         } else {
+             NSLog(@"%@",error);
+         }
+    }];
 }
 
 - (IBAction)weiboButtonPressed {

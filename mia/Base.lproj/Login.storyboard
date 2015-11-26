@@ -71,22 +71,8 @@
                                     <constraint firstAttribute="width" constant="165" id="gsD-AE-1Z1"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZY-xf-XN5">
-                                <rect key="frame" x="176" y="378" width="46" height="30"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="OIE-jG-ibM"/>
-                                    <constraint firstAttribute="width" constant="46" id="t9l-ix-zlw"/>
-                                </constraints>
-                                <state key="normal" title="微博">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="weiboButtonPressed" destination="AsC-p9-PE8" eventType="touchUpInside" id="eay-9j-SM3"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTo-oG-s5e">
-                                <rect key="frame" x="98" y="378" width="46" height="30"/>
+                                <rect key="frame" x="137" y="378" width="46" height="30"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="MHN-Yf-ip8"/>
@@ -105,9 +91,8 @@
                         <constraints>
                             <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerX" secondItem="MgH-Sh-6z1" secondAttribute="centerX" id="087-Nh-mKv"/>
                             <constraint firstItem="IWY-2A-TeV" firstAttribute="top" secondItem="MgH-Sh-6z1" secondAttribute="top" constant="32" id="4RP-Ke-t79"/>
-                            <constraint firstItem="aTo-oG-s5e" firstAttribute="trailing" secondItem="MgH-Sh-6z1" secondAttribute="centerX" multiplier="0.9" id="CvL-ax-UAc"/>
+                            <constraint firstItem="aTo-oG-s5e" firstAttribute="centerX" secondItem="MgH-Sh-6z1" secondAttribute="centerX" id="CvL-ax-UAc"/>
                             <constraint firstItem="yck-tL-Gdf" firstAttribute="top" secondItem="SJc-6Q-mb8" secondAttribute="bottom" id="IAc-ZQ-nlh"/>
-                            <constraint firstItem="aZY-xf-XN5" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="centerX" multiplier="1.1" id="JLT-PN-wGh"/>
                             <constraint firstItem="61s-lC-Toq" firstAttribute="centerX" secondItem="TFN-mw-K2y" secondAttribute="centerX" id="MH2-NL-gEm"/>
                             <constraint firstItem="yck-tL-Gdf" firstAttribute="top" secondItem="TFN-mw-K2y" secondAttribute="bottom" constant="50" id="Td9-Kv-til"/>
                             <constraint firstItem="SJc-6Q-mb8" firstAttribute="top" secondItem="MgH-Sh-6z1" secondAttribute="top" id="aD5-95-pzB"/>
@@ -117,7 +102,6 @@
                             <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerY" secondItem="MgH-Sh-6z1" secondAttribute="centerY" multiplier="0.65" id="hUw-Pp-3C7"/>
                             <constraint firstItem="TFN-mw-K2y" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" constant="30" id="iWI-mA-6dH"/>
                             <constraint firstItem="IWY-2A-TeV" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" constant="10" id="nhG-rb-ei3"/>
-                            <constraint firstItem="aZY-xf-XN5" firstAttribute="centerY" secondItem="aTo-oG-s5e" secondAttribute="centerY" id="qVi-M2-FFq"/>
                             <constraint firstItem="61s-lC-Toq" firstAttribute="height" secondItem="TFN-mw-K2y" secondAttribute="height" id="sw7-MB-R9U"/>
                             <constraint firstAttribute="trailing" secondItem="TFN-mw-K2y" secondAttribute="trailing" constant="30" id="tlk-Sz-dCU"/>
                             <constraint firstAttribute="trailing" secondItem="SJc-6Q-mb8" secondAttribute="trailing" id="wdT-hy-1lI"/>
