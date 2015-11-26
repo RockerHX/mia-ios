@@ -10,4 +10,12 @@
 
 @interface HXLoginViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *registerButton;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+
+- (IBAction)registerButtonPressed;
+- (IBAction)loginButtonPressed;
+
++ (instancetype)instance;
+
 @end

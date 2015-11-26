@@ -21,7 +21,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-Ru-GcS">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81u-60-SHd">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81u-60-SHd">
                                         <rect key="frame" x="15" y="4" width="290" height="41"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -492,7 +492,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <inset key="imageEdgeInsets" minX="-16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="MD-BackIcon"/>
+                                <state key="normal" image="C-BackIcon"/>
                                 <connections>
                                     <action selector="backButtonPressed" destination="ryk-wB-QfC" eventType="touchUpInside" id="fay-ae-jT8"/>
                                 </connections>
@@ -516,10 +516,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="C-BackIcon" width="345" height="41"/>
         <image name="HP-CoverMask" width="250" height="65"/>
         <image name="M-PauseIcon" width="35" height="35"/>
         <image name="M-PlayIcon" width="35" height="35"/>
-        <image name="MD-BackIcon" width="25" height="25"/>
         <image name="MD-CommentButtonIcon" width="345" height="41"/>
         <image name="MD-CommentsIcon" width="25" height="25"/>
         <image name="MD-LocationIcon" width="25" height="25"/>

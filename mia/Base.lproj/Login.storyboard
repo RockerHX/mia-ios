@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -16,13 +18,90 @@
                     <view key="view" contentMode="scaleToFill" id="MgH-Sh-6z1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="L-LoginBG" translatesAutoresizingMaskIntoConstraints="NO" id="SJc-6Q-mb8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <animations/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFN-mw-K2y">
+                                <rect key="frame" x="30" y="478" width="260" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.098039215686274508" green="0.44313725490196076" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="2Wq-Ln-gFd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="登  录">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonPressed" destination="AsC-p9-PE8" eventType="touchUpInside" id="1jX-iR-TJQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="61s-lC-Toq">
+                                <rect key="frame" x="30" y="423" width="260" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="注  册">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerButtonPressed" destination="AsC-p9-PE8" eventType="touchUpInside" id="eNq-LI-r5w"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IWY-2A-TeV">
+                                <rect key="frame" x="10" y="32" width="50" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="IWY-2A-TeV" secondAttribute="height" multiplier="1:1" id="f9J-jR-na7"/>
+                                    <constraint firstAttribute="width" constant="50" id="vlT-VA-ofz"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="10"/>
+                                <state key="normal" image="C-BackIcon"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="L-LoginLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Dde-Ct-cGn">
+                                <rect key="frame" x="78" y="102" width="165" height="165"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Dde-Ct-cGn" secondAttribute="height" multiplier="1:1" id="Qgk-Po-Q4M"/>
+                                    <constraint firstAttribute="width" constant="165" id="gsD-AE-1Z1"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerX" secondItem="MgH-Sh-6z1" secondAttribute="centerX" id="087-Nh-mKv"/>
+                            <constraint firstItem="IWY-2A-TeV" firstAttribute="top" secondItem="MgH-Sh-6z1" secondAttribute="top" constant="32" id="4RP-Ke-t79"/>
+                            <constraint firstItem="yck-tL-Gdf" firstAttribute="top" secondItem="SJc-6Q-mb8" secondAttribute="bottom" id="IAc-ZQ-nlh"/>
+                            <constraint firstItem="61s-lC-Toq" firstAttribute="centerX" secondItem="TFN-mw-K2y" secondAttribute="centerX" id="MH2-NL-gEm"/>
+                            <constraint firstItem="yck-tL-Gdf" firstAttribute="top" secondItem="TFN-mw-K2y" secondAttribute="bottom" constant="50" id="Td9-Kv-til"/>
+                            <constraint firstItem="SJc-6Q-mb8" firstAttribute="top" secondItem="MgH-Sh-6z1" secondAttribute="top" id="aD5-95-pzB"/>
+                            <constraint firstItem="61s-lC-Toq" firstAttribute="width" secondItem="TFN-mw-K2y" secondAttribute="width" id="bpv-v4-flZ"/>
+                            <constraint firstItem="SJc-6Q-mb8" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" id="fFO-pD-LKs"/>
+                            <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerY" secondItem="MgH-Sh-6z1" secondAttribute="centerY" multiplier="0.65" id="hUw-Pp-3C7"/>
+                            <constraint firstItem="TFN-mw-K2y" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" constant="30" id="iWI-mA-6dH"/>
+                            <constraint firstItem="IWY-2A-TeV" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" constant="10" id="nhG-rb-ei3"/>
+                            <constraint firstItem="61s-lC-Toq" firstAttribute="height" secondItem="TFN-mw-K2y" secondAttribute="height" id="sw7-MB-R9U"/>
+                            <constraint firstAttribute="trailing" secondItem="TFN-mw-K2y" secondAttribute="trailing" constant="30" id="tlk-Sz-dCU"/>
+                            <constraint firstAttribute="trailing" secondItem="SJc-6Q-mb8" secondAttribute="trailing" id="wdT-hy-1lI"/>
+                            <constraint firstItem="TFN-mw-K2y" firstAttribute="top" secondItem="61s-lC-Toq" secondAttribute="bottom" constant="15" id="yM2-ie-P6K"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="loginButton" destination="TFN-mw-K2y" id="Iqn-K5-BTR"/>
+                        <outlet property="registerButton" destination="61s-lC-Toq" id="x4A-SF-g03"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7C-Hc-FYt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="250" y="249"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="C-BackIcon" width="25" height="25"/>
+        <image name="L-LoginBG" width="375" height="667"/>
+        <image name="L-LoginLogo" width="165" height="165"/>
+    </resources>
 </document>
