@@ -35,3 +35,10 @@ pod 'FDStackView', '1.0-alpha'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'
+
+# Share SDK
+pod 'ShareSDK3'
+#pod 'ShareSDK3/ShareSDKUI'
+#pod 'ShareSDK3/ShareSDKPlatforms/QQ'
+pod 'ShareSDK3/ShareSDKPlatforms/SinaWeibo'
+pod 'ShareSDK3/ShareSDKPlatforms/WeChat'
