@@ -80,7 +80,7 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[self initGuidView];
 	[self initLoginView];
 
-	UIImage *backButtonImage = [UIImage imageNamed:@"MD-BackIcon"];
+	UIImage *backButtonImage = [UIImage imageNamed:@"C-BackIcon"];
 	CGRect backButtonFrame = {.origin.x = kBackButtonMarginLeft,
 		.origin.y = kBackButtonMarginTop,
 		.size.width = backButtonImage.size.width * 2,

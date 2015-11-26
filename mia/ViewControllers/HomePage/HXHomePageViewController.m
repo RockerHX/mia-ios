@@ -13,6 +13,7 @@
 #import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "LoginViewController.h"
+#import "HXLoginViewController.h"
 #import "MyProfileViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
@@ -640,9 +641,10 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
     _toLogin = YES;
-    LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    loginViewController.customDelegate = self;
-    [loginViewController loginSuccess:success];
+//    LoginViewController *loginViewController = [[LoginViewController alloc] init];
+    HXLoginViewController *loginViewController = [HXLoginViewController instance];
+//    loginViewController.customDelegate = self;
+//    [loginViewController loginSuccess:success];
     HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
     __weak __typeof__(self)weakSelf = self;
     [self presentViewController:loginNavigationViewController animated:YES completion:^{

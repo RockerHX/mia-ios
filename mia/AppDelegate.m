@@ -12,9 +12,17 @@
 #import "HXHomePageViewController.h"
 #import "UserSetting.h"
 #import "HXAppConstants.h"
-#import "MobClick.h"
 #import "HXVersion.h"
 #import "UIImage+ColorToImage.h"
+
+// Umeng SDK
+#import "MobClick.h"
+
+// Share SDK
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKConnector/ShareSDKConnector.h>
+#import "WXApi.h"
+#import "WeiboSDK.h"
 
 @interface AppDelegate () {
     BOOL _backBecomeActive;
@@ -49,6 +57,44 @@
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:FirimChannel];
 #endif
+    
+#pragma mark - Share SDK
+    NSArray *activePlatforms = @[@(SSDKPlatformTypeMail),
+                                 @(SSDKPlatformTypeSMS),
+                                 @(SSDKPlatformTypeWechat)/*,
+                                 @(SSDKPlatformTypeSinaWeibo)*/];
+    [ShareSDK registerApp:ShareSDKKEY activePlatforms:activePlatforms onImport:^(SSDKPlatformType platformType) {
+         switch (platformType) {
+             case SSDKPlatformTypeWechat: {
+                 [ShareSDKConnector connectWeChat:[WXApi class]];
+                 break;
+             }/*
+             case SSDKPlatformTypeSinaWeibo: {
+                 [ShareSDKConnector connectWeibo:[WeiboSDK class]];
+                 break;
+             }*/
+             default:
+                 break;
+         }
+     } onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo) {
+         switch (platformType) {
+             case SSDKPlatformTypeWechat: {
+                 [appInfo SSDKSetupWeChatByAppId:WeiXinKEY
+                                       appSecret:WeiXinSecret];
+                 break;
+             }/*
+             case SSDKPlatformTypeSinaWeibo: {
+                 //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+                 [appInfo SSDKSetupSinaWeiboByAppKey:@"568898243"
+                                           appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
+                                         redirectUri:@"http://www.sharesdk.cn"
+                                            authType:SSDKAuthTypeBoth];
+                 break;
+             }*/
+             default:
+                 break;
+         }
+     }];
     
 	return YES;
 }
