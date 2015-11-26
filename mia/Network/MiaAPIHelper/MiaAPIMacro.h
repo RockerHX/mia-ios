@@ -93,6 +93,16 @@ static NSString * const MiaAPIKey_Channel					= @"channel";
 
 static NSString * const MiaAPICommand_User_PostPicture		= @"User.Post.Picture";
 
+static NSString * const MiaAPICommand_User_PostPassport		= @"User.Post.Passport";
+static NSString * const MiaAPIKey_OpenID					= @"openid";
+static NSString * const MiaAPIKey_Token						= @"token";
+static NSString * const MiaAPIKey_Sex						= @"sex";
+static NSString * const MiaAPIKey_From						= @"from";
+static NSString * const MiaAPIKey_HeadImgUrl				= @"headimgurl";
+
+static NSString * const MiaAPICommand_User_PostSession		= @"User.Post.Session";
+static NSString * const MiaAPIKey_SESSION_UID				= @"uID";
+
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
 static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";
 static NSString * const MiaAPICommand_User_GetClogo			= @"User.Get.Clogo";

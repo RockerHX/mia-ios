@@ -410,6 +410,44 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
++ (void)postPassportWithOpenID:(NSString *)openid
+					   token:(NSString *)token
+						 nickname:(NSString *)nickname
+					  sex:(long)sex
+					  from:(NSString *)from
+					  headimgurl:(NSString *)headimgurl
+				completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:openid forKey:MiaAPIKey_OpenID];
+	[dictValues setValue:token forKey:MiaAPIKey_Token];
+	[dictValues setValue:nickname forKey:MiaAPIKey_NickName];
+	[dictValues setValue:[NSNumber numberWithLong:sex] forKey:MiaAPIKey_Sex];
+	[dictValues setValue:from forKey:MiaAPIKey_From];
+	[dictValues setValue:headimgurl forKey:MiaAPIKey_HeadImgUrl];
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostPassport
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
++ (void)postSessionWithuID:(NSString *)uID
+						 token:(NSString *)token
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:uID forKey:MiaAPIKey_SESSION_UID];
+	[dictValues setValue:token forKey:MiaAPIKey_Token];
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostSession
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
 + (void)getVerificationCodeWithType:(long)type
 						phoneNumber:(NSString *)phoneNumber
 					  completeBlock:(MiaRequestCompleteBlock)completeBlock

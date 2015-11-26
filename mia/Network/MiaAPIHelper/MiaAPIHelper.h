@@ -130,6 +130,20 @@
 + (void)notifyAfterUploadPicWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)postPassportWithOpenID:(NSString *)openid
+						 token:(NSString *)token
+						 nickname:(NSString *)nickname
+						   sex:(long)sex
+						  from:(NSString *)from
+					headimgurl:(NSString *)headimgurl
+				 completeBlock:(MiaRequestCompleteBlock)completeBlock
+				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)postSessionWithuID:(NSString *)uID
+					 token:(NSString *)token
+			 completeBlock:(MiaRequestCompleteBlock)completeBlock
+			  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)getVerificationCodeWithType:(long)type
 						phoneNumber:(NSString *)phoneNumber
 					  completeBlock:(MiaRequestCompleteBlock)completeBlock
