@@ -15,9 +15,10 @@ typedef NS_ENUM(BOOL, UserSessionLoginState) {
     UserSessionLoginStateLogout = NO
 };
 
-static NSString * const UserDefaultsKey_UserName            = @"name";
-static NSString * const UserDefaultsKey_PasswordHash        = @"hash";
+//static NSString * const UserDefaultsKey_UserName            = @"name";
+//static NSString * const UserDefaultsKey_PasswordHash        = @"hash";
 static NSString * const UserDefaultsKey_UID                 = @"uid";
+static NSString * const UserDefaultsKey_Token		        = @"token";
 static NSString * const UserDefaultsKey_Nick				= @"nick";
 
 static NSString * const UserSessionKey_NickName				= @"nick";

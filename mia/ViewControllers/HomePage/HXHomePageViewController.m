@@ -513,15 +513,15 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (BOOL)autoLogin {
-	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
-	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
-	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+	NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
+	NSString *token = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Token];
+	if ([NSString isNull:uid] || [NSString isNull:token]) {
 		return NO;
 	}
     
-    [MiaAPIHelper loginWithPhoneNum:userName
-                       passwordHash:passwordHash
-                      completeBlock:
+    [MiaAPIHelper postSessionWithuID:uid
+							   token:token
+					   completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];

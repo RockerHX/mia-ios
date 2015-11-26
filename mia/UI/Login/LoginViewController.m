@@ -230,13 +230,13 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
 	[_loginView addSubview:loginButton];
 }
 
-- (void)saveAuthInfo {
-	NSString *userName = _userNameTextField.text;
-	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
-
-	[UserDefaultsUtils saveValue:userName forKey:UserDefaultsKey_UserName];
-	[UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
-}
+//- (void)saveAuthInfo {
+//	NSString *userName = _userNameTextField.text;
+//	NSString *passwordHash = [NSString md5HexDigest:_passwordTextField.text];
+//
+//	[UserDefaultsUtils saveValue:userName forKey:UserDefaultsKey_UserName];
+//	[UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
+//}
 
 #pragma mark - Actions
 - (void)backButtonAction:(id)sender {
@@ -294,9 +294,9 @@ static const CGFloat kSignUpMarginBottom		= kSignInMarginBottom + kGuidButtonHei
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
              [[UserSession standard] setAvatar:avatarUrlWithTime];
-             
-             [strongSelf saveAuthInfo];
+
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
+			 [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"token"] forKey:UserDefaultsKey_Token];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
              
              if (strongSelf.customDelegate && [strongSelf.customDelegate respondsToSelector:@selector(loginViewControllerDidSuccess)]) {

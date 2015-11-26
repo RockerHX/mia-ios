@@ -102,6 +102,7 @@ static NSString * const MiaAPIKey_HeadImgUrl				= @"headimgurl";
 
 static NSString * const MiaAPICommand_User_PostSession		= @"User.Post.Session";
 static NSString * const MiaAPIKey_SESSION_UID				= @"uID";
+static NSString * const MiaAPIKey_SESSION_NickName			= @"nickname";
 
 static NSString * const MiaAPICommand_User_GetStart			= @"User.Get.Star";
 static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";

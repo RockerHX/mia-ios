@@ -8,6 +8,7 @@
 
 #import "HXLoginViewController.h"
 #import <ShareSDK/ShareSDK.h>
+#import "MiaAPIHelper.h"
 
 @interface HXLoginViewController ()
 @end
@@ -69,7 +70,19 @@
              NSLog(@"uid=%@",user.uid);
              NSLog(@"%@",user.credential);
              NSLog(@"token=%@",user.credential.token);
-             NSLog(@"nickname=%@",user.nickname);
+			 NSLog(@"nickname=%@",user.nickname);
+
+			 [MiaAPIHelper postPassportWithOpenID:user.uid
+											token:user.credential.token
+										 nickname:user.nickname
+											  sex:(user.gender + 1)
+									   headimgurl:user.icon
+									completeBlock:
+			  ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+				  NSLog(@"hello world");
+			  } timeoutBlock:^(MiaRequestItem *requestItem) {
+				  NSLog(@"time out");
+			  }];
          } else {
              NSLog(@"%@",error);
          }

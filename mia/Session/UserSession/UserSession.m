@@ -64,9 +64,9 @@
 }
 
 - (BOOL)isCachedLogin {
-	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
-	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
-	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+	NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UID];
+	NSString *token = [UserDefaultsUtils valueWithKey:UserDefaultsKey_Token];
+	if ([NSString isNull:uid] || [NSString isNull:token]) {
 		return NO;
 	}
     
@@ -84,8 +84,8 @@
 	_unreadCommCnt = nil;
 	self.avatar = nil;
 	
-	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
-	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UID];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_Token];
     self.state = UserSessionLoginStateLogout;
 }
 

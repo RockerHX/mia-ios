@@ -134,7 +134,6 @@
 						 token:(NSString *)token
 						 nickname:(NSString *)nickname
 						   sex:(long)sex
-						  from:(NSString *)from
 					headimgurl:(NSString *)headimgurl
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
