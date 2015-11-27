@@ -54,16 +54,15 @@
 }
 
 #pragma mark - Event Response
-- (IBAction)backButtonPressed {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (IBAction)registerButtonPressed {
     
 }
 
 - (IBAction)loginButtonPressed {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
+        [_delegate loginViewControllerLoginSuccess:self];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)weixinButtonPressed {

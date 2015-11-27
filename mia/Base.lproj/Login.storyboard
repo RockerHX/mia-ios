@@ -10,7 +10,7 @@
         <!--Login View Controller-->
         <scene sceneID="YAn-dn-OsL">
             <objects>
-                <viewController storyboardIdentifier="HXLoginViewController" id="AsC-p9-PE8" customClass="HXLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXLoginViewController" modalTransitionStyle="flipHorizontal" id="AsC-p9-PE8" customClass="HXLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BpJ-J0-J5r"/>
                         <viewControllerLayoutGuide type="bottom" id="yck-tL-Gdf"/>
@@ -50,19 +50,6 @@
                                     <action selector="registerButtonPressed" destination="AsC-p9-PE8" eventType="touchUpInside" id="eNq-LI-r5w"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IWY-2A-TeV">
-                                <rect key="frame" x="10" y="32" width="50" height="50"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="IWY-2A-TeV" secondAttribute="height" multiplier="1:1" id="f9J-jR-na7"/>
-                                    <constraint firstAttribute="width" constant="50" id="vlT-VA-ofz"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="10"/>
-                                <state key="normal" image="C-BackIcon"/>
-                                <connections>
-                                    <action selector="backButtonPressed" destination="AsC-p9-PE8" eventType="touchUpInside" id="ofE-Ky-wk0"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="L-LoginLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Dde-Ct-cGn">
                                 <rect key="frame" x="78" y="102" width="165" height="165"/>
                                 <animations/>
@@ -90,7 +77,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerX" secondItem="MgH-Sh-6z1" secondAttribute="centerX" id="087-Nh-mKv"/>
-                            <constraint firstItem="IWY-2A-TeV" firstAttribute="top" secondItem="MgH-Sh-6z1" secondAttribute="top" constant="32" id="4RP-Ke-t79"/>
                             <constraint firstItem="aTo-oG-s5e" firstAttribute="centerX" secondItem="MgH-Sh-6z1" secondAttribute="centerX" id="CvL-ax-UAc"/>
                             <constraint firstItem="yck-tL-Gdf" firstAttribute="top" secondItem="SJc-6Q-mb8" secondAttribute="bottom" id="IAc-ZQ-nlh"/>
                             <constraint firstItem="61s-lC-Toq" firstAttribute="centerX" secondItem="TFN-mw-K2y" secondAttribute="centerX" id="MH2-NL-gEm"/>
@@ -101,7 +87,6 @@
                             <constraint firstItem="SJc-6Q-mb8" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" id="fFO-pD-LKs"/>
                             <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerY" secondItem="MgH-Sh-6z1" secondAttribute="centerY" multiplier="0.65" id="hUw-Pp-3C7"/>
                             <constraint firstItem="TFN-mw-K2y" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" constant="30" id="iWI-mA-6dH"/>
-                            <constraint firstItem="IWY-2A-TeV" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" constant="10" id="nhG-rb-ei3"/>
                             <constraint firstItem="61s-lC-Toq" firstAttribute="height" secondItem="TFN-mw-K2y" secondAttribute="height" id="sw7-MB-R9U"/>
                             <constraint firstAttribute="trailing" secondItem="TFN-mw-K2y" secondAttribute="trailing" constant="30" id="tlk-Sz-dCU"/>
                             <constraint firstAttribute="trailing" secondItem="SJc-6Q-mb8" secondAttribute="trailing" id="wdT-hy-1lI"/>
@@ -119,7 +104,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="C-BackIcon" width="25" height="25"/>
         <image name="L-LoginBG" width="375" height="667"/>
         <image name="L-LoginLogo" width="165" height="165"/>
     </resources>

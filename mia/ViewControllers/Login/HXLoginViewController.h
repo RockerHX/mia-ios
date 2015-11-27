@@ -8,17 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol HXLoginViewControllerDelegate;
+
 @interface HXLoginViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet       id  <HXLoginViewControllerDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
-- (IBAction)backButtonPressed;
 - (IBAction)registerButtonPressed;
 - (IBAction)loginButtonPressed;
 - (IBAction)weixinButtonPressed;
 - (IBAction)weiboButtonPressed;
 
 + (instancetype)instance;
+
+@end
+
+@protocol HXLoginViewControllerDelegate <NSObject>
+
+@required
+- (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController;
 
 @end

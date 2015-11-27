@@ -129,6 +129,7 @@
 		CD221FCF1BC79FD400FCD4E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCB1BC79FD400FCD4E7 /* LaunchScreen.storyboard */; };
 		CD221FD01BC79FD400FCD4E7 /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221FCD1BC79FD400FCD4E7 /* HomePage.storyboard */; };
 		CD2B74C71C083CAF0053EEE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD2B74C51C083CAF0053EEE5 /* Main.storyboard */; };
+		CD2B74CD1C0844960053EEE5 /* HXMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2B74CC1C0844960053EEE5 /* HXMainViewController.m */; };
 		CD33626A1BD624A900240345 /* HXAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362661BD624A900240345 /* HXAppConstants.m */; };
 		CD33626B1BD624A900240345 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3362681BD624A900240345 /* HXVersion.m */; };
 		CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4334EE1BD8CBF400A5E34C /* InfectItem.m */; };
@@ -399,6 +400,8 @@
 		CD221FCC1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD221FCE1BC79FD400FCD4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/HomePage.storyboard; sourceTree = "<group>"; };
 		CD2B74C61C083CAF0053EEE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		CD2B74CB1C0844960053EEE5 /* HXMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMainViewController.h; sourceTree = "<group>"; };
+		CD2B74CC1C0844960053EEE5 /* HXMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMainViewController.m; sourceTree = "<group>"; };
 		CD3362651BD624A900240345 /* HXAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAppConstants.h; sourceTree = "<group>"; };
 		CD3362661BD624A900240345 /* HXAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAppConstants.m; sourceTree = "<group>"; };
 		CD3362671BD624A900240345 /* HXVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVersion.h; sourceTree = "<group>"; };
@@ -1303,6 +1306,8 @@
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
 				CDC7C24F1BE76D1A0024FEB6 /* HXNavigationController.h */,
 				CDC7C2501BE76D1A0024FEB6 /* HXNavigationController.m */,
+				CD2B74CB1C0844960053EEE5 /* HXMainViewController.h */,
+				CD2B74CC1C0844960053EEE5 /* HXMainViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1805,6 +1810,7 @@
 				395C727F1BCB94D900897734 /* PathHelper.m in Sources */,
 				3908F38D1BBD00EA00BACFD3 /* SearchResultView.m in Sources */,
 				CD5A48651C06B4F100E95AB8 /* HXLoginViewController.m in Sources */,
+				CD2B74CD1C0844960053EEE5 /* HXMainViewController.m in Sources */,
 				3965DF6B1BD0E5DA003B1641 /* MiaRequestItem.m in Sources */,
 				CD33626A1BD624A900240345 /* HXAppConstants.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
