@@ -29,6 +29,7 @@
     [super viewDidAppear:animated];
     
     if (_firstLoad) {
+        [self showLaunchAnimation];
         [self hanleLoginState];
     }
 }
@@ -52,6 +53,20 @@
  */
 
 #pragma mark - Pravite Methods
+- (void)showLaunchAnimation {
+    UIViewController *lanchViewController = [[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil] instantiateViewControllerWithIdentifier:@"LaunchScreen"];
+    UIView *launchView = lanchViewController.view;
+    UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
+    [mainWindow addSubview:launchView];
+    
+    [UIView animateWithDuration:0.6f delay:0.5f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        launchView.alpha = 0.0f;
+        launchView.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.5f, 1.5f, 1.0f);
+    } completion:^(BOOL finished) {
+        [launchView removeFromSuperview];
+    }];
+}
+
 - (void)hanleLoginState {
     UserSessionLoginState loginState = [UserSession standard].state;
     if (!loginState) {
