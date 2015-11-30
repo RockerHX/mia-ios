@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="446" y="-552"/>
         </scene>
-        <!--Delegate-->
+        <!--收藏页面-->
         <scene sceneID="XR7-mw-hKc">
             <objects>
-                <tableViewController storyboardIdentifier="HXFavoriteViewController" id="60l-rO-5xV" customClass="HXFavoriteViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="HXFavoriteViewController" id="60l-rO-5xV" userLabel="收藏页面" customClass="HXFavoriteViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="Jyv-8M-MIA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -162,7 +162,13 @@
                             <outlet property="delegate" destination="60l-rO-5xV" id="pjL-t6-R17"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="收藏" id="Mof-6A-Vut"/>
+                    <navigationItem key="navigationItem" title="收藏" id="Mof-6A-Vut">
+                        <barButtonItem key="rightBarButtonItem" title="播放器" id="uip-9O-Tpz">
+                            <connections>
+                                <action selector="playerButtonPressed" destination="60l-rO-5xV" id="Bc5-7b-hET"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="header" destination="XsP-NU-N3w" id="Bf4-3t-7zu"/>
                     </connections>
@@ -171,10 +177,10 @@
             </objects>
             <point key="canvasLocation" x="446" y="129"/>
         </scene>
-        <!--收藏-->
+        <!--收藏导航-->
         <scene sceneID="7Gf-Ls-HP6">
             <objects>
-                <navigationController id="TN7-FT-RyX" sceneMemberID="viewController">
+                <navigationController id="TN7-FT-RyX" userLabel="收藏导航" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="收藏" id="zdY-vA-oAa"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uji-0K-QEF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -189,10 +195,10 @@
             </objects>
             <point key="canvasLocation" x="-12" y="129"/>
         </scene>
-        <!--我的-->
+        <!--个人中心-->
         <scene sceneID="l87-WO-aLH">
             <objects>
-                <tableViewController id="55b-kE-S1u" sceneMemberID="viewController">
+                <tableViewController id="55b-kE-S1u" userLabel="个人中心" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="JpO-Bc-2ck">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -221,10 +227,10 @@
             </objects>
             <point key="canvasLocation" x="446" y="799"/>
         </scene>
-        <!--我的-->
+        <!--个人中心导航-->
         <scene sceneID="6C0-jc-btv">
             <objects>
-                <navigationController id="1px-aP-ckm" sceneMemberID="viewController">
+                <navigationController id="1px-aP-ckm" userLabel="个人中心导航" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="我的" id="o1W-ZA-7dK"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uN7-yU-fCw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -239,10 +245,10 @@
             </objects>
             <point key="canvasLocation" x="-12" y="799"/>
         </scene>
-        <!--Mia-->
+        <!--Mia导航-->
         <scene sceneID="SY6-IK-nlZ">
             <objects>
-                <navigationController id="0wb-SL-LG4" sceneMemberID="viewController">
+                <navigationController id="0wb-SL-LG4" userLabel="Mia导航" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Mia" id="MOp-DB-158"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rw2-AP-Elt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

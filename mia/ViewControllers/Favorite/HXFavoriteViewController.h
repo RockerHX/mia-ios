@@ -14,4 +14,6 @@
 
 @property (weak, nonatomic) IBOutlet HXFavoriteHeader *header;
 
+- (IBAction)playerButtonPressed;
+
 @end

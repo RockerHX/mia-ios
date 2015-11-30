@@ -41,6 +41,11 @@
     [self updateFavoriteHeader];
 }
 
+#pragma mark - Event Response
+- (IBAction)playerButtonPressed {
+    
+}
+
 #pragma mark - Private Methods
 - (void)updateFavoriteHeader {
     _header.countLabel.text = @(_favoriteMgr.dataSource.count).stringValue;
