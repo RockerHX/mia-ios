@@ -11,7 +11,7 @@
 #import "FavoriteMgr.h"
 #import "HXFavoriteHeader.h"
 
-@interface HXFavoriteViewController () <HXFavoriteHeaderDelegate>
+@interface HXFavoriteViewController () <HXFavoriteHeaderDelegate, FavoriteMgrDelegate>
 @end
 
 @implementation HXFavoriteViewController {
@@ -21,6 +21,7 @@
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [self updateFavoriteHeader];
+    [_favoriteMgr syncFavoriteList];
 }
 
 - (void)viewDidLoad {
@@ -33,6 +34,7 @@
 #pragma mark - Config Methods
 - (void)initConfig {
     _favoriteMgr = [FavoriteMgr standard];
+    _favoriteMgr.delegate = self;
 }
 
 - (void)viewConfig {
@@ -76,6 +78,15 @@
             break;
         }
     }
+}
+
+#pragma mark - FavoriteMgrDelegate Methods
+- (void)favoriteMgrDidFinishSync {
+    [self.tableView reloadData];
+}
+
+- (void)favoriteMgrDidFinishDownload {
+    [self.tableView reloadData];
 }
 
 @end

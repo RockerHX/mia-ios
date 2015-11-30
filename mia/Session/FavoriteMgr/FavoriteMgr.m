@@ -381,18 +381,17 @@ static const NSInteger kFavoriteRequestItemCountPerPage	= 100;
 }
 
 //将对象编码(即:序列化)
-- (void) encodeWithCoder:(NSCoder *)aCoder {
+- (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:_dataSource forKey:@"favoriteItems"];
 }
 
 //将对象解码(反序列化)
--(id) initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
 		_dataSource = [aDecoder decodeObjectForKey:@"favoriteItems"];
 	}
 
 	return (self);
-	
 }
 
 @end

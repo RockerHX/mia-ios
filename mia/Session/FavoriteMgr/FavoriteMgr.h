@@ -10,6 +10,7 @@
 
 @protocol FavoriteMgrDelegate
 
+@required
 - (void)favoriteMgrDidFinishSync;
 - (void)favoriteMgrDidFinishDownload;
 

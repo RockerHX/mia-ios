@@ -15,7 +15,7 @@
 - (void)displayWithItem:(FavoriteItem *)item {
     MusicItem *musicItem = item.music;
     [_frontCover sd_setImageWithURL:[NSURL URLWithString:musicItem.albumURL]];
-//    _downloadStateIcon;
+    _downloadStateIcon.image = [UIImage imageNamed:(item.isCached ? @"F-DwonloadedIcon" : @"F-DwonloadIcon")];
     _songNameLabel.text = musicItem.name;
     _singerLabel.text = musicItem.singerName;
 }
