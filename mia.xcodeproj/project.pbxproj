@@ -487,7 +487,7 @@
 		CDD8315F1BD8BABF0067309B /* HXInfectUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListCell.h; sourceTree = "<group>"; };
 		CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListCell.m; sourceTree = "<group>"; };
 		CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
-		CDF512631C0BEA0C00E6EB81 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HXXib.h; path = Views/HXXib.h; sourceTree = "<group>"; };
+		CDF512631C0BEA0C00E6EB81 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
 		CDF512641C0BEA3300E6EB81 /* HXFavoriteHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteHeader.h; sourceTree = "<group>"; };
 		CDF512651C0BEA3300E6EB81 /* HXFavoriteHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteHeader.m; sourceTree = "<group>"; };
 		CDF512661C0BEA3300E6EB81 /* HXFavoriteHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXFavoriteHeader.xib; sourceTree = "<group>"; };
@@ -1053,7 +1053,6 @@
 				397E42791BA26ED2006BE9E7 /* Model */,
 				CD5753831BDE339900E7CBC4 /* ViewModels */,
 				CDC5FE831BD0FD40001D154E /* Views */,
-				CDF512631C0BEA0C00E6EB81 /* HXXib.h */,
 				CD221FC61BC79F0300FCD4E7 /* ViewControllers */,
 				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
 				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
@@ -1529,6 +1528,7 @@
 				CDFFAAEC1BD7BCE30074C0EF /* Guide */,
 				CDC894991BD4CB720080E7FF /* Common */,
 				CDC5FE851BD0FF7F001D154E /* HomePage */,
+				CDF512631C0BEA0C00E6EB81 /* HXXib.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
