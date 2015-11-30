@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -60,20 +62,86 @@
         <!--收藏-->
         <scene sceneID="XR7-mw-hKc">
             <objects>
-                <tableViewController id="60l-rO-5xV" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Jyv-8M-MIA">
+                <tableViewController storyboardIdentifier="HXFavoriteViewController" id="60l-rO-5xV" customClass="HXFavoriteViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="123" sectionHeaderHeight="28" sectionFooterHeight="28" id="Jyv-8M-MIA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="XsP-NU-N3w" userLabel="收藏编辑栏" customClass="HXFavoriteHeader">
+                            <rect key="frame" x="0.0" y="64" width="320" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="g4V-oD-18C">
+                            <rect key="frame" x="0.0" y="232" width="320" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ueK-26-BlX">
-                                <rect key="frame" x="0.0" y="92" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXFavoriteCell" rowHeight="80" id="ueK-26-BlX" customClass="HXFavoriteCell">
+                                <rect key="frame" x="0.0" y="152" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ueK-26-BlX" id="9Od-oW-A6R">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aqo-Z3-KpL" userLabel="音乐封面">
+                                            <rect key="frame" x="20" y="18" width="44" height="44"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="aqo-Z3-KpL" secondAttribute="height" multiplier="1:1" id="IlI-OV-PLr"/>
+                                                <constraint firstAttribute="width" constant="44" id="UjN-rV-sog"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="F-ShareIcon" translatesAutoresizingMaskIntoConstraints="NO" id="DhR-kt-EkE" userLabel="分享按钮">
+                                            <rect key="frame" x="282" y="25" width="30" height="30"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="DhR-kt-EkE" secondAttribute="height" multiplier="1:1" id="G7f-So-CPM"/>
+                                                <constraint firstAttribute="width" constant="30" id="eeC-ga-Ukl"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="F-DwonloadIcon" translatesAutoresizingMaskIntoConstraints="NO" id="D4R-2R-4Yj" userLabel="下载标识">
+                                            <rect key="frame" x="72" y="40" width="16" height="16"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="D4R-2R-4Yj" secondAttribute="height" multiplier="1:1" id="F9l-9K-jwq"/>
+                                                <constraint firstAttribute="width" constant="16" id="j1L-cK-sa5"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oiX-WW-dRl" userLabel="歌曲名栏">
+                                            <rect key="frame" x="72" y="19" width="202" height="17"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌手名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cKy-sN-Z38" userLabel="歌手名栏">
+                                            <rect key="frame" x="92" y="41" width="182" height="15"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <animations/>
+                                    <constraints>
+                                        <constraint firstItem="DhR-kt-EkE" firstAttribute="centerY" secondItem="9Od-oW-A6R" secondAttribute="centerY" id="0TE-7c-pkR"/>
+                                        <constraint firstAttribute="trailing" secondItem="DhR-kt-EkE" secondAttribute="trailing" constant="8" id="1uz-lr-cRG"/>
+                                        <constraint firstItem="aqo-Z3-KpL" firstAttribute="leading" secondItem="9Od-oW-A6R" secondAttribute="leading" constant="20" id="2K1-Z0-AeC"/>
+                                        <constraint firstItem="cKy-sN-Z38" firstAttribute="trailing" secondItem="oiX-WW-dRl" secondAttribute="trailing" id="3H1-df-3MA"/>
+                                        <constraint firstItem="D4R-2R-4Yj" firstAttribute="leading" secondItem="oiX-WW-dRl" secondAttribute="leading" id="46s-cm-zTR"/>
+                                        <constraint firstItem="aqo-Z3-KpL" firstAttribute="centerY" secondItem="9Od-oW-A6R" secondAttribute="centerY" id="6Wc-9u-aso"/>
+                                        <constraint firstItem="DhR-kt-EkE" firstAttribute="leading" secondItem="oiX-WW-dRl" secondAttribute="trailing" constant="8" id="HRF-Yv-bsH"/>
+                                        <constraint firstItem="cKy-sN-Z38" firstAttribute="centerY" secondItem="D4R-2R-4Yj" secondAttribute="centerY" id="K5a-Wa-mmb"/>
+                                        <constraint firstItem="oiX-WW-dRl" firstAttribute="leading" secondItem="aqo-Z3-KpL" secondAttribute="trailing" constant="8" id="P7C-bs-aWi"/>
+                                        <constraint firstItem="cKy-sN-Z38" firstAttribute="leading" secondItem="D4R-2R-4Yj" secondAttribute="trailing" constant="4" id="UHQ-95-YCB"/>
+                                        <constraint firstItem="D4R-2R-4Yj" firstAttribute="top" secondItem="oiX-WW-dRl" secondAttribute="bottom" constant="4" id="hMv-tx-LV7"/>
+                                        <constraint firstItem="oiX-WW-dRl" firstAttribute="bottom" secondItem="aqo-Z3-KpL" secondAttribute="centerY" constant="-4" id="ndA-k8-82v"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
                             </tableViewCell>
@@ -84,6 +152,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="收藏" id="Mof-6A-Vut"/>
+                    <connections>
+                        <outlet property="header" destination="XsP-NU-N3w" id="Bf4-3t-7zu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A7d-EN-w6F" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -100,7 +171,7 @@
                         <animations/>
                     </navigationBar>
                     <connections>
-                        <segue destination="60l-rO-5xV" kind="relationship" relationship="rootViewController" id="on1-a3-OVF"/>
+                        <segue destination="60l-rO-5xV" kind="relationship" relationship="rootViewController" id="uWe-yT-0DF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QP0-tz-1JM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -176,4 +247,8 @@
             <point key="canvasLocation" x="-12" y="-552"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="F-DwonloadIcon" width="15" height="15"/>
+        <image name="F-ShareIcon" width="19" height="19"/>
+    </resources>
 </document>
