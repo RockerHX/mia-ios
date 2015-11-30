@@ -11,7 +11,7 @@
 #import "FavoriteMgr.h"
 #import "HXFavoriteHeader.h"
 
-@interface HXFavoriteViewController ()
+@interface HXFavoriteViewController () <HXFavoriteHeaderDelegate>
 @end
 
 @implementation HXFavoriteViewController {
@@ -25,6 +25,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self initConfig];
+    [self viewConfig];
 }
 
 #pragma mark - Config Methods
@@ -38,25 +41,41 @@
 
 #pragma mark - Private Methods
 - (void)updateFavoriteHeader {
-    
+    _header.countLabel.text = @(_favoriteMgr.dataSource.count).stringValue;
 }
 
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return [_favoriteMgr favoriteCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXFavoriteCell class]) forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    HXFavoriteCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXFavoriteCell class]) forIndexPath:indexPath];
+    [cell displayWithItem:(_favoriteMgr.dataSource.count > indexPath.row) ? _favoriteMgr.dataSource[indexPath.row] : nil];
     return cell;
 }
 
 #pragma mark - Table View Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - HXFavoriteHeaderDelegate Methods
+- (void)favoriteHeader:(HXFavoriteHeader *)header takeAction:(HXFavoriteHeaderAction)action {
+    switch (action) {
+        case HXFavoriteHeaderActionPlay: {
+            ;
+            break;
+        }
+        case HXFavoriteHeaderActionPause: {
+            ;
+            break;
+        }
+        case HXFavoriteHeaderActionEdit: {
+            ;
+            break;
+        }
+    }
 }
 
 @end

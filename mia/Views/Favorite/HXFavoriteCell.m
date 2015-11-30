@@ -7,17 +7,17 @@
 //
 
 #import "HXFavoriteCell.h"
+#import "UIImageView+WebCache.h"
 
 @implementation HXFavoriteCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+#pragma mark - Public Methods
+- (void)displayWithItem:(FavoriteItem *)item {
+    MusicItem *musicItem = item.music;
+    [_frontCover sd_setImageWithURL:[NSURL URLWithString:musicItem.albumURL]];
+//    _downloadStateIcon;
+    _songNameLabel.text = musicItem.name;
+    _singerLabel.text = musicItem.singerName;
 }
 
 @end

@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="74"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SzL-MP-2Ys">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SzL-MP-2Ys" userLabel="播放按钮">
                     <rect key="frame" x="20" y="17" width="40" height="40"/>
                     <animations/>
                     <constraints>
@@ -43,7 +43,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBg-dt-QlO">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBg-dt-QlO" userLabel="音乐数量">
                     <rect key="frame" x="130" y="27" width="10" height="18"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -68,10 +68,20 @@
                         <action selector="editButtonPressed" destination="-1" eventType="touchUpInside" id="cKy-ET-ywk"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dak-S1-907" userLabel="底部分隔线">
+                    <rect key="frame" x="15" y="74" width="378" height="0.0"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="0.5" id="67I-9c-oti"/>
+                    </constraints>
+                </view>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="Dak-S1-907" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="3Zo-kK-cmI"/>
+                <constraint firstAttribute="bottom" secondItem="Dak-S1-907" secondAttribute="bottom" id="6fl-dO-XpL"/>
                 <constraint firstItem="1h5-HL-WAK" firstAttribute="leading" secondItem="SzL-MP-2Ys" secondAttribute="trailing" id="9y2-l6-orm"/>
                 <constraint firstItem="mac-Tv-ZCF" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-1" id="HoL-Z5-gdj"/>
                 <constraint firstItem="Ca9-0x-LCh" firstAttribute="centerY" secondItem="WBg-dt-QlO" secondAttribute="centerY" id="I2r-uI-fCS"/>
@@ -79,6 +89,7 @@
                 <constraint firstItem="WBg-dt-QlO" firstAttribute="centerY" secondItem="mac-Tv-ZCF" secondAttribute="centerY" id="R95-uZ-LOX"/>
                 <constraint firstItem="SzL-MP-2Ys" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="cBf-O6-Yu9"/>
                 <constraint firstItem="Ca9-0x-LCh" firstAttribute="leading" secondItem="WBg-dt-QlO" secondAttribute="trailing" constant="2" id="eQD-Cp-OzD"/>
+                <constraint firstAttribute="trailing" secondItem="Dak-S1-907" secondAttribute="trailing" id="jV9-aT-4QL"/>
                 <constraint firstAttribute="trailing" secondItem="eel-RZ-S63" secondAttribute="trailing" constant="20" id="kTe-Gj-NSf"/>
                 <constraint firstItem="WBg-dt-QlO" firstAttribute="leading" secondItem="mac-Tv-ZCF" secondAttribute="trailing" constant="2" id="mP2-EI-pSG"/>
                 <constraint firstItem="SzL-MP-2Ys" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="nGP-Es-Xt2"/>
