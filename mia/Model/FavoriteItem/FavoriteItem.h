@@ -10,20 +10,18 @@
 
 @interface FavoriteItem : NSObject <NSCoding>
 
-@property (strong, nonatomic) NSString * sID;
-@property (strong, nonatomic) NSString * uID;
-@property (strong, nonatomic) NSString * sNick;
-@property (strong, nonatomic) NSString * sDate;
-@property (strong, nonatomic) NSString * sNote;
-@property (strong, nonatomic) NSString * mID;
-@property (strong, nonatomic) NSString * fID;
+@property (nonatomic, strong) NSString *sID;
+@property (nonatomic, strong) NSString *uID;
+@property (nonatomic, strong) NSString *sNick;
+@property (nonatomic, strong) NSString *sDate;
+@property (nonatomic, strong) NSString *sNote;
+@property (nonatomic, strong) NSString *mID;
+@property (nonatomic, strong) NSString *fID;
 
-@property (strong, nonatomic) MusicItem *music;
+@property (nonatomic, strong) MusicItem *music;
 
-@property (assign, nonatomic) BOOL isSelected;
-@property (assign, nonatomic) BOOL isPlaying;
-@property (assign, nonatomic) BOOL isCached;
-
-- (id)initWithDictionary:(NSDictionary *)dictionary;
+@property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, assign) BOOL isPlaying;
+@property (nonatomic, assign) BOOL isCached;
 
 @end

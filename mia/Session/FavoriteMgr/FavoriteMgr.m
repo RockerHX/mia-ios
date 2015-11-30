@@ -10,18 +10,18 @@
 #import "FavoriteMgr.h"
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
-#import "FavoriteItem.h"
+#import "HXFavoriteViewModel.h"
 #import "PathHelper.h"
 #import "UserSession.h"
 #import "AFNetworking.h"
 #import "AFNHttpClient.h"
 #import "NSString+IsNull.h"
 #import "FileLog.h"
+#import "HXFavoriteCell.h"
 
-static const long kFavoriteRequestItemCountPerPage	= 100;
+static const NSInteger kFavoriteRequestItemCountPerPage	= 100;
 
 @interface FavoriteMgr()
-
 @end
 
 @implementation FavoriteMgr {
@@ -30,7 +30,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	dispatch_queue_t 			_downloadQueue;
 	NSURLSessionDownloadTask 	*_downloadTask;
-	long						_currentDownloadIndex;
+	NSInteger                   _currentDownloadIndex;
 }
 
 /**
@@ -63,20 +63,20 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
-- (NSInteger)currentPlaying {
-	if (_currentPlaying < 0 || _currentPlaying >= _dataSource.count) {
-		_currentPlaying = 0;
+- (NSInteger)playingIndex {
+	if (_playingIndex < 0 || _playingIndex >= _dataSource.count) {
+		_playingIndex = 0;
 	}
 
-	return _currentPlaying;
+	return _playingIndex;
 }
 
-- (long)favoriteCount {
+- (NSInteger)favoriteCount {
 	return [_dataSource count];
 }
 
-- (long)cachedCount {
-	long count = 0;
+- (NSInteger)cachedCount {
+	NSInteger count = 0;
 	for (FavoriteItem *item in _dataSource) {
 		if (item.isCached) {
 			count++;
@@ -103,10 +103,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 							 }];
 }
 
-- (NSArray *)getFavoriteListFromIndex:(long)lastIndex {
-	const static long kFavoriteListItemCountPerPage = 10;
+- (NSArray *)getFavoriteListFromIndex:(NSInteger)lastIndex {
+	const static NSInteger kFavoriteListItemCountPerPage = 10;
 	NSMutableArray * items = [[NSMutableArray alloc] init];
-	for (long i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _dataSource.count; i++) {
+	for (NSInteger i = 0; i < kFavoriteListItemCountPerPage && (i + lastIndex) < _dataSource.count; i++) {
 		[items addObject:_dataSource[i + lastIndex]];
 	}
 
@@ -130,11 +130,11 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 			// 如果删除的是当前正在下载的任务
 			if (_downloadTask
-				&& [[[[_downloadTask originalRequest] URL] absoluteString] isEqualToString:item.music.murl]) {
+				&& [[[[_downloadTask originalRequest] URL] absoluteString] isEqualToString:item.music.url]) {
 				[_downloadTask cancel];
 			}
 
-			[self deleteCacheFileWithUrl:item.music.murl];
+			[self deleteCacheFileWithUrl:item.music.url];
 			[_dataSource removeObject:item];
 		}
 	}
@@ -158,8 +158,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		}
 	}
 
-	if (_customDelegate) {
-		[_customDelegate favoriteMgrDidFinishSync];
+	if (_delegate) {
+		[_delegate favoriteMgrDidFinishSync];
 	}
 
 	_isSyncing = NO;
@@ -186,7 +186,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSEnumerator *deleteEnumerator = [_dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in deleteEnumerator) {
 		if (![self isItemInArray:item array:_tempItems]) {
-			[self deleteCacheFileWithUrl:item.music.murl];
+			[self deleteCacheFileWithUrl:item.music.url];
 			item.isCached = NO;
 			[_dataSource removeObject:item];
 			hasDataChanged = YES;
@@ -235,14 +235,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	{
 		FavoriteItem *item = [self getNextDownloadItem];
 		if (!item
-			|| [NSString isNull:item.music.murl]
+			|| [NSString isNull:item.music.url]
 			|| ![[WebSocketMgr standard] isWifiNetwork]) {
 			// 断网后也会从0重新开始查找需要下载的歌曲
 			_currentDownloadIndex = 0;
 
 			dispatch_sync(dispatch_get_main_queue(), ^{
-				if (_customDelegate) {
-					[_customDelegate favoriteMgrDidFinishDownload];
+				if (_delegate) {
+					[_delegate favoriteMgrDidFinishDownload];
 				}
 			});
 
@@ -250,11 +250,11 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			return;
 		}
 
-		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
-										  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
+		_downloadTask = [AFNHttpClient downloadWithURL:item.music.url
+										  savePath:[PathHelper genMusicFilenameWithUrl:item.music.url]
 									 completeBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error)
 		{
-			[[FileLog standard] log:@"download %@, %@, error:%@", item.music.name, item.music.murl, error];
+			[[FileLog standard] log:@"download %@, %@, error:%@", item.music.name, item.music.url, error];
 			if (nil == error) {
 				[_dataSource[_currentDownloadIndex] setIsCached:YES];
 				[self saveData];
@@ -293,7 +293,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		return NO;
 	}
 
-	if (![self isItemCachedWithUrl:item.music.murl]) {
+	if (![self isItemCachedWithUrl:item.music.url]) {
 		item.isCached = NO;
 		return NO;
 	}
@@ -343,12 +343,12 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 	
 	for(id item in items){
-		FavoriteItem *favoriteItem = [[FavoriteItem alloc] initWithDictionary:item];
+		FavoriteItem *favoriteItem = [FavoriteItem mj_objectWithKeyValues:item];
 		[_tempItems addObject:favoriteItem];
 	}
 
 	if ([items count] == kFavoriteRequestItemCountPerPage) {
-		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%lu", (unsigned long)[_tempItems count]]
+		[MiaAPIHelper getFavoriteListWithStart:[NSString stringWithFormat:@"%zd", [_tempItems count]]
 										  item:kFavoriteRequestItemCountPerPage
 								 completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 									 [self handleGetFavoriteListWitRet:success userInfo:userInfo];

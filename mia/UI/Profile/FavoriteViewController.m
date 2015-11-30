@@ -308,7 +308,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	cell.isEditing = _isEditing;
 	if (_favoriteViewControllerDelegate) {
 		FavoriteItem *item = [FavoriteMgr standard].dataSource[indexPath.row];
-		item.isPlaying = ([FavoriteMgr standard].currentPlaying == indexPath.row);
+		item.isPlaying = ([FavoriteMgr standard].playingIndex == indexPath.row);
 		cell.dataItem = item;
 	}
 
@@ -366,11 +366,11 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSInteger lastPlayingRow = [FavoriteMgr standard].currentPlaying;
+	NSInteger lastPlayingRow = [FavoriteMgr standard].playingIndex;
 	if (_isEditing) {
-		FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-		currentPlayingCell.dataItem.isSelected = !currentPlayingCell.dataItem.isSelected;
-		[currentPlayingCell updateSelectedState];
+		FavoriteCollectionViewCell *playingIndexCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+		playingIndexCell.dataItem.isSelected = !playingIndexCell.dataItem.isSelected;
+		[playingIndexCell updateSelectedState];
 		[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:indexPath, nil]];
 		[self updateSelectedCount];
 	} else {
@@ -382,12 +382,12 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 		lastPlayingCell.dataItem.isPlaying = NO;
 		[lastPlayingCell updatePlayingState];
 
-		FavoriteCollectionViewCell *currentPlayingCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-		currentPlayingCell.dataItem.isPlaying = YES;
-		[currentPlayingCell updatePlayingState];
+		FavoriteCollectionViewCell *playingIndexCell = (FavoriteCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+		playingIndexCell.dataItem.isPlaying = YES;
+		[playingIndexCell updatePlayingState];
 
-		[FavoriteMgr standard].currentPlaying = indexPath.row;
-		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[FavoriteMgr standard].currentPlaying];
+		[FavoriteMgr standard].playingIndex = indexPath.row;
+		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[FavoriteMgr standard].playingIndex];
 
 		[_favoriteCollectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
 	}
@@ -413,7 +413,7 @@ const static CGFloat kFavoriteAlpha 		= 0.9;
 	if (_isPlaying) {
 		[_favoriteViewControllerDelegate favoriteViewControllerPauseMusic];
 	} else {
-		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[FavoriteMgr standard].currentPlaying];
+		[_favoriteViewControllerDelegate favoriteViewControllerPlayMusic:[FavoriteMgr standard].playingIndex];
 	}
 }
 

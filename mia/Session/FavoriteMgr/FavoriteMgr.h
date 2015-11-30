@@ -23,14 +23,14 @@
  */
 + (FavoriteMgr *)standard;
 
-@property (weak, nonatomic)id<FavoriteMgrDelegate> customDelegate;
-@property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, assign) NSInteger currentPlaying;
+@property (weak, nonatomic)               id  <FavoriteMgrDelegate>delegate;
+@property (nonatomic, assign)      NSInteger  playingIndex;
+@property (nonatomic, strong) NSMutableArray<FavoriteItem *> *dataSource;
 
-- (long)favoriteCount;
-- (long)cachedCount;
+- (NSInteger)favoriteCount;
+- (NSInteger)cachedCount;
 - (void)syncFavoriteList;
-- (NSArray *)getFavoriteListFromIndex:(long)lastIndex;
+- (NSArray *)getFavoriteListFromIndex:(NSInteger)lastIndex;
 - (void)removeSelectedItemsWithCompleteBlock:(void (^)(BOOL isChanged, BOOL deletePlaying, NSArray *idArray))completeBlock;
 - (BOOL)isItemCached:(FavoriteItem *)item;
 - (BOOL)isItemCachedWithUrl:(NSString *)url;

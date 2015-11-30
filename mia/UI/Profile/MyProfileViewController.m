@@ -220,8 +220,9 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[self requestShareList];
 
 	// 收藏数据
-	[[FavoriteMgr standard] setCustomDelegate:self];
-	[[FavoriteMgr standard] syncFavoriteList];
+    FavoriteMgr *favoriteMgr = [FavoriteMgr standard];
+    favoriteMgr.delegate = self;
+	[favoriteMgr syncFavoriteList];
 
 	// 播放器
 	_songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"MyProfileViewController Song List"];
@@ -607,11 +608,11 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 #pragma mark - SongListPlayerDataSource
 - (NSInteger)songListPlayerCurrentItemIndex {
-	return [FavoriteMgr standard].currentPlaying;
+	return [FavoriteMgr standard].playingIndex;
 }
 
 - (NSInteger)songListPlayerNextItemIndex {
-	NSInteger nextIndex = [FavoriteMgr standard].currentPlaying + 1;
+	NSInteger nextIndex = [FavoriteMgr standard].playingIndex + 1;
 	if (nextIndex >= [FavoriteMgr standard].dataSource.count) {
 		nextIndex = 0;
 	}
@@ -635,7 +636,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)songListPlayerDidCompletion {
 	if (_playingFavorite) {
-		[FavoriteMgr standard].currentPlaying++;
+		[FavoriteMgr standard].playingIndex++;
 		[self playFavoriteMusic];
 		if (_favoriteViewController) {
 			[_favoriteViewController.favoriteCollectionView reloadData];
@@ -645,7 +646,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)songListPlayerShouldPlayNext {
 	if (_playingFavorite) {
-		[FavoriteMgr standard].currentPlaying++;
+		[FavoriteMgr standard].playingIndex++;
 		[self playFavoriteMusic];
 		if (_favoriteViewController) {
 			[_favoriteViewController.favoriteCollectionView reloadData];
@@ -683,7 +684,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		return;
 	}
 
-	FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].currentPlaying];
+	FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].playingIndex];
 
 	// Wifi环境或者歌曲已经缓存，直接播放
 	if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
@@ -692,7 +693,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 
 	// 用户允许3G环境下播放歌曲
-	if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.murl]) {
+	if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.url]) {
 		[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
 		return;
 	}
@@ -703,7 +704,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		FavoriteItem* item = [FavoriteMgr standard].dataSource[i];
 		if ([[FavoriteMgr standard] isItemCached:item]) {
 			itemForPlay = item;
-			[FavoriteMgr standard].currentPlaying = i;
+			[FavoriteMgr standard].playingIndex = i;
 			break;
 		}
 	}
@@ -720,13 +721,13 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	if ([FavoriteMgr standard].dataSource.count <= 0) {
 		return;
 	}
-	if (([FavoriteMgr standard].currentPlaying - 1) < 0) {
+	if (([FavoriteMgr standard].playingIndex - 1) < 0) {
 		return;
 	}
 
-	[FavoriteMgr standard].currentPlaying--;
+	[FavoriteMgr standard].playingIndex--;
 
-	FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].currentPlaying];
+	FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].playingIndex];
 
 	// Wifi环境或者歌曲已经缓存，直接播放
 	if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
@@ -735,7 +736,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 
 	// 用户允许3G环境下播放歌曲
-	if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.murl]) {
+	if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.url]) {
 		[self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
 		return;
 	}
@@ -746,7 +747,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 		FavoriteItem* item = [FavoriteMgr standard].dataSource[i];
 		if ([[FavoriteMgr standard] isItemCached:item]) {
 			itemForPlay = item;
-			[FavoriteMgr standard].currentPlaying = i;
+			[FavoriteMgr standard].playingIndex = i;
 			break;
 		}
 	}
@@ -766,13 +767,13 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	}
 
 	MusicItem *musicItem = [aFavoriteItem.music copy];
-	if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
+	if (!musicItem.url || !musicItem.name || !musicItem.singerName) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}
 
 	if (aFavoriteItem.isCached && [[FavoriteMgr standard] isItemCached:aFavoriteItem]) {
-		musicItem.murl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicItem.murl]];
+		musicItem.url = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicItem.url]];
 	} else {
 		NSLog(@"收藏中播放还未下载的歌曲");
 	}
