@@ -15,14 +15,14 @@ HXXibImplementation
 
 #pragma Event Response
 - (IBAction)playButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(favoriteHeader:takeAction:)]) {
-        [_delegate favoriteHeader:self takeAction:HXFavoriteHeaderActionPlay];
+    if (_delegate && [_delegate respondsToSelector:@selector(favoriteHeader:action:)]) {
+        [_delegate favoriteHeader:self action:HXFavoriteHeaderActionPlay];
     }
 }
 
 - (IBAction)editButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(favoriteHeader:takeAction:)]) {
-        [_delegate favoriteHeader:self takeAction:HXFavoriteHeaderActionEdit];
+    if (_delegate && [_delegate respondsToSelector:@selector(favoriteHeader:action:)]) {
+        [_delegate favoriteHeader:self action:HXFavoriteHeaderActionEdit];
     }
 }
 

@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, HXFavoriteHeaderAction) {
 @protocol HXFavoriteHeaderDelegate <NSObject>
 
 @required
-- (void)favoriteHeader:(HXFavoriteHeader *)header takeAction:(HXFavoriteHeaderAction)action;
+- (void)favoriteHeader:(HXFavoriteHeader *)header action:(HXFavoriteHeaderAction)action;
 
 @end
 

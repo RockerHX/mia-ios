@@ -68,7 +68,7 @@
 }
 
 #pragma mark - HXFavoriteHeaderDelegate Methods
-- (void)favoriteHeader:(HXFavoriteHeader *)header takeAction:(HXFavoriteHeaderAction)action {
+- (void)favoriteHeader:(HXFavoriteHeader *)header action:(HXFavoriteHeaderAction)action {
     switch (action) {
         case HXFavoriteHeaderActionPlay: {
             ;
