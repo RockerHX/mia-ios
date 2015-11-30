@@ -73,20 +73,20 @@
 }
 
 - (void)playWithMusicItem:(MusicItem *)item {
-	[[FileLog standard] log:@"playWithMusicItem %@, %@", item.name, item.murl];
+	[[FileLog standard] log:@"playWithMusicItem %@, %@", item.name, item.url];
 
-	if ([self isPlayingWithUrl:item.murl]) {
+	if ([self isPlayingWithUrl:item.url]) {
 		// 同一个模块再次播放同一首歌，什么都不做
 		NSLog(@"play the same song in the same model, play will be ignored.");
 		return;
 	}
 
-	if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
+	if (![UserSetting isAllowedToPlayNowWithURL:item.url]) {
 		[self checkBeforePlayWithMusicItem:item];
 		return;
 	}
 
-	[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName cover:item.purl];
+	[self playWithoutCheckWithUrl:item.url title:item.name artist:item.singerName cover:item.albumURL];
 	_currentItem = item;
 }
 
@@ -213,7 +213,7 @@
 - (void)checkBeforePlayWithMusicItem:(MusicItem *)item {
 	[[MusicMgr standard] checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
 		if (isAllowed) {
-			[self playWithoutCheckWithUrl:item.murl title:item.name artist:item.singerName cover:item.purl];
+			[self playWithoutCheckWithUrl:item.url title:item.name artist:item.singerName cover:item.albumURL];
 		}
 	}];
 }

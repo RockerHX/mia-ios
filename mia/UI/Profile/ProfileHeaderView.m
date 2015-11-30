@@ -258,11 +258,11 @@
 - (void)updateCoverImage {
 	if ([[FavoriteMgr standard].dataSource count] > 0) {
 		FavoriteItem *item = [FavoriteMgr standard].dataSource[0];
-		if ([_coverImageUrl isEqualToString:item.music.purl]) {
+		if ([_coverImageUrl isEqualToString:item.music.albumURL]) {
 			return;
 		}
 
-		[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.music.purl]
+		[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.music.albumURL]
 						   placeholderImage:_coverImageView.image
 									options:SDWebImageAvoidAutoSetImage
 								  completed:

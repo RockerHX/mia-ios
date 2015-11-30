@@ -63,7 +63,7 @@
 
 #pragma mark - Event Response
 - (IBAction)playButtonPressed {
-    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.murl]) {
+    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.url]) {
         [[MusicMgr standard] pause];
         _playButton.selected = NO;
     } else {
@@ -88,7 +88,7 @@
         return;
     }
     
-    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.murl]) {
+    if ([[MusicMgr standard] isPlayingWithUrl:_playItem.music.url]) {
         _playButton.selected = YES;
     } else {
         _playButton.selected = NO;
@@ -98,7 +98,7 @@
 #pragma mark - audio operations
 - (void)playMusic {
     MusicItem *musicItem = [_playItem.music copy];
-    if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
+    if (!musicItem.url || !musicItem.name || !musicItem.singerName) {
         NSLog(@"Music is nil, stop play it.");
         return;
     }

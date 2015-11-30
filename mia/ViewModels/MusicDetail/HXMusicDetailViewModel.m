@@ -32,7 +32,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
     if (self) {
         if (item) {
             _playItem = item;
-            _frontCoverURL = [NSURL URLWithString:item.music.purl];
+            _frontCoverURL = [NSURL URLWithString:item.music.albumURL];
             
             [self initConfig];
         }

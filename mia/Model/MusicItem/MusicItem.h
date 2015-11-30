@@ -6,17 +6,17 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-@interface MusicItem : NSObject <NSCoding, NSCopying>
+#import <MJExtension/MJExtension.h>
 
-@property (strong, nonatomic) NSString *mid;
-@property (strong, nonatomic) NSString *singerID;
-@property (strong, nonatomic) NSString *singerName;
-@property (strong, nonatomic) NSString *albumName;
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *purl;
-@property (strong, nonatomic) NSString *murl;
-@property (strong, nonatomic) NSString *flag;
+@interface MusicItem : NSObject
 
-- (id)initWithDictionary:(NSDictionary *)dictionary;
+@property (nonatomic, strong) NSString *ID;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *singerID;
+@property (nonatomic, strong) NSString *singerName;
+@property (nonatomic, strong) NSString *albumName;
+@property (nonatomic, strong) NSString *albumURL;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *flag;
 
 @end

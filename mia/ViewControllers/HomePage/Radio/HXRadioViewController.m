@@ -143,7 +143,7 @@
 
 - (void)viewShouldDisplay {
     if (_helper.items.count > _shareListMgr.currentIndex) {
-        if ([[MusicMgr standard] isPlayingWithUrl:((ShareItem *)_helper.items[_shareListMgr.currentIndex]).music.murl]) {
+        if ([[MusicMgr standard] isPlayingWithUrl:((ShareItem *)_helper.items[_shareListMgr.currentIndex]).music.url]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPlayNotification object:nil];
         } else {
             [[NSNotificationCenter defaultCenter] postNotificationName:HXMusicPlayerMgrDidPauseNotification object:nil];
@@ -154,7 +154,7 @@
 #pragma mark - Audio Operations
 - (void)playMusic:(ShareItem *)item {
 	MusicItem *musicItem = [item.music copy];
-	if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
+	if (!musicItem.url || !musicItem.name || !musicItem.singerName) {
 		NSLog(@"Music is nil, stop play it.");
 		return;
 	}

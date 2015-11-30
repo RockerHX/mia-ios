@@ -186,7 +186,7 @@
 }
 
 - (void)reloadPlayStatus {
-    if ([[MusicMgr standard] isPlayingWithUrl:_currentItem.music.murl]) {
+    if ([[MusicMgr standard] isPlayingWithUrl:_currentItem.music.url]) {
         _playButton.selected = NO;
     } else {
         _playButton.selected = YES;
@@ -205,7 +205,7 @@
     _songerNameLabel.text = music.singerName ?: @"";
     _starButton.selected = item.favorite;
     _sharerNickNameLabel.text = item.sNick;
-    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
+    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.albumURL]];
     [self displayShareContentLabelWithContent:item.sNote locationInfo:[NSString stringWithFormat:@"♫%@", item.sAddress]];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:)]) {

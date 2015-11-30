@@ -181,7 +181,7 @@
 - (void)setShareItem:(ShareItem *)shareItem {
 	_shareItem = shareItem;
 
-	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:shareItem.music.purl]
+	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:shareItem.music.albumURL]
 					   placeholderImage:[UIImage imageNamed:@"default_cover"]
 								options:SDWebImageAvoidAutoSetImage
 							  completed:

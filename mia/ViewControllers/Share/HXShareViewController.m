@@ -164,7 +164,7 @@
 
 #pragma mark - audio operations
 - (void)playMusic {
-    if (!_musicItem.murl || !_musicItem.name || !_musicItem.singerName) {
+    if (!_musicItem.url || !_musicItem.name || !_musicItem.singerName) {
         NSLog(@"Music is nil, stop play it.");
         return;
     }
@@ -270,8 +270,8 @@
     _musicItem.singerName = _dataItem.artist;
     _musicItem.albumName = _dataItem.albumName;
     _musicItem.name = _dataItem.title;
-    _musicItem.purl = _dataItem.albumPic;
-    _musicItem.murl = _dataItem.songUrl;
+    _musicItem.albumURL = _dataItem.albumPic;
+    _musicItem.url = _dataItem.songUrl;
     
     [self updateUI];
 }
@@ -292,8 +292,8 @@
         _musicItem.singerName = _dataItem.artist;
         _musicItem.albumName = _dataItem.albumName;
         _musicItem.name = _dataItem.title;
-        _musicItem.purl = _dataItem.albumPic;
-        _musicItem.murl = _dataItem.songUrl;
+        _musicItem.albumURL = _dataItem.albumPic;
+        _musicItem.url = _dataItem.songUrl;
         
         [self playMusic];
     }

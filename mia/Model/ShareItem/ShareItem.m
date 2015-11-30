@@ -29,7 +29,7 @@
 		self.favorite = [[dictionary objectForKey:@"star"] intValue];
 		self.isInfected = [[dictionary objectForKey:@"isInfected"] intValue];
 
-		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
+		self.music = [MusicItem mj_objectWithKeyValues:[dictionary objectForKey:@"music"]];
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
     }
 	

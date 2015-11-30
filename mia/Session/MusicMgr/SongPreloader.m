@@ -63,24 +63,24 @@
 }
 
 - (void)preloadWithMusicItem:(MusicItem *)item {
-	if ([[FavoriteMgr standard] isItemCachedWithUrl:item.murl]) {
+	if ([[FavoriteMgr standard] isItemCachedWithUrl:item.url]) {
 		NSLog(@"#SongPreloader# preload ignored, has downloaded");
 		return;
 	}
 
 	NSLog(@"#SongPreloader# preload");
 	if (_delegate) {
-		if ([_delegate songPreloaderIsPlayerLoadedThisUrl:item.murl]) {
+		if ([_delegate songPreloaderIsPlayerLoadedThisUrl:item.url]) {
 			return;
 		}
 	}
 
-	if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
+	if (![UserSetting isAllowedToPlayNowWithURL:item.url]) {
 		return;
 	}
 
-	[[FileLog standard] log:@"preloadWithMusicItem %@", item.murl];
-	_audioStream.url = [NSURL URLWithString:item.murl];
+	[[FileLog standard] log:@"preloadWithMusicItem %@", item.url];
+	_audioStream.url = [NSURL URLWithString:item.url];
 	[_audioStream preload];
 
 	_currentItem = item;

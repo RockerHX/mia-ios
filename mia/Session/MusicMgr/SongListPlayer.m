@@ -130,7 +130,7 @@
 }
 
 - (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {
-	return [_player.currentItem.murl isEqualToString:url];
+	return [_player.currentItem.url isEqualToString:url];
 }
 
 @end
