@@ -23,7 +23,11 @@ typedef NS_ENUM(NSUInteger, HXFavoriteHeaderAction) {
 
 @end
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
+
 IB_DESIGNABLE
+
+#endif
 
 @interface HXFavoriteHeader : UIView
 
