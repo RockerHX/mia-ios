@@ -170,6 +170,8 @@
 		CDAC4B881C0C57B700257BFB /* HXPlayerProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDAC4B871C0C57B700257BFB /* HXPlayerProgressView.xib */; };
 		CDAC4B8B1C0C57C000257BFB /* HXPlayerProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B8A1C0C57C000257BFB /* HXPlayerProgressView.m */; };
 		CDAC4B8F1C0D335100257BFB /* HXPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B8E1C0D335100257BFB /* HXPlayerViewController.m */; };
+		CDAC4B921C0D3A0700257BFB /* UIViewController+HXClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B911C0D3A0700257BFB /* UIViewController+HXClass.m */; };
+		CDAC4B971C0D3A6F00257BFB /* HXStoryBoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B961C0D3A6F00257BFB /* HXStoryBoardManager.m */; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; };
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; };
@@ -489,6 +491,10 @@
 		CDAC4B8A1C0C57C000257BFB /* HXPlayerProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayerProgressView.m; sourceTree = "<group>"; };
 		CDAC4B8D1C0D335100257BFB /* HXPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayerViewController.h; sourceTree = "<group>"; };
 		CDAC4B8E1C0D335100257BFB /* HXPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayerViewController.m; sourceTree = "<group>"; };
+		CDAC4B901C0D3A0700257BFB /* UIViewController+HXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HXClass.h"; sourceTree = "<group>"; };
+		CDAC4B911C0D3A0700257BFB /* UIViewController+HXClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HXClass.m"; sourceTree = "<group>"; };
+		CDAC4B951C0D3A6F00257BFB /* HXStoryBoardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXStoryBoardManager.h; sourceTree = "<group>"; };
+		CDAC4B961C0D3A6F00257BFB /* HXStoryBoardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXStoryBoardManager.m; sourceTree = "<group>"; };
 		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
 		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
 		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
@@ -1074,6 +1080,7 @@
 				39BCAD771BA02AFE00C6F7F2 /* UIComponment */,
 				39BCAD3D1B9F141B00C6F7F2 /* Utils */,
 				CD3362611BD624A900240345 /* Macros */,
+				CDAC4B931C0D3A5100257BFB /* Common */,
 				CD4F62F71BCB4E3400E33121 /* Helper */,
 				397E42791BA26ED2006BE9E7 /* Model */,
 				CD5753831BDE339900E7CBC4 /* ViewModels */,
@@ -1346,6 +1353,8 @@
 				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
 				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
+				CDAC4B901C0D3A0700257BFB /* UIViewController+HXClass.h */,
+				CDAC4B911C0D3A0700257BFB /* UIViewController+HXClass.m */,
 				CDC7C24F1BE76D1A0024FEB6 /* HXNavigationController.h */,
 				CDC7C2501BE76D1A0024FEB6 /* HXNavigationController.m */,
 				CD2B74CB1C0844960053EEE5 /* HXMainViewController.h */,
@@ -1573,6 +1582,23 @@
 				CDAC4B8E1C0D335100257BFB /* HXPlayerViewController.m */,
 			);
 			path = Player;
+			sourceTree = "<group>";
+		};
+		CDAC4B931C0D3A5100257BFB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CDAC4B941C0D3A5100257BFB /* StoryboardManager */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		CDAC4B941C0D3A5100257BFB /* StoryboardManager */ = {
+			isa = PBXGroup;
+			children = (
+				CDAC4B951C0D3A6F00257BFB /* HXStoryBoardManager.h */,
+				CDAC4B961C0D3A6F00257BFB /* HXStoryBoardManager.m */,
+			);
+			path = StoryboardManager;
 			sourceTree = "<group>";
 		};
 		CDC5FE831BD0FD40001D154E /* Views */ = {
@@ -1938,6 +1964,7 @@
 				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
 				CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */,
 				CD57538D1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m in Sources */,
+				CDAC4B971C0D3A6F00257BFB /* HXStoryBoardManager.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
 				CD6EDE871C085D15004CC079 /* HXFavoriteViewController.m in Sources */,
@@ -1995,6 +2022,7 @@
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,
 				CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */,
 				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,
+				CDAC4B921C0D3A0700257BFB /* UIViewController+HXClass.m in Sources */,
 				397218921BCF8F9400721A6D /* InfectUserItem.m in Sources */,
 				397E42D21BA90812006BE9E7 /* NSString+IsNull.m in Sources */,
 				CD57539E1BDF53F000E7CBC4 /* CommentModel.m in Sources */,
