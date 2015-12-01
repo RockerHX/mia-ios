@@ -7,6 +7,7 @@
 //
 
 #import "HXPlayListViewController.h"
+#import "HXPlayListCell.h"
 
 @interface HXPlayListViewController ()
 @end
@@ -31,6 +32,21 @@
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Table View Data Source Methods
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HXPlayListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXPlayListCell class]) forIndexPath:indexPath];
+    return cell;
+}
+
+#pragma mark - Table View Delegate Methods
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -127,25 +128,70 @@
             </objects>
             <point key="canvasLocation" x="175" y="360"/>
         </scene>
-        <!--播放列表-->
+        <!--歌曲列表-->
         <scene sceneID="sEt-RB-pPz">
             <objects>
                 <tableViewController storyboardIdentifier="HXPlayListViewController" id="Dj0-pM-kaW" customClass="HXPlayListViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nHa-Z9-wsw">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="nHa-Z9-wsw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="5HJ-FV-8na">
+                            <rect key="frame" x="0.0" y="152" width="320" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="2zb-Bm-P4B">
-                                <rect key="frame" x="0.0" y="92" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXPlayListCell" rowHeight="60" id="fek-K2-h5J" customClass="HXPlayListCell">
+                                <rect key="frame" x="0.0" y="92" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2zb-Bm-P4B" id="rMQ-mR-gUF">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fek-K2-h5J" id="aIn-If-2aP">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qxm-dH-6IK" userLabel="音乐封面">
+                                            <rect key="frame" x="20" y="8" width="44" height="44"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="Qxm-dH-6IK" secondAttribute="height" multiplier="1:1" id="hxH-Rl-T7U"/>
+                                                <constraint firstAttribute="width" constant="44" id="tBP-Ps-suS"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5UL-HV-shE" userLabel="歌曲名栏">
+                                            <rect key="frame" x="72" y="9" width="240" height="17"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌手名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTA-SU-XaZ" userLabel="歌手名栏">
+                                            <rect key="frame" x="72" y="31" width="240" height="15"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <animations/>
+                                    <constraints>
+                                        <constraint firstItem="YTA-SU-XaZ" firstAttribute="trailing" secondItem="5UL-HV-shE" secondAttribute="trailing" id="5jG-o3-fjy"/>
+                                        <constraint firstItem="YTA-SU-XaZ" firstAttribute="top" secondItem="5UL-HV-shE" secondAttribute="bottom" constant="5" id="B7h-Jh-6VR"/>
+                                        <constraint firstAttribute="trailing" secondItem="5UL-HV-shE" secondAttribute="trailing" constant="8" id="D8r-2I-WhQ"/>
+                                        <constraint firstItem="5UL-HV-shE" firstAttribute="bottom" secondItem="Qxm-dH-6IK" secondAttribute="centerY" constant="-4" id="HN6-fd-Vdx"/>
+                                        <constraint firstItem="Qxm-dH-6IK" firstAttribute="leading" secondItem="aIn-If-2aP" secondAttribute="leading" constant="20" id="fh9-ra-jy5"/>
+                                        <constraint firstItem="5UL-HV-shE" firstAttribute="leading" secondItem="Qxm-dH-6IK" secondAttribute="trailing" constant="8" id="nyw-xf-P7I"/>
+                                        <constraint firstItem="YTA-SU-XaZ" firstAttribute="leading" secondItem="5UL-HV-shE" secondAttribute="leading" id="o8j-Lq-WzX"/>
+                                        <constraint firstItem="Qxm-dH-6IK" firstAttribute="centerY" secondItem="aIn-If-2aP" secondAttribute="centerY" id="zgP-0b-sH5"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
+                                <connections>
+                                    <outlet property="frontCover" destination="Qxm-dH-6IK" id="hTL-wM-nRN"/>
+                                    <outlet property="singerLabel" destination="YTA-SU-XaZ" id="E4R-Aj-HWs"/>
+                                    <outlet property="songNameLabel" destination="5UL-HV-shE" id="bb2-ZX-3tc"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -153,7 +199,7 @@
                             <outlet property="delegate" destination="Dj0-pM-kaW" id="7Vu-6w-BRK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="播放列表" id="T5r-io-F61">
+                    <navigationItem key="navigationItem" title="歌曲列表" id="T5r-io-F61">
                         <barButtonItem key="leftBarButtonItem" image="C-BackIcon" id="Wl8-Bq-lpn">
                             <connections>
                                 <action selector="backButtonPressed" destination="Dj0-pM-kaW" id="B0D-wi-sOo"/>
