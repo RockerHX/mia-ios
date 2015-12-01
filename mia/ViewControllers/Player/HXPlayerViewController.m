@@ -14,7 +14,8 @@
 @interface HXPlayerViewController () <HXPlayerActionBarDelegate>
 @end
 
-@implementation HXPlayerViewController
+@implementation HXPlayerViewController {
+}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {

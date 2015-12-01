@@ -10,8 +10,12 @@
 
 typedef NS_ENUM(NSUInteger, HXFavoriteHeaderAction) {
     HXFavoriteHeaderActionPlay,
-    HXFavoriteHeaderActionPause,
     HXFavoriteHeaderActionEdit
+};
+
+typedef NS_ENUM(BOOL, HXFavoriteHeaderState) {
+    HXFavoriteHeaderStatePlay  = YES,
+    HXFavoriteHeaderStatePause = NO
 };
 
 @class HXFavoriteHeader;
@@ -34,7 +38,9 @@ IB_DESIGNABLE
 @property (weak, nonatomic) IBOutlet       id  <HXFavoriteHeaderDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet  UILabel *countLabel;
+
+@property (nonatomic, assign) HXFavoriteHeaderState  playState;
 
 - (IBAction)playButtonPressed;
 - (IBAction)editButtonPressed;

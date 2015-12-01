@@ -13,6 +13,11 @@
 
 HXXibImplementation
 
+#pragma mark - Setter And Getter
+- (void)setPlayState:(HXFavoriteHeaderState)playState {
+    [_playButton setImage:[UIImage imageNamed:playState ? @"F-PauseIcon-Black" : @"F-PlayIcon-Black"] forState:UIControlStateNormal];
+}
+
 #pragma Event Response
 - (IBAction)playButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(favoriteHeader:action:)]) {
