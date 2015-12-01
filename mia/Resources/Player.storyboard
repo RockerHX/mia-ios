@@ -80,6 +80,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="WXC-TJ-cbp"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="6HH-RO-4TL" id="EAC-TN-VYy"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Lj-Xq-uJ3" customClass="HXPlayerProgressView">
                                 <rect key="frame" x="0.0" y="512" width="320" height="20"/>
@@ -123,6 +126,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FVk-vB-0dD"/>
+                    <connections>
+                        <outlet property="frontCover" destination="uJr-pe-q2a" id="oLJ-xw-Hno"/>
+                        <outlet property="infoView" destination="0v7-Fy-Pcy" id="nXt-vd-8kw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NRo-cL-6t6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

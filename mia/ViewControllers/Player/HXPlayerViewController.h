@@ -8,7 +8,12 @@
 
 #import "UIViewController+HXClass.h"
 
+@class HXPlayerInfoView;
+
 @interface HXPlayerViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet      UIImageView *frontCover;
+@property (weak, nonatomic) IBOutlet HXPlayerInfoView *infoView;
 
 - (IBAction)backButtonPressed;
 

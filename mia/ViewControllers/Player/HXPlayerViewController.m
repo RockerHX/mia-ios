@@ -10,11 +10,15 @@
 #import "HXPlayerInfoView.h"
 #import "HXPlayerProgressView.h"
 #import "HXPlayerActionBar.h"
+#import "MusicMgr.h"
+#import "SongListPlayer.h"
+#import "UIImageView+WebCache.h"
 
-@interface HXPlayerViewController () <HXPlayerActionBarDelegate>
+@interface HXPlayerViewController () <HXPlayerInfoViewDelegate, HXPlayerActionBarDelegate>
 @end
 
 @implementation HXPlayerViewController {
+    SongListPlayer *_soglistPlayer;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -37,9 +41,11 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
+    _soglistPlayer = [MusicMgr standard].currentPlayer;
 }
 
 - (void)viewConfig {
+    [self updateUI];
 }
 
 #pragma mark - Setter And Getter Methods
@@ -54,6 +60,20 @@
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Private Methods
+- (void)updateUI {
+    MusicItem *item = [_soglistPlayer currentItem];
+    [_frontCover sd_setImageWithURL:[NSURL URLWithString:item.albumURL] placeholderImage:[UIImage imageNamed:@"C-DefaultCoverBG"]];
+    
+    _infoView.songNameLabel.text = item.name;
+    _infoView.singerLabel.text = item.singerName;
+}
+
+#pragma mark - HXPlayerInfoViewDelegate Methods
+- (void)playerInfoViewShouldShare:(HXPlayerInfoView *)infoView {
+    
 }
 
 #pragma mark - HXPlayerActionBarDelegate Methods

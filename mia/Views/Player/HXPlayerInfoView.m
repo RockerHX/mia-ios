@@ -13,4 +13,11 @@
 
 HXXibImplementation
 
+#pragma mark - Event Response
+- (IBAction)shareButtonPressed {
+    if (_delegate && [_delegate respondsToSelector:@selector(playerInfoViewShouldShare:)]) {
+        [_delegate playerInfoViewShouldShare:self];
+    }
+}
+
 @end
