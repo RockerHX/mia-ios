@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXPlayerProgressView"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="74"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNQ-0Q-GrJ">
+                    <rect key="frame" x="8" y="28" width="39" height="17"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NVq-b3-mj3">
+                    <rect key="frame" x="346" y="28" width="39" height="17"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KTA-LZ-wvR">
+                    <rect key="frame" x="55" y="35" width="283" height="4"/>
+                    <animations/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="4" id="knb-hm-4ft"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="qNQ-0Q-GrJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="HWI-Pv-98V"/>
+                <constraint firstItem="NVq-b3-mj3" firstAttribute="leading" secondItem="KTA-LZ-wvR" secondAttribute="trailing" constant="8" id="LrZ-Kp-vuU"/>
+                <constraint firstAttribute="trailing" secondItem="NVq-b3-mj3" secondAttribute="trailing" constant="8" id="YCm-1c-78g"/>
+                <constraint firstItem="qNQ-0Q-GrJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="ZZR-1U-f7j"/>
+                <constraint firstItem="KTA-LZ-wvR" firstAttribute="leading" secondItem="qNQ-0Q-GrJ" secondAttribute="trailing" constant="8" id="d3m-0o-WUk"/>
+                <constraint firstItem="NVq-b3-mj3" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fk2-p5-f0L"/>
+                <constraint firstItem="KTA-LZ-wvR" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="s6S-LW-qSr"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="373.5" y="116"/>
+        </view>
+    </objects>
+</document>
