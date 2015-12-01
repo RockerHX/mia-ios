@@ -14,27 +14,13 @@
 
 #pragma  mark - Class Methods
 + (UINavigationController *)navigationControllerInstance {
-    @try {
-        UIViewController *viewController = [self new];
-        return [HXStoryBoardManager navigaitonControllerWithIdentifier:viewController.navigationControllerIdentifier storyBoardName:viewController.storyBoardName];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Load View Controller Instance From Storybard Error:%@", exception.reason);
-    }
-    @finally {
-    }
+    UIViewController *viewController = [self new];
+    return [HXStoryBoardManager navigaitonControllerWithIdentifier:viewController.navigationControllerIdentifier storyBoardName:viewController.storyBoardName];
 }
 
 + (instancetype)instance {
-    @try {
-        UIViewController *viewController = [self new];
-        return [HXStoryBoardManager viewControllerWithClass:[self class] storyBoardName:viewController.storyBoardName];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Load View Controller Instance From Storybard Error:%@", exception.reason);
-    }
-    @finally {
-    }
+    UIViewController *viewController = [self new];
+    return [HXStoryBoardManager viewControllerWithClass:[self class] storyBoardName:viewController.storyBoardName];
 }
 
 

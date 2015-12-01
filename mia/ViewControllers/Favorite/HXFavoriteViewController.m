@@ -44,7 +44,7 @@
 
 #pragma mark - Event Response
 - (IBAction)playerButtonPressed {
-    [self presentViewController:[HXPlayerViewController instance] animated:YES completion:nil];
+    [self presentViewController:[HXPlayerViewController navigationControllerInstance] animated:YES completion:nil];
 }
 
 #pragma mark - Private Methods

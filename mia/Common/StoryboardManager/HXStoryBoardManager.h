@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, HXStoryBoardName) {
 
 @interface HXStoryBoardManager : NSObject
 
-+ (id)navigaitonControllerWithIdentifier:(NSString *)identifier storyBoardName:(HXStoryBoardName)name;
-+ (id)viewControllerWithClass:(Class)class storyBoardName:(HXStoryBoardName)name;
++ (UINavigationController *)navigaitonControllerWithIdentifier:(NSString *)identifier storyBoardName:(HXStoryBoardName)name;
++ (UIViewController *)viewControllerWithClass:(Class)class storyBoardName:(HXStoryBoardName)name;
 
 @end

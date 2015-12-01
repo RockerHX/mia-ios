@@ -7,17 +7,26 @@
 //
 
 #import "HXPlayerViewController.h"
-#import "HXPlayerTopBar.h"
 #import "HXPlayerInfoView.h"
 #import "HXPlayerProgressView.h"
 #import "HXPlayerActionBar.h"
 
-@interface HXPlayerViewController () <HXPlayerTopBarDelegate, HXPlayerActionBarDelegate>
+@interface HXPlayerViewController () <HXPlayerActionBarDelegate>
 @end
 
 @implementation HXPlayerViewController
 
 #pragma mark - View Controller Life Cycle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -33,22 +42,17 @@
 }
 
 #pragma mark - Setter And Getter Methods
+- (NSString *)navigationControllerIdentifier {
+    return @"HXPlayerNavigationController";
+}
+
 - (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNamePlayer;
 }
 
-#pragma mark - HXPlayerTopBarDelegate Methods
-- (void)topBar:(HXPlayerTopBar *)bar action:(HXPlayerTopBarAction)action {
-    switch (action) {
-        case HXPlayerTopBarActionBack: {
-            [self dismissViewControllerAnimated:YES completion:nil];
-            break;
-        }
-        case HXPlayerTopBarActionList: {
-            ;
-            break;
-        }
-    }
+#pragma mark - Event Response
+- (IBAction)backButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - HXPlayerActionBarDelegate Methods

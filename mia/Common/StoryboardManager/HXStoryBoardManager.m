@@ -9,14 +9,14 @@
 
 @implementation HXStoryBoardManager
 
-+ (id)navigaitonControllerWithIdentifier:(NSString *)identifier storyBoardName:(HXStoryBoardName)name {
-    id controller = [self viewControllerWithIdentifier:identifier storyBoardName:name];
++ (UINavigationController *)navigaitonControllerWithIdentifier:(NSString *)identifier storyBoardName:(HXStoryBoardName)name {
+    UINavigationController *controller = (UINavigationController *)[self viewControllerWithIdentifier:identifier storyBoardName:name];
     return [controller isKindOfClass:[UINavigationController class]] ? controller : nil;
 }
 
-+ (id)viewControllerWithClass:(Class)class storyBoardName:(HXStoryBoardName)name {
++ (UIViewController *)viewControllerWithClass:(Class)class storyBoardName:(HXStoryBoardName)name {
     NSString *identifier = NSStringFromClass([class class]);
-    id controller = [self viewControllerWithIdentifier:identifier storyBoardName:name];
+    UIViewController *controller = [self viewControllerWithIdentifier:identifier storyBoardName:name];
     return [controller isKindOfClass:[UIViewController class]] ? controller : nil;
 }
 

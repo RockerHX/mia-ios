@@ -6,6 +6,23 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="1fc-Cs-Tbs">
+            <objects>
+                <navigationController storyboardIdentifier="HXPlayerNavigationController" id="9Of-zT-FVS" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1sE-nY-xPA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="6HH-RO-4TL" kind="relationship" relationship="rootViewController" id="f7p-jo-nsA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x9B-zS-1c2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-252" y="360"/>
+        </scene>
         <!--播放器-->
         <scene sceneID="2Zd-2M-IZU">
             <objects>
@@ -18,26 +35,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjD-TO-zHu" customClass="HXPlayerTopBar">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjD-TO-zHu">
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGb-ms-eWa">
+                                        <rect key="frame" x="10" y="7" width="30" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="返回"/>
+                                        <connections>
+                                            <action selector="backButtonPressed" destination="6HH-RO-4TL" eventType="touchUpInside" id="mz3-kk-kdX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auv-k8-yxw">
+                                        <rect key="frame" x="250" y="7" width="60" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="播放列表"/>
+                                        <connections>
+                                            <segue destination="Dj0-pM-kaW" kind="push" id="6RV-7h-AMz"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="36d-y5-PNt"/>
+                                    <constraint firstAttribute="trailing" secondItem="auv-k8-yxw" secondAttribute="trailing" constant="10" id="AiI-H1-SMl"/>
+                                    <constraint firstItem="kGb-ms-eWa" firstAttribute="leading" secondItem="JjD-TO-zHu" secondAttribute="leading" constant="10" id="GxI-Lr-pME"/>
+                                    <constraint firstItem="kGb-ms-eWa" firstAttribute="centerY" secondItem="JjD-TO-zHu" secondAttribute="centerY" id="bgb-5X-KOS"/>
+                                    <constraint firstItem="auv-k8-yxw" firstAttribute="centerY" secondItem="JjD-TO-zHu" secondAttribute="centerY" id="m33-Yc-1fu"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="delegate" destination="6HH-RO-4TL" id="9zq-0o-c1u"/>
-                                </connections>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uJr-pe-q2a">
-                                <rect key="frame" x="10" y="72" width="300" height="300"/>
+                                <rect key="frame" x="10" y="116" width="300" height="300"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="uJr-pe-q2a" secondAttribute="height" multiplier="1:1" id="eyl-qo-dCL"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0v7-Fy-Pcy" customClass="HXPlayerInfoView">
-                                <rect key="frame" x="10" y="380" width="300" height="80"/>
+                                <rect key="frame" x="10" y="424" width="300" height="80"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -45,7 +81,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Lj-Xq-uJ3" customClass="HXPlayerProgressView">
-                                <rect key="frame" x="0.0" y="468" width="320" height="20"/>
+                                <rect key="frame" x="0.0" y="512" width="320" height="20"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -53,7 +89,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p1q-H6-5Eq" customClass="HXPlayerActionBar">
-                                <rect key="frame" x="0.0" y="496" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="540" width="320" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -85,10 +121,43 @@
                             <constraint firstItem="JjD-TO-zHu" firstAttribute="top" secondItem="rwe-z7-gWK" secondAttribute="bottom" id="vqT-3R-sJS"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="FVk-vB-0dD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NRo-cL-6t6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="175" y="360"/>
+        </scene>
+        <!--播放列表-->
+        <scene sceneID="sEt-RB-pPz">
+            <objects>
+                <tableViewController storyboardIdentifier="HXPlayListViewController" id="Dj0-pM-kaW" customClass="HXPlayListViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nHa-Z9-wsw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="2zb-Bm-P4B">
+                                <rect key="frame" x="0.0" y="92" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2zb-Bm-P4B" id="rMQ-mR-gUF">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Dj0-pM-kaW" id="eKH-hS-2VL"/>
+                            <outlet property="delegate" destination="Dj0-pM-kaW" id="7Vu-6w-BRK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="播放列表" id="T5r-io-F61"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vtW-3w-gRr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="607" y="360"/>
         </scene>
     </scenes>
 </document>
