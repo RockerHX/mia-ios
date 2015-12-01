@@ -10,6 +10,7 @@
 typedef NS_ENUM(NSUInteger, HXStoryBoardName) {
     HXStoryBoardNameLogin,
     HXStoryBoardNameHome,
+    HXStoryBoardNameFavorite,
     HXStoryBoardNamePlayer
 };
 

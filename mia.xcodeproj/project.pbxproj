@@ -172,6 +172,8 @@
 		CDAC4B971C0D3A6F00257BFB /* HXStoryBoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B961C0D3A6F00257BFB /* HXStoryBoardManager.m */; };
 		CDAC4B9A1C0D3E2A00257BFB /* HXPlayListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B991C0D3E2A00257BFB /* HXPlayListViewController.m */; };
 		CDAC4B9E1C0D472500257BFB /* HXPlayListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4B9D1C0D472500257BFB /* HXPlayListCell.m */; };
+		CDAC4BA11C0D8E4000257BFB /* Favorite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDAC4B9F1C0D8E4000257BFB /* Favorite.storyboard */; };
+		CDAC4BA41C0D957800257BFB /* HXFavoriteEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAC4BA31C0D957800257BFB /* HXFavoriteEditViewController.m */; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; };
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; };
@@ -496,6 +498,9 @@
 		CDAC4B991C0D3E2A00257BFB /* HXPlayListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayListViewController.m; sourceTree = "<group>"; };
 		CDAC4B9C1C0D472500257BFB /* HXPlayListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayListCell.h; sourceTree = "<group>"; };
 		CDAC4B9D1C0D472500257BFB /* HXPlayListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayListCell.m; sourceTree = "<group>"; };
+		CDAC4BA01C0D8E4000257BFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Favorite.storyboard; sourceTree = SOURCE_ROOT; };
+		CDAC4BA21C0D957800257BFB /* HXFavoriteEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteEditViewController.h; sourceTree = "<group>"; };
+		CDAC4BA31C0D957800257BFB /* HXFavoriteEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteEditViewController.m; sourceTree = "<group>"; };
 		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
 		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
 		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
@@ -1369,6 +1374,7 @@
 			children = (
 				CD5A48601C06B49F00E95AB8 /* Login.storyboard */,
 				CD2B74C51C083CAF0053EEE5 /* Main.storyboard */,
+				CDAC4B9F1C0D8E4000257BFB /* Favorite.storyboard */,
 				CDAC4B751C0C50B600257BFB /* Player.storyboard */,
 				CDF739C71BE0AEF1009FA8CA /* Share.storyboard */,
 				CD48CD811BDE0054009607DE /* MusicDetail.storyboard */,
@@ -1510,6 +1516,8 @@
 			children = (
 				CD6EDE851C085D15004CC079 /* HXFavoriteViewController.h */,
 				CD6EDE861C085D15004CC079 /* HXFavoriteViewController.m */,
+				CDAC4BA21C0D957800257BFB /* HXFavoriteEditViewController.h */,
+				CDAC4BA31C0D957800257BFB /* HXFavoriteEditViewController.m */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -1876,6 +1884,7 @@
 				39CA061C1BAD67CC0074FD13 /* share_music@2x.png in Resources */,
 				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
 				390BADC41BAECA73006269FD /* edit_bg@2x.png in Resources */,
+				CDAC4BA11C0D8E4000257BFB /* Favorite.storyboard in Resources */,
 				CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */,
 				39CA061B1BAD67CC0074FD13 /* profile@2x.png in Resources */,
 				39AD4DA21BD7C8530065BA06 /* no_share@2x.png in Resources */,
@@ -1993,6 +2002,7 @@
 				CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */,
+				CDAC4BA41C0D957800257BFB /* HXFavoriteEditViewController.m in Sources */,
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
 				390BADD41BB00A5E006269FD /* SignUpViewController.m in Sources */,
 				CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */,
@@ -2147,6 +2157,14 @@
 				CD9D2EBC1BD7736500A2D312 /* Base */,
 			);
 			name = Setting.storyboard;
+			sourceTree = "<group>";
+		};
+		CDAC4B9F1C0D8E4000257BFB /* Favorite.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDAC4BA01C0D8E4000257BFB /* Base */,
+			);
+			name = Favorite.storyboard;
 			sourceTree = "<group>";
 		};
 		CDF739C71BE0AEF1009FA8CA /* Share.storyboard */ = {

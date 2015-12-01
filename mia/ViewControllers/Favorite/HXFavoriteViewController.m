@@ -16,8 +16,9 @@
 #import "WebSocketMgr.h"
 #import "UserSetting.h"
 #import "PathHelper.h"
+#import "HXFavoriteEditViewController.h"
 
-@interface HXFavoriteViewController () <HXFavoriteHeaderDelegate, FavoriteMgrDelegate, SongListPlayerDataSource, SongListPlayerDelegate>
+@interface HXFavoriteViewController () <HXFavoriteHeaderDelegate, FavoriteMgrDelegate, SongListPlayerDataSource, SongListPlayerDelegate, HXFavoriteEditViewControllerDelegate>
 @end
 
 @implementation HXFavoriteViewController {
@@ -212,7 +213,9 @@
             break;
         }
         case HXFavoriteHeaderActionEdit: {
-            ;
+            HXFavoriteEditViewController *favoriteEditViewController = [HXFavoriteEditViewController instance];
+            favoriteEditViewController.delegate = self;
+            [self presentViewController:favoriteEditViewController animated:YES completion:nil];
             break;
         }
     }
@@ -266,6 +269,11 @@
 
 - (void)songListPlayerShouldPlayPrevios {
     [self playPreviosFavoriteMusic];
+}
+
+#pragma mark - HXFavoriteEditViewControllerDelegate Methods
+- (void)favoriteEditViewControllerEdited:(HXFavoriteEditViewController *)favoriteEditViewController {
+    [self.tableView reloadData];
 }
 
 @end

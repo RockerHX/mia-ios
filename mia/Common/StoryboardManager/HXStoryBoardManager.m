@@ -32,6 +32,10 @@
             storyBoardName = @"Home";
             break;
         }
+        case HXStoryBoardNameFavorite: {
+            storyBoardName = @"Favorite";
+            break;
+        }
         case HXStoryBoardNamePlayer: {
             storyBoardName = @"Player";
             break;
