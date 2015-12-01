@@ -11,6 +11,14 @@
 
 @implementation HXFavoriteCell
 
+#pragma mark - Setter And Getter
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    
+    _songNameLabel.textColor = selected ? [UIColor redColor] : [UIColor blackColor];
+    _singerLabel.textColor = _songNameLabel.textColor;
+}
+
 #pragma mark - Public Methods
 - (void)displayWithItem:(FavoriteItem *)item {
     MusicItem *musicItem = item.music;

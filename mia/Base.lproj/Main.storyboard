@@ -84,7 +84,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXFavoriteCell" rowHeight="80" id="ueK-26-BlX" customClass="HXFavoriteCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXFavoriteCell" rowHeight="80" id="ueK-26-BlX" customClass="HXFavoriteCell">
                                 <rect key="frame" x="0.0" y="152" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ueK-26-BlX" id="9Od-oW-A6R">
