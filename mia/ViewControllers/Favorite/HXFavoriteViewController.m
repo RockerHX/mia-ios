@@ -10,6 +10,7 @@
 #import "HXFavoriteCell.h"
 #import "FavoriteMgr.h"
 #import "HXFavoriteHeader.h"
+#import "HXPlayerViewController.h"
 
 @interface HXFavoriteViewController () <HXFavoriteHeaderDelegate, FavoriteMgrDelegate>
 @end
@@ -43,7 +44,7 @@
 
 #pragma mark - Event Response
 - (IBAction)playerButtonPressed {
-    
+    [self presentViewController:[HXPlayerViewController instance] animated:YES completion:nil];
 }
 
 #pragma mark - Private Methods

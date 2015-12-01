@@ -6,10 +6,10 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Player View Controller-->
+        <!--播放器-->
         <scene sceneID="2Zd-2M-IZU">
             <objects>
-                <viewController storyboardIdentifier="HXPlayerViewController" id="6HH-RO-4TL" customClass="HXPlayerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXPlayerViewController" id="6HH-RO-4TL" userLabel="播放器" customClass="HXPlayerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rwe-z7-gWK"/>
                         <viewControllerLayoutGuide type="bottom" id="92r-uc-AqD"/>
@@ -25,6 +25,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="36d-y5-PNt"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="6HH-RO-4TL" id="9zq-0o-c1u"/>
+                                </connections>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uJr-pe-q2a">
                                 <rect key="frame" x="10" y="72" width="300" height="300"/>
@@ -56,6 +59,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="HMe-f5-a6N"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="6HH-RO-4TL" id="BG1-qt-1gc"/>
+                                </connections>
                             </view>
                         </subviews>
                         <animations/>
