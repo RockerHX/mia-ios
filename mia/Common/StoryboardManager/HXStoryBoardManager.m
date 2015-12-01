@@ -1,9 +1,8 @@
 //
 //  HXStoryBoardManager.m
-//  MaintenanceCar
 //
 //  Created by ShiCang on 15/7/13.
-//  Copyright (c) 2015年 MaintenanceCar. All rights reserved.
+//  Copyright (c) 2015年 Andy Shaw. All rights reserved.
 //
 
 #import "HXStoryBoardManager.h"

@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UIViewController+HXClass.h"
 
 @protocol HXLoginViewControllerDelegate;
 
@@ -20,8 +20,6 @@
 - (IBAction)loginButtonPressed;
 - (IBAction)weixinButtonPressed;
 - (IBAction)weiboButtonPressed;
-
-+ (instancetype)instance;
 
 @end
 

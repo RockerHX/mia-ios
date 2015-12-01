@@ -13,9 +13,24 @@
 
 @implementation HXPlayerViewController
 
+#pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self initConfig];
+    [self viewConfig];
+}
+
+#pragma mark - Config Methods
+- (void)initConfig {
+}
+
+- (void)viewConfig {
+}
+
+#pragma mark - Setter And Getter Methods
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNamePlayer;
 }
 
 @end

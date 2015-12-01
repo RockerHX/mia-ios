@@ -53,6 +53,11 @@
     _loginButton.layer.cornerRadius = 20.0f;
 }
 
+#pragma mark - Setter And Getter Methods
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameLogin;
+}
+
 #pragma mark - Event Response
 - (IBAction)registerButtonPressed {
     
