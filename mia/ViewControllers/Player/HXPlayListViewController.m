@@ -28,4 +28,9 @@
 - (void)viewConfig {
 }
 
+#pragma mark - Event Response
+- (IBAction)backButtonPressed {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

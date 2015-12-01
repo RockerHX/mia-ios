@@ -9,7 +9,7 @@
         <!--Navigation Controller-->
         <scene sceneID="1fc-Cs-Tbs">
             <objects>
-                <navigationController storyboardIdentifier="HXPlayerNavigationController" id="9Of-zT-FVS" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXPlayerNavigationController" id="9Of-zT-FVS" customClass="HXNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1sE-nY-xPA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -153,11 +153,20 @@
                             <outlet property="delegate" destination="Dj0-pM-kaW" id="7Vu-6w-BRK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="播放列表" id="T5r-io-F61"/>
+                    <navigationItem key="navigationItem" title="播放列表" id="T5r-io-F61">
+                        <barButtonItem key="leftBarButtonItem" image="C-BackIcon" id="Wl8-Bq-lpn">
+                            <connections>
+                                <action selector="backButtonPressed" destination="Dj0-pM-kaW" id="B0D-wi-sOo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vtW-3w-gRr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="607" y="360"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="C-BackIcon" width="25" height="25"/>
+    </resources>
 </document>

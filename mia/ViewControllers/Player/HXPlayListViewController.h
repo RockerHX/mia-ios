@@ -10,4 +10,6 @@
 
 @interface HXPlayListViewController : UITableViewController
 
+- (IBAction)backButtonPressed;
+
 @end
