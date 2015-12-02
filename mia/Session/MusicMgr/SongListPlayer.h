@@ -13,6 +13,7 @@
 - (NSInteger)songListPlayerCurrentItemIndex;
 - (NSInteger)songListPlayerNextItemIndex;
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index;
+- (NSArray *)songListPlayerMusicItems;
 
 @end
 
@@ -33,7 +34,9 @@
 @property (nonatomic, weak) id <SongListPlayerDelegate> delegate;
 @property (nonatomic, weak) id <SongListPlayerDataSource> dataSource;
 
-- (id)initWithModelID:(long)modelID name:(NSString *)name;
+@property (nonatomic, strong, readonly) NSArray *musicItems;
+
+- (instancetype)initWithModelID:(long)modelID name:(NSString *)name;
 
 - (void)setUp;
 - (void)tearDown;

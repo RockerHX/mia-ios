@@ -247,6 +247,17 @@
     return [aFavoriteItem.music copy];
 }
 
+- (NSArray *)songListPlayerMusicItems {
+    NSArray<FavoriteItem *> *favoriteItems = [_favoriteMgr.dataSource copy];
+    NSMutableArray *musicItems = @[].mutableCopy;
+    [favoriteItems enumerateObjectsUsingBlock:^(FavoriteItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.music) {
+            [musicItems addObject:obj];
+        }
+    }];
+    return [musicItems copy];
+}
+
 #pragma mark - SongListPlayerDelegate Methods
 - (void)songListPlayerDidPlay {
     _header.playState = HXFavoriteHeaderStatePlay;

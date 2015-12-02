@@ -12,7 +12,6 @@
 #import "SongPreloader.h"
 
 @interface SongListPlayer() <SingleSongPlayerDelegate, SongPreloaderDelegate>
-
 @end
 
 @implementation SongListPlayer {
@@ -22,7 +21,7 @@
 	NSString				*_name;
 }
 
-- (id)initWithModelID:(long)modelID name:(NSString *)name {
+- (instancetype)initWithModelID:(long)modelID name:(NSString *)name {
 	self = [super init];
 	if (self) {
 		_player = [[SingleSongPlayer alloc] init];
@@ -71,6 +70,10 @@
 - (void)playWithMusicItem:(MusicItem *)item {
 	[_preloader stop];
 	[_player playWithMusicItem:item];
+    
+    if (_dataSource && [_dataSource respondsToSelector:@selector(songListPlayerMusicItems)]) {
+        _musicItems = [[_dataSource songListPlayerMusicItems] copy];
+    }
 }
 
 - (void)playNext {
@@ -134,19 +137,3 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

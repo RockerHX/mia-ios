@@ -133,6 +133,10 @@
     return _playItem.music;
 }
 
+- (NSArray *)songListPlayerMusicItems {
+    return _playItem.music ? @[_playItem.music] : nil;
+}
+
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
     _playButton.selected = YES;

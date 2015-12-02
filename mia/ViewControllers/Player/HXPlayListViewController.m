@@ -8,11 +8,15 @@
 
 #import "HXPlayListViewController.h"
 #import "HXPlayListCell.h"
+#import "SongListPlayer.h"
+#import "MusicMgr.h"
 
 @interface HXPlayListViewController ()
 @end
 
-@implementation HXPlayListViewController
+@implementation HXPlayListViewController {
+    SongListPlayer *_soglistPlayer;
+}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
@@ -24,6 +28,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
+    _soglistPlayer = [MusicMgr standard].currentPlayer;
 }
 
 - (void)viewConfig {
@@ -36,7 +41,7 @@
 
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return _soglistPlayer.musicItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

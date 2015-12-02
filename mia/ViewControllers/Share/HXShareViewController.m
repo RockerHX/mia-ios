@@ -319,6 +319,10 @@
     return _musicItem;
 }
 
+- (NSArray *)songListPlayerMusicItems {
+    return _musicItem ? @[_musicItem] : nil;
+}
+
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
     [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
