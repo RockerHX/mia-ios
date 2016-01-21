@@ -10,6 +10,7 @@
 #import "SongListPlayer.h"
 #import "SingleSongPlayer.h"
 #import "SongPreloader.h"
+#import "NSObject+BlockSupport.h"
 
 @interface SongListPlayer() <SingleSongPlayerDelegate, SongPreloaderDelegate>
 
@@ -126,7 +127,10 @@
 }
 
 - (void)singleSongPlayerDidBufferStream {
-	[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
+	[self bs_performBlock:^{
+		NSLog(@"delayPreloader");
+		[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
+	} afterDelay:5.0f];
 }
 
 - (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {

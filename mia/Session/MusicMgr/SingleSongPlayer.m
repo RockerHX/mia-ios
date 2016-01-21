@@ -78,7 +78,8 @@
 	if ([self isPlayingWithUrl:item.murl]) {
 		// 同一个模块再次播放同一首歌，什么都不做
 		NSLog(@"play the same song in the same model, play will be ignored.");
-		return;
+		// TODO test 这个判断有点问题，后面其实也会判断
+		//		return;
 	}
 
 	if (![UserSetting isAllowedToPlayNowWithURL:item.murl]) {
