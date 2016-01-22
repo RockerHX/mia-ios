@@ -81,15 +81,26 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 
 - (IBAction)weixinButtonPressed {
     _shouldHideNavigationBar = YES;
-    [self showHUD];
     
     __weak __typeof__(self)weakSelf = self;
     [ShareSDK getUserInfo:SSDKPlatformTypeWechat onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        if (state == SSDKResponseStateSuccess) {
-            [strongSelf startWeiXinLoginRequestWithUser:user];
-        } else {
-            [HXAlertBanner showWithMessage:error.description tap:nil];
+        switch (state) {
+            case SSDKResponseStateBegin: {
+                break;
+            }
+            case SSDKResponseStateSuccess: {
+                [strongSelf startWeiXinLoginRequestWithUser:user];
+                break;
+            }
+            case SSDKResponseStateFail: {
+                [HXAlertBanner showWithMessage:error.description tap:nil];
+                break;
+            }
+            case SSDKResponseStateCancel: {
+                [HXAlertBanner showWithMessage:@"用户取消" tap:nil];
+                break;
+            }
         }
     }];
 }
