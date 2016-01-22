@@ -8,7 +8,9 @@
 
 #import "HXRegisterViewController.h"
 #import "HXCaptchButton.h"
-//#import "HXAppApiRequest.h"
+#import "HXAlertBanner.h"
+#import "MiaAPIHelper.h"
+#import "NSString+MD5.h"
 
 static NSString *RegisterApi = @"/user/register";
 static NSString *CaptchApi = @"/user/pauth";
@@ -32,12 +34,10 @@ static NSString *CaptchApi = @"/user/pauth";
     [_captchaButton timingStart:^BOOL(HXCaptchButton *button) {
         __strong __typeof__(self)strongSelf = weakSelf;
         NSString *mobile = strongSelf.mobileTextField.text;
-        if (mobile.length != 11) {
-            [self showToastWithMessage:@"请输入正确手机号！"];
+        if (![strongSelf checkPhoneNumber]) {
             return NO;
-        } else {
-            [strongSelf sendSecurityCodeRequesetWithParameters:@{@"phone": mobile}];
         }
+        [strongSelf sendCaptchaRequesetWithMobile:mobile];
         return YES;
     } end:nil];
 }
@@ -48,7 +48,7 @@ static NSString *CaptchApi = @"/user/pauth";
 
 #pragma mark - Event Response
 - (IBAction)registerButtonPressed {
-    if (_mobileTextField.text.length != 11) {
+    if (![self checkPhoneNumber]) {
         [self showToastWithMessage:@"请输入正确手机号！"];
     } else if (_captchaTextField.text.length < 4) {
         [self showToastWithMessage:@"请输入正确验证码！"];
@@ -60,68 +60,79 @@ static NSString *CaptchApi = @"/user/pauth";
         [self showToastWithMessage:@"亲，您输入的两次密码不相同噢！"];
     } else {
         if ([_confirmTextField.text isEqualToString:_passWordTextField.text]) {
-            [self startRegisterRequestWithParameters:@{@"phone": _mobileTextField.text,
-                                                       @"scode": _captchaTextField.text,
-                                                        @"nick": _nickNameTextField.text,
-                                                         @"pwd": _passWordTextField.text}];
+            [self startRegisterRequestWithMobile:_mobileTextField.text
+                                         captcha:_captchaTextField.text
+                                        nickName:_nickNameTextField.text
+                                        password:_passWordTextField.text];
         }
     }
 }
 
 #pragma mark - Private Methods
-- (void)sendSecurityCodeRequesetWithParameters:(NSDictionary *)parameters {
-//    __weak __typeof__(self)weakSelf = self;
-//    [HXAppApiRequest requestPOSTMethodsWithAPI:[HXApi apiURLWithApi:CaptchApi] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        const NSInteger statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
-//        NSString *message = responseObject[@"msg"];
-//        if (statusCode == HXApiRequestStatusCodeOK) {
-//            const NSInteger errorCode = [responseObject[@"code"] integerValue];
-//            if (errorCode == HXAppApiRequestErrorCodeNoError) {
-//                ;
-//            }
-//        }
-//        if (message.length) {
-//            [strongSelf showToastWithMessage:message];
-//        }
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf showToastWithMessage:NetWorkingError];
-//    }];
+- (BOOL)checkPhoneNumber {
+    NSString *str = _mobileTextField.text;
+    if (str.length == 11
+        && [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
+        return YES;
+    }
+    [HXAlertBanner showWithMessage:@"手机号码不符合规范，请重新输入" tap:nil];
+    return NO;
 }
 
-- (void)startRegisterRequestWithParameters:(NSDictionary *)parameters {
-//    [self showHUD];
-//    __weak __typeof__(self)weakSelf = self;
-//    [HXAppApiRequest requestPOSTMethodsWithAPI:[HXApi apiURLWithApi:RegisterApi] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf hiddenHUD];
-//        
-//        const NSInteger statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
-//        NSString *message = responseObject[@"msg"];
-//        if (statusCode == HXApiRequestStatusCodeOK) {
-//            const NSInteger errorCode = [responseObject[@"code"] integerValue];
-//            if (errorCode == HXAppApiRequestErrorCodeNoError) {
-//                NSDictionary *data = responseObject[@"data"];
-//                [strongSelf registerSuccessWithData:data];
-//            }
-//        }
-//        if (message.length) {
-//            [strongSelf showToastWithMessage:message];
-//        }
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf showToastWithMessage:NetWorkingError];
-//    }];
+- (void)sendCaptchaRequesetWithMobile:(NSString *)mobile {
+    __weak __typeof__(self)weakSelf = self;
+    [MiaAPIHelper getVerificationCodeWithType:0
+                                  phoneNumber:mobile
+                                completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (success) {
+             [HXAlertBanner showWithMessage:@"验证码已经发送" tap:nil];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+             [strongSelf.captchaButton stop];
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         [HXAlertBanner showWithMessage:@"验证码发送超时，请重新获取" tap:nil];
+         [strongSelf.captchaButton stop];
+     }];
+}
+
+- (void)startRegisterRequestWithMobile:(NSString *)mobile captcha:(NSString *)captcha nickName:(NSString *)nickName password:(NSString *)password {
+    [self showHUD];
+    __weak __typeof__(self)weakSelf = self;
+    NSString *passwordHash = [NSString md5HexDigest:password];
+    [MiaAPIHelper registerWithPhoneNum:mobile
+                                 scode:captcha
+                              nickName:nickName
+                          passwordHash:passwordHash
+                         completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (success) {
+             [strongSelf registerSuccess];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+         }
+         
+         [strongSelf hiddenHUD];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         [HXAlertBanner showWithMessage:@"注册失败，网络请求超时" tap:nil];
+         [strongSelf hiddenHUD];
+     }];
 }
 
 - (void)registerSuccessWithData:(NSDictionary *)data {
-    ;
     [self registerSuccess];
 }
 
 - (void)registerSuccess {
-    [self showToastWithMessage:@"注册成功！"];
+    [HXAlertBanner showWithMessage:@"注册成功" tap:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
