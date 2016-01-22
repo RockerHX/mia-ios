@@ -65,6 +65,13 @@ static NSString * const MiaAPICommand_User_PostLogin		= @"User.Post.Login";
 static NSString * const MiaAPIKey_Pwd						= @"pwd";
 static NSString * const MiaAPIKey_Dev						= @"dev";
 
+static NSString * const MiaAPICommand_User_PostPassport		= @"User.Post.Passport";
+static NSString * const MiaAPIKey_Token						= @"token";
+static NSString * const MiaAPIKey_PassportNickName			= @"nickname";
+static NSString * const MiaAPIKey_Sex						= @"sex";
+static NSString * const MiaAPIKey_From						= @"from";
+static NSString * const MiaAPIKey_HeadImgUrl				= @"headimgurl";
+
 static NSString * const MiaAPICommand_User_PostLogout		= @"User.Post.Logout";
 
 static NSString * const MiaAPICommand_User_PostChangePwd	= @"User.Post.Cpwd";

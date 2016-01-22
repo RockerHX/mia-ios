@@ -522,6 +522,26 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
++ (void)loginWithPassport:(NSString *)token
+			 nickname:(NSString *)nickname
+					  sex:(long)sex
+					 from:(NSString *)from
+			   headImgUrl:(NSString *)headImgUrl
+			completeBlock:(MiaRequestCompleteBlock)completeBlock
+			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:token forKey:MiaAPIKey_Token];
+	[dictValues setValue:[NSNumber numberWithLong:sex] forKey:MiaAPIKey_Sex];
+	[dictValues setValue:from forKey:MiaAPIKey_From];
+	[dictValues setValue:headImgUrl forKey:MiaAPIKey_HeadImgUrl];
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostLogin
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
 + (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];

@@ -166,6 +166,14 @@
 			completeBlock:(MiaRequestCompleteBlock)completeBlock
 			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)loginWithPassport:(NSString *)token
+				 nickname:(NSString *)nickname
+					  sex:(long)sex
+					 from:(NSString *)from
+			   headImgUrl:(NSString *)headImgUrl
+			completeBlock:(MiaRequestCompleteBlock)completeBlock
+			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
