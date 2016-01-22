@@ -150,6 +150,7 @@
 		CD5753AA1BE0714300E7CBC4 /* HXGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */; };
 		CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */; };
 		CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */; };
+		CD966FE61C521E5600130D27 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD966FE41C521E5600130D27 /* Login.storyboard */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
 		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; };
 		CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */; };
@@ -438,6 +439,7 @@
 		CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
 		CD8A5B4F1BFF19BB00F1CB67 /* HXSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
 		CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
+		CD966FE51C521E5600130D27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Login.storyboard; sourceTree = SOURCE_ROOT; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
 		CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedBackViewController.m; sourceTree = "<group>"; };
 		CD9D2EBC1BD7736500A2D312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Setting.storyboard; sourceTree = SOURCE_ROOT; };
@@ -1302,6 +1304,7 @@
 		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CD966FE71C521E6200130D27 /* Login */,
 				CDF739CA1BE0AF3D009FA8CA /* Share */,
 				CD33D8201BDB682B00BB0A04 /* MusicDetail */,
 				CD9D2EB41BD7705A00A2D312 /* Setting */,
@@ -1441,6 +1444,14 @@
 				CD5753A91BE0714300E7CBC4 /* HXGrowingTextView.m */,
 			);
 			path = HXGrowingTextView;
+			sourceTree = "<group>";
+		};
+		CD966FE71C521E6200130D27 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CD966FE41C521E5600130D27 /* Login.storyboard */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		CD9D2EB41BD7705A00A2D312 /* Setting */ = {
@@ -1727,6 +1738,7 @@
 				CDD831581BD8B6550067309B /* HXNoNetworkView.xib in Resources */,
 				39DC9D961BEA09C100677237 /* profile_default_cover@2x.png in Resources */,
 				CDD8315B1BD8B6980067309B /* HXInfectUserListView.xib in Resources */,
+				CD966FE61C521E5600130D27 /* Login.storyboard in Resources */,
 				390BADD11BAFE188006269FD /* login_logo@2x.png in Resources */,
 				3908F3711BBB6CE300BACFD3 /* search_icon@2x.png in Resources */,
 				39BF8C741BB26E92003AB4FC /* setting@2x.png in Resources */,
@@ -1969,6 +1981,14 @@
 				CD48CD821BDE0054009607DE /* Base */,
 			);
 			name = MusicDetail.storyboard;
+			sourceTree = "<group>";
+		};
+		CD966FE41C521E5600130D27 /* Login.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD966FE51C521E5600130D27 /* Base */,
+			);
+			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
 		CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */ = {
