@@ -27,6 +27,7 @@ pod 'MJRefresh'
 pod 'MBProgressHUD'
 pod 'TTTAttributedLabel'
 pod 'UIAlertView-Blocks'
+pod 'BlocksKit'
 
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'UICollectionViewLeftAlignedLayout'
