@@ -12,7 +12,7 @@
 #import "HXHomePageWaveView.h"
 #import "HXInfectUserView.h"
 #import "UserSession.h"
-#import "LoginViewController.h"
+#import "HXLoginViewController.h"
 #import "MyProfileViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
@@ -33,14 +33,13 @@
 #import "ShareItem.h"
 #import "UpdateHelper.h"
 #import "FavoriteMgr.h"
-#import "HXNavigationController.h"
 #import "HXInfectUserItemView.h"
 #import "HXFeedBackViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
-@interface HXHomePageViewController () <LoginViewControllerDelegate, HXBubbleViewDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController () <HXLoginViewControllerDelegate, HXBubbleViewDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
     BOOL _toLogin;
     BOOL _animating;                // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
@@ -640,12 +639,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
     _toLogin = YES;
-    LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    loginViewController.customDelegate = self;
-    [loginViewController loginSuccess:success];
-    HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
+    
+    UINavigationController *loginNavigationController = [HXLoginViewController navigationControllerInstance];
+    HXLoginViewController *loginViewController = [loginNavigationController.viewControllers firstObject];
+    loginViewController.delegate = self;
+    
     __weak __typeof__(self)weakSelf = self;
-    [self presentViewController:loginNavigationViewController animated:YES completion:^{
+    [self presentViewController:loginNavigationController animated:YES completion:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf->_toLogin = NO;
     }];
@@ -915,6 +915,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     
     NSInteger infectUsersCount = infectUsers.count;
     [self showinfectCountRightPromptLabel:(infectUsersCount && !isInfected) withCount:item.infectTotal];
+}
+
+#pragma mark - HXLoginViewControllerDelegate Methods
+- (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController {
+//    _logined = YES;
+//    loginViewController.navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [loginViewController.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

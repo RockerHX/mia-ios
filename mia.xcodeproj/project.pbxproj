@@ -176,7 +176,7 @@
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; };
 		CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE961BD1EAC5001D154E /* HXRadioView.m */; };
 		CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */; };
-		CDC7C2511BE76D1A0024FEB6 /* HXNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC7C2501BE76D1A0024FEB6 /* HXNavigationController.m */; };
+		CDC7C2511BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC7C2501BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m */; };
 		CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8314F1BD8B6550067309B /* HXAlertBanner.m */; };
 		CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831501BD8B6550067309B /* HXAlertBanner.xib */; };
 		CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831531BD8B6550067309B /* HXNoNetworkView.m */; };
@@ -505,8 +505,8 @@
 		CDC5FE951BD1EAC5001D154E /* HXRadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioView.h; sourceTree = "<group>"; };
 		CDC5FE961BD1EAC5001D154E /* HXRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioView.m; sourceTree = "<group>"; };
 		CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXRadioView.xib; sourceTree = "<group>"; };
-		CDC7C24F1BE76D1A0024FEB6 /* HXNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNavigationController.h; sourceTree = "<group>"; };
-		CDC7C2501BE76D1A0024FEB6 /* HXNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNavigationController.m; sourceTree = "<group>"; };
+		CDC7C24F1BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPanGestureNavgaitionController.h; sourceTree = "<group>"; };
+		CDC7C2501BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPanGestureNavgaitionController.m; sourceTree = "<group>"; };
 		CDD8314E1BD8B6550067309B /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
 		CDD8314F1BD8B6550067309B /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
 		CDD831501BD8B6550067309B /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
@@ -1344,8 +1344,8 @@
 				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
 				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
-				CDC7C24F1BE76D1A0024FEB6 /* HXNavigationController.h */,
-				CDC7C2501BE76D1A0024FEB6 /* HXNavigationController.m */,
+				CDC7C24F1BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.h */,
+				CDC7C2501BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -2139,7 +2139,7 @@
 				CD48CD701BDB84AA009607DE /* HXWaveView.m in Sources */,
 				397FA5341BAC0CA7003FD186 /* MIAGrowingTextView.m in Sources */,
 				397E42CE1BA90812006BE9E7 /* NSData+Base64.m in Sources */,
-				CDC7C2511BE76D1A0024FEB6 /* HXNavigationController.m in Sources */,
+				CDC7C2511BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m in Sources */,
 				CD96709B1C5226EF00130D27 /* HXLoginViewController.m in Sources */,
 				CD5753A11BDF541C00E7CBC4 /* HXComment.m in Sources */,
 				39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */,

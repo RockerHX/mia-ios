@@ -70,10 +70,10 @@
             </objects>
             <point key="canvasLocation" x="644" y="409"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Pan Gesture Navgaition Controller-->
         <scene sceneID="hbo-UC-g8U">
             <objects>
-                <navigationController storyboardIdentifier="HXNavigationController" id="QLH-xI-kzT" customClass="HXNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXPanGestureNavgaitionController" id="QLH-xI-kzT" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xvg-4o-76r">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

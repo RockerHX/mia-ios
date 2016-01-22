@@ -100,7 +100,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="C-RightRrrowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="PHc-k7-Lgx">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="C-ArrowIcon-Right-White" translatesAutoresizingMaskIntoConstraints="NO" id="PHc-k7-Lgx">
                                         <rect key="frame" x="60" y="0.0" width="25" height="25"/>
                                     </imageView>
                                 </subviews>
@@ -605,8 +605,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="C-ArrowIcon-Right-White" width="25" height="25"/>
         <image name="C-BackIcon-Gray" width="25" height="25"/>
-        <image name="C-RightRrrowIcon" width="25" height="25"/>
         <image name="C-WeiXinLogo" width="25" height="25"/>
         <image name="L-LoginBG" width="375" height="667"/>
         <image name="L-LoginLogo" width="500" height="500"/>
