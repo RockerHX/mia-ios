@@ -8,7 +8,11 @@
 
 #import "HXLoginViewController.h"
 #import <ShareSDK/ShareSDK.h>
-//#import "HXUserSession.h"
+#import "NSString+MD5.h"
+#import "MiaAPIHelper.h"
+#import "UserSession.h"
+#import "HXAlertBanner.h"
+#import "UserDefaultsUtils.h"
 
 typedef NS_ENUM(BOOL, HXLoginAction) {
     HXLoginActionLogin = YES,
@@ -97,15 +101,18 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 
 - (IBAction)loginButtonPressed {
     _shouldHideNavigationBar = YES;
+    
+    NSString *mobile = _mobileTextField.text;
+    NSString *password = _passWordTextField.text;
+    
     switch (_loginAction) {
         case HXLoginActionLogin: {
-            if (_mobileTextField.text.length != 11) {
+            if (mobile.length != 11) {
                 [self showToastWithMessage:@"请输入正确手机号！"];
-            } else if (!_passWordTextField.text.length) {
+            } else if (!password.length) {
                 [self showToastWithMessage:@"请输入登录密码！"];
             } else {
-                [self startLoginRequestWithParameters:@{@"phone": _mobileTextField.text,
-                                                          @"pwd": _passWordTextField.text}];
+                [self startLoginRequestWithMobile:mobile password:password];
             }
             break;
         }
@@ -208,35 +215,51 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     } completion:nil];
 }
 
-- (void)startLoginRequestWithParameters:(NSDictionary *)parameters {
-//    [self showHUD];
-//    __weak __typeof__(self)weakSelf = self;
-//    [[HXUserSession share] loginWithMobile:_mobileTextField.text passWord:_passWordTextField.text success:^(HXUserSession *session, HXApiResponse *response) {
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf loginSuccessWithResponse:response];
-//    } failure:^(HXUserSession *session, HXApiResponse *response) {
-//        __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf showToastWithMessage:response.message];
-//    }];
+- (void)startLoginRequestWithMobile:(NSString *)mobile password:(NSString *)password {
+    [self showHUD];
+    
+    __weak __typeof__(self)weakSelf = self;
+    NSString *passwordHash = [NSString md5HexDigest:password];
+    [MiaAPIHelper loginWithPhoneNum:mobile
+                       passwordHash:passwordHash
+                      completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         if (success) {
+             [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
+             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+             [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+             
+             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
+             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+             
+             UserSession *userSession = [UserSession standard];
+             userSession.state = UserSessionLoginStateLogin;
+             [userSession setAvatar:avatarUrlWithTime];
+             [userSession saveAuthInfoMobile:mobile password:password];
+             [userSession saveUserInfoUid:userInfo[MiaAPIKey_Values][@"uid"] nickName:userInfo[MiaAPIKey_Values][@"nick"]];
+             
+             if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
+                 [_delegate loginViewControllerLoginSuccess:self];
+             }
+             
+             [strongSelf dismissViewControllerAnimated:YES completion:nil];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+         }
+         
+         [strongSelf hiddenHUD];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         __strong __typeof__(self)strongSelf = weakSelf;
+         [HXAlertBanner showWithMessage:@"请求超时，请稍后重试" tap:nil];
+         [strongSelf hiddenHUD];
+     }];
 }
 
 - (void)loginRequestHandle {
     ;
 }
-
-//- (void)loginSuccessWithResponse:(HXApiResponse *)response {
-//    [self hiddenHUD];
-//    if (response.statusCode == HXApiRequestStatusCodeOK) {
-//        if (response.errorCode == HXAppApiRequestErrorCodeNoError) {
-//            [self showToastWithMessage:@"登录成功！"];
-//            if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
-//                [_delegate loginViewControllerLoginSuccess:self];
-//            }
-//        }
-//    }
-//    if (response.message) {
-//        [self showToastWithMessage:response.message];
-//    }
-//}
 
 @end

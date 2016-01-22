@@ -13,7 +13,7 @@
 
 @protocol HXLoginViewControllerDelegate <NSObject>
 
-@required
+@optional
 - (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController;
 
 @end
