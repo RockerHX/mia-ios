@@ -4,7 +4,7 @@ platform :ios, '7.0'
 inhibit_all_warnings!
 
 # Networking
-pod 'AFNetworking'
+pod 'AFNetworking', '2.6.3'
 pod 'SocketRocket'
 pod 'SDWebImage'
 

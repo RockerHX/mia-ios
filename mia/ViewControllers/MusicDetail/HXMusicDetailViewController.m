@@ -25,7 +25,7 @@
 #import "InfectItem.h"
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"
-#import "HXGrowingTextView.h"
+#import "HXTextView.h"
 #import "GuestProfileViewController.h"
 #import "FavoriteMgr.h"
 #import "HXNavigationController.h"
