@@ -14,7 +14,7 @@ pod 'FreeStreamer'
 # Utility
 pod 'Masonry'
 pod 'MJExtension'
-pod 'APAddressBook'
+#pod 'APAddressBook'
 
 # Tool
 #pod 'IQKeyboardManager'
@@ -31,7 +31,7 @@ pod 'UIAlertView-Blocks'
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'UICollectionViewLeftAlignedLayout'
 
-pod 'FDStackView', '1.0-alpha'
+pod 'FDStackView'
 
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'
