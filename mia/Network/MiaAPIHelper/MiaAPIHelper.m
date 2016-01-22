@@ -435,7 +435,7 @@
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
 	[dictValues setValue:scode forKey:MiaAPIKey_SCode];
-	[dictValues setValue:nickName forKey:MiaAPIKey_NickName];
+	[dictValues setValue:nickName forKey:MiaAPIKey_Nick];
 	[dictValues setValue:passwordHash forKey:MiaAPIKey_Password];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostRegister
@@ -483,7 +483,7 @@
 		 completeBlock:(MiaRequestCompleteBlock)completeBlock
 		  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
-	[dictValues setValue:nick forKey:MiaAPIKey_NickName];
+	[dictValues setValue:nick forKey:MiaAPIKey_Nick];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostCnick
 															   parameters:dictValues
@@ -505,21 +505,46 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
-+ (void)loginWithPhoneNum:(NSString *)phoneNumber
-			 passwordHash:(NSString *)passwordHash
-			completeBlock:(MiaRequestCompleteBlock)completeBlock
-			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
-	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
-	[dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
-	[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Dev];
-	[dictValues setValue:MiaAPIDefaultIMEI forKey:MiaAPIKey_IMEI];
-	[dictValues setValue:passwordHash forKey:MiaAPIKey_Pwd];
++ (void)thirdLoginWithOpenID:(NSString *)openID
+                     unionID:(NSString *)unionID
+                       token:(NSString *)token
+                    nickName:(NSString *)nickName
+                         sex:(NSString *)sex
+                        type:(NSString *)type
+                      avatar:(NSString *)avatar
+               completeBlock:(MiaRequestCompleteBlock)completeBlock
+                timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+    NSMutableDictionary *dictValues = @{}.mutableCopy;
+    [dictValues setValue:openID forKey:MiaAPIKey_OpenID];
+    [dictValues setValue:unionID forKey:MiaAPIKey_UnionID];
+    [dictValues setValue:token forKey:MiaAPIKey_Token];
+    [dictValues setValue:nickName forKey:MiaAPIKey_NickName];
+    [dictValues setValue:sex forKey:MiaAPIKey_Sex];
+    [dictValues setValue:type forKey:MiaAPIKey_From];
+    [dictValues setValue:type forKey:MiaAPIKey_HeadImageURL];
 
-	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostLogin
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostThirdLogin
 															   parameters:dictValues
 															completeBlock:completeBlock
 															 timeoutBlock:timeoutBlock];
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
++ (void)loginWithPhoneNum:(NSString *)phoneNumber
+             passwordHash:(NSString *)passwordHash
+            completeBlock:(MiaRequestCompleteBlock)completeBlock
+             timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+    NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+    [dictValues setValue:phoneNumber forKey:MiaAPIKey_PhoneNumber];
+    [dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Dev];
+    [dictValues setValue:MiaAPIDefaultIMEI forKey:MiaAPIKey_IMEI];
+    [dictValues setValue:passwordHash forKey:MiaAPIKey_Pwd];
+    
+    MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostLogin
+                                                               parameters:dictValues
+                                                            completeBlock:completeBlock
+                                                             timeoutBlock:timeoutBlock];
+    [[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
@@ -534,19 +559,3 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
