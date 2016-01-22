@@ -12,7 +12,6 @@
 #import "MiaAPIHelper.h"
 #import "UserSession.h"
 #import "HXAlertBanner.h"
-#import "UserDefaultsUtils.h"
 
 typedef NS_ENUM(BOOL, HXLoginAction) {
     HXLoginActionLogin = YES,
