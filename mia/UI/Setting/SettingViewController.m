@@ -124,27 +124,12 @@ UITextFieldDelegate>
 	_scrollContentView = [[UIView alloc] initWithFrame:_scrollView.bounds];
 	[_scrollContentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTouchAction:)]];
 	[_scrollView addSubview:_scrollContentView];
-
-	[self initBarButton];
+    
 	[self initUserInfoView];
 	[self initPlaySettingView];
 	[self initFeedbackView];
 	[self initVersionView];
 	[self initLogoutView];
-}
-
-- (void)initBarButton {
-	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
-	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height * 2)
-												 titleString:nil
-												  titleColor:nil
-														font:nil
-													 logoImg:backButtonImage
-											 backgroundImage:nil];
-	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-	self.navigationItem.leftBarButtonItem = leftButton;
-	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-
 }
 
 - (void)initUserInfoView {
@@ -840,11 +825,6 @@ UITextFieldDelegate>
 
 
 #pragma mark - button Actions
-
-- (void)backButtonAction:(id)sender {
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)autoPlaySwitchAction:(id)sender {
 	[UserSetting setAutoPlay:_autoPlaySwitch.isOn];
 }
