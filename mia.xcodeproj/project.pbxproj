@@ -165,6 +165,9 @@
 		CD9670901C52216D00130D27 /* HXStoryBoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670891C52216D00130D27 /* HXStoryBoardManager.m */; };
 		CD9670911C52216D00130D27 /* HXThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD96708C1C52216D00130D27 /* HXThemeManager.m */; };
 		CD9670921C52216D00130D27 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD96708F1C52216D00130D27 /* HXVersion.m */; };
+		CD96709A1C5226EF00130D27 /* HXForgotPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */; };
+		CD96709B1C5226EF00130D27 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670971C5226EF00130D27 /* HXLoginViewController.m */; };
+		CD96709C1C5226EF00130D27 /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670991C5226EF00130D27 /* HXRegisterViewController.m */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
 		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; };
 		CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */; };
@@ -482,6 +485,12 @@
 		CD96708C1C52216D00130D27 /* HXThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXThemeManager.m; sourceTree = "<group>"; };
 		CD96708E1C52216D00130D27 /* HXVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVersion.h; sourceTree = "<group>"; };
 		CD96708F1C52216D00130D27 /* HXVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVersion.m; sourceTree = "<group>"; };
+		CD9670941C5226EF00130D27 /* HXForgotPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXForgotPWViewController.h; sourceTree = "<group>"; };
+		CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXForgotPWViewController.m; sourceTree = "<group>"; };
+		CD9670961C5226EF00130D27 /* HXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXLoginViewController.h; sourceTree = "<group>"; };
+		CD9670971C5226EF00130D27 /* HXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXLoginViewController.m; sourceTree = "<group>"; };
+		CD9670981C5226EF00130D27 /* HXRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRegisterViewController.h; sourceTree = "<group>"; };
+		CD9670991C5226EF00130D27 /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
 		CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedBackViewController.m; sourceTree = "<group>"; };
 		CD9D2EBC1BD7736500A2D312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Setting.storyboard; sourceTree = SOURCE_ROOT; };
@@ -1330,6 +1339,7 @@
 		CD221FC61BC79F0300FCD4E7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD9670931C5226EF00130D27 /* Login */,
 				CDF739CE1BE0BAAE009FA8CA /* Share */,
 				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
 				CD9D2EB71BD7729400A2D312 /* Setting */,
@@ -1623,6 +1633,19 @@
 				CD96708F1C52216D00130D27 /* HXVersion.m */,
 			);
 			path = HXVersion;
+			sourceTree = "<group>";
+		};
+		CD9670931C5226EF00130D27 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CD9670941C5226EF00130D27 /* HXForgotPWViewController.h */,
+				CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */,
+				CD9670961C5226EF00130D27 /* HXLoginViewController.h */,
+				CD9670971C5226EF00130D27 /* HXLoginViewController.m */,
+				CD9670981C5226EF00130D27 /* HXRegisterViewController.h */,
+				CD9670991C5226EF00130D27 /* HXRegisterViewController.m */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		CD9D2EB41BD7705A00A2D312 /* Setting */ = {
@@ -2006,6 +2029,7 @@
 				CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */,
 				39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */,
 				397E42F91BAA93C1006BE9E7 /* KYCircularView.m in Sources */,
+				CD96709A1C5226EF00130D27 /* HXForgotPWViewController.m in Sources */,
 				3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */,
 				CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */,
 				CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */,
@@ -2102,6 +2126,7 @@
 				CD9670681C52211D00130D27 /* HXTextView.m in Sources */,
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
 				CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */,
+				CD96709C1C5226EF00130D27 /* HXRegisterViewController.m in Sources */,
 				39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */,
 				390BADC91BAFD9FB006269FD /* LoginViewController.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
@@ -2115,6 +2140,7 @@
 				397FA5341BAC0CA7003FD186 /* MIAGrowingTextView.m in Sources */,
 				397E42CE1BA90812006BE9E7 /* NSData+Base64.m in Sources */,
 				CDC7C2511BE76D1A0024FEB6 /* HXNavigationController.m in Sources */,
+				CD96709B1C5226EF00130D27 /* HXLoginViewController.m in Sources */,
 				CD5753A11BDF541C00E7CBC4 /* HXComment.m in Sources */,
 				39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */,
 				397FA5331BAC0CA7003FD186 /* MIATexAlertView.m in Sources */,
