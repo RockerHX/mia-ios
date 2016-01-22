@@ -34,5 +34,14 @@ pod 'UICollectionViewLeftAlignedLayout'
 
 pod 'FDStackView'
 
+
 # UMeng SDK
 pod 'UMengAnalytics-NO-IDFA'
+
+# Share SDK
+pod 'ShareSDK3'
+pod 'MOBFoundation'
+pod 'ShareSDK3/ShareSDKUI'
+#pod 'ShareSDK3/ShareSDKPlatforms/QQ'
+pod 'ShareSDK3/ShareSDKPlatforms/SinaWeibo'
+pod 'ShareSDK3/ShareSDKPlatforms/WeChat'
