@@ -1535,12 +1535,12 @@
 		CD9670931C5226EF00130D27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				CD9670941C5226EF00130D27 /* HXForgotPWViewController.h */,
-				CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */,
 				CD9670961C5226EF00130D27 /* HXLoginViewController.h */,
 				CD9670971C5226EF00130D27 /* HXLoginViewController.m */,
 				CD9670981C5226EF00130D27 /* HXRegisterViewController.h */,
 				CD9670991C5226EF00130D27 /* HXRegisterViewController.m */,
+				CD9670941C5226EF00130D27 /* HXForgotPWViewController.h */,
+				CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";

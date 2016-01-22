@@ -49,17 +49,15 @@ static NSString *CaptchApi = @"/user/pauth";
 #pragma mark - Event Response
 - (IBAction)registerButtonPressed {
     if (![self checkPhoneNumber]) {
-        [self showToastWithMessage:@"请输入正确手机号！"];
-    } else if (_captchaTextField.text.length < 4) {
-        [self showToastWithMessage:@"请输入正确验证码！"];
-    } else if (!_nickNameTextField.text.length) {
-        [self showToastWithMessage:@"请输入用户昵称！"];
-    } else if (!_passWordTextField.text.length) {
-        [self showToastWithMessage:@"请输入登录密码！"];
-    } else if (![_passWordTextField.text isEqualToString:_confirmTextField.text]) {
-        [self showToastWithMessage:@"亲，您输入的两次密码不相同噢！"];
-    } else {
-        if ([_confirmTextField.text isEqualToString:_passWordTextField.text]) {
+        if (_captchaTextField.text.length < 4) {
+            [self showToastWithMessage:@"请输入正确验证码！"];
+        } else if (!_nickNameTextField.text.length) {
+            [self showToastWithMessage:@"请输入用户昵称！"];
+        } else if (!_passWordTextField.text.length) {
+            [self showToastWithMessage:@"请输入登录密码！"];
+        } else if (![_passWordTextField.text isEqualToString:_confirmTextField.text]) {
+            [self showToastWithMessage:@"亲，您输入的两次密码不相同噢！"];
+        } else {
             [self startRegisterRequestWithMobile:_mobileTextField.text
                                          captcha:_captchaTextField.text
                                         nickName:_nickNameTextField.text
@@ -103,19 +101,17 @@ static NSString *CaptchApi = @"/user/pauth";
 - (void)startRegisterRequestWithMobile:(NSString *)mobile captcha:(NSString *)captcha nickName:(NSString *)nickName password:(NSString *)password {
     [self showHUD];
     __weak __typeof__(self)weakSelf = self;
-    NSString *passwordHash = [NSString md5HexDigest:password];
     [MiaAPIHelper registerWithPhoneNum:mobile
                                  scode:captcha
                               nickName:nickName
-                          passwordHash:passwordHash
+                          passwordHash:[NSString md5HexDigest:password]
                          completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
              [strongSelf registerSuccess];
          } else {
-             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]] tap:nil];
          }
          
          [strongSelf hiddenHUD];

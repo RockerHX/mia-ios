@@ -107,12 +107,12 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     
     switch (_loginAction) {
         case HXLoginActionLogin: {
-            if (mobile.length != 11) {
-                [self showToastWithMessage:@"请输入正确手机号！"];
-            } else if (!password.length) {
-                [self showToastWithMessage:@"请输入登录密码！"];
-            } else {
-                [self startLoginRequestWithMobile:mobile password:password];
+            if ([self checkPhoneNumber]) {
+                if (!password.length) {
+                    [self showToastWithMessage:@"请输入登录密码！"];
+                } else {
+                    [self startLoginRequestWithMobile:mobile password:password];
+                }
             }
             break;
         }
@@ -215,13 +215,22 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     } completion:nil];
 }
 
+- (BOOL)checkPhoneNumber {
+    NSString *str = _mobileTextField.text;
+    if (str.length == 11
+        && [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
+        return YES;
+    }
+    [HXAlertBanner showWithMessage:@"手机号码不符合规范，请重新输入" tap:nil];
+    return NO;
+}
+
 - (void)startLoginRequestWithMobile:(NSString *)mobile password:(NSString *)password {
     [self showHUD];
     
     __weak __typeof__(self)weakSelf = self;
-    NSString *passwordHash = [NSString md5HexDigest:password];
     [MiaAPIHelper loginWithPhoneNum:mobile
-                       passwordHash:passwordHash
+                       passwordHash:[NSString md5HexDigest:password]
                       completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
