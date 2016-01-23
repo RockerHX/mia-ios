@@ -19,16 +19,15 @@
 #import "UIActionSheet+Blocks.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
-#import "LoginViewController.h"
+#import "HXLoginViewController.h"
 #import "UserSession.h"
 #import "HXInfectUserListView.h"
 #import "InfectItem.h"
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"
-#import "HXGrowingTextView.h"
+#import "HXTextView.h"
 #import "GuestProfileViewController.h"
 #import "FavoriteMgr.h"
-#import "HXNavigationController.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -240,9 +239,8 @@
 }
 
 - (void)presentLoginViewController {
-    LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    HXNavigationController *loginNavigationViewController = [[HXNavigationController alloc] initWithRootViewController:loginViewController];
-    [self presentViewController:loginNavigationViewController animated:YES completion:nil];
+    UINavigationController *loginNavigationController = [HXLoginViewController navigationControllerInstance];
+    [self presentViewController:loginNavigationController animated:YES completion:nil];
 }
 
 #pragma mark - Table View Data Source Methods

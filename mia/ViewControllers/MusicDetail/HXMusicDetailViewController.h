@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class ShareItem;
-@class HXGrowingTextView;
+@class HXTextView;
 
 @protocol HXMusicDetailViewControllerDelegate <NSObject>
 
@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewBottomConstraint;
-@property (weak, nonatomic) IBOutlet HXGrowingTextView *editCommentView;
+@property (weak, nonatomic) IBOutlet         HXTextView *editCommentView;
 
 @property (weak, nonatomic) id<HXMusicDetailViewControllerDelegate> customDelegate;
 

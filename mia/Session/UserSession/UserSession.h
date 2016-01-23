@@ -45,4 +45,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 
 - (void)logout;
 
+- (void)saveAuthInfoMobile:(NSString *)mobile password:(NSString *)password;
+- (void)saveUserInfoUid:(NSString *)uid nickName:(NSString *)nickName;
+
 @end

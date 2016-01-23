@@ -10,6 +10,7 @@
 #import "UserSession.h"
 #import "UserDefaultsUtils.h"
 #import "NSString+IsNull.h"
+#import "NSString+MD5.h"
 
 @interface UserSession()
 
@@ -87,6 +88,18 @@
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
     self.state = UserSessionLoginStateLogout;
+}
+
+- (void)saveAuthInfoMobile:(NSString *)mobile password:(NSString *)password {
+    NSString *passwordHash = [NSString md5HexDigest:password];
+    
+    [UserDefaultsUtils saveValue:mobile forKey:UserDefaultsKey_UserName];
+    [UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
+}
+
+- (void)saveUserInfoUid:(NSString *)uid nickName:(NSString *)nickName {
+    [UserDefaultsUtils saveValue:uid forKey:UserDefaultsKey_UID];
+    [UserDefaultsUtils saveValue:nickName forKey:UserDefaultsKey_Nick];
 }
 
 @end

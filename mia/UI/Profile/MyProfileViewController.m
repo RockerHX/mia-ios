@@ -183,7 +183,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 - (void)initBarButton {
-	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
+	UIImage *backButtonImage = [UIImage imageNamed:@"C-BackIcon-Gray"];
 	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height * 2)
 												 titleString:nil
 												  titleColor:nil
@@ -794,7 +794,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 }
 
 #pragma mark - button Actions
-
 - (void)backButtonAction:(id)sender {
 	if (_playingFavorite) {
 		[_songListPlayer stop];

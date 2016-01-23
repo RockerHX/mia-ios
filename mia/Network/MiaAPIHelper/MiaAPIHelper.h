@@ -161,16 +161,18 @@
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)thirdLoginWithOpenID:(NSString *)openID
+                     unionID:(NSString *)unionID
+                       token:(NSString *)token
+                    nickName:(NSString *)nickName
+                         sex:(NSString *)sex
+                        type:(NSString *)type
+                      avatar:(NSString *)avatar
+               completeBlock:(MiaRequestCompleteBlock)completeBlock
+                timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)loginWithPhoneNum:(NSString *)phoneNumber
 			 passwordHash:(NSString *)passwordHash
-			completeBlock:(MiaRequestCompleteBlock)completeBlock
-			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
-
-+ (void)loginWithPassport:(NSString *)token
-				 nickname:(NSString *)nickname
-					  sex:(long)sex
-					 from:(NSString *)from
-			   headImgUrl:(NSString *)headImgUrl
 			completeBlock:(MiaRequestCompleteBlock)completeBlock
 			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 

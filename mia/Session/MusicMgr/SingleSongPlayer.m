@@ -50,7 +50,7 @@
 			}
 		};
 		_audioStream.onStateChange = ^(FSAudioStreamState state) {
-			NSLog(@"FSAudioStreamState change:%u", state);
+			NSLog(@"FSAudioStreamState change:%ld", (long)state);
 			__strong SingleSongPlayer *strongPlayer = weakPlayer;
 			strongPlayer->_audioState = state;
 

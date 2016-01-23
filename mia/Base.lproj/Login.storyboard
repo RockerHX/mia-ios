@@ -100,7 +100,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="C-RightRrrowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="PHc-k7-Lgx">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="C-ArrowIcon-Right-White" translatesAutoresizingMaskIntoConstraints="NO" id="PHc-k7-Lgx">
                                         <rect key="frame" x="60" y="0.0" width="25" height="25"/>
                                     </imageView>
                                 </subviews>
@@ -122,7 +122,7 @@
                             <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kNU-8Z-niv" userLabel="账号密码视图">
                                 <rect key="frame" x="30" y="169" width="260" height="120"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18683858856" placeholder="输入手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xj0-a2-zly">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xj0-a2-zly">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -139,12 +139,12 @@
                                             <constraint firstAttribute="height" constant="0.5" id="zgR-XW-WtU"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="xiaohua" placeholder="密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ix2-Dm-vqM">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ix2-Dm-vqM">
                                         <rect key="frame" x="0.0" y="41" width="260" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dg8-6G-tEH" userLabel="Line">
                                         <rect key="frame" x="0.0" y="81" width="260" height="1"/>
@@ -605,8 +605,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="C-ArrowIcon-Right-White" width="25" height="25"/>
         <image name="C-BackIcon-Gray" width="25" height="25"/>
-        <image name="C-RightRrrowIcon" width="25" height="25"/>
         <image name="C-WeiXinLogo" width="25" height="25"/>
         <image name="L-LoginBG" width="375" height="667"/>
         <image name="L-LoginLogo" width="500" height="500"/>

@@ -82,7 +82,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)initUI {
 	self.title = _nickName;
-	[self initBarButton];
 	[self initCollectionView];
 	[self initNoShareView];
 }
@@ -112,19 +111,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
 	_profileCollectionView.mj_footer = aFooter;
-}
-
-- (void)initBarButton {
-	UIImage *backButtonImage = [UIImage imageNamed:@"back"];
-	MIAButton *backButton = [[MIAButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, backButtonImage.size.width, backButtonImage.size.height * 2)
-												 titleString:nil
-												  titleColor:nil
-														font:nil
-													 logoImg:backButtonImage
-											 backgroundImage:nil];
-	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-	self.navigationItem.leftBarButtonItem = leftButton;
-	[backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)initData {
@@ -276,12 +262,6 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 #pragma mark - HXMusicDetailViewControllerDelegate
 - (void)detailViewControllerDismissWithoutDelete {
 	[_profileCollectionView reloadData];
-}
-
-#pragma mark - button Actions
-
-- (void)backButtonAction:(id)sender {
-	[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
