@@ -130,7 +130,7 @@
 	[self bs_performBlock:^{
 		NSLog(@"delayPreloader");
 		[_preloader preloadWithMusicItem:[_dataSource songListPlayerItemAtIndex:[_dataSource songListPlayerNextItemIndex]]];
-	} afterDelay:5.0f];
+	} afterDelay:30.0f];
 }
 
 - (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {
