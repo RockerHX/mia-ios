@@ -30,7 +30,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 @property (strong, nonatomic) NSString *nick;
 @property (strong, nonatomic) NSString *avatar;
 @property (strong, nonatomic) NSString *utype;
-@property (assign, nonatomic) long unreadCommCnt;
+@property (assign, nonatomic) int unreadCommCnt;
 
 @property (nonatomic, assign) UserSessionLoginState state;
 

@@ -521,7 +521,7 @@
     [dictValues setValue:nickName forKey:MiaAPIKey_NickName];
     [dictValues setValue:sex forKey:MiaAPIKey_Sex];
     [dictValues setValue:type forKey:MiaAPIKey_From];
-    [dictValues setValue:type forKey:MiaAPIKey_HeadImageURL];
+    [dictValues setValue:avatar forKey:MiaAPIKey_HeadImageURL];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostThirdLogin
 															   parameters:dictValues

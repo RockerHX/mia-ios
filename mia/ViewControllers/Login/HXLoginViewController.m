@@ -264,7 +264,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
              [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] longValue]];
+             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
              
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
@@ -272,7 +272,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
              UserSession *userSession = [UserSession standard];
              userSession.state = UserSessionLoginStateLogin;
              [userSession setAvatar:avatarUrlWithTime];
-//             [userSession saveAuthInfoMobile:mobile password:password];
+//             [userSession saveAuthInfoMobile:userInfo[MiaAPIKey_Values][@"uid"] password:userInfo[MiaAPIKey_Values][@"token"]];
              [userSession saveUserInfoUid:userInfo[MiaAPIKey_Values][@"uid"] nickName:userInfo[MiaAPIKey_Values][@"nick"]];
              
              if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
@@ -305,7 +305,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
              [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] longValue]];
+             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
              
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
@@ -314,6 +314,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
              userSession.state = UserSessionLoginStateLogin;
              [userSession setAvatar:avatarUrlWithTime];
              [userSession saveAuthInfoMobile:mobile password:password];
+//			 [userSession saveAuthInfoMobile:userInfo[MiaAPIKey_Values][@"uid"] password:userInfo[MiaAPIKey_Values][@"token"]];
              [userSession saveUserInfoUid:userInfo[MiaAPIKey_Values][@"uid"] nickName:userInfo[MiaAPIKey_Values][@"nick"]];
              
              if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
