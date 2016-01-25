@@ -13,15 +13,38 @@
 
 @implementation HXSettingViewController
 
-#pragma mark - Class Methods
-+ (instancetype)instance {
-    return [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXSettingViewController class])];
-}
-
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+- (NSString *)navigationControllerIdentifier {
+    return @"HXSettingNavigationController";
+}
+
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameSetting;
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    ;
+}
+
+- (void)viewConfigure {
+    ;
+}
+
+#pragma mark - Table View Delegate Methods
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 15.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1.0f;
 }
 
 @end

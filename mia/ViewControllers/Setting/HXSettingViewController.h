@@ -6,10 +6,8 @@
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UIViewController+HXClass.h"
 
 @interface HXSettingViewController : UITableViewController
-
-+ (instancetype)instance;
 
 @end
