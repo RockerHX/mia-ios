@@ -61,7 +61,8 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 }
 
 - (void)viewConfigure {
-    ;
+    [_mobileTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [_passWordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 }
 
 #pragma mark - Setter And Getter Methods
