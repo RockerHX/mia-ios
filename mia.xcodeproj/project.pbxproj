@@ -1222,10 +1222,10 @@
 			isa = PBXGroup;
 			children = (
 				CD9670931C5226EF00130D27 /* Login */,
-				CDF739CE1BE0BAAE009FA8CA /* Share */,
-				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
-				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
+				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
+				CDF739CE1BE0BAAE009FA8CA /* Share */,
+				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CDC7C24F1BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.h */,
 				CDC7C2501BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m */,
 			);
