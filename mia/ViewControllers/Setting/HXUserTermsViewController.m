@@ -17,17 +17,21 @@ static NSString *UserTermsLoadURL = @"http://www.miamusic.com/terms.html";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initConfig];
-    [self viewConfig];
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameSetting;
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)loadConfigure {
     _webView.delegate = self;
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:UserTermsLoadURL]]];
 }
 
-- (void)viewConfig {
+- (void)viewConfigure {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 

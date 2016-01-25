@@ -9,15 +9,7 @@
 
 typedef NS_ENUM(NSUInteger, HXStoryBoardName) {
     HXStoryBoardNameLogin,
-    HXStoryBoardNameMain,
-    HXStoryBoardNameShow,
-    HXStoryBoardNameChoice,
-    HXStoryBoardNameProfile,
-    HXStoryBoardNameStation,
-    HXStoryBoardNamePlayer,
-    HXStoryBoardNameWeb,
-    HXStoryBoardNameSongList,
-    HXStoryBoardNameLocation
+    HXStoryBoardNameSetting
 };
 
 @interface HXStoryBoardManager : NSObject
