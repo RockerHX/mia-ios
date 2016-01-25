@@ -815,7 +815,7 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 
 - (void)noShareTouchAction:(id)sender {
     HXShareViewController *shareViewController = [HXShareViewController instance];
-	shareViewController.customDelegate = self;
+	shareViewController.delegate = self;
     [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
