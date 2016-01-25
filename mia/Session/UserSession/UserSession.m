@@ -82,7 +82,7 @@
 	_uid = nil;
 	self.nick = nil;
 	_utype = nil;
-	_unreadCommCnt = nil;
+	_unreadCommCnt = 0;
 	self.avatar = nil;
 	
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
