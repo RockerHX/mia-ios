@@ -15,6 +15,7 @@
 - (void)singleSongPlayerDidPause;
 - (void)singleSongPlayerDidCompletion;
 - (void)singleSongPlayerDidBufferStream;
+- (void)singleSongPlayerDidFailure;
 
 @end
 
