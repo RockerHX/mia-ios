@@ -9,6 +9,7 @@
 
 typedef NS_ENUM(NSUInteger, HXStoryBoardName) {
     HXStoryBoardNameLogin,
+    HXStoryBoardNameMusicDetail,
     HXStoryBoardNameSetting
 };
 

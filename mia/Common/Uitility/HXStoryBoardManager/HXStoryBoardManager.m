@@ -28,6 +28,10 @@
             storyBoardName = @"Login";
             break;
         }
+        case HXStoryBoardNameMusicDetail: {
+            storyBoardName = @"MusicDetail";
+            break;
+        }
         case HXStoryBoardNameSetting: {
             storyBoardName = @"Setting";
             break;
