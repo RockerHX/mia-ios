@@ -14,8 +14,8 @@
 #import "HXAlertBanner.h"
 
 typedef NS_ENUM(BOOL, HXLoginAction) {
-    HXLoginActionLogin = YES,
-    HXLoginActionCancel = NO
+    HXLoginActionCancel = NO,
+    HXLoginActionLogin = YES
 };
 
 @interface HXLoginViewController ()
@@ -61,7 +61,8 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 }
 
 - (void)viewConfigure {
-    ;
+    [_mobileTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [_passWordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 }
 
 #pragma mark - Setter And Getter Methods
@@ -75,7 +76,16 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
-    [self showAnimation];
+    switch (_loginAction) {
+        case HXLoginActionLogin: {
+            [self showAnimation];
+            break;
+        }
+        case HXLoginActionCancel: {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        }
+    }
 }
 
 - (IBAction)weixinButtonPressed {
@@ -211,8 +221,6 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 }
 
 - (void)loginButtonMoveOperationCompletedWithAction:(HXLoginAction)action {
-    _backButton.hidden = !action;
-    
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;

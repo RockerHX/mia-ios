@@ -24,7 +24,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet      UIView *loginView;
-@property (weak, nonatomic) IBOutlet    UIButton *backButton;
 @property (weak, nonatomic) IBOutlet    UIButton *weixinButton;
 @property (weak, nonatomic) IBOutlet    UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet      UIView *registerView;
