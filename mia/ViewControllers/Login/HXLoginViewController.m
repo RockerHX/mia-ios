@@ -50,6 +50,14 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     [self viewConfigure];
 }
 
+- (NSString *)navigationControllerIdentifier {
+    return @"HXLoginNavigationController";
+}
+
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameLogin;
+}
+
 #pragma mark - Segue Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     _shouldHideNavigationBar = NO;
@@ -63,15 +71,6 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 - (void)viewConfigure {
     [_mobileTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [_passWordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-}
-
-#pragma mark - Setter And Getter Methods
-- (NSString *)navigationControllerIdentifier {
-    return @"HXLoginNavigationController";
-}
-
-- (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameLogin;
 }
 
 #pragma mark - Event Response
