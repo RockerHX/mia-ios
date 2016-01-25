@@ -511,15 +511,15 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (BOOL)autoLogin {
-	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
-	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
-	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+	NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionUID];
+	NSString *token = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionToken];
+	if ([NSString isNull:uid] || [NSString isNull:token]) {
 		return NO;
 	}
     
-    [MiaAPIHelper loginWithPhoneNum:userName
-                       passwordHash:passwordHash
-                      completeBlock:
+    [MiaAPIHelper loginWithSession:uid
+							 token:token
+					 completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
@@ -534,7 +534,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
              [UserSession standard].state = UserSessionLoginStateLogin;
 		 } else {
-			 [[UserSession standard] logout];
+			 // for test
+			 //[[UserSession standard] logout];
 		 }
 
          [_radioViewController loadShareList];

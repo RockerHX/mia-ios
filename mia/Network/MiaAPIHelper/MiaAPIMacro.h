@@ -74,6 +74,8 @@ static NSString * const MiaAPICommand_User_PostLogin		= @"User.Post.Login";
 static NSString * const MiaAPIKey_Pwd						= @"pwd";
 static NSString * const MiaAPIKey_Dev						= @"dev";
 
+static NSString * const MiaAPICommand_User_PostSession		= @"User.Post.Session";
+
 static NSString * const MiaAPICommand_User_PostLogout		= @"User.Post.Logout";
 
 static NSString * const MiaAPICommand_User_PostChangePwd	= @"User.Post.Cpwd";
