@@ -63,6 +63,11 @@
 
 		_audioStream.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
 			[[FileLog standard] log:@"AudioStream onFailure:%d, %@", error, errorDescription];
+
+			__strong SingleSongPlayer *strongPlayer = weakPlayer;
+			if ([strongPlayer delegate]) {
+				[[strongPlayer delegate] singleSongPlayerDidFailure];
+			}
 		};
 	}
 	return self;

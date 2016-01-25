@@ -133,6 +133,12 @@
 	} afterDelay:30.0f];
 }
 
+- (void)singleSongPlayerDidFailure {
+	if (_delegate) {
+		[_delegate songListPlayerDidPause];
+	}
+}
+
 - (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {
 	return [_player.currentItem.murl isEqualToString:url];
 }
