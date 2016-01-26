@@ -521,7 +521,7 @@
     [dictValues setValue:nickName forKey:MiaAPIKey_NickName];
     [dictValues setValue:sex forKey:MiaAPIKey_Sex];
     [dictValues setValue:type forKey:MiaAPIKey_From];
-    [dictValues setValue:type forKey:MiaAPIKey_HeadImageURL];
+    [dictValues setValue:avatar forKey:MiaAPIKey_HeadImageURL];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostThirdLogin
 															   parameters:dictValues
@@ -545,6 +545,21 @@
                                                             completeBlock:completeBlock
                                                              timeoutBlock:timeoutBlock];
     [[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
++ (void)loginWithSession:(NSString *)uID
+			 token:(NSString *)token
+			completeBlock:(MiaRequestCompleteBlock)completeBlock
+			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:uID forKey:MiaAPIKey_UID];
+	[dictValues setValue:token forKey:MiaAPIKey_Token];
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostSession
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
 + (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock

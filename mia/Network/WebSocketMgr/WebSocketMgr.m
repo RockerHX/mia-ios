@@ -141,7 +141,10 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 #ifdef DEBUG
 	static NSString * const kMIAAPIUrl = @"ws://api.miamusic.com:80";
 #else
-	static NSString * const kMIAAPIUrl = @"ws://ws.miamusic.com:80";
+// for test 小莫同步新版本服务端到外网后切换回正式服务器
+// TODO linyehui
+//	static NSString * const kMIAAPIUrl = @"ws://ws.miamusic.com:80";
+	static NSString * const kMIAAPIUrl = @"ws://api.miamusic.com:80";
 #endif
 
 	_webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kMIAAPIUrl]]];

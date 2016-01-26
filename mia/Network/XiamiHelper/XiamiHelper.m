@@ -10,6 +10,7 @@
 #import "XiamiHelper.h"
 #import "SuggestionItem.h"
 #import "SearchResultItem.h"
+#import "NSString+IsNull.h"
 
 
 static NSString * const kSearchSuggestionParten 	= @"www.xiami.com/song/(\\d+).*?title=\"(.*?)\".*?span>(.*?)</strong>";
@@ -116,8 +117,16 @@ const static NSTimeInterval kSearchSyncTimeout		= 10;
 						 NSArray *trackList = songInfo[@"data"][@"trackList"];
 						 if ([NSNull null] != (NSNull *)trackList && trackList.count > 0) {
 							 item.songUrl = [self decodeXiamiUrl:trackList[0][@"location"]];
+
 							 item.pic = songInfo[@"data"][@"trackList"][0][@"pic"];
+							 if ([NSString isNull:item.pic]) {
+								 item.pic = @"";
+							 }
 							 item.albumPic = songInfo[@"data"][@"trackList"][0][@"album_pic"];
+							 if ([NSString isNull:item.albumPic]) {
+								 item.albumPic = item.pic;
+							 }
+							 
 							 [resultArray addObject:item];
 						 } else {
 							 NSLog(@"song without trackList.");

@@ -10,7 +10,6 @@
 #import "UserSession.h"
 #import "UserDefaultsUtils.h"
 #import "NSString+IsNull.h"
-#import "NSString+MD5.h"
 
 @interface UserSession()
 
@@ -65,9 +64,9 @@
 }
 
 - (BOOL)isCachedLogin {
-	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
-	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
-	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+	NSString *session_uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionUID];
+	NSString *session_token = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionToken];
+	if ([NSString isNull:session_uid] || [NSString isNull:session_token]) {
 		return NO;
 	}
     
@@ -82,19 +81,17 @@
 	_uid = nil;
 	self.nick = nil;
 	_utype = nil;
-	_unreadCommCnt = nil;
+	_unreadCommCnt = 0;
 	self.avatar = nil;
 	
-	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UserName];
-	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_PasswordHash];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_SessionUID];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_SessionToken];
     self.state = UserSessionLoginStateLogout;
 }
 
-- (void)saveAuthInfoMobile:(NSString *)mobile password:(NSString *)password {
-    NSString *passwordHash = [NSString md5HexDigest:password];
-    
-    [UserDefaultsUtils saveValue:mobile forKey:UserDefaultsKey_UserName];
-    [UserDefaultsUtils saveValue:passwordHash forKey:UserDefaultsKey_PasswordHash];
+- (void)saveAuthInfo:(NSString *)uid token:(NSString *)token {
+    [UserDefaultsUtils saveValue:uid forKey:UserDefaultsKey_SessionUID];
+    [UserDefaultsUtils saveValue:token forKey:UserDefaultsKey_SessionToken];
 }
 
 - (void)saveUserInfoUid:(NSString *)uid nickName:(NSString *)nickName {

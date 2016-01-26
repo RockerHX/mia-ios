@@ -35,6 +35,7 @@
 #import "FavoriteMgr.h"
 #import "HXInfectUserItemView.h"
 #import "HXFeedBackViewController.h"
+#import "FileLog.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -176,7 +177,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		if ([NSString isNull:newAvatarUrl]) {
 			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
         } else {
-			int unreadCount = [[[UserSession standard] unreadCommCnt] intValue];
+			int unreadCount = [[UserSession standard] unreadCommCnt];
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
@@ -511,21 +512,21 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (BOOL)autoLogin {
-	NSString *userName = [UserDefaultsUtils valueWithKey:UserDefaultsKey_UserName];
-	NSString *passwordHash = [UserDefaultsUtils valueWithKey:UserDefaultsKey_PasswordHash];
-	if ([NSString isNull:userName] || [NSString isNull:passwordHash]) {
+	NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionUID];
+	NSString *token = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionToken];
+	if ([NSString isNull:uid] || [NSString isNull:token]) {
 		return NO;
 	}
     
-    [MiaAPIHelper loginWithPhoneNum:userName
-                       passwordHash:passwordHash
-                      completeBlock:
+    [MiaAPIHelper loginWithSession:uid
+							 token:token
+					 completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              [[UserSession standard] setUid:userInfo[MiaAPIKey_Values][@"uid"]];
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:userInfo[MiaAPIKey_Values][@"unreadCommCnt"]];
+             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
 
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
@@ -533,8 +534,11 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
              [UserSession standard].state = UserSessionLoginStateLogin;
-         }
-         
+		 } else {
+			 [[FileLog standard] log:@"autoLogin failed, logout"];
+			 [[UserSession standard] logout];
+		 }
+
          [_radioViewController loadShareList];
      } timeoutBlock:^(MiaRequestItem *requestItem) {
          NSLog(@"audo login timeout!");
@@ -843,7 +847,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
-        int unreadCommentCount = [[[UserSession standard] unreadCommCnt] intValue];
+        int unreadCommentCount = [[UserSession standard] unreadCommCnt];
         [self updateProfileButtonWithUnreadCount:unreadCommentCount];
     }
 }

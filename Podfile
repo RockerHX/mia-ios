@@ -9,7 +9,7 @@ pod 'SocketRocket'
 pod 'SDWebImage'
 
 # Audio
-pod 'FreeStreamer'
+pod 'FreeStreamer', '3.2.1'
 
 # Utility
 pod 'Masonry'

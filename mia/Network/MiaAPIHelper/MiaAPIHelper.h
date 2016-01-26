@@ -176,6 +176,11 @@
 			completeBlock:(MiaRequestCompleteBlock)completeBlock
 			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)loginWithSession:(NSString *)uID
+				   token:(NSString *)token
+		   completeBlock:(MiaRequestCompleteBlock)completeBlock
+			timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)logoutWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 

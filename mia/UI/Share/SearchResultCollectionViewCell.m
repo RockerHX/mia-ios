@@ -12,6 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
 #import "SearchResultItem.h"
+#import "NSString+IsNull.h"
 
 @interface SearchResultCollectionViewCell()
 
@@ -106,8 +107,7 @@
 	_dataItem = item;
 
 	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
-					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
-
+					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
 	[_titleLabel setText:item.title];
 	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
 

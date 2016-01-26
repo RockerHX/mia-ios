@@ -15,8 +15,8 @@ typedef NS_ENUM(BOOL, UserSessionLoginState) {
     UserSessionLoginStateLogout = NO
 };
 
-static NSString * const UserDefaultsKey_UserName            = @"name";
-static NSString * const UserDefaultsKey_PasswordHash        = @"hash";
+static NSString * const UserDefaultsKey_SessionUID          = @"session_uid";
+static NSString * const UserDefaultsKey_SessionToken        = @"session_token";
 static NSString * const UserDefaultsKey_UID                 = @"uid";
 static NSString * const UserDefaultsKey_Nick				= @"nick";
 
@@ -30,7 +30,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 @property (strong, nonatomic) NSString *nick;
 @property (strong, nonatomic) NSString *avatar;
 @property (strong, nonatomic) NSString *utype;
-@property (strong, nonatomic) NSString *unreadCommCnt;
+@property (assign, nonatomic) int unreadCommCnt;
 
 @property (nonatomic, assign) UserSessionLoginState state;
 
@@ -45,7 +45,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 
 - (void)logout;
 
-- (void)saveAuthInfoMobile:(NSString *)mobile password:(NSString *)password;
+- (void)saveAuthInfo:(NSString *)uid token:(NSString *)token;
 - (void)saveUserInfoUid:(NSString *)uid nickName:(NSString *)nickName;
 
 @end
