@@ -36,6 +36,10 @@
             storyBoardName = @"Share";
             break;
         }
+        case HXStoryBoardNameProfile: {
+            storyBoardName = @"Profile";
+            break;
+        }
         case HXStoryBoardNameSetting: {
             storyBoardName = @"Setting";
             break;

@@ -104,6 +104,10 @@
 		CD25AA571C57544F008BE101 /* HXMessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */; };
 		CD25AA5B1C575934008BE101 /* HXMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA5A1C575934008BE101 /* HXMessageCell.m */; };
 		CD25AA5F1C575A09008BE101 /* HXMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA5E1C575A09008BE101 /* HXMessageModel.m */; };
+		CD25AA621C576342008BE101 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA601C576342008BE101 /* Profile.storyboard */; };
+		CD25AA661C576501008BE101 /* HXProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA651C576501008BE101 /* HXProfileViewController.m */; };
+		CD25AA691C5765A2008BE101 /* HXProfileCoverContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA681C5765A2008BE101 /* HXProfileCoverContainerViewController.m */; };
+		CD25AA6C1C5765F8008BE101 /* HXProfileDetailContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA6B1C5765F8008BE101 /* HXProfileDetailContainerViewController.m */; };
 		CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4334EE1BD8CBF400A5E34C /* InfectItem.m */; };
 		CD48CD701BDB84AA009607DE /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD6F1BDB84AA009607DE /* HXWaveView.m */; };
 		CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD721BDB84E3009607DE /* HXHomePageWaveView.m */; };
@@ -362,6 +366,13 @@
 		CD25AA5A1C575934008BE101 /* HXMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCell.m; sourceTree = "<group>"; };
 		CD25AA5D1C575A09008BE101 /* HXMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageModel.h; sourceTree = "<group>"; };
 		CD25AA5E1C575A09008BE101 /* HXMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageModel.m; sourceTree = "<group>"; };
+		CD25AA611C576342008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
+		CD25AA641C576501008BE101 /* HXProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileViewController.h; sourceTree = "<group>"; };
+		CD25AA651C576501008BE101 /* HXProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileViewController.m; sourceTree = "<group>"; };
+		CD25AA671C5765A2008BE101 /* HXProfileCoverContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileCoverContainerViewController.h; sourceTree = "<group>"; };
+		CD25AA681C5765A2008BE101 /* HXProfileCoverContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileCoverContainerViewController.m; sourceTree = "<group>"; };
+		CD25AA6A1C5765F8008BE101 /* HXProfileDetailContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileDetailContainerViewController.h; sourceTree = "<group>"; };
+		CD25AA6B1C5765F8008BE101 /* HXProfileDetailContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileDetailContainerViewController.m; sourceTree = "<group>"; };
 		CD4334ED1BD8CBF400A5E34C /* InfectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectItem.h; sourceTree = "<group>"; };
 		CD4334EE1BD8CBF400A5E34C /* InfectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectItem.m; sourceTree = "<group>"; };
 		CD48CD6E1BDB84AA009607DE /* HXWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXWaveView.h; sourceTree = "<group>"; };
@@ -1243,6 +1254,7 @@
 				CDC5FE861BD0FFAA001D154E /* HomePage */,
 				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
 				CDF739CE1BE0BAAE009FA8CA /* Share */,
+				CD25AA631C5764EA008BE101 /* Profile */,
 				CD9D2EB71BD7729400A2D312 /* Setting */,
 				CD25AA541C575437008BE101 /* MessageCenter */,
 				CDC7C24F1BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.h */,
@@ -1275,6 +1287,7 @@
 				CD25AA401C574E4C008BE101 /* HomePage.storyboard */,
 				CD25AA441C574E4C008BE101 /* MusicDetail.storyboard */,
 				CD25AA481C574E4C008BE101 /* Share.storyboard */,
+				CD25AA601C576342008BE101 /* Profile.storyboard */,
 				CD25AA461C574E4C008BE101 /* Setting.storyboard */,
 				CD25AA511C574E86008BE101 /* MessageCenter.storyboard */,
 			);
@@ -1306,6 +1319,19 @@
 				CD25AA5E1C575A09008BE101 /* HXMessageModel.m */,
 			);
 			path = MessageCenter;
+			sourceTree = "<group>";
+		};
+		CD25AA631C5764EA008BE101 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CD25AA641C576501008BE101 /* HXProfileViewController.h */,
+				CD25AA651C576501008BE101 /* HXProfileViewController.m */,
+				CD25AA671C5765A2008BE101 /* HXProfileCoverContainerViewController.h */,
+				CD25AA681C5765A2008BE101 /* HXProfileCoverContainerViewController.m */,
+				CD25AA6A1C5765F8008BE101 /* HXProfileDetailContainerViewController.h */,
+				CD25AA6B1C5765F8008BE101 /* HXProfileDetailContainerViewController.m */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		CD4334EC1BD8CBF400A5E34C /* InfectItem */ = {
@@ -1814,6 +1840,7 @@
 			files = (
 				CD25AA4D1C574E4C008BE101 /* Setting.storyboard in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
+				CD25AA621C576342008BE101 /* Profile.storyboard in Resources */,
 				CD25AA4C1C574E4C008BE101 /* MusicDetail.storyboard in Resources */,
 				CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */,
 				CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */,
@@ -1934,6 +1961,7 @@
 				397CD59B1BDA16F200CCEE11 /* SingleSongPlayer.m in Sources */,
 				397CD5A21BDA7F6100CCEE11 /* MusicMgr.m in Sources */,
 				3909696A1BDE60F600C55B20 /* SongPreloader.m in Sources */,
+				CD25AA661C576501008BE101 /* HXProfileViewController.m in Sources */,
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */,
 				CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */,
@@ -1997,8 +2025,10 @@
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */,
 				CD9670651C52211D00130D27 /* HXAppConstants.m in Sources */,
+				CD25AA691C5765A2008BE101 /* HXProfileCoverContainerViewController.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
 				3997F8341BE750A000F6597D /* CacheHelper.m in Sources */,
+				CD25AA6C1C5765F8008BE101 /* HXProfileDetailContainerViewController.m in Sources */,
 				3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */,
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,
 				397E42D91BA90812006BE9E7 /* UIImageView+BlurredImage.m in Sources */,
@@ -2105,6 +2135,14 @@
 				CD25AA521C574E86008BE101 /* Base */,
 			);
 			name = MessageCenter.storyboard;
+			sourceTree = "<group>";
+		};
+		CD25AA601C576342008BE101 /* Profile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD25AA611C576342008BE101 /* Base */,
+			);
+			name = Profile.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
