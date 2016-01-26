@@ -36,6 +36,7 @@
 #import "HXInfectUserItemView.h"
 #import "HXFeedBackViewController.h"
 #import "FileLog.h"
+#import "FriendViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -272,13 +273,18 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)shareButtonPressed {
+	// for test
+	FriendViewController *friendVC = [[FriendViewController alloc] init];
+	[self.navigationController pushViewController:friendVC animated:YES];
+	return;
+
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
-    if ([[UserSession standard] isLogined]) {
-        HXShareViewController *shareViewController = [HXShareViewController instance];
-        [self.navigationController pushViewController:shareViewController animated:YES];
-    } else {
-        [self presentLoginViewController:nil];
-    }
+//    if ([[UserSession standard] isLogined]) {
+//        HXShareViewController *shareViewController = [HXShareViewController instance];
+//        [self.navigationController pushViewController:shareViewController animated:YES];
+//    } else {
+//        [self presentLoginViewController:nil];
+//    }
 }
 
 - (IBAction)feedBackButtonPressed {
