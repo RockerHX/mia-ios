@@ -16,6 +16,8 @@
 @dynamic canPan;
 
 #pragma  mark - Class Methods
++ (NSString *)segueIdentifier { return @""; }
+
 + (UINavigationController *)navigationControllerInstance {
     @try {
         UIViewController *viewController = [self new];
