@@ -1756,7 +1756,7 @@
 				TargetAttributes = {
 					397F02CB1B9EEEF500C413FE = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = H2JE2CWJS7;
+						DevelopmentTeam = PQE2NCR38L;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2177,7 +2177,7 @@
 				INFOPLIST_FILE = mia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.mia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.enterprise.mia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -2200,7 +2200,7 @@
 				INFOPLIST_FILE = mia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.mia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.enterprise.mia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
