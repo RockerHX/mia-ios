@@ -1270,6 +1270,13 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		CD25AA3E1C571664008BE101 /* RadioShareInfoView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RadioShareInfoView;
+			sourceTree = "<group>";
+		};
 		CD33D8201BDB682B00BB0A04 /* MusicDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1625,6 +1632,7 @@
 		CDC5FE941BD1EA85001D154E /* Radio */ = {
 			isa = PBXGroup;
 			children = (
+				CD25AA3E1C571664008BE101 /* RadioShareInfoView */,
 				CDC5FE951BD1EAC5001D154E /* HXRadioView.h */,
 				CDC5FE961BD1EAC5001D154E /* HXRadioView.m */,
 				CDC5FE9A1BD1EC4D001D154E /* HXRadioView.xib */,

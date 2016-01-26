@@ -8,9 +8,17 @@
 
 #import "HXRadioShareInfoView.h"
 #import "HXXib.h"
+#import "TTTAttributedLabel.h"
 
 @implementation HXRadioShareInfoView
 
 HXXibImplementation
+
+#pragma mark - Event Response
+- (void)sharerAvatarButtonPressed {
+    if (_delegate && [_delegate respondsToSelector:@selector(radioShareInfoView:takeAction:)]) {
+        [_delegate radioShareInfoView:self takeAction:HXRadioShareInfoActionAvatarTaped];
+    }
+}
 
 @end
