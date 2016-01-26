@@ -89,10 +89,7 @@ GenderPickerViewDelegate
 }
 
 - (void)viewConfigure {
-    _avatarImageView.layer.cornerRadius = _avatarImageView.frame.size.height/2;
-    _avatarImageView.layer.borderWidth = 0.5f;
-    _avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
-    _avatarImageView.image = [UIImage imageNamed:@"default_avatar.png"];
+    ;
 }
 
 - (void)loadAvatar {

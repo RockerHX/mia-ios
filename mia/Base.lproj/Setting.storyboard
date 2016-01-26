@@ -81,12 +81,20 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Br7-FW-dS6">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="Br7-FW-dS6" customClass="HXIBImageView">
                                                     <rect key="frame" x="265" y="15" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Br7-FW-dS6" secondAttribute="height" multiplier="1:1" id="277-W3-CG8"/>
                                                         <constraint firstAttribute="width" constant="40" id="Kg9-GR-zaG"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="20"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qvg-we-WPJ" userLabel="Separator">
                                                     <rect key="frame" x="15" y="70" width="305" height="0.0"/>
@@ -509,4 +517,7 @@
             <point key="canvasLocation" x="-202" y="330"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="default_avatar" width="40" height="40"/>
+    </resources>
 </document>
