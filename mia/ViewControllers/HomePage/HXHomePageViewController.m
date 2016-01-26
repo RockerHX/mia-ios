@@ -35,6 +35,7 @@
 #import "FavoriteMgr.h"
 #import "HXInfectUserItemView.h"
 #import "HXFeedBackViewController.h"
+#import "FileLog.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -534,8 +535,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
              [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
              [UserSession standard].state = UserSessionLoginStateLogin;
 		 } else {
-			 // for test
-			 //[[UserSession standard] logout];
+			 [[FileLog standard] log:@"autoLogin failed, logout"];
+			 [[UserSession standard] logout];
 		 }
 
          [_radioViewController loadShareList];
