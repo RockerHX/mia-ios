@@ -102,6 +102,8 @@
 		CD25AA4E1C574E4C008BE101 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA481C574E4C008BE101 /* Share.storyboard */; };
 		CD25AA531C574E86008BE101 /* MessageCenter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA511C574E86008BE101 /* MessageCenter.storyboard */; };
 		CD25AA571C57544F008BE101 /* HXMessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */; };
+		CD25AA5B1C575934008BE101 /* HXMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA5A1C575934008BE101 /* HXMessageCell.m */; };
+		CD25AA5F1C575A09008BE101 /* HXMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA5E1C575A09008BE101 /* HXMessageModel.m */; };
 		CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4334EE1BD8CBF400A5E34C /* InfectItem.m */; };
 		CD48CD701BDB84AA009607DE /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD6F1BDB84AA009607DE /* HXWaveView.m */; };
 		CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD721BDB84E3009607DE /* HXHomePageWaveView.m */; };
@@ -356,6 +358,10 @@
 		CD25AA521C574E86008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MessageCenter.storyboard; sourceTree = "<group>"; };
 		CD25AA551C57544F008BE101 /* HXMessageCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageCenterViewController.h; sourceTree = "<group>"; };
 		CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCenterViewController.m; sourceTree = "<group>"; };
+		CD25AA591C575934008BE101 /* HXMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageCell.h; sourceTree = "<group>"; };
+		CD25AA5A1C575934008BE101 /* HXMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCell.m; sourceTree = "<group>"; };
+		CD25AA5D1C575A09008BE101 /* HXMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageModel.h; sourceTree = "<group>"; };
+		CD25AA5E1C575A09008BE101 /* HXMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageModel.m; sourceTree = "<group>"; };
 		CD4334ED1BD8CBF400A5E34C /* InfectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectItem.h; sourceTree = "<group>"; };
 		CD4334EE1BD8CBF400A5E34C /* InfectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectItem.m; sourceTree = "<group>"; };
 		CD48CD6E1BDB84AA009607DE /* HXWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXWaveView.h; sourceTree = "<group>"; };
@@ -719,6 +725,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CD25AA5C1C5759FC008BE101 /* MessageCenter */,
 				CD5753981BDF53F000E7CBC4 /* MusicDetail */,
 				CD4334EC1BD8CBF400A5E34C /* InfectItem */,
 				3972188F1BCF8F9400721A6D /* InfectUserItem */,
@@ -1283,6 +1290,24 @@
 			path = MessageCenter;
 			sourceTree = "<group>";
 		};
+		CD25AA581C5758F5008BE101 /* MessageCenter */ = {
+			isa = PBXGroup;
+			children = (
+				CD25AA591C575934008BE101 /* HXMessageCell.h */,
+				CD25AA5A1C575934008BE101 /* HXMessageCell.m */,
+			);
+			path = MessageCenter;
+			sourceTree = "<group>";
+		};
+		CD25AA5C1C5759FC008BE101 /* MessageCenter */ = {
+			isa = PBXGroup;
+			children = (
+				CD25AA5D1C575A09008BE101 /* HXMessageModel.h */,
+				CD25AA5E1C575A09008BE101 /* HXMessageModel.m */,
+			);
+			path = MessageCenter;
+			sourceTree = "<group>";
+		};
 		CD4334EC1BD8CBF400A5E34C /* InfectItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1574,6 +1599,7 @@
 				CDC894991BD4CB720080E7FF /* Common */,
 				CDC5FE851BD0FF7F001D154E /* HomePage */,
 				CD48CD761BDDF97E009607DE /* MusicDetail */,
+				CD25AA581C5758F5008BE101 /* MessageCenter */,
 				CD25AA3D1C5715DB008BE101 /* HXXib.h */,
 			);
 			path = Views;
@@ -1913,6 +1939,7 @@
 				CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
 				CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */,
+				CD25AA5B1C575934008BE101 /* HXMessageCell.m in Sources */,
 				397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */,
 				CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */,
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
@@ -1952,6 +1979,7 @@
 				CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */,
 				CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */,
 				CD96705C1C52211D00130D27 /* UIViewController+HXClass.m in Sources */,
+				CD25AA5F1C575A09008BE101 /* HXMessageModel.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,

@@ -7,8 +7,11 @@
 //
 
 #import "HXMessageCenterViewController.h"
+#import "HXMessageCell.h"
 
-@interface HXMessageCenterViewController ()
+@interface HXMessageCenterViewController () <
+HXMessageCellDelegate
+>
 @end
 
 @implementation HXMessageCenterViewController
@@ -39,21 +42,28 @@
 }
 
 #pragma mark - Table View Data Source Methods
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 0;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-//    
-//    // Configure the cell...
-//    
-//    return cell;
-//}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HXMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMessageCell class]) forIndexPath:indexPath];
+    return cell;
+}
 
 #pragma mark - Table View Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - HXMessageCellDelegate Methods
+- (void)messageCell:(HXMessageCell *)cell takeAction:(HXMessageCellAction)action {
+    switch (action) {
+        case HXMessageCellActionAvatarTaped: {
+            ;
+            break;
+        }
+    }
 }
 
 @end
