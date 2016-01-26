@@ -14,6 +14,21 @@
 
 HXXibImplementation
 
+#pragma mark - Load Methods
+- (void)awakeFromNib {
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    ;
+}
+
+- (void)viewConfigure {
+    ;
+}
+
 #pragma mark - Event Response
 - (void)sharerAvatarButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(radioShareInfoView:takeAction:)]) {
