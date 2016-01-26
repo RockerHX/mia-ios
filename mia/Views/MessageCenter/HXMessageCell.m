@@ -46,10 +46,10 @@
     [_descriptionLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
         NSRange boldRange = [text rangeOfString:sharer];
         if (sharer.length) {
-            [mutableAttributedString addAttributes:linkAttributes.copy range:boldRange];
+            [mutableAttributedString addAttributes:linkAttributes range:boldRange];
         }
         if (infecter.length) {
-            [mutableAttributedString addAttributes:linkAttributes.copy range:boldRange];
+            [mutableAttributedString addAttributes:linkAttributes range:boldRange];
         }
         return mutableAttributedString;
     }];

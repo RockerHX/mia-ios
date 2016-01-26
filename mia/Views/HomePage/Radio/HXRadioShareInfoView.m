@@ -43,12 +43,11 @@ HXXibImplementation
 
 #pragma mark - Private Methods
 - (void)displaySharerLabelWithSharer:(NSString *)sharer infecter:(NSString *)infecter {
-    NSMutableDictionary *mutableLinkAttributes = @{}.mutableCopy;
-    [mutableLinkAttributes setObject:[NSNumber numberWithInt:kCTUnderlineStyleNone] forKey:(__bridge id)kCTUnderlineStyleAttributeName];
-    [mutableLinkAttributes setObject:[UIColor blackColor] forKey:(__bridge id)kCTForegroundColorAttributeName];
-    [mutableLinkAttributes setObject:[UIFont boldSystemFontOfSize:_sharerLabel.font.pointSize] forKey:(__bridge id)kCTFontAttributeName];
-    _sharerLabel.activeLinkAttributes = mutableLinkAttributes.copy;
-    _sharerLabel.linkAttributes = mutableLinkAttributes.copy;
+    NSDictionary *linkAttributes = @{(__bridge id)kCTUnderlineStyleAttributeName: [NSNumber numberWithInt:kCTUnderlineStyleNone],
+                                    (__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor],
+                                               (__bridge id)kCTFontAttributeName: [UIFont boldSystemFontOfSize:_sharerLabel.font.pointSize]};
+    _sharerLabel.activeLinkAttributes = linkAttributes;
+    _sharerLabel.linkAttributes = linkAttributes;
     [_sharerLabel addLinkToPhoneNumber:sharer withRange:[_sharerLabel.text rangeOfString:sharer]];
     [_sharerLabel addLinkToPhoneNumber:infecter withRange:[_sharerLabel.text rangeOfString:infecter]];
 }
