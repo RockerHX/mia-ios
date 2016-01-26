@@ -64,7 +64,7 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	_collectionView.dataSource = self;
 
 	//[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
-	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestMoreItems)];
+	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestMoreItems)];
 	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
 	_collectionView.mj_footer = aFooter;
