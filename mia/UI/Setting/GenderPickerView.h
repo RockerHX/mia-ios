@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, MIAGender) {
 	MIAGenderFemale,
 };
 
-@protocol GenderPickerViewDelegate
+@protocol GenderPickerViewDelegate <NSObject>
 
 - (void)genderPickerDidSelected:(MIAGender)gender;
 
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, MIAGender) {
 
 @interface GenderPickerView : UIView
 
-@property (weak, nonatomic)id<GenderPickerViewDelegate> customDelegate;
-@property (assign, nonatomic)NSInteger gender;
+@property (nonatomic, weak)          id  <GenderPickerViewDelegate>delegate;
+@property (nonatomic, assign) NSInteger gender;
 
 @end

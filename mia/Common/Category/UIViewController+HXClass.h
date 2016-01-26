@@ -14,6 +14,7 @@
 @property (nonatomic, assign, readonly) HXStoryBoardName  storyBoardName;
 @property (nonatomic, assign)                       BOOL  canPan;
 
++ (NSString *)segueIdentifier;
 + (UINavigationController *)navigationControllerInstance;
 + (instancetype)instance;
 

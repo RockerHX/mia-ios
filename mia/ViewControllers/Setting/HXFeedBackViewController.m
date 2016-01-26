@@ -23,26 +23,25 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 
 @implementation HXFeedBackViewController
 
-#pragma mark - Class Methods
-+ (instancetype)instance {
-    return [[UIStoryboard storyboardWithName:@"Setting" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXFeedBackViewController class])];
-}
-
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initConfig];
-    [self viewConfig];
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameSetting;
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)loadConfigure {
     _feedContentTextView.placeholder = FeedContentPrompt;
     _feedContentTextView.delegate = self;
 }
 
-- (void)viewConfig {
+- (void)viewConfigure {
     _sendButton.enabled = NO;
     _feedContentTextView.layer.borderWidth = 0.5f;
     _feedContentTextView.layer.borderColor = UIColorFromRGB(230.0f, 230.0f, 230.0f).CGColor;

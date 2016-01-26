@@ -53,6 +53,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameShare;
+}
+
 #pragma mark - Config Methods
 - (void)initConfig {
     _scrollView.scrollsToTop = YES;
@@ -111,8 +115,8 @@
          if (success) {
              [HXAlertBanner showWithMessage:@"分享成功" tap:nil];
              [self.navigationController popViewControllerAnimated:YES];
-			 if (_customDelegate && [_customDelegate respondsToSelector:@selector(shareViewControllerDidShareMusic)]) {
-				 [_customDelegate shareViewControllerDidShareMusic];
+			 if (_delegate && [_delegate respondsToSelector:@selector(shareViewControllerDidShareMusic)]) {
+				 [_delegate shareViewControllerDidShareMusic];
 			 }
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -182,11 +186,6 @@
 - (void)stopMusic {
     [_songListPlayer stop];
     [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-}
-
-#pragma mark - Public Methods
-+ (instancetype)instance {
-    return [[UIStoryboard storyboardWithName:@"Share" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXShareViewController class])];
 }
 
 #pragma mark - Private Methods

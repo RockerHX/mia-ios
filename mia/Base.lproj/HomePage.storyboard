@@ -86,10 +86,10 @@
             </objects>
             <point key="canvasLocation" x="-204" y="409"/>
         </scene>
-        <!--Delegate-->
+        <!--HXHomePageViewController-->
         <scene sceneID="cVn-Eb-2yp">
             <objects>
-                <viewController storyboardIdentifier="HXHomePageViewController" id="Vwv-7l-Pgq" customClass="HXHomePageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXHomePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vwv-7l-Pgq" userLabel="HXHomePageViewController" customClass="HXHomePageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KeA-T2-Abd"/>
                         <viewControllerLayoutGuide type="bottom" id="8aQ-Ov-Qm8"/>
@@ -317,7 +317,6 @@
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="jzJ-RZ-SS8" appends="YES" id="nGc-bh-9JC"/>
                             <outletCollection property="gestureRecognizers" destination="uZS-pI-r12" appends="YES" id="R2q-AB-Bc3"/>
-                            <outletCollection property="gestureRecognizers" destination="o1d-8J-4Nt" appends="YES" id="VhD-ti-mQw"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="kAH-Nc-SYo"/>
@@ -349,11 +348,6 @@
                         <action selector="gestureEvent:" destination="Vwv-7l-Pgq" id="RnB-oM-8zN"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="o1d-8J-4Nt">
-                    <connections>
-                        <action selector="tapGesture" destination="Vwv-7l-Pgq" id="X0y-u7-b3P"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="219" y="409"/>
         </scene>
