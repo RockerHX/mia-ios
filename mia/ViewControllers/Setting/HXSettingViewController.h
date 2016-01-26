@@ -10,4 +10,13 @@
 
 @interface HXSettingViewController : UITableViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
+@property (weak, nonatomic) IBOutlet     UILabel *genderLabel;
+@property (weak, nonatomic) IBOutlet    UISwitch *networkingSwitch;
+@property (weak, nonatomic) IBOutlet     UILabel *cacheLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *versionLabel;
+
+- (IBAction)playWith3GSwitchAction:(UISwitch *)sender;
+
 @end
