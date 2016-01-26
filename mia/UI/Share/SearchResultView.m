@@ -188,6 +188,13 @@ static const CGFloat kSearchResultItemHeight	= 100;
 		[_searchResultViewDelegate searchResultViewDidPlayItem:currentPlayingCell.dataItem];
 
 		[_collectionView reloadItemsAtIndexPaths:[[NSArray alloc] initWithObjects:lastIndexPath, indexPath, nil]];
+
+		if (lastPlayingCell == nil) {
+			[[_searchResultViewDelegate searchResultViewModel].dataSource[lastIndexPath.row] setIsPlaying:NO];
+			[[_searchResultViewDelegate searchResultViewModel].dataSource[indexPath.row] setIsPlaying:YES];
+			[_collectionView reloadData];
+		}
+
 	}
 }
 
