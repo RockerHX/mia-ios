@@ -10,7 +10,7 @@
 #import "SearchResultCollectionViewCell.h"
 #import "SearchResultModel.h"
 #import "SearchResultItem.h"
-#import "UIScrollView+MIARefresh.h"
+#import "MJRefresh.h"
 #import "Masonry.h"
 #import "MIALabel.h"
 
@@ -63,7 +63,13 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	_collectionView.delegate = self;
 	_collectionView.dataSource = self;
 
-	[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
+	//[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
+	MJRefreshBackNormalFooter *aFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestMoreItems)];
+	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	_collectionView.mj_footer = aFooter;
+
+
 }
 
 - (void)initNoDataView:(UIView *)contentView {
@@ -96,7 +102,7 @@ static const CGFloat kSearchResultItemHeight	= 100;
 }
 
 - (void)endRefreshing {
-	[_collectionView footerEndRefreshing];
+	[_collectionView.mj_footer endRefreshing];
 }
 
 - (void)playCompletion {
