@@ -91,17 +91,22 @@
 		CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0398AF1BD6477A0036F43D /* HXInfectUserView.m */; };
 		CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0398B21BD647930036F43D /* HXInfectUserItemView.m */; };
 		CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD0398B41BD6479D0036F43D /* HXInfectUserItemView.xib */; };
-		CD23CA741C525044004263EF /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD23CA721C525044004263EF /* HomePage.storyboard */; };
 		CD23CA761C525062004263EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD23CA751C525062004263EF /* Images.xcassets */; };
 		CD23CA791C52506C004263EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD23CA771C52506C004263EF /* LaunchScreen.storyboard */; };
 		CD25AA3A1C5715AD008BE101 /* HXRadioShareInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA391C5715AD008BE101 /* HXRadioShareInfoView.m */; };
 		CD25AA3C1C5715B7008BE101 /* HXRadioShareInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA3B1C5715B7008BE101 /* HXRadioShareInfoView.xib */; };
+		CD25AA4A1C574E4C008BE101 /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA401C574E4C008BE101 /* HomePage.storyboard */; };
+		CD25AA4B1C574E4C008BE101 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA421C574E4C008BE101 /* Login.storyboard */; };
+		CD25AA4C1C574E4C008BE101 /* MusicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA441C574E4C008BE101 /* MusicDetail.storyboard */; };
+		CD25AA4D1C574E4C008BE101 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA461C574E4C008BE101 /* Setting.storyboard */; };
+		CD25AA4E1C574E4C008BE101 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA481C574E4C008BE101 /* Share.storyboard */; };
+		CD25AA531C574E86008BE101 /* MessageCenter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA511C574E86008BE101 /* MessageCenter.storyboard */; };
+		CD25AA571C57544F008BE101 /* HXMessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */; };
 		CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4334EE1BD8CBF400A5E34C /* InfectItem.m */; };
 		CD48CD701BDB84AA009607DE /* HXWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD6F1BDB84AA009607DE /* HXWaveView.m */; };
 		CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD721BDB84E3009607DE /* HXHomePageWaveView.m */; };
 		CD48CD7C1BDDFA79009607DE /* HXMusicDetailCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7B1BDDFA79009607DE /* HXMusicDetailCommentCell.m */; };
 		CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */; };
-		CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD48CD811BDE0054009607DE /* MusicDetail.storyboard */; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; };
 		CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */; };
 		CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */; };
@@ -115,7 +120,6 @@
 		CD5753A41BDF5B5B00E7CBC4 /* CommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753A31BDF5B5B00E7CBC4 /* CommentItem.m */; };
 		CD7A95041BD78C2A0034E5DA /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */; };
 		CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */; };
-		CD966FE61C521E5600130D27 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD966FE41C521E5600130D27 /* Login.storyboard */; };
 		CD96705B1C52211D00130D27 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CD966FEB1C52211D00130D27 /* UIView+Frame.m */; };
 		CD96705C1C52211D00130D27 /* UIViewController+HXClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD966FED1C52211D00130D27 /* UIViewController+HXClass.m */; };
 		CD96705D1C52211D00130D27 /* UIButton+HXIBnspectable.m in Sources */ = {isa = PBXBuildFile; fileRef = CD966FF11C52211D00130D27 /* UIButton+HXIBnspectable.m */; };
@@ -137,7 +141,6 @@
 		CD96709B1C5226EF00130D27 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670971C5226EF00130D27 /* HXLoginViewController.m */; };
 		CD96709C1C5226EF00130D27 /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670991C5226EF00130D27 /* HXRegisterViewController.m */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
-		CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */; };
 		CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; };
@@ -153,7 +156,6 @@
 		CDD8315E1BD8B6B60067309B /* HXInfectUserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8315D1BD8B6B60067309B /* HXInfectUserListView.m */; };
 		CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */; };
 		CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */; };
-		CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDF739C71BE0AEF1009FA8CA /* Share.storyboard */; };
 		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
@@ -340,13 +342,20 @@
 		CD0398B11BD647930036F43D /* HXInfectUserItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserItemView.h; sourceTree = "<group>"; };
 		CD0398B21BD647930036F43D /* HXInfectUserItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserItemView.m; sourceTree = "<group>"; };
 		CD0398B41BD6479D0036F43D /* HXInfectUserItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserItemView.xib; sourceTree = "<group>"; };
-		CD23CA731C525044004263EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/HomePage.storyboard; sourceTree = SOURCE_ROOT; };
 		CD23CA751C525062004263EF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CD23CA781C52506C004263EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD25AA381C5715AD008BE101 /* HXRadioShareInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioShareInfoView.h; sourceTree = "<group>"; };
 		CD25AA391C5715AD008BE101 /* HXRadioShareInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioShareInfoView.m; sourceTree = "<group>"; };
 		CD25AA3B1C5715B7008BE101 /* HXRadioShareInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXRadioShareInfoView.xib; sourceTree = "<group>"; };
-		CD25AA3D1C5715DB008BE101 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HXXib.h; path = Views/HXXib.h; sourceTree = "<group>"; };
+		CD25AA3D1C5715DB008BE101 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
+		CD25AA411C574E4C008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/HomePage.storyboard; sourceTree = "<group>"; };
+		CD25AA431C574E4C008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
+		CD25AA451C574E4C008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MusicDetail.storyboard; sourceTree = "<group>"; };
+		CD25AA471C574E4C008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
+		CD25AA491C574E4C008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Share.storyboard; sourceTree = "<group>"; };
+		CD25AA521C574E86008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MessageCenter.storyboard; sourceTree = "<group>"; };
+		CD25AA551C57544F008BE101 /* HXMessageCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageCenterViewController.h; sourceTree = "<group>"; };
+		CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCenterViewController.m; sourceTree = "<group>"; };
 		CD4334ED1BD8CBF400A5E34C /* InfectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectItem.h; sourceTree = "<group>"; };
 		CD4334EE1BD8CBF400A5E34C /* InfectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfectItem.m; sourceTree = "<group>"; };
 		CD48CD6E1BDB84AA009607DE /* HXWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXWaveView.h; sourceTree = "<group>"; };
@@ -357,7 +366,6 @@
 		CD48CD7B1BDDFA79009607DE /* HXMusicDetailCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailCommentCell.m; sourceTree = "<group>"; };
 		CD48CD7E1BDDFD43009607DE /* HXMusicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailViewController.h; sourceTree = "<group>"; };
 		CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailViewController.m; sourceTree = "<group>"; };
-		CD48CD821BDE0054009607DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/MusicDetail.storyboard; sourceTree = SOURCE_ROOT; };
 		CD4F62F91BCB4E8000E33121 /* HXRadioCarouselHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioCarouselHelper.h; sourceTree = "<group>"; };
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
 		CD5753801BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailCoverCell.h; sourceTree = "<group>"; };
@@ -384,7 +392,6 @@
 		CD7A95031BD78C2A0034E5DA /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
 		CD8A5B4F1BFF19BB00F1CB67 /* HXSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
 		CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
-		CD966FE51C521E5600130D27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Login.storyboard; sourceTree = SOURCE_ROOT; };
 		CD966FEA1C52211D00130D27 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		CD966FEB1C52211D00130D27 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		CD966FEC1C52211D00130D27 /* UIViewController+HXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HXClass.h"; sourceTree = "<group>"; };
@@ -428,7 +435,6 @@
 		CD9670991C5226EF00130D27 /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
 		CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedBackViewController.m; sourceTree = "<group>"; };
-		CD9D2EBC1BD7736500A2D312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Setting.storyboard; sourceTree = SOURCE_ROOT; };
 		CD9D2EBF1BD77C2100A2D312 /* BRPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPlaceholderTextView.h; sourceTree = "<group>"; };
 		CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRPlaceholderTextView.m; sourceTree = "<group>"; };
 		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
@@ -454,7 +460,6 @@
 		CDD8315F1BD8BABF0067309B /* HXInfectUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListCell.h; sourceTree = "<group>"; };
 		CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListCell.m; sourceTree = "<group>"; };
 		CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
-		CDF739C81BE0AEF1009FA8CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = mia/Base.lproj/Share.storyboard; sourceTree = SOURCE_ROOT; };
 		CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXShareViewController.h; sourceTree = "<group>"; };
 		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
@@ -967,7 +972,6 @@
 				397E42791BA26ED2006BE9E7 /* Model */,
 				CD5753831BDE339900E7CBC4 /* ViewModels */,
 				CDC5FE831BD0FD40001D154E /* Views */,
-				CD25AA3D1C5715DB008BE101 /* HXXib.h */,
 				CD221FC61BC79F0300FCD4E7 /* ViewControllers */,
 				397F02D31B9EEEF500C413FE /* AppDelegate.h */,
 				397F02D41B9EEEF500C413FE /* AppDelegate.m */,
@@ -1233,37 +1237,17 @@
 				CD48CD7D1BDDFD33009607DE /* MusicDetail */,
 				CDF739CE1BE0BAAE009FA8CA /* Share */,
 				CD9D2EB71BD7729400A2D312 /* Setting */,
+				CD25AA541C575437008BE101 /* MessageCenter */,
 				CDC7C24F1BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.h */,
 				CDC7C2501BE76D1A0024FEB6 /* HXPanGestureNavgaitionController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		CD221FD11BC79FEE00FCD4E7 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				CD966FE71C521E6200130D27 /* Login */,
-				CD221FD21BC79FF800FCD4E7 /* HomePage */,
-				CD33D8201BDB682B00BB0A04 /* MusicDetail */,
-				CDF739CA1BE0AF3D009FA8CA /* Share */,
-				CD9D2EB41BD7705A00A2D312 /* Setting */,
-			);
-			name = UI;
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		CD221FD21BC79FF800FCD4E7 /* HomePage */ = {
-			isa = PBXGroup;
-			children = (
-				CD23CA721C525044004263EF /* HomePage.storyboard */,
-			);
-			name = HomePage;
-			sourceTree = "<group>";
-		};
 		CD23CA711C525026004263EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CD221FD11BC79FEE00FCD4E7 /* UI */,
+				CD25AA3F1C574E3C008BE101 /* UI */,
 				CD23CA751C525062004263EF /* Images.xcassets */,
 				CD23CA771C52506C004263EF /* LaunchScreen.storyboard */,
 			);
@@ -1277,12 +1261,26 @@
 			path = RadioShareInfoView;
 			sourceTree = "<group>";
 		};
-		CD33D8201BDB682B00BB0A04 /* MusicDetail */ = {
+		CD25AA3F1C574E3C008BE101 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				CD48CD811BDE0054009607DE /* MusicDetail.storyboard */,
+				CD25AA421C574E4C008BE101 /* Login.storyboard */,
+				CD25AA401C574E4C008BE101 /* HomePage.storyboard */,
+				CD25AA441C574E4C008BE101 /* MusicDetail.storyboard */,
+				CD25AA481C574E4C008BE101 /* Share.storyboard */,
+				CD25AA461C574E4C008BE101 /* Setting.storyboard */,
+				CD25AA511C574E86008BE101 /* MessageCenter.storyboard */,
 			);
-			name = MusicDetail;
+			name = UI;
+			sourceTree = "<group>";
+		};
+		CD25AA541C575437008BE101 /* MessageCenter */ = {
+			isa = PBXGroup;
+			children = (
+				CD25AA551C57544F008BE101 /* HXMessageCenterViewController.h */,
+				CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */,
+			);
+			path = MessageCenter;
 			sourceTree = "<group>";
 		};
 		CD4334EC1BD8CBF400A5E34C /* InfectItem */ = {
@@ -1378,14 +1376,6 @@
 				CD5753A01BDF541C00E7CBC4 /* HXComment.m */,
 			);
 			path = MusicDetail;
-			sourceTree = "<group>";
-		};
-		CD966FE71C521E6200130D27 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				CD966FE41C521E5600130D27 /* Login.storyboard */,
-			);
-			name = Login;
 			sourceTree = "<group>";
 		};
 		CD966FE81C52211D00130D27 /* Common */ = {
@@ -1555,14 +1545,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		CD9D2EB41BD7705A00A2D312 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */,
-			);
-			name = Setting;
-			sourceTree = "<group>";
-		};
 		CD9D2EB71BD7729400A2D312 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1592,6 +1574,7 @@
 				CDC894991BD4CB720080E7FF /* Common */,
 				CDC5FE851BD0FF7F001D154E /* HomePage */,
 				CD48CD761BDDF97E009607DE /* MusicDetail */,
+				CD25AA3D1C5715DB008BE101 /* HXXib.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1684,14 +1667,6 @@
 				CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */,
 			);
 			path = HXInfectUserListView;
-			sourceTree = "<group>";
-		};
-		CDF739CA1BE0AF3D009FA8CA /* Share */ = {
-			isa = PBXGroup;
-			children = (
-				CDF739C71BE0AEF1009FA8CA /* Share.storyboard */,
-			);
-			name = Share;
 			sourceTree = "<group>";
 		};
 		CDF739CE1BE0BAAE009FA8CA /* Share */ = {
@@ -1811,22 +1786,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD25AA4D1C574E4C008BE101 /* Setting.storyboard in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
+				CD25AA4C1C574E4C008BE101 /* MusicDetail.storyboard in Resources */,
 				CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */,
-				CD23CA741C525044004263EF /* HomePage.storyboard in Resources */,
 				CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */,
 				CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */,
-				CDF739C91BE0AEF1009FA8CA /* Share.storyboard in Resources */,
+				CD25AA4A1C574E4C008BE101 /* HomePage.storyboard in Resources */,
 				CD23CA791C52506C004263EF /* LaunchScreen.storyboard in Resources */,
 				CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */,
-				CD9D2EBD1BD7736500A2D312 /* Setting.storyboard in Resources */,
 				CD23CA761C525062004263EF /* Images.xcassets in Resources */,
+				CD25AA4B1C574E4C008BE101 /* Login.storyboard in Resources */,
 				CDD831581BD8B6550067309B /* HXNoNetworkView.xib in Resources */,
 				CDD8315B1BD8B6980067309B /* HXInfectUserListView.xib in Resources */,
-				CD966FE61C521E5600130D27 /* Login.storyboard in Resources */,
 				397FA52C1BAC0CA7003FD186 /* arrow@2x.png in Resources */,
+				CD25AA4E1C574E4C008BE101 /* Share.storyboard in Resources */,
+				CD25AA531C574E86008BE101 /* MessageCenter.storyboard in Resources */,
 				CD25AA3C1C5715B7008BE101 /* HXRadioShareInfoView.xib in Resources */,
-				CD48CD831BDE0054009607DE /* MusicDetail.storyboard in Resources */,
 				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
 				CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */,
 			);
@@ -1928,6 +1904,7 @@
 				CD5753961BDE499200E7CBC4 /* HXMusicDetailNoCommentCell.m in Sources */,
 				397FA52D1BAC0CA7003FD186 /* MIARefreshBaseView.m in Sources */,
 				CD96705E1C52211D00130D27 /* UILabel+HXIBnsepectable.m in Sources */,
+				CD25AA571C57544F008BE101 /* HXMessageCenterViewController.m in Sources */,
 				397CD59B1BDA16F200CCEE11 /* SingleSongPlayer.m in Sources */,
 				397CD5A21BDA7F6100CCEE11 /* MusicMgr.m in Sources */,
 				3909696A1BDE60F600C55B20 /* SongPreloader.m in Sources */,
@@ -2046,14 +2023,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		CD23CA721C525044004263EF /* HomePage.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CD23CA731C525044004263EF /* Base */,
-			);
-			name = HomePage.storyboard;
-			sourceTree = "<group>";
-		};
 		CD23CA771C52506C004263EF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2062,36 +2031,52 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		CD48CD811BDE0054009607DE /* MusicDetail.storyboard */ = {
+		CD25AA401C574E4C008BE101 /* HomePage.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CD48CD821BDE0054009607DE /* Base */,
+				CD25AA411C574E4C008BE101 /* Base */,
 			);
-			name = MusicDetail.storyboard;
+			name = HomePage.storyboard;
 			sourceTree = "<group>";
 		};
-		CD966FE41C521E5600130D27 /* Login.storyboard */ = {
+		CD25AA421C574E4C008BE101 /* Login.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CD966FE51C521E5600130D27 /* Base */,
+				CD25AA431C574E4C008BE101 /* Base */,
 			);
 			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
-		CD9D2EBB1BD7736500A2D312 /* Setting.storyboard */ = {
+		CD25AA441C574E4C008BE101 /* MusicDetail.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CD9D2EBC1BD7736500A2D312 /* Base */,
+				CD25AA451C574E4C008BE101 /* Base */,
+			);
+			name = MusicDetail.storyboard;
+			sourceTree = "<group>";
+		};
+		CD25AA461C574E4C008BE101 /* Setting.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD25AA471C574E4C008BE101 /* Base */,
 			);
 			name = Setting.storyboard;
 			sourceTree = "<group>";
 		};
-		CDF739C71BE0AEF1009FA8CA /* Share.storyboard */ = {
+		CD25AA481C574E4C008BE101 /* Share.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CDF739C81BE0AEF1009FA8CA /* Base */,
+				CD25AA491C574E4C008BE101 /* Base */,
 			);
 			name = Share.storyboard;
+			sourceTree = "<group>";
+		};
+		CD25AA511C574E86008BE101 /* MessageCenter.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD25AA521C574E86008BE101 /* Base */,
+			);
+			name = MessageCenter.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

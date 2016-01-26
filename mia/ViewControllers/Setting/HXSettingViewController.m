@@ -20,6 +20,7 @@
 #import "UIImage+Extrude.h"
 #import "UIImageView+WebCache.h"
 #import "UserSetting.h"
+#import "HXMessageCenterViewController.h"
 
 typedef NS_ENUM(NSUInteger, HXSettingSection) {
     HXSettingSectionUser,
@@ -368,7 +369,8 @@ static CGFloat SectionSpace = 16.0f;
                     break;
                 }
                 case HXUserSectionRowMessageCenter: {
-                    ;
+                    HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
+                    [self.navigationController pushViewController:messageCenterViewController animated:YES];
                     break;
                 }
             }
