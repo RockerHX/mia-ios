@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UIViewController+HXClass.h"
 
 @class HXTextView;
 
@@ -18,6 +18,8 @@
 @end
 
 @interface HXShareViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet           id  <HXShareViewControllerDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet     UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -36,15 +38,11 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottmonConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationViewHeightConstraint;
 
-@property (weak, nonatomic) id<HXShareViewControllerDelegate> customDelegate;
-
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;
 - (IBAction)addMusicButtonPressed;
 - (IBAction)playButtonPressed;
 - (IBAction)closeLocationPressed;
 - (IBAction)tapGesture;
-
-+ (instancetype)instance;
 
 @end

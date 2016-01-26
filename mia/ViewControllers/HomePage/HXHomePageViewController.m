@@ -286,10 +286,6 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     [self.navigationController pushViewController:feedBackViewController animated:YES];
 }
 
-- (IBAction)tapGesture {
-    [self viewTapedCanShowMusicDetail:YES];
-}
-
 static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动画阀值
 - (IBAction)gestureEvent:(UIGestureRecognizer *)gesture {
     if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {

@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UIViewController+HXClass.h"
 
 @class BRPlaceholderTextView;
 
@@ -15,8 +15,6 @@
 @property (weak, nonatomic) IBOutlet              UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet BRPlaceholderTextView *feedContentTextView;
 @property (weak, nonatomic) IBOutlet           UITextField *feedContactTextField;
-
-+ (instancetype)instance;
 
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;

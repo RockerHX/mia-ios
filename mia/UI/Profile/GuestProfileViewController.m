@@ -252,10 +252,10 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	ProfileCollectionViewCell *cell = (ProfileCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-	HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
+	HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
 	musicDetailViewController.playItem = [cell shareItem];
 	musicDetailViewController.fromProfile = NO;
-	musicDetailViewController.customDelegate = self;
+	musicDetailViewController.delegate = self;
 	[self.navigationController pushViewController:musicDetailViewController animated:YES];
 }
 

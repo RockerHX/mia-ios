@@ -886,7 +886,7 @@ UITextFieldDelegate>
 
 	GenderPickerView *pickerView = [[GenderPickerView alloc] initWithFrame:self.view.bounds];
 	pickerView.gender = _lastGender;
-	pickerView.customDelegate = self;
+	pickerView.delegate = self;
 	[self.view addSubview:pickerView];
 }
 

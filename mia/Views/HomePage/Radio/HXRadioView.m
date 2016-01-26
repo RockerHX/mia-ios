@@ -19,14 +19,10 @@
 #import "FavoriteMgr.h"
 #import "HXVersion.h"
 
-@interface HXRadioView () <TTTAttributedLabelDelegate> {
-	ShareItem *_currentItem;
+@implementation HXRadioView {
+    ShareItem *_currentItem;
     NSTimer *_timer;
 }
-
-@end
-
-@implementation HXRadioView
 
 #pragma mark - Class Methods
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate {
@@ -88,7 +84,6 @@
 - (void)configLabel {
     _progressView.progress = 0.0f;
     _shrareContentLabel.preferredMaxLayoutWidth = (SCREEN_WIDTH/3)*2;
-    _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
 }
 
@@ -223,48 +218,41 @@
 static NSInteger MaxLine = 3;
 static NSString *HanWorld = @"肖";
 - (void)displayShareContentLabelWithContent:(NSString *)content locationInfo:(NSString *)locationInfo {
-    NSString *text = [NSString stringWithFormat:@"%@%@", (content.length ? [NSString stringWithFormat:@"“%@”  ", content] : @""), (locationInfo ?: @"")];
-    
-    CGFloat labelWidth = _shrareContentLabel.preferredMaxLayoutWidth;
-    CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
-    UIFont *labelFont = _shrareContentLabel.font;
-    CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
-    CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
-    CGFloat threeLineHeightThreshold = lineHeight*3;
-    if (textHeight > lineHeight) {
-        _shrareContentLabel.textAlignment = NSTextAlignmentLeft;
-        
-        if (textHeight > threeLineHeightThreshold) {
-            CGFloat maxWidth = labelWidth*MaxLine;
-            CGSize locationMaxSize = CGSizeMake(MAXFLOAT, lineHeight);
-            NSString *coutText = [NSString stringWithFormat:@"...”  %@", locationInfo];
-            CGFloat worldWith = [HanWorld boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.width;
-            CGFloat locationInfoWidth = [coutText boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:_shrareContentLabel.font} context:nil].size.width;
-            CGFloat commentSurplusWidth = maxWidth - locationInfoWidth;
-            NSInteger commentWorldCount = (commentSurplusWidth/worldWith) + 1;
-            text = [NSString stringWithFormat:@"%@%@", [text substringWithRange:(NSRange){0, commentWorldCount}], coutText];
-        }
-    } else {
-        _shrareContentLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    
-    
-    [_shrareContentLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-        NSRange boldRange = [[mutableAttributedString string] rangeOfString:locationInfo options:NSCaseInsensitiveSearch];
-        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor lightGrayColor].CGColor range:boldRange];
-        return mutableAttributedString;
-    }];
+//    NSString *text = [NSString stringWithFormat:@"%@%@", (content.length ? [NSString stringWithFormat:@"“%@”  ", content] : @""), (locationInfo ?: @"")];
+//    
+//    CGFloat labelWidth = _shrareContentLabel.preferredMaxLayoutWidth;
+//    CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
+//    UIFont *labelFont = _shrareContentLabel.font;
+//    CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+//    CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
+//    CGFloat threeLineHeightThreshold = lineHeight*3;
+//    if (textHeight > lineHeight) {
+//        _shrareContentLabel.textAlignment = NSTextAlignmentLeft;
+//        
+//        if (textHeight > threeLineHeightThreshold) {
+//            CGFloat maxWidth = labelWidth*MaxLine;
+//            CGSize locationMaxSize = CGSizeMake(MAXFLOAT, lineHeight);
+//            NSString *coutText = [NSString stringWithFormat:@"...”  %@", locationInfo];
+//            CGFloat worldWith = [HanWorld boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.width;
+//            CGFloat locationInfoWidth = [coutText boundingRectWithSize:locationMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:_shrareContentLabel.font} context:nil].size.width;
+//            CGFloat commentSurplusWidth = maxWidth - locationInfoWidth;
+//            NSInteger commentWorldCount = (commentSurplusWidth/worldWith) + 1;
+//            text = [NSString stringWithFormat:@"%@%@", [text substringWithRange:(NSRange){0, commentWorldCount}], coutText];
+//        }
+//    } else {
+//        _shrareContentLabel.textAlignment = NSTextAlignmentCenter;
+//    }
+//    
+//    
+//    [_shrareContentLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+//        NSRange boldRange = [[mutableAttributedString string] rangeOfString:locationInfo options:NSCaseInsensitiveSearch];
+//        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor lightGrayColor].CGColor range:boldRange];
+//        return mutableAttributedString;
+//    }];
 }
 
 - (void)displayPlayProgress {
     _progressView.progress = [[[MusicMgr standard] currentPlayer] playPosition];
-}
-
-#pragma mark - TTTAttributedLabelDelegate Methods
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSharerNameTaped:)]) {
-        [_delegate radioViewSharerNameTaped:self];
-    }
 }
 
 @end

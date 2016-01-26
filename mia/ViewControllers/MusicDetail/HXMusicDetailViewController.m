@@ -56,6 +56,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameMusicDetail;
+}
+
 #pragma mark - Config Methods
 - (void)initConfig {
     _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
@@ -85,8 +89,8 @@
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
-	if (_customDelegate && [_customDelegate respondsToSelector:@selector(detailViewControllerDismissWithoutDelete)]) {
-		[_customDelegate detailViewControllerDismissWithoutDelete];
+	if (_delegate && [_delegate respondsToSelector:@selector(detailViewControllerDismissWithoutDelete)]) {
+		[_delegate detailViewControllerDismissWithoutDelete];
 	}
 }
 
@@ -116,8 +120,8 @@
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
                  [self.navigationController popViewControllerAnimated:YES];
 
-                 if (_customDelegate && [_customDelegate respondsToSelector:@selector(detailViewControllerDidDeleteShare)]) {
-                     [_customDelegate detailViewControllerDidDeleteShare];
+                 if (_delegate && [_delegate respondsToSelector:@selector(detailViewControllerDidDeleteShare)]) {
+                     [_delegate detailViewControllerDidDeleteShare];
                  }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
