@@ -19,14 +19,10 @@
 #import "FavoriteMgr.h"
 #import "HXVersion.h"
 
-@interface HXRadioView () <TTTAttributedLabelDelegate> {
-	ShareItem *_currentItem;
+@implementation HXRadioView {
+    ShareItem *_currentItem;
     NSTimer *_timer;
 }
-
-@end
-
-@implementation HXRadioView
 
 #pragma mark - Class Methods
 + (instancetype)initWithFrame:(CGRect)frame delegate:(id<HXRadioViewDelegate>)delegate {
@@ -88,7 +84,6 @@
 - (void)configLabel {
     _progressView.progress = 0.0f;
     _shrareContentLabel.preferredMaxLayoutWidth = (SCREEN_WIDTH/3)*2;
-    _shrareContentLabel.delegate = self;
     _shrareContentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
 }
 
@@ -258,13 +253,6 @@ static NSString *HanWorld = @"肖";
 
 - (void)displayPlayProgress {
     _progressView.progress = [[[MusicMgr standard] currentPlayer] playPosition];
-}
-
-#pragma mark - TTTAttributedLabelDelegate Methods
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    if (_delegate && [_delegate respondsToSelector:@selector(radioViewSharerNameTaped:)]) {
-        [_delegate radioViewSharerNameTaped:self];
-    }
 }
 
 @end
