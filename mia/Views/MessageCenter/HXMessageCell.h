@@ -21,14 +21,16 @@ typedef NS_ENUM(NSUInteger, HXMessageCellAction) {
 
 @end
 
+@class TTTAttributedLabel;
+
 @interface HXMessageCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet       id  <HXMessageCellDelegate>delegate;
-@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
-@property (weak, nonatomic) IBOutlet   UIView *messageIcon;
-@property (weak, nonatomic) IBOutlet  UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet  UILabel *contentLabel;
-@property (weak, nonatomic) IBOutlet  UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet                 id  <HXMessageCellDelegate>delegate;
+@property (weak, nonatomic) IBOutlet           UIButton *avatarButton;
+@property (weak, nonatomic) IBOutlet             UIView *messageIcon;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *contentLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *timeLabel;
 
 - (IBAction)avatarButtonPressed;
 

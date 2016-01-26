@@ -7,6 +7,7 @@
 //
 
 #import "HXMessageCell.h"
+#import "TTTAttributedLabel.h"
 
 @implementation HXMessageCell
 
@@ -34,7 +35,24 @@
 
 #pragma mark - Public Methods
 - (void)displayWithMessageModel:(HXMessageModel *)model {
-    ;
+    [self displayDescriptionLabelWithSharer:@"Nicola" infecter:@""];
+}
+
+#pragma mark - Private Methods
+- (void)displayDescriptionLabelWithSharer:(NSString *)sharer infecter:(NSString *)infecter {
+    NSDictionary *linkAttributes = @{(__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor],
+                                                (__bridge id)kCTFontAttributeName: [UIFont boldSystemFontOfSize:_descriptionLabel.font.pointSize]};
+    NSString *text = _descriptionLabel.text;
+    [_descriptionLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+        NSRange boldRange = [text rangeOfString:sharer];
+        if (sharer.length) {
+            [mutableAttributedString addAttributes:linkAttributes.copy range:boldRange];
+        }
+        if (infecter.length) {
+            [mutableAttributedString addAttributes:linkAttributes.copy range:boldRange];
+        }
+        return mutableAttributedString;
+    }];
 }
 
 @end
