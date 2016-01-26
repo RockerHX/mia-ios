@@ -12,6 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
 #import "SearchResultItem.h"
+#import "NSString+IsNull.h"
 
 @interface SearchResultCollectionViewCell()
 
@@ -105,8 +106,13 @@
 - (void)setDataItem:(SearchResultItem *)item {
 	_dataItem = item;
 
-	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
-					  placeholderImage:[UIImage imageNamed:@"default_cover"]];
+	if (![NSString isNull:item.albumPic]) {
+		[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
+						   placeholderImage:[UIImage imageNamed:@"default_cover"]];
+	} else if (![NSString isNull:item.pic]) {
+		[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.pic]
+						   placeholderImage:[UIImage imageNamed:@"default_cover"]];
+	}
 
 	[_titleLabel setText:item.title];
 	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
