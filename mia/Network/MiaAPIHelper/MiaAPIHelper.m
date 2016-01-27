@@ -124,10 +124,12 @@
 }
 
 + (void)getShareById:(NSString *)sID
+				spID:(NSString *)spID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
+	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetSharem
 															   parameters:dictValues
@@ -352,11 +354,15 @@
 
 + (void)postCommentWithShareID:(NSString *)sID
 					   comment:(NSString *)comment
+					 commentID:(NSString *)commentID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 	[dictValues setValue:comment forKey:MiaAPIKey_Comm];
+	if (![NSString isNull:commentID]) {
+		[dictValues setValue:commentID forKey:MiaAPIKey_CommentID];
+	}
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostComment
 															   parameters:dictValues

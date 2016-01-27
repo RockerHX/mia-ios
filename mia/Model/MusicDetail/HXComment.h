@@ -15,7 +15,6 @@
 @property (strong, nonatomic) NSString *nickName;
 @property (strong, nonatomic) NSString *headerURL;
 @property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSString *date;
-@property (strong, nonatomic) NSString *editDate;
+@property (assign, nonatomic) NSInteger time;
 
 @end

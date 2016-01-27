@@ -239,33 +239,34 @@ static const long kDefaultPageFrom			= 1;		// 分享的分页起始，服务器�
 	[MiaAPIHelper getShareListWithUID:_uid
 								start:_currentPageStart
 								 item:kShareListPageCount
-						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							[_profileCollectionView.mj_footer endRefreshing];
-							if (success) {
-								NSArray *shareList = userInfo[@"v"][@"info"];
-								if ([shareList count] <= 0) {
-									[[FileLog standard] log:@"Profile requestShareList shareList is nil"];
-									[self checkPlaceHolder];
-									return;
-								}
+						completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 [_profileCollectionView.mj_footer endRefreshing];
+		 if (success) {
+			 NSArray *shareList = userInfo[@"v"][@"info"];
+			 if ([shareList count] <= 0) {
+				 [[FileLog standard] log:@"Profile requestShareList shareList is nil"];
+				 [self checkPlaceHolder];
+				 return;
+			 }
 
-								[_shareListModel addSharesWithArray:shareList];
-								[_profileCollectionView reloadData];
-								++_currentPageStart;
-								[self checkPlaceHolder];
-							} else {
-								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-								[self checkPlaceHolder];
-							}
+			 [_shareListModel addSharesWithArray:shareList];
+			 [_profileCollectionView reloadData];
+			 ++_currentPageStart;
+			 [self checkPlaceHolder];
+		 } else {
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+			 [self checkPlaceHolder];
+		 }
 
-						} timeoutBlock:^(MiaRequestItem *requestItem) {
-							[_profileCollectionView.mj_footer endRefreshing];
-							[self checkPlaceHolder];
-							if ([[WebSocketMgr standard] isOpen]) {
-								[HXAlertBanner showWithMessage:@"无法获取分享列表，网络请求超时" tap:nil];
-							}
-						}];
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [_profileCollectionView.mj_footer endRefreshing];
+		 [self checkPlaceHolder];
+		 if ([[WebSocketMgr standard] isOpen]) {
+			 [HXAlertBanner showWithMessage:@"无法获取分享列表，网络请求超时" tap:nil];
+		 }
+	 }];
 }
 
 - (void)initAddShareView {

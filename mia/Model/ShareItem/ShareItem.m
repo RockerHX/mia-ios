@@ -23,6 +23,7 @@
 		self.sAddress = [dictionary objectForKey:@"sAddress"];
 		self.sLongitude = [dictionary objectForKey:@"sLongitude"];
 		self.sLatitude = [dictionary objectForKey:@"sLatitude"];
+		self.time = [[dictionary objectForKey:@"time"] integerValue];
 		self.cView = [[dictionary objectForKey:@"cView"] intValue];
 		self.cComm = [[dictionary objectForKey:@"cComm"] intValue];
 		self.newCommCnt = [[dictionary objectForKey:@"newCommCnt"] intValue];
@@ -35,7 +36,7 @@
 		self.spaceUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"spaceUser"]];
 
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
-//		[self parseFlyCommentsFromJsonArray:[dictionary objectForKey:@"flyList"]];
+		[self parseFlyCommentsFromJsonArray:[dictionary objectForKey:@"flyList"]];
     }
 	
     return self;
@@ -79,6 +80,7 @@
 	[aCoder encodeObject:self.sAddress forKey:@"sAddress"];
 	[aCoder encodeObject:self.sLongitude forKey:@"sLongitude"];
 	[aCoder encodeObject:self.sLatitude forKey:@"sLatitude"];
+	[aCoder encodeInteger:self.time forKey:@"time"];
 	[aCoder encodeObject:self.music forKey:@"music"];
 	[aCoder encodeObject:self.shareUser forKey:@"shareUser"];
 	[aCoder encodeObject:self.spaceUser forKey:@"spaceUser"];
@@ -102,6 +104,7 @@
 		self.sAddress = [aDecoder decodeObjectForKey:@"sAddress"];
 		self.sLongitude = [aDecoder decodeObjectForKey:@"sLongitude"];
 		self.sLatitude = [aDecoder decodeObjectForKey:@"sLatitude"];
+		self.time = [aDecoder decodeIntegerForKey:@"time"];
 		self.music = [aDecoder decodeObjectForKey:@"music"];
 		self.shareUser = [aDecoder decodeObjectForKey:@"shareUser"];
 		self.spaceUser = [aDecoder decodeObjectForKey:@"spaceUser"];

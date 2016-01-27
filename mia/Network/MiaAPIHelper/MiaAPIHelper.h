@@ -41,6 +41,7 @@
 				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)getShareById:(NSString *)sID
+				spID:(NSString *)spID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
@@ -112,6 +113,7 @@
 
 + (void)postCommentWithShareID:(NSString *)sID
 					   comment:(NSString *)comment
+					 commentID:(NSString *)commentID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 

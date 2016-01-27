@@ -13,7 +13,8 @@
 + (NSDictionary *)replacedKeyFromPropertyName {
     return @{@"nickName": @"unick",
             @"headerURL": @"uimg",
-             @"editDate": @"edate",
+             @"time": @"time",
+			 @"cmid": @"cmid",
               @"content": @"cinfo"};
 }
 

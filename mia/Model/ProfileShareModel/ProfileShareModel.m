@@ -21,9 +21,8 @@
 }
 
 - (void)addSharesWithArray:(NSArray *) shareList {
-	for(id item in shareList){
+	for(id item in shareList) {
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
-		//NSLog(@"%@", shareItem);
 		[_dataSource addObject:shareItem];
 	}
 }

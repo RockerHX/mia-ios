@@ -94,6 +94,7 @@ static NSString * const MiaAPICommand_User_PostFollow		= @"User.Post.Follow";
 static NSString * const MiaAPICommand_User_PostComment		= @"User.Post.Pcomm";
 static NSString * const MiaAPIKey_sID						= @"sID";
 static NSString * const MiaAPIKey_Comm						= @"comm";
+static NSString * const MiaAPIKey_CommentID					= @"cmid";
 
 static NSString * const MiaAPICommand_User_PostShare		= @"User.Post.Sharem";
 static NSString * const MiaAPIKey_Note						= @"note";
