@@ -68,7 +68,7 @@
 		[resultArray addObject:flyItem];
 	}
 
-	_flyComments = resultArray;
+	self.flyComments = resultArray;
 }
 
 //将对象编码(即:序列化)

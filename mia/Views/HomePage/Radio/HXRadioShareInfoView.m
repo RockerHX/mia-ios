@@ -24,6 +24,9 @@ TTTAttributedLabelDelegate
 
 @implementation HXRadioShareInfoView {
     __weak ShareItem *_item;
+    
+    NSTimer *_timer;
+    NSInteger _loop;
 }
 
 HXXibImplementation
@@ -32,6 +35,17 @@ HXXibImplementation
 - (void)awakeFromNib {
     [self loadConfigure];
     [self viewConfigure];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"flyComments"]) {
+        [self displayWithItem:_item];
+    }
+}
+
+- (void)dealloc {
+    [_timer invalidate];
+    [_item removeObserver:self forKeyPath:@"flyComments"];
 }
 
 #pragma mark - Configure Methods
@@ -69,7 +83,7 @@ HXXibImplementation
 
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
-    _item = item;
+    [self configureItem:item];
     
     [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.shareUser.userpic] forState:UIControlStateNormal];
     _attentionIcon.image = [UIImage imageNamed:(item.shareUser.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
@@ -85,18 +99,55 @@ HXXibImplementation
 }
 
 #pragma mark - Private Methods
+- (void)configureItem:(ShareItem *)item {
+    _item = item;
+    [_item addObserver:self forKeyPath:@"flyComments" options:NSKeyValueObservingOptionNew context:nil];
+}
+
 - (void)displayFlyComments:(NSArray <FlyCommentItem *> *)flyComments {
     BOOL hasComments = flyComments.count;
     _commentView.hidden = !hasComments;
     if (hasComments) {
-//        _commentView.alpha = 0.0f;
-//        [UIView animateWithDuration:1.2f animations:^{
-//            _commentView.alpha = 1.0f;
-//        }];
-        FlyCommentItem *item = [flyComments lastObject];
-        [_commentAvatar sd_setImageWithURL:[NSURL URLWithString:item.userpic]];
-        _commentLabel.text = item.comment;
+        [self displayFlyComment:[flyComments firstObject]];
+        
+        _commentView.alpha = 0.0f;
+        [UIView animateWithDuration:0.3f animations:^{
+            _commentView.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+            [self starScrollFlyComments];
+        }];
     }
+}
+
+- (void)starScrollFlyComments {
+    _loop = 0;
+    [_timer invalidate];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
+}
+
+- (void)scrollFlyCommentsAnimation {
+    NSArray <FlyCommentItem *> *flyComments = _item.flyComments;
+    if (_loop < flyComments.count - 1) {
+        _loop++;
+    } else {
+        _loop = 0;
+    }
+    
+    _commentView.alpha = 1.0f;
+    [UIView animateWithDuration:0.4 delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        _commentView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [self displayFlyComment:flyComments[_loop]];
+        _commentView.alpha = 0.0f;
+        [UIView animateWithDuration:0.4 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            _commentView.alpha = 1.0f;
+        } completion:nil];
+    }];
+}
+
+- (void)displayFlyComment:(FlyCommentItem *)commentItem {
+    [_commentAvatar sd_setImageWithURL:[NSURL URLWithString:commentItem.userpic]];
+    _commentLabel.text = commentItem.comment;
 }
 
 - (void)displaySharerLabelWithSharer:(NSString *)sharer infecter:(NSString *)infecter {
@@ -120,7 +171,6 @@ HXXibImplementation
             [_delegate radioShareInfoView:self takeAction:HXRadioShareInfoActionInfecterTaped];
         }
     }
-//    NSLog(@"Sharer Name Taped: %@", phoneNumber);
 }
 
 

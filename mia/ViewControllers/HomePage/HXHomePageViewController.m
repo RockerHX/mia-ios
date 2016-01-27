@@ -271,12 +271,12 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)profileButtonPressed {
     // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
     if ([[UserSession standard] isLogined]) {
-//        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-//                                                                                              nickName:[[UserSession standard] nick]];
-//        myProfileViewController.customDelegate = self;
-//        [self.navigationController pushViewController:myProfileViewController animated:YES];
-        HXProfileViewController *profileViewController = [HXProfileViewController instance];
-        [self.navigationController pushViewController:profileViewController animated:YES];
+        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+                                                                                              nickName:[[UserSession standard] nick]];
+        myProfileViewController.customDelegate = self;
+        [self.navigationController pushViewController:myProfileViewController animated:YES];
+//        HXProfileViewController *profileViewController = [HXProfileViewController instance];
+//        [self.navigationController pushViewController:profileViewController animated:YES];
 	} else {
         [self presentLoginViewController:nil];
     }
