@@ -78,6 +78,11 @@
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
 		39880A9A1C58692300713FC6 /* UserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A991C58692300713FC6 /* UserItem.m */; };
 		39880A9E1C5871A900713FC6 /* FlyCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A9D1C5871A900713FC6 /* FlyCommentItem.m */; };
+		39880B4B1C589BA200713FC6 /* FriendItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B471C589BA200713FC6 /* FriendItem.m */; };
+		39880B4C1C589BA200713FC6 /* FriendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B4A1C589BA200713FC6 /* FriendModel.m */; };
+		39880B541C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B4F1C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m */; };
+		39880B551C589BA900713FC6 /* FriendSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B511C589BA900713FC6 /* FriendSearchResultView.m */; };
+		39880B561C589BA900713FC6 /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B531C589BA900713FC6 /* FriendViewController.m */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -321,6 +326,16 @@
 		39880A991C58692300713FC6 /* UserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserItem.m; sourceTree = "<group>"; };
 		39880A9C1C5871A900713FC6 /* FlyCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlyCommentItem.h; sourceTree = "<group>"; };
 		39880A9D1C5871A900713FC6 /* FlyCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlyCommentItem.m; sourceTree = "<group>"; };
+		39880B461C589BA200713FC6 /* FriendItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendItem.h; sourceTree = "<group>"; };
+		39880B471C589BA200713FC6 /* FriendItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendItem.m; sourceTree = "<group>"; };
+		39880B491C589BA200713FC6 /* FriendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendModel.h; sourceTree = "<group>"; };
+		39880B4A1C589BA200713FC6 /* FriendModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendModel.m; sourceTree = "<group>"; };
+		39880B4E1C589BA900713FC6 /* FriendSearchResultCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSearchResultCollectionViewCell.h; sourceTree = "<group>"; };
+		39880B4F1C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchResultCollectionViewCell.m; sourceTree = "<group>"; };
+		39880B501C589BA900713FC6 /* FriendSearchResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSearchResultView.h; sourceTree = "<group>"; };
+		39880B511C589BA900713FC6 /* FriendSearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchResultView.m; sourceTree = "<group>"; };
+		39880B521C589BA900713FC6 /* FriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendViewController.h; sourceTree = "<group>"; };
+		39880B531C589BA900713FC6 /* FriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendViewController.m; sourceTree = "<group>"; };
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
 		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
@@ -742,6 +757,8 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				39880B451C589BA200713FC6 /* FriendItem */,
+				39880B481C589BA200713FC6 /* FriendModel */,
 				39880A9B1C5871A900713FC6 /* FlyCommentItem */,
 				39880A971C58692300713FC6 /* UserItem */,
 				CD25AA5C1C5759FC008BE101 /* MessageCenter */,
@@ -1037,6 +1054,7 @@
 		397FA4F61BAAA989003FD186 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				39880B4D1C589BA900713FC6 /* Friend */,
 				390963DD1BC6427C00E427BA /* Setting */,
 				393CE9B21BBA3B4500FCF232 /* Share */,
 				39BF8C661BB268B4003AB4FC /* Profile */,
@@ -1145,6 +1163,37 @@
 				39880A9D1C5871A900713FC6 /* FlyCommentItem.m */,
 			);
 			path = FlyCommentItem;
+			sourceTree = "<group>";
+		};
+		39880B451C589BA200713FC6 /* FriendItem */ = {
+			isa = PBXGroup;
+			children = (
+				39880B461C589BA200713FC6 /* FriendItem.h */,
+				39880B471C589BA200713FC6 /* FriendItem.m */,
+			);
+			path = FriendItem;
+			sourceTree = "<group>";
+		};
+		39880B481C589BA200713FC6 /* FriendModel */ = {
+			isa = PBXGroup;
+			children = (
+				39880B491C589BA200713FC6 /* FriendModel.h */,
+				39880B4A1C589BA200713FC6 /* FriendModel.m */,
+			);
+			path = FriendModel;
+			sourceTree = "<group>";
+		};
+		39880B4D1C589BA900713FC6 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				39880B4E1C589BA900713FC6 /* FriendSearchResultCollectionViewCell.h */,
+				39880B4F1C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m */,
+				39880B501C589BA900713FC6 /* FriendSearchResultView.h */,
+				39880B511C589BA900713FC6 /* FriendSearchResultView.m */,
+				39880B521C589BA900713FC6 /* FriendViewController.h */,
+				39880B531C589BA900713FC6 /* FriendViewController.m */,
+			);
+			path = Friend;
 			sourceTree = "<group>";
 		};
 		3997F8311BE750A000F6597D /* CacheHelper */ = {
@@ -1962,6 +2011,7 @@
 				3965DF6B1BD0E5DA003B1641 /* MiaRequestItem.m in Sources */,
 				CD9670641C52211D00130D27 /* HXIBnsepectableManager.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
+				39880B4B1C589BA200713FC6 /* FriendItem.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */,
 				39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */,
@@ -2000,6 +2050,7 @@
 				3908F38A1BBBE97700BACFD3 /* SearchResultItem.m in Sources */,
 				CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */,
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
+				39880B561C589BA900713FC6 /* FriendViewController.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */,
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
@@ -2033,6 +2084,7 @@
 				3909696F1BE0E9D000C55B20 /* GuestProfileViewController.m in Sources */,
 				CDD831551BD8B6550067309B /* HXAlertBanner.m in Sources */,
 				CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */,
+				39880B541C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m in Sources */,
 				CD96705C1C52211D00130D27 /* UIViewController+HXClass.m in Sources */,
 				CD25AA5F1C575A09008BE101 /* HXMessageModel.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
@@ -2066,6 +2118,7 @@
 				39880A9A1C58692300713FC6 /* UserItem.m in Sources */,
 				CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
+				39880B551C589BA900713FC6 /* FriendSearchResultView.m in Sources */,
 				CD9670681C52211D00130D27 /* HXTextView.m in Sources */,
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
 				CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */,
@@ -2073,6 +2126,7 @@
 				39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
 				393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */,
+				39880B4C1C589BA200713FC6 /* FriendModel.m in Sources */,
 				397FA52E1BAC0CA7003FD186 /* MIARefreshFooterView.m in Sources */,
 				CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
