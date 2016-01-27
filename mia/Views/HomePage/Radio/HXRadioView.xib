@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HXRadioView">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="HXRadioView" customClass="HXRadioView">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -73,6 +73,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jQr-cc-VHC" customClass="HXRadioShareInfoView">
                     <rect key="frame" x="25" y="365" width="270" height="203"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="uNy-ax-uUa"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -102,13 +105,12 @@
                 <constraint firstAttribute="bottom" secondItem="jQr-cc-VHC" secondAttribute="bottom" id="yIb-63-umP"/>
             </constraints>
             <connections>
-                <outlet property="frontCoverToStarVerticallySpaceConstraint" destination="gDx-VG-7kD" id="ka0-uR-hVJ"/>
-                <outlet property="frontCoverToTopVerticallySpaceConstraint" destination="lGy-uv-HfU" id="0q7-Lb-VL8"/>
+                <outlet property="coverWidthConstraint" destination="p2O-fX-rua" id="Fan-fX-H8v"/>
                 <outlet property="frontCoverView" destination="Adt-yX-Kcn" id="p3x-e1-iFU"/>
                 <outlet property="playButton" destination="EuO-ig-wsS" id="pra-Sy-2Dp"/>
                 <outlet property="progressView" destination="WMI-Wc-Fx1" id="mi0-TT-bf2"/>
+                <outlet property="shareInfoView" destination="jQr-cc-VHC" id="bCe-nN-e7h"/>
                 <outlet property="songNameLabel" destination="ZT2-TF-oW0" id="sQw-zK-RJv"/>
-                <outlet property="songNameToSongerNameVerticallySpaceConstraint" destination="4C9-vI-fnM" id="tcg-WU-hEz"/>
                 <outlet property="songerNameLabel" destination="XRy-kE-hZ9" id="Efp-qQ-71O"/>
                 <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
             </connections>

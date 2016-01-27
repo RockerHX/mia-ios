@@ -11,43 +11,39 @@
 @class ShareItem;
 @class HXRadioView;
 
+typedef NS_ENUM(NSUInteger, HXRadioViewAction) {
+    HXRadioViewActionPlay,
+    HXRadioViewActionPause,
+    HXRadioViewActionContentTaped
+};
+
 @protocol HXRadioViewDelegate <NSObject>
 
 @optional
 - (void)radioViewDidLoad:(HXRadioView *)radioView;
-- (void)radioViewShouldPlay:(HXRadioView *)radioView;
-- (void)radioViewShouldPause:(HXRadioView *)radioView;
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
-- (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
-- (void)radioViewShareContentTaped:(HXRadioView *)radioView;
+- (void)radioView:(HXRadioView *)radioView takeAction:(HXRadioViewAction)action;
 
 @end
 
 
-@class TTTAttributedLabel;
+@class HXRadioShareInfoView;
 
 @interface HXRadioView : UIView
 
 @property (weak, nonatomic) IBOutlet          id  <HXRadioViewDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
-@property (weak, nonatomic) IBOutlet            UILabel *songerNameLabel;
-@property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
-@property (weak, nonatomic) IBOutlet     UIProgressView *progressView;
-@property (weak, nonatomic) IBOutlet           UIButton *playButton;
-@property (weak, nonatomic) IBOutlet           UIButton *starButton;
-@property (weak, nonatomic) IBOutlet            UILabel *sharerNickNameLabel;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
+@property (weak, nonatomic) IBOutlet              UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet              UILabel *songerNameLabel;
+@property (weak, nonatomic) IBOutlet          UIImageView *frontCoverView;
+@property (weak, nonatomic) IBOutlet       UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet             UIButton *playButton;
+@property (weak, nonatomic) IBOutlet             UIButton *starButton;
+@property (weak, nonatomic) IBOutlet HXRadioShareInfoView *shareInfoView;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *songNameToSongerNameVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverToTopVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverToStarVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *starToSharerNickNameVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sharerNickNameToShrareContentVerticallySpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverWidthConstraint;
 
 - (IBAction)coverTaped;
-- (IBAction)sharerNickNameTaped;
-- (IBAction)shareContentTaped;
 - (IBAction)playButtonPressed:(UIButton *)button;
 - (IBAction)starButtonPressed:(UIButton *)button;
 
