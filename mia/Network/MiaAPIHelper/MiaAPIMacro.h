@@ -89,6 +89,8 @@ static NSString * const MiaAPIKey_Gender					= @"gender";
 static NSString * const MiaAPICommand_User_PostFavorite		= @"User.Post.Star";
 static NSString * const MiaAPIKey_Act						= @"act";
 
+static NSString * const MiaAPICommand_User_PostFollow		= @"User.Post.Follow";
+
 static NSString * const MiaAPICommand_User_PostComment		= @"User.Post.Pcomm";
 static NSString * const MiaAPIKey_sID						= @"sID";
 static NSString * const MiaAPIKey_Comm						= @"comm";
