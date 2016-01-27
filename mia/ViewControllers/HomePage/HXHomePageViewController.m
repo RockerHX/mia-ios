@@ -205,6 +205,12 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
                          strongSelf->_playItem.cView = [cView intValue];
                          strongSelf->_playItem.favorite = [start intValue];
                          strongSelf->_playItem.infectTotal = [infectTotal intValue];
+
+						 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
+						 NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+						 strongSelf->_playItem.shareUser = [[UserItem alloc] initWithDictionary:shareUserDict];
+						 strongSelf->_playItem.spaceUser = [[UserItem alloc] initWithDictionary:spaceUserDict];
+
                          [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
 						 [strongSelf->_playItem parseFlyCommentsFromJsonArray:flyArray];
                      }

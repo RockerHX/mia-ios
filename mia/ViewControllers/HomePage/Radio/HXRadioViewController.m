@@ -259,6 +259,12 @@
              id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
              id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
              int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+
+			 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
+			 NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+			 playItem.shareUser = [[UserItem alloc] initWithDictionary:shareUserDict];
+			 playItem.spaceUser = [[UserItem alloc] initWithDictionary:spaceUserDict];
+
              NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
 			 NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
              
