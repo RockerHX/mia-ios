@@ -52,6 +52,10 @@
 		_audioStream.onStateChange = ^(FSAudioStreamState state) {
 			NSLog(@"FSAudioStreamState change:%ld", (long)state);
 			__strong SingleSongPlayer *strongPlayer = weakPlayer;
+			if (!strongPlayer) {
+				NSLog(@"_audioStream.onStateChange, strongPlayer is null");
+				return;
+			}
 			strongPlayer->_audioState = state;
 
 			if (kFSAudioStreamEndOfFile == state) {

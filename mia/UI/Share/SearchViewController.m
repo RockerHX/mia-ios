@@ -286,6 +286,7 @@
 
 	NSString *key = [NSString stringWithFormat:@"%@ %@", item.title, item.artist];
 	_searchTextField.text = key;
+	[_searchTextField resignFirstResponder];
 
 	[_searchProgressHUD show:YES];
 	[XiamiHelper requestSearchResultWithKey:key page:_resultModel.currentPage successBlock:^(id responseObject) {

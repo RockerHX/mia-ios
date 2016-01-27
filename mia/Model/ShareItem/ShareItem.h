@@ -7,6 +7,7 @@
 //
 
 #import "MusicItem.h"
+#import "UserItem.h"
 
 @interface ShareItem : NSObject <NSCoding>
 
@@ -24,7 +25,11 @@
 @property (strong, nonatomic) NSString *sLatitude;
 
 @property (strong, nonatomic) MusicItem *music;
+@property (strong, nonatomic) UserItem *shareUser;
+@property (strong, nonatomic) UserItem *spaceUser;
+
 @property (strong, nonatomic) NSArray *infectUsers;
+@property (strong, nonatomic) NSArray *flyComments;
 
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
@@ -33,5 +38,6 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;
+- (void)parseFlyCommentsFromJsonArray:(NSArray *)jsonArray;
 
 @end

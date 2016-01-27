@@ -258,6 +258,7 @@
              id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
              int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
              NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+			 NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
              
              if ([sID isEqualToString:playItem.sID]) {
                  playItem.isInfected = isInfected;
@@ -266,6 +267,7 @@
                  playItem.favorite = [start intValue];
                  playItem.infectTotal = [infectTotal intValue];
                  [playItem parseInfectUsersFromJsonArray:infectArray];
+				 [playItem parseFlyCommentsFromJsonArray:flyArray];
              }
          } else {
              NSLog(@"getShareById failed");
