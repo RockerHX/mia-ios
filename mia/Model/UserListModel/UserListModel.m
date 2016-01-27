@@ -1,14 +1,14 @@
 //
-//  FriendModel.m
+//  UserListModel.m
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "FriendModel.h"
+#import "UserListModel.h"
 
-@implementation FriendModel
+@implementation UserListModel
 
 - (id)init {
 	self = [super init];

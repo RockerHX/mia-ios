@@ -14,27 +14,31 @@
 #import "WebSocketMgr.h"
 #import "Masonry.h"
 #import "NSString+IsNull.h"
-#import "FriendSearchResultView.h"
-#import "FriendModel.h"
-#import "FriendItem.h"
+#import "UserListView.h"
+#import "UserListModel.h"
+#import "UserItem.h"
 #import "HXAlertBanner.h"
 #import "YHSegmentedControl.h"
 
-@interface FriendViewController () <UITextFieldDelegate, YHSegmentedControlDelegate, FriendSearchResultViewDelegate>
+@interface FriendViewController () <UITextFieldDelegate, YHSegmentedControlDelegate, UserListViewDelegate>
 @end
 
 @implementation FriendViewController {
-	FriendModel 			*_resultModel;
+	UserListModel 			*_fansModel;
+	UserListModel 			*_followingModel;
+	UserListModel 			*_searchResultModel;
 
+	MIAButton 				*_backButton;
+	UITextField 			*_searchTextField;
 	MIAButton 				*_cancelButton;
 
 	UIView					*_contentView;
 	YHSegmentedControl 		*_segmentedControl;
 
-	UIView					*_searchResultView;
-	FriendSearchResultView 	*_resultView;
+	UserListView 			*_fansView;
+	UserListView 			*_followingView;
+	UserListView 			*_searchResultView;
 
-	UITextField 			*_searchTextField;
 	MBProgressHUD 			*_searchProgressHUD;
 }
 
@@ -89,11 +93,11 @@
 	[self initContentView:_contentView];
 	
 
-	_resultView = [[FriendSearchResultView alloc] init];
-	_resultView.backgroundColor = [UIColor grayColor];
-	_resultView.customDelegate = self;
-	[self.view addSubview:_resultView];
-	[_resultView setHidden:YES];
+	_searchResultView = [[UserListView alloc] initWithType:UserListViewTypeSearch];
+	_searchResultView.backgroundColor = [UIColor grayColor];
+	_searchResultView.customDelegate = self;
+	[self.view addSubview:_searchResultView];
+	[_searchResultView setHidden:YES];
 
 	[topView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view.mas_top);
@@ -108,7 +112,7 @@
 		make.bottom.equalTo(self.view.mas_bottom);
 	}];
 
-	[_resultView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_searchResultView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(topView.mas_bottom);
 		make.left.equalTo(self.view.mas_left);
 		make.right.equalTo(self.view.mas_right);
@@ -119,7 +123,7 @@
 }
 
 - (void)initData {
-	_resultModel = [[FriendModel alloc] init];
+	_searchResultModel = [[UserListModel alloc] init];
 }
 
 - (void)initTopView:(UIView *)contentView {
@@ -204,9 +208,15 @@
 	_segmentedControl = [[YHSegmentedControl alloc] initWithHeight:segmentedControlHeight titles:@[@"粉丝", @"关注"] delegate:self];
 	[contentView addSubview:_segmentedControl];
 
-	UIView *followView = [[UIView alloc] init];
-	followView.backgroundColor = [UIColor greenColor];
-	[contentView addSubview:followView];
+	_fansView = [[UserListView alloc] initWithType:UserListViewTypeFans];
+	_fansView.backgroundColor = [UIColor yellowColor];
+	_fansView.customDelegate = self;
+	[self.view addSubview:_fansView];
+
+	_followingView = [[UserListView alloc] initWithType:UserListViewTypeFollowing];
+	_followingView.backgroundColor = [UIColor whiteColor];
+	_followingView.customDelegate = self;
+	[self.view addSubview:_followingView];
 
 	[_segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_top);
@@ -215,7 +225,14 @@
 		make.height.mas_equalTo(segmentedControlHeight);
 	}];
 
-	[followView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_fansView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_segmentedControl.mas_bottom);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+		make.bottom.equalTo(self.view.mas_bottom);
+	}];
+
+	[_followingView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(_segmentedControl.mas_bottom);
 		make.left.equalTo(self.view.mas_left);
 		make.right.equalTo(self.view.mas_right);
@@ -248,9 +265,9 @@
 			YES;
 		}
 
-		[_resultView setHidden:NO];
-		[_resultView setNoDataTipsHidden:YES];
-		[_resultModel reset];
+		[_searchResultView setHidden:NO];
+		[_searchResultView setNoDataTipsHidden:YES];
+		[_searchResultModel reset];
 
 		[_searchProgressHUD show:YES];
 //		[XiamiHelper requestSearchResultWithKey:_searchTextField.text
@@ -271,8 +288,8 @@
 }
 
 - (void)textFieldDidChange:(id) sender {
-	[_resultView setHidden:YES];
-	[_resultModel reset];
+	[_searchResultView setHidden:YES];
+	[_searchResultModel reset];
 
 //	if ([NSString isNull:_searchTextField.text]) {
 //		[_suggestView.collectionView reloadData];
@@ -289,28 +306,17 @@
 //	}];
 }
 
-- (FriendModel *)friendSearchResultViewModel {
-	return _resultModel;
+- (UserListModel *)userListViewModelWithType:(UserListViewType)type {
+	return _searchResultModel;
 }
 
-- (void)friendSearchResultViewDidSelectedItem:(FriendItem *)item {
-    [self hidenKeyboard];
+- (void)userListViewRequestMoreItemsWithType:(UserListViewType)type {
 }
 
-- (void)friendSearchResultViewRequestMoreItems {
-//	_resultModel.currentPage++;
-//	[XiamiHelper requestSearchResultWithKey:_searchTextField.text page:_resultModel.currentPage successBlock:^(id responseObject) {
-//		[_resultModel addItemsWithArray:responseObject];
-//		[_resultView.collectionView reloadData];
-//		[_resultView endRefreshing];
-//	} failedBlock:^(NSError *error) {
-//		NSLog(@"%@", error);
-//		[_resultView endRefreshing];
-//	}];
-
+- (void)userListViewDidSelectedItem:(UserItem *)item {
 }
 
-- (void)friendSearchResultViewDidClickFollow:(FriendItem *)item {
+- (void)userListViewDidClickFollow:(UserItem *)item {
 }
 
 #pragma mark - Notification

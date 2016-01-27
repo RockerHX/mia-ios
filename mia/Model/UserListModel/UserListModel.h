@@ -1,5 +1,5 @@
 //
-//  FriendModel.h
+//  UserListModel.h
 //  mia
 //
 //  Created by linyehui on 2015/09/08.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FriendModel : NSObject
+@interface UserListModel : NSObject
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, assign) NSUInteger currentPage;

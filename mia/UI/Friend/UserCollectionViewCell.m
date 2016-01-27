@@ -1,24 +1,24 @@
 //
-//  FriendSearchResultCollectionViewCell.m
+//  UserCollectionViewCell.m
 //  mia
 //
 //  Created by linyehui on 2015-09-20.
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#import "FriendSearchResultCollectionViewCell.h"
+#import "UserCollectionViewCell.h"
 #import "MIALabel.h"
 #import "MIAButton.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
-#import "FriendItem.h"
+#import "UserItem.h"
 #import "NSString+IsNull.h"
 
-@interface FriendSearchResultCollectionViewCell()
+@interface UserCollectionViewCell()
 
 @end
 
-@implementation FriendSearchResultCollectionViewCell {
+@implementation UserCollectionViewCell {
 	UIImageView *_coverImageView;
 	MIALabel 	*_titleLabel;
 	MIALabel 	*_albumLabel;
@@ -103,30 +103,23 @@
 	}];
 }
 
-- (void)setDataItem:(FriendItem *)item {
+- (void)setDataItem:(UserItem *)item {
 	_dataItem = item;
 
-	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
-					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
-	[_titleLabel setText:item.title];
-	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
-
-	[self setIsPlaying:_dataItem.isPlaying];
-}
-
-- (void)setIsPlaying:(BOOL)isPlaying {
-	_dataItem.isPlaying = isPlaying;
-	if (isPlaying) {
-		[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
-	} else {
-		[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-	}
+//	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
+//					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
+//	[_titleLabel setText:item.title];
+//	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
+//
+//	[self setIsPlaying:_dataItem.isPlaying];
 }
 
 #pragma mark - Actions
 
 - (void)playButtonAction:(id)sender {
-	[_cellDelegate friendSearchResultCellClickedPlayButtonAtIndexPath:_indexPath];
+	BOOL isFollow = !_dataItem.follow;
+	_dataItem.follow = isFollow;
+	[_cellDelegate userCollectionViewCellFollowWithItem:_dataItem isFollow:isFollow];
 }
 
 @end
