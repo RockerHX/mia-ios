@@ -184,7 +184,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		if ([UserSession standard].state) {
             __weak __typeof__(self)weakSelf = self;
             // 更新单条分享的信息
-            [MiaAPIHelper getShareById:_playItem.sID completeBlock:
+            [MiaAPIHelper getShareById:_playItem.sID
+								  spID:_playItem.spID
+						 completeBlock:
              ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                  __strong __typeof__(self)strongSelf = weakSelf;
                  if (success) {

@@ -41,6 +41,7 @@
 				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)getShareById:(NSString *)sID
+				spID:(NSString *)spID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 

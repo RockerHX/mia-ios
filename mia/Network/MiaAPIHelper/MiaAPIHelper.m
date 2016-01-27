@@ -124,10 +124,12 @@
 }
 
 + (void)getShareById:(NSString *)sID
+				spID:(NSString *)spID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
+	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetSharem
 															   parameters:dictValues

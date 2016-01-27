@@ -248,7 +248,9 @@
     }
     
 	// 更新单条分享的信息
-	[MiaAPIHelper getShareById:playItem.sID completeBlock:
+	[MiaAPIHelper getShareById:playItem.sID
+				 spID:playItem.spID
+				 completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
