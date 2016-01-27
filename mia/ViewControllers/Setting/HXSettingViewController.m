@@ -102,7 +102,15 @@ GenderPickerViewDelegate
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
              NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
              long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
-             
+#warning @andy 
+			 // for test linyehui
+			 long fansCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"fansCnt"] intValue];
+			 long followCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] intValue];
+			 long follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] intValue];	// 0表示没关注，1表示关注，2表示相互关注
+			 NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
+			 NSLog(@"user info: %ld, %ld, %ld, %@", fansCnt, followCnt, follow, imgs);
+			// end for test
+
              [_nickNameTextField setText:nickName];
              _lastNickName = nickName;
              
