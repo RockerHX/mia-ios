@@ -11,7 +11,8 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "favorite_downloaded@3x.png"
     }
   ],
   "info" : {

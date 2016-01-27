@@ -11,6 +11,7 @@
                 <outlet property="attentionIcon" destination="vNt-hd-SSk" id="gyT-D9-SLf"/>
                 <outlet property="commentAvatar" destination="oPj-qa-CKi" id="nho-n7-DQC"/>
                 <outlet property="commentLabel" destination="1xM-nG-wgC" id="Obc-vh-ERw"/>
+                <outlet property="commentView" destination="g5n-hV-puQ" id="5hW-Kl-36Q"/>
                 <outlet property="shareContentLabel" destination="hkt-cg-nzc" id="i6e-vj-GFg"/>
                 <outlet property="sharerAvatar" destination="FzS-AE-JPh" id="XVZ-ND-nhy"/>
                 <outlet property="sharerLabel" destination="Fag-67-cpm" id="EKe-hY-6vN"/>
@@ -25,7 +26,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FoJ-p7-vkO">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-AE-JPh" customClass="HXIBButton">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-AE-JPh" customClass="HXIBButton">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -41,18 +42,12 @@
                                 <action selector="sharerAvatarButtonPressed" destination="-1" eventType="touchUpInside" id="tmf-xO-xM5"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vNt-hd-SSk" customClass="HXIBImageView">
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vNt-hd-SSk">
                             <rect key="frame" x="27" y="21" width="16" height="16"/>
-                            <color key="backgroundColor" red="0.070588235294117646" green="0.80392156862745101" blue="0.72941176470588232" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="16" id="izd-vo-FqL"/>
                                 <constraint firstAttribute="width" secondItem="vNt-hd-SSk" secondAttribute="height" multiplier="1:1" id="uLY-yk-yiA"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="8"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="王晶分享了冰心的一首歌" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fag-67-cpm" customClass="TTTAttributedLabel">
                             <rect key="frame" x="54" y="3" width="266" height="18"/>
@@ -89,20 +84,27 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eD-aW-Wee">
                     <rect key="frame" x="0.0" y="60" width="320" height="20"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冰心：“不错哟，很喜欢这个类型的歌”" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="hkt-cg-nzc">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冰心：“不错哟，很喜欢这个类型的歌”" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="312" translatesAutoresizingMaskIntoConstraints="NO" id="hkt-cg-nzc">
                             <rect key="frame" x="4" y="0.0" width="312" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="F6U-v9-m28"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="hkt-cg-nzc" firstAttribute="top" secondItem="1eD-aW-Wee" secondAttribute="top" id="1Un-az-mdM"/>
                         <constraint firstItem="hkt-cg-nzc" firstAttribute="leading" secondItem="1eD-aW-Wee" secondAttribute="leading" constant="4" id="1cl-fz-dUm"/>
                         <constraint firstAttribute="trailing" secondItem="hkt-cg-nzc" secondAttribute="trailing" constant="4" id="3FM-jd-8lW"/>
                         <constraint firstAttribute="bottom" secondItem="hkt-cg-nzc" secondAttribute="bottom" id="WMs-O2-8sk"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="GzI-uJ-c5i" appends="YES" id="1Qd-qD-Haz"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5n-hV-puQ">
                     <rect key="frame" x="0.0" y="100" width="320" height="40"/>
@@ -151,14 +153,19 @@
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="oPj-qa-CKi" firstAttribute="leading" secondItem="g5n-hV-puQ" secondAttribute="leading" id="AJ8-D0-bRv"/>
                         <constraint firstAttribute="bottom" secondItem="oPj-qa-CKi" secondAttribute="bottom" id="Bmy-tF-fI6"/>
                         <constraint firstItem="oPj-qa-CKi" firstAttribute="top" secondItem="g5n-hV-puQ" secondAttribute="top" id="QHG-nA-ckE"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7a0-FJ-QyC" secondAttribute="trailing" id="R00-w5-5Q0"/>
                         <constraint firstItem="7a0-FJ-QyC" firstAttribute="leading" secondItem="oPj-qa-CKi" secondAttribute="trailing" constant="8" id="Rcc-Kd-xeS"/>
                         <constraint firstItem="7a0-FJ-QyC" firstAttribute="top" secondItem="g5n-hV-puQ" secondAttribute="top" constant="3" id="hbf-eE-xSb"/>
                         <constraint firstAttribute="bottom" secondItem="7a0-FJ-QyC" secondAttribute="bottom" constant="3" id="jNZ-VU-Xh1"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="3N1-9D-D8P" appends="YES" id="OpR-Ip-o7s"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -177,5 +184,15 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-447" y="400"/>
         </view>
+        <tapGestureRecognizer id="3N1-9D-D8P">
+            <connections>
+                <action selector="contentTaped" destination="-1" id="hSB-5N-uOh"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="GzI-uJ-c5i">
+            <connections>
+                <action selector="contentTaped" destination="-1" id="z87-cw-8DP"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
 </document>

@@ -130,33 +130,32 @@
     _firstLoad = NO;
 }
 
-- (void)radioViewShouldPlay:(HXRadioView *)radioView {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
-        [_delegate helperShouldPlay:self];
-    }
-}
-
-- (void)radioViewShouldPause:(HXRadioView *)radioView {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPause:)]) {
-        [_delegate helperShouldPause:self];
-    }
-}
-
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView {
 	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
 		[_delegate helperStarTapedNeedLogin:self];
 	}
 }
 
-- (void)radioViewSharerNameTaped:(HXRadioView *)radioView {
-	if (_delegate && [_delegate respondsToSelector:@selector(helperSharerNameTaped:)]) {
-		[_delegate helperSharerNameTaped:self];
-	}
-}
-
-- (void)radioViewShareContentTaped:(HXRadioView *)radioView {
-    if (_delegate && [_delegate respondsToSelector:@selector(helperShareContentTaped:)]) {
-        [_delegate helperShareContentTaped:self];
+- (void)radioView:(HXRadioView *)radioView takeAction:(HXRadioViewAction)action {
+    switch (action) {
+        case HXRadioViewActionPlay: {
+            if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
+                [_delegate helperShouldPlay:self];
+            }
+            break;
+        }
+        case HXRadioViewActionPause: {
+            if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPause:)]) {
+                [_delegate helperShouldPause:self];
+            }
+            break;
+        }
+        case HXRadioViewActionContentTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(helperShareContentTaped:)]) {
+                [_delegate helperShareContentTaped:self];
+            }
+            break;
+        }
     }
 }
 
