@@ -480,6 +480,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if ([[UserSession standard] isLogined]) {
         [MiaAPIHelper postCommentWithShareID:_playItem.sID
                                      comment:comment
+								   commentID:nil
                                completeBlock:
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 			 if (success) {

@@ -113,6 +113,7 @@
 
 + (void)postCommentWithShareID:(NSString *)sID
 					   comment:(NSString *)comment
+					 commentID:(NSString *)commentID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
