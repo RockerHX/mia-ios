@@ -36,6 +36,7 @@
 @property (assign, nonatomic) BOOL isInfected;
 
 @property (nonatomic, assign) BOOL hasData;
+@property (nonatomic, strong, readonly) NSString *formatTime;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;

@@ -47,6 +47,7 @@ HXXibImplementation
 - (void)displayWithItem:(ShareItem *)item {
     [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.shareUser.userpic] forState:UIControlStateNormal];
     _attentionIcon.image = [UIImage imageNamed:(item.shareUser.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
+    _timeLabel.text = item.formatTime;
     _shareContentLabel.text = [item.shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
     if ([item.shareUser.uid isEqualToString:item.spaceUser.uid]) {
         _sharerLabel.text = item.shareUser.nick;
