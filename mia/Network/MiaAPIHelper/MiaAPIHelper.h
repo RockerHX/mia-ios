@@ -41,6 +41,7 @@
 				timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
 + (void)getShareById:(NSString *)sID
+				spID:(NSString *)spID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
@@ -105,8 +106,14 @@
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)followWithUID:(NSString *)uID
+			 isFollow:(BOOL)isFollow
+		completeBlock:(MiaRequestCompleteBlock)completeBlock
+		 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)postCommentWithShareID:(NSString *)sID
 					   comment:(NSString *)comment
+					 commentID:(NSString *)commentID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 

@@ -124,10 +124,12 @@
 }
 
 + (void)getShareById:(NSString *)sID
+				spID:(NSString *)spID
 	   completeBlock:(MiaRequestCompleteBlock)completeBlock
 		timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
+	[dictValues setValue:spID forKey:MiaAPIKey_spID];
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_Music_GetSharem
 															   parameters:dictValues
@@ -330,13 +332,37 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
++ (void)followWithUID:(NSString *)uID
+					  isFollow:(BOOL)isFollow
+				   completeBlock:(MiaRequestCompleteBlock)completeBlock
+				 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:uID forKey:MiaAPIKey_UID];
+	if (isFollow) {
+		// 期望的状态是已收藏，就添加收藏
+		[dictValues setValue:[NSNumber numberWithLong:1] forKey:MiaAPIKey_Type];
+	} else {
+		[dictValues setValue:[NSNumber numberWithLong:2] forKey:MiaAPIKey_Type];
+	}
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostFollow
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
 + (void)postCommentWithShareID:(NSString *)sID
 					   comment:(NSString *)comment
+					 commentID:(NSString *)commentID
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
 	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
 	[dictValues setValue:sID forKey:MiaAPIKey_sID];
 	[dictValues setValue:comment forKey:MiaAPIKey_Comm];
+	if (![NSString isNull:commentID]) {
+		[dictValues setValue:commentID forKey:MiaAPIKey_CommentID];
+	}
 
 	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_PostComment
 															   parameters:dictValues

@@ -185,7 +185,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		if ([UserSession standard].state) {
             __weak __typeof__(self)weakSelf = self;
             // 更新单条分享的信息
-            [MiaAPIHelper getShareById:_playItem.sID completeBlock:
+            [MiaAPIHelper getShareById:_playItem.sID
+								  spID:_playItem.spID
+						 completeBlock:
              ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                  __strong __typeof__(self)strongSelf = weakSelf;
                  if (success) {
@@ -204,6 +206,12 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
                          strongSelf->_playItem.cView = [cView intValue];
                          strongSelf->_playItem.favorite = [start intValue];
                          strongSelf->_playItem.infectTotal = [infectTotal intValue];
+
+						 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
+						 NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+						 strongSelf->_playItem.shareUser = [[UserItem alloc] initWithDictionary:shareUserDict];
+						 strongSelf->_playItem.spaceUser = [[UserItem alloc] initWithDictionary:spaceUserDict];
+
                          [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
 						 [strongSelf->_playItem parseFlyCommentsFromJsonArray:flyArray];
                      }
@@ -475,6 +483,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     if ([[UserSession standard] isLogined]) {
         [MiaAPIHelper postCommentWithShareID:_playItem.sID
                                      comment:comment
+								   commentID:nil
                                completeBlock:
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 			 if (success) {

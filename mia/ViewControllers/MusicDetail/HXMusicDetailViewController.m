@@ -202,6 +202,7 @@
     MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
     [MiaAPIHelper postCommentWithShareID:sID
                                  comment:content
+							   commentID:nil
                            completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;

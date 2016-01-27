@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSString *sAddress;
 @property (strong, nonatomic) NSString *sLongitude;
 @property (strong, nonatomic) NSString *sLatitude;
+@property (assign, nonatomic) NSInteger time;
 
 @property (strong, nonatomic) MusicItem *music;
 @property (strong, nonatomic) UserItem *shareUser;
