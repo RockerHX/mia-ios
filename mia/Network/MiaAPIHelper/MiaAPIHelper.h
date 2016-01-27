@@ -105,6 +105,11 @@
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
 				  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)followWithUID:(NSString *)uID
+			 isFollow:(BOOL)isFollow
+		completeBlock:(MiaRequestCompleteBlock)completeBlock
+		 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)postCommentWithShareID:(NSString *)sID
 					   comment:(NSString *)comment
 				 completeBlock:(MiaRequestCompleteBlock)completeBlock
