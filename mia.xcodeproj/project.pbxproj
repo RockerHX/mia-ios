@@ -77,6 +77,7 @@
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
 		39880A9A1C58692300713FC6 /* UserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A991C58692300713FC6 /* UserItem.m */; };
+		39880A9E1C5871A900713FC6 /* FlyCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A9D1C5871A900713FC6 /* FlyCommentItem.m */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -318,6 +319,8 @@
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
 		39880A981C58692300713FC6 /* UserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserItem.h; sourceTree = "<group>"; };
 		39880A991C58692300713FC6 /* UserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserItem.m; sourceTree = "<group>"; };
+		39880A9C1C5871A900713FC6 /* FlyCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlyCommentItem.h; sourceTree = "<group>"; };
+		39880A9D1C5871A900713FC6 /* FlyCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlyCommentItem.m; sourceTree = "<group>"; };
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
 		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
@@ -739,6 +742,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				39880A9B1C5871A900713FC6 /* FlyCommentItem */,
 				39880A971C58692300713FC6 /* UserItem */,
 				CD25AA5C1C5759FC008BE101 /* MessageCenter */,
 				CD5753981BDF53F000E7CBC4 /* MusicDetail */,
@@ -1132,6 +1136,15 @@
 				39880A991C58692300713FC6 /* UserItem.m */,
 			);
 			path = UserItem;
+			sourceTree = "<group>";
+		};
+		39880A9B1C5871A900713FC6 /* FlyCommentItem */ = {
+			isa = PBXGroup;
+			children = (
+				39880A9C1C5871A900713FC6 /* FlyCommentItem.h */,
+				39880A9D1C5871A900713FC6 /* FlyCommentItem.m */,
+			);
+			path = FlyCommentItem;
 			sourceTree = "<group>";
 		};
 		3997F8311BE750A000F6597D /* CacheHelper */ = {
@@ -1940,6 +1953,7 @@
 				397E42961BA81836006BE9E7 /* MusicItem.m in Sources */,
 				3908F37E1BBB811F00BACFD3 /* AFNHttpClient.m in Sources */,
 				397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */,
+				39880A9E1C5871A900713FC6 /* FlyCommentItem.m in Sources */,
 				397FA5351BAC0CA7003FD186 /* MIATextViewInternal.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				3965DF6F1BD0FC11003B1641 /* NSTimer+BlockSupport.m in Sources */,

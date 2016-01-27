@@ -50,7 +50,7 @@
 }
 
 //将对象解码(反序列化)
--(id) initWithCoder:(NSCoder *)aDecoder {
+- (id) initWithCoder:(NSCoder *)aDecoder {
 	if (self=[super init]) {
 		self.uid = [aDecoder decodeObjectForKey:@"uid"];
 		self.nick = [aDecoder decodeObjectForKey:@"nick"];

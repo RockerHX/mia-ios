@@ -195,7 +195,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
                      id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
                      int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
                      NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-                     
+                     NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
+
                      if ([sID isEqualToString:strongSelf->_playItem.sID]) {
                          strongSelf->_playItem.isInfected = isInfected;
                          strongSelf->_playItem.cComm = [cComm intValue];
@@ -203,6 +204,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
                          strongSelf->_playItem.favorite = [start intValue];
                          strongSelf->_playItem.infectTotal = [infectTotal intValue];
                          [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
+						 [strongSelf->_playItem parseFlyCommentsFromJsonArray:flyArray];
                      }
                      [strongSelf shouldDisplayInfectUsers:_playItem];
                  } else {

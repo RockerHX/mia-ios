@@ -8,6 +8,7 @@
 
 #import "ShareItem.h"
 #import "InfectUserItem.h"
+#import "FlyCommentItem.h"
 
 @implementation ShareItem
 
@@ -34,6 +35,7 @@
 		self.spaceUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"spaceUser"]];
 
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
+//		[self parseFlyCommentsFromJsonArray:[dictionary objectForKey:@"flyList"]];
     }
 	
     return self;
@@ -51,6 +53,20 @@
 	}
 
 	_infectUsers = resultArray;
+}
+
+- (void)parseFlyCommentsFromJsonArray:(NSArray *)jsonArray {
+	NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:[jsonArray count]];
+	if (!jsonArray || [jsonArray count] == 0) {
+		return;
+	}
+
+	for (NSDictionary *dicItem in jsonArray) {
+		FlyCommentItem *flyItem = [[FlyCommentItem alloc] initWithDictionary:dicItem];
+		[resultArray addObject:flyItem];
+	}
+
+	_flyComments = resultArray;
 }
 
 //将对象编码(即:序列化)

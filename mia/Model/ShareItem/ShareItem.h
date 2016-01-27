@@ -29,6 +29,7 @@
 @property (strong, nonatomic) UserItem *spaceUser;
 
 @property (strong, nonatomic) NSArray *infectUsers;
+@property (strong, nonatomic) NSArray *flyComments;
 
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
@@ -37,5 +38,6 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;
+- (void)parseFlyCommentsFromJsonArray:(NSArray *)jsonArray;
 
 @end
