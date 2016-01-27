@@ -36,7 +36,7 @@
 		self.spaceUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"spaceUser"]];
 
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
-//		[self parseFlyCommentsFromJsonArray:[dictionary objectForKey:@"flyList"]];
+		[self parseFlyCommentsFromJsonArray:[dictionary objectForKey:@"flyList"]];
     }
 	
     return self;
