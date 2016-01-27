@@ -83,6 +83,7 @@
 		39880B541C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B4F1C589BA900713FC6 /* FriendSearchResultCollectionViewCell.m */; };
 		39880B551C589BA900713FC6 /* FriendSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B511C589BA900713FC6 /* FriendSearchResultView.m */; };
 		39880B561C589BA900713FC6 /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B531C589BA900713FC6 /* FriendViewController.m */; };
+		39880B5A1C58C23500713FC6 /* YHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880B591C58C23500713FC6 /* YHSegmentedControl.m */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -336,6 +337,8 @@
 		39880B511C589BA900713FC6 /* FriendSearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchResultView.m; sourceTree = "<group>"; };
 		39880B521C589BA900713FC6 /* FriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendViewController.h; sourceTree = "<group>"; };
 		39880B531C589BA900713FC6 /* FriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendViewController.m; sourceTree = "<group>"; };
+		39880B581C58C23500713FC6 /* YHSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHSegmentedControl.h; sourceTree = "<group>"; };
+		39880B591C58C23500713FC6 /* YHSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHSegmentedControl.m; sourceTree = "<group>"; };
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
 		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
@@ -1196,6 +1199,15 @@
 			path = Friend;
 			sourceTree = "<group>";
 		};
+		39880B571C58C23500713FC6 /* YHSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				39880B581C58C23500713FC6 /* YHSegmentedControl.h */,
+				39880B591C58C23500713FC6 /* YHSegmentedControl.m */,
+			);
+			path = YHSegmentedControl;
+			sourceTree = "<group>";
+		};
 		3997F8311BE750A000F6597D /* CacheHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -1756,6 +1768,7 @@
 		CDC894991BD4CB720080E7FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				39880B571C58C23500713FC6 /* YHSegmentedControl */,
 				CDD831591BD8B6740067309B /* HXInfectUserListView */,
 				CDD8314D1BD8B6550067309B /* HXAlertBanner */,
 				CDD831511BD8B6550067309B /* HXNoNetworkView */,
@@ -2107,6 +2120,7 @@
 				CD25AA691C5765A2008BE101 /* HXProfileCoverContainerViewController.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,
 				3997F8341BE750A000F6597D /* CacheHelper.m in Sources */,
+				39880B5A1C58C23500713FC6 /* YHSegmentedControl.m in Sources */,
 				CD25AA6C1C5765F8008BE101 /* HXProfileDetailContainerViewController.m in Sources */,
 				3908F3911BBD025500BACFD3 /* SearchResultModel.m in Sources */,
 				39BF8C581BB0F801003AB4FC /* MBProgressHUDHelp.m in Sources */,

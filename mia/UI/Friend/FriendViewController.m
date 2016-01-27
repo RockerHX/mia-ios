@@ -8,26 +8,30 @@
 
 #import "FriendViewController.h"
 #import "MIAButton.h"
-#import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
 #import "Masonry.h"
-#import "SearchSuggestionModel.h"
 #import "NSString+IsNull.h"
 #import "FriendSearchResultView.h"
 #import "FriendModel.h"
 #import "FriendItem.h"
 #import "HXAlertBanner.h"
+#import "YHSegmentedControl.h"
 
-@interface FriendViewController () <UITextFieldDelegate, FriendSearchResultViewDelegate>
+@interface FriendViewController () <UITextFieldDelegate, YHSegmentedControlDelegate, FriendSearchResultViewDelegate>
 @end
 
 @implementation FriendViewController {
 	FriendModel 			*_resultModel;
 
 	MIAButton 				*_cancelButton;
+
+	UIView					*_contentView;
+	YHSegmentedControl 		*_segmentedControl;
+
+	UIView					*_searchResultView;
 	FriendSearchResultView 	*_resultView;
 
 	UITextField 			*_searchTextField;
@@ -79,6 +83,12 @@
 	[self.view addSubview:topView];
 	[self initTopView:topView];
 
+	_contentView = [[UIView alloc] init];
+	_contentView.backgroundColor = [UIColor redColor];
+	[self.view addSubview:_contentView];
+	[self initContentView:_contentView];
+	
+
 	_resultView = [[FriendSearchResultView alloc] init];
 	_resultView.backgroundColor = [UIColor grayColor];
 	_resultView.customDelegate = self;
@@ -91,6 +101,13 @@
 		make.right.equalTo(self.view.mas_right);
 	}];
 
+	[_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(topView.mas_bottom);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+		make.bottom.equalTo(self.view.mas_bottom);
+	}];
+
 	[_resultView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(topView.mas_bottom);
 		make.left.equalTo(self.view.mas_left);
@@ -99,7 +116,6 @@
 	}];
 
 	[self initProgressHud];
-	[_searchTextField becomeFirstResponder];
 }
 
 - (void)initData {
@@ -125,7 +141,7 @@
 	_searchTextField.borderStyle = UITextBorderStyleNone;
 	_searchTextField.backgroundColor = [UIColor clearColor];
 	_searchTextField.textColor = [UIColor blackColor];
-	_searchTextField.placeholder = @"搜索你感兴趣的歌曲名或歌手名";
+	_searchTextField.placeholder = @"搜索好友昵称或者手机号";
 	[_searchTextField setFont:UIFontFromSize(16)];
 	_searchTextField.keyboardType = UIKeyboardTypeDefault;
 	_searchTextField.returnKeyType = UIReturnKeySearch;
@@ -181,7 +197,30 @@
 		make.right.equalTo(contentView.mas_right);
 		make.bottom.equalTo(contentView.mas_bottom);
 	}];
+}
 
+- (void)initContentView:(UIView *)contentView {
+	const CGFloat segmentedControlHeight = 55;
+	_segmentedControl = [[YHSegmentedControl alloc] initWithHeight:segmentedControlHeight titles:@[@"粉丝", @"关注"] delegate:self];
+	[contentView addSubview:_segmentedControl];
+
+	UIView *followView = [[UIView alloc] init];
+	followView.backgroundColor = [UIColor greenColor];
+	[contentView addSubview:followView];
+
+	[_segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(contentView.mas_top);
+		make.left.equalTo(contentView.mas_left);
+		make.right.equalTo(contentView.mas_right);
+		make.height.mas_equalTo(segmentedControlHeight);
+	}];
+
+	[followView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_segmentedControl.mas_bottom);
+		make.left.equalTo(self.view.mas_left);
+		make.right.equalTo(self.view.mas_right);
+		make.bottom.equalTo(self.view.mas_bottom);
+	}];
 }
 
 - (void)initProgressHud {
@@ -196,6 +235,10 @@
 #pragma mark - Public Methods
 
 #pragma mark - delegate
+
+- (void)YHSegmentedControlSelected:(NSInteger)index {
+	NSLog(@"%ld",index);
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	if (textField == _searchTextField) {

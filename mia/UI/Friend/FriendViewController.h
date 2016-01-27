@@ -10,13 +10,9 @@
 
 @class FriendItem;
 
-@protocol FriendSearchViewControllerDelegate <NSObject>
+@protocol FriendViewControllerDelegate <NSObject>
 
 @required
-//- (void)friendSearchViewControllerDidSelectedItem:(FriendItem *)item;
-//- (void)friendSearchViewControllerClickedFollowButtonAtItem:(FriendItem *)item;
-//- (void)friendSearchViewControllerWillDismiss;
-//
 //@optional
 //- (void)friendSearchViewControllerDismissFinished;
 
@@ -25,7 +21,7 @@
 
 @interface FriendViewController : UIViewController
 
-@property (weak, nonatomic) id  <FriendSearchViewControllerDelegate>delegate;
+@property (weak, nonatomic) id<FriendViewControllerDelegate> delegate;
 
 @end
 
