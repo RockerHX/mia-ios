@@ -20,6 +20,11 @@
 #import "HXVersion.h"
 #import "HXRadioShareInfoView.h"
 
+@interface HXRadioView () <
+HXRadioShareInfoViewDelegate
+>
+@end
+
 @implementation HXRadioView {
     ShareItem *_currentItem;
     NSTimer *_timer;
@@ -196,6 +201,24 @@
 
 - (void)displayPlayProgress {
     _progressView.progress = [[[MusicMgr standard] currentPlayer] playPosition];
+}
+
+#pragma mark - HXRadioShareInfoViewDelegate Methods
+- (void)radioShareInfoView:(HXRadioShareInfoView *)infoView takeAction:(HXRadioShareInfoAction)action {
+    switch (action) {
+        case HXRadioShareInfoActionSharerTaped: {
+            ;
+            break;
+        }
+        case HXRadioShareInfoActionInfecterTaped: {
+            ;
+            break;
+        }
+        case HXRadioShareInfoActionContentTaped: {
+            ;
+            break;
+        }
+    }
 }
 
 @end

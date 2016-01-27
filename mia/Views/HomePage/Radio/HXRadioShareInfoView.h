@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, HXRadioShareInfoAction) {
-    HXRadioShareInfoActionAvatarTaped
+    HXRadioShareInfoActionSharerTaped,
+    HXRadioShareInfoActionInfecterTaped,
+    HXRadioShareInfoActionContentTaped
 };
 
 @class HXRadioShareInfoView;

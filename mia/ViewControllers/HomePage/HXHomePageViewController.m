@@ -183,13 +183,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
 		if ([UserSession standard].state) {
-            __weak __typeof__(self)weakSelf = self;
             // 更新单条分享的信息
             [MiaAPIHelper getShareById:_playItem.sID
 								  spID:_playItem.spID
 						 completeBlock:
              ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                 __strong __typeof__(self)strongSelf = weakSelf;
                  if (success) {
                      NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
                      id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
@@ -200,22 +198,22 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
                      NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
                      NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
 
-                     if ([sID isEqualToString:strongSelf->_playItem.sID]) {
-                         strongSelf->_playItem.isInfected = isInfected;
-                         strongSelf->_playItem.cComm = [cComm intValue];
-                         strongSelf->_playItem.cView = [cView intValue];
-                         strongSelf->_playItem.favorite = [start intValue];
-                         strongSelf->_playItem.infectTotal = [infectTotal intValue];
+                     if ([sID isEqualToString:_playItem.sID]) {
+                         _playItem.isInfected = isInfected;
+                         _playItem.cComm = [cComm intValue];
+                         _playItem.cView = [cView intValue];
+                         _playItem.favorite = [start intValue];
+                         _playItem.infectTotal = [infectTotal intValue];
 
 						 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
-						 NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
-						 strongSelf->_playItem.shareUser = [[UserItem alloc] initWithDictionary:shareUserDict];
-						 strongSelf->_playItem.spaceUser = [[UserItem alloc] initWithDictionary:spaceUserDict];
+                         NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+                         _playItem.shareUser.follow = [shareUserDict[@"follow"] boolValue];
+                         _playItem.spaceUser.follow = [spaceUserDict[@"follow"] boolValue];
 
-                         [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
-						 [strongSelf->_playItem parseFlyCommentsFromJsonArray:flyArray];
+                         [_playItem parseInfectUsersFromJsonArray:infectArray];
+						 [_playItem parseFlyCommentsFromJsonArray:flyArray];
                      }
-                     [strongSelf shouldDisplayInfectUsers:_playItem];
+                     [self shouldDisplayInfectUsers:_playItem];
                  } else {
                      NSLog(@"getShareById failed");
                  }
@@ -568,7 +566,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         _playItem.infectTotal += 1;
         [self showinfectCountRightPromptLabel:NO withCount:_playItem.infectTotal];
         
-        __weak __typeof__(self)weakSelf = self;
         // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
         [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
                                     longitude:[[LocationMgr standard] currentCoordinate].longitude
@@ -577,25 +574,23 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
                                 completeBlock:
          ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
              if (success) {
-                 __strong __typeof__(self)strongSelf = weakSelf;
 
 				 int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
 				 int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
 				 NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
 				 NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
 
-				 if ([spID isEqualToString:strongSelf->_playItem.spID]) {
-					 strongSelf->_playItem.infectTotal = infectTotal;
-					 [strongSelf->_playItem parseInfectUsersFromJsonArray:infectArray];
-					 strongSelf->_playItem.isInfected = isInfected;
+				 if ([spID isEqualToString:_playItem.spID]) {
+					 _playItem.infectTotal = infectTotal;
+					 [_playItem parseInfectUsersFromJsonArray:infectArray];
+					 _playItem.isInfected = isInfected;
 				 }
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
              }
          } timeoutBlock:^(MiaRequestItem *requestItem) {
-             __strong __typeof__(self)strongSelf = weakSelf;
-             strongSelf->_playItem.isInfected = YES;
+             _playItem.isInfected = YES;
              [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
          }];
     }
@@ -737,15 +732,12 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)startFinshAndBubbleHiddenAnimation {
     [_fishView stopAnimating];
     
-    __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.4f animations:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.fishView.alpha = 0.0f;
-        strongSelf.bubbleView.alpha = 0.0f;
+        _fishView.alpha = 0.0f;
+        _bubbleView.alpha = 0.0f;
     } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf->_animating = NO;
-        strongSelf.fishBottomConstraint.constant = 20.0f;
+        _animating = NO;
+        _fishBottomConstraint.constant = 20.0f;
     }];
 }
 
@@ -780,15 +772,12 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 // 头像收回动画
 - (void)startHeaderViewPopBackAnimation {
     _headerViewBottomConstraint.constant = 2.0f;
-    __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        strongSelf.infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
-        [strongSelf.infectUserView layoutIfNeeded];
+        _infectUserView.transform = CGAffineTransformMakeScale(0.84f, 0.84f);
+        [_infectUserView layoutIfNeeded];
     } completion:^(BOOL finished) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        if (strongSelf->_animating) {
-            [strongSelf stopAnimation];
+        if (_animating) {
+            [self stopAnimation];
         }
     }];
 }
@@ -876,18 +865,16 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 #pragma mark - HXRadioViewControllerDelegate Methods
 - (void)userStartNeedLogin {
     [self presentLoginViewController:^(BOOL success) {
-        __weak __typeof__(self)weakSelf = self;
         [MiaAPIHelper favoriteMusicWithShareID:_playItem.sID
                                     isFavorite:!_playItem.favorite
                                  completeBlock:
          ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-             __strong __typeof__(self)strongSelf = weakSelf;
              if (success) {
                  id act = userInfo[MiaAPIKey_Values][@"act"];
                  id sID = userInfo[MiaAPIKey_Values][@"id"];
                  BOOL favorite = [act intValue];
-                 if ([strongSelf->_playItem.sID integerValue] == [sID intValue]) {
-                     strongSelf->_playItem.favorite = favorite;
+                 if ([_playItem.sID integerValue] == [sID intValue]) {
+                     _playItem.favorite = favorite;
                  }
                  [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
                  
