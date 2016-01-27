@@ -11,6 +11,7 @@
                 <outlet property="attentionIcon" destination="vNt-hd-SSk" id="gyT-D9-SLf"/>
                 <outlet property="commentAvatar" destination="oPj-qa-CKi" id="nho-n7-DQC"/>
                 <outlet property="commentLabel" destination="1xM-nG-wgC" id="Obc-vh-ERw"/>
+                <outlet property="commentView" destination="g5n-hV-puQ" id="5hW-Kl-36Q"/>
                 <outlet property="shareContentLabel" destination="hkt-cg-nzc" id="i6e-vj-GFg"/>
                 <outlet property="sharerAvatar" destination="FzS-AE-JPh" id="XVZ-ND-nhy"/>
                 <outlet property="sharerLabel" destination="Fag-67-cpm" id="EKe-hY-6vN"/>
@@ -94,12 +95,16 @@
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="hkt-cg-nzc" firstAttribute="top" secondItem="1eD-aW-Wee" secondAttribute="top" id="1Un-az-mdM"/>
                         <constraint firstItem="hkt-cg-nzc" firstAttribute="leading" secondItem="1eD-aW-Wee" secondAttribute="leading" constant="4" id="1cl-fz-dUm"/>
                         <constraint firstAttribute="trailing" secondItem="hkt-cg-nzc" secondAttribute="trailing" constant="4" id="3FM-jd-8lW"/>
                         <constraint firstAttribute="bottom" secondItem="hkt-cg-nzc" secondAttribute="bottom" id="WMs-O2-8sk"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="GzI-uJ-c5i" appends="YES" id="1Qd-qD-Haz"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5n-hV-puQ">
                     <rect key="frame" x="0.0" y="100" width="320" height="40"/>
@@ -148,14 +153,19 @@
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="oPj-qa-CKi" firstAttribute="leading" secondItem="g5n-hV-puQ" secondAttribute="leading" id="AJ8-D0-bRv"/>
                         <constraint firstAttribute="bottom" secondItem="oPj-qa-CKi" secondAttribute="bottom" id="Bmy-tF-fI6"/>
                         <constraint firstItem="oPj-qa-CKi" firstAttribute="top" secondItem="g5n-hV-puQ" secondAttribute="top" id="QHG-nA-ckE"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7a0-FJ-QyC" secondAttribute="trailing" id="R00-w5-5Q0"/>
                         <constraint firstItem="7a0-FJ-QyC" firstAttribute="leading" secondItem="oPj-qa-CKi" secondAttribute="trailing" constant="8" id="Rcc-Kd-xeS"/>
                         <constraint firstItem="7a0-FJ-QyC" firstAttribute="top" secondItem="g5n-hV-puQ" secondAttribute="top" constant="3" id="hbf-eE-xSb"/>
                         <constraint firstAttribute="bottom" secondItem="7a0-FJ-QyC" secondAttribute="bottom" constant="3" id="jNZ-VU-Xh1"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="3N1-9D-D8P" appends="YES" id="OpR-Ip-o7s"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -174,5 +184,15 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-447" y="400"/>
         </view>
+        <tapGestureRecognizer id="3N1-9D-D8P">
+            <connections>
+                <action selector="contentTaped" destination="-1" id="hSB-5N-uOh"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="GzI-uJ-c5i">
+            <connections>
+                <action selector="contentTaped" destination="-1" id="z87-cw-8DP"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
 </document>

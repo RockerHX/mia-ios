@@ -277,6 +277,8 @@
                  [playItem parseInfectUsersFromJsonArray:infectArray];
 				 [playItem parseFlyCommentsFromJsonArray:flyArray];
              }
+             [_carousel reloadData];
+             _canPlay = NO;
          } else {
              NSLog(@"getShareById failed");
          }

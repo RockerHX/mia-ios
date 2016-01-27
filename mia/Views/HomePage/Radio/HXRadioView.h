@@ -11,15 +11,18 @@
 @class ShareItem;
 @class HXRadioView;
 
+typedef NS_ENUM(NSUInteger, HXRadioViewAction) {
+    HXRadioViewActionPlay,
+    HXRadioViewActionPause,
+    HXRadioViewActionContentTaped
+};
+
 @protocol HXRadioViewDelegate <NSObject>
 
 @optional
 - (void)radioViewDidLoad:(HXRadioView *)radioView;
-- (void)radioViewShouldPlay:(HXRadioView *)radioView;
-- (void)radioViewShouldPause:(HXRadioView *)radioView;
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView;
-- (void)radioViewSharerNameTaped:(HXRadioView *)radioView;
-- (void)radioViewShareContentTaped:(HXRadioView *)radioView;
+- (void)radioView:(HXRadioView *)radioView takeAction:(HXRadioViewAction)action;
 
 @end
 

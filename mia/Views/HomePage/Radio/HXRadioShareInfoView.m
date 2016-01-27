@@ -13,6 +13,9 @@
 #import "UIButton+WebCache.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "UserSession.h"
+#import "FlyCommentItem.h"
+#import "UIImageView+WebCache.h"
 
 @interface HXRadioShareInfoView () <
 TTTAttributedLabelDelegate
@@ -41,15 +44,27 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
-- (void)sharerAvatarButtonPressed {
-    UserItem *shareUserItem = _item.shareUser;
-    [MiaAPIHelper followWithUID:shareUserItem.uid isFollow:!shareUserItem.follow completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-        shareUserItem.follow = !shareUserItem.follow;
-        [HXAlertBanner showWithMessage:(shareUserItem.follow ? @"添加关注成功" : @"取消关注成功") tap:nil];
-        [self displayWithItem:_item];
-    } timeoutBlock:^(MiaRequestItem *requestItem) {
-        [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
-    }];
+- (IBAction)sharerAvatarButtonPressed {
+    if ([UserSession standard].state) {
+        UserItem *shareUserItem = _item.shareUser;
+        [MiaAPIHelper followWithUID:shareUserItem.uid isFollow:!shareUserItem.follow completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+            shareUserItem.follow = !shareUserItem.follow;
+            [HXAlertBanner showWithMessage:(shareUserItem.follow ? @"添加关注成功" : @"取消关注成功") tap:nil];
+            [self displayWithItem:_item];
+        } timeoutBlock:^(MiaRequestItem *requestItem) {
+            [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+        }];
+    } else {
+        if (_delegate && [_delegate respondsToSelector:@selector(radioShareInfoView:takeAction:)]) {
+            [_delegate radioShareInfoView:self takeAction:HXRadioShareInfoActionAvatarTaped];
+        }
+    }
+}
+
+- (IBAction)contentTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(radioShareInfoView:takeAction:)]) {
+        [_delegate radioShareInfoView:self takeAction:HXRadioShareInfoActionContentTaped];
+    }
 }
 
 #pragma mark - Public Methods
@@ -61,14 +76,29 @@ HXXibImplementation
     _timeLabel.text = item.formatTime;
     _shareContentLabel.text = [item.shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
     if ([item.shareUser.uid isEqualToString:item.spaceUser.uid]) {
-        _sharerLabel.text = item.shareUser.nick ?: @"  ";
+        _sharerLabel.text = item.shareUser.nick ?: @"Unknown";
     } else {
         _sharerLabel.text = [item.spaceUser.nick stringByAppendingFormat:@" 秒推了 %@ 的分享", item.shareUser.nick];
     }
     [self displaySharerLabelWithSharer:item.shareUser.nick infecter:item.spaceUser.nick];
+    [self displayFlyComments:item.flyComments];
 }
 
 #pragma mark - Private Methods
+- (void)displayFlyComments:(NSArray <FlyCommentItem *> *)flyComments {
+    BOOL hasComments = flyComments.count;
+    _commentView.hidden = !hasComments;
+    if (hasComments) {
+//        _commentView.alpha = 0.0f;
+//        [UIView animateWithDuration:1.2f animations:^{
+//            _commentView.alpha = 1.0f;
+//        }];
+        FlyCommentItem *item = [flyComments lastObject];
+        [_commentAvatar sd_setImageWithURL:[NSURL URLWithString:item.userpic]];
+        _commentLabel.text = item.comment;
+    }
+}
+
 - (void)displaySharerLabelWithSharer:(NSString *)sharer infecter:(NSString *)infecter {
     NSDictionary *linkAttributes = @{(__bridge id)kCTUnderlineStyleAttributeName: [NSNumber numberWithInt:kCTUnderlineStyleNone],
                                     (__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor],

@@ -120,12 +120,12 @@ HXRadioShareInfoViewDelegate
 - (IBAction)playButtonPressed:(UIButton *)button {
     button.selected = !button.selected;
     if (button.selected) {
-        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPause:)]) {
-            [_delegate radioViewShouldPause:self];
+        if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+            [_delegate radioView:self takeAction:HXRadioViewActionPause];
         }
     } else {
-        if (_delegate && [_delegate respondsToSelector:@selector(radioViewShouldPlay:)]) {
-            [_delegate radioViewShouldPlay:self];
+        if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+            [_delegate radioView:self takeAction:HXRadioViewActionPlay];
         }
     }
 }
@@ -206,16 +206,28 @@ HXRadioShareInfoViewDelegate
 #pragma mark - HXRadioShareInfoViewDelegate Methods
 - (void)radioShareInfoView:(HXRadioShareInfoView *)infoView takeAction:(HXRadioShareInfoAction)action {
     switch (action) {
+        case HXRadioShareInfoActionAvatarTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(radioViewStarTapedNeedLogin:)]) {
+                [_delegate radioViewStarTapedNeedLogin:self];
+            }
+            break;
+        }
         case HXRadioShareInfoActionSharerTaped: {
-            ;
+//            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+//                [_delegate radioView:self takeAction:HXRadioViewActionPlay];
+//            }
             break;
         }
         case HXRadioShareInfoActionInfecterTaped: {
-            ;
+//            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+//                [_delegate radioView:self takeAction:HXRadioViewActionPlay];
+//            }
             break;
         }
         case HXRadioShareInfoActionContentTaped: {
-            ;
+            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+                [_delegate radioView:self takeAction:HXRadioViewActionContentTaped];
+            }
             break;
         }
     }

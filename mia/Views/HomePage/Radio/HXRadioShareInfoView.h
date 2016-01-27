@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, HXRadioShareInfoAction) {
+    HXRadioShareInfoActionAvatarTaped,
     HXRadioShareInfoActionSharerTaped,
     HXRadioShareInfoActionInfecterTaped,
     HXRadioShareInfoActionContentTaped
@@ -35,10 +36,12 @@ typedef NS_ENUM(NSUInteger, HXRadioShareInfoAction) {
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *sharerLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *shareContentLabel;
+@property (weak, nonatomic) IBOutlet             UIView *commentView;
 @property (weak, nonatomic) IBOutlet        UIImageView *commentAvatar;
 @property (weak, nonatomic) IBOutlet            UILabel *commentLabel;
 
 - (IBAction)sharerAvatarButtonPressed;
+- (IBAction)contentTaped;
 
 - (void)displayWithItem:(ShareItem *)item;
 
