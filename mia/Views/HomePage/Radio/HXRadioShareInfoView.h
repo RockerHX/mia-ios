@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, HXRadioShareInfoAction) {
 
 @end
 
+@class ShareItem;
 @class TTTAttributedLabel;
 
 @interface HXRadioShareInfoView : UIView
@@ -36,5 +37,7 @@ typedef NS_ENUM(NSUInteger, HXRadioShareInfoAction) {
 @property (weak, nonatomic) IBOutlet            UILabel *commentLabel;
 
 - (IBAction)sharerAvatarButtonPressed;
+
+- (void)displayWithItem:(ShareItem *)item;
 
 @end

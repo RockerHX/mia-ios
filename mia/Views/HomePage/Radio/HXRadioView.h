@@ -24,30 +24,23 @@
 @end
 
 
-@class TTTAttributedLabel;
+@class HXRadioShareInfoView;
 
 @interface HXRadioView : UIView
 
 @property (weak, nonatomic) IBOutlet          id  <HXRadioViewDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet            UILabel *songNameLabel;
-@property (weak, nonatomic) IBOutlet            UILabel *songerNameLabel;
-@property (weak, nonatomic) IBOutlet        UIImageView *frontCoverView;
-@property (weak, nonatomic) IBOutlet     UIProgressView *progressView;
-@property (weak, nonatomic) IBOutlet           UIButton *playButton;
-@property (weak, nonatomic) IBOutlet           UIButton *starButton;
-@property (weak, nonatomic) IBOutlet            UILabel *sharerNickNameLabel;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *shrareContentLabel;
+@property (weak, nonatomic) IBOutlet              UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet              UILabel *songerNameLabel;
+@property (weak, nonatomic) IBOutlet          UIImageView *frontCoverView;
+@property (weak, nonatomic) IBOutlet       UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet             UIButton *playButton;
+@property (weak, nonatomic) IBOutlet             UIButton *starButton;
+@property (weak, nonatomic) IBOutlet HXRadioShareInfoView *shareInfoView;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *songNameToSongerNameVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverToTopVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverToStarVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *starToSharerNickNameVerticallySpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sharerNickNameToShrareContentVerticallySpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverWidthConstraint;
 
 - (IBAction)coverTaped;
-- (IBAction)sharerNickNameTaped;
-- (IBAction)shareContentTaped;
 - (IBAction)playButtonPressed:(UIButton *)button;
 - (IBAction)starButtonPressed:(UIButton *)button;
 

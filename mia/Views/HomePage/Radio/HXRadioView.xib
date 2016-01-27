@@ -102,13 +102,12 @@
                 <constraint firstAttribute="bottom" secondItem="jQr-cc-VHC" secondAttribute="bottom" id="yIb-63-umP"/>
             </constraints>
             <connections>
-                <outlet property="frontCoverToStarVerticallySpaceConstraint" destination="gDx-VG-7kD" id="ka0-uR-hVJ"/>
-                <outlet property="frontCoverToTopVerticallySpaceConstraint" destination="lGy-uv-HfU" id="0q7-Lb-VL8"/>
+                <outlet property="coverWidthConstraint" destination="p2O-fX-rua" id="Fan-fX-H8v"/>
                 <outlet property="frontCoverView" destination="Adt-yX-Kcn" id="p3x-e1-iFU"/>
                 <outlet property="playButton" destination="EuO-ig-wsS" id="pra-Sy-2Dp"/>
                 <outlet property="progressView" destination="WMI-Wc-Fx1" id="mi0-TT-bf2"/>
+                <outlet property="shareInfoView" destination="jQr-cc-VHC" id="bCe-nN-e7h"/>
                 <outlet property="songNameLabel" destination="ZT2-TF-oW0" id="sQw-zK-RJv"/>
-                <outlet property="songNameToSongerNameVerticallySpaceConstraint" destination="4C9-vI-fnM" id="tcg-WU-hEz"/>
                 <outlet property="songerNameLabel" destination="XRy-kE-hZ9" id="Efp-qQ-71O"/>
                 <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
             </connections>
