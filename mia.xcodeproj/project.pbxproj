@@ -76,6 +76,7 @@
 		397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5271BAC0CA7003FD186 /* MIATipView.m */; };
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
+		39880A9A1C58692300713FC6 /* UserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A991C58692300713FC6 /* UserItem.m */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -315,6 +316,8 @@
 		397FA52A1BAC0CA7003FD186 /* MIAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAButton.m; sourceTree = "<group>"; };
 		397FA5381BAC0CF3003FD186 /* UIScrollView+MIARefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MIARefresh.h"; sourceTree = "<group>"; };
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
+		39880A981C58692300713FC6 /* UserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserItem.h; sourceTree = "<group>"; };
+		39880A991C58692300713FC6 /* UserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserItem.m; sourceTree = "<group>"; };
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
 		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
@@ -736,6 +739,7 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				39880A971C58692300713FC6 /* UserItem */,
 				CD25AA5C1C5759FC008BE101 /* MessageCenter */,
 				CD5753981BDF53F000E7CBC4 /* MusicDetail */,
 				CD4334EC1BD8CBF400A5E34C /* InfectItem */,
@@ -1119,6 +1123,15 @@
 				397FA52A1BAC0CA7003FD186 /* MIAButton.m */,
 			);
 			path = MIAUIButton;
+			sourceTree = "<group>";
+		};
+		39880A971C58692300713FC6 /* UserItem */ = {
+			isa = PBXGroup;
+			children = (
+				39880A981C58692300713FC6 /* UserItem.h */,
+				39880A991C58692300713FC6 /* UserItem.m */,
+			);
+			path = UserItem;
 			sourceTree = "<group>";
 		};
 		3997F8311BE750A000F6597D /* CacheHelper */ = {
@@ -2036,6 +2049,7 @@
 				393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */,
 				39FBCC981BE24F8900527A6C /* UpdateHelper.m in Sources */,
 				CD9670601C52211D00130D27 /* HXIBButton.m in Sources */,
+				39880A9A1C58692300713FC6 /* UserItem.m in Sources */,
 				CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
 				CD9670681C52211D00130D27 /* HXTextView.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "MusicItem.h"
+#import "UserItem.h"
 
 @interface ShareItem : NSObject <NSCoding>
 
@@ -24,6 +25,9 @@
 @property (strong, nonatomic) NSString *sLatitude;
 
 @property (strong, nonatomic) MusicItem *music;
+@property (strong, nonatomic) UserItem *shareUser;
+@property (strong, nonatomic) UserItem *spaceUser;
+
 @property (strong, nonatomic) NSArray *infectUsers;
 
 @property (assign, nonatomic) BOOL favorite;

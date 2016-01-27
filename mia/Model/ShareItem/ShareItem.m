@@ -30,6 +30,9 @@
 		self.isInfected = [[dictionary objectForKey:@"isInfected"] intValue];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
+		self.shareUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"shareUser"]];
+		self.spaceUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"spaceUser"]];
+
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
     }
 	
@@ -61,6 +64,8 @@
 	[aCoder encodeObject:self.sLongitude forKey:@"sLongitude"];
 	[aCoder encodeObject:self.sLatitude forKey:@"sLatitude"];
 	[aCoder encodeObject:self.music forKey:@"music"];
+	[aCoder encodeObject:self.shareUser forKey:@"shareUser"];
+	[aCoder encodeObject:self.spaceUser forKey:@"spaceUser"];
 	[aCoder encodeObject:self.infectUsers forKey:@"infectUsers"];
 	[aCoder encodeInt:self.cView forKey:@"cView"];
 	[aCoder encodeInt:self.cComm forKey:@"cComm"];
@@ -82,6 +87,8 @@
 		self.sLongitude = [aDecoder decodeObjectForKey:@"sLongitude"];
 		self.sLatitude = [aDecoder decodeObjectForKey:@"sLatitude"];
 		self.music = [aDecoder decodeObjectForKey:@"music"];
+		self.shareUser = [aDecoder decodeObjectForKey:@"shareUser"];
+		self.spaceUser = [aDecoder decodeObjectForKey:@"spaceUser"];
 		self.infectUsers = [aDecoder decodeObjectForKey:@"infectUsers"];
 		self.cView = [aDecoder decodeIntForKey:@"cView"];
 		self.cComm = [aDecoder decodeIntForKey:@"cComm"];
