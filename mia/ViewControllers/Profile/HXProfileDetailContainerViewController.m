@@ -7,11 +7,16 @@
 //
 
 #import "HXProfileDetailContainerViewController.h"
+#import "HXProfileSegmentView.h"
 
-@interface HXProfileDetailContainerViewController ()
+@interface HXProfileDetailContainerViewController () <
+HXProfileSegmentViewDelegate
+>
 @end
 
-@implementation HXProfileDetailContainerViewController
+@implementation HXProfileDetailContainerViewController {
+    HXProfileSegmentView *_segmentView;
+}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
@@ -27,11 +32,19 @@
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    ;
+    self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
 }
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - Private Methods
+- (HXProfileSegmentView *)segmentView {
+    if (!_segmentView) {
+        _segmentView = [HXProfileSegmentView instanceWithDelegate:self];
+    }
+    return _segmentView;
 }
 
 #pragma mark - Table View Data Source Methods
@@ -44,9 +57,23 @@
 //    return cell;
 //}
 //
+
 #pragma mark - Table View Delegate Methods
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 50.0f;
+}
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [self segmentView];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - HXProfileSegmentViewDelegate Methods
+- (void)segmentView:(HXProfileSegmentView *)segmentView selectedType:(HXProfileSegmentItemType)type {
+    
 }
 
 @end
