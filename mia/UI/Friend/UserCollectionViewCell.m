@@ -114,7 +114,7 @@
 	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:item.userpic]
 					   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	[_titleLabel setText:item.nick];
-	[_detailLabel setText:item.sharem];
+	[_detailLabel setText:[NSString stringWithFormat:@"最近分享了 %@", item.sharem]];
 
 	if ([[UserSession standard].uid isEqualToString:_dataItem.uid]) {
 		[_followButton setHidden:YES];
