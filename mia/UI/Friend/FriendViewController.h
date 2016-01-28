@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserListView.h"
 
 @class FriendItem;
 
@@ -22,6 +23,8 @@
 @interface FriendViewController : UIViewController
 
 @property (weak, nonatomic) id<FriendViewControllerDelegate> delegate;
+
+- (id)initWithType:(UserListViewType)type;
 
 @end
 

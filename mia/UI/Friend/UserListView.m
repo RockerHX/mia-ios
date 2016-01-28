@@ -168,13 +168,17 @@ static const CGFloat kSearchResultItemHeight	= 100;
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	UserCollectionViewCell *cell = (UserCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	[_customDelegate userListViewDidSelectedItem:cell.dataItem];
+	if (_customDelegate) {
+		[_customDelegate userListViewDidSelectedItem:cell.dataItem];
+	}
 }
 
 #pragma mark - delegate 
 
 - (void)userCollectionViewCellFollowWithItem:(UserItem *)item isFollow:(BOOL)isFollow {
-	NSLog(@"follow %@", item.nick);
+	if (_customDelegate) {
+		[_customDelegate userListViewFollowWithItem:item isFollow:isFollow];
+	}
 }
 
 @end

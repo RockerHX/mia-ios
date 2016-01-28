@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, UserListViewType) {
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type;
 
 - (void)userListViewDidSelectedItem:(UserItem *)item;
-- (void)userListViewDidClickFollow:(UserItem *)item;
+- (void)userListViewFollowWithItem:(UserItem *)item isFollow:(BOOL)isFollow;
 
 @end
 

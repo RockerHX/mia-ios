@@ -19,10 +19,10 @@
 @end
 
 @implementation UserCollectionViewCell {
-	UIImageView *_coverImageView;
+	UIImageView *_avatarImageView;
 	MIALabel 	*_titleLabel;
-	MIALabel 	*_albumLabel;
-	MIAButton 	*_playButton;
+	MIALabel 	*_detailLabel;
+	MIAButton 	*_followButton;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -36,59 +36,61 @@
 }
 
 - (void)initUI:(UIView *)contentView {
-//	contentView.backgroundColor = arc4random() %2 == 0 ? [UIColor redColor] : [UIColor greenColor];
-    _coverImageView = [[UIImageView alloc] init];
-    _coverImageView.backgroundColor = UIColorFromHex(@"f1f5f5", 1.0f);
-    _coverImageView.layer.borderColor = UIColorFromHex(@"d7dede", 1.0f).CGColor;
-    _coverImageView.layer.borderWidth = 0.5f;
-	[_coverImageView setImage:[UIImage imageNamed:@"default_cover"]];
-    [contentView addSubview:_coverImageView];
+	static const CGFloat avatarWidth = 46;
 
-	_playButton = [[MIAButton alloc] initWithFrame:CGRectZero
+	_avatarImageView = [[UIImageView alloc] init];
+	_avatarImageView.layer.cornerRadius = avatarWidth / 2;
+	_avatarImageView.clipsToBounds = YES;
+	_avatarImageView.layer.borderWidth = 0.5f;
+	_avatarImageView.layer.borderColor = UIColorFromHex(@"808080", 1.0).CGColor;
+	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+	[contentView addSubview:_avatarImageView];
+
+	_followButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									   titleString:nil
 										titleColor:nil
 											  font:nil
 										   logoImg:nil
 								   backgroundImage:nil];
-	[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	[contentView addSubview:_playButton];
+	[_followButton setBackgroundImage:[UIImage imageNamed:@"follow"] forState:UIControlStateNormal];
+	[_followButton addTarget:self action:@selector(followButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[contentView addSubview:_followButton];
 
 
 	_titleLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											text:@"匆匆那年"
+											text:@"eden"
 											font:UIFontFromSize(16.0f)
 									   textColor:[UIColor blackColor]
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
 	[contentView addSubview:_titleLabel];
 
-	_albumLabel = [[MIALabel alloc] initWithFrame:CGRectZero
-											text:@"王菲 - 匆匆那年"
+	_detailLabel = [[MIALabel alloc] initWithFrame:CGRectZero
+											text:@"最近分享了 春分"
 											font:UIFontFromSize(14.0f)
 									   textColor:UIColorFromHex(@"808080", 1.0)
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
-	[contentView addSubview:_albumLabel];
+	[contentView addSubview:_detailLabel];
 
-	[_coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(contentView.mas_centerY);
-		make.size.mas_equalTo(CGSizeMake(75, 75));
+		make.size.mas_equalTo(CGSizeMake(avatarWidth, avatarWidth));
 		make.left.equalTo(contentView.mas_left).offset(5);
 	}];
-	[_playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.size.mas_equalTo(CGSizeMake(30, 30));
-		make.centerX.mas_equalTo(_coverImageView.mas_centerX);
-		make.centerY.mas_equalTo(_coverImageView.mas_centerY);
+	[_followButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(35, 35));
+		make.right.mas_equalTo(contentView.mas_right).offset(-15);
+		make.centerY.mas_equalTo(contentView.mas_centerY).offset(-10);
 	}];
 	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(contentView.mas_centerY);
-		make.left.equalTo(_coverImageView.mas_right).offset(15);
+		make.left.equalTo(_avatarImageView.mas_right).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-10);
 	}];
-	[_albumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_centerY).offset(6);
-		make.left.equalTo(_coverImageView.mas_right).offset(15);
+		make.left.equalTo(_avatarImageView.mas_right).offset(15);
 		make.right.equalTo(contentView.mas_right).offset(-10);
 	}];
 
@@ -98,7 +100,7 @@
 	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.equalTo(@1);
 		make.bottom.equalTo(contentView.mas_bottom);
-		make.left.equalTo(contentView.mas_left).offset(5);
+		make.left.equalTo(_avatarImageView.mas_right).offset(15);
 		make.right.equalTo(contentView.mas_right);
 	}];
 }
@@ -106,19 +108,29 @@
 - (void)setDataItem:(UserItem *)item {
 	_dataItem = item;
 
-//	[_coverImageView sd_setImageWithURL:[NSURL URLWithString:item.albumPic]
-//					   placeholderImage:[UIImage imageNamed:@"default_cover"]];
-//	[_titleLabel setText:item.title];
-//	[_albumLabel setText:[NSString stringWithFormat:@"%@ - %@", item.artist, item.albumName]];
-//
-//	[self setIsPlaying:_dataItem.isPlaying];
+	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:item.userpic]
+					   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+	[_titleLabel setText:item.nick];
+	[_detailLabel setText:item.sharem];
+
+	[self setIsFollowing:_dataItem.follow];
+}
+
+- (void)setIsFollowing:(BOOL)isFollow {
+	_dataItem.follow = isFollow;
+	if (isFollow) {
+		[_followButton setBackgroundImage:[UIImage imageNamed:@"following"] forState:UIControlStateNormal];
+	} else {
+		[_followButton setBackgroundImage:[UIImage imageNamed:@"follow"] forState:UIControlStateNormal];
+	}
 }
 
 #pragma mark - Actions
 
-- (void)playButtonAction:(id)sender {
+- (void)followButtonAction:(id)sender {
 	BOOL isFollow = !_dataItem.follow;
-	_dataItem.follow = isFollow;
+	[self setIsFollowing:isFollow];
+
 	[_cellDelegate userCollectionViewCellFollowWithItem:_dataItem isFollow:isFollow];
 }
 

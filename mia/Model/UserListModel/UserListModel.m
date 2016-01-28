@@ -7,6 +7,9 @@
 //
 
 #import "UserListModel.h"
+#import "UserItem.h"
+
+static const long kDefaultUserListStartPage = 1;
 
 @implementation UserListModel
 
@@ -14,18 +17,21 @@
 	self = [super init];
 	if(self) {
 		_dataSource = [[NSMutableArray alloc] init];
-		_currentPage = 0;
+		_currentPage = kDefaultUserListStartPage;
 	}
 
 	return self;
 }
 
 - (void)addItemsWithArray:(NSArray *) items {
-	[_dataSource addObjectsFromArray:items];
+	for(id item in items) {
+		UserItem *dataItem = [[UserItem alloc] initWithDictionary:item];
+		[_dataSource addObject:dataItem];
+	}
 }
 
 - (void)reset {
 	[_dataSource removeAllObjects];
-	_currentPage = 0;
+	_currentPage = kDefaultUserListStartPage;
 }
 @end

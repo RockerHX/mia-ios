@@ -19,11 +19,15 @@
 #import "UserItem.h"
 #import "HXAlertBanner.h"
 #import "YHSegmentedControl.h"
+#import "UserSession.h"
+
+static const long kUserListPageCount = 10;
 
 @interface FriendViewController () <UITextFieldDelegate, YHSegmentedControlDelegate, UserListViewDelegate>
 @end
 
 @implementation FriendViewController {
+	UserListViewType		_currentListViewType;
 	UserListModel 			*_fansModel;
 	UserListModel 			*_followingModel;
 	UserListModel 			*_searchResultModel;
@@ -40,6 +44,15 @@
 	UserListView 			*_searchResultView;
 
 	MBProgressHUD 			*_searchProgressHUD;
+}
+
+- (id)initWithType:(UserListViewType)type {
+	self = [super init];
+	if (self) {
+		_currentListViewType = (NSInteger)type;
+	}
+
+	return self;
 }
 
 - (void)dealloc {
@@ -123,7 +136,16 @@
 }
 
 - (void)initData {
+	_fansModel = [[UserListModel alloc] init];
+	_followingModel = [[UserListModel alloc] init];
 	_searchResultModel = [[UserListModel alloc] init];
+
+	// 页面切换
+	[_segmentedControl switchToIndex:_currentListViewType];
+	if (_currentListViewType == UserListViewTypeFans) {
+		[self requestFansList];
+	} else {
+	}
 }
 
 - (void)initTopView:(UIView *)contentView {
@@ -251,10 +273,56 @@
 
 #pragma mark - Public Methods
 
-#pragma mark - delegate
+#pragma mark - Private Methods
+- (void)switchContentViewWithType:(NSInteger)index {
+	if (0 == index) {
+		[_fansView setHidden:NO];
+		[_followingView setHidden:YES];
+	} else {
+		[_fansView setHidden:YES];
+		[_followingView setHidden:NO];
+	}
+}
 
+- (void)showSearchResultView:(BOOL)show {
+	if (show) {
+		[_searchResultView setHidden:NO];
+		[_contentView setHidden:YES];
+	} else {
+		[_searchResultView setHidden:YES];
+		[_contentView setHidden:NO];
+	}
+}
+
+- (void)requestFansList {
+	[MiaAPIHelper getFansListWithUID:[UserSession standard].uid
+								start:_fansModel.currentPage
+								 item:kUserListPageCount
+						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+							[_fansView endRefreshing];
+							if (success) {
+								NSArray *items = userInfo[@"v"][@"info"];
+								if ([items count] <= 0) {
+									return;
+								}
+
+								[_fansModel addItemsWithArray:items];
+								[_fansView.collectionView reloadData];
+								[_fansView setNoDataTipsHidden:YES];
+								++_fansModel.currentPage;
+							} else {
+								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+							}
+
+						} timeoutBlock:^(MiaRequestItem *requestItem) {
+							[_fansView endRefreshing];
+						}];
+}
+
+#pragma mark - delegate
 - (void)YHSegmentedControlSelected:(NSInteger)index {
-	NSLog(@"%ld",index);
+	[self switchContentViewWithType:index];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -307,16 +375,39 @@
 }
 
 - (UserListModel *)userListViewModelWithType:(UserListViewType)type {
-	return _searchResultModel;
+	switch (type) {
+		case UserListViewTypeFans:
+			return _fansModel;
+		case UserListViewTypeFollowing:
+			return _followingModel;
+		case UserListViewTypeSearch:
+			return _searchResultModel;
+		default:
+			NSLog(@"userListViewModelWithType: it's a bug.");
+			return nil;
+	};
 }
 
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type {
+	switch (type) {
+		case UserListViewTypeFans:
+			return;
+		case UserListViewTypeFollowing:
+			return;
+		case UserListViewTypeSearch:
+			return;
+		default:
+			NSLog(@"userListViewModelWithType: it's a bug.");
+			return;
+	};
 }
 
 - (void)userListViewDidSelectedItem:(UserItem *)item {
+	NSLog(@"select %@", item.nick);
 }
 
-- (void)userListViewDidClickFollow:(UserItem *)item {
+- (void)userListViewFollowWithItem:(UserItem *)item isFollow:(BOOL)isFollow {
+	NSLog(@"follow %@", item.nick);
 }
 
 #pragma mark - Notification
