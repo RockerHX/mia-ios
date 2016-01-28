@@ -513,7 +513,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         _profileButton.layer.borderWidth = 0.0f;
 		[_profileButton setImage:nil forState:UIControlStateNormal];
 		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
-		[_profileButton setTitle:[NSString stringWithFormat:@"%ld", unreadCommentCount] forState:UIControlStateNormal];
+		[_profileButton setTitle:[NSString stringWithFormat:@"%ld", (long)unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
 
