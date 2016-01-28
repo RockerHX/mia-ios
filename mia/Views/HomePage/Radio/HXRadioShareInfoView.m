@@ -38,14 +38,13 @@ HXXibImplementation
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"flyComments"]) {
-        [self displayWithItem:_item];
-    }
+	[self displayWithItem:_item];
 }
 
 - (void)dealloc {
-    [_timer invalidate];
-    [_item removeObserver:self forKeyPath:@"flyComments"];
+	[_timer invalidate];
+	[_item removeObserver:self forKeyPath:@"flyComments"];
+	[_item.shareUser removeObserver:self forKeyPath:@"follow"];
 }
 
 #pragma mark - Configure Methods
@@ -84,15 +83,16 @@ HXXibImplementation
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     [self configureItem:item];
-    
-    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.shareUser.userpic] forState:UIControlStateNormal];
+
     _attentionIcon.image = [UIImage imageNamed:(item.shareUser.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
     _timeLabel.text = item.formatTime;
     _shareContentLabel.text = [item.shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
     if ([item.shareUser.uid isEqualToString:item.spaceUser.uid]) {
-        _sharerLabel.text = item.shareUser.nick ?: @"Unknown";
+		_sharerLabel.text = item.shareUser.nick ?: @"Unknown";
+		[_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.shareUser.userpic] forState:UIControlStateNormal];
     } else {
-        _sharerLabel.text = [item.spaceUser.nick stringByAppendingFormat:@" 秒推了 %@ 的分享", item.shareUser.nick];
+		_sharerLabel.text = [item.spaceUser.nick stringByAppendingFormat:@" 秒推了 %@ 的分享", item.shareUser.nick];
+		[_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.spaceUser.userpic] forState:UIControlStateNormal];
     }
     [self displaySharerLabelWithSharer:item.shareUser.nick infecter:item.spaceUser.nick];
     [self displayFlyComments:item.flyComments];
@@ -100,8 +100,11 @@ HXXibImplementation
 
 #pragma mark - Private Methods
 - (void)configureItem:(ShareItem *)item {
-    _item = item;
-    [_item addObserver:self forKeyPath:@"flyComments" options:NSKeyValueObservingOptionNew context:nil];
+	[_item removeObserver:self forKeyPath:@"flyComments"];
+	[_item.shareUser removeObserver:self forKeyPath:@"follow"];
+	_item = item;
+	[item addObserver:self forKeyPath:@"flyComments" options:NSKeyValueObservingOptionNew context:nil];
+	[item.shareUser addObserver:self forKeyPath:@"follow" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)displayFlyComments:(NSArray <FlyCommentItem *> *)flyComments {
