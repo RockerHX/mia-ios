@@ -87,16 +87,16 @@ static const long kUserListPageCount = 10;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleDefault;
+	return UIStatusBarStyleLightContent;
 }
 
 - (BOOL)prefersStatusBarHidden {
-	return YES;
+	return NO;
 }
 
 - (void)initUI {
 	UIView *topView = [[UIView alloc] init];
-	topView.backgroundColor = [UIColor whiteColor];
+	topView.backgroundColor = [UIColor blackColor];
 	[self.view addSubview:topView];
 	[self initTopView:topView];
 
@@ -149,9 +149,20 @@ static const long kUserListPageCount = 10;
 	gesture.numberOfTapsRequired = 1;
 	[contentView addGestureRecognizer:gesture];
 
+	_backButton = [[MIAButton alloc] initWithFrame:CGRectZero
+										 titleString:nil
+										  titleColor:nil
+												font:nil
+											 logoImg:nil
+									 backgroundImage:nil];
+	[_backButton setBackgroundImage:[UIImage imageNamed:@"C-BackIcon-Gray"] forState:UIControlStateNormal];
+	[_backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[contentView addSubview:_backButton];
+
+	const CGFloat kEditBgHeight = 40;
 	UIView *editBgView = [[UIView alloc] init];
 	editBgView.backgroundColor = UIColorFromHex(@"f4f4f4", 1.0);
-	editBgView.layer.cornerRadius = 1;
+	editBgView.layer.cornerRadius = kEditBgHeight / 2 - 1;
 	editBgView.layer.masksToBounds = YES;
 	[contentView addSubview:editBgView];
 
@@ -175,22 +186,25 @@ static const long kUserListPageCount = 10;
 
 	_cancelButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									  titleString:@"取消"
-									   titleColor:[UIColor blackColor]
+									   titleColor:[UIColor whiteColor]
 											 font:UIFontFromSize(16)
 										  logoImg:nil
 								  backgroundImage:nil];
 	[_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[contentView addSubview:_cancelButton];
 
-	UIView *lineView = [[UIView alloc] init];
-	lineView.backgroundColor = UIColorFromHex(@"dcdcdc", 1.0);
-	[contentView addSubview:lineView];
+	[_backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(35, 35));
+		make.left.mas_equalTo(contentView.mas_left).offset(15);
+		make.centerY.mas_equalTo(editBgView.mas_centerY);
+	}];
 
 	[editBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@40);
-		make.top.equalTo(contentView.mas_top).offset(15);
-		make.left.equalTo(contentView.mas_left).offset(15);
+		make.height.mas_equalTo(kEditBgHeight);
+		make.top.equalTo(contentView.mas_top).offset(28);
+		make.left.equalTo(_backButton.mas_right).offset(15);
 		make.right.equalTo(_cancelButton.mas_left).offset(-6);
+		make.bottom.equalTo(contentView.mas_bottom).offset(-8);
 	}];
 
 	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -210,14 +224,6 @@ static const long kUserListPageCount = 10;
 		make.size.mas_equalTo(CGSizeMake(40, 18));
 		make.centerY.equalTo(editBgView.mas_centerY);
 		make.right.equalTo(contentView.mas_right).offset(-5);
-	}];
-
-	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.height.equalTo(@0.5);
-		make.top.equalTo(editBgView.mas_bottom).offset(5);
-		make.left.equalTo(contentView.mas_left).offset(15);
-		make.right.equalTo(contentView.mas_right);
-		make.bottom.equalTo(contentView.mas_bottom);
 	}];
 }
 
@@ -445,6 +451,10 @@ static const long kUserListPageCount = 10;
 
 
 #pragma mark - button Actions
+
+- (void)backButtonAction:(id)sender {
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)cancelButtonAction:(id)sender {
     [self hidenKeyboard];
