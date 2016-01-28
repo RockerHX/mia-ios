@@ -391,11 +391,11 @@ static const long kUserListPageCount = 10;
 	UserListViewType type = (UserListViewType)index;
 	if (type == UserListViewTypeFans) {
 		if (_fansModel.dataSource.count <= 0) {
-			[self requestFansListWithReload:NO];
+			[_fansView beginHeaderRefreshing];
 		}
 	} else {
 		if (_followingModel.dataSource.count <= 0) {
-			[self requestFollowingListWithReload:NO];
+			[_followingView beginHeaderRefreshing];
 		}
 	}
 }
@@ -408,7 +408,7 @@ static const long kUserListPageCount = 10;
 			YES;
 		}
 
-		[self requestSearchUserWithKey:_searchTextField.text isReload:YES];
+		[_searchResultView beginHeaderRefreshing];
 	}
 
 	return YES;

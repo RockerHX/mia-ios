@@ -38,7 +38,10 @@ typedef NS_ENUM(NSUInteger, UserListViewType) {
 - (void)setNoDataTipsHidden:(BOOL)hidden;
 - (void)checkNoDataTipsStatus;
 
+// 用于出发下拉重新刷新
 - (void)beginHeaderRefreshing;
+
+// 停止上拉和下拉刷新的动画
 - (void)endAllRefreshing;
 
 @end
