@@ -18,4 +18,6 @@
 @property (nonatomic, assign) HXProfileType  type;
 @property (nonatomic, strong)      NSString *uid;
 
+- (IBAction)settingButtonPressed;
+
 @end

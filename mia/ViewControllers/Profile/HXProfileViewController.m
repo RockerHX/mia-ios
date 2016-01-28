@@ -13,6 +13,7 @@
 #import "UIImageView+WebCache.h"
 #import "FriendViewController.h"
 #import "UserSession.h"
+#import "HXSettingViewController.h"
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate
@@ -29,6 +30,11 @@ HXProfileDetailContainerViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -70,6 +76,12 @@ HXProfileDetailContainerViewControllerDelegate
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - Event Response
+- (IBAction)settingButtonPressed {
+    HXSettingViewController *settingViewController = [HXSettingViewController instance];
+    [self.navigationController pushViewController:settingViewController animated:YES];
 }
 
 #pragma mark - Private Methods
