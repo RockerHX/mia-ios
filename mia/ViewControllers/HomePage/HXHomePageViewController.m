@@ -284,8 +284,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)shareButtonPressed {
+#warning @andy 粉丝和关注列表的进入方式
 	// for test
-	FriendViewController *friendVC = [[FriendViewController alloc] init];
+
+	FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
+																			uID:[UserSession standard].uid];
 	[self.navigationController pushViewController:friendVC animated:YES];
 	return;
 

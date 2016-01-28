@@ -19,7 +19,7 @@
 #import "UserItem.h"
 #import "HXAlertBanner.h"
 #import "YHSegmentedControl.h"
-#import "UserSession.h"
+#import "GuestProfileViewController.h"
 
 static const long kUserListPageCount = 10;
 
@@ -28,6 +28,8 @@ static const long kUserListPageCount = 10;
 
 @implementation FriendViewController {
 	UserListViewType		_initListViewType;
+	NSString				*_currentUID;
+
 	UserListModel 			*_fansModel;
 	UserListModel 			*_followingModel;
 	UserListModel 			*_searchResultModel;
@@ -46,10 +48,11 @@ static const long kUserListPageCount = 10;
 	MBProgressHUD 			*_searchProgressHUD;
 }
 
-- (id)initWithType:(UserListViewType)type {
+- (id)initWithType:(UserListViewType)type uID:(NSString *)uID {
 	self = [super init];
 	if (self) {
 		_initListViewType = (NSInteger)type;
+		_currentUID = uID;
 	}
 
 	return self;
@@ -297,7 +300,7 @@ static const long kUserListPageCount = 10;
 }
 
 - (void)requestFansList {
-	[MiaAPIHelper getFansListWithUID:[UserSession standard].uid
+	[MiaAPIHelper getFansListWithUID:_currentUID
 								start:_fansModel.currentPage
 								 item:kUserListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -323,7 +326,7 @@ static const long kUserListPageCount = 10;
 }
 
 - (void)requestFollowingList {
-	[MiaAPIHelper getFollowingListWithUID:[UserSession standard].uid
+	[MiaAPIHelper getFollowingListWithUID:_currentUID
 							   start:_followingModel.currentPage
 								item:kUserListPageCount
 					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -445,6 +448,8 @@ static const long kUserListPageCount = 10;
 
 - (void)userListViewDidSelectedItem:(UserItem *)item {
 	NSLog(@"select %@", item.nick);
+	GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:item.uid nickName:item.nick];
+	[self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Notification
