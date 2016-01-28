@@ -15,6 +15,7 @@
 #import "NSString+IsNull.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "UserSession.h"
 
 @interface UserCollectionViewCell()
 
@@ -115,7 +116,12 @@
 	[_titleLabel setText:item.nick];
 	[_detailLabel setText:item.sharem];
 
-	[self setIsFollowing:_dataItem.follow];
+	if ([[UserSession standard].uid isEqualToString:_dataItem.uid]) {
+		[_followButton setHidden:YES];
+	} else {
+		[self setIsFollowing:_dataItem.follow];
+		[_followButton setHidden:NO];
+	}
 }
 
 - (void)setIsFollowing:(BOOL)isFollow {
