@@ -34,11 +34,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    // 设置导航条字体颜色
-    [[UINavigationBar appearance] setTintColor:UIColorFromRGB(128.0f, 128.0f, 128.0f)];
-	[[UINavigationBar appearance] setShadowImage:[UIImage createImageWithColor:UIColorFromHex(@"dcdcdc", 1.0)]];
-	[[UINavigationBar appearance] setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"ffffff", 1.0)] forBarMetrics:UIBarMetricsDefault];
-    
     //启用远程控制事件接收
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 

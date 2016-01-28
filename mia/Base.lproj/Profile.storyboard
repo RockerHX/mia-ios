@@ -67,6 +67,7 @@
                     </view>
                     <connections>
                         <outlet property="navigationBar" destination="W7x-hu-DJG" id="D5O-dh-fM7"/>
+                        <outlet property="settingButton" destination="YbV-Ql-mfY" id="77G-ls-k36"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pdJ-K4-1v5" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "UIViewController+HXClass.h"
+#import "HXListViewController.h"
 
-@interface HXMessageCenterViewController : UITableViewController
+@interface HXMessageCenterViewController : HXListViewController
 
 @end

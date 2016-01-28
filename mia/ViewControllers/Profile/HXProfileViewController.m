@@ -75,7 +75,7 @@ HXProfileDetailContainerViewControllerDelegate
 }
 
 - (void)viewConfigure {
-    ;
+    _settingButton.hidden = !_type;
 }
 
 #pragma mark - Event Response

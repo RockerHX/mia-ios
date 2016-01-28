@@ -9,6 +9,7 @@
 #import "HXMessageCell.h"
 #import "TTTAttributedLabel.h"
 #import "MessageItem.h"
+#import "UIButton+WebCache.h"
 
 @implementation HXMessageCell
 
@@ -36,20 +37,23 @@
 
 #pragma mark - Public Methods
 - (void)displayWithMessageItem:(MessageItem *)item {
-    [self displayDescriptionLabelWithSharer:@"Nicola" infecter:@""];
+    [_avatarButton sd_setImageWithURL:[NSURL URLWithString:item.fromUserpic] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+    _messageIcon.hidden = item.hasReaded;
+    _descriptionLabel.text = [item.fromUserName stringByAppendingFormat:@" %@", item.title];
+    _contentLabel.text = item.content;
+    _timeLabel.text = item.formatTime;
+    
+    [self displayDescriptionLabelWithSharer:item.fromUserName];
 }
 
 #pragma mark - Private Methods
-- (void)displayDescriptionLabelWithSharer:(NSString *)sharer infecter:(NSString *)infecter {
+- (void)displayDescriptionLabelWithSharer:(NSString *)sharer {
     NSDictionary *linkAttributes = @{(__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor],
                                                 (__bridge id)kCTFontAttributeName: [UIFont boldSystemFontOfSize:_descriptionLabel.font.pointSize]};
     NSString *text = _descriptionLabel.text;
     [_descriptionLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
         NSRange boldRange = [text rangeOfString:sharer];
         if (sharer.length) {
-            [mutableAttributedString addAttributes:linkAttributes range:boldRange];
-        }
-        if (infecter.length) {
             [mutableAttributedString addAttributes:linkAttributes range:boldRange];
         }
         return mutableAttributedString;

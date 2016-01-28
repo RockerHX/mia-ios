@@ -26,9 +26,6 @@ HXMessageCellDelegate
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self loadConfigure];
-    [self viewConfigure];
 }
 
 - (NSString *)navigationControllerIdentifier {
@@ -39,43 +36,52 @@ HXMessageCellDelegate
     return HXStoryBoardNameMessageCenter;
 }
 
-#pragma mark - Configure Methods
+#pragma mark - Parent Methods
 - (void)loadConfigure {
-	_messageModel = [[MessageModel alloc] init];
-	[self requestMessageList];
+    [super loadConfigure];
+    
+    _messageModel = [[MessageModel alloc] init];
 }
 
 - (void)viewConfigure {
-    ;
+    [super viewConfigure];
+}
+
+- (void)fetchNewData {
+    [super fetchNewData];
+    
+    [self fetchMessageList];
+}
+
+- (void)endLoad {
+    [super endLoad];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Private Methods
-- (void)requestMessageList {
+- (void)fetchMessageList {
 	[MiaAPIHelper getNotifyWithLastID:_messageModel.lastID
 								item:kMessagePageCount
-					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//						   [_fansView endAllRefreshing];
-						   if (success) {
-							   NSArray *items = userInfo[@"v"][@"info"];
-							   if ([items count] <= 0) {
-//								   [_fansView checkNoDataTipsStatus];
-								   return;
-							   }
-
-							   [_messageModel addItemsWithArray:items];
-//							   [_fansView.collectionView reloadData];
-//							   [_fansView setNoDataTipsHidden:YES];
-						   } else {
-//							   [_fansView checkNoDataTipsStatus];
-							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-							   [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-						   }
-
-					   } timeoutBlock:^(MiaRequestItem *requestItem) {
-						   NSLog(@"requestFansListWithReload timeout");
-//						   [_fansView checkNoDataTipsStatus];
-//						   [_fansView endAllRefreshing];
-					   }];
+                        completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+        if (success) {
+           NSArray *items = userInfo[@"v"][@"info"];
+           if ([items count] > 0) {
+               [_messageModel addItemsWithArray:items];
+           }
+           
+           [self endLoad];
+        } else {
+           [self endLoad];
+           
+           id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+           [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+        }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+        [self endLoad];
+        NSLog(@"requestFansListWithReload timeout");
+     }];
 }
 
 #pragma mark - Table View Data Source Methods
