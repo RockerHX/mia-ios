@@ -20,6 +20,7 @@
 #import "HXAlertBanner.h"
 #import "YHSegmentedControl.h"
 #import "UserSession.h"
+#import "GuestProfileViewController.h"
 
 static const long kUserListPageCount = 10;
 
@@ -445,6 +446,8 @@ static const long kUserListPageCount = 10;
 
 - (void)userListViewDidSelectedItem:(UserItem *)item {
 	NSLog(@"select %@", item.nick);
+	GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:item.uid nickName:item.nick];
+	[self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Notification
