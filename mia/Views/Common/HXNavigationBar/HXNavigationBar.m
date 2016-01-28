@@ -10,9 +10,31 @@
 #import "HXXib.h"
 #import "UIView+FindUIViewController.h"
 
+@interface HXNavigationBar ()
+
+@property (weak, nonatomic) IBOutlet  UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet  UIView *containerView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+@end
+
 @implementation HXNavigationBar
 
 HXXibImplementation
+
+#pragma mark - Setter And Getter
+- (void)setColorAlpha:(CGFloat)colorAlpha {
+    _colorAlpha = colorAlpha;
+    
+    _backgroundView.alpha = colorAlpha;
+    _titleLabel.alpha = colorAlpha;
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    
+    _titleLabel.text = title;
+}
 
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {

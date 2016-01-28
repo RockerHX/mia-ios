@@ -10,6 +10,9 @@
 
 @interface HXNavigationBar : UIView
 
+@property (nonatomic, assign)  CGFloat  colorAlpha;
+@property (nonatomic, strong) NSString *title;
+
 - (IBAction)backButtonPressed;
 
 @end
