@@ -285,17 +285,20 @@ static const long kUserListPageCount = 10;
 	}
 }
 
-- (void)requestFansList {
-	[_fansView setNoDataTipsHidden:NO];
+- (void)requestFansListWithReload:(BOOL)isReload {
+	if (isReload) {
+		[_fansModel reset];
+	}
 
 	[MiaAPIHelper getFansListWithUID:_currentUID
 								start:_fansModel.currentPage
 								 item:kUserListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							[_fansView endRefreshing];
+							[_fansView endAllRefreshing];
 							if (success) {
 								NSArray *items = userInfo[@"v"][@"info"];
 								if ([items count] <= 0) {
+									[_fansView checkNoDataTipsStatus];
 									return;
 								}
 
@@ -304,26 +307,31 @@ static const long kUserListPageCount = 10;
 								[_fansView setNoDataTipsHidden:YES];
 								++_fansModel.currentPage;
 							} else {
+								[_fansView checkNoDataTipsStatus];
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 							}
 
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
-							[_fansView endRefreshing];
+							[_fansView checkNoDataTipsStatus];
+							[_fansView endAllRefreshing];
 						}];
 }
 
-- (void)requestFollowingList {
-	[_followingView setNoDataTipsHidden:NO];
+- (void)requestFollowingListWithReload:(BOOL)isReload {
+	if (isReload) {
+		[_followingModel reset];
+	}
 
 	[MiaAPIHelper getFollowingListWithUID:_currentUID
 							   start:_followingModel.currentPage
 								item:kUserListPageCount
 					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-						   [_followingView endRefreshing];
+						   [_followingView endAllRefreshing];
 						   if (success) {
 							   NSArray *items = userInfo[@"v"][@"info"];
 							   if ([items count] <= 0) {
+								   [_followingView checkNoDataTipsStatus];
 								   return;
 							   }
 
@@ -332,12 +340,14 @@ static const long kUserListPageCount = 10;
 							   [_followingView setNoDataTipsHidden:YES];
 							   ++_followingModel.currentPage;
 						   } else {
+							   [_followingView checkNoDataTipsStatus];
 							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 							   [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 						   }
 
 					   } timeoutBlock:^(MiaRequestItem *requestItem) {
-						   [_followingView endRefreshing];
+						   [_followingView checkNoDataTipsStatus];
+						   [_followingView endAllRefreshing];
 					   }];
 }
 
@@ -350,13 +360,11 @@ static const long kUserListPageCount = 10;
 									start:_searchResultModel.currentPage
 									 item:kUserListPageCount
 							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-								[_searchResultView endRefreshing];
+								[_searchResultView endAllRefreshing];
 								if (success) {
 									NSArray *items = userInfo[@"v"][@"info"];
 									if ([items count] <= 0) {
-										if (_searchResultModel.dataSource.count <= 0) {
-											[_searchResultView setNoDataTipsHidden:NO];
-										}
+										[_searchResultView checkNoDataTipsStatus];
 										return;
 									}
 
@@ -365,20 +373,14 @@ static const long kUserListPageCount = 10;
 									[_searchResultView setNoDataTipsHidden:YES];
 									++_searchResultModel.currentPage;
 								} else {
-									if (_searchResultModel.dataSource.count <= 0) {
-										[_searchResultView setNoDataTipsHidden:NO];
-									}
-
+									[_searchResultView checkNoDataTipsStatus];
 									id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 									[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 								}
 
 							} timeoutBlock:^(MiaRequestItem *requestItem) {
-								if (_searchResultModel.dataSource.count <= 0) {
-									[_searchResultView setNoDataTipsHidden:NO];
-								}
-								
-								[_searchResultView endRefreshing];
+								[_searchResultView checkNoDataTipsStatus];
+								[_searchResultView endAllRefreshing];
 							}];
 }
 
@@ -389,11 +391,11 @@ static const long kUserListPageCount = 10;
 	UserListViewType type = (UserListViewType)index;
 	if (type == UserListViewTypeFans) {
 		if (_fansModel.dataSource.count <= 0) {
-			[self requestFansList];
+			[self requestFansListWithReload:NO];
 		}
 	} else {
 		if (_followingModel.dataSource.count <= 0) {
-			[self requestFollowingList];
+			[self requestFollowingListWithReload:NO];
 		}
 	}
 }
@@ -405,10 +407,6 @@ static const long kUserListPageCount = 10;
 		if ([NSString isNull:_searchTextField.text]) {
 			YES;
 		}
-
-		[_searchResultView setHidden:NO];
-		[_searchResultView setNoDataTipsHidden:YES];
-		[_searchResultModel reset];
 
 		[self requestSearchUserWithKey:_searchTextField.text isReload:YES];
 	}
@@ -437,13 +435,30 @@ static const long kUserListPageCount = 10;
 	};
 }
 
+- (void)userListViewRequesNewItemsWithType:(UserListViewType)type  {
+	switch (type) {
+		case UserListViewTypeFans:
+			[self requestFansListWithReload:YES];
+			return;
+		case UserListViewTypeFollowing:
+			[self requestFollowingListWithReload:YES];
+			return;
+		case UserListViewTypeSearch:
+			[self requestSearchUserWithKey:_searchTextField.text isReload:YES];
+			return;
+		default:
+			NSLog(@"userListViewModelWithType: it's a bug.");
+			return;
+	};
+}
+
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type {
 	switch (type) {
 		case UserListViewTypeFans:
-			[self requestFansList];
+			[self requestFansListWithReload:NO];
 			return;
 		case UserListViewTypeFollowing:
-			[self requestFollowingList];
+			[self requestFollowingListWithReload:NO];
 			return;
 		case UserListViewTypeSearch:
 			[self requestSearchUserWithKey:_searchTextField.text isReload:NO];
@@ -472,9 +487,14 @@ static const long kUserListPageCount = 10;
 - (void)cancelButtonAction:(id)sender {
     [self hidenKeyboard];
 	[_searchResultView setHidden:YES];
+	[_searchResultModel reset];
+	[_searchResultView.collectionView reloadData];
+
 	[_cancelButton setHidden:YES];
 	[_contentView setHidden:NO];
 	[_searchTextField setText:@""];
+
+
 }
 
 

@@ -65,12 +65,15 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	_collectionView.delegate = self;
 	_collectionView.dataSource = self;
 
-	//[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
+	MJRefreshNormalHeader *aHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(requestNewItems)];
+	[aHeader setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+	[aHeader setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	_collectionView.mj_header = aHeader;
+
 	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestMoreItems)];
 	[aFooter setTitle:@"" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
 	_collectionView.mj_footer = aFooter;
-
 
 }
 
@@ -110,6 +113,10 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	}];
 }
 
+- (void)requestNewItems {
+	[_customDelegate userListViewRequesNewItemsWithType:_type];
+}
+
 - (void)requestMoreItems {
 	[_customDelegate userListViewRequestMoreItemsWithType:_type];
 }
@@ -118,11 +125,20 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	[_noDataView setHidden:hidden];
 }
 
-- (void)beginRefreshing {
-	[_collectionView.mj_footer beginRefreshing];
+- (void)checkNoDataTipsStatus {
+	if ([_customDelegate userListViewModelWithType:_type].dataSource.count > 0) {
+		[self setNoDataTipsHidden:YES];
+	} else {
+		[self setNoDataTipsHidden:NO];
+	}
 }
 
-- (void)endRefreshing {
+- (void)beginHeaderRefreshing {
+	[_collectionView.mj_header beginRefreshing];
+}
+
+- (void)endAllRefreshing {
+	[_collectionView.mj_header endRefreshing];
 	[_collectionView.mj_footer endRefreshing];
 }
 
