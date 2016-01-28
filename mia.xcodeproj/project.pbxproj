@@ -37,6 +37,12 @@
 		3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3976E3601BBACDD3006FA5E2 /* SearchSuggestionModel.m */; };
 		397CD59B1BDA16F200CCEE11 /* SingleSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 397CD59A1BDA16F200CCEE11 /* SingleSongPlayer.m */; };
 		397CD5A21BDA7F6100CCEE11 /* MusicMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397CD5A11BDA7F6100CCEE11 /* MusicMgr.m */; };
+		397D9CAD1C58FEC0003BDC33 /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397D9CA81C58FEC0003BDC33 /* FriendViewController.m */; };
+		397D9CAE1C58FEC0003BDC33 /* UserCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 397D9CAA1C58FEC0003BDC33 /* UserCollectionViewCell.m */; };
+		397D9CAF1C58FEC0003BDC33 /* UserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397D9CAC1C58FEC0003BDC33 /* UserListView.m */; };
+		397D9CB61C58FED0003BDC33 /* UserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397D9CB21C58FED0003BDC33 /* UserItem.m */; };
+		397D9CB71C58FED0003BDC33 /* UserListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 397D9CB51C58FED0003BDC33 /* UserListModel.m */; };
+		397D9CBB1C58FEE8003BDC33 /* YHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 397D9CBA1C58FEE8003BDC33 /* YHSegmentedControl.m */; };
 		397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42771BA126AF006BE9E7 /* WebSocketMgr.m */; };
 		397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42851BA6EC37006BE9E7 /* MiaAPIHelper.m */; };
 		397E428C1BA7CA5A006BE9E7 /* AAPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397E42891BA7CA5A006BE9E7 /* AAPullToRefresh.m */; };
@@ -76,7 +82,6 @@
 		397FA5361BAC0CA7003FD186 /* MIATipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5271BAC0CA7003FD186 /* MIATipView.m */; };
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
-		39880A9A1C58692300713FC6 /* UserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A991C58692300713FC6 /* UserItem.m */; };
 		39880A9E1C5871A900713FC6 /* FlyCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A9D1C5871A900713FC6 /* FlyCommentItem.m */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
@@ -246,6 +251,18 @@
 		397CD59A1BDA16F200CCEE11 /* SingleSongPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleSongPlayer.m; sourceTree = "<group>"; };
 		397CD5A01BDA7F6100CCEE11 /* MusicMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicMgr.h; sourceTree = "<group>"; };
 		397CD5A11BDA7F6100CCEE11 /* MusicMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicMgr.m; sourceTree = "<group>"; };
+		397D9CA71C58FEC0003BDC33 /* FriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendViewController.h; sourceTree = "<group>"; };
+		397D9CA81C58FEC0003BDC33 /* FriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendViewController.m; sourceTree = "<group>"; };
+		397D9CA91C58FEC0003BDC33 /* UserCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCollectionViewCell.h; sourceTree = "<group>"; };
+		397D9CAA1C58FEC0003BDC33 /* UserCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCollectionViewCell.m; sourceTree = "<group>"; };
+		397D9CAB1C58FEC0003BDC33 /* UserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListView.h; sourceTree = "<group>"; };
+		397D9CAC1C58FEC0003BDC33 /* UserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListView.m; sourceTree = "<group>"; };
+		397D9CB11C58FED0003BDC33 /* UserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserItem.h; sourceTree = "<group>"; };
+		397D9CB21C58FED0003BDC33 /* UserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserItem.m; sourceTree = "<group>"; };
+		397D9CB41C58FED0003BDC33 /* UserListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListModel.h; sourceTree = "<group>"; };
+		397D9CB51C58FED0003BDC33 /* UserListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListModel.m; sourceTree = "<group>"; };
+		397D9CB91C58FEE8003BDC33 /* YHSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHSegmentedControl.h; sourceTree = "<group>"; };
+		397D9CBA1C58FEE8003BDC33 /* YHSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHSegmentedControl.m; sourceTree = "<group>"; };
 		397E42761BA126AF006BE9E7 /* WebSocketMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMgr.h; sourceTree = "<group>"; };
 		397E42771BA126AF006BE9E7 /* WebSocketMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMgr.m; sourceTree = "<group>"; };
 		397E42841BA6EC37006BE9E7 /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -323,8 +340,6 @@
 		397FA52A1BAC0CA7003FD186 /* MIAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAButton.m; sourceTree = "<group>"; };
 		397FA5381BAC0CF3003FD186 /* UIScrollView+MIARefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MIARefresh.h"; sourceTree = "<group>"; };
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
-		39880A981C58692300713FC6 /* UserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserItem.h; sourceTree = "<group>"; };
-		39880A991C58692300713FC6 /* UserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserItem.m; sourceTree = "<group>"; };
 		39880A9C1C5871A900713FC6 /* FlyCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlyCommentItem.h; sourceTree = "<group>"; };
 		39880A9D1C5871A900713FC6 /* FlyCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlyCommentItem.m; sourceTree = "<group>"; };
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
@@ -733,6 +748,46 @@
 			path = SearchSuggestionModel;
 			sourceTree = "<group>";
 		};
+		397D9CA61C58FEC0003BDC33 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				397D9CA71C58FEC0003BDC33 /* FriendViewController.h */,
+				397D9CA81C58FEC0003BDC33 /* FriendViewController.m */,
+				397D9CA91C58FEC0003BDC33 /* UserCollectionViewCell.h */,
+				397D9CAA1C58FEC0003BDC33 /* UserCollectionViewCell.m */,
+				397D9CAB1C58FEC0003BDC33 /* UserListView.h */,
+				397D9CAC1C58FEC0003BDC33 /* UserListView.m */,
+			);
+			path = Friend;
+			sourceTree = "<group>";
+		};
+		397D9CB01C58FED0003BDC33 /* UserItem */ = {
+			isa = PBXGroup;
+			children = (
+				397D9CB11C58FED0003BDC33 /* UserItem.h */,
+				397D9CB21C58FED0003BDC33 /* UserItem.m */,
+			);
+			path = UserItem;
+			sourceTree = "<group>";
+		};
+		397D9CB31C58FED0003BDC33 /* UserListModel */ = {
+			isa = PBXGroup;
+			children = (
+				397D9CB41C58FED0003BDC33 /* UserListModel.h */,
+				397D9CB51C58FED0003BDC33 /* UserListModel.m */,
+			);
+			path = UserListModel;
+			sourceTree = "<group>";
+		};
+		397D9CB81C58FEE8003BDC33 /* YHSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				397D9CB91C58FEE8003BDC33 /* YHSegmentedControl.h */,
+				397D9CBA1C58FEE8003BDC33 /* YHSegmentedControl.m */,
+			);
+			path = YHSegmentedControl;
+			sourceTree = "<group>";
+		};
 		397E42741BA126AF006BE9E7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -758,8 +813,9 @@
 		397E42791BA26ED2006BE9E7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				397D9CB01C58FED0003BDC33 /* UserItem */,
+				397D9CB31C58FED0003BDC33 /* UserListModel */,
 				39880A9B1C5871A900713FC6 /* FlyCommentItem */,
-				39880A971C58692300713FC6 /* UserItem */,
 				CD25AA5C1C5759FC008BE101 /* MessageCenter */,
 				CD5753981BDF53F000E7CBC4 /* MusicDetail */,
 				CD4334EC1BD8CBF400A5E34C /* InfectItem */,
@@ -1053,6 +1109,7 @@
 		397FA4F61BAAA989003FD186 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				397D9CA61C58FEC0003BDC33 /* Friend */,
 				390963DD1BC6427C00E427BA /* Setting */,
 				393CE9B21BBA3B4500FCF232 /* Share */,
 				39BF8C661BB268B4003AB4FC /* Profile */,
@@ -1143,15 +1200,6 @@
 				397FA52A1BAC0CA7003FD186 /* MIAButton.m */,
 			);
 			path = MIAUIButton;
-			sourceTree = "<group>";
-		};
-		39880A971C58692300713FC6 /* UserItem */ = {
-			isa = PBXGroup;
-			children = (
-				39880A981C58692300713FC6 /* UserItem.h */,
-				39880A991C58692300713FC6 /* UserItem.m */,
-			);
-			path = UserItem;
 			sourceTree = "<group>";
 		};
 		39880A9B1C5871A900713FC6 /* FlyCommentItem */ = {
@@ -1756,6 +1804,7 @@
 		CDC894991BD4CB720080E7FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				397D9CB81C58FEE8003BDC33 /* YHSegmentedControl */,
 				CD7AA7121C586752009688CA /* HXNavigationBar */,
 				CDD831591BD8B6740067309B /* HXInfectUserListView */,
 				CDD8314D1BD8B6550067309B /* HXAlertBanner */,
@@ -2053,6 +2102,7 @@
 				CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */,
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
+				397D9CAD1C58FEC0003BDC33 /* FriendViewController.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */,
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
 				CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */,
@@ -2061,6 +2111,7 @@
 				CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */,
 				CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */,
 				CD25AA3A1C5715AD008BE101 /* HXRadioShareInfoView.m in Sources */,
+				397D9CBB1C58FEE8003BDC33 /* YHSegmentedControl.m in Sources */,
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
 				CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */,
 				CD7AA71A1C586931009688CA /* UIView+FindUIViewController.m in Sources */,
@@ -2105,6 +2156,7 @@
 				390963EB1BC652FF00E427BA /* SettingViewController.m in Sources */,
 				397E42D51BA90812006BE9E7 /* UIColor+HexColorString.m in Sources */,
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
+				397D9CAE1C58FEC0003BDC33 /* UserCollectionViewCell.m in Sources */,
 				CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */,
 				CD7AA7221C587105009688CA /* HXProfileSegmentView.m in Sources */,
 				CD9670651C52211D00130D27 /* HXAppConstants.m in Sources */,
@@ -2119,11 +2171,12 @@
 				393CE9C21BBAA36700FCF232 /* CLLocation+YCLocation.m in Sources */,
 				39FBCC981BE24F8900527A6C /* UpdateHelper.m in Sources */,
 				CD9670601C52211D00130D27 /* HXIBButton.m in Sources */,
-				39880A9A1C58692300713FC6 /* UserItem.m in Sources */,
 				CD0398B01BD6477A0036F43D /* HXInfectUserView.m in Sources */,
 				397F02D21B9EEEF500C413FE /* main.m in Sources */,
+				397D9CB71C58FED0003BDC33 /* UserListModel.m in Sources */,
 				CD9670681C52211D00130D27 /* HXTextView.m in Sources */,
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
+				397D9CAF1C58FEC0003BDC33 /* UserListView.m in Sources */,
 				CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */,
 				CD96709C1C5226EF00130D27 /* HXRegisterViewController.m in Sources */,
 				39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */,
@@ -2131,6 +2184,7 @@
 				393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */,
 				397FA52E1BAC0CA7003FD186 /* MIARefreshFooterView.m in Sources */,
 				CDC5FE971BD1EAC5001D154E /* HXRadioView.m in Sources */,
+				397D9CB61C58FED0003BDC33 /* UserItem.m in Sources */,
 				397E42861BA6EC37006BE9E7 /* MiaAPIHelper.m in Sources */,
 				397FA5321BAC0CA7003FD186 /* UIView+Extension.m in Sources */,
 				CD9670611C52211D00130D27 /* HXIBImageView.m in Sources */,

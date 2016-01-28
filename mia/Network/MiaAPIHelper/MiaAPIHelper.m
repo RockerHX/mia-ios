@@ -227,6 +227,42 @@
 	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
 }
 
++ (void)getFansListWithUID:(NSString *)uID
+					  start:(long)start
+					   item:(long)item
+			  completeBlock:(MiaRequestCompleteBlock)completeBlock
+			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:uID forKey:MiaAPIKey_UID];
+	[dictValues setValue:@"2" forKey:MiaAPIKey_Type];
+	[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
+	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_GetFriends
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
++ (void)getFollowingListWithUID:(NSString *)uID
+					 start:(long)start
+					  item:(long)item
+			 completeBlock:(MiaRequestCompleteBlock)completeBlock
+			  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock {
+	NSMutableDictionary *dictValues = [[NSMutableDictionary alloc] init];
+	[dictValues setValue:uID forKey:MiaAPIKey_UID];
+	[dictValues setValue:@"1" forKey:MiaAPIKey_Type];
+	[dictValues setValue:[NSNumber numberWithLong:start] forKey:MiaAPIKey_Start];
+	[dictValues setValue:[NSNumber numberWithLong:item] forKey:MiaAPIKey_Item];
+
+	MiaRequestItem *requestItem = [[MiaRequestItem alloc] initWithCommand:MiaAPICommand_User_GetFriends
+															   parameters:dictValues
+															completeBlock:completeBlock
+															 timeoutBlock:timeoutBlock];
+	[[WebSocketMgr standard] sendWitRequestItem:requestItem];
+}
+
 + (void)InfectMusicWithLatitude:(double)lat
 					  longitude:(double)lon
 						address:(NSString *)address

@@ -73,6 +73,18 @@
 + (void)getUpdateInfoWithCompleteBlock:(MiaRequestCompleteBlock)completeBlock
 								timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)getFansListWithUID:(NSString *)uID
+					 start:(long)start
+					  item:(long)item
+			 completeBlock:(MiaRequestCompleteBlock)completeBlock
+			  timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
++ (void)getFollowingListWithUID:(NSString *)uID
+						  start:(long)start
+						   item:(long)item
+				  completeBlock:(MiaRequestCompleteBlock)completeBlock
+				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)InfectMusicWithLatitude:(double)lat
 					  longitude:(double)lon
 						address:(NSString *)address
