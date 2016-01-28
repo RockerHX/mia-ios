@@ -317,7 +317,7 @@ static const long kUserListPageCount = 10;
 }
 
 - (void)requestFollowingList {
-	[MiaAPIHelper getFansListWithUID:[UserSession standard].uid
+	[MiaAPIHelper getFollowingListWithUID:[UserSession standard].uid
 							   start:_followingModel.currentPage
 								item:kUserListPageCount
 					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
