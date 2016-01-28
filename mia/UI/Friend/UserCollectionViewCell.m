@@ -13,6 +13,8 @@
 #import "Masonry.h"
 #import "UserItem.h"
 #import "NSString+IsNull.h"
+#import "MiaAPIHelper.h"
+#import "HXAlertBanner.h"
 
 @interface UserCollectionViewCell()
 
@@ -131,7 +133,19 @@
 	BOOL isFollow = !_dataItem.follow;
 	[self setIsFollowing:isFollow];
 
-	[_cellDelegate userCollectionViewCellFollowWithItem:_dataItem isFollow:isFollow];
+	// 如果回调出去，处理失败了还需要通知界面重新刷新，偷懒就在view里面做了操作了
+	// linyehui 2016-01-28
+	[MiaAPIHelper followWithUID:_dataItem.uid
+					   isFollow:isFollow
+				  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (!success) {
+			 [self setIsFollowing:!isFollow];
+			 [HXAlertBanner showWithMessage:(isFollow ? @"添加关注失败" : @"取消关注失败") tap:nil];
+		 }
+	} timeoutBlock:^(MiaRequestItem *requestItem) {
+		[HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+	}];
 }
 
 @end

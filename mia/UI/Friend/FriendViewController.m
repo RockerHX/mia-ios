@@ -406,10 +406,6 @@ static const long kUserListPageCount = 10;
 	NSLog(@"select %@", item.nick);
 }
 
-- (void)userListViewFollowWithItem:(UserItem *)item isFollow:(BOOL)isFollow {
-	NSLog(@"follow %@", item.nick);
-}
-
 #pragma mark - Notification
 
 

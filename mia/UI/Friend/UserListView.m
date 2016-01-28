@@ -20,7 +20,7 @@ static const CGFloat kSearchResultItemMarginH 	= 10;
 static const CGFloat kSearchResultItemMarginV 	= 0;
 static const CGFloat kSearchResultItemHeight	= 100;
 
-@interface UserListView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UserCollectionViewCellDelegate>
+@interface UserListView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @end
 
@@ -139,7 +139,6 @@ static const CGFloat kSearchResultItemHeight	= 100;
 																											   forIndexPath:indexPath];
 	cell.dataItem = [_customDelegate userListViewModelWithType:_type].dataSource[indexPath.row];
 	cell.indexPath = indexPath;
-	cell.cellDelegate = self;
 
 	return cell;
 }
@@ -174,11 +173,5 @@ static const CGFloat kSearchResultItemHeight	= 100;
 }
 
 #pragma mark - delegate 
-
-- (void)userCollectionViewCellFollowWithItem:(UserItem *)item isFollow:(BOOL)isFollow {
-	if (_customDelegate) {
-		[_customDelegate userListViewFollowWithItem:item isFollow:isFollow];
-	}
-}
 
 @end

@@ -9,17 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @class UserItem;
-
-@protocol UserCollectionViewCellDelegate
-- (void)userCollectionViewCellFollowWithItem:(UserItem *)item isFollow:(BOOL)isFollow;
-
-@end
 	
 @interface UserCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UserItem *dataItem;
 @property (strong, nonatomic) NSIndexPath *indexPath;
-
-@property (weak, nonatomic)id<UserCollectionViewCellDelegate> cellDelegate;
 
 @end
