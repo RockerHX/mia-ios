@@ -85,7 +85,8 @@
 	_uid = nil;
 	self.nick = nil;
 	_utype = nil;
-	_unreadCommCnt = 0;
+	_notifyCnt = 0;
+	_notifyUserpic = nil;
 	self.avatar = nil;
 	
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_SessionUID];

@@ -179,7 +179,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		if ([NSString isNull:newAvatarUrl]) {
 			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
         } else {
-			int unreadCount = [[UserSession standard] unreadCommCnt];
+			NSInteger unreadCount = [[UserSession standard] notifyCnt];
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
@@ -508,7 +508,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }
 }
 
-- (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
+- (void)updateProfileButtonWithUnreadCount:(NSInteger)unreadCommentCount {
     if (unreadCommentCount <= 0) {
         _profileButton.layer.borderWidth = 0.5f;
         [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
@@ -519,7 +519,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         _profileButton.layer.borderWidth = 0.0f;
 		[_profileButton setImage:nil forState:UIControlStateNormal];
 		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
-		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
+		[_profileButton setTitle:[NSString stringWithFormat:@"%ld", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
 
@@ -543,7 +543,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
              [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
+			 [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
+			 [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
 
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
@@ -855,7 +856,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
-        int unreadCommentCount = [[UserSession standard] unreadCommCnt];
+        NSInteger unreadCommentCount = [[UserSession standard] notifyCnt];
         [self updateProfileButtonWithUnreadCount:unreadCommentCount];
     }
 }
