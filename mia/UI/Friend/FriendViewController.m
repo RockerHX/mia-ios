@@ -208,13 +208,13 @@ static const long kUserListPageCount = 10;
 	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(16, 16));
 		make.centerY.equalTo(editBgView.mas_centerY);
-		make.left.equalTo(editBgView.mas_left).with.offset(8);
+		make.left.equalTo(editBgView.mas_left).with.offset(12);
 	}];
 
 	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(editBgView.mas_top).with.offset(10);
+		make.top.equalTo(editBgView.mas_top).with.offset(11);
+		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-8);
 		make.left.equalTo(searchIconImageView.mas_right).offset(6);
-		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-10);
 		make.right.equalTo(editBgView.mas_right).with.offset(-2);
 	}];
 
