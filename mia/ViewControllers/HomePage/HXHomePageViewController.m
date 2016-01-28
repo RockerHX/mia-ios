@@ -37,6 +37,7 @@
 #import "HXFeedBackViewController.h"
 #import "FileLog.h"
 #import "HXProfileViewController.h"
+#import "FriendViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
@@ -178,7 +179,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 		if ([NSString isNull:newAvatarUrl]) {
 			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
         } else {
-			int unreadCount = [[UserSession standard] unreadCommCnt];
+			NSInteger unreadCount = [[UserSession standard] notifyCnt];
 			[self updateProfileButtonWithUnreadCount:unreadCount];
 		}
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
@@ -285,13 +286,21 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)shareButtonPressed {
+#warning @andy 粉丝和关注列表的进入方式
+	// for test
+
+	FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
+																			uID:[UserSession standard].uid];
+	[self.navigationController pushViewController:friendVC animated:YES];
+	return;
+
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
-    if ([[UserSession standard] isLogined]) {
-        HXShareViewController *shareViewController = [HXShareViewController instance];
-        [self.navigationController pushViewController:shareViewController animated:YES];
-    } else {
-        [self presentLoginViewController:nil];
-    }
+//    if ([[UserSession standard] isLogined]) {
+//        HXShareViewController *shareViewController = [HXShareViewController instance];
+//        [self.navigationController pushViewController:shareViewController animated:YES];
+//    } else {
+//        [self presentLoginViewController:nil];
+//    }
 }
 
 - (IBAction)feedBackButtonPressed {
@@ -501,7 +510,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }
 }
 
-- (void)updateProfileButtonWithUnreadCount:(int)unreadCommentCount {
+- (void)updateProfileButtonWithUnreadCount:(NSInteger)unreadCommentCount {
     if (unreadCommentCount <= 0) {
         _profileButton.layer.borderWidth = 0.5f;
         [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
@@ -512,7 +521,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
         _profileButton.layer.borderWidth = 0.0f;
 		[_profileButton setImage:nil forState:UIControlStateNormal];
 		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
-		[_profileButton setTitle:[NSString stringWithFormat:@"%d", unreadCommentCount] forState:UIControlStateNormal];
+		[_profileButton setTitle:[NSString stringWithFormat:@"%ld", unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
 
@@ -536,7 +545,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
              [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
+			 [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
+			 [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
 
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
@@ -848,7 +858,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)loginViewControllerDidSuccess {
     if ([[UserSession standard] isLogined]) {
-        int unreadCommentCount = [[UserSession standard] unreadCommCnt];
+        NSInteger unreadCommentCount = [[UserSession standard] notifyCnt];
         [self updateProfileButtonWithUnreadCount:unreadCommentCount];
     }
 }

@@ -260,11 +260,12 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
-             [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
-             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
-             
+			 [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
+			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+			 [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
+			 [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
+
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
              
@@ -301,11 +302,12 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
-             [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
-             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-             [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];
-             
+			 [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
+			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
+			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
+			 [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
+			 [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
+
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
              
