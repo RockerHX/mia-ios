@@ -144,7 +144,7 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="PvE-Gq-Gu9">
+                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="PvE-Gq-Gu9">
                             <rect key="frame" x="0.0" y="100" width="320" height="518"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

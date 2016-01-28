@@ -286,21 +286,13 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 }
 
 - (IBAction)shareButtonPressed {
-#warning @andy 粉丝和关注列表的进入方式
-	// for test
-
-	FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
-																			uID:[UserSession standard].uid];
-	[self.navigationController pushViewController:friendVC animated:YES];
-	return;
-
     // 音乐分享按钮点击事件，未登录显示登录页面，已登录显示音乐分享页面
-//    if ([[UserSession standard] isLogined]) {
-//        HXShareViewController *shareViewController = [HXShareViewController instance];
-//        [self.navigationController pushViewController:shareViewController animated:YES];
-//    } else {
-//        [self presentLoginViewController:nil];
-//    }
+    if ([[UserSession standard] isLogined]) {
+        HXShareViewController *shareViewController = [HXShareViewController instance];
+        [self.navigationController pushViewController:shareViewController animated:YES];
+    } else {
+        [self presentLoginViewController:nil];
+    }
 }
 
 - (IBAction)feedBackButtonPressed {
