@@ -27,7 +27,7 @@ static const long kUserListPageCount = 10;
 @end
 
 @implementation FriendViewController {
-	UserListViewType		_currentListViewType;
+	UserListViewType		_initListViewType;
 	UserListModel 			*_fansModel;
 	UserListModel 			*_followingModel;
 	UserListModel 			*_searchResultModel;
@@ -49,7 +49,7 @@ static const long kUserListPageCount = 10;
 - (id)initWithType:(UserListViewType)type {
 	self = [super init];
 	if (self) {
-		_currentListViewType = (NSInteger)type;
+		_initListViewType = (NSInteger)type;
 	}
 
 	return self;
@@ -141,11 +141,7 @@ static const long kUserListPageCount = 10;
 	_searchResultModel = [[UserListModel alloc] init];
 
 	// 页面切换
-	[_segmentedControl switchToIndex:_currentListViewType];
-	if (_currentListViewType == UserListViewTypeFans) {
-		[self requestFansList];
-	} else {
-	}
+	[_segmentedControl switchToIndex:_initListViewType];
 }
 
 - (void)initTopView:(UIView *)contentView {
@@ -320,9 +316,46 @@ static const long kUserListPageCount = 10;
 						}];
 }
 
+- (void)requestFollowingList {
+	[MiaAPIHelper getFansListWithUID:[UserSession standard].uid
+							   start:_followingModel.currentPage
+								item:kUserListPageCount
+					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+						   [_followingView endRefreshing];
+						   if (success) {
+							   NSArray *items = userInfo[@"v"][@"info"];
+							   if ([items count] <= 0) {
+								   return;
+							   }
+
+							   [_followingModel addItemsWithArray:items];
+							   [_followingView.collectionView reloadData];
+							   [_followingView setNoDataTipsHidden:YES];
+							   ++_followingModel.currentPage;
+						   } else {
+							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+							   [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+						   }
+
+					   } timeoutBlock:^(MiaRequestItem *requestItem) {
+						   [_followingView endRefreshing];
+					   }];
+}
+
 #pragma mark - delegate
 - (void)YHSegmentedControlSelected:(NSInteger)index {
 	[self switchContentViewWithType:index];
+
+	UserListViewType type = (UserListViewType)index;
+	if (type == UserListViewTypeFans) {
+		if (_fansModel.dataSource.count <= 0) {
+			[self requestFansList];
+		}
+	} else {
+		if (_followingModel.dataSource.count <= 0) {
+			[self requestFollowingList];
+		}
+	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -391,8 +424,10 @@ static const long kUserListPageCount = 10;
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type {
 	switch (type) {
 		case UserListViewTypeFans:
+			[self requestFansList];
 			return;
 		case UserListViewTypeFollowing:
+			[self requestFollowingList];
 			return;
 		case UserListViewTypeSearch:
 			return;
