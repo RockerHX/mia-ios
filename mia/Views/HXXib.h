@@ -35,6 +35,7 @@
         NSBundle *bundle = [NSBundle bundleForClass:[self class]]; \
         UINib *nib = [UINib nibWithNibName:NSStringFromClass([self class]) bundle:bundle]; \
         view = [[nib instantiateWithOwner:self options:nil] firstObject]; \
+        view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;\
     } \
     @catch (NSException *exception) { \
         NSLog(@"Load %@ With Nib Error:%@", NSStringFromClass([self class]), exception.reason); \

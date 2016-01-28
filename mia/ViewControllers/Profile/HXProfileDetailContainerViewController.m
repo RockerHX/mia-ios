@@ -8,7 +8,6 @@
 
 #import "HXProfileDetailContainerViewController.h"
 #import "HXProfileSegmentView.h"
-#import "UIView+Extension.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileSegmentViewDelegate
@@ -32,15 +31,12 @@ HXProfileSegmentViewDelegate
     return @"HXProfileDetailContainerIdentifier";
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    _header.height = ((SCREEN_WIDTH/375.0f) * 325.0f);
-}
-
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _footerHeight = 10.0f;
+    _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, ((SCREEN_WIDTH/375.0f) * 264.0f))];
     self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
+    self.tableView.tableHeaderView = _header;
 }
 
 - (void)viewConfigure {
@@ -57,7 +53,7 @@ HXProfileSegmentViewDelegate
 
 #pragma mark - ScrollView Delegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (_footerHeight <= _header.height + 64.0f) {
+    if (_footerHeight <= _header.height) {
         if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
             [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
         }
@@ -66,7 +62,7 @@ HXProfileSegmentViewDelegate
 
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,8 +80,8 @@ HXProfileSegmentViewDelegate
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"$$$$$$$$$$$$: %f", tableView.contentSize.height);
-    _footerHeight = (SCREEN_HEIGHT + _header.height + 64.0f) - tableView.contentSize.height;
+    NSLog(@"$$$$$$$$$$$$: %f", tableView.tableHeaderView.height);
+    _footerHeight = (SCREEN_HEIGHT + self.tableView.tableHeaderView.height + 64.0f) - tableView.contentSize.height;
     NSLog(@"YYYYYYYYYYYY: %f", _footerHeight);
     _footer.height = ((_footerHeight > 0) ? _footerHeight : 10.0f);
 }

@@ -6,7 +6,8 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HXProfileDetailHeader.h"
+#import "UIView+Extension.h"
 
 @class HXProfileDetailContainerViewController;
 
@@ -22,7 +23,8 @@
 @interface HXProfileDetailContainerViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet     id  <HXProfileDetailContainerViewControllerDelegate>delegate;
-@property (weak, nonatomic) IBOutlet UIView *header;
 @property (weak, nonatomic) IBOutlet UIView *footer;
+
+@property (nonatomic, strong) HXProfileDetailHeader *header;
 
 @end

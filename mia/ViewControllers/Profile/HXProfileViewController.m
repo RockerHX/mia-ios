@@ -104,8 +104,8 @@ HXProfileDetailContainerViewControllerDelegate
 }
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
-static CGFloat scrollThreshold = 135.0f;
 - (void)detailContainerDidScroll:(HXProfileDetailContainerViewController *)controller scrollOffset:(CGPoint)scrollOffset {
+    CGFloat scrollThreshold = _detailContainerViewController.header.height - 64.0f;
     CGFloat alpha = scrollOffset.y/scrollThreshold;
     _navigationBar.colorAlpha = alpha;
     _statusBarStyle = ((alpha > 0.1f) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent);

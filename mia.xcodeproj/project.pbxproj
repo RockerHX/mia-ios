@@ -117,6 +117,8 @@
 		CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48CD7F1BDDFD43009607DE /* HXMusicDetailViewController.m */; };
 		CD4F62FB1BCB4E8000E33121 /* HXRadioCarouselHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */; };
 		CD542C111C59FAE300A55F83 /* HXCoverContainerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD542C101C59FAE300A55F83 /* HXCoverContainerCell.m */; };
+		CD542C151C5A2E7600A55F83 /* HXProfileDetailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD542C141C5A2E7600A55F83 /* HXProfileDetailHeader.m */; };
+		CD542C171C5A2EB300A55F83 /* HXProfileDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD542C161C5A2EB300A55F83 /* HXProfileDetailHeader.xib */; };
 		CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */; };
 		CD5753871BDE33C400E7CBC4 /* HXMusicDetailSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753861BDE33C400E7CBC4 /* HXMusicDetailSongCell.m */; };
 		CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5753891BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m */; };
@@ -400,6 +402,9 @@
 		CD4F62FA1BCB4E8000E33121 /* HXRadioCarouselHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRadioCarouselHelper.m; sourceTree = "<group>"; };
 		CD542C0F1C59FAE300A55F83 /* HXCoverContainerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCoverContainerCell.h; sourceTree = "<group>"; };
 		CD542C101C59FAE300A55F83 /* HXCoverContainerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCoverContainerCell.m; sourceTree = "<group>"; };
+		CD542C131C5A2E7600A55F83 /* HXProfileDetailHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileDetailHeader.h; sourceTree = "<group>"; };
+		CD542C141C5A2E7600A55F83 /* HXProfileDetailHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileDetailHeader.m; sourceTree = "<group>"; };
+		CD542C161C5A2EB300A55F83 /* HXProfileDetailHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXProfileDetailHeader.xib; sourceTree = "<group>"; };
 		CD5753801BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailCoverCell.h; sourceTree = "<group>"; };
 		CD5753811BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMusicDetailCoverCell.m; sourceTree = "<group>"; };
 		CD5753851BDE33C400E7CBC4 /* HXMusicDetailSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMusicDetailSongCell.h; sourceTree = "<group>"; };
@@ -1456,6 +1461,9 @@
 		CD542C121C5A062700A55F83 /* DetailContainer */ = {
 			isa = PBXGroup;
 			children = (
+				CD542C131C5A2E7600A55F83 /* HXProfileDetailHeader.h */,
+				CD542C141C5A2E7600A55F83 /* HXProfileDetailHeader.m */,
+				CD542C161C5A2EB300A55F83 /* HXProfileDetailHeader.xib */,
 			);
 			path = DetailContainer;
 			sourceTree = "<group>";
@@ -1946,6 +1954,7 @@
 				CD7AA7231C587105009688CA /* HXProfileSegmentView.xib in Resources */,
 				CD7AA7171C586785009688CA /* HXNavigationBar.xib in Resources */,
 				CD23CA791C52506C004263EF /* LaunchScreen.storyboard in Resources */,
+				CD542C171C5A2EB300A55F83 /* HXProfileDetailHeader.xib in Resources */,
 				CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */,
 				CD23CA761C525062004263EF /* Images.xcassets in Resources */,
 				CD25AA4B1C574E4C008BE101 /* Login.storyboard in Resources */,
@@ -2101,6 +2110,7 @@
 				CD96705F1C52211D00130D27 /* UIView+HXIBnspectable.m in Sources */,
 				397F02D51B9EEEF500C413FE /* AppDelegate.m in Sources */,
 				395CD5FF1BD9DEE8001A2528 /* FavoriteMgr.m in Sources */,
+				CD542C151C5A2E7600A55F83 /* HXProfileDetailHeader.m in Sources */,
 				CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */,
 				CD9670911C52216D00130D27 /* HXThemeManager.m in Sources */,
 				CD542C111C59FAE300A55F83 /* HXCoverContainerCell.m in Sources */,
