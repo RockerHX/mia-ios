@@ -24,6 +24,7 @@ TTTAttributedLabelDelegate
 
 @implementation HXRadioShareInfoView {
     __weak ShareItem *_item;
+    __weak UserItem *_avatarItem;
     
     NSTimer *_timer;
     NSInteger _loop;
@@ -60,14 +61,15 @@ HXXibImplementation
 #pragma mark - Event Response
 - (IBAction)sharerAvatarButtonPressed {
     if ([UserSession standard].state) {
-        UserItem *shareUserItem = _item.shareUser;
-        [MiaAPIHelper followWithUID:shareUserItem.uid isFollow:!shareUserItem.follow completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-            shareUserItem.follow = !shareUserItem.follow;
-            [HXAlertBanner showWithMessage:(shareUserItem.follow ? @"添加关注成功" : @"取消关注成功") tap:nil];
-            [self displayWithItem:_item];
-        } timeoutBlock:^(MiaRequestItem *requestItem) {
-            [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
-        }];
+        if (![_avatarItem.uid isEqual:[UserSession standard].uid]) {
+            [MiaAPIHelper followWithUID:_avatarItem.uid isFollow:!_avatarItem.follow completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                _avatarItem.follow = !_avatarItem.follow;
+                [HXAlertBanner showWithMessage:(_avatarItem.follow ? @"添加关注成功" : @"取消关注成功") tap:nil];
+                [self displayWithItem:_item];
+            } timeoutBlock:^(MiaRequestItem *requestItem) {
+                [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+            }];
+        }
     } else {
         if (_delegate && [_delegate respondsToSelector:@selector(radioShareInfoView:takeAction:)]) {
             [_delegate radioShareInfoView:self takeAction:HXRadioShareInfoActionAvatarTaped];
@@ -84,19 +86,23 @@ HXXibImplementation
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     [self configureItem:item];
-
-    _timeLabel.text = item.formatTime;
-    _shareContentLabel.text = [item.shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
-    if ([item.shareUser.uid isEqualToString:item.spaceUser.uid]) {
-		_sharerLabel.text = item.shareUser.nick ?: @"Unknown";
-        [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.shareUser.userpic] forState:UIControlStateNormal];
-        _attentionIcon.image = [UIImage imageNamed:(item.shareUser.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
+    
+    UserItem *shareUser = item.shareUser;
+    UserItem *spaceUser = item.spaceUser;
+    if ([shareUser.uid isEqualToString:spaceUser.uid]) {
+        _avatarItem = shareUser;
+        _sharerLabel.text = shareUser.nick ?: @"Unknown";
     } else {
-		_sharerLabel.text = [item.spaceUser.nick stringByAppendingFormat:@" 秒推了 %@ 的分享", item.shareUser.nick];
-        [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:item.spaceUser.userpic] forState:UIControlStateNormal];
-        _attentionIcon.image = [UIImage imageNamed:(item.spaceUser.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
+        _avatarItem = spaceUser;
+        _sharerLabel.text = [spaceUser.nick stringByAppendingFormat:@" 秒推了 %@ 的分享", shareUser.nick];
     }
-    [self displaySharerLabelWithSharer:item.shareUser.nick infecter:item.spaceUser.nick];
+    
+    _timeLabel.text = item.formatTime;
+    _shareContentLabel.text = [shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
+    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] forState:UIControlStateNormal];
+    _attentionIcon.hidden = [_avatarItem.uid isEqualToString:[UserSession standard].uid];
+    _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
+    [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];
     [self displayFlyComments:item.flyComments];
 }
 
@@ -129,7 +135,7 @@ HXXibImplementation
 - (void)starScrollFlyComments {
     _loop = 0;
     [_timer invalidate];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:8.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
 }
 
 - (void)scrollFlyCommentsAnimation {
