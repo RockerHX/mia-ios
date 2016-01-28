@@ -8,6 +8,14 @@
 
 #import "UIViewController+HXClass.h"
 
+typedef NS_ENUM(NSUInteger, HXProfileType) {
+    HXProfileTypeHost,
+    HXProfileTypeGuest
+};
+
 @interface HXProfileViewController : UIViewController
+
+@property (nonatomic, assign) HXProfileType  type;
+@property (nonatomic, strong)      NSString *uid;
 
 @end

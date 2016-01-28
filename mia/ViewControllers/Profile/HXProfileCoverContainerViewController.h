@@ -10,4 +10,6 @@
 
 @interface HXProfileCoverContainerViewController : UICollectionViewController
 
+@property (nonatomic, strong)  NSArray *dataSource;
+
 @end

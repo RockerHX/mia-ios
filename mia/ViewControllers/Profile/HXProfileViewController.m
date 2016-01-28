@@ -9,6 +9,7 @@
 #import "HXProfileViewController.h"
 #import "HXProfileCoverContainerViewController.h"
 #import "HXProfileDetailContainerViewController.h"
+#import "MiaAPIHelper.h"
 
 @interface HXProfileViewController ()
 @end
@@ -23,11 +24,6 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
-
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:YES];
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,6 +40,10 @@
     return HXStoryBoardNameProfile;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *identifier = segue.identifier;
@@ -56,7 +56,8 @@
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    ;
+    [self showHUD];
+    [self fetchProfileData];
 }
 
 - (void)viewConfigure {
@@ -64,5 +65,37 @@
 }
 
 #pragma mark - Private Methods
+- (void)fetchProfileData {
+    [MiaAPIHelper getUserInfoWithUID:_uid completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
+             NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
+             long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
+#warning @andy
+             // for test linyehui
+             long fansCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"fansCnt"] intValue];
+             long followCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] intValue];
+             long follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] intValue];	// 0表示没关注，1表示关注，2表示相互关注
+             NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
+             NSLog(@"user info: %ld, %ld, %ld, %@", fansCnt, followCnt, follow, imgs);
+             // end for test
+             
+             _coverContainerViewController.dataSource = imgs;
+//             [_nickNameTextField setText:nickName];
+//             _lastNickName = nickName;
+//             
+//             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
+//             [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
+//                                 placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+//             [self updateGenderLabel:gender];
+             [self hiddenHUD];
+         } else {
+             NSLog(@"getUserInfoWithUID failed");
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"getUserInfoWithUID timeout");
+     }];
+}
 
 @end

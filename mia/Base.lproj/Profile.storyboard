@@ -8,7 +8,7 @@
         <!--HXProfileViewController-->
         <scene sceneID="C7b-a8-51m">
             <objects>
-                <viewController storyboardIdentifier="HXProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J2q-U5-he9" userLabel="HXProfileViewController" customClass="HXProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXProfileViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J2q-U5-he9" userLabel="HXProfileViewController" customClass="HXProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O5S-5s-sot"/>
                         <viewControllerLayoutGuide type="bottom" id="eDz-3f-jta"/>
@@ -31,7 +31,7 @@
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W7x-hu-DJG" customClass="HXNavigationBar">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                                <color key="backgroundColor" red="0.070588235289999995" green="0.80392156859999997" blue="0.72941176470000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="ZkS-4N-4gj"/>
                                 </constraints>
@@ -61,11 +61,10 @@
         <scene sceneID="ZLa-yj-pDJ">
             <objects>
                 <tableViewController storyboardIdentifier="HXProfileDetailContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Qc6-9f-kPc" userLabel="HXProfileDetailContainerViewController" customClass="HXProfileDetailContainerViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="JcE-rF-vWE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="JcE-rF-vWE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <inset key="scrollIndicatorInsets" minX="0.0" minY="64" maxX="0.0" maxY="0.0"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="TVs-1b-dyw">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -152,26 +151,54 @@
         <scene sceneID="xIW-6C-spL">
             <objects>
                 <collectionViewController storyboardIdentifier="HXProfileCoverContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9Sw-04-y85" userLabel="HXProfileCoverContainerViewController" customClass="HXProfileCoverContainerViewController" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="4pR-15-a7C">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="4pR-15-a7C">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dcQ-u5-H9W">
-                            <size key="itemSize" width="50" height="50"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="dcQ-u5-H9W">
+                            <size key="itemSize" width="100" height="100"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="50" height="518"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="0V7-TP-ipe">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HXCoverContainerCell" id="0V7-TP-ipe" customClass="HXCoverContainerCell">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ANO-k0-Gpj">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hwb-Y7-qvF">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="ANO-k0-Gpj" firstAttribute="leading" secondItem="0V7-TP-ipe" secondAttribute="leading" id="1hP-7k-qBZ"/>
+                                    <constraint firstItem="Hwb-Y7-qvF" firstAttribute="top" secondItem="0V7-TP-ipe" secondAttribute="top" id="29l-w7-ZLP"/>
+                                    <constraint firstAttribute="trailing" secondItem="ANO-k0-Gpj" secondAttribute="trailing" id="bwY-IU-4hm"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hwb-Y7-qvF" secondAttribute="trailing" id="cFs-53-RJ7"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hwb-Y7-qvF" secondAttribute="bottom" id="gOM-c0-uyL"/>
+                                    <constraint firstItem="Hwb-Y7-qvF" firstAttribute="leading" secondItem="0V7-TP-ipe" secondAttribute="leading" id="iCC-6S-3qI"/>
+                                    <constraint firstItem="ANO-k0-Gpj" firstAttribute="top" secondItem="0V7-TP-ipe" secondAttribute="top" id="yi1-Pq-5hH"/>
+                                    <constraint firstAttribute="bottom" secondItem="ANO-k0-Gpj" secondAttribute="bottom" id="zAC-vG-t5A"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="cover" destination="ANO-k0-Gpj" id="nQM-DL-6xe"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
+                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="PvE-Gq-Gu9">
+                            <rect key="frame" x="0.0" y="100" width="320" height="518"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="9Sw-04-y85" id="AcE-l2-Vv2"/>
                             <outlet property="delegate" destination="9Sw-04-y85" id="ToQ-j5-al0"/>
