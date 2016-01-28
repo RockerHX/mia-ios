@@ -32,6 +32,11 @@ HXProfileSegmentViewDelegate
     return @"HXProfileDetailContainerIdentifier";
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    _header.height = ((SCREEN_WIDTH/375.0f) * 325.0f);
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _footerHeight = 10.0f;
