@@ -1453,6 +1453,13 @@
 			path = CoverContainer;
 			sourceTree = "<group>";
 		};
+		CD542C121C5A062700A55F83 /* DetailContainer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DetailContainer;
+			sourceTree = "<group>";
+		};
 		CD5753831BDE339900E7CBC4 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1496,8 +1503,9 @@
 		CD7AA71B1C587105009688CA /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				CD542C0E1C59FABF00A55F83 /* CoverContainer */,
 				CD7AA71C1C587105009688CA /* HXSegmentView */,
+				CD542C0E1C59FABF00A55F83 /* CoverContainer */,
+				CD542C121C5A062700A55F83 /* DetailContainer */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong)  NSArray *dataSource;
 
+- (void)scrollPosition:(UICollectionViewScrollPosition)position;
+
 @end

@@ -47,6 +47,13 @@ HXProfileSegmentViewDelegate
     return _segmentView;
 }
 
+#pragma mark - ScrollView Delegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
+        [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
+    }
+}
+
 #pragma mark - Table View Data Source Methods
 //- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //    return 10;

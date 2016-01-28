@@ -46,7 +46,30 @@ UICollectionViewDelegateFlowLayout
     [self.collectionView reloadData];
 }
 
-#pragma mark -
+#pragma mark - Public Methods
+- (void)scrollPosition:(UICollectionViewScrollPosition)position {
+    switch (position) {
+        case UICollectionViewScrollPositionTop: {
+            CGRect rect = {
+                0.0f, 0.0f,
+                self.view.frame.size
+            };
+            [self.collectionView scrollRectToVisible:rect animated:NO];
+            break;
+        }
+        case UICollectionViewScrollPositionBottom: {
+            CGRect rect = {
+                0.0f, self.collectionView.contentSize.height - self.view.frame.size.height,
+                self.view.frame.size
+            };
+            [self.collectionView scrollRectToVisible:rect animated:NO];
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
 
 #pragma mark - Collection View Data Source Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

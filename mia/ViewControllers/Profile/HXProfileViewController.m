@@ -7,14 +7,18 @@
 //
 
 #import "HXProfileViewController.h"
+#import "HXNavigationBar.h"
 #import "HXProfileCoverContainerViewController.h"
 #import "HXProfileDetailContainerViewController.h"
 #import "MiaAPIHelper.h"
 
-@interface HXProfileViewController ()
+@interface HXProfileViewController () <
+HXProfileDetailContainerViewControllerDelegate
+>
 @end
 
 @implementation HXProfileViewController {
+    UIStatusBarStyle  _statusBarStyle;
     HXProfileCoverContainerViewController *_coverContainerViewController;
     HXProfileDetailContainerViewController *_detailContainerViewController;
 }
@@ -41,7 +45,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return _statusBarStyle;
 }
 
 #pragma mark - Segue
@@ -51,6 +55,7 @@
         _coverContainerViewController = segue.destinationViewController;
     } else if ([identifier isEqualToString:[HXProfileDetailContainerViewController segueIdentifier]]) {
         _detailContainerViewController = segue.destinationViewController;
+        _detailContainerViewController.delegate = self;
     }
 }
 
@@ -96,6 +101,17 @@
      } timeoutBlock:^(MiaRequestItem *requestItem) {
          NSLog(@"getUserInfoWithUID timeout");
      }];
+}
+
+#pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
+static CGFloat scrollThreshold = 135.0f;
+- (void)detailContainerDidScroll:(HXProfileDetailContainerViewController *)controller scrollOffset:(CGPoint)scrollOffset {
+    CGFloat alpha = scrollOffset.y/scrollThreshold;
+    _navigationBar.colorAlpha = alpha;
+    _statusBarStyle = ((alpha > 0.1f) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent);
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    [_coverContainerViewController scrollPosition:((scrollOffset.y < scrollThreshold) ? UICollectionViewScrollPositionTop : UICollectionViewScrollPositionBottom)];
 }
 
 @end

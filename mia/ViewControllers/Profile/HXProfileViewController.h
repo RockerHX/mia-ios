@@ -13,7 +13,11 @@ typedef NS_ENUM(NSUInteger, HXProfileType) {
     HXProfileTypeGuest
 };
 
+@class HXNavigationBar;
+
 @interface HXProfileViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet HXNavigationBar *navigationBar;
 
 @property (nonatomic, assign) HXProfileType  type;
 @property (nonatomic, strong)      NSString *uid;
