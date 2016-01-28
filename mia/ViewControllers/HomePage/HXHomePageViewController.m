@@ -540,7 +540,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 					 completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-			 [[UserSession standard] setUid:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][@"uid"]]];
+             [[UserSession standard] setUid:[userInfo[MiaAPIKey_Values][@"uid"] stringValue]];
              [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
              [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
              [[UserSession standard] setUnreadCommCnt:[userInfo[MiaAPIKey_Values][@"unreadCommCnt"] intValue]];

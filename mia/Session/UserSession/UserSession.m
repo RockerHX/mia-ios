@@ -58,6 +58,10 @@
     return UserSessionLoginStateLogin;
 }
 
+- (NSString *)uid {
+    return [NSString stringWithFormat:@"%@", _uid];
+}
+
 #pragma mark - Public Methods
 - (BOOL)isLogined {
     return self.state;
