@@ -118,6 +118,10 @@ static const CGFloat kSearchResultItemHeight	= 100;
 	[_noDataView setHidden:hidden];
 }
 
+- (void)beginRefreshing {
+	[_collectionView.mj_footer beginRefreshing];
+}
+
 - (void)endRefreshing {
 	[_collectionView.mj_footer endRefreshing];
 }

@@ -34,6 +34,8 @@ typedef NS_ENUM(NSUInteger, UserListViewType) {
 
 - (id)initWithType:(UserListViewType)type;
 - (void)setNoDataTipsHidden:(BOOL)hidden;
+
+- (void)beginRefreshing;
 - (void)endRefreshing;
 
 @end
