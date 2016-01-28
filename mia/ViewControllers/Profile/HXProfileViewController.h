@@ -7,11 +7,7 @@
 //
 
 #import "UIViewController+HXClass.h"
-
-typedef NS_ENUM(NSUInteger, HXProfileType) {
-    HXProfileTypeHost,
-    HXProfileTypeGuest
-};
+#import "HXProfileDetailContainerViewController.h"
 
 @class HXNavigationBar;
 

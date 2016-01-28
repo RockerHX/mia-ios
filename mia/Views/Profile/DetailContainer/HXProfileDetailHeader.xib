@@ -7,7 +7,15 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXProfileDetailHeader"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXProfileDetailHeader">
+            <connections>
+                <outlet property="avatar" destination="iD7-gz-xvd" id="I6n-lV-4vY"/>
+                <outlet property="fansCountLabel" destination="FjZ-9c-xp3" id="bIm-Oy-rrg"/>
+                <outlet property="followButton" destination="DnW-Ns-RyP" id="avF-yi-RWl"/>
+                <outlet property="followCountLabel" destination="RAj-l7-XP7" id="RNN-Lt-Ti0"/>
+                <outlet property="nickNameLabel" destination="3ze-VU-eKi" id="wC3-0a-TKK"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="260"/>
@@ -24,10 +32,19 @@
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                             <real key="value" value="43"/>
                         </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="0.5"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ze-VU-eKi">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ze-VU-eKi">
                     <rect key="frame" x="59" y="116" width="258" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="zWW-RF-asG"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -111,15 +128,42 @@
                         <constraint firstAttribute="bottom" secondItem="5OM-EU-lwS" secondAttribute="bottom" constant="3" id="u3J-U3-yLJ"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DnW-Ns-RyP" customClass="HXIBButton">
+                    <rect key="frame" x="88" y="201" width="200" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="1sw-Mf-FHB"/>
+                        <constraint firstAttribute="width" constant="200" id="TtA-op-ceS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="关注">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="0.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="followButtonPressed" destination="-1" eventType="touchUpInside" id="QJS-Hb-EgB"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="DnW-Ns-RyP" firstAttribute="top" secondItem="fF1-DD-tNx" secondAttribute="bottom" constant="30" id="5Jp-aU-svh"/>
                 <constraint firstItem="3ze-VU-eKi" firstAttribute="centerX" secondItem="iD7-gz-xvd" secondAttribute="centerX" id="5Qd-l2-FoD"/>
                 <constraint firstItem="iD7-gz-xvd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="7Ou-jb-hMd"/>
                 <constraint firstItem="3ze-VU-eKi" firstAttribute="top" secondItem="iD7-gz-xvd" secondAttribute="bottom" constant="15" id="HSs-fo-Jvi"/>
                 <constraint firstItem="fF1-DD-tNx" firstAttribute="top" secondItem="3ze-VU-eKi" secondAttribute="bottom" constant="15" id="Ql6-YC-zjO"/>
                 <constraint firstItem="fF1-DD-tNx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dSY-L7-gsH"/>
                 <constraint firstItem="iD7-gz-xvd" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="glC-Z0-90Z"/>
+                <constraint firstItem="DnW-Ns-RyP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="smN-zU-03m"/>
                 <constraint firstItem="3ze-VU-eKi" firstAttribute="width" secondItem="iD7-gz-xvd" secondAttribute="width" multiplier="3" id="ymP-vB-Und"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

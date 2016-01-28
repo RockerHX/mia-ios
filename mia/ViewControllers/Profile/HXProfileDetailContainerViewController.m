@@ -35,6 +35,8 @@ HXProfileSegmentViewDelegate
 - (void)loadConfigure {
     _footerHeight = 10.0f;
     _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, ((SCREEN_WIDTH/375.0f) * 264.0f))];
+    _header.type = _type;
+    
     self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
     self.tableView.tableHeaderView = _header;
 }
@@ -62,7 +64,7 @@ HXProfileSegmentViewDelegate
 
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

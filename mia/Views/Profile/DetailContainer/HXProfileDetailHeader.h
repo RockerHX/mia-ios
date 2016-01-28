@@ -8,6 +8,37 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(BOOL, HXProfileType) {
+    HXProfileTypeHost = YES,
+    HXProfileTypeGuest = NO
+};
+
+typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
+    HXProfileDetailHeaderActionShowFans,
+    HXProfileDetailHeaderActionShowFollow,
+    HXProfileDetailHeaderActionTakeFollow,
+};
+
+@class HXProfileDetailHeader;
+
+@protocol HXProfileDetailHeaderDelegate <NSObject>
+
+@optional
+- (void)detailHeader:(HXProfileDetailHeader *)header takeAction:(HXProfileDetailHeaderAction)action;
+
+@end
+
 @interface HXProfileDetailHeader : UIView
+
+@property (weak, nonatomic) IBOutlet       id  <HXProfileDetailHeaderDelegate>delegate;
+@property (weak, nonatomic) IBOutlet UIImageView *avatar;
+@property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
+@property (weak, nonatomic) IBOutlet    UIButton *followButton;
+
+@property (nonatomic, assign) HXProfileType  type;
+
+- (IBAction)followButtonPressed;
 
 @end

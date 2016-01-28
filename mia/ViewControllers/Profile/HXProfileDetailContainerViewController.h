@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet     id  <HXProfileDetailContainerViewControllerDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UIView *footer;
 
+@property (nonatomic, assign) HXProfileType  type;
+
 @property (nonatomic, strong) HXProfileDetailHeader *header;
 
 @end
