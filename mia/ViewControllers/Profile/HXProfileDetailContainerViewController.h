@@ -21,6 +21,8 @@
 
 @interface HXProfileDetailContainerViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet id  <HXProfileDetailContainerViewControllerDelegate>delegate;
+@property (weak, nonatomic) IBOutlet     id  <HXProfileDetailContainerViewControllerDelegate>delegate;
+@property (weak, nonatomic) IBOutlet UIView *header;
+@property (weak, nonatomic) IBOutlet UIView *footer;
 
 @end

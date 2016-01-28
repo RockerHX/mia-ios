@@ -8,6 +8,7 @@
 
 #import "HXProfileDetailContainerViewController.h"
 #import "HXProfileSegmentView.h"
+#import "UIView+Extension.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileSegmentViewDelegate
@@ -15,6 +16,7 @@ HXProfileSegmentViewDelegate
 @end
 
 @implementation HXProfileDetailContainerViewController {
+    CGFloat _footerHeight;
     HXProfileSegmentView *_segmentView;
 }
 
@@ -32,6 +34,7 @@ HXProfileSegmentViewDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+    _footerHeight = 10.0f;
     self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
 }
 
@@ -49,21 +52,22 @@ HXProfileSegmentViewDelegate
 
 #pragma mark - ScrollView Delegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
-        [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
+    if (_footerHeight <= _header.height + 64.0f) {
+        if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
+            [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
+        }
     }
 }
 
 #pragma mark - Table View Data Source Methods
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 10;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    HXMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMessageCell class]) forIndexPath:indexPath];
-//    return cell;
-//}
-//
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    return cell;
+}
 
 #pragma mark - Table View Delegate Methods
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -72,6 +76,13 @@ HXProfileSegmentViewDelegate
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return [self segmentView];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"$$$$$$$$$$$$: %f", tableView.contentSize.height);
+    _footerHeight = (SCREEN_HEIGHT + _header.height + 64.0f) - tableView.contentSize.height;
+    NSLog(@"YYYYYYYYYYYY: %f", _footerHeight);
+    _footer.height = ((_footerHeight > 0) ? _footerHeight : 10.0f);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
