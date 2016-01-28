@@ -10,6 +10,7 @@
 #import "HXProfileSegmentView.h"
 
 @interface HXProfileDetailContainerViewController () <
+HXProfileDetailHeaderDelegate,
 HXProfileSegmentViewDelegate
 >
 @end
@@ -35,6 +36,7 @@ HXProfileSegmentViewDelegate
 - (void)loadConfigure {
     _footerHeight = 10.0f;
     _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, ((SCREEN_WIDTH/375.0f) * 264.0f))];
+    _header.delegate = self;
     _header.type = _type;
     
     self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
@@ -90,6 +92,28 @@ HXProfileSegmentViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - HXProfileDetailHeaderDelegate Methods
+- (void)detailHeader:(HXProfileDetailHeader *)header takeAction:(HXProfileDetailHeaderAction)action {
+    switch (action) {
+        case HXProfileDetailHeaderActionShowFans: {
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainerWouldLikeShowFans:)]) {
+                [_delegate detailContainerWouldLikeShowFans:self];
+            }
+            break;
+        }
+        case HXProfileDetailHeaderActionShowFollow: {
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainerWouldLikeShowFollow:)]) {
+                [_delegate detailContainerWouldLikeShowFollow:self];
+            }
+            break;
+        }
+        case HXProfileDetailHeaderActionTakeFollow: {
+            ;
+            break;
+        }
+    }
 }
 
 #pragma mark - HXProfileSegmentViewDelegate Methods

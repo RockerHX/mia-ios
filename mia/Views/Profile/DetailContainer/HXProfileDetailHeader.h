@@ -39,6 +39,8 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 
 @property (nonatomic, assign) HXProfileType  type;
 
+- (IBAction)fansViewTaped;
+- (IBAction)followViewTaped;
 - (IBAction)followButtonPressed;
 
 @end

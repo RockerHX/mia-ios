@@ -38,6 +38,18 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
+- (IBAction)fansViewTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFans];
+    }
+}
+
+- (IBAction)followViewTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFollow];
+    }
+}
+
 - (IBAction)followButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
         [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionTakeFollow];

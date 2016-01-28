@@ -15,8 +15,10 @@
 
 @optional
 - (void)detailContainerDidScroll:(HXProfileDetailContainerViewController *)controller
-                            scrollOffset:(CGPoint)scrollOffset;
+                    scrollOffset:(CGPoint)scrollOffset;
 - (void)detailContainerDataFetchFinished:(HXProfileDetailContainerViewController *)controller;
+- (void)detailContainerWouldLikeShowFans:(HXProfileDetailContainerViewController *)controller;
+- (void)detailContainerWouldLikeShowFollow:(HXProfileDetailContainerViewController *)controller;
 
 @end
 

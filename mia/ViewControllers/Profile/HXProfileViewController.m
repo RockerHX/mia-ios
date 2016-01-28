@@ -113,4 +113,12 @@ HXProfileDetailContainerViewControllerDelegate
     [_coverContainerViewController scrollPosition:((scrollOffset.y < scrollThreshold) ? UICollectionViewScrollPositionTop : UICollectionViewScrollPositionBottom)];
 }
 
+- (void)detailContainerWouldLikeShowFans:(HXProfileDetailContainerViewController *)controller {
+    ;
+}
+
+- (void)detailContainerWouldLikeShowFollow:(HXProfileDetailContainerViewController *)controller {
+    ;
+}
+
 @end
