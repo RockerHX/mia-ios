@@ -8,13 +8,20 @@
 
 #import "HXMessageCenterViewController.h"
 #import "HXMessageCell.h"
+#import "MessageModel.h"
+#import "MiaAPIHelper.h"
+#import "HXAlertBanner.h"
+
+static const long kMessagePageCount = 10;
 
 @interface HXMessageCenterViewController () <
 HXMessageCellDelegate
 >
 @end
 
-@implementation HXMessageCenterViewController
+@implementation HXMessageCenterViewController {
+	MessageModel 			*_messageModel;
+}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
@@ -34,21 +41,51 @@ HXMessageCellDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    ;
+	_messageModel = [[MessageModel alloc] init];
+	[self requestMessageList];
 }
 
 - (void)viewConfigure {
     ;
 }
 
+#pragma mark - Private Methods
+- (void)requestMessageList {
+	[MiaAPIHelper getNotifyWithLastID:_messageModel.lastID
+								item:kMessagePageCount
+					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+//						   [_fansView endAllRefreshing];
+						   if (success) {
+							   NSArray *items = userInfo[@"v"][@"info"];
+							   if ([items count] <= 0) {
+//								   [_fansView checkNoDataTipsStatus];
+								   return;
+							   }
+
+							   [_messageModel addItemsWithArray:items];
+//							   [_fansView.collectionView reloadData];
+//							   [_fansView setNoDataTipsHidden:YES];
+						   } else {
+//							   [_fansView checkNoDataTipsStatus];
+							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+							   [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+						   }
+
+					   } timeoutBlock:^(MiaRequestItem *requestItem) {
+						   NSLog(@"requestFansListWithReload timeout");
+//						   [_fansView checkNoDataTipsStatus];
+//						   [_fansView endAllRefreshing];
+					   }];
+}
+
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _messageModel.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HXMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMessageCell class]) forIndexPath:indexPath];
-    [cell displayWithMessageModel:nil];
+    [cell displayWithMessageItem:_messageModel.dataSource[indexPath.row]];
     return cell;
 }
 

@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXMessageModel.h"
+@class MessageItem;
 
 typedef NS_ENUM(NSUInteger, HXMessageCellAction) {
     HXMessageCellActionAvatarTaped
@@ -34,6 +34,6 @@ typedef NS_ENUM(NSUInteger, HXMessageCellAction) {
 
 - (IBAction)avatarButtonPressed;
 
-- (void)displayWithMessageModel:(HXMessageModel *)model;
+- (void)displayWithMessageItem:(MessageItem *)item;
 
 @end

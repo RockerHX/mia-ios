@@ -8,6 +8,7 @@
 
 #import "HXMessageCell.h"
 #import "TTTAttributedLabel.h"
+#import "MessageItem.h"
 
 @implementation HXMessageCell
 
@@ -34,7 +35,7 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayWithMessageModel:(HXMessageModel *)model {
+- (void)displayWithMessageItem:(MessageItem *)item {
     [self displayDescriptionLabelWithSharer:@"Nicola" infecter:@""];
 }
 

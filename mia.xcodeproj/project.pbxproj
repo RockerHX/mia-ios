@@ -83,6 +83,8 @@
 		397FA5371BAC0CA7003FD186 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA52A1BAC0CA7003FD186 /* MIAButton.m */; };
 		397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */; };
 		39880A9E1C5871A900713FC6 /* FlyCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39880A9D1C5871A900713FC6 /* FlyCommentItem.m */; };
+		39913D5B1C5A3180008B2396 /* MessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39913D581C5A3180008B2396 /* MessageItem.m */; };
+		39913D5C1C5A3180008B2396 /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39913D5A1C5A3180008B2396 /* MessageModel.m */; };
 		3997F8341BE750A000F6597D /* CacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997F8331BE750A000F6597D /* CacheHelper.m */; };
 		39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4351F1BD5272400D6CB13 /* LocationMgr.m */; };
 		39BD86EE1BCE47AC00EF0E65 /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BD86ED1BCE47AC00EF0E65 /* GenderPickerView.m */; };
@@ -110,7 +112,6 @@
 		CD25AA531C574E86008BE101 /* MessageCenter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA511C574E86008BE101 /* MessageCenter.storyboard */; };
 		CD25AA571C57544F008BE101 /* HXMessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */; };
 		CD25AA5B1C575934008BE101 /* HXMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA5A1C575934008BE101 /* HXMessageCell.m */; };
-		CD25AA5F1C575A09008BE101 /* HXMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA5E1C575A09008BE101 /* HXMessageModel.m */; };
 		CD25AA621C576342008BE101 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD25AA601C576342008BE101 /* Profile.storyboard */; };
 		CD25AA661C576501008BE101 /* HXProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA651C576501008BE101 /* HXProfileViewController.m */; };
 		CD25AA691C5765A2008BE101 /* HXProfileCoverContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25AA681C5765A2008BE101 /* HXProfileCoverContainerViewController.m */; };
@@ -342,6 +343,10 @@
 		397FA5391BAC0CF3003FD186 /* UIScrollView+MIARefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MIARefresh.m"; sourceTree = "<group>"; };
 		39880A9C1C5871A900713FC6 /* FlyCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlyCommentItem.h; sourceTree = "<group>"; };
 		39880A9D1C5871A900713FC6 /* FlyCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlyCommentItem.m; sourceTree = "<group>"; };
+		39913D571C5A3180008B2396 /* MessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageItem.h; sourceTree = "<group>"; };
+		39913D581C5A3180008B2396 /* MessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageItem.m; sourceTree = "<group>"; };
+		39913D591C5A3180008B2396 /* MessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageModel.h; sourceTree = "<group>"; };
+		39913D5A1C5A3180008B2396 /* MessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageModel.m; sourceTree = "<group>"; };
 		3997F8321BE750A000F6597D /* CacheHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelper.h; sourceTree = "<group>"; };
 		3997F8331BE750A000F6597D /* CacheHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelper.m; sourceTree = "<group>"; };
 		39B4351E1BD5272400D6CB13 /* LocationMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMgr.h; sourceTree = "<group>"; };
@@ -391,8 +396,6 @@
 		CD25AA561C57544F008BE101 /* HXMessageCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCenterViewController.m; sourceTree = "<group>"; };
 		CD25AA591C575934008BE101 /* HXMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageCell.h; sourceTree = "<group>"; };
 		CD25AA5A1C575934008BE101 /* HXMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCell.m; sourceTree = "<group>"; };
-		CD25AA5D1C575A09008BE101 /* HXMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMessageModel.h; sourceTree = "<group>"; };
-		CD25AA5E1C575A09008BE101 /* HXMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageModel.m; sourceTree = "<group>"; };
 		CD25AA611C576342008BE101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		CD25AA641C576501008BE101 /* HXProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileViewController.h; sourceTree = "<group>"; };
 		CD25AA651C576501008BE101 /* HXProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileViewController.m; sourceTree = "<group>"; };
@@ -1405,8 +1408,10 @@
 		CD25AA5C1C5759FC008BE101 /* MessageCenter */ = {
 			isa = PBXGroup;
 			children = (
-				CD25AA5D1C575A09008BE101 /* HXMessageModel.h */,
-				CD25AA5E1C575A09008BE101 /* HXMessageModel.m */,
+				39913D571C5A3180008B2396 /* MessageItem.h */,
+				39913D581C5A3180008B2396 /* MessageItem.m */,
+				39913D591C5A3180008B2396 /* MessageModel.h */,
+				39913D5A1C5A3180008B2396 /* MessageModel.m */,
 			);
 			path = MessageCenter;
 			sourceTree = "<group>";
@@ -2093,6 +2098,7 @@
 				397E42DC1BA90812006BE9E7 /* UserDefaultsUtils.m in Sources */,
 				393CE99A1BB53B3B00FCF232 /* FavoriteViewController.m in Sources */,
 				CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */,
+				39913D5C1C5A3180008B2396 /* MessageModel.m in Sources */,
 				397FA52F1BAC0CA7003FD186 /* MIARefreshHeaderView.m in Sources */,
 				CDD831571BD8B6550067309B /* HXNoNetworkView.m in Sources */,
 				CD25AA5B1C575934008BE101 /* HXMessageCell.m in Sources */,
@@ -2140,7 +2146,6 @@
 				CD48CD731BDB84E3009607DE /* HXHomePageWaveView.m in Sources */,
 				CD7AA7151C586767009688CA /* HXNavigationBar.m in Sources */,
 				CD96705C1C52211D00130D27 /* UIViewController+HXClass.m in Sources */,
-				CD25AA5F1C575A09008BE101 /* HXMessageModel.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,
@@ -2195,6 +2200,7 @@
 				CD96709B1C5226EF00130D27 /* HXLoginViewController.m in Sources */,
 				CD5753A11BDF541C00E7CBC4 /* HXComment.m in Sources */,
 				39BF8C711BB268B4003AB4FC /* ProfileCollectionViewCell.m in Sources */,
+				39913D5B1C5A3180008B2396 /* MessageItem.m in Sources */,
 				397FA5331BAC0CA7003FD186 /* MIATexAlertView.m in Sources */,
 				395CD6011BD9DEE8001A2528 /* ShareListMgr.m in Sources */,
 			);

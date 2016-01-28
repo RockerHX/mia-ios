@@ -91,6 +91,11 @@
 			completeBlock:(MiaRequestCompleteBlock)completeBlock
 			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)getNotifyWithLastID:(NSString *)notifyID
+					   item:(long)item
+			  completeBlock:(MiaRequestCompleteBlock)completeBlock
+			   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)InfectMusicWithLatitude:(double)lat
 					  longitude:(double)lon
 						address:(NSString *)address
