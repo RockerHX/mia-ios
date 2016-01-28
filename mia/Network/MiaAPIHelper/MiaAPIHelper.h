@@ -85,6 +85,12 @@
 				  completeBlock:(MiaRequestCompleteBlock)completeBlock
 				   timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
 
++ (void)searchUserWithKey:(NSString *)key
+					start:(long)start
+					 item:(long)item
+			completeBlock:(MiaRequestCompleteBlock)completeBlock
+			 timeoutBlock:(MiaRequestTimeoutBlock)timeoutBlock;
+
 + (void)InfectMusicWithLatitude:(double)lat
 					  longitude:(double)lon
 						address:(NSString *)address

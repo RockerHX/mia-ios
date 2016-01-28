@@ -44,8 +44,6 @@ static const long kUserListPageCount = 10;
 	UserListView 			*_fansView;
 	UserListView 			*_followingView;
 	UserListView 			*_searchResultView;
-
-	MBProgressHUD 			*_searchProgressHUD;
 }
 
 - (id)initWithType:(UserListViewType)type uID:(NSString *)uID {
@@ -59,8 +57,6 @@ static const long kUserListPageCount = 10;
 }
 
 - (void)dealloc {
-	[_searchProgressHUD removeFromSuperview];
-	_searchProgressHUD = nil;
 }
 
 - (void)viewDidLoad {
@@ -134,8 +130,6 @@ static const long kUserListPageCount = 10;
 		make.right.equalTo(self.view.mas_right);
 		make.bottom.equalTo(self.view.mas_bottom);
 	}];
-
-	[self initProgressHud];
 }
 
 - (void)initData {
@@ -195,6 +189,7 @@ static const long kUserListPageCount = 10;
 								  backgroundImage:nil];
 	[_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[contentView addSubview:_cancelButton];
+	[_cancelButton setHidden:YES];
 
 	[_backButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(35, 35));
@@ -267,15 +262,6 @@ static const long kUserListPageCount = 10;
 	}];
 }
 
-- (void)initProgressHud {
-	UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-	_searchProgressHUD = [[MBProgressHUD alloc] initWithView:window];
-	[window addSubview:_searchProgressHUD];
-	_searchProgressHUD.dimBackground = NO;
-	_searchProgressHUD.labelText = @"正在搜索";
-	_searchProgressHUD.mode = MBProgressHUDModeIndeterminate;
-}
-
 #pragma mark - Public Methods
 
 #pragma mark - Private Methods
@@ -299,15 +285,20 @@ static const long kUserListPageCount = 10;
 	}
 }
 
-- (void)requestFansList {
+- (void)requestFansListWithReload:(BOOL)isReload {
+	if (isReload) {
+		[_fansModel reset];
+	}
+
 	[MiaAPIHelper getFansListWithUID:_currentUID
 								start:_fansModel.currentPage
 								 item:kUserListPageCount
 						completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-							[_fansView endRefreshing];
+							[_fansView endAllRefreshing];
 							if (success) {
 								NSArray *items = userInfo[@"v"][@"info"];
 								if ([items count] <= 0) {
+									[_fansView checkNoDataTipsStatus];
 									return;
 								}
 
@@ -316,24 +307,31 @@ static const long kUserListPageCount = 10;
 								[_fansView setNoDataTipsHidden:YES];
 								++_fansModel.currentPage;
 							} else {
+								[_fansView checkNoDataTipsStatus];
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 								[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 							}
 
 						} timeoutBlock:^(MiaRequestItem *requestItem) {
-							[_fansView endRefreshing];
+							[_fansView checkNoDataTipsStatus];
+							[_fansView endAllRefreshing];
 						}];
 }
 
-- (void)requestFollowingList {
+- (void)requestFollowingListWithReload:(BOOL)isReload {
+	if (isReload) {
+		[_followingModel reset];
+	}
+
 	[MiaAPIHelper getFollowingListWithUID:_currentUID
 							   start:_followingModel.currentPage
 								item:kUserListPageCount
 					   completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-						   [_followingView endRefreshing];
+						   [_followingView endAllRefreshing];
 						   if (success) {
 							   NSArray *items = userInfo[@"v"][@"info"];
 							   if ([items count] <= 0) {
+								   [_followingView checkNoDataTipsStatus];
 								   return;
 							   }
 
@@ -342,13 +340,48 @@ static const long kUserListPageCount = 10;
 							   [_followingView setNoDataTipsHidden:YES];
 							   ++_followingModel.currentPage;
 						   } else {
+							   [_followingView checkNoDataTipsStatus];
 							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 							   [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
 						   }
 
 					   } timeoutBlock:^(MiaRequestItem *requestItem) {
-						   [_followingView endRefreshing];
+						   [_followingView checkNoDataTipsStatus];
+						   [_followingView endAllRefreshing];
 					   }];
+}
+
+- (void)requestSearchUserWithKey:(NSString *)key isReload:(BOOL)isReload{
+	if (isReload) {
+		[_searchResultModel reset];
+	}
+
+	[MiaAPIHelper searchUserWithKey:key
+									start:_searchResultModel.currentPage
+									 item:kUserListPageCount
+							completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+								[_searchResultView endAllRefreshing];
+								if (success) {
+									NSArray *items = userInfo[@"v"][@"info"];
+									if ([items count] <= 0) {
+										[_searchResultView checkNoDataTipsStatus];
+										return;
+									}
+
+									[_searchResultModel addItemsWithArray:items];
+									[_searchResultView.collectionView reloadData];
+									[_searchResultView setNoDataTipsHidden:YES];
+									++_searchResultModel.currentPage;
+								} else {
+									[_searchResultView checkNoDataTipsStatus];
+									id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+									[HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+								}
+
+							} timeoutBlock:^(MiaRequestItem *requestItem) {
+								[_searchResultView checkNoDataTipsStatus];
+								[_searchResultView endAllRefreshing];
+							}];
 }
 
 #pragma mark - delegate
@@ -358,11 +391,11 @@ static const long kUserListPageCount = 10;
 	UserListViewType type = (UserListViewType)index;
 	if (type == UserListViewTypeFans) {
 		if (_fansModel.dataSource.count <= 0) {
-			[self requestFansList];
+			[_fansView beginHeaderRefreshing];
 		}
 	} else {
 		if (_followingModel.dataSource.count <= 0) {
-			[self requestFollowingList];
+			[_followingView beginHeaderRefreshing];
 		}
 	}
 }
@@ -375,45 +408,17 @@ static const long kUserListPageCount = 10;
 			YES;
 		}
 
-		[_searchResultView setHidden:NO];
-		[_searchResultView setNoDataTipsHidden:YES];
-		[_searchResultModel reset];
-
-		[_searchProgressHUD show:YES];
-//		[XiamiHelper requestSearchResultWithKey:_searchTextField.text
-//										   page:_resultModel.currentPage
-//								   successBlock:
-//		 ^(id responseObject) {
-//			 [_resultModel addItemsWithArray:responseObject];
-//			 [_resultView setNoDataTipsHidden:_resultModel.dataSource.count != 0];
-//			 [_resultView.collectionView reloadData];
-//			 [_searchProgressHUD hide:YES];
-//		} failedBlock:^(NSError *error) {
-//			[_searchProgressHUD hide:YES];
-//			[HXAlertBanner showWithMessage:@"搜索失败，请稍后重试" tap:nil];
-//		}];
+		[_searchResultView beginHeaderRefreshing];
 	}
 
 	return YES;
 }
 
 - (void)textFieldDidChange:(id) sender {
-	[_searchResultView setHidden:YES];
-	[_searchResultModel reset];
-
-//	if ([NSString isNull:_searchTextField.text]) {
-//		[_suggestView.collectionView reloadData];
-//		return;
-//	}
-//
-//	[XiamiHelper requestSearchSuggestionWithKey:_searchTextField.text
-//								   successBlock:
-//	 ^(id responseObject) {
-//		[_suggestionModel addItemsWithArray:responseObject];
-//		[_suggestView.collectionView reloadData];
-//	} failedBlock:^(NSError *error) {
-//		[HXAlertBanner showWithMessage:@"搜索失败，请稍后重试" tap:nil];
-//	}];
+	[_searchResultView setHidden:NO];
+	[_searchResultView setNoDataTipsHidden:YES];
+	[_cancelButton setHidden:NO];
+	[_contentView setHidden:YES];
 }
 
 - (UserListModel *)userListViewModelWithType:(UserListViewType)type {
@@ -430,15 +435,33 @@ static const long kUserListPageCount = 10;
 	};
 }
 
+- (void)userListViewRequesNewItemsWithType:(UserListViewType)type  {
+	switch (type) {
+		case UserListViewTypeFans:
+			[self requestFansListWithReload:YES];
+			return;
+		case UserListViewTypeFollowing:
+			[self requestFollowingListWithReload:YES];
+			return;
+		case UserListViewTypeSearch:
+			[self requestSearchUserWithKey:_searchTextField.text isReload:YES];
+			return;
+		default:
+			NSLog(@"userListViewModelWithType: it's a bug.");
+			return;
+	};
+}
+
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type {
 	switch (type) {
 		case UserListViewTypeFans:
-			[self requestFansList];
+			[self requestFansListWithReload:NO];
 			return;
 		case UserListViewTypeFollowing:
-			[self requestFollowingList];
+			[self requestFollowingListWithReload:NO];
 			return;
 		case UserListViewTypeSearch:
+			[self requestSearchUserWithKey:_searchTextField.text isReload:NO];
 			return;
 		default:
 			NSLog(@"userListViewModelWithType: it's a bug.");
@@ -463,10 +486,15 @@ static const long kUserListPageCount = 10;
 
 - (void)cancelButtonAction:(id)sender {
     [self hidenKeyboard];
-    [self dismissViewControllerAnimated:YES completion:nil];
-//	if (_delegate && [_delegate respondsToSelector:@selector(searchViewControllerWillDismiss)]) {
-//		[_delegate searchViewControllerWillDismiss];
-//	}
+	[_searchResultView setHidden:YES];
+	[_searchResultModel reset];
+	[_searchResultView.collectionView reloadData];
+
+	[_cancelButton setHidden:YES];
+	[_contentView setHidden:NO];
+	[_searchTextField setText:@""];
+
+
 }
 
 

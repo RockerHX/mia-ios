@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, UserListViewType) {
 @protocol UserListViewDelegate
 
 - (UserListModel *)userListViewModelWithType:(UserListViewType)type;
+- (void)userListViewRequesNewItemsWithType:(UserListViewType)type;
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type;
 
 - (void)userListViewDidSelectedItem:(UserItem *)item;
@@ -33,7 +34,14 @@ typedef NS_ENUM(NSUInteger, UserListViewType) {
 @property (strong, nonatomic) UICollectionView *collectionView;
 
 - (id)initWithType:(UserListViewType)type;
+
 - (void)setNoDataTipsHidden:(BOOL)hidden;
-- (void)endRefreshing;
+- (void)checkNoDataTipsStatus;
+
+// 用于出发下拉重新刷新
+- (void)beginHeaderRefreshing;
+
+// 停止上拉和下拉刷新的动画
+- (void)endAllRefreshing;
 
 @end

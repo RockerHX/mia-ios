@@ -112,6 +112,8 @@ static NSString * const MiaAPICommand_User_GetUinfo			= @"User.Get.Uinfo";
 static NSString * const MiaAPICommand_User_GetClogo			= @"User.Get.Clogo";
 static NSString * const MiaAPICommand_User_GetUpdate		= @"User.Get.Update";
 static NSString * const MiaAPICommand_User_GetFriends		= @"User.Get.Friends";
+static NSString * const MiaAPICommand_User_GetSuser			= @"User.Get.Suser";
+static NSString * const MiaAPIKey_Key						= @"key";
 
 static NSString * const MiaAPICommand_User_PushUnreadComm	= @"User.Push.UnreadComm";
 
