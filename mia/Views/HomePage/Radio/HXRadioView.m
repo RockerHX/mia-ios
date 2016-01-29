@@ -184,7 +184,7 @@ HXRadioShareInfoViewDelegate
     _songNameLabel.text = music.name ?: @"";
     _songerNameLabel.text = music.singerName ?: @"";
     _starButton.selected = item.favorite;
-    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
+    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     [_shareInfoView displayWithItem:item];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:)]) {

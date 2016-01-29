@@ -99,7 +99,7 @@ HXXibImplementation
     
     _timeLabel.text = item.formatTime;
     _shareContentLabel.text = [shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
-    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] forState:UIControlStateNormal];
+    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     _attentionIcon.hidden = [_avatarItem.uid isEqualToString:[UserSession standard].uid];
     _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
     [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];
@@ -159,7 +159,7 @@ HXXibImplementation
 }
 
 - (void)displayFlyComment:(FlyCommentItem *)commentItem {
-    [_commentAvatar sd_setImageWithURL:[NSURL URLWithString:commentItem.userpic]];
+    [_commentAvatar sd_setImageWithURL:[NSURL URLWithString:commentItem.userpic] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     _commentLabel.text = commentItem.comment;
 }
 

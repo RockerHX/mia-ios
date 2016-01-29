@@ -13,7 +13,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithURL:(NSString *)url {
-    [_cover sd_setImageWithURL:[NSURL URLWithString:url]];
+    [_cover sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 }
 
 @end
