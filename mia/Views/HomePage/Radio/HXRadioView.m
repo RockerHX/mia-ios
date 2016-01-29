@@ -213,15 +213,15 @@ HXRadioShareInfoViewDelegate
             break;
         }
         case HXRadioShareInfoActionSharerTaped: {
-//            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
-//                [_delegate radioView:self takeAction:HXRadioViewActionPlay];
-//            }
+            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+                [_delegate radioView:self takeAction:HXRadioViewActionSharerTaped];
+            }
             break;
         }
         case HXRadioShareInfoActionInfecterTaped: {
-//            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
-//                [_delegate radioView:self takeAction:HXRadioViewActionPlay];
-//            }
+            if (_delegate && [_delegate respondsToSelector:@selector(radioView:takeAction:)]) {
+                [_delegate radioView:self takeAction:HXRadioViewActionInfecterTaped];
+            }
             break;
         }
         case HXRadioShareInfoActionContentTaped: {

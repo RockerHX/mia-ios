@@ -151,6 +151,85 @@
     }
 }
 
+- (void)shouldPlayMusic {
+    if (!_canPlay) {
+        _canPlay = YES;
+        return;
+    }
+    if ([MusicMgr standard].isInterruption) {
+        NSLog(@"helperShouldPlay has been ignored, app is interruption.");
+        return;
+    }
+    
+    _shareListMgr.currentIndex = _carousel.currentItemIndex;
+    NSInteger currentIndex = _shareListMgr.currentIndex;
+    ShareItem *playItem = _helper.items[currentIndex];
+    [self playMusic:playItem];
+    [self checkIsNeedToGetNewItems];
+    if ([_shareListMgr checkHistoryItemsMaxCount]) {
+        _carousel.currentItemIndex = _shareListMgr.currentIndex;
+        [self reloadLoopPlayerData:NO];
+        _canPlay = NO;
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
+        [_delegate shouldDisplayInfectUsers:playItem];
+    }
+    
+    // 更新单条分享的信息
+    [MiaAPIHelper getShareById:playItem.sID
+                          spID:playItem.spID
+                 completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+             
+             NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
+             NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+             playItem.shareUser.follow = [shareUserDict[@"follow"] boolValue];
+             playItem.spaceUser.follow = [spaceUserDict[@"follow"] boolValue];
+             
+             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+             NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
+             
+             if ([sID isEqualToString:playItem.sID]) {
+                 playItem.isInfected = isInfected;
+                 playItem.cComm = [cComm intValue];
+                 playItem.cView = [cView intValue];
+                 playItem.favorite = [start intValue];
+                 playItem.infectTotal = [infectTotal intValue];
+                 [playItem parseInfectUsersFromJsonArray:infectArray];
+                 [playItem parseFlyCommentsFromJsonArray:flyArray];
+             }
+         } else {
+             NSLog(@"getShareById failed");
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"getShareById timeout");
+     }];
+    
+    // PV上报
+    [MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                              longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                address:[[LocationMgr standard] currentAddress]
+                                   spID:playItem.spID
+                          completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSLog(@"viewShareWithLatitude success");
+         } else {
+             NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"viewShareWithLatitude timeout");
+     }];
+}
+
 #pragma mark - Audio Operations
 - (void)playMusic:(ShareItem *)item {
 	MusicItem *musicItem = [item.music copy];
@@ -222,110 +301,46 @@
 }
 
 #pragma mark - HXRadioCarouselHelperDelegate Methods
-- (void)helperShouldPlay:(HXRadioCarouselHelper *)helper {
-    if (!_canPlay) {
-        _canPlay = YES;
-        return;
-    }
-	if ([MusicMgr standard].isInterruption) {
-		NSLog(@"helperShouldPlay has been ignored, app is interruption.");
-		return;
-	}
-
-    _shareListMgr.currentIndex = _carousel.currentItemIndex;
-    NSInteger currentIndex = _shareListMgr.currentIndex;
-    ShareItem *playItem = _helper.items[currentIndex];
-    [self playMusic:playItem];
-    [self checkIsNeedToGetNewItems];
-    if ([_shareListMgr checkHistoryItemsMaxCount]) {
-        _carousel.currentItemIndex = _shareListMgr.currentIndex;
-        [self reloadLoopPlayerData:NO];
-        _canPlay = NO;
-    }
-    
-    if (_delegate && [_delegate respondsToSelector:@selector(shouldDisplayInfectUsers:)]) {
-        [_delegate shouldDisplayInfectUsers:playItem];
-    }
-    
-	// 更新单条分享的信息
-	[MiaAPIHelper getShareById:playItem.sID
-				 spID:playItem.spID
-				 completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         if (success) {
-             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
-             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
-             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
-
-			 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
-             NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
-             playItem.shareUser.follow = [shareUserDict[@"follow"] boolValue];
-			 playItem.spaceUser.follow = [spaceUserDict[@"follow"] boolValue];
-
-             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-			 NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
-             
-             if ([sID isEqualToString:playItem.sID]) {
-                 playItem.isInfected = isInfected;
-                 playItem.cComm = [cComm intValue];
-                 playItem.cView = [cView intValue];
-                 playItem.favorite = [start intValue];
-                 playItem.infectTotal = [infectTotal intValue];
-                 [playItem parseInfectUsersFromJsonArray:infectArray];
-				 [playItem parseFlyCommentsFromJsonArray:flyArray];
-             }
-         } else {
-             NSLog(@"getShareById failed");
-         }
-	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		NSLog(@"getShareById timeout");
-	}];
-
-	// PV上报
-	[MiaAPIHelper viewShareWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-							  longitude:[[LocationMgr standard] currentCoordinate].longitude
-								address:[[LocationMgr standard] currentAddress]
-								   spID:playItem.spID
-						  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (success) {
-			 NSLog(@"viewShareWithLatitude success");
-		 } else {
-			 NSLog(@"viewShareWithLatitude failed: %@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]);
-		 }
-	 } timeoutBlock:^(MiaRequestItem *requestItem) {
-		 NSLog(@"viewShareWithLatitude timeout");
-	 }];
-}
-
-- (void)helperShouldPause:(HXRadioCarouselHelper *)helper {
-    [self pauseMusic];
-}
-
-- (void)helperDidTaped:(HXRadioCarouselHelper *)helper {
-    if (_delegate && [_delegate respondsToSelector:@selector(raidoViewDidTaped)]) {
-        [_delegate raidoViewDidTaped];
-    }
-}
-
-- (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper {
-    if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerWithItem:)]) {
-        [_delegate userWouldLikeSeeSharerWithItem:_helper.items[_shareListMgr.currentIndex]];
-    }
-}
-
-- (void)helperShareContentTaped:(HXRadioCarouselHelper *)helper {
-    if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeShareDetialWithItem:)]) {
-        [_delegate userWouldLikeSeeShareDetialWithItem:_helper.items[_shareListMgr.currentIndex]];
-    }
-}
-
-- (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper {
-    if (_delegate && [_delegate respondsToSelector:@selector(userStartNeedLogin)]) {
-        [_delegate userStartNeedLogin];
+- (void)helper:(HXRadioCarouselHelper *)helper takeAction:(HXRadioCarouselHelperAction)action {
+    switch (action) {
+        case HXRadioCarouselHelperActionTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(raidoViewDidTaped)]) {
+                [_delegate raidoViewDidTaped];
+            }
+            break;
+        }
+        case HXRadioCarouselHelperActionPlay: {
+            [self shouldPlayMusic];
+            break;
+        }
+        case HXRadioCarouselHelperActionPause: {
+            [self pauseMusic];
+            break;
+        }
+        case HXRadioCarouselHelperActionSharerTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerWithItem:)]) {
+                [_delegate userWouldLikeSeeSharerWithItem:_helper.items[_shareListMgr.currentIndex]];
+            }
+            break;
+        }
+        case HXRadioCarouselHelperActionInfecterTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeSharerWithItem:)]) {
+                [_delegate userWouldLikeSeeInfecterWithItem:_helper.items[_shareListMgr.currentIndex]];
+            }
+            break;
+        }
+        case HXRadioCarouselHelperActionContentTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(userWouldLikeSeeShareDetialWithItem:)]) {
+                [_delegate userWouldLikeSeeShareDetialWithItem:_helper.items[_shareListMgr.currentIndex]];
+            }
+            break;
+        }
+        case HXRadioCarouselHelperActionStarTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(userStartNeedLogin)]) {
+                [_delegate userStartNeedLogin];
+            }
+            break;
+        }
     }
 }
 

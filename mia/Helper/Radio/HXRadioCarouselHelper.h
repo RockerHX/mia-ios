@@ -8,17 +8,22 @@
 
 #import <iCarousel/iCarousel.h>
 
+typedef NS_ENUM(NSUInteger, HXRadioCarouselHelperAction) {
+    HXRadioCarouselHelperActionTaped,
+    HXRadioCarouselHelperActionPlay,
+    HXRadioCarouselHelperActionPause,
+    HXRadioCarouselHelperActionSharerTaped,
+    HXRadioCarouselHelperActionInfecterTaped,
+    HXRadioCarouselHelperActionContentTaped,
+    HXRadioCarouselHelperActionStarTaped
+};
+
 @class HXRadioCarouselHelper;
 
 @protocol HXRadioCarouselHelperDelegate <NSObject>
 
 @optional
-- (void)helperShouldPlay:(HXRadioCarouselHelper *)helper;
-- (void)helperShouldPause:(HXRadioCarouselHelper *)helper;
-- (void)helperDidTaped:(HXRadioCarouselHelper *)helper;
-- (void)helperSharerNameTaped:(HXRadioCarouselHelper *)helper;
-- (void)helperShareContentTaped:(HXRadioCarouselHelper *)helper;
-- (void)helperStarTapedNeedLogin:(HXRadioCarouselHelper *)helper;
+- (void)helper:(HXRadioCarouselHelper *)helper takeAction:(HXRadioCarouselHelperAction)action;
 
 - (void)helperScrollNoLastest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX;
 - (void)helperScrollNoNewest:(HXRadioCarouselHelper *)helper offsetX:(CGFloat)offsetX;

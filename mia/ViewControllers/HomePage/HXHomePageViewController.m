@@ -13,7 +13,6 @@
 #import "HXInfectUserView.h"
 #import "UserSession.h"
 #import "HXLoginViewController.h"
-#import "MyProfileViewController.h"
 #import "HXShareViewController.h"
 #import "WebSocketMgr.h"
 #import "NSString+IsNull.h"
@@ -29,7 +28,6 @@
 #import "HXVersion.h"
 #import "HXMusicDetailViewController.h"
 #import "UIImage+ColorToImage.h"
-#import "GuestProfileViewController.h"
 #import "ShareItem.h"
 #import "UpdateHelper.h"
 #import "FavoriteMgr.h"
@@ -42,18 +40,20 @@
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
 
-@interface HXHomePageViewController () <HXBubbleViewDelegate , MyProfileViewControllerDelegate , HXRadioViewControllerDelegate> {
+@interface HXHomePageViewController () <
+HXBubbleViewDelegate,
+HXRadioViewControllerDelegate
+>
+@end
+
+@implementation HXHomePageViewController {
     BOOL _toLogin;
     BOOL _animating;                // 动画执行标识
     CGFloat _fishViewCenterY;       // 小鱼中心高度位置
     NSTimer *_timer;                // 定时器，用户在妙推动作时默认不评论定时执行结束动画
     ShareItem *_playItem;
-
+    
 }
-
-@end
-
-@implementation HXHomePageViewController
 
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
@@ -272,14 +272,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (IBAction)profileButtonPressed {
     // 用户按钮点击事件，未登录显示登录页面，已登录显示用户信息页面
     if ([[UserSession standard] isLogined]) {
-//        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-//                                                                                              nickName:[[UserSession standard] nick]];
-//        myProfileViewController.customDelegate = self;
-//        [self.navigationController pushViewController:myProfileViewController animated:YES];
-        HXProfileViewController *profileViewController = [HXProfileViewController instance];
-        profileViewController.type = HXProfileTypeHost;
-        profileViewController.uid = [UserSession standard].uid;
-        [self.navigationController pushViewController:profileViewController animated:YES];
+        [self showProfileWithUID:[UserSession standard].uid type:HXProfileTypeHost];
 	} else {
         [self presentLoginViewController:nil];
     }
@@ -601,15 +594,15 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
-    if ([[UserSession standard] isCachedLogin]) {
-        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-                                                                                              nickName:[[UserSession standard] nick]];
-        myProfileViewController.customDelegate = self;
-        myProfileViewController.playFavoriteOnceTime = playFavorite;
-        [self.navigationController pushViewController:myProfileViewController animated:playFavorite ? NO : YES];
-    } else {
-        [self presentLoginViewController:nil];
-	}
+//    if ([[UserSession standard] isCachedLogin]) {
+//        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
+//                                                                                              nickName:[[UserSession standard] nick]];
+//        myProfileViewController.customDelegate = self;
+//        myProfileViewController.playFavoriteOnceTime = playFavorite;
+//        [self.navigationController pushViewController:myProfileViewController animated:playFavorite ? NO : YES];
+//    } else {
+//        [self presentLoginViewController:nil];
+//	}
 }
 
 - (void)showNoNetworkView {
@@ -676,6 +669,13 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
             [self.navigationController pushViewController:musicDetailViewController animated:YES];
         }
     }
+}
+
+- (void)showProfileWithUID:(NSString *)uid type:(HXProfileType)type {
+    HXProfileViewController *profileViewController = [HXProfileViewController instance];
+    profileViewController.type = type;
+    profileViewController.uid = uid;
+    [self.navigationController pushViewController:profileViewController animated:YES];
 }
 
 #pragma mark - Animation
@@ -899,8 +899,29 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 }
 
 - (void)userWouldLikeSeeSharerWithItem:(ShareItem *)item {
-	GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:item.uID nickName:item.sNick];
-	[self.navigationController pushViewController:viewController animated:YES];
+    HXProfileType type;
+    NSString *sharerID = item.shareUser.uid;
+    NSString *userID = [UserSession standard].uid;
+    if (![sharerID isEqualToString:userID]) {
+        type = HXProfileTypeGuest;
+        userID = sharerID;
+    } else {
+        type = HXProfileTypeHost;
+    }
+    [self showProfileWithUID:userID type:type];
+}
+
+- (void)userWouldLikeSeeInfecterWithItem:(ShareItem *)item {
+    HXProfileType type;
+    NSString *infecterID = item.spaceUser.uid;
+    NSString *userID = [UserSession standard].uid;
+    if (![infecterID isEqualToString:userID]) {
+        type = HXProfileTypeGuest;
+        userID = infecterID;
+    } else {
+        type = HXProfileTypeHost;
+    }
+    [self showProfileWithUID:userID type:type];
 }
 
 - (void)userWouldLikeSeeShareDetialWithItem:(ShareItem *)item {

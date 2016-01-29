@@ -16,6 +16,7 @@
 - (void)userStartNeedLogin;
 - (void)raidoViewDidTaped;
 - (void)userWouldLikeSeeSharerWithItem:(ShareItem *)item;
+- (void)userWouldLikeSeeInfecterWithItem:(ShareItem *)item;
 - (void)userWouldLikeSeeShareDetialWithItem:(ShareItem *)item;
 - (void)shouldDisplayInfectUsers:(ShareItem *)item;
 

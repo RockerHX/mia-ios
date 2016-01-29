@@ -14,6 +14,8 @@
 typedef NS_ENUM(NSUInteger, HXRadioViewAction) {
     HXRadioViewActionPlay,
     HXRadioViewActionPause,
+    HXRadioViewActionSharerTaped,
+    HXRadioViewActionInfecterTaped,
     HXRadioViewActionContentTaped
 };
 
