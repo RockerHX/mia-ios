@@ -94,6 +94,11 @@
     self.state = UserSessionLoginStateLogout;
 }
 
+- (void)clearNotify {
+	_notifyCnt = 0;
+	_notifyUserpic = nil;
+}
+
 - (void)saveAuthInfo:(NSString *)uid token:(NSString *)token {
     [UserDefaultsUtils saveValue:uid forKey:UserDefaultsKey_SessionUID];
     [UserDefaultsUtils saveValue:token forKey:UserDefaultsKey_SessionToken];

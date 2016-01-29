@@ -13,6 +13,7 @@
 #import "HXAlertBanner.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIView+Frame.h"
+#import "UserSession.h"
 
 static const long kMessagePageCount = 10;
 
@@ -74,6 +75,8 @@ HXMessageCellDelegate
 						completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
+			 [[UserSession standard] clearNotify];
+			 
 			 NSArray *items = userInfo[@"v"][@"info"];
 			 if ([items count] > 0) {
 				 [_messageModel addItemsWithArray:items];

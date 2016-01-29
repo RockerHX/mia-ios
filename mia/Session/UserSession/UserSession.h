@@ -46,6 +46,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 - (BOOL)isCachedLogin;
 
 - (void)logout;
+- (void)clearNotify;
 
 - (void)saveAuthInfo:(NSString *)uid token:(NSString *)token;
 - (void)saveUserInfoUid:(NSString *)uid nickName:(NSString *)nickName;
