@@ -165,7 +165,6 @@
          } timeoutBlock:^(MiaRequestItem *requestItem) {
              [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
          }];
-        
     }];
     
     UIActionSheet *aActionSheet = nil;

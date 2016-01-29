@@ -182,6 +182,8 @@
 		CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */; };
 		CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */; };
 		CDEEF8801C5B70820064C873 /* HXProfileShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */; };
+		CDEEF8831C5B9B660064C873 /* HXProfileSongActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF8821C5B9B660064C873 /* HXProfileSongActionCell.m */; };
+		CDEEF8861C5B9B750064C873 /* HXProfileSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF8851C5B9B750064C873 /* HXProfileSongCell.m */; };
 		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
@@ -534,6 +536,10 @@
 		CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
 		CDEEF87E1C5B70820064C873 /* HXProfileShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileShareCell.h; sourceTree = "<group>"; };
 		CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileShareCell.m; sourceTree = "<group>"; };
+		CDEEF8811C5B9B660064C873 /* HXProfileSongActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileSongActionCell.h; sourceTree = "<group>"; };
+		CDEEF8821C5B9B660064C873 /* HXProfileSongActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileSongActionCell.m; sourceTree = "<group>"; };
+		CDEEF8841C5B9B750064C873 /* HXProfileSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileSongCell.h; sourceTree = "<group>"; };
+		CDEEF8851C5B9B750064C873 /* HXProfileSongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileSongCell.m; sourceTree = "<group>"; };
 		CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXShareViewController.h; sourceTree = "<group>"; };
 		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
@@ -1907,6 +1913,10 @@
 			children = (
 				CDEEF87E1C5B70820064C873 /* HXProfileShareCell.h */,
 				CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */,
+				CDEEF8811C5B9B660064C873 /* HXProfileSongActionCell.h */,
+				CDEEF8821C5B9B660064C873 /* HXProfileSongActionCell.m */,
+				CDEEF8841C5B9B750064C873 /* HXProfileSongCell.h */,
+				CDEEF8851C5B9B750064C873 /* HXProfileSongCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2138,6 +2148,7 @@
 				CD57538A1BDE33DC00E7CBC4 /* HXMusicDetailShareCell.m in Sources */,
 				CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */,
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
+				CDEEF8831C5B9B660064C873 /* HXProfileSongActionCell.m in Sources */,
 				CD9670631C52211D00130D27 /* HXIBView.m in Sources */,
 				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
 				CD8FC6441C5B4ABD007149D6 /* HXProfileSegmentView.m in Sources */,
@@ -2173,6 +2184,7 @@
 				CD5753821BDE32FB00E7CBC4 /* HXMusicDetailCoverCell.m in Sources */,
 				3965DF771BD1FE1C003B1641 /* NSObject+BlockSupport.m in Sources */,
 				397E42D01BA90812006BE9E7 /* NSString+DateFormatter.m in Sources */,
+				CDEEF8861C5B9B750064C873 /* HXProfileSongCell.m in Sources */,
 				397D9CAD1C58FEC0003BDC33 /* FriendViewController.m in Sources */,
 				39BF8C721BB268B4003AB4FC /* MyProfileViewController.m in Sources */,
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,

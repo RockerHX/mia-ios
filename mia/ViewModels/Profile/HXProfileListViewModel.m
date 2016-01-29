@@ -48,6 +48,7 @@ typedef void(^FailureBlock)(NSString *);
     
     _shareLists = @[].mutableCopy;
     _favoriteLists = @[].mutableCopy;
+    _rowTypes = @[@(HXProfileSongRowTypeSongAction), @(HXProfileSongRowTypeSong)];
 }
 
 #pragma mark - Setter And Getter
@@ -55,12 +56,27 @@ typedef void(^FailureBlock)(NSString *);
     return (SCREEN_WIDTH/378.0f) * 232.0f;
 }
 
+- (CGFloat)favoriteHeight {
+    return 65.0f;
+}
+
 - (CGFloat)segmentHeight {
     return 60.0f;
 }
 
 - (NSInteger)rows {
-    return self.dataSource.count;
+    NSInteger rows = 0;
+    switch (_itemType) {
+        case HXProfileSegmentItemTypeShare: {
+            rows = self.dataSource.count;
+            break;
+        }
+        case HXProfileSegmentItemTypeFavorite: {
+            rows = _rowTypes.count;
+            break;
+        }
+    }
+    return rows;
 }
 
 - (NSArray *)dataSource {
@@ -80,6 +96,19 @@ typedef void(^FailureBlock)(NSString *);
 
 - (void)setItemType:(HXProfileSegmentItemType)itemType {
     _itemType = itemType;
+    
+    switch (itemType) {
+        case HXProfileSegmentItemTypeShare: {
+            if (_completedBlock) {
+                _completedBlock(self);
+            }
+            break;
+        }
+        case HXProfileSegmentItemTypeFavorite: {
+            [self fetchUserListData];
+            break;
+        }
+    }
 }
 
 - (NSInteger)shareCount {
@@ -96,6 +125,12 @@ typedef void(^FailureBlock)(NSString *);
 - (void)fetchProfileListMoreData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure {
     _completedBlock = completed;
     _failureBlock = failure;
+}
+
+- (void)deleteShareItemWithIndex:(NSInteger)index {
+    if (index < _shareLists.count) {
+        [_shareLists removeObjectAtIndex:index];
+    }
 }
 
 #pragma mark - Private Methods
@@ -155,7 +190,9 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (void)fetchUserFavoriteData {
-    
+    if (_completedBlock) {
+        _completedBlock(self);
+    }
 }
 
 @end
