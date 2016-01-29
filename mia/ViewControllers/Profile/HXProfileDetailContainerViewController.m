@@ -43,7 +43,7 @@ HXProfileSegmentViewDelegate
     __weak __typeof__(self)weakSelf = self;
     [_viewModel fetchProfileListData:^(HXProfileListViewModel *viewModel) {
         __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.tableView reloadData];
+        [strongSelf endLoad];
     } failure:^(NSString *message) {
         [HXAlertBanner showWithMessage:message tap:nil];
     }];
@@ -66,6 +66,12 @@ HXProfileSegmentViewDelegate
     return _segmentView;
 }
 
+- (void)endLoad {
+    [self.tableView reloadData];
+    
+    _segmentView.shareItemView.countLabel.text = @(_viewModel.shareCount).stringValue;
+}
+
 #pragma mark - ScrollView Delegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (_footerHeight <= _header.height) {
@@ -81,7 +87,18 @@ HXProfileSegmentViewDelegate
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    UITableViewCell *cell = nil;
+    switch (_segmentView.itemType) {
+        case HXProfileSegmentItemTypeShare: {
+            cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) forIndexPath:indexPath];
+            [(HXProfileShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+            break;
+        }
+        case HXProfileSegmentItemTypeFavorite: {
+            ;
+            break;
+        }
+    }
     return cell;
 }
 
@@ -92,6 +109,21 @@ HXProfileSegmentViewDelegate
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return _type ? [self segmentView] : nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 0.0f;
+    switch (_segmentView.itemType) {
+        case HXProfileSegmentItemTypeShare: {
+            height = _viewModel.shareCellHeight;
+            break;
+        }
+        case HXProfileSegmentItemTypeFavorite: {
+            ;
+            break;
+        }
+    }
+    return height;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

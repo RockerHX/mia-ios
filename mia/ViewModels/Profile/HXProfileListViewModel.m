@@ -8,7 +8,6 @@
 
 #import "HXProfileListViewModel.h"
 #import "MiaAPIHelper.h"
-#import "ShareItem.h"
 
 static NSInteger ListPageLimit = 10;
 
@@ -52,6 +51,10 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 #pragma mark - Setter And Getter
+- (CGFloat)shareCellHeight {
+    return (SCREEN_WIDTH/378.0f) * 232.0f;
+}
+
 - (CGFloat)segmentHeight {
     return 60.0f;
 }
@@ -77,6 +80,10 @@ typedef void(^FailureBlock)(NSString *);
 
 - (void)setItemType:(HXProfileSegmentItemType)itemType {
     _itemType = itemType;
+}
+
+- (NSInteger)shareCount {
+    return _shareLists.count;
 }
 
 #pragma mark - Public Methods

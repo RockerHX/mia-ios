@@ -60,12 +60,11 @@ HXXibImplementation
         strongSelf.cursorLine.center = CGPointMake(itemView.center.x, strongSelf.cursorLine.center.y);
     }];
     
-    HXProfileSegmentItemType type = HXProfileSegmentItemTypeShare;
     if ([itemView isEqual:_favoriteItemView]) {
-        type = HXProfileSegmentItemTypeFavorite;
+        _itemType = HXProfileSegmentItemTypeFavorite;
     }
     if (_delegate && [_delegate respondsToSelector:@selector(segmentView:selectedType:)]) {
-        [_delegate segmentView:self selectedType:type];
+        [_delegate segmentView:self selectedType:_itemType];
     }
 }
 

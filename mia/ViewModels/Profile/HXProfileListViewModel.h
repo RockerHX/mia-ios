@@ -7,14 +7,18 @@
 //
 
 #import "HXProfileSegmentView.h"
+#import "HXProfileShareCell.h"
 
 @interface HXProfileListViewModel : NSObject
 
 @property (nonatomic, strong)  NSString *uid;
 
+@property (nonatomic, assign, readonly)   CGFloat  shareCellHeight;
 @property (nonatomic, assign, readonly)   CGFloat  segmentHeight;
 @property (nonatomic, assign, readonly) NSInteger  rows;
 @property (nonatomic, strong, readonly)   NSArray *dataSource;
+
+@property (nonatomic, assign, readonly) NSInteger  shareCount;
 
 @property (nonatomic, assign) HXProfileSegmentItemType  itemType;
 

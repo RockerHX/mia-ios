@@ -181,6 +181,7 @@
 		CDD8315E1BD8B6B60067309B /* HXInfectUserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD8315D1BD8B6B60067309B /* HXInfectUserListView.m */; };
 		CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */; };
 		CDD831631BD8BAD50067309B /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */; };
+		CDEEF8801C5B70820064C873 /* HXProfileShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */; };
 		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
@@ -531,6 +532,8 @@
 		CDD8315F1BD8BABF0067309B /* HXInfectUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListCell.h; sourceTree = "<group>"; };
 		CDD831601BD8BABF0067309B /* HXInfectUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListCell.m; sourceTree = "<group>"; };
 		CDD831621BD8BAD50067309B /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
+		CDEEF87E1C5B70820064C873 /* HXProfileShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileShareCell.h; sourceTree = "<group>"; };
+		CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileShareCell.m; sourceTree = "<group>"; };
 		CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXShareViewController.h; sourceTree = "<group>"; };
 		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
@@ -1522,6 +1525,7 @@
 		CD542C121C5A062700A55F83 /* DetailContainer */ = {
 			isa = PBXGroup;
 			children = (
+				CDEEF87D1C5B706E0064C873 /* Cells */,
 				CD542C131C5A2E7600A55F83 /* HXProfileDetailHeader.h */,
 				CD542C141C5A2E7600A55F83 /* HXProfileDetailHeader.m */,
 				CD542C161C5A2EB300A55F83 /* HXProfileDetailHeader.xib */,
@@ -1898,6 +1902,15 @@
 			path = HXInfectUserListView;
 			sourceTree = "<group>";
 		};
+		CDEEF87D1C5B706E0064C873 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CDEEF87E1C5B70820064C873 /* HXProfileShareCell.h */,
+				CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		CDF739CE1BE0BAAE009FA8CA /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -2130,6 +2143,7 @@
 				CD8FC6441C5B4ABD007149D6 /* HXProfileSegmentView.m in Sources */,
 				CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */,
 				CD57538D1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m in Sources */,
+				CDEEF8801C5B70820064C873 /* HXProfileShareCell.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
 				CD9670661C52211D00130D27 /* HXCaptchButton.m in Sources */,
 				397FA53A1BAC0CF3003FD186 /* UIScrollView+MIARefresh.m in Sources */,
