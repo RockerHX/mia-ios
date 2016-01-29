@@ -16,13 +16,8 @@
 
 static const long kMessagePageCount = 10;
 
-@interface HXMessageCenterViewController () <
-HXMessageCellDelegate
->
-@end
-
 @implementation HXMessageCenterViewController {
-	MessageModel 			*_messageModel;
+	MessageModel *_messageModel;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -124,16 +119,6 @@ HXMessageCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-#pragma mark - HXMessageCellDelegate Methods
-- (void)messageCell:(HXMessageCell *)cell takeAction:(HXMessageCellAction)action {
-    switch (action) {
-        case HXMessageCellActionAvatarTaped: {
-            ;
-            break;
-        }
-    }
 }
 
 @end
