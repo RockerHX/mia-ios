@@ -50,9 +50,9 @@ HXXibImplementation
 
 #pragma mark - HXSegmentItemViewDelegate Methods
 - (void)itemViewSelected:(HXSegmentItemView *)itemView {
-    _shareItemView.selected = NO;
+    _selectedItemView.selected = NO;
     itemView.selected = YES;
-    _shareItemView = itemView;
+    _selectedItemView = itemView;
     
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f animations:^{
@@ -60,9 +60,12 @@ HXXibImplementation
         strongSelf.cursorLine.center = CGPointMake(itemView.center.x, strongSelf.cursorLine.center.y);
     }];
     
-    if ([itemView isEqual:_favoriteItemView]) {
+    if ([itemView isEqual:_shareItemView]) {
+        _itemType = HXProfileSegmentItemTypeShare;
+    } else if ([itemView isEqual:_favoriteItemView]) {
         _itemType = HXProfileSegmentItemTypeFavorite;
     }
+    
     if (_delegate && [_delegate respondsToSelector:@selector(segmentView:selectedType:)]) {
         [_delegate segmentView:self selectedType:_itemType];
     }

@@ -12,6 +12,8 @@
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
+#import "HXProfileSongActionCell.h"
+#import "HXProfileSongCell.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -100,7 +102,17 @@ HXProfileShareCellDelegate
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
-            ;
+            HXProfileSongRowType rowType = [_viewModel.rowTypes[indexPath.row] integerValue];
+            switch (rowType) {
+                case HXProfileSongRowTypeSongAction: {
+                    cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileSongActionCell class]) forIndexPath:indexPath];
+                    break;
+                }
+                case HXProfileSongRowTypeSong: {
+                    cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileSongCell class]) forIndexPath:indexPath];
+                    break;
+                }
+            }
             break;
         }
     }
@@ -124,7 +136,7 @@ HXProfileShareCellDelegate
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
-            ;
+            height = _viewModel.favoriteHeight;
             break;
         }
     }
