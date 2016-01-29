@@ -12,6 +12,7 @@
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
 #import "UITableView+FDTemplateLayoutCell.h"
+#import "UIView+Frame.h"
 
 static const long kMessagePageCount = 10;
 
@@ -50,15 +51,14 @@ HXMessageCellDelegate
 
 - (void)fetchNewData {
     [super fetchNewData];
-    
-    [_messageModel reset];
-    [self fetchMessageList];
+	[_messageModel reset];
+	[self fetchMessageList];
 }
 
 - (void)fetchMoreData {
     [super fetchMoreData];
     
-    [self fetchMessageList];
+	[self fetchMessageList];
 }
 
 - (void)endLoad {
@@ -70,26 +70,26 @@ HXMessageCellDelegate
 #pragma mark - Private Methods
 - (void)fetchMessageList {
 	[MiaAPIHelper getNotifyWithLastID:_messageModel.lastID
-								item:kMessagePageCount
-                        completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-        if (success) {
-           NSArray *items = userInfo[@"v"][@"info"];
-           if ([items count] > 0) {
-               [_messageModel addItemsWithArray:items];
-           }
-           
-           [self endLoad];
-        } else {
-           [self endLoad];
-           
-           id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-           [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-        }
-     } timeoutBlock:^(MiaRequestItem *requestItem) {
-        [self endLoad];
-        NSLog(@"requestFansListWithReload timeout");
-     }];
+								 item:kMessagePageCount
+						completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (success) {
+			 NSArray *items = userInfo[@"v"][@"info"];
+			 if ([items count] > 0) {
+				 [_messageModel addItemsWithArray:items];
+			 }
+
+			 [self endLoad];
+		 } else {
+			 [self endLoad];
+
+			 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+			 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 [self endLoad];
+		 NSLog(@"requestFansListWithReload timeout");
+	 }];
 }
 
 #pragma mark - Table View Data Source Methods
@@ -98,6 +98,10 @@ HXMessageCellDelegate
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (_messageModel.dataSource.count <= 0) {
+		return nil;
+	}
+	
     HXMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMessageCell class]) forIndexPath:indexPath];
     [cell displayWithMessageItem:_messageModel.dataSource[indexPath.row]];
     return cell;
@@ -112,8 +116,8 @@ HXMessageCellDelegate
             }];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    if (tableView.contentSize.height > SCREEN_HEIGHT) {
+- (void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    if (tableView.contentSize.height > (self.view.height - 64.0f)) {
         [self addFreshFooter];
     }
 }
