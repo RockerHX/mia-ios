@@ -172,9 +172,9 @@ HXProfileShareCellDelegate
 #pragma mark - HXProfileShareCellDelegate Methods
 - (void)shareCell:(HXProfileShareCell *)cell takeAction:(HXProfileShareCellAction)action {
     NSInteger index = [self.tableView indexPathForCell:cell].row;
+    ShareItem *item = _viewModel.dataSource[index];
     switch (action) {
         case HXProfileShareCellActionFavorite: {
-            ShareItem *item = _viewModel.dataSource[index];
             if ([[UserSession standard] isLogined]) {
                 [MiaAPIHelper favoriteMusicWithShareID:item.sID
                                             isFavorite:!item.favorite
@@ -206,7 +206,20 @@ HXProfileShareCellDelegate
             break;
         }
         case HXProfileShareCellActionDelete: {
-            ;
+            [MiaAPIHelper deleteShareById:item.sID completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 if (success) {
+                     [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
+                     
+                     [_viewModel deleteShareItemWithIndex:index];
+                     [self.tableView reloadData];
+                 } else {
+                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
+             }];
             break;
         }
     }

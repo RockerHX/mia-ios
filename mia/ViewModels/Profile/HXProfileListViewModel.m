@@ -98,6 +98,12 @@ typedef void(^FailureBlock)(NSString *);
     _failureBlock = failure;
 }
 
+- (void)deleteShareItemWithIndex:(NSInteger)index {
+    if (index < _shareLists.count) {
+        [_shareLists removeObjectAtIndex:index];
+    }
+}
+
 #pragma mark - Private Methods
 - (void)fetchUserListData {
     switch (_itemType) {

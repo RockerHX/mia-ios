@@ -27,4 +27,6 @@
 - (void)fetchProfileListData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
 - (void)fetchProfileListMoreData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
 
+- (void)deleteShareItemWithIndex:(NSInteger)index;
+
 @end
