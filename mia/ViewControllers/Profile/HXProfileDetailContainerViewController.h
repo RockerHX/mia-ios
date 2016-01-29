@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIView *footer;
 
 @property (nonatomic, assign) HXProfileType  type;
+@property (nonatomic, strong)      NSString *uid;
 
 @property (nonatomic, strong) HXProfileDetailHeader *header;
 

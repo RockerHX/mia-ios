@@ -29,6 +29,8 @@ NSString * const WebSocketMgrNotificationDidReceivePong				= @"WebSocketMgrNotif
 NSString * const NetworkNotificationKey_Status						= @"status";
 NSString * const NetworkNotificationReachabilityStatusChange		= @"NetworkNotificationReachabilityStatusChange";
 
+NSString * const kNeedLoginNotification                             = @"kNeedLoginNotification";
+
 const static NSTimeInterval kAutoReconnectTimeout_First				= 5.0;
 const static NSTimeInterval kAutoReconnectTimeout_Second			= 15.0;
 const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;

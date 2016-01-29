@@ -28,8 +28,9 @@ typedef NS_ENUM(NSUInteger, HXProfileSegmentItemType) {
 
 @property (weak, nonatomic) IBOutlet HXSegmentItemView *shareItemView;
 @property (weak, nonatomic) IBOutlet HXSegmentItemView *favoriteItemView;
+@property (weak, nonatomic) IBOutlet            UIView *cursorLine;
 
-@property (weak, nonatomic) IBOutlet UIView *cursorLine;
+@property (nonatomic, assign, readonly) HXProfileSegmentItemType  itemType;
 
 + (instancetype)instanceWithDelegate:(id<HXProfileSegmentViewDelegate>)delegate;
 - (instancetype)initWithDelegate:(id<HXProfileSegmentViewDelegate>)delegate;

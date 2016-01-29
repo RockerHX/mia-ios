@@ -24,6 +24,8 @@ extern NSString * const WebSocketMgrNotificationDidReceivePong;
 extern NSString * const NetworkNotificationKey_Status;
 extern NSString * const NetworkNotificationReachabilityStatusChange;
 
+extern NSString * const kNeedLoginNotification;
+
 
 @interface WebSocketMgr : NSObject
 

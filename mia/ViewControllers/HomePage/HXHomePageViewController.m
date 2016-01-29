@@ -94,8 +94,9 @@ HXRadioViewControllerDelegate
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationPushUnread object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationPushUnread object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedLoginNotification object:nil];
     
     [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
     [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_LoginState context:nil];
@@ -118,8 +119,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidFailWithError:) name:WebSocketMgrNotificationDidFailWithError object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidAutoReconnectFailed:) name:WebSocketMgrNotificationDidAutoReconnectFailed object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketPushUnread:) name:WebSocketMgrNotificationPushUnread object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketPushUnread:) name:WebSocketMgrNotificationPushUnread object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentLoginViewController:) name:kNeedLoginNotification object:nil];
+    
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_LoginState options:NSKeyValueObservingOptionNew context:nil];
 	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
@@ -623,15 +626,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     } else {
         [self startUnInfectedStateAnimation];
     }
-    [self displayFeedBackButtonColor];
-}
-
-- (void)displayFeedBackButtonColor {
-    if ([UserSession standard].state) {
-        [_feedBackButton setTitleColor:_playItem.isInfected ? UIColorFromHex(@"3DC6B6", 1.0f) : [UIColor whiteColor] forState:UIControlStateNormal];
-    } else {
-        [_feedBackButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
 }
 
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
@@ -672,7 +666,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView.waveView startAnimating];
-    [self displayFeedBackButtonColor];
 }
 
 - (void)stopWaveAnimation {

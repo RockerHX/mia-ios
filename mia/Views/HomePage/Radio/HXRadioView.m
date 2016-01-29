@@ -131,19 +131,17 @@ HXRadioShareInfoViewDelegate
 }
 
 - (IBAction)starButtonPressed:(UIButton *)button {
-    __weak __typeof__(self)weakSelf = self;
 	if ([[UserSession standard] isLogined]) {
 		[MiaAPIHelper favoriteMusicWithShareID:_currentItem.sID
 									isFavorite:!_currentItem.favorite
 								 completeBlock:
 		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-             __strong __typeof__(self)strongSelf = weakSelf;
 			 if (success) {
 				 id act = userInfo[MiaAPIKey_Values][@"act"];
 				 id sID = userInfo[MiaAPIKey_Values][@"id"];
                  BOOL favorite = [act intValue];
-				 if ([strongSelf->_currentItem.sID integerValue] == [sID intValue]) {
-					 strongSelf->_currentItem.favorite = favorite;
+				 if ([_currentItem.sID integerValue] == [sID intValue]) {
+					 _currentItem.favorite = favorite;
 				 }
                  
                  [button setImage:[UIImage imageNamed:(favorite ? @"HP-StarIcon" : @"HP-UnStarIcon")] forState:UIControlStateNormal];
