@@ -10,13 +10,16 @@
 
 @interface HXListViewController : UITableViewController
 
+@property (nonatomic, assign)  BOOL  hasFooter;
 @property (nonatomic, copy) NSArray *dataList;
 
 - (void)loadConfigure;
 - (void)viewConfigure;
 
 - (void)fetchNewData;
-
+- (void)fetchMoreData;
 - (void)endLoad;
+
+- (void)addFreshFooter;
 
 @end

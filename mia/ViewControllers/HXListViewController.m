@@ -25,18 +25,25 @@
 #pragma mark - Config Methods
 - (void)loadConfigure {
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(fetchNewData)];
+    if (_hasFooter) {
+        [self addFreshFooter];
+    }
+    
     [self.tableView.mj_header beginRefreshing];
 }
 
-- (void)viewConfigure {
-}
+- (void)viewConfigure {}
 
 #pragma mark - Public Methods
-- (void)fetchNewData {
-}
+- (void)fetchNewData {}
+- (void)fetchMoreData {}
 
 - (void)endLoad {
     [self.tableView.mj_header endRefreshing];
+}
+
+- (void)addFreshFooter {
+    self.tableView.mj_footer = [MJRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreData)];
 }
 
 @end
