@@ -173,6 +173,10 @@
 }
 
 - (CGFloat)correctHeightWithHeight:(CGFloat)height {
+	if (_maxHeight <= 0) {
+		return height;
+	}
+
     return (height > _maxHeight) ? _maxHeight : height;
 }
 
