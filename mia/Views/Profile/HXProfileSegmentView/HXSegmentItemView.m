@@ -13,7 +13,7 @@
 #pragma mark - Setter And Getter
 - (void)setSelected:(BOOL)selected {
     _selected = selected;
-    _titleLabel.textColor = selected ? [UIColor blackColor] : UIColorFromHex(@"808080", 1.0f);
+    _titleLabel.textColor = selected ? UIColorFromHex(@"0CB4A3", 1.0f) : UIColorFromHex(@"808080", 1.0f);
     _countLabel.textColor = _titleLabel.textColor;
 }
 

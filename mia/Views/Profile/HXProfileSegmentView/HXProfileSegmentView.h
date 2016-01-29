@@ -9,9 +9,8 @@
 #import "HXSegmentItemView.h"
 
 typedef NS_ENUM(NSUInteger, HXProfileSegmentItemType) {
-    HXProfileSegmentItemTypeShow,
-    HXProfileSegmentItemTypeSongList,
-    HXProfileSegmentItemTypeAttention
+    HXProfileSegmentItemTypeShare,
+    HXProfileSegmentItemTypeFavorite
 };
 
 @class HXProfileSegmentView;
@@ -27,9 +26,8 @@ typedef NS_ENUM(NSUInteger, HXProfileSegmentItemType) {
 
 @property (weak, nonatomic) IBOutlet                id  <HXProfileSegmentViewDelegate>delegate;
 
+@property (weak, nonatomic) IBOutlet HXSegmentItemView *shareItemView;
 @property (weak, nonatomic) IBOutlet HXSegmentItemView *favoriteItemView;
-@property (weak, nonatomic) IBOutlet HXSegmentItemView *commentItemView;
-@property (weak, nonatomic) IBOutlet HXSegmentItemView *attentionItemView;
 
 @property (weak, nonatomic) IBOutlet UIView *cursorLine;
 
