@@ -59,6 +59,10 @@
 }
 
 - (NSString *)uid {
+	if ([NSString isNull:_uid]) {
+		return nil;
+	}
+
     return [NSString stringWithFormat:@"%@", _uid];
 }
 
@@ -91,7 +95,15 @@
 	
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_SessionUID];
 	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_SessionToken];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_UID];
+	[UserDefaultsUtils removeObjectForKey:UserDefaultsKey_Nick];
+
     self.state = UserSessionLoginStateLogout;
+}
+
+- (void)clearNotify {
+	[self setNotifyCnt:0];
+	_notifyUserpic = nil;
 }
 
 - (void)saveAuthInfo:(NSString *)uid token:(NSString *)token {

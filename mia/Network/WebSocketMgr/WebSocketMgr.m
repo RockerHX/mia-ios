@@ -338,7 +338,7 @@ const static NSTimeInterval kAutoReconnectTimeout_Loop				= 30.0;
 	NSString *command = userInfo[MiaAPIKey_ServerCommand];
 //	NSLog(@"#WebSocketWithBlock# E-N-D %@, %ld", command, timestamp);
 
-	if ([command isEqualToString:MiaAPICommand_User_PushUnreadComm]) {
+	if ([command isEqualToString:MiaAPICommand_User_PushNoti]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:WebSocketMgrNotificationPushUnread object:self userInfo:userInfo];
 		return;
 	}

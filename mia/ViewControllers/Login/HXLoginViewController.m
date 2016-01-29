@@ -314,7 +314,6 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
              UserSession *userSession = [UserSession standard];
              userSession.state = UserSessionLoginStateLogin;
              [userSession setAvatar:avatarUrlWithTime];
-//             [userSession saveAuthInfoMobile:mobile password:password];
 			 [userSession saveAuthInfo:userInfo[MiaAPIKey_Values][@"uid"] token:userInfo[MiaAPIKey_Values][@"token"]];
              [userSession saveUserInfoUid:userInfo[MiaAPIKey_Values][@"uid"] nickName:userInfo[MiaAPIKey_Values][@"nick"]];
              

@@ -23,6 +23,7 @@ static NSString * const UserDefaultsKey_Nick				= @"nick";
 static NSString * const UserSessionKey_NickName				= @"nick";
 static NSString * const UserSessionKey_Avatar				= @"avatar";
 static NSString * const UserSessionKey_LoginState           = @"state";
+static NSString * const UserSessionKey_NotifyCount          = @"notifyCnt";
 
 @interface UserSession : NSObject
 
@@ -46,6 +47,7 @@ static NSString * const UserSessionKey_LoginState           = @"state";
 - (BOOL)isCachedLogin;
 
 - (void)logout;
+- (void)clearNotify;
 
 - (void)saveAuthInfo:(NSString *)uid token:(NSString *)token;
 - (void)saveUserInfoUid:(NSString *)uid nickName:(NSString *)nickName;

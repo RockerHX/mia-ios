@@ -100,6 +100,7 @@ HXRadioViewControllerDelegate
     
     [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
     [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_LoginState context:nil];
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NotifyCount context:nil];
 }
 
 #pragma mark - Prepare
@@ -124,6 +125,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_LoginState options:NSKeyValueObservingOptionNew context:nil];
+	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
 
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
@@ -228,7 +230,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [_radioViewController cleanShareListUserState];
             [self shouldDisplayInfectUsers:_playItem];
         }
-    }
+	} else if ([keyPath isEqualToString:UserSessionKey_NotifyCount]) {
+		NSInteger notifyCount = [change[NSKeyValueChangeNewKey] integerValue];
+		[self updateProfileButtonWithUnreadCount:notifyCount];
+	}
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {
@@ -261,9 +266,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)notificationWebSocketPushUnread:(NSNotification *)notification {
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	if (0 == [ret intValue]) {
-		[self updateProfileButtonWithUnreadCount:[[notification userInfo][MiaAPIKey_Values][@"num"] intValue]];
+		NSInteger notifyCount = [[notification userInfo][MiaAPIKey_Values][@"notifyCnt"] integerValue];
+		[[UserSession standard] setNotifyUserpic:[notification userInfo][MiaAPIKey_Values][@"notifyUserpic"]];
+		[[UserSession standard] setNotifyCnt:notifyCount];
 	} else {
-		NSLog(@"unread comment failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
+		NSLog(@"notify count parse failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 }
 

@@ -30,6 +30,7 @@
 
 @property (nonatomic, assign)      BOOL  fromProfile;
 @property (nonatomic, strong) ShareItem *playItem;
+@property (strong, nonatomic) NSString 	*sID;
 
 - (IBAction)backButtonPressed;
 - (IBAction)moreButtonPressed;

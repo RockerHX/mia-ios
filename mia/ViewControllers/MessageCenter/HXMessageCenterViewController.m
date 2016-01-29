@@ -72,6 +72,8 @@ static const long kMessagePageCount = 10;
 						completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
+			 [[UserSession standard] clearNotify];
+
 			 NSArray *items = userInfo[@"v"][@"info"];
 			 if ([items count] > 0) {
 				 [_messageModel addItemsWithArray:items];
@@ -144,6 +146,7 @@ static const long kMessagePageCount = 10;
         [self.navigationController pushViewController:profileViewController animated:YES];
     } else {
         HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
+		musicDetailViewController.sID = item.sID;
         [self.navigationController pushViewController:musicDetailViewController animated:YES];
     }
 }
