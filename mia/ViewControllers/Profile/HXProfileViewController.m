@@ -21,6 +21,7 @@ HXProfileDetailContainerViewControllerDelegate
 @end
 
 @implementation HXProfileViewController {
+    BOOL  _pushed;
     UIStatusBarStyle  _statusBarStyle;
     HXProfileCoverContainerViewController *_coverContainerViewController;
     HXProfileDetailContainerViewController *_detailContainerViewController;
@@ -29,11 +30,19 @@ HXProfileDetailContainerViewControllerDelegate
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:_pushed];
+    if (_pushed) {
+        _pushed = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    if (!_pushed) {
+        return;
+    }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -80,6 +89,7 @@ HXProfileDetailContainerViewControllerDelegate
 
 #pragma mark - Event Response
 - (IBAction)settingButtonPressed {
+    _pushed = YES;
     HXSettingViewController *settingViewController = [HXSettingViewController instance];
     [self.navigationController pushViewController:settingViewController animated:YES];
 }
