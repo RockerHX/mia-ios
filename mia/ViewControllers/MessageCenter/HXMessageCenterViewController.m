@@ -51,6 +51,13 @@ HXMessageCellDelegate
 - (void)fetchNewData {
     [super fetchNewData];
     
+    [_messageModel reset];
+    [self fetchMessageList];
+}
+
+- (void)fetchMoreData {
+    [super fetchMoreData];
+    
     [self fetchMessageList];
 }
 
@@ -103,6 +110,12 @@ HXMessageCellDelegate
             ^(HXMessageCell *cell) {
                 [cell displayWithMessageItem:item];
             }];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    if (tableView.contentSize.height > SCREEN_HEIGHT) {
+        [self addFreshFooter];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

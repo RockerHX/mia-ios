@@ -214,11 +214,21 @@
                                                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Dg-l3-ICM" userLabel="Separator">
+                                                    <rect key="frame" x="15" y="50" width="305" height="0.0"/>
+                                                    <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="0.5" id="ctO-qg-9tO"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="N0Y-t0-Jkh" secondAttribute="trailing" constant="15" id="CKB-Mk-dr2"/>
+                                                <constraint firstAttribute="trailing" secondItem="3Dg-l3-ICM" secondAttribute="trailing" id="DXP-WV-ctY"/>
+                                                <constraint firstAttribute="bottom" secondItem="3Dg-l3-ICM" secondAttribute="bottom" id="GKa-yE-KXT"/>
                                                 <constraint firstItem="N0Y-t0-Jkh" firstAttribute="centerY" secondItem="9aO-qO-oGH" secondAttribute="centerY" id="Ote-q6-CZ3"/>
                                                 <constraint firstItem="DPh-kj-InY" firstAttribute="centerY" secondItem="9aO-qO-oGH" secondAttribute="centerY" id="pLI-en-S8p"/>
+                                                <constraint firstItem="3Dg-l3-ICM" firstAttribute="leading" secondItem="9aO-qO-oGH" secondAttribute="leading" constant="15" id="x0L-Ta-B9p"/>
                                                 <constraint firstItem="DPh-kj-InY" firstAttribute="leading" secondItem="9aO-qO-oGH" secondAttribute="leading" constant="15" id="zhP-84-vug"/>
                                             </constraints>
                                         </tableViewCellContentView>
