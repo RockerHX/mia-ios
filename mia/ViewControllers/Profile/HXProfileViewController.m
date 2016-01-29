@@ -73,6 +73,7 @@ HXProfileDetailContainerViewControllerDelegate
     } else if ([identifier isEqualToString:[HXProfileDetailContainerViewController segueIdentifier]]) {
         _detailContainerViewController = segue.destinationViewController;
         _detailContainerViewController.type = _type;
+        _detailContainerViewController.uid = _uid;
         _detailContainerViewController.delegate = self;
     }
 }
@@ -119,9 +120,11 @@ HXProfileDetailContainerViewControllerDelegate
              
              [self hiddenHUD];
          } else {
+             [self hiddenHUD];
              NSLog(@"getUserInfoWithUID failed");
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [self hiddenHUD];
          NSLog(@"getUserInfoWithUID timeout");
      }];
 }

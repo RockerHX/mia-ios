@@ -98,7 +98,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qe8-TQ-eDn" userLabel="Container View">
-                                            <rect key="frame" x="8" y="0.0" width="304" height="220"/>
+                                            <rect key="frame" x="8" y="8" width="304" height="220"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="好喜欢里面的编曲，给人耳目一新的感觉。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZc-kF-vNu">
                                                     <rect key="frame" x="10" y="14" width="284" height="20"/>
@@ -258,10 +258,10 @@
                                     </subviews>
                                     <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstItem="Qe8-TQ-eDn" firstAttribute="top" secondItem="FvN-SF-mWx" secondAttribute="top" id="2Nw-76-gna"/>
+                                        <constraint firstItem="Qe8-TQ-eDn" firstAttribute="top" secondItem="FvN-SF-mWx" secondAttribute="top" constant="8" id="2Nw-76-gna"/>
                                         <constraint firstItem="Qe8-TQ-eDn" firstAttribute="leading" secondItem="FvN-SF-mWx" secondAttribute="leading" constant="8" id="ZQY-nd-LE7"/>
                                         <constraint firstAttribute="trailing" secondItem="Qe8-TQ-eDn" secondAttribute="trailing" constant="8" id="uKb-eO-ef3"/>
-                                        <constraint firstAttribute="bottom" secondItem="Qe8-TQ-eDn" secondAttribute="bottom" constant="8" id="wEG-Rr-xRc"/>
+                                        <constraint firstAttribute="bottom" secondItem="Qe8-TQ-eDn" secondAttribute="bottom" id="wEG-Rr-xRc"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

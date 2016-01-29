@@ -96,6 +96,7 @@ HXProfileShareCellDelegate
         case HXProfileSegmentItemTypeShare: {
             cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) forIndexPath:indexPath];
             [(HXProfileShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+            [(HXProfileShareCell *)cell deleteButton].hidden = !_type;
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
