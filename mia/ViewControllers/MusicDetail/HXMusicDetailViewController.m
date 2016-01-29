@@ -63,6 +63,10 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
+	//添加键盘监听
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+
 #warning @andy
 	if (!_playItem && ![NSString isNull:_sID]) {
 		[MiaAPIHelper getShareById:_sID
@@ -110,10 +114,6 @@
             [strongSelf.tableView reloadData];
         }
     }];
-    
-    //添加键盘监听
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewConfig {
