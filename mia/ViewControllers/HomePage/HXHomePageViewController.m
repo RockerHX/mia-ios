@@ -593,24 +593,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     }
 }
 
-- (void)showOfflineProfileWithPlayFavorite:(BOOL)playFavorite {
-//    if ([[UserSession standard] isCachedLogin]) {
-//        MyProfileViewController *myProfileViewController = [[MyProfileViewController alloc] initWitUID:[[UserSession standard] uid]
-//                                                                                              nickName:[[UserSession standard] nick]];
-//        myProfileViewController.customDelegate = self;
-//        myProfileViewController.playFavoriteOnceTime = playFavorite;
-//        [self.navigationController pushViewController:myProfileViewController animated:playFavorite ? NO : YES];
-//    } else {
-//        [self presentLoginViewController:nil];
-//	}
-}
-
 - (void)showNoNetworkView {
-	[HXNoNetworkView showOnViewController:self show:^{
-		[self showOfflineProfileWithPlayFavorite:NO];
-	} play:^{
-		[self showOfflineProfileWithPlayFavorite:YES];
-	}];
+	[HXNoNetworkView showOnViewController:self show:nil play:nil];
 }
 
 - (void)cancelLoginOperate {
