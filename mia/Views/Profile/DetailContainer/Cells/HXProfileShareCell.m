@@ -11,24 +11,34 @@
 
 @implementation HXProfileShareCell
 
+#pragma mark - Setter And Getter
+- (void)setFavorite:(BOOL)favorite {
+    _favorite = favorite;
+    
+    [_favoriteButton setImage:[UIImage imageNamed:(favorite ? @"P-FavoritedIcon" : @"P-UnFavoriteIcon")] forState:UIControlStateNormal];
+}
+
 #pragma mark - Event Response
 - (IBAction)playButtonPressed {
-    
+    ;
 }
 
 - (IBAction)favoriteButtonPressed {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(shareCell:takeAction:)]) {
+        [_delegate shareCell:self takeAction:HXProfileShareCellActionFavorite];
+    }
 }
 
 - (IBAction)deleteButtonPressed {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(shareCell:takeAction:)]) {
+        [_delegate shareCell:self takeAction:HXProfileShareCellActionDelete];
+    }
 }
 
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
+    self.favorite = item.favorite;
     [_cover sd_setImageWithURL:[NSURL URLWithString:item.music.purl] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-    
-    [_favoriteButton setImage:[UIImage imageNamed:(item.favorite ? @"P-FavoritedIcon" : @"P-UnFavoriteIcon")] forState:UIControlStateNormal];
     
     _titleLabel.text = item.sNote;
     _descriptionLabel.text = [item.formatTime stringByAppendingFormat:@" 分享了"];

@@ -9,7 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
 
+typedef NS_ENUM(NSUInteger, HXProfileShareCellAction) {
+    HXProfileShareCellActionFavorite,
+    HXProfileShareCellActionDelete
+};
+
+@class HXProfileShareCell;
+
+@protocol HXProfileShareCellDelegate <NSObject>
+
+@optional
+- (void)shareCell:(HXProfileShareCell *)cell takeAction:(HXProfileShareCellAction)action;
+
+@end
+
 @interface HXProfileShareCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet         id  <HXProfileShareCellDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet     UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *descriptionLabel;
@@ -21,6 +37,8 @@
 @property (weak, nonatomic) IBOutlet     UILabel *commentCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *seeCountLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *deleteButton;
+
+@property (nonatomic, assign) BOOL favorite;
 
 - (IBAction)playButtonPressed;
 - (IBAction)favoriteButtonPressed;

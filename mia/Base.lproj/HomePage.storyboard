@@ -267,16 +267,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjQ-6i-CWc">
-                                <rect key="frame" x="15" y="531" width="41" height="32"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="反  馈">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="feedBackButtonPressed" destination="Vwv-7l-Pgq" eventType="touchUpInside" id="crO-Is-wMz"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="妙推人数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X3v-nK-bAd">
                                 <rect key="frame" x="241" y="537" width="64" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -297,7 +287,6 @@
                             <constraint firstItem="97C-zd-yXF" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" constant="15" id="GCF-La-sRx"/>
                             <constraint firstItem="rGi-8V-WGj" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="GLv-ad-a0L"/>
                             <constraint firstAttribute="bottom" secondItem="K76-u6-UI7" secondAttribute="bottom" constant="20" id="Gji-wQ-Z6e"/>
-                            <constraint firstItem="zjQ-6i-CWc" firstAttribute="leading" secondItem="lBD-s7-8t9" secondAttribute="leading" constant="15" id="HC8-bO-hl5"/>
                             <constraint firstItem="i7R-7R-kAw" firstAttribute="centerX" secondItem="K76-u6-UI7" secondAttribute="centerX" id="ITI-a2-PHK"/>
                             <constraint firstAttribute="trailing" secondItem="X3v-nK-bAd" secondAttribute="trailing" constant="15" id="Iyw-UR-Ig3"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="rGi-8V-WGj" secondAttribute="bottom" constant="10" id="Jrb-Fc-8gt"/>
@@ -309,7 +298,6 @@
                             <constraint firstAttribute="trailing" secondItem="W4h-Kd-Mqg" secondAttribute="trailing" id="eoU-oB-4Sw"/>
                             <constraint firstItem="8aQ-Ov-Qm8" firstAttribute="top" secondItem="X3v-nK-bAd" secondAttribute="bottom" constant="11" id="gfj-Kv-1yD"/>
                             <constraint firstAttribute="trailing" secondItem="6LO-Lb-msR" secondAttribute="trailing" id="pvq-K7-uG1"/>
-                            <constraint firstItem="zjQ-6i-CWc" firstAttribute="centerY" secondItem="X3v-nK-bAd" secondAttribute="centerY" id="qKo-gd-218"/>
                             <constraint firstAttribute="bottom" secondItem="1bC-Qy-IVf" secondAttribute="bottom" id="suh-eh-pfG"/>
                             <constraint firstItem="6LO-Lb-msR" firstAttribute="top" secondItem="KeA-T2-Abd" secondAttribute="bottom" id="uP2-Ce-bLl"/>
                             <constraint firstItem="1bC-Qy-IVf" firstAttribute="centerX" secondItem="lBD-s7-8t9" secondAttribute="centerX" id="urz-cc-gPy"/>
@@ -322,7 +310,6 @@
                     <navigationItem key="navigationItem" id="kAH-Nc-SYo"/>
                     <connections>
                         <outlet property="bubbleView" destination="i7R-7R-kAw" id="SRe-rk-7qf"/>
-                        <outlet property="feedBackButton" destination="zjQ-6i-CWc" id="vr4-ai-Ath"/>
                         <outlet property="fishBottomConstraint" destination="Gji-wQ-Z6e" id="08a-67-gj3"/>
                         <outlet property="fishView" destination="K76-u6-UI7" id="lyD-gc-dvz"/>
                         <outlet property="headerViewBottomConstraint" destination="suh-eh-pfG" id="3cj-Uq-eNc"/>

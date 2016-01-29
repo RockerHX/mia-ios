@@ -9,10 +9,14 @@
 #import "HXProfileDetailContainerViewController.h"
 #import "HXProfileListViewModel.h"
 #import "HXAlertBanner.h"
+#import "UserSession.h"
+#import "MiaAPIHelper.h"
+#import "WebSocketMgr.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
-HXProfileSegmentViewDelegate
+HXProfileSegmentViewDelegate,
+HXProfileShareCellDelegate
 >
 @end
 
@@ -162,6 +166,49 @@ HXProfileSegmentViewDelegate
 #pragma mark - HXProfileSegmentViewDelegate Methods
 - (void)segmentView:(HXProfileSegmentView *)segmentView selectedType:(HXProfileSegmentItemType)type {
     _viewModel.itemType = type;
+}
+
+#pragma mark - HXProfileShareCellDelegate Methods
+- (void)shareCell:(HXProfileShareCell *)cell takeAction:(HXProfileShareCellAction)action {
+    NSInteger index = [self.tableView indexPathForCell:cell].row;
+    switch (action) {
+        case HXProfileShareCellActionFavorite: {
+            ShareItem *item = _viewModel.dataSource[index];
+            if ([[UserSession standard] isLogined]) {
+                [MiaAPIHelper favoriteMusicWithShareID:item.sID
+                                            isFavorite:!item.favorite
+                                         completeBlock:
+                 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                     if (success) {
+                         id act = userInfo[MiaAPIKey_Values][@"act"];
+                         id sID = userInfo[MiaAPIKey_Values][@"id"];
+                         BOOL favorite = [act intValue];
+                         if ([item.sID integerValue] == [sID intValue]) {
+                             item.favorite = favorite;
+                         }
+                         
+                         cell.favorite = favorite;
+                         [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                         
+                         // 收藏操作成功后同步下收藏列表并检查下载
+//                         [[FavoriteMgr standard] syncFavoriteList];
+                     } else {
+                         id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                         [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                     }
+                 } timeoutBlock:^(MiaRequestItem *requestItem) {
+                     [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+                 }];
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+            }
+            break;
+        }
+        case HXProfileShareCellActionDelete: {
+            ;
+            break;
+        }
+    }
 }
 
 @end

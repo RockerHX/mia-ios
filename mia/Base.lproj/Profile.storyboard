@@ -267,6 +267,7 @@
                                 <connections>
                                     <outlet property="commentCountLabel" destination="RRE-eK-ITr" id="OsV-7J-9WK"/>
                                     <outlet property="cover" destination="5Az-Ky-gZ6" id="RRc-vs-kBS"/>
+                                    <outlet property="delegate" destination="Qc6-9f-kPc" id="TCw-cc-LSf"/>
                                     <outlet property="deleteButton" destination="GCj-Rv-su9" id="HUh-g4-Dal"/>
                                     <outlet property="descriptionLabel" destination="OSc-wG-GHP" id="Sop-WX-ncO"/>
                                     <outlet property="favoriteButton" destination="Xm4-bL-pTE" id="sTt-VW-ukR"/>
