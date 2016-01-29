@@ -140,10 +140,10 @@
 		CD7AA7151C586767009688CA /* HXNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7AA7141C586767009688CA /* HXNavigationBar.m */; };
 		CD7AA7171C586785009688CA /* HXNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7AA7161C586785009688CA /* HXNavigationBar.xib */; };
 		CD7AA71A1C586931009688CA /* UIView+FindUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7AA7191C586931009688CA /* UIView+FindUIViewController.m */; };
-		CD7AA7221C587105009688CA /* HXProfileSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7AA71E1C587105009688CA /* HXProfileSegmentView.m */; };
-		CD7AA7231C587105009688CA /* HXProfileSegmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7AA71F1C587105009688CA /* HXProfileSegmentView.xib */; };
-		CD7AA7241C587105009688CA /* HXSegmentItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7AA7211C587105009688CA /* HXSegmentItemView.m */; };
 		CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */; };
+		CD8FC6441C5B4ABD007149D6 /* HXProfileSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8FC6401C5B4ABD007149D6 /* HXProfileSegmentView.m */; };
+		CD8FC6451C5B4ABD007149D6 /* HXProfileSegmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD8FC6411C5B4ABD007149D6 /* HXProfileSegmentView.xib */; };
+		CD8FC6461C5B4ABD007149D6 /* HXSegmentItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8FC6431C5B4ABD007149D6 /* HXSegmentItemView.m */; };
 		CD96705B1C52211D00130D27 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CD966FEB1C52211D00130D27 /* UIView+Frame.m */; };
 		CD96705C1C52211D00130D27 /* UIViewController+HXClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD966FED1C52211D00130D27 /* UIViewController+HXClass.m */; };
 		CD96705D1C52211D00130D27 /* UIButton+HXIBnspectable.m in Sources */ = {isa = PBXBuildFile; fileRef = CD966FF11C52211D00130D27 /* UIButton+HXIBnspectable.m */; };
@@ -453,13 +453,13 @@
 		CD7AA7161C586785009688CA /* HXNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNavigationBar.xib; sourceTree = "<group>"; };
 		CD7AA7181C586931009688CA /* UIView+FindUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FindUIViewController.h"; sourceTree = "<group>"; };
 		CD7AA7191C586931009688CA /* UIView+FindUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FindUIViewController.m"; sourceTree = "<group>"; };
-		CD7AA71D1C587105009688CA /* HXProfileSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileSegmentView.h; sourceTree = "<group>"; };
-		CD7AA71E1C587105009688CA /* HXProfileSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileSegmentView.m; sourceTree = "<group>"; };
-		CD7AA71F1C587105009688CA /* HXProfileSegmentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXProfileSegmentView.xib; sourceTree = "<group>"; };
-		CD7AA7201C587105009688CA /* HXSegmentItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSegmentItemView.h; sourceTree = "<group>"; };
-		CD7AA7211C587105009688CA /* HXSegmentItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSegmentItemView.m; sourceTree = "<group>"; };
 		CD8A5B4F1BFF19BB00F1CB67 /* HXSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
 		CD8A5B501BFF19BB00F1CB67 /* HXSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
+		CD8FC63F1C5B4ABD007149D6 /* HXProfileSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileSegmentView.h; sourceTree = "<group>"; };
+		CD8FC6401C5B4ABD007149D6 /* HXProfileSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileSegmentView.m; sourceTree = "<group>"; };
+		CD8FC6411C5B4ABD007149D6 /* HXProfileSegmentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXProfileSegmentView.xib; sourceTree = "<group>"; };
+		CD8FC6421C5B4ABD007149D6 /* HXSegmentItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSegmentItemView.h; sourceTree = "<group>"; };
+		CD8FC6431C5B4ABD007149D6 /* HXSegmentItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSegmentItemView.m; sourceTree = "<group>"; };
 		CD966FEA1C52211D00130D27 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		CD966FEB1C52211D00130D27 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		CD966FEC1C52211D00130D27 /* UIViewController+HXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HXClass.h"; sourceTree = "<group>"; };
@@ -1569,23 +1569,23 @@
 		CD7AA71B1C587105009688CA /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				CD7AA71C1C587105009688CA /* HXSegmentView */,
+				CD8FC63E1C5B4ABD007149D6 /* HXProfileSegmentView */,
 				CD542C0E1C59FABF00A55F83 /* CoverContainer */,
 				CD542C121C5A062700A55F83 /* DetailContainer */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		CD7AA71C1C587105009688CA /* HXSegmentView */ = {
+		CD8FC63E1C5B4ABD007149D6 /* HXProfileSegmentView */ = {
 			isa = PBXGroup;
 			children = (
-				CD7AA71D1C587105009688CA /* HXProfileSegmentView.h */,
-				CD7AA71E1C587105009688CA /* HXProfileSegmentView.m */,
-				CD7AA71F1C587105009688CA /* HXProfileSegmentView.xib */,
-				CD7AA7201C587105009688CA /* HXSegmentItemView.h */,
-				CD7AA7211C587105009688CA /* HXSegmentItemView.m */,
+				CD8FC63F1C5B4ABD007149D6 /* HXProfileSegmentView.h */,
+				CD8FC6401C5B4ABD007149D6 /* HXProfileSegmentView.m */,
+				CD8FC6411C5B4ABD007149D6 /* HXProfileSegmentView.xib */,
+				CD8FC6421C5B4ABD007149D6 /* HXSegmentItemView.h */,
+				CD8FC6431C5B4ABD007149D6 /* HXSegmentItemView.m */,
 			);
-			path = HXSegmentView;
+			path = HXProfileSegmentView;
 			sourceTree = "<group>";
 		};
 		CD966FE81C52211D00130D27 /* Common */ = {
@@ -2002,6 +2002,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD8FC6451C5B4ABD007149D6 /* HXProfileSegmentView.xib in Resources */,
 				CD25AA4D1C574E4C008BE101 /* Setting.storyboard in Resources */,
 				397E428E1BA7CA5A006BE9E7 /* launchpad@2x.png in Resources */,
 				CD25AA621C576342008BE101 /* Profile.storyboard in Resources */,
@@ -2010,7 +2011,6 @@
 				CD0398B51BD6479D0036F43D /* HXInfectUserItemView.xib in Resources */,
 				CDD831561BD8B6550067309B /* HXAlertBanner.xib in Resources */,
 				CD25AA4A1C574E4C008BE101 /* HomePage.storyboard in Resources */,
-				CD7AA7231C587105009688CA /* HXProfileSegmentView.xib in Resources */,
 				CD7AA7171C586785009688CA /* HXNavigationBar.xib in Resources */,
 				CD23CA791C52506C004263EF /* LaunchScreen.storyboard in Resources */,
 				CD542C171C5A2EB300A55F83 /* HXProfileDetailHeader.xib in Resources */,
@@ -2114,6 +2114,7 @@
 				397FA5301BAC0CA7003FD186 /* UIScrollView+Extension.m in Sources */,
 				CD9670631C52211D00130D27 /* HXIBView.m in Sources */,
 				39C69A131BD2A9CC00C0DEBC /* ChangePwdViewController.m in Sources */,
+				CD8FC6441C5B4ABD007149D6 /* HXProfileSegmentView.m in Sources */,
 				CD4334EF1BD8CBF400A5E34C /* InfectItem.m in Sources */,
 				CD57538D1BDE33E800E7CBC4 /* HXMusicDetailInfectCell.m in Sources */,
 				397E42D81BA90812006BE9E7 /* UIImage+ImageEffects.m in Sources */,
@@ -2149,10 +2150,10 @@
 				395CD6031BD9DEE8001A2528 /* UserSetting.m in Sources */,
 				CDD831611BD8BABF0067309B /* HXInfectUserListCell.m in Sources */,
 				395CD6141BD9F5F4001A2528 /* SongListPlayer.m in Sources */,
-				CD7AA7241C587105009688CA /* HXSegmentItemView.m in Sources */,
 				CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */,
 				CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */,
 				CD25AA3A1C5715AD008BE101 /* HXRadioShareInfoView.m in Sources */,
+				CD8FC6461C5B4ABD007149D6 /* HXSegmentItemView.m in Sources */,
 				397D9CBB1C58FEE8003BDC33 /* YHSegmentedControl.m in Sources */,
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,
 				CD0398B31BD647930036F43D /* HXInfectUserItemView.m in Sources */,
@@ -2201,7 +2202,6 @@
 				397E42D61BA90812006BE9E7 /* UIImage+ColorToImage.m in Sources */,
 				397D9CAE1C58FEC0003BDC33 /* UserCollectionViewCell.m in Sources */,
 				CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */,
-				CD7AA7221C587105009688CA /* HXProfileSegmentView.m in Sources */,
 				CD9670651C52211D00130D27 /* HXAppConstants.m in Sources */,
 				CD25AA691C5765A2008BE101 /* HXProfileCoverContainerViewController.m in Sources */,
 				397E42D41BA90812006BE9E7 /* UIButton+UIButtonExt.m in Sources */,

@@ -14,16 +14,13 @@
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIView+Frame.h"
 #import "UserSession.h"
+#import "HXProfileViewController.h"
+#import "HXMusicDetailViewController.h"
 
 static const long kMessagePageCount = 10;
 
-@interface HXMessageCenterViewController () <
-HXMessageCellDelegate
->
-@end
-
 @implementation HXMessageCenterViewController {
-	MessageModel 			*_messageModel;
+	MessageModel *_messageModel;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -75,8 +72,6 @@ HXMessageCellDelegate
 						completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [[UserSession standard] clearNotify];
-			 
 			 NSArray *items = userInfo[@"v"][@"info"];
 			 if ([items count] > 0) {
 				 [_messageModel addItemsWithArray:items];
@@ -127,15 +122,29 @@ HXMessageCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-#pragma mark - HXMessageCellDelegate Methods
-- (void)messageCell:(HXMessageCell *)cell takeAction:(HXMessageCellAction)action {
-    switch (action) {
-        case HXMessageCellActionAvatarTaped: {
-            ;
-            break;
+    if (!_messageModel.dataSource.count) {
+        return;
+    }
+    
+    MessageItem *item = _messageModel.dataSource[indexPath.row];
+    if (item.navigateToUser) {
+        HXProfileType type;
+        NSString *sharerID = item.fromUID;
+        NSString *userID = [UserSession standard].uid;
+        if (![sharerID isEqualToString:userID]) {
+            type = HXProfileTypeGuest;
+            userID = sharerID;
+        } else {
+            type = HXProfileTypeHost;
         }
+        
+        HXProfileViewController *profileViewController = [HXProfileViewController instance];
+        profileViewController.uid = userID;
+        profileViewController.type = type;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    } else {
+        HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
+        [self.navigationController pushViewController:musicDetailViewController animated:YES];
     }
 }
 

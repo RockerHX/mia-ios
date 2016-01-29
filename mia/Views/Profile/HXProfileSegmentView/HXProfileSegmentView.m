@@ -13,7 +13,9 @@
 @interface HXProfileSegmentView () <HXSegmentItemViewDelegate>
 @end
 
-@implementation HXProfileSegmentView
+@implementation HXProfileSegmentView {
+    HXSegmentItemView *_selectedItemView;
+}
 
 HXXibImplementation
 
@@ -31,19 +33,36 @@ HXXibImplementation
     return self;
 }
 
+#pragma mark - Load Methods
+- (void)awakeFromNib {
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    _selectedItemView = _shareItemView;
+}
+
+- (void)viewConfigure {
+    ;
+}
+
 #pragma mark - HXSegmentItemViewDelegate Methods
 - (void)itemViewSelected:(HXSegmentItemView *)itemView {
+    _shareItemView.selected = NO;
+    itemView.selected = YES;
+    _shareItemView = itemView;
+    
     __weak __typeof__(self)weakSelf = self;
     [UIView animateWithDuration:0.2f animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         strongSelf.cursorLine.center = CGPointMake(itemView.center.x, strongSelf.cursorLine.center.y);
     }];
     
-    HXProfileSegmentItemType type = HXProfileSegmentItemTypeShow;
-    if ([itemView isEqual:_commentItemView]) {
-        type = HXProfileSegmentItemTypeSongList;
-    } else if ([itemView isEqual:_attentionItemView]) {
-        type = HXProfileSegmentItemTypeAttention;
+    HXProfileSegmentItemType type = HXProfileSegmentItemTypeShare;
+    if ([itemView isEqual:_favoriteItemView]) {
+        type = HXProfileSegmentItemTypeFavorite;
     }
     if (_delegate && [_delegate respondsToSelector:@selector(segmentView:selectedType:)]) {
         [_delegate segmentView:self selectedType:type];
