@@ -263,9 +263,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)notificationWebSocketPushUnread:(NSNotification *)notification {
 	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
 	if (0 == [ret intValue]) {
-		[self updateProfileButtonWithUnreadCount:[[notification userInfo][MiaAPIKey_Values][@"num"] intValue]];
+		NSInteger notifyCount = [[notification userInfo][MiaAPIKey_Values][@"notifyCnt"] integerValue];
+		[[UserSession standard] setNotifyUserpic:[notification userInfo][MiaAPIKey_Values][@"notifyUserpic"]];
+		[[UserSession standard] setNotifyCnt:notifyCount];
 	} else {
-		NSLog(@"unread comment failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
+		NSLog(@"notify count parse failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
 	}
 }
 
