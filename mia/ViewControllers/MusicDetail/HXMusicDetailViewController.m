@@ -28,6 +28,7 @@
 #import "HXTextView.h"
 #import "GuestProfileViewController.h"
 #import "FavoriteMgr.h"
+#import "NSString+IsNull.h"
 
 @interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
 @end
@@ -62,8 +63,42 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
+#warning @andy
+	if (!_playItem && ![NSString isNull:_sID]) {
+		[MiaAPIHelper getShareById:_sID
+							  spID:nil
+					 completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 _playItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
+
+				 _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+
+				 __weak __typeof__(self)weakSelf = self;
+				 [_viewModel requestComments:^(BOOL success) {
+					 __strong __typeof__(self)strongSelf = weakSelf;
+					 [strongSelf.tableView reloadData];
+				 }];
+				 [_viewModel reportViews:^(BOOL success) {
+					 if (YES) {
+						 __strong __typeof__(self)strongSelf = weakSelf;
+						 [strongSelf.tableView reloadData];
+					 }
+				 }];
+
+			 } else {
+				 NSLog(@"getShareById failed");
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 NSLog(@"getShareById timeout");
+		 }];
+
+		// TODO 这是另外一种启动流程
+		return;
+	}
+
     _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
-    
+
     __weak __typeof__(self)weakSelf = self;
     [_viewModel requestComments:^(BOOL success) {
         __strong __typeof__(self)strongSelf = weakSelf;
