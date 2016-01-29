@@ -13,6 +13,9 @@
 #import "HXAlertBanner.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIView+Frame.h"
+#import "UserSession.h"
+#import "HXProfileViewController.h"
+#import "HXMusicDetailViewController.h"
 
 static const long kMessagePageCount = 10;
 
@@ -119,6 +122,30 @@ static const long kMessagePageCount = 10;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (!_messageModel.dataSource.count) {
+        return;
+    }
+    
+    MessageItem *item = _messageModel.dataSource[indexPath.row];
+    if (item.navigateToUser) {
+        HXProfileType type;
+        NSString *sharerID = item.fromUID;
+        NSString *userID = [UserSession standard].uid;
+        if (![sharerID isEqualToString:userID]) {
+            type = HXProfileTypeGuest;
+            userID = sharerID;
+        } else {
+            type = HXProfileTypeHost;
+        }
+        
+        HXProfileViewController *profileViewController = [HXProfileViewController instance];
+        profileViewController.uid = userID;
+        profileViewController.type = type;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    } else {
+        HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
+        [self.navigationController pushViewController:musicDetailViewController animated:YES];
+    }
 }
 
 @end

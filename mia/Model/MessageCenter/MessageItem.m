@@ -17,6 +17,10 @@
 }
 
 #pragma mark - Setter And Getter
+- (BOOL)navigateToUser {
+    return (_ntype == 8);
+}
+
 - (NSString *)formatTime {
 	NSDate *date = [NSDate dateWithTimeIntervalSince1970:_time];
 	NSInteger hours = [date hoursEarlierThan:[NSDate date]];

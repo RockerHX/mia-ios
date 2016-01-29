@@ -6,7 +6,8 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-@class MessageItem;
+#import <UIKit/UIKit.h>
+#import "MessageItem.h"
 
 @class TTTAttributedLabel;
 

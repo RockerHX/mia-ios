@@ -22,6 +22,7 @@
 @property (assign, nonatomic) NSInteger time;
 @property (assign, nonatomic) BOOL hasReaded;
 
+@property (assign, nonatomic, readonly) BOOL navigateToUser;
 @property (nonatomic, strong, readonly) NSString *formatTime;
 
 @end

@@ -8,8 +8,6 @@
 
 #import "HXMessageCell.h"
 #import "TTTAttributedLabel.h"
-#import "MessageItem.h"
-#import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
 
 @implementation HXMessageCell
