@@ -99,6 +99,7 @@ HXRadioViewControllerDelegate
     
     [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_Avatar context:nil];
     [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_LoginState context:nil];
+	[[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NotifyCount context:nil];
 }
 
 #pragma mark - Prepare
@@ -121,6 +122,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_Avatar options:NSKeyValueObservingOptionNew context:nil];
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_LoginState options:NSKeyValueObservingOptionNew context:nil];
+	[[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
 
     // 初始化小鱼动画帧
     NSMutableArray *fishIcons = @[].mutableCopy;
@@ -225,7 +227,10 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
             [_radioViewController cleanShareListUserState];
             [self shouldDisplayInfectUsers:_playItem];
         }
-    }
+	} else if ([keyPath isEqualToString:UserSessionKey_NotifyCount]) {
+		NSInteger notifyCount = [change[NSKeyValueChangeNewKey] integerValue];
+		[self updateProfileButtonWithUnreadCount:notifyCount];
+	}
 }
 
 - (void)notificationWebSocketDidOpen:(NSNotification *)notification {

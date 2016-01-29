@@ -95,7 +95,7 @@
 }
 
 - (void)clearNotify {
-	_notifyCnt = 0;
+	[self setNotifyCnt:0];
 	_notifyUserpic = nil;
 }
 
