@@ -92,8 +92,8 @@
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (_items.count) {
-        if (_delegate && [_delegate respondsToSelector:@selector(helperDidTaped:)]) {
-            [_delegate helperDidTaped:self];
+        if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+            [_delegate helper:self takeAction:HXRadioCarouselHelperActionTaped];
         }
     }
 }
@@ -101,8 +101,8 @@
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
     if (_items.count) {
         NSLog(@"-----------[carouselDidEndScrollingAnimation]-----------");
-        if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
-            [_delegate helperShouldPlay:self];
+        if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+            [_delegate helper:self takeAction:HXRadioCarouselHelperActionPlay];
         }
     }
 }
@@ -131,28 +131,40 @@
 }
 
 - (void)radioViewStarTapedNeedLogin:(HXRadioView *)radioView {
-	if (_delegate && [_delegate respondsToSelector:@selector(helperStarTapedNeedLogin:)]) {
-		[_delegate helperStarTapedNeedLogin:self];
+	if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+		[_delegate helper:self takeAction:HXRadioCarouselHelperActionStarTaped];
 	}
 }
 
 - (void)radioView:(HXRadioView *)radioView takeAction:(HXRadioViewAction)action {
     switch (action) {
         case HXRadioViewActionPlay: {
-            if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPlay:)]) {
-                [_delegate helperShouldPlay:self];
+            if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+                [_delegate helper:self takeAction:HXRadioCarouselHelperActionPlay];
             }
             break;
         }
         case HXRadioViewActionPause: {
-            if (_delegate && [_delegate respondsToSelector:@selector(helperShouldPause:)]) {
-                [_delegate helperShouldPause:self];
+            if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+                [_delegate helper:self takeAction:HXRadioCarouselHelperActionPause];
+            }
+            break;
+        }
+        case HXRadioViewActionSharerTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+                [_delegate helper:self takeAction:HXRadioCarouselHelperActionSharerTaped];
+            }
+            break;
+        }
+        case HXRadioViewActionInfecterTaped: {
+            if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+                [_delegate helper:self takeAction:HXRadioCarouselHelperActionInfecterTaped];
             }
             break;
         }
         case HXRadioViewActionContentTaped: {
-            if (_delegate && [_delegate respondsToSelector:@selector(helperShareContentTaped:)]) {
-                [_delegate helperShareContentTaped:self];
+            if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
+                [_delegate helper:self takeAction:HXRadioCarouselHelperActionContentTaped];
             }
             break;
         }

@@ -21,7 +21,8 @@
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    ;
+    _descriptionLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 92.0f;
+    _contentLabel.preferredMaxLayoutWidth = _descriptionLabel.preferredMaxLayoutWidth;
 }
 
 - (void)viewConfigure {

@@ -11,6 +11,7 @@
 #import "MessageModel.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 
 static const long kMessagePageCount = 10;
 
@@ -96,6 +97,14 @@ HXMessageCellDelegate
 }
 
 #pragma mark - Table View Delegate Methods
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MessageItem *item = _messageModel.dataSource[indexPath.row];
+    return [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMessageCell class]) cacheByIndexPath:indexPath configuration:
+            ^(HXMessageCell *cell) {
+                [cell displayWithMessageItem:item];
+            }];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

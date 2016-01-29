@@ -97,6 +97,7 @@
                                         <constraint firstItem="gcd-7B-u9Q" firstAttribute="leading" secondItem="wUG-Z9-45v" secondAttribute="trailing" constant="5" id="doM-VM-T8J"/>
                                         <constraint firstItem="F5g-dB-21Q" firstAttribute="trailing" secondItem="slq-Du-tAy" secondAttribute="trailing" id="pf7-1X-RzO"/>
                                         <constraint firstItem="slq-Du-tAy" firstAttribute="top" secondItem="gcd-7B-u9Q" secondAttribute="bottom" constant="8" id="rPP-Ra-PC0"/>
+                                        <constraint firstItem="gcd-7B-u9Q" firstAttribute="top" secondItem="PO0-8I-3pB" secondAttribute="top" constant="12" id="slf-gN-Wut"/>
                                         <constraint firstAttribute="trailing" secondItem="gcd-7B-u9Q" secondAttribute="trailing" constant="15" id="wNu-RZ-aah"/>
                                     </constraints>
                                 </tableViewCellContentView>
