@@ -16,6 +16,7 @@
 #import "HXSettingViewController.h"
 #import "WebSocketMgr.h"
 #import "HXAlertBanner.h"
+#import "HXMessageCenterViewController.h"
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate
@@ -89,8 +90,7 @@ HXProfileDetailContainerViewControllerDelegate
 #pragma mark - KVO Methods
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:UserSessionKey_NotifyCount]) {
-        NSInteger notifyCount = [change[NSKeyValueChangeNewKey] integerValue];
-//        [self updateProfileButtonWithUnreadCount:notifyCount];
+		[self showMessagePromptView];
     }
 }
 
@@ -104,6 +104,7 @@ HXProfileDetailContainerViewControllerDelegate
 
 - (void)viewConfigure {
     _settingButton.hidden = !_type;
+	[self showMessagePromptView];
 }
 
 #pragma mark - Event Response
@@ -167,6 +168,14 @@ HXProfileDetailContainerViewControllerDelegate
     [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
 }
 
+- (void)showMessagePromptView {
+	[_detailContainerViewController.header.messageAvatar sd_setImageWithURL:[NSURL URLWithString:[UserSession standard].notifyUserpic]
+														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
+
+	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0)];
+}
+
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
 - (void)detailContainerDidScroll:(HXProfileDetailContainerViewController *)controller scrollOffset:(CGPoint)scrollOffset {
     CGFloat scrollThreshold = _detailContainerViewController.header.height - 64.0f;
@@ -215,6 +224,13 @@ HXProfileDetailContainerViewControllerDelegate
             }
             break;
         }
+		case HXProfileDetailContainerActionShowMessageCenter: {
+			_pushed = YES;
+			HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
+			[self.navigationController pushViewController:messageCenterViewController animated:YES];
+
+			break;
+		}
     }
 }
 

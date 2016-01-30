@@ -13,6 +13,7 @@
                 <outlet property="fansCountLabel" destination="FjZ-9c-xp3" id="bIm-Oy-rrg"/>
                 <outlet property="followButton" destination="DnW-Ns-RyP" id="avF-yi-RWl"/>
                 <outlet property="followCountLabel" destination="RAj-l7-XP7" id="RNN-Lt-Ti0"/>
+                <outlet property="messageAvatar" destination="v7P-Wf-oKq" id="160-7b-grE"/>
                 <outlet property="messageCountLabel" destination="T5X-vZ-XDm" id="mdh-wr-0tz"/>
                 <outlet property="messagePromptView" destination="0xG-sy-V2M" id="GUt-qt-3Ea"/>
                 <outlet property="nickNameLabel" destination="3ze-VU-eKi" id="wC3-0a-TKK"/>
@@ -51,7 +52,7 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fF1-DD-tNx">
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fF1-DD-tNx">
                     <rect key="frame" x="130" y="153" width="115" height="18"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-Ib-K6v">
