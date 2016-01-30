@@ -36,6 +36,7 @@ static const long kUserListPageCount = 10;
 	UserListModel 			*_searchResultModel;
 
 	MIAButton 				*_backButton;
+	UIView 					*_searchBox;
 	UITextField 			*_searchTextField;
 	MIAButton 				*_cancelButton;
 
@@ -132,6 +133,8 @@ static const long kUserListPageCount = 10;
 		make.right.equalTo(self.view.mas_right);
 		make.bottom.equalTo(self.view.mas_bottom);
 	}];
+
+	[self showSearchBox:_isHost];
 }
 
 - (void)initData {
@@ -159,15 +162,15 @@ static const long kUserListPageCount = 10;
 	[contentView addSubview:_backButton];
 
 	const CGFloat kEditBgHeight = 40;
-	UIView *editBgView = [[UIView alloc] init];
-	editBgView.backgroundColor = UIColorFromHex(@"f4f4f4", 1.0);
-	editBgView.layer.cornerRadius = kEditBgHeight / 2 - 1;
-	editBgView.layer.masksToBounds = YES;
-	[contentView addSubview:editBgView];
+	_searchBox = [[UIView alloc] init];
+	_searchBox.backgroundColor = UIColorFromHex(@"f4f4f4", 1.0);
+	_searchBox.layer.cornerRadius = kEditBgHeight / 2 - 1;
+	_searchBox.layer.masksToBounds = YES;
+	[contentView addSubview:_searchBox];
 
 	UIImageView *searchIconImageView = [[UIImageView alloc] init];
 	[searchIconImageView setImage:[UIImage imageNamed:@"search_icon"]];
-	[editBgView addSubview:searchIconImageView];
+	[_searchBox addSubview:searchIconImageView];
 
 	_searchTextField = [[UITextField alloc] init];
 	_searchTextField.borderStyle = UITextBorderStyleNone;
@@ -181,7 +184,7 @@ static const long kUserListPageCount = 10;
 	_searchTextField.delegate = self;
 	[_searchTextField setValue:UIColorFromHex(@"#808080", 1.0) forKeyPath:@"_placeholderLabel.textColor"];
 	[_searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-	[editBgView addSubview:_searchTextField];
+	[_searchBox addSubview:_searchTextField];
 
 	_cancelButton = [[MIAButton alloc] initWithFrame:CGRectZero
 									  titleString:@"取消"
@@ -196,10 +199,10 @@ static const long kUserListPageCount = 10;
 	[_backButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(35, 35));
 		make.left.mas_equalTo(contentView.mas_left).offset(15);
-		make.centerY.mas_equalTo(editBgView.mas_centerY);
+		make.centerY.mas_equalTo(_searchBox.mas_centerY);
 	}];
 
-	[editBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+	[_searchBox mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.height.mas_equalTo(kEditBgHeight);
 		make.top.equalTo(contentView.mas_top).offset(28);
 		make.left.equalTo(_backButton.mas_right).offset(15);
@@ -209,20 +212,20 @@ static const long kUserListPageCount = 10;
 
 	[searchIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(16, 16));
-		make.centerY.equalTo(editBgView.mas_centerY);
-		make.left.equalTo(editBgView.mas_left).with.offset(12);
+		make.centerY.equalTo(_searchBox.mas_centerY);
+		make.left.equalTo(_searchBox.mas_left).with.offset(12);
 	}];
 
 	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(editBgView.mas_top).with.offset(11);
-		make.bottom.equalTo(editBgView.mas_bottom).with.offset(-8);
+		make.top.equalTo(_searchBox.mas_top).with.offset(11);
+		make.bottom.equalTo(_searchBox.mas_bottom).with.offset(-8);
 		make.left.equalTo(searchIconImageView.mas_right).offset(6);
-		make.right.equalTo(editBgView.mas_right).with.offset(-2);
+		make.right.equalTo(_searchBox.mas_right).with.offset(-2);
 	}];
 
 	[_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(40, 18));
-		make.centerY.equalTo(editBgView.mas_centerY);
+		make.centerY.equalTo(_searchBox.mas_centerY);
 		make.right.equalTo(contentView.mas_right).offset(-5);
 	}];
 }
@@ -267,6 +270,14 @@ static const long kUserListPageCount = 10;
 #pragma mark - Public Methods
 
 #pragma mark - Private Methods
+- (void)showSearchBox:(BOOL)show {
+	if (show) {
+		[_searchBox setHidden:NO];
+	} else {
+		[_searchBox setHidden:YES];
+	}
+}
+
 - (void)switchContentViewWithType:(NSInteger)index {
 	if (0 == index) {
 		[_fansView setHidden:NO];
@@ -274,16 +285,6 @@ static const long kUserListPageCount = 10;
 	} else {
 		[_fansView setHidden:YES];
 		[_followingView setHidden:NO];
-	}
-}
-
-- (void)showSearchResultView:(BOOL)show {
-	if (show) {
-		[_searchResultView setHidden:NO];
-		[_contentView setHidden:YES];
-	} else {
-		[_searchResultView setHidden:YES];
-		[_contentView setHidden:NO];
 	}
 }
 
