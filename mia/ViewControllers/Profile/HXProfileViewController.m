@@ -140,13 +140,15 @@ HXProfileDetailContainerViewControllerDelegate
 
 - (void)detailContainerWouldLikeShowFans:(HXProfileDetailContainerViewController *)controller {
     FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
-                                                                            uID:_uid];
+                                                                            uID:_uid
+																		 isHost:_type];
     [self.navigationController pushViewController:friendVC animated:YES];
 }
 
 - (void)detailContainerWouldLikeShowFollow:(HXProfileDetailContainerViewController *)controller {
     FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
-                                                                            uID:_uid];
+																			uID:_uid
+																		 isHost:_type];
     [self.navigationController pushViewController:friendVC animated:YES];
 }
 

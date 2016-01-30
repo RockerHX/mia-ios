@@ -29,6 +29,7 @@ static const long kUserListPageCount = 10;
 @implementation FriendViewController {
 	UserListViewType		_initListViewType;
 	NSString				*_currentUID;
+	BOOL					_isHost;
 
 	UserListModel 			*_fansModel;
 	UserListModel 			*_followingModel;
@@ -46,11 +47,12 @@ static const long kUserListPageCount = 10;
 	UserListView 			*_searchResultView;
 }
 
-- (id)initWithType:(UserListViewType)type uID:(NSString *)uID {
+- (id)initWithType:(UserListViewType)type uID:(NSString *)uID isHost:(BOOL)isHost {
 	self = [super init];
 	if (self) {
 		_initListViewType = (NSInteger)type;
 		_currentUID = uID;
+		_isHost = isHost;
 	}
 
 	return self;

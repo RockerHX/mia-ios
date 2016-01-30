@@ -35,7 +35,6 @@
 #import "HXFeedBackViewController.h"
 #import "FileLog.h"
 #import "HXProfileViewController.h"
-#import "FriendViewController.h"
 
 static NSString *kAlertMsgNoNetwork     = @"没有网络连接，请稍候重试";
 static NSString *kGuideViewShowKey      = @"kGuideViewShow-v";
