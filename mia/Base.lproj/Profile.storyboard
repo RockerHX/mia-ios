@@ -343,15 +343,15 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="山丘-李宗盛" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nwG-2u-ZLi">
-                                            <rect key="frame" x="68" y="31" width="244" height="20"/>
+                                            <rect key="frame" x="74" y="31" width="238" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favorite_downloading" translatesAutoresizingMaskIntoConstraints="NO" id="UbJ-OT-O8Q">
-                                            <rect key="frame" x="48" y="34" width="14" height="14"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PF-DownLoadIcon" translatesAutoresizingMaskIntoConstraints="NO" id="UbJ-OT-O8Q">
+                                            <rect key="frame" x="48" y="31" width="20" height="20"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="14" id="NEy-QO-oCL"/>
+                                                <constraint firstAttribute="width" constant="20" id="NEy-QO-oCL"/>
                                                 <constraint firstAttribute="width" secondItem="UbJ-OT-O8Q" secondAttribute="height" multiplier="1:1" id="vpe-MD-z1g"/>
                                             </constraints>
                                         </imageView>
@@ -385,6 +385,12 @@
                                         <constraint firstItem="UbJ-OT-O8Q" firstAttribute="leading" secondItem="rEC-bE-WQM" secondAttribute="leading" id="yUD-Oo-CfR"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="downLoadIcon" destination="UbJ-OT-O8Q" id="CFV-Vy-LnB"/>
+                                    <outlet property="indexLabel" destination="Pvt-IZ-TbM" id="kBv-Cb-ae1"/>
+                                    <outlet property="promptLabel" destination="BkK-LF-djK" id="Edf-WB-jkU"/>
+                                    <outlet property="songInfoLabel" destination="nwG-2u-ZLi" id="jMo-Jx-mHD"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -470,7 +476,7 @@
         <image name="P-DeleteIcon" width="20" height="20"/>
         <image name="P-SeeIcon" width="20" height="20"/>
         <image name="P-UnFavoriteIcon" width="20" height="20"/>
-        <image name="favorite_downloading" width="15" height="15"/>
+        <image name="PF-DownLoadIcon" width="20" height="20"/>
         <image name="play_black" width="20" height="20"/>
         <image name="setting" width="19" height="19"/>
     </resources>

@@ -8,8 +8,9 @@
 
 @class FavoriteItem;
 
-@protocol FavoriteMgrDelegate
+@protocol FavoriteMgrDelegate <NSObject>
 
+@optional
 - (void)favoriteMgrDidFinishSync;
 - (void)favoriteMgrDidFinishDownload;
 

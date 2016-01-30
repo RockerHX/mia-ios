@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FavoriteItem.h"
 
 @interface HXProfileSongCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet     UILabel *indexLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *promptLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *downLoadIcon;
+@property (weak, nonatomic) IBOutlet     UILabel *songInfoLabel;
+
+- (void)displayWithItem:(FavoriteItem *)item index:(NSInteger)index;
 
 @end

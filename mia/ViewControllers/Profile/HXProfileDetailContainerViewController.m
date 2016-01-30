@@ -12,8 +12,7 @@
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
 #import "WebSocketMgr.h"
-#import "HXProfileSongActionCell.h"
-#import "HXProfileSongCell.h"
+#import "FavoriteMgr.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -64,6 +63,19 @@ HXProfileShareCellDelegate
     self.tableView.tableHeaderView = _header;
 }
 
+#pragma mark - Setter And Getter
+- (void)setShareCount:(NSUInteger)shareCount {
+    _shareCount = shareCount;
+
+    _segmentView.shareItemView.countLabel.text = @(shareCount).stringValue;
+}
+
+- (void)setFavoriteCount:(NSUInteger)favoriteCount {
+    _favoriteCount = favoriteCount;
+    
+    _segmentView.favoriteItemView.countLabel.text = @(favoriteCount).stringValue;
+}
+
 #pragma mark - Private Methods
 - (HXProfileSegmentView *)segmentView {
     if (!_segmentView) {
@@ -76,6 +88,7 @@ HXProfileShareCellDelegate
     [self.tableView reloadData];
     
     _segmentView.shareItemView.countLabel.text = @(_viewModel.shareCount).stringValue;
+    _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
 }
 
 #pragma mark - ScrollView Delegate Methods
@@ -110,6 +123,7 @@ HXProfileShareCellDelegate
                 }
                 case HXProfileSongRowTypeSong: {
                     cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileSongCell class]) forIndexPath:indexPath];
+                    [(HXProfileSongCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row - 1] index:indexPath.row];
                     break;
                 }
             }
@@ -204,7 +218,7 @@ HXProfileShareCellDelegate
                          [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
                          
                          // 收藏操作成功后同步下收藏列表并检查下载
-//                         [[FavoriteMgr standard] syncFavoriteList];
+                         [[FavoriteMgr standard] syncFavoriteList];
                      } else {
                          id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                          [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];

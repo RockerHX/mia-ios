@@ -8,6 +8,8 @@
 
 #import "HXProfileSegmentView.h"
 #import "HXProfileShareCell.h"
+#import "HXProfileSongActionCell.h"
+#import "HXProfileSongCell.h"
 
 typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
     HXProfileSongRowTypeSongAction,
@@ -26,6 +28,7 @@ typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
 @property (nonatomic, strong, readonly)   NSArray *dataSource;
 
 @property (nonatomic, assign, readonly) NSInteger  shareCount;
+@property (nonatomic, assign, readonly) NSInteger  favoriteCount;
 
 @property (nonatomic, assign) HXProfileSegmentItemType  itemType;
 

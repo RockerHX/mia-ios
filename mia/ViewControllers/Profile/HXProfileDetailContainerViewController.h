@@ -29,6 +29,8 @@
 
 @property (nonatomic, assign) HXProfileType  type;
 @property (nonatomic, strong)      NSString *uid;
+@property (nonatomic, assign)    NSUInteger  shareCount;
+@property (nonatomic, assign)    NSUInteger  favoriteCount;
 
 @property (nonatomic, strong) HXProfileDetailHeader *header;
 

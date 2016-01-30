@@ -10,14 +10,14 @@
 
 @implementation HXProfileSongCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+#pragma mark - Public Methods
+- (void)displayWithItem:(FavoriteItem *)item index:(NSInteger)index {
+    MusicItem *musicItem = item.music;
+    
+    _indexLabel.text = @(index).stringValue;
+    _promptLabel.text = [NSString stringWithFormat:@"由%@分享", item.sNick];
+    _downLoadIcon.image = [UIImage imageNamed:(item.isCached ? @"PF-DownLoadedIcon" : @"PF-DownLoadIcon")];
+    _songInfoLabel.text = [musicItem.name stringByAppendingFormat:@"-%@", musicItem.singerName];
 }
 
 @end

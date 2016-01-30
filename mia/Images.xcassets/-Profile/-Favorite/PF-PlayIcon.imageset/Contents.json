@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "favorite_downloaded@2x.png",
+      "filename" : "PF-PlayIcon@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "favorite_downloaded@3x.png"
+      "filename" : "PF-PlayIcon@3x.png"
     }
   ],
   "info" : {

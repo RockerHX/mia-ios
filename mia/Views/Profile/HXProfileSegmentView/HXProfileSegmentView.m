@@ -29,6 +29,8 @@ HXXibImplementation
     self = [super init];
     if (self) {
         _delegate = delegate;
+        
+        [self awakeFromNib];
     }
     return self;
 }

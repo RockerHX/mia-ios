@@ -158,7 +158,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		}
 	}
 
-	if (_customDelegate) {
+	if (_customDelegate && [_customDelegate respondsToSelector:@selector(favoriteMgrDidFinishSync)]) {
 		[_customDelegate favoriteMgrDidFinishSync];
 	}
 
@@ -241,7 +241,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			_currentDownloadIndex = 0;
 
 			dispatch_sync(dispatch_get_main_queue(), ^{
-				if (_customDelegate) {
+				if (_customDelegate && [_customDelegate respondsToSelector:@selector(favoriteMgrDidFinishDownload)]) {
 					[_customDelegate favoriteMgrDidFinishDownload];
 				}
 			});

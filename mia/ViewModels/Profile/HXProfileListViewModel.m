@@ -8,11 +8,17 @@
 
 #import "HXProfileListViewModel.h"
 #import "MiaAPIHelper.h"
+#import "FavoriteMgr.h"
 
 static NSInteger ListPageLimit = 10;
 
 typedef void(^CompletedBlock)(HXProfileListViewModel *);
 typedef void(^FailureBlock)(NSString *);
+
+@interface HXProfileListViewModel () <
+FavoriteMgrDelegate
+>
+@end
 
 @implementation HXProfileListViewModel {
     CompletedBlock _completedBlock;
@@ -48,7 +54,8 @@ typedef void(^FailureBlock)(NSString *);
     
     _shareLists = @[].mutableCopy;
     _favoriteLists = @[].mutableCopy;
-    _rowTypes = @[@(HXProfileSongRowTypeSongAction), @(HXProfileSongRowTypeSong)];
+    
+    [FavoriteMgr standard].customDelegate = self;
 }
 
 #pragma mark - Setter And Getter
@@ -113,6 +120,10 @@ typedef void(^FailureBlock)(NSString *);
 
 - (NSInteger)shareCount {
     return _shareLists.count;
+}
+
+- (NSInteger)favoriteCount {
+    return _favoriteLists.count;
 }
 
 #pragma mark - Public Methods
@@ -190,6 +201,18 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (void)fetchUserFavoriteData {
+    [[FavoriteMgr standard] syncFavoriteList];
+}
+
+#pragma mark - FavoriteMgrDelegate Methods
+- (void)favoriteMgrDidFinishSync {
+    _favoriteLists = [FavoriteMgr standard].dataSource;
+    NSMutableArray *rowTypes = @[@(HXProfileSongRowTypeSongAction)].mutableCopy;
+    [_favoriteLists enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [rowTypes addObject:@(HXProfileSongRowTypeSong)];
+    }];
+    _rowTypes = [rowTypes copy];
+    
     if (_completedBlock) {
         _completedBlock(self);
     }
