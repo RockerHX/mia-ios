@@ -22,5 +22,6 @@
 - (id)initWithHeight:(CGFloat)height titles:(NSArray *)titles delegate:(id)delegate;
 
 - (void)switchToIndex:(NSInteger)index;
+- (void)setTitle:(NSString *)title forIndex:(NSInteger)index;
 
 @end

@@ -24,7 +24,11 @@
 
 @property (weak, nonatomic) id<FriendViewControllerDelegate> delegate;
 
-- (id)initWithType:(UserListViewType)type uID:(NSString *)uID;
+- (id)initWithType:(UserListViewType)type
+			isHost:(BOOL)isHost
+			   uID:(NSString *)uID
+		 fansCount:(NSUInteger)fansCount
+	followingCount:(NSUInteger)followingCount;
 
 @end
 

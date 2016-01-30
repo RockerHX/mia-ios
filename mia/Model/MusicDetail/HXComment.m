@@ -18,4 +18,16 @@
               @"content": @"cinfo"};
 }
 
+- (instancetype)copyWithZone:(nullable NSZone *)zone {
+	HXComment *copyItem = [[[self class] allocWithZone:zone] init];
+	copyItem.cmid = [_cmid copy];
+	copyItem.uid = [_uid copy];
+	copyItem.nickName = [_nickName copy];
+	copyItem.headerURL = [_headerURL copy];
+	copyItem.content = [_content copy];
+	copyItem.time = _time;
+
+	return copyItem;
+}
+
 @end

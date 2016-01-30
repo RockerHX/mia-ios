@@ -94,7 +94,7 @@ HXXibImplementation
         _sharerLabel.text = shareUser.nick ?: @"Unknown";
     } else {
         _avatarItem = spaceUser;
-        _sharerLabel.text = [spaceUser.nick stringByAppendingFormat:@" 秒推了 %@ 的分享", shareUser.nick];
+        _sharerLabel.text = [spaceUser.nick stringByAppendingFormat:@" 妙推了 %@ 的分享", shareUser.nick];
     }
     
     _timeLabel.text = item.formatTime;

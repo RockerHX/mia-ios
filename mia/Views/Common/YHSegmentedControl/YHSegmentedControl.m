@@ -166,5 +166,14 @@
     [self segmentedControlChange:btn];
 }
 
+- (void)setTitle:(NSString *)title forIndex:(NSInteger)index {
+	if (index > [_array4Btn count]-1) {
+		NSLog(@"index is out of range");
+		return;
+	}
+
+	UIButton *btn = [_array4Btn objectAtIndex:index];
+	[btn setTitle:title forState:UIControlStateNormal];
+}
 
 @end
