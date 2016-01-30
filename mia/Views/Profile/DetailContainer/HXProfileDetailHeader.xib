@@ -13,6 +13,8 @@
                 <outlet property="fansCountLabel" destination="FjZ-9c-xp3" id="bIm-Oy-rrg"/>
                 <outlet property="followButton" destination="DnW-Ns-RyP" id="avF-yi-RWl"/>
                 <outlet property="followCountLabel" destination="RAj-l7-XP7" id="RNN-Lt-Ti0"/>
+                <outlet property="messageCountLabel" destination="T5X-vZ-XDm" id="mdh-wr-0tz"/>
+                <outlet property="messagePromptView" destination="0xG-sy-V2M" id="GUt-qt-3Ea"/>
                 <outlet property="nickNameLabel" destination="3ze-VU-eKi" id="wC3-0a-TKK"/>
             </connections>
         </placeholder>
@@ -161,6 +163,66 @@
                         <action selector="followButtonPressed" destination="-1" eventType="touchUpInside" id="QJS-Hb-EgB"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xG-sy-V2M" userLabel="Message Prompt View" customClass="HXIBView">
+                    <rect key="frame" x="130" y="205" width="117" height="32"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v7P-Wf-oKq" customClass="HXIBImageView">
+                            <rect key="frame" x="1" y="1" width="30" height="30"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="v7P-Wf-oKq" secondAttribute="height" multiplier="1:1" id="ZUR-hX-r5T"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="15"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5X-vZ-XDm">
+                            <rect key="frame" x="37" y="0.0" width="10" height="32"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="条新消息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyG-ud-QRN">
+                            <rect key="frame" x="47" y="0.0" width="60" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="tOV-4h-wHD"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.043137254899999998" green="0.81568627449999997" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstItem="T5X-vZ-XDm" firstAttribute="leading" secondItem="v7P-Wf-oKq" secondAttribute="trailing" constant="6" id="82s-rJ-A2o"/>
+                        <constraint firstItem="T5X-vZ-XDm" firstAttribute="top" secondItem="0xG-sy-V2M" secondAttribute="top" id="B0D-WI-WCc"/>
+                        <constraint firstItem="v7P-Wf-oKq" firstAttribute="top" secondItem="0xG-sy-V2M" secondAttribute="top" constant="1" id="ByR-Bh-Dma"/>
+                        <constraint firstItem="pyG-ud-QRN" firstAttribute="top" secondItem="0xG-sy-V2M" secondAttribute="top" id="M0b-aE-rbh"/>
+                        <constraint firstAttribute="bottom" secondItem="v7P-Wf-oKq" secondAttribute="bottom" constant="1" id="R2k-Kx-Lf7"/>
+                        <constraint firstItem="pyG-ud-QRN" firstAttribute="leading" secondItem="0xG-sy-V2M" secondAttribute="leading" constant="6" id="Tbj-kE-iPw"/>
+                        <constraint firstAttribute="bottom" secondItem="T5X-vZ-XDm" secondAttribute="bottom" id="axg-Ak-eXJ"/>
+                        <constraint firstAttribute="trailing" secondItem="pyG-ud-QRN" secondAttribute="trailing" constant="10" id="fFw-53-CgA"/>
+                        <constraint firstItem="v7P-Wf-oKq" firstAttribute="leading" secondItem="0xG-sy-V2M" secondAttribute="leading" constant="1" id="hS8-1l-h8B"/>
+                        <constraint firstAttribute="bottom" secondItem="pyG-ud-QRN" secondAttribute="bottom" id="itx-hC-Ygs"/>
+                        <constraint firstItem="pyG-ud-QRN" firstAttribute="leading" secondItem="T5X-vZ-XDm" secondAttribute="trailing" id="oHX-B7-xWt"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Tbj-kE-iPw"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="LFY-J9-iEl" appends="YES" id="lE1-bD-iK2"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
@@ -171,7 +233,9 @@
                 <constraint firstItem="fF1-DD-tNx" firstAttribute="top" secondItem="3ze-VU-eKi" secondAttribute="bottom" constant="15" id="Ql6-YC-zjO"/>
                 <constraint firstItem="fF1-DD-tNx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dSY-L7-gsH"/>
                 <constraint firstItem="iD7-gz-xvd" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="glC-Z0-90Z"/>
+                <constraint firstItem="0xG-sy-V2M" firstAttribute="centerY" secondItem="DnW-Ns-RyP" secondAttribute="centerY" id="sVt-sW-1VC"/>
                 <constraint firstItem="DnW-Ns-RyP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="smN-zU-03m"/>
+                <constraint firstItem="0xG-sy-V2M" firstAttribute="centerX" secondItem="DnW-Ns-RyP" secondAttribute="centerX" id="wW9-nV-iJ1"/>
                 <constraint firstItem="3ze-VU-eKi" firstAttribute="width" secondItem="iD7-gz-xvd" secondAttribute="width" multiplier="3" id="ymP-vB-Und"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -186,6 +250,11 @@
         <tapGestureRecognizer id="WHK-mE-hNb">
             <connections>
                 <action selector="followViewTaped" destination="-1" id="lHc-Y8-2yr"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="LFY-J9-iEl">
+            <connections>
+                <action selector="messageViewTaped" destination="-1" id="Ycj-J2-sHn"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

@@ -32,11 +32,13 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 @property (weak, nonatomic) IBOutlet     id  <HXProfileDetailContainerViewControllerDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UIView *footer;
 
-@property (nonatomic, assign) HXProfileType  type;
 @property (nonatomic, strong)      NSString *uid;
+@property (nonatomic, assign) HXProfileType  type;
 @property (nonatomic, assign)    NSUInteger  shareCount;
 @property (nonatomic, assign)    NSUInteger  favoriteCount;
 
 @property (nonatomic, strong) HXProfileDetailHeader *header;
+
+- (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count;
 
 @end

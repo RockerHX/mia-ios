@@ -54,16 +54,20 @@ HXProfileDetailContainerViewControllerDelegate
     [self viewConfigure];
 }
 
-- (NSString *)navigationControllerIdentifier {
++ (NSString *)navigationControllerIdentifier {
     return @"HXProfileNavigationController";
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameProfile;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return _statusBarStyle;
+}
+
+- (void)dealloc {
+    [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NotifyCount context:nil];
 }
 
 #pragma mark - Segue
@@ -79,8 +83,18 @@ HXProfileDetailContainerViewControllerDelegate
     }
 }
 
+#pragma mark - KVO Methods
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:UserSessionKey_NotifyCount]) {
+        NSInteger notifyCount = [change[NSKeyValueChangeNewKey] integerValue];
+//        [self updateProfileButtonWithUnreadCount:notifyCount];
+    }
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+    [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
+    
     [self showHUD];
     [self fetchProfileData];
 }

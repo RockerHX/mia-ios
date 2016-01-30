@@ -16,6 +16,7 @@ typedef NS_ENUM(BOOL, HXProfileType) {
 typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
     HXProfileDetailHeaderActionShowFans,
     HXProfileDetailHeaderActionShowFollow,
+    HXProfileDetailHeaderActionShowMessage,
     HXProfileDetailHeaderActionTakeFollow,
 };
 
@@ -36,11 +37,14 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *followButton;
+@property (weak, nonatomic) IBOutlet      UIView *messagePromptView;
+@property (weak, nonatomic) IBOutlet     UILabel *messageCountLabel;
 
 @property (nonatomic, assign) HXProfileType  type;
 
 - (IBAction)fansViewTaped;
 - (IBAction)followViewTaped;
+- (IBAction)messageViewTaped;
 - (IBAction)followButtonPressed;
 
 @end

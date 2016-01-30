@@ -35,6 +35,7 @@ HXXibImplementation
 - (void)setType:(HXProfileType)type {
     _type = type;
     _followButton.hidden = type;
+    _messagePromptView.hidden = !type;
 }
 
 #pragma mark - Event Response
@@ -47,6 +48,12 @@ HXXibImplementation
 - (IBAction)followViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
         [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFollow];
+    }
+}
+
+- (IBAction)messageViewTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowMessage];
     }
 }
 

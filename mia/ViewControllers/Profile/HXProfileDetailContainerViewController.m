@@ -90,6 +90,11 @@ SongListPlayerDelegate
     _segmentView.favoriteItemView.countLabel.text = @(favoriteCount).stringValue;
 }
 
+#pragma mark - Public Methods
+- (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count {
+    
+}
+
 #pragma mark - Private Methods
 - (HXProfileSegmentView *)segmentView {
     if (!_segmentView) {
@@ -371,6 +376,10 @@ SongListPlayerDelegate
             if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFollow];
             }
+            break;
+        }
+        case HXProfileDetailHeaderActionShowMessage: {
+            ;
             break;
         }
         case HXProfileDetailHeaderActionTakeFollow: {
