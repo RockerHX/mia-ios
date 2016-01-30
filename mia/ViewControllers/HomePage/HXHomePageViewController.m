@@ -648,7 +648,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     } else {
         if (show) {
             [self stopAnimation];
-            HXMusicDetailViewController *musicDetailViewController = [[UIStoryboard storyboardWithName:@"MusicDetail" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([HXMusicDetailViewController class])];
+            HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
             musicDetailViewController.playItem = _playItem;
             [self.navigationController pushViewController:musicDetailViewController animated:YES];
         }

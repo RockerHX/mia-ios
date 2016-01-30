@@ -143,22 +143,31 @@ HXProfileDetailContainerViewControllerDelegate
     [_coverContainerViewController scrollPosition:((scrollOffset.y < scrollThreshold) ? UICollectionViewScrollPositionTop : UICollectionViewScrollPositionBottom)];
 }
 
-- (void)detailContainerWouldLikeShowFans:(HXProfileDetailContainerViewController *)controller {
-    FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
-																		 isHost:_type
-																			uID:_uid
-																	  fansCount:_fansCount
-																 followingCount:_followCount];
-    [self.navigationController pushViewController:friendVC animated:YES];
-}
-
-- (void)detailContainerWouldLikeShowFollow:(HXProfileDetailContainerViewController *)controller {
-    FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
-																		 isHost:_type
-																			uID:_uid
-																	  fansCount:_fansCount
-																 followingCount:_followCount];
-    [self.navigationController pushViewController:friendVC animated:YES];
+- (void)detailContainer:(HXProfileDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action {
+    switch (action) {
+        case HXProfileDetailContainerActionShowMusicDetail: {
+            _pushed = YES;
+            break;
+        }
+        case HXProfileDetailContainerActionShowFans: {
+            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
+                                                                                 isHost:_type
+                                                                                    uID:_uid
+                                                                              fansCount:_fansCount
+                                                                         followingCount:_followCount];
+            [self.navigationController pushViewController:friendVC animated:YES];
+            break;
+        }
+        case HXProfileDetailContainerActionShowFollow: {
+            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
+                                                                                 isHost:_type
+                                                                                    uID:_uid
+                                                                              fansCount:_fansCount
+                                                                         followingCount:_followCount];
+            [self.navigationController pushViewController:friendVC animated:YES];
+            break;
+        }
+    }
 }
 
 @end

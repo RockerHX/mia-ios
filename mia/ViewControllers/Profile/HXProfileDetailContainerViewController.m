@@ -17,6 +17,7 @@
 #import "UserSetting.h"
 #import "PathHelper.h"
 #import "MusicMgr.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -327,7 +328,12 @@ SongListPlayerDelegate
     
     switch (_segmentView.itemType) {
         case HXProfileSegmentItemTypeShare: {
-            ;
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMusicDetail];
+            }
+            HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
+            musicDetailViewController.playItem = _viewModel.dataSource[indexPath.row];
+            [self.navigationController pushViewController:musicDetailViewController animated:YES];
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
@@ -356,14 +362,14 @@ SongListPlayerDelegate
 - (void)detailHeader:(HXProfileDetailHeader *)header takeAction:(HXProfileDetailHeaderAction)action {
     switch (action) {
         case HXProfileDetailHeaderActionShowFans: {
-            if (_delegate && [_delegate respondsToSelector:@selector(detailContainerWouldLikeShowFans:)]) {
-                [_delegate detailContainerWouldLikeShowFans:self];
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFans];
             }
             break;
         }
         case HXProfileDetailHeaderActionShowFollow: {
-            if (_delegate && [_delegate respondsToSelector:@selector(detailContainerWouldLikeShowFollow:)]) {
-                [_delegate detailContainerWouldLikeShowFollow:self];
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFollow];
             }
             break;
         }

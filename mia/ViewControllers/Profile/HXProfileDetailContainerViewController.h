@@ -9,6 +9,12 @@
 #import "HXProfileDetailHeader.h"
 #import "UIView+Extension.h"
 
+typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
+    HXProfileDetailContainerActionShowMusicDetail,
+    HXProfileDetailContainerActionShowFans,
+    HXProfileDetailContainerActionShowFollow
+};
+
 @class HXProfileDetailContainerViewController;
 
 @protocol HXProfileDetailContainerViewControllerDelegate <NSObject>
@@ -17,8 +23,7 @@
 - (void)detailContainerDidScroll:(HXProfileDetailContainerViewController *)controller
                     scrollOffset:(CGPoint)scrollOffset;
 - (void)detailContainerDataFetchFinished:(HXProfileDetailContainerViewController *)controller;
-- (void)detailContainerWouldLikeShowFans:(HXProfileDetailContainerViewController *)controller;
-- (void)detailContainerWouldLikeShowFollow:(HXProfileDetailContainerViewController *)controller;
+- (void)detailContainer:(HXProfileDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action;
 
 @end
 
