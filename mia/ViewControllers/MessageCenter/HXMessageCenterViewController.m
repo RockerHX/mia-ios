@@ -28,11 +28,11 @@ static const long kMessagePageCount = 10;
     [super viewDidLoad];
 }
 
-- (NSString *)navigationControllerIdentifier {
++ (NSString *)navigationControllerIdentifier {
     return @"HXMessageCenterNavigationController";
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameMessageCenter;
 }
 

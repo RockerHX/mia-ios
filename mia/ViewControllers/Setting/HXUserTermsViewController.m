@@ -21,7 +21,7 @@ static NSString *UserTermsLoadURL = @"http://www.miamusic.com/terms.html";
     [self viewConfigure];
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameSetting;
 }
 

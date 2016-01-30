@@ -58,7 +58,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameMusicDetail;
 }
 

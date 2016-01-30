@@ -31,7 +31,7 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
     [self viewConfigure];
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameSetting;
 }
 

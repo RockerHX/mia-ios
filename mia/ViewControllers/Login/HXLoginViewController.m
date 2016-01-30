@@ -50,11 +50,11 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     [self viewConfigure];
 }
 
-- (NSString *)navigationControllerIdentifier {
++ (NSString *)navigationControllerIdentifier {
     return @"HXLoginNavigationController";
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameLogin;
 }
 

@@ -10,12 +10,10 @@
 
 @interface UIViewController (HXClass)
 
-@property (nonatomic, copy, readonly)           NSString *navigationControllerIdentifier;
-@property (nonatomic, assign, readonly) HXStoryBoardName  storyBoardName;
-@property (nonatomic, assign)                       BOOL  canPan;
-
 + (NSString *)segueIdentifier;
++ (NSString *)navigationControllerIdentifier;
 + (UINavigationController *)navigationControllerInstance;
++ (HXStoryBoardName)storyBoardName;
 + (instancetype)instance;
 
 - (void)showAlertWithMessage:(NSString *)message;

@@ -11,17 +11,14 @@
 
 @implementation UIViewController (HXClass)
 
-@dynamic navigationControllerIdentifier;
-@dynamic storyBoardName;
-@dynamic canPan;
-
 #pragma  mark - Class Methods
 + (NSString *)segueIdentifier { return @""; }
 
++ (NSString *)navigationControllerIdentifier { return @"";}
+
 + (UINavigationController *)navigationControllerInstance {
     @try {
-        UIViewController *viewController = [self new];
-        return [HXStoryBoardManager navigaitonControllerWithIdentifier:viewController.navigationControllerIdentifier storyBoardName:viewController.storyBoardName];
+        return [HXStoryBoardManager navigaitonControllerWithIdentifier:[self navigationControllerIdentifier] storyBoardName:[self storyBoardName]];
     }
     @catch (NSException *exception) {
         NSLog(@"Load View Controller Instance From Storybard Error:%@", exception.reason);
@@ -30,10 +27,11 @@
     }
 }
 
++ (HXStoryBoardName)storyBoardName { return 0;}
+
 + (instancetype)instance {
     @try {
-        UIViewController *viewController = [self new];
-        return [HXStoryBoardManager viewControllerWithClass:[self class] storyBoardName:viewController.storyBoardName];
+        return [HXStoryBoardManager viewControllerWithClass:[self class] storyBoardName:[self storyBoardName]];
     }
     @catch (NSException *exception) {
         NSLog(@"Load View Controller Instance From Storybard Error:%@", exception.reason);

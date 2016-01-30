@@ -72,11 +72,11 @@ GenderPickerViewDelegate
     [self viewConfigure];
 }
 
-- (NSString *)navigationControllerIdentifier {
++ (NSString *)navigationControllerIdentifier {
     return @"HXSettingNavigationController";
 }
 
-- (HXStoryBoardName)storyBoardName {
++ (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameSetting;
 }
 
