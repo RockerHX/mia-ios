@@ -25,6 +25,10 @@ HXProfileDetailContainerViewControllerDelegate
     UIStatusBarStyle  _statusBarStyle;
     HXProfileCoverContainerViewController *_coverContainerViewController;
     HXProfileDetailContainerViewController *_detailContainerViewController;
+
+	NSUInteger _fansCnt;
+	NSUInteger _followCnt;
+
 }
 
 #pragma mark - View Controller Life Cycle
@@ -100,11 +104,11 @@ HXProfileDetailContainerViewControllerDelegate
          if (success) {
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
              NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
-             NSInteger fansCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"fansCnt"] integerValue];
-             NSInteger followCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] integerValue];
+             _fansCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"fansCnt"] integerValue];
+             _followCnt = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] integerValue];
              NSInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
              NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
-             NSLog(@"user info: %ld, %ld, %ld, %@", fansCnt, followCnt, follow, imgs);
+             NSLog(@"user info: %ld, %ld, %ld, %@", _fansCnt, _followCnt, follow, imgs);
              // end for test
              
              _coverContainerViewController.dataSource = imgs;
@@ -113,8 +117,8 @@ HXProfileDetailContainerViewControllerDelegate
              [_detailContainerViewController.header.avatar sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
                                                              placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
              _detailContainerViewController.header.nickNameLabel.text = nickName;
-             _detailContainerViewController.header.fansCountLabel.text = @(fansCnt).stringValue;
-             _detailContainerViewController.header.followCountLabel.text = @(followCnt).stringValue;
+             _detailContainerViewController.header.fansCountLabel.text = @(_fansCnt).stringValue;
+             _detailContainerViewController.header.followCountLabel.text = @(_followCnt).stringValue;
              
              [self hiddenHUD];
          } else {
@@ -140,15 +144,19 @@ HXProfileDetailContainerViewControllerDelegate
 
 - (void)detailContainerWouldLikeShowFans:(HXProfileDetailContainerViewController *)controller {
     FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
-                                                                            uID:_uid
-																		 isHost:_type];
+																		 isHost:_type
+																			uID:_uid
+																	  fansCount:_fansCnt
+																 followingCount:_followCnt];
     [self.navigationController pushViewController:friendVC animated:YES];
 }
 
 - (void)detailContainerWouldLikeShowFollow:(HXProfileDetailContainerViewController *)controller {
     FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
+																		 isHost:_type
 																			uID:_uid
-																		 isHost:_type];
+																	  fansCount:_fansCnt
+																 followingCount:_followCnt];
     [self.navigationController pushViewController:friendVC animated:YES];
 }
 

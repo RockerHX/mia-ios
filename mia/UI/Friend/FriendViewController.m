@@ -30,6 +30,8 @@ static const long kUserListPageCount = 10;
 	UserListViewType		_initListViewType;
 	NSString				*_currentUID;
 	BOOL					_isHost;
+	NSUInteger				_initFansCount;
+	NSUInteger				_initFollowingCount;
 
 	UserListModel 			*_fansModel;
 	UserListModel 			*_followingModel;
@@ -48,12 +50,18 @@ static const long kUserListPageCount = 10;
 	UserListView 			*_searchResultView;
 }
 
-- (id)initWithType:(UserListViewType)type uID:(NSString *)uID isHost:(BOOL)isHost {
+- (id)initWithType:(UserListViewType)type
+			isHost:(BOOL)isHost
+			   uID:(NSString *)uID
+		 fansCount:(NSUInteger)fansCount
+	followingCount:(NSUInteger)followingCount {
 	self = [super init];
 	if (self) {
 		_initListViewType = (NSInteger)type;
 		_currentUID = uID;
 		_isHost = isHost;
+		_initFansCount = fansCount;
+		_initFollowingCount = followingCount;
 	}
 
 	return self;
@@ -232,7 +240,10 @@ static const long kUserListPageCount = 10;
 
 - (void)initContentView:(UIView *)contentView {
 	const CGFloat segmentedControlHeight = 55;
-	_segmentedControl = [[YHSegmentedControl alloc] initWithHeight:segmentedControlHeight titles:@[@"粉丝", @"关注"] delegate:self];
+	NSString *fansTitle = [NSString stringWithFormat:@"粉丝 %ld", _initFansCount];
+	NSString *followingTitle = [NSString stringWithFormat:@"关注 %ld", _initFollowingCount];
+
+	_segmentedControl = [[YHSegmentedControl alloc] initWithHeight:segmentedControlHeight titles:@[fansTitle, followingTitle] delegate:self];
 	[contentView addSubview:_segmentedControl];
 
 	_fansView = [[UserListView alloc] initWithType:UserListViewTypeFans];
@@ -309,6 +320,8 @@ static const long kUserListPageCount = 10;
 								[_fansView.collectionView reloadData];
 								[_fansView setNoDataTipsHidden:YES];
 								++_fansModel.currentPage;
+
+								[_segmentedControl setTitle:[NSString stringWithFormat:@"粉丝 %ld", _fansModel.dataSource.count] forIndex:UserListViewTypeFans];
 							} else {
 								[_fansView checkNoDataTipsStatus];
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -342,6 +355,8 @@ static const long kUserListPageCount = 10;
 							   [_followingView.collectionView reloadData];
 							   [_followingView setNoDataTipsHidden:YES];
 							   ++_followingModel.currentPage;
+
+							   [_segmentedControl setTitle:[NSString stringWithFormat:@"关注 %ld", _followingModel.dataSource.count] forIndex:UserListViewTypeFollowing];
 						   } else {
 							   [_followingView checkNoDataTipsStatus];
 							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
