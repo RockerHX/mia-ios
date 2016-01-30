@@ -184,8 +184,6 @@
 		CDEEF8801C5B70820064C873 /* HXProfileShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF87F1C5B70820064C873 /* HXProfileShareCell.m */; };
 		CDEEF8831C5B9B660064C873 /* HXProfileSongActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF8821C5B9B660064C873 /* HXProfileSongActionCell.m */; };
 		CDEEF8861C5B9B750064C873 /* HXProfileSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF8851C5B9B750064C873 /* HXProfileSongCell.m */; };
-		CDEEF88A1C5CBEA60064C873 /* HXProfilePopMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEEF8891C5CBEA60064C873 /* HXProfilePopMessageView.m */; };
-		CDEEF88C1C5CBEBB0064C873 /* HXProfilePopMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDEEF88B1C5CBEBB0064C873 /* HXProfilePopMessageView.xib */; };
 		CDF739D11BE0BBD5009FA8CA /* HXShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */; };
 		CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFAAEE1BD7BCF30074C0EF /* HXGuideView.m */; };
 		CDFFAAF11BD7BD110074C0EF /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFAAF01BD7BD110074C0EF /* HXGuideView.xib */; };
@@ -542,9 +540,6 @@
 		CDEEF8821C5B9B660064C873 /* HXProfileSongActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileSongActionCell.m; sourceTree = "<group>"; };
 		CDEEF8841C5B9B750064C873 /* HXProfileSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileSongCell.h; sourceTree = "<group>"; };
 		CDEEF8851C5B9B750064C873 /* HXProfileSongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileSongCell.m; sourceTree = "<group>"; };
-		CDEEF8881C5CBEA60064C873 /* HXProfilePopMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfilePopMessageView.h; sourceTree = "<group>"; };
-		CDEEF8891C5CBEA60064C873 /* HXProfilePopMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfilePopMessageView.m; sourceTree = "<group>"; };
-		CDEEF88B1C5CBEBB0064C873 /* HXProfilePopMessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXProfilePopMessageView.xib; sourceTree = "<group>"; };
 		CDF739CF1BE0BBD5009FA8CA /* HXShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXShareViewController.h; sourceTree = "<group>"; };
 		CDF739D01BE0BBD5009FA8CA /* HXShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXShareViewController.m; sourceTree = "<group>"; };
 		CDFFAAED1BD7BCF30074C0EF /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
@@ -1588,7 +1583,6 @@
 		CD7AA71B1C587105009688CA /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				CDEEF8871C5CBE910064C873 /* HXProfilePopMessageView */,
 				CD8FC63E1C5B4ABD007149D6 /* HXProfileSegmentView */,
 				CD542C0E1C59FABF00A55F83 /* CoverContainer */,
 				CD542C121C5A062700A55F83 /* DetailContainer */,
@@ -1927,16 +1921,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		CDEEF8871C5CBE910064C873 /* HXProfilePopMessageView */ = {
-			isa = PBXGroup;
-			children = (
-				CDEEF8881C5CBEA60064C873 /* HXProfilePopMessageView.h */,
-				CDEEF8891C5CBEA60064C873 /* HXProfilePopMessageView.m */,
-				CDEEF88B1C5CBEBB0064C873 /* HXProfilePopMessageView.xib */,
-			);
-			path = HXProfilePopMessageView;
-			sourceTree = "<group>";
-		};
 		CDF739CE1BE0BAAE009FA8CA /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -2074,7 +2058,6 @@
 				397FA52C1BAC0CA7003FD186 /* arrow@2x.png in Resources */,
 				CD25AA4E1C574E4C008BE101 /* Share.storyboard in Resources */,
 				CD25AA531C574E86008BE101 /* MessageCenter.storyboard in Resources */,
-				CDEEF88C1C5CBEBB0064C873 /* HXProfilePopMessageView.xib in Resources */,
 				CD25AA3C1C5715B7008BE101 /* HXRadioShareInfoView.xib in Resources */,
 				397E428D1BA7CA5A006BE9E7 /* centerIcon@2x.png in Resources */,
 				CDC5FE9B1BD1EC4D001D154E /* HXRadioView.xib in Resources */,
@@ -2155,7 +2138,6 @@
 				3908F38D1BBD00EA00BACFD3 /* SearchResultView.m in Sources */,
 				3965DF6B1BD0E5DA003B1641 /* MiaRequestItem.m in Sources */,
 				CD9670641C52211D00130D27 /* HXIBnsepectableManager.m in Sources */,
-				CDEEF88A1C5CBEA60064C873 /* HXProfilePopMessageView.m in Sources */,
 				393CE9A51BB7A28100FCF232 /* FavoriteCollectionViewCell.m in Sources */,
 				397E42781BA126AF006BE9E7 /* WebSocketMgr.m in Sources */,
 				CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */,
