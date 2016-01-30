@@ -14,6 +14,8 @@
 #import "FriendViewController.h"
 #import "UserSession.h"
 #import "HXSettingViewController.h"
+#import "WebSocketMgr.h"
+#import "HXAlertBanner.h"
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate
@@ -28,6 +30,7 @@ HXProfileDetailContainerViewControllerDelegate
 
 	NSUInteger _fansCount;
 	NSUInteger _followCount;
+    NSUInteger _followState;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -121,7 +124,7 @@ HXProfileDetailContainerViewControllerDelegate
              _followCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] integerValue];
              _detailContainerViewController.shareCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"shareCnt"] integerValue];
              _detailContainerViewController.favoriteCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"favCnt"] integerValue];
-             NSInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
+             NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
              NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
              NSLog(@"user info: %ld, %ld, %ld, %@", _fansCount, _followCount, follow, imgs);
              // end for test
@@ -135,6 +138,8 @@ HXProfileDetailContainerViewControllerDelegate
              _detailContainerViewController.header.fansCountLabel.text = @(_fansCount).stringValue;
              _detailContainerViewController.header.followCountLabel.text = @(_followCount).stringValue;
              
+             [self displayFollowState:follow];
+             
              [self hiddenHUD];
          } else {
              [self hiddenHUD];
@@ -144,6 +149,22 @@ HXProfileDetailContainerViewControllerDelegate
          [self hiddenHUD];
          NSLog(@"getUserInfoWithUID timeout");
      }];
+}
+
+- (void)displayFollowState:(NSUInteger)state {
+    _followState = state;
+    NSString *prompt = @"关注";
+    switch (state) {
+        case 1: {
+            prompt = @"已关注";
+            break;
+        }
+        case 2: {
+            prompt = @"相互关注";
+            break;
+        }
+    }
+    [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
 }
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
@@ -179,6 +200,19 @@ HXProfileDetailContainerViewControllerDelegate
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
             [self.navigationController pushViewController:friendVC animated:YES];
+            break;
+        }
+        case HXProfileDetailContainerActionShoulFollow: {
+            if ([UserSession standard].state) {
+                [MiaAPIHelper followWithUID:_uid isFollow:!_followState completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                    [HXAlertBanner showWithMessage:(!_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
+                    [self displayFollowState:!_followState];
+                } timeoutBlock:^(MiaRequestItem *requestItem) {
+                    [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+                }];
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+            }
             break;
         }
     }
