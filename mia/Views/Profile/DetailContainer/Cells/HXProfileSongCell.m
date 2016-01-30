@@ -18,6 +18,9 @@
     _promptLabel.text = [NSString stringWithFormat:@"由%@分享", item.sNick];
     _downLoadIcon.image = [UIImage imageNamed:(item.isCached ? @"PF-DownLoadedIcon" : @"PF-DownLoadIcon")];
     _songInfoLabel.text = [musicItem.name stringByAppendingFormat:@"-%@", musicItem.singerName];
+    
+    _promptLabel.textColor = item.isPlaying ? UIColorFromHex(@"DF3F39", 1.0f) : UIColorFromHex(@"A2A2A2", 1.0f);
+    _songInfoLabel.textColor = item.isPlaying ? UIColorFromHex(@"DF3F39", 1.0f) : [UIColor blackColor];
 }
 
 @end

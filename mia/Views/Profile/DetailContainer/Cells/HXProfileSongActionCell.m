@@ -10,14 +10,19 @@
 
 @implementation HXProfileSongActionCell
 
-- (void)awakeFromNib {
-    // Initialization code
+#pragma mark - Event Response
+- (IBAction)playButtonPressed:(UIButton *)button {
+    button.selected = !button.selected;
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(songActionCell:takeAction:)]) {
+        [_delegate songActionCell:self takeAction:button.selected ? HXProfileSongActionPlay : HXProfileSongActionPause];
+    }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (IBAction)editButtonPressed {
+    if (_delegate && [_delegate respondsToSelector:@selector(songActionCell:takeAction:)]) {
+        [_delegate songActionCell:self takeAction:HXProfileSongActionEdit];
+    }
 }
 
 @end

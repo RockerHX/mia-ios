@@ -148,6 +148,23 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 }
 
+- (void)removeSelectedItem:(FavoriteItem *)item {
+    if (!item) {
+        return;
+    }
+    
+    // 如果删除的是当前正在下载的任务
+    if (_downloadTask
+        && [[[[_downloadTask originalRequest] URL] absoluteString] isEqualToString:item.music.murl]) {
+        [_downloadTask cancel];
+    }
+    
+    [self deleteCacheFileWithUrl:item.music.murl];
+    [_dataSource removeObject:item];
+    
+    [self saveData];
+}
+
 #pragma mark - private method
 
 - (void)syncFinished:(BOOL)isSuccess {

@@ -138,13 +138,6 @@ FavoriteMgrDelegate
     _failureBlock = failure;
 }
 
-- (void)deleteShareItemWithIndex:(NSInteger)index {
-    if (index < _shareLists.count) {
-        [_shareLists removeObjectAtIndex:index];
-    }
-}
-
-#pragma mark - Private Methods
 - (void)fetchUserListData {
     switch (_itemType) {
         case HXProfileSegmentItemTypeShare: {
@@ -158,6 +151,13 @@ FavoriteMgrDelegate
     }
 }
 
+- (void)deleteShareItemWithIndex:(NSInteger)index {
+    if (index < _shareLists.count) {
+        [_shareLists removeObjectAtIndex:index];
+    }
+}
+
+#pragma mark - Private Methods
 - (void)fetchUserShareData {
     // 客人态第一个卡片占一行，为了保持最后一行有两个卡片，第一页的请求个数需要加一
     // 当如果这样的话，第二页的个数如果不一样的话，会导致数据重复

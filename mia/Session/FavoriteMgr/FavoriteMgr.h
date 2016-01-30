@@ -33,7 +33,9 @@
 - (void)syncFavoriteList;
 - (NSArray *)getFavoriteListFromIndex:(long)lastIndex;
 - (void)removeSelectedItemsWithCompleteBlock:(void (^)(BOOL isChanged, BOOL deletePlaying, NSArray *idArray))completeBlock;
+- (void)removeSelectedItem:(FavoriteItem *)item;
 - (BOOL)isItemCached:(FavoriteItem *)item;
 - (BOOL)isItemCachedWithUrl:(NSString *)url;
+
 
 @end

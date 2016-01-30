@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
 
 - (void)fetchProfileListData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
 - (void)fetchProfileListMoreData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
+- (void)fetchUserListData;
 
 - (void)deleteShareItemWithIndex:(NSInteger)index;
 
