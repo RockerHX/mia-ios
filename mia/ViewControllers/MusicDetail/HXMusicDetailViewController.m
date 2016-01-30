@@ -34,9 +34,10 @@
 @end
 
 @implementation HXMusicDetailViewController {
-    HXMusicDetailViewModel *_viewModel;
+    HXMusicDetailViewModel 	*_viewModel;
     
-    HXMusicDetailCoverCell *_coverCell;
+    HXMusicDetailCoverCell 	*_coverCell;
+	HXComment 				*_atComment;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -185,6 +186,9 @@
 
 - (IBAction)commentButtonPressed {
     if ([[UserSession standard] isLogined]) {
+		_editCommentView.placeholderText = @"";
+		_atComment = nil;
+
         [_editCommentView becomeFirstResponder];
     } else {
         [self presentLoginViewController];
@@ -236,12 +240,15 @@
     MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
     [MiaAPIHelper postCommentWithShareID:sID
                                  comment:content
-							   commentID:nil
+							   commentID:_atComment ? _atComment.cmid : nil
                            completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
              strongSelf.editCommentView.text = @"";
+			 strongSelf.editCommentView.placeholderText = @"";
+			 strongSelf->_atComment = nil;
+
              [strongSelf requestLatestComments];
              [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
          } else {
@@ -385,8 +392,19 @@
     [self.view endEditing:YES];
     if ((indexPath.row >= _viewModel.regularRow) && (_viewModel.comments.count)) {
         HXComment *comment = _viewModel.comments[indexPath.row - _viewModel.regularRow];
-        GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
-        [self.navigationController pushViewController:viewController animated:YES];
+
+		_atComment = [comment copy];
+		_editCommentView.placeholderText = [NSString stringWithFormat:@"回复%@:", _atComment.nickName];
+
+		if ([[UserSession standard] isLogined]) {
+			[_editCommentView becomeFirstResponder];
+		} else {
+			[self presentLoginViewController];
+		}
+
+#warning @andy 需要把头像点击进入个人页加上
+//        GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
+//        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 

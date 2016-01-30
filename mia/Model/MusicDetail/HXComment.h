@@ -8,7 +8,7 @@
 
 #import "MJExtension.h"
 
-@interface HXComment : NSObject
+@interface HXComment : NSObject <NSCopying>
 
 @property (strong, nonatomic) NSString *cmid;
 @property (strong, nonatomic) NSString *uid;
