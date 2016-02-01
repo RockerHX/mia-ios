@@ -165,6 +165,7 @@ HXProfileDetailContainerViewControllerDelegate
             break;
         }
     }
+	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
     [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
 }
 
