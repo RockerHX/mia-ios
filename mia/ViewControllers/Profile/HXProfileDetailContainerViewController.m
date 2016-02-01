@@ -20,6 +20,7 @@
 #import "HXMusicDetailViewController.h"
 #import "UIActionSheet+Blocks.h"
 #import "UITableView+FDTemplateLayoutCell.h"
+#import "MJRefresh.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -77,6 +78,7 @@ SongListPlayerDelegate
     
     self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
     self.tableView.tableHeaderView = _header;
+    [self addRefreshFooter];
 }
 
 #pragma mark - Setter And Getter
@@ -104,6 +106,14 @@ SongListPlayerDelegate
 }
 
 #pragma mark - Private Methods
+- (void)addRefreshFooter {
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreShareData)];
+}
+
+- (void)removeRefreshFooter {
+    self.tableView.mj_footer = nil;
+}
+
 - (HXProfileSegmentView *)segmentView {
     if (!_segmentView) {
         _segmentView = [HXProfileSegmentView instanceWithDelegate:self];
@@ -112,9 +122,24 @@ SongListPlayerDelegate
 }
 
 - (void)endLoad {
+    [self.tableView.mj_footer endRefreshing];
     [self.tableView reloadData];
     
+    if (!_viewModel.dataSource.count) {
+        [self removeRefreshFooter];
+        [self resizeFooter];
+    }
+    
     _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
+}
+
+- (void)resizeFooter {
+    _footerHeight = (SCREEN_HEIGHT + self.tableView.tableHeaderView.height + 64.0f) - self.tableView.contentSize.height;
+    _footer.height = ((_footerHeight > 0) ? _footerHeight : 10.0f);
+}
+
+- (void)fetchMoreShareData {
+    [_viewModel fetchProfileListMoreData];
 }
 
 - (void)playMusic {
@@ -137,7 +162,7 @@ SongListPlayerDelegate
 
 				 _shareCount--;
 				 [self setShareCount:_shareCount];
-				 [self.tableView reloadData];
+                 [self endLoad];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
 				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
@@ -155,7 +180,7 @@ SongListPlayerDelegate
 	[aActionSheet showInView:self.view];
 }
 
-#pragma mark - audio operations
+#pragma mark - Audio operations
 - (void)playFavoriteMusic {
     if ([FavoriteMgr standard].dataSource.count <= 0) {
         return;
@@ -333,10 +358,7 @@ SongListPlayerDelegate
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"$$$$$$$$$$$$: %f", tableView.tableHeaderView.height);
-    _footerHeight = (SCREEN_HEIGHT + self.tableView.tableHeaderView.height + 64.0f) - tableView.contentSize.height;
-//    NSLog(@"YYYYYYYYYYYY: %f", _footerHeight);
-    _footer.height = ((_footerHeight > 0) ? _footerHeight : 10.0f);
+    [self resizeFooter];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -439,6 +461,16 @@ SongListPlayerDelegate
 #pragma mark - HXProfileSegmentViewDelegate Methods
 - (void)segmentView:(HXProfileSegmentView *)segmentView selectedType:(HXProfileSegmentItemType)type {
     _viewModel.itemType = type;
+    switch (type) {
+        case HXProfileSegmentItemTypeShare: {
+            [self addRefreshFooter];
+            break;
+        }
+        case HXProfileSegmentItemTypeFavorite: {
+            [self removeRefreshFooter];
+            break;
+        }
+    }
 }
 
 #pragma mark - HXProfileShareCellDelegate Methods
