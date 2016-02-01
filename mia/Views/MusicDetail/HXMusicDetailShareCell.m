@@ -36,33 +36,16 @@
 
 #pragma mark - Private Methods
 - (void)displayShareContentLabelWithSharerName:(NSString *)sharerName note:(NSString *)note {
-    NSString *text = [NSString stringWithFormat:@"%@%@", sharerName, note];
-    CGFloat labelWidth = _shareInfoLabel.frame.size.width;
-    CGSize maxSize = CGSizeMake(labelWidth, MAXFLOAT);
-    UIFont *labelFont = _shareInfoLabel.font;
-    CGFloat textHeight = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
-    CGFloat lineHeight = [@" " boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelFont} context:nil].size.height;
-    if (textHeight > lineHeight) {
-        _shareInfoLabel.textAlignment = NSTextAlignmentLeft;
-    } else {
-        _shareInfoLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    
-    _shareInfoLabel.text = text;
-    NSRange range = [_shareInfoLabel.text rangeOfString:(sharerName ?: @"")];
-    [_shareInfoLabel addLinkToURL:[NSURL URLWithString:@""] withRange:range];
-    NSMutableDictionary *linkAttributes = _shareInfoLabel.linkAttributes.mutableCopy;
-    [linkAttributes setValue:@(0) forKey:@"NSUnderline"];
-    [linkAttributes setValue:UIColorFromHex(@"4383e9", 1.0f) forKey:@"CTForegroundColor"];
+    _shareInfoLabel.text = [sharerName stringByAppendingString:note];
+    NSDictionary *linkAttributes = @{(__bridge id)kCTUnderlineStyleAttributeName: [NSNumber numberWithInt:kCTUnderlineStyleNone],
+                                     (__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor]};
+    _shareInfoLabel.activeLinkAttributes = linkAttributes;
     _shareInfoLabel.linkAttributes = linkAttributes;
-    NSMutableDictionary *activeLinkAttributes = _shareInfoLabel.activeLinkAttributes.mutableCopy;
-    [activeLinkAttributes setValue:UIColorFromHex(@"4383e9", 1.0f) forKey:@"CTForegroundColor"];
-    _shareInfoLabel.activeLinkAttributes = activeLinkAttributes;
+    [_shareInfoLabel addLinkToPhoneNumber:sharerName withRange:[_shareInfoLabel.text rangeOfString:sharerName]];
 }
 
-
 #pragma mark - TTTAttributedLabelDelegate Methods
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber {
     if (_delegate && [_delegate respondsToSelector:@selector(cellUserWouldLikeSeeSharerInfo:)]) {
         [_delegate cellUserWouldLikeSeeSharerInfo:self];
     }
