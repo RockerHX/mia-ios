@@ -130,7 +130,10 @@ HXXibImplementation
         [UIView animateWithDuration:0.3f animations:^{
             _commentView.alpha = 1.0f;
         } completion:^(BOOL finished) {
-            [self starScrollFlyComments];
+			// 只有一条没必要切换
+			if (flyComments.count > 1) {
+				[self starScrollFlyComments];
+			}
         }];
     }
 }
