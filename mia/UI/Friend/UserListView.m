@@ -20,7 +20,12 @@ static const CGFloat kSearchResultItemMarginH 	= 10;
 static const CGFloat kSearchResultItemMarginV 	= 0;
 static const CGFloat kSearchResultItemHeight	= 100;
 
-@interface UserListView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface UserListView () <
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+UICollectionViewDelegateFlowLayout,
+UserCollectionViewCellDelegate
+>
 
 @end
 
@@ -159,6 +164,7 @@ static const CGFloat kSearchResultItemHeight	= 100;
 																											   forIndexPath:indexPath];
 	cell.dataItem = [_customDelegate userListViewModelWithType:_type].dataSource[indexPath.row];
 	cell.indexPath = indexPath;
+	cell.delegate = self;
 
 	return cell;
 }
@@ -187,11 +193,18 @@ static const CGFloat kSearchResultItemHeight	= 100;
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	UserCollectionViewCell *cell = (UserCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	if (_customDelegate) {
+	if (_customDelegate && [_customDelegate respondsToSelector:@selector(userListViewDidSelectedItem:)]) {
 		[_customDelegate userListViewDidSelectedItem:cell.dataItem];
 	}
 }
 
-#pragma mark - delegate 
+#pragma mark - UserCollectionViewCellDelegate Methods
+- (void)userCollectionViewCellFollowUID:(NSString *)uID
+							   isFollow:(BOOL)isFollow
+						 completedBlock:(UserCollectionViewCellCompletedBlock)completedBlock {
+	if (_customDelegate && [_customDelegate respondsToSelector:@selector(userListViewFollowUID:isFollow:completedBlock:)]) {
+		[_customDelegate userListViewFollowUID:uID isFollow:isFollow completedBlock:completedBlock];
+	}
+}
 
 @end

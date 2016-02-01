@@ -495,6 +495,29 @@ static const long kUserListPageCount = 10;
 	[self.navigationController pushViewController:profileViewController animated:YES];
 }
 
+- (void)userListViewFollowUID:(NSString *)uID
+					 isFollow:(BOOL)isFollow
+			   completedBlock:(UserCollectionViewCellCompletedBlock)completedBlock {
+	[MiaAPIHelper followWithUID:uID
+					   isFollow:isFollow
+				  completeBlock:
+	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+		 if (!success) {
+			 [HXAlertBanner showWithMessage:(isFollow ? @"添加关注失败" : @"取消关注失败") tap:nil];
+		 }
+
+		 if (completedBlock) {
+			 completedBlock(success);
+		 }
+	 } timeoutBlock:^(MiaRequestItem *requestItem) {
+		 if (completedBlock) {
+			 completedBlock(NO);
+		 }
+		 [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+	 }];
+	
+}
+
 #pragma mark - Notification
 
 
