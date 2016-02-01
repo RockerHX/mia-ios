@@ -49,8 +49,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initConfig];
-    [self viewConfig];
+    [self loadConfigure];
+    [self viewConfigure];
 }
 
 - (void)dealloc {
@@ -63,7 +63,7 @@
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)loadConfigure {
 	//添加键盘监听
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -117,19 +117,12 @@
     }];
 }
 
-- (void)viewConfig {
+- (void)viewConfigure {
     _tableView.scrollsToTop = YES;
     _editCommentView.scrollsToTop = NO;
 }
 
 #pragma mark - Event Response
-- (IBAction)backButtonPressed {
-    [self.navigationController popViewControllerAnimated:YES];
-	if (_delegate && [_delegate respondsToSelector:@selector(detailViewControllerDismissWithoutDelete)]) {
-		[_delegate detailViewControllerDismissWithoutDelete];
-	}
-}
-
 - (IBAction)moreButtonPressed {
     RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
         NSLog(@"cancel");
