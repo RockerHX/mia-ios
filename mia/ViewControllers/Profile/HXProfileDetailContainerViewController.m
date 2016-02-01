@@ -317,7 +317,6 @@ SongListPlayerDelegate
                  
                  [_viewModel fetchUserListData];
                  self.editing = NO;
-                 [self.tableView reloadData];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
