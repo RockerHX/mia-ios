@@ -19,6 +19,7 @@
 #import "MusicMgr.h"
 #import "HXMusicDetailViewController.h"
 #import "UIActionSheet+Blocks.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -317,7 +318,10 @@ SongListPlayerDelegate
     CGFloat height = 0.0f;
     switch (_segmentView.itemType) {
         case HXProfileSegmentItemTypeShare: {
-            height = _viewModel.shareCellHeight;
+            height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) cacheByIndexPath:indexPath configuration:
+                      ^(HXProfileShareCell *cell) {
+                          [(HXProfileShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+                      }];
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
