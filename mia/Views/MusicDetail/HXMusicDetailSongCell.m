@@ -22,7 +22,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 120.0f;
+    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 60.0f;
 }
 
 #pragma mark - Event Response
@@ -39,7 +39,7 @@
 	}
 	
     MusicItem *musicItem = item.music;
-    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@"  " stringByAppendingString:musicItem.singerName]];
+    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@"-" stringByAppendingString:musicItem.singerName]];
     [self updateStatStateWithFavorite:item.favorite];
 }
 
@@ -53,11 +53,14 @@
 
 #pragma mark - Private Methods
 - (void)displaySongInfoLabelWithSongName:(NSString *)songerName singerName:(NSString *)singerName {
-    NSString *text = [NSString stringWithFormat:@"%@%@", (songerName.length ? songerName : @""), (singerName ?: @"")];
+    NSString *text = [NSString stringWithFormat:@"%@%@", (songerName.length ? songerName : @""), ((singerName.length > 1) ? singerName : @"")];
     
+    NSDictionary *linkAttributes = @{(__bridge id)kCTForegroundColorAttributeName: UIColorFromHex(@"808080", 1.0f)};
     [_songInfoLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-        NSRange boldRange = [[mutableAttributedString string] rangeOfString:singerName options:NSCaseInsensitiveSearch];
-        [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)UIColorFromHex(@"808080", 1.0f).CGColor range:boldRange];
+        NSRange boldRange = [text rangeOfString:singerName];
+        if (singerName.length > 1) {
+            [mutableAttributedString addAttributes:linkAttributes range:boldRange];
+        }
         return mutableAttributedString;
     }];
 }
