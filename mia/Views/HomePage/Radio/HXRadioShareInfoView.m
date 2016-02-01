@@ -138,7 +138,7 @@ HXXibImplementation
 - (void)starScrollFlyComments {
     _loop = 0;
     [_timer invalidate];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:8.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
 }
 
 - (void)scrollFlyCommentsAnimation {
