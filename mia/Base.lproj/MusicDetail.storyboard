@@ -6,10 +6,10 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Delegate-->
+        <!--HXMusicDetailViewController-->
         <scene sceneID="JFE-pJ-zFL">
             <objects>
-                <viewController storyboardIdentifier="HXMusicDetailViewController" id="ryk-wB-QfC" customClass="HXMusicDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXMusicDetailViewController" id="ryk-wB-QfC" userLabel="HXMusicDetailViewController" customClass="HXMusicDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f1L-EU-SJ5"/>
                         <viewControllerLayoutGuide type="bottom" id="Yo9-3z-viB"/>
@@ -337,6 +337,7 @@
                                         <connections>
                                             <outlet property="commentCountLabel" destination="L79-LZ-Aiw" id="Pr1-1I-VOC"/>
                                             <outlet property="dateLabel" destination="hRv-bG-Oto" id="h8D-g8-27s"/>
+                                            <outlet property="delegate" destination="ryk-wB-QfC" id="G1V-NQ-f1r"/>
                                             <outlet property="infectUserView" destination="6S7-ki-cI2" id="8mk-1g-WHg"/>
                                             <outlet property="infectionCountLabel" destination="3cj-HC-eLX" id="oZ8-gj-f2c"/>
                                             <outlet property="infectionView" destination="PAf-l1-0o6" id="PeT-ag-OIp"/>

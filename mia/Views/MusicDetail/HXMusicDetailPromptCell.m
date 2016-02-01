@@ -30,11 +30,15 @@
 
 #pragma mark - Event Response
 - (IBAction)infectButtonPressed {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
+        [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionInfect];
+    }
 }
 
-- (IBAction)infectViewTaped {
-    
+- (void)infectViewTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
+        [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionShowInfecter];
+    }
 }
 
 #pragma mark - Public Methods
