@@ -95,6 +95,12 @@ SongListPlayerDelegate
     
 }
 
+- (void)stopMusic {
+	if ([_songListPlayer isPlaying]) {
+		[_songListPlayer stop];
+	}
+}
+
 #pragma mark - Private Methods
 - (HXProfileSegmentView *)segmentView {
     if (!_segmentView) {

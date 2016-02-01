@@ -19,7 +19,8 @@
 #import "HXMessageCenterViewController.h"
 
 @interface HXProfileViewController () <
-HXProfileDetailContainerViewControllerDelegate
+HXProfileDetailContainerViewControllerDelegate,
+HXNavigationBarDelegate
 >
 @end
 
@@ -103,6 +104,7 @@ HXProfileDetailContainerViewControllerDelegate
 }
 
 - (void)viewConfigure {
+	_navigationBar.delegate = self;
     _settingButton.hidden = !_type;
 	[self showMessagePromptView];
 }
@@ -234,6 +236,11 @@ HXProfileDetailContainerViewControllerDelegate
 			break;
 		}
     }
+}
+
+#pragma mark - HXNavigationBarDelegate Methods
+- (void)navigationBarDidBackAction {
+	[_detailContainerViewController stopMusic];
 }
 
 @end
