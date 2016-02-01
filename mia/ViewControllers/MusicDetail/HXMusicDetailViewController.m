@@ -315,11 +315,6 @@
                 [(HXMusicDetailShareCell *)cell displayWithShareItem:_viewModel.playItem];
                 break;
             }
-            case HXMusicDetailRowInfect: {
-                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailInfectCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailInfectCell *)cell displayWithViewModel:_viewModel];
-                break;
-            }
             case HXMusicDetailRowPrompt: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailPromptCell class]) forIndexPath:indexPath];
                 [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
@@ -361,10 +356,6 @@
                  ^(HXMusicDetailShareCell *cell) {
                      [cell displayWithShareItem:_viewModel.playItem];
                  }];
-                break;
-            }
-            case HXMusicDetailRowInfect: {
-                height = _viewModel.infectCellHeight;
                 break;
             }
             case HXMusicDetailRowPrompt: {

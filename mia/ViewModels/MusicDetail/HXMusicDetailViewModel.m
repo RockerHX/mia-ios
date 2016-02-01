@@ -48,18 +48,10 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (void)setupRowTypes {
-    if (_playItem.infectUsers.count) {
-        _rowTypes = @[@(HXMusicDetailRowCover),
-                      @(HXMusicDetailRowSong),
-                      @(HXMusicDetailRowShare),
-                      @(HXMusicDetailRowInfect),
-                      @(HXMusicDetailRowPrompt)];
-    } else {
-        _rowTypes = @[@(HXMusicDetailRowCover),
-                      @(HXMusicDetailRowSong),
-                      @(HXMusicDetailRowShare),
-                      @(HXMusicDetailRowPrompt)];
-    }
+    _rowTypes = @[@(HXMusicDetailRowCover),
+                  @(HXMusicDetailRowSong),
+                  @(HXMusicDetailRowShare),
+                  @(HXMusicDetailRowPrompt)];
 }
 
 #pragma mark - Setter And Getter
@@ -71,12 +63,8 @@ typedef void(^CommentReuqestBlock)(BOOL);
     return [HXVersion isIPhone5SPrior] ? 225.0f : 240.0f;
 }
 
-- (CGFloat)infectCellHeight {
-    return 46.0f;
-}
-
 - (CGFloat)promptCellHeight {
-    return 77.0f;
+    return 112.0f;
 }
 
 - (CGFloat)noCommentCellHeight {
@@ -88,7 +76,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 - (NSInteger)regularRow {
-    return _playItem.infectUsers.count ? 5 : 4;
+    return 4;
 }
 
 - (NSArray *)rowTypes {

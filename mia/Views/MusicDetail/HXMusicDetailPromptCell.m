@@ -11,10 +11,33 @@
 
 @implementation HXMusicDetailPromptCell
 
+#pragma mark - Load Methods
+- (void)awakeFromNib {
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    ;
+}
+
+- (void)viewConfigure {
+    [_infectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectViewTaped)]];
+}
+
+#pragma mark - Event Response
+- (IBAction)infectButtonPressed {
+    
+}
+
+- (IBAction)infectViewTaped {
+    
+}
+
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
     ShareItem *item = viewModel.playItem;
-    _viewCountLabel.text = @(item.cView).stringValue;
     _locationLabel.text = item.sAddress;
     _commentCountLabel.text = @(item.cComm).stringValue;
 }

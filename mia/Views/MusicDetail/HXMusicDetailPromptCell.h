@@ -9,12 +9,26 @@
 #import <UIKit/UIKit.h>
 
 @class HXMusicDetailViewModel;
+@class HXInfectUserView;
+@class HXMusicDetailPromptCell;
+
+@protocol HXMusicDetailPromptCellDelegate <NSObject>
+
+@optional
+- (void)promptCell:(HXMusicDetailPromptCell *)cell takeAction:()action;
+
+@end
 
 @interface HXMusicDetailPromptCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *viewCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet           UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet           UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet           UIView *infectionView;
+@property (weak, nonatomic) IBOutlet HXInfectUserView *infectUserView;
+@property (weak, nonatomic) IBOutlet           UILabel *infectionCountLabel;
+@property (weak, nonatomic) IBOutlet           UILabel *commentCountLabel;
+
+- (IBAction)infectButtonPressed;
 
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
 
