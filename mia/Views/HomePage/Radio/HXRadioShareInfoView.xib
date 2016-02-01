@@ -15,6 +15,7 @@
                 <outlet property="shareContentLabel" destination="hkt-cg-nzc" id="i6e-vj-GFg"/>
                 <outlet property="sharerAvatar" destination="FzS-AE-JPh" id="XVZ-ND-nhy"/>
                 <outlet property="sharerLabel" destination="Fag-67-cpm" id="EKe-hY-6vN"/>
+                <outlet property="sharerView" destination="FoJ-p7-vkO" id="Gy8-um-cfq"/>
                 <outlet property="timeLabel" destination="lmi-t0-mqp" id="CpM-2e-258"/>
             </connections>
         </placeholder>

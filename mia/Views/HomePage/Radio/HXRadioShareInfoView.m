@@ -104,6 +104,9 @@ HXXibImplementation
     _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
     [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];
     [self displayFlyComments:item.flyComments];
+
+	// 兼容0.3版本升级上来的用户，老的卡片数据，分享者这几个元素直接隐藏
+	[_sharerView setHidden:(nil == shareUser)];
 }
 
 #pragma mark - Private Methods
