@@ -173,7 +173,8 @@ HXProfileDetailContainerViewControllerDelegate
 														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
 
-	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0)];
+
+	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0) || !_type];
 }
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
