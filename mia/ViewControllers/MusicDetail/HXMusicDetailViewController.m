@@ -11,7 +11,6 @@
 #import "HXMusicDetailCoverCell.h"
 #import "HXMusicDetailSongCell.h"
 #import "HXMusicDetailShareCell.h"
-#import "HXMusicDetailInfectCell.h"
 #import "HXMusicDetailPromptCell.h"
 #import "HXMusicDetailNoCommentCell.h"
 #import "HXMusicDetailCommentCell.h"
@@ -30,7 +29,7 @@
 #import "NSString+IsNull.h"
 #import "HXProfileViewController.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -441,16 +440,16 @@
 	[self.navigationController pushViewController:profileViewController animated:YES];
 }
 
-#pragma mark - HXMusicDetailInfectCellDelegate Methods
-- (void)cellUserWouldLikeShowInfectList:(HXMusicDetailInfectCell *)cell {
-    [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
-        InfectItem *selectedItem = item;
-
-		HXProfileViewController *profileViewController = [HXProfileViewController instance];
-		profileViewController.uid = selectedItem.uID;
-		profileViewController.type = HXProfileTypeGuest;
-		[self.navigationController pushViewController:profileViewController animated:YES];
-    }];
-}
+//#pragma mark - HXMusicDetailInfectCellDelegate Methods
+//- (void)cellUserWouldLikeShowInfectList:(HXMusicDetailInfectCell *)cell {
+//    [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
+//        InfectItem *selectedItem = item;
+//
+//		HXProfileViewController *profileViewController = [HXProfileViewController instance];
+//		profileViewController.uid = selectedItem.uID;
+//		profileViewController.type = HXProfileTypeGuest;
+//		[self.navigationController pushViewController:profileViewController animated:YES];
+//    }];
+//}
 
 @end
