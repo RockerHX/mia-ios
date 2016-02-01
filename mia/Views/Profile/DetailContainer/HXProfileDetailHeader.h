@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet    UIButton *followButton;
 @property (weak, nonatomic) IBOutlet      UIView *messagePromptView;
 @property (weak, nonatomic) IBOutlet     UILabel *messageCountLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *messageAvatar;
 
 @property (nonatomic, assign) HXProfileType  type;
 
