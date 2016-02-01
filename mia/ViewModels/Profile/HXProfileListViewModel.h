@@ -27,7 +27,6 @@ typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
 @property (nonatomic, strong, readonly)   NSArray *rowTypes;
 @property (nonatomic, strong, readonly)   NSArray *dataSource;
 
-@property (nonatomic, assign, readonly) NSInteger  shareCount;
 @property (nonatomic, assign, readonly) NSInteger  favoriteCount;
 
 @property (nonatomic, assign) HXProfileSegmentItemType  itemType;

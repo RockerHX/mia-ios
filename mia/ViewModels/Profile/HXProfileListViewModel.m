@@ -118,10 +118,6 @@ FavoriteMgrDelegate
     }
 }
 
-- (NSInteger)shareCount {
-    return _shareLists.count;
-}
-
 - (NSInteger)favoriteCount {
     return _favoriteLists.count;
 }

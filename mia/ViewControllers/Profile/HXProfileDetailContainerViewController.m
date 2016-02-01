@@ -113,7 +113,6 @@ SongListPlayerDelegate
 - (void)endLoad {
     [self.tableView reloadData];
     
-    _segmentView.shareItemView.countLabel.text = @(_viewModel.shareCount).stringValue;
     _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
 }
 
@@ -134,6 +133,9 @@ SongListPlayerDelegate
 				 [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
 
 				 [_viewModel deleteShareItemWithIndex:index];
+
+				 _shareCount--;
+				 [self setShareCount:_shareCount];
 				 [self.tableView reloadData];
 			 } else {
 				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
