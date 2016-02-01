@@ -11,6 +11,23 @@
 
 @implementation HXProfileShareCell
 
+#pragma mark - Load Methods
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    _titleLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 36.0f;
+}
+
+- (void)viewConfigure {
+    ;
+}
+
 #pragma mark - Setter And Getter
 - (void)setFavorite:(BOOL)favorite {
     _favorite = favorite;
