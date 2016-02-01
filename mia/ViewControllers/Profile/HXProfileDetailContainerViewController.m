@@ -18,6 +18,7 @@
 #import "PathHelper.h"
 #import "MusicMgr.h"
 #import "HXMusicDetailViewController.h"
+#import "UIActionSheet+Blocks.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -119,6 +120,36 @@ SongListPlayerDelegate
 - (void)playMusic {
     [self playFavoriteMusic];
     [self.tableView reloadData];
+}
+
+- (void)deleteShareWithIndex:(NSInteger)index sID:(NSString *)sID{
+	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
+		NSLog(@"cancel");
+	}];
+
+	RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"删除" action:^{
+		[MiaAPIHelper deleteShareById:sID completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
+
+				 [_viewModel deleteShareItemWithIndex:index];
+				 [self.tableView reloadData];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
+		 }];
+	}];
+
+	UIActionSheet *aActionSheet = nil;
+	aActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+									   cancelButtonItem:cancelItem
+								  destructiveButtonItem:reportItem
+									   otherButtonItems:nil];
+	[aActionSheet showInView:self.view];
 }
 
 #pragma mark - audio operations
@@ -441,20 +472,7 @@ SongListPlayerDelegate
             break;
         }
         case HXProfileShareCellActionDelete: {
-            [MiaAPIHelper deleteShareById:item.sID completeBlock:
-             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                 if (success) {
-                     [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
-                     
-                     [_viewModel deleteShareItemWithIndex:index];
-                     [self.tableView reloadData];
-                 } else {
-                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-                 }
-             } timeoutBlock:^(MiaRequestItem *requestItem) {
-                 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
-             }];
+			[self deleteShareWithIndex:index sID:item.sID];
             break;
         }
     }
