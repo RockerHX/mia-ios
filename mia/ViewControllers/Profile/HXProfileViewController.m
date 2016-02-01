@@ -41,6 +41,9 @@ HXNavigationBarDelegate
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 	_pushed = NO;
+
+	[self showHUD];
+	[self fetchProfileData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -98,9 +101,6 @@ HXNavigationBarDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
-    
-    [self showHUD];
-    [self fetchProfileData];
 }
 
 - (void)viewConfigure {
