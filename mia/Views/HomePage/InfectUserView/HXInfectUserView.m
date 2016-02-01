@@ -8,6 +8,7 @@
 
 #import "HXInfectUserView.h"
 #import "HXInfectUserItemView.h"
+#import "UIView+Frame.h"
 
 static CGFloat ItemDefaultWidth = 42.0f;
 
@@ -71,20 +72,23 @@ static CGFloat ItemDefaultWidth = 42.0f;
 
 - (void)addItem:(id)item {
     HXInfectUserItemView *itemView = [HXInfectUserItemView instance];
+    itemView.height = self.height;
+    itemView.width = itemView.height;
     [_stacView addArrangedSubview:itemView];
     [self refreshItemView:itemView withItem:item];
     [self reCountWidth];
 }
 
 - (void)addItems:(NSArray *)items {
-    
+    ;
 }
 
 - (void)addItem:(id)item atIndex:(NSInteger)index {
+    ;
 }
 
 - (void)addItem:(id)item atIndex:(NSInteger)index animated:(BOOL)animated {
-    
+    ;
 }
 
 - (void)addItemAtFirstIndex:(id)item {
@@ -112,15 +116,15 @@ static CGFloat ItemDefaultWidth = 42.0f;
 }
 
 - (void)removeItem:(id)item atIndex:(NSInteger)index {
-    
+    ;
 }
 
 - (void)removeItemAtFirstIndex:(id)item {
-    
+    ;
 }
 
 - (void)removeItemAtLastIndex:(id)item {
-    
+    ;
 }
 
 #pragma mark - Private Methods
