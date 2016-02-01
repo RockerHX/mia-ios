@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, HXRadioShareInfoAction) {
 
 @property (weak, nonatomic) IBOutlet                 id  <HXRadioShareInfoViewDelegate>delegate;
 
+@property (weak, nonatomic) IBOutlet             UIView *sharerView;
 @property (weak, nonatomic) IBOutlet           UIButton *sharerAvatar;
 @property (weak, nonatomic) IBOutlet        UIImageView *attentionIcon;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *sharerLabel;

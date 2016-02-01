@@ -18,6 +18,7 @@
 #import "PathHelper.h"
 #import "MusicMgr.h"
 #import "HXMusicDetailViewController.h"
+#import "UIActionSheet+Blocks.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -95,6 +96,12 @@ SongListPlayerDelegate
     
 }
 
+- (void)stopMusic {
+	if ([_songListPlayer isPlaying]) {
+		[_songListPlayer stop];
+	}
+}
+
 #pragma mark - Private Methods
 - (HXProfileSegmentView *)segmentView {
     if (!_segmentView) {
@@ -106,13 +113,45 @@ SongListPlayerDelegate
 - (void)endLoad {
     [self.tableView reloadData];
     
-    _segmentView.shareItemView.countLabel.text = @(_viewModel.shareCount).stringValue;
     _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
 }
 
 - (void)playMusic {
     [self playFavoriteMusic];
     [self.tableView reloadData];
+}
+
+- (void)deleteShareWithIndex:(NSInteger)index sID:(NSString *)sID{
+	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
+		NSLog(@"cancel");
+	}];
+
+	RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"删除" action:^{
+		[MiaAPIHelper deleteShareById:sID completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
+
+				 [_viewModel deleteShareItemWithIndex:index];
+
+				 _shareCount--;
+				 [self setShareCount:_shareCount];
+				 [self.tableView reloadData];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
+		 }];
+	}];
+
+	UIActionSheet *aActionSheet = nil;
+	aActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+									   cancelButtonItem:cancelItem
+								  destructiveButtonItem:reportItem
+									   otherButtonItems:nil];
+	[aActionSheet showInView:self.view];
 }
 
 #pragma mark - audio operations
@@ -317,7 +356,6 @@ SongListPlayerDelegate
                  
                  [_viewModel fetchUserListData];
                  self.editing = NO;
-                 [self.tableView reloadData];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
@@ -436,20 +474,7 @@ SongListPlayerDelegate
             break;
         }
         case HXProfileShareCellActionDelete: {
-            [MiaAPIHelper deleteShareById:item.sID completeBlock:
-             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                 if (success) {
-                     [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
-                     
-                     [_viewModel deleteShareItemWithIndex:index];
-                     [self.tableView reloadData];
-                 } else {
-                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-                 }
-             } timeoutBlock:^(MiaRequestItem *requestItem) {
-                 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
-             }];
+			[self deleteShareWithIndex:index sID:item.sID];
             break;
         }
     }

@@ -104,6 +104,9 @@ HXXibImplementation
     _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
     [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];
     [self displayFlyComments:item.flyComments];
+
+	// 兼容0.3版本升级上来的用户，老的卡片数据，分享者这几个元素直接隐藏
+	[_sharerView setHidden:(nil == shareUser)];
 }
 
 #pragma mark - Private Methods
@@ -127,7 +130,10 @@ HXXibImplementation
         [UIView animateWithDuration:0.3f animations:^{
             _commentView.alpha = 1.0f;
         } completion:^(BOOL finished) {
-            [self starScrollFlyComments];
+			// 只有一条没必要切换
+			if (flyComments.count > 1) {
+				[self starScrollFlyComments];
+			}
         }];
     }
 }
@@ -135,7 +141,7 @@ HXXibImplementation
 - (void)starScrollFlyComments {
     _loop = 0;
     [_timer invalidate];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:8.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
 }
 
 - (void)scrollFlyCommentsAnimation {
