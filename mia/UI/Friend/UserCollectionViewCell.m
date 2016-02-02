@@ -139,19 +139,13 @@
 	BOOL isFollow = !_dataItem.follow;
 	[self setIsFollowing:isFollow];
 
-	// 如果回调出去，处理失败了还需要通知界面重新刷新，偷懒就在view里面做了操作了
-	// linyehui 2016-01-28
-	[MiaAPIHelper followWithUID:_dataItem.uid
-					   isFollow:isFollow
-				  completeBlock:
-	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-		 if (!success) {
-			 [self setIsFollowing:!isFollow];
-			 [HXAlertBanner showWithMessage:(isFollow ? @"添加关注失败" : @"取消关注失败") tap:nil];
-		 }
-	} timeoutBlock:^(MiaRequestItem *requestItem) {
-		[HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
-	}];
+	if (_delegate && [_delegate respondsToSelector:@selector(userCollectionViewCellFollowUID:isFollow:completedBlock:)]) {
+		[_delegate userCollectionViewCellFollowUID:_dataItem.uid isFollow:isFollow completedBlock:^(BOOL isSuccessed) {
+			if (!isSuccessed) {
+				[self setIsFollowing:!isFollow];
+			}
+		}];
+	}
 }
 
 @end
