@@ -129,8 +129,6 @@ SongListPlayerDelegate
         [self removeRefreshFooter];
         [self resizeFooter];
     }
-    
-    _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
 }
 
 - (void)resizeFooter {
@@ -382,6 +380,9 @@ SongListPlayerDelegate
                  
                  [_viewModel fetchUserListData];
                  self.editing = NO;
+
+				 _favoriteCount--;
+				 [self setFavoriteCount:_favoriteCount];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
