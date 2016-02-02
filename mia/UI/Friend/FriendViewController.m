@@ -27,6 +27,8 @@ static const long kUserListPageCount = 10;
 @end
 
 @implementation FriendViewController {
+    BOOL                    _pushed;
+    
 	UserListViewType		_initListViewType;
 	NSString				*_currentUID;
 	BOOL					_isHost;
@@ -80,12 +82,12 @@ static const long kUserListPageCount = 10;
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.navigationController setNavigationBarHidden:YES animated:!_pushed];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:!_pushed];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -489,6 +491,7 @@ static const long kUserListPageCount = 10;
 
 - (void)userListViewDidSelectedItem:(UserItem *)item {
 	NSLog(@"select %@", item.nick);
+    _pushed = YES;
 	HXProfileViewController *profileViewController = [HXProfileViewController instance];
 	profileViewController.uid = item.uid;
 	profileViewController.type = HXProfileTypeGuest;
