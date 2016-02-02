@@ -143,7 +143,9 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     _profileButton.layer.borderWidth = 0.5f;
     _profileButton.layer.borderColor = UIColorFromHex(@"A2A2A2", 1.0f).CGColor;
     _profileButton.layer.cornerRadius = _profileButton.frame.size.height/2;
-    
+	[_profileButton setImage:nil forState:UIControlStateNormal];
+	[_profileButton setBackgroundImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
+
     _shareButton.backgroundColor = [UIColor whiteColor];
     _shareButton.layer.cornerRadius = _profileButton.frame.size.height/2;
     
@@ -179,13 +181,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	//	NSLog(@"keyPath = %@, change = %@, context = %s", keyPath, change, (char *)context);
 	if ([keyPath isEqualToString:UserSessionKey_Avatar]) {
-		NSString *newAvatarUrl = change[NSKeyValueChangeNewKey];
-		if ([NSString isNull:newAvatarUrl]) {
-			[_profileButton setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
-        } else {
-			NSInteger unreadCount = [[UserSession standard] notifyCnt];
-			[self updateProfileButtonWithUnreadCount:unreadCount];
-		}
+		NSInteger unreadCount = [[UserSession standard] notifyCnt];
+		[self updateProfileButtonWithUnreadCount:unreadCount];
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
 		if ([UserSession standard].state) {
             // 更新单条分享的信息
@@ -474,14 +471,19 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 - (void)updateProfileButtonWithUnreadCount:(NSInteger)unreadCommentCount {
     if (unreadCommentCount <= 0) {
         _profileButton.layer.borderWidth = 0.5f;
-        [_profileButton sd_setImageWithURL:[NSURL URLWithString:[[UserSession standard] avatar]]
-                                  forState:UIControlStateNormal
-                          placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]
-                                   options:SDWebImageRetryFailed];
+		[_profileButton setTitle:@"" forState:UIControlStateNormal];
+
+		if ([NSString isNull:[UserSession standard].avatar]) {
+			[_profileButton setBackgroundImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"] forState:UIControlStateNormal];
+		} else {
+			[_profileButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[UserSession standard].avatar]
+												forState:UIControlStateNormal
+										placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]
+												 options:SDWebImageRetryFailed];
+		}
 	} else {
         _profileButton.layer.borderWidth = 0.0f;
-		[_profileButton setImage:nil forState:UIControlStateNormal];
-		[_profileButton setBackgroundColor:UIColorFromHex(@"0BDEBC", 1.0)];
+		[_profileButton setBackgroundImage:[UIImage createImageWithColor:UIColorFromHex(@"0BDEBC", 1.0)] forState:UIControlStateNormal];
 		[_profileButton setTitle:[NSString stringWithFormat:@"%ld", (long)unreadCommentCount] forState:UIControlStateNormal];
 	}
 }
