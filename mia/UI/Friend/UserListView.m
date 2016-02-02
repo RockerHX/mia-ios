@@ -78,6 +78,7 @@ UserCollectionViewCellDelegate
 	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestMoreItems)];
 	[aFooter setTitle:@"" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	[aFooter setAutomaticallyHidden:YES];
 	_collectionView.mj_footer = aFooter;
 
 }

@@ -65,11 +65,10 @@ static const CGFloat kSearchResultItemHeight	= 100;
 
 	//[_collectionView addFooterWithTarget:self action:@selector(requestMoreItems)];
 	MJRefreshAutoNormalFooter *aFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(requestMoreItems)];
-	[aFooter setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+	[aFooter setTitle:@"" forState:MJRefreshStateIdle];
 	[aFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+	[aFooter setAutomaticallyHidden:YES];
 	_collectionView.mj_footer = aFooter;
-
-
 }
 
 - (void)initNoDataView:(UIView *)contentView {
