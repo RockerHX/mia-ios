@@ -125,10 +125,27 @@ SongListPlayerDelegate
     [self.tableView.mj_footer endRefreshing];
     [self.tableView reloadData];
     
-    if (!_viewModel.dataSource.count) {
+    BOOL hasData = _viewModel.dataSource.count;
+    if (!hasData) {
+        NSString *prompt = nil;
+        switch (_segmentView.itemType) {
+            case HXProfileSegmentItemTypeShare: {
+                prompt = @"分享";
+                break;
+            }
+            case HXProfileSegmentItemTypeFavorite: {
+                prompt = @"收藏";
+                break;
+            }
+        }
+        _firstPromptLabel.text = prompt;
+        _secondPromptLabel.text = prompt;
+        
         [self removeRefreshFooter];
         [self resizeFooter];
     }
+    
+    _promptView.hidden = hasData;
     
     _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
 }
@@ -460,7 +477,6 @@ SongListPlayerDelegate
 
 #pragma mark - HXProfileSegmentViewDelegate Methods
 - (void)segmentView:(HXProfileSegmentView *)segmentView selectedType:(HXProfileSegmentItemType)type {
-    _viewModel.itemType = type;
     switch (type) {
         case HXProfileSegmentItemTypeShare: {
             [self addRefreshFooter];
@@ -471,6 +487,7 @@ SongListPlayerDelegate
             break;
         }
     }
+    _viewModel.itemType = type;
 }
 
 #pragma mark - HXProfileShareCellDelegate Methods
