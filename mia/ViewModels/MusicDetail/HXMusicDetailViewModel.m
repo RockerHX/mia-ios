@@ -14,8 +14,15 @@
 #import "HXVersion.h"
 
 typedef void(^CommentReuqestBlock)(BOOL);
+typedef void(^SuccessBlock)(HXMusicDetailViewModel *);
+typedef void(^FailureBlock)(NSString *);
 
 @implementation HXMusicDetailViewModel {
+    NSString *_sID;
+    
+    SuccessBlock _shareItemSuccessBlock;
+    FailureBlock _shareItemFailureBlock;
+    
     CommentReuqestBlock _commentReuqestBlock;
     CommentReuqestBlock _lastCommentReuqestBlock;
     CommentReuqestBlock _reportViewsBlock;
@@ -40,6 +47,14 @@ typedef void(^CommentReuqestBlock)(BOOL);
     return self;
 }
 
+- (instancetype)initWithID:(NSString *)ID {
+    self = [super init];
+    if (self) {
+        _sID = ID;
+    }
+    return self;
+}
+
 #pragma mark - Config Methods
 - (void)initConfig {
     [self setupRowTypes];
@@ -52,6 +67,7 @@ typedef void(^CommentReuqestBlock)(BOOL);
                   @(HXMusicDetailRowSong),
                   @(HXMusicDetailRowShare),
                   @(HXMusicDetailRowPrompt)];
+    _rowCount = _rowTypes.count;
 }
 
 #pragma mark - Setter And Getter
@@ -88,6 +104,33 @@ typedef void(^CommentReuqestBlock)(BOOL);
 }
 
 #pragma mark - Public Methods
+- (void)fetchShareItem:(void(^)(HXMusicDetailViewModel *))success failure:(void(^)(NSString *))failure {
+    _shareItemSuccessBlock = success;
+    _shareItemFailureBlock = failure;
+    
+    [MiaAPIHelper getShareById:_sID
+                          spID:nil
+                 completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             _playItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
+
+             [self setupRowTypes];
+             if (_shareItemSuccessBlock) {
+                 _shareItemSuccessBlock(self);
+             }
+         } else {
+             if (_shareItemFailureBlock) {
+                 _shareItemFailureBlock(@"数据获取出错！");
+             }
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         if (_shareItemFailureBlock) {
+             _shareItemFailureBlock(@"请求超时！");
+         }
+     }];
+}
+
 - (void)requestComments:(void(^)(BOOL success))block {
     _commentReuqestBlock = block;
     
@@ -177,6 +220,10 @@ typedef void(^CommentReuqestBlock)(BOOL);
              strongSelf->_commentReuqestBlock(NO);
          }
      }];
+}
+
+- (void)reload {
+    [self fetchShareItem:_shareItemSuccessBlock failure:_shareItemFailureBlock];
 }
 
 #pragma mark - Private Methods

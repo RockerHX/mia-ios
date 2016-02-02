@@ -401,7 +401,7 @@ SongListPlayerDelegate
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMusicDetail];
             }
             HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
-            musicDetailViewController.playItem = _viewModel.dataSource[indexPath.row];
+            musicDetailViewController.sID = ((ShareItem *)_viewModel.dataSource[indexPath.row]).sID;
             [self.navigationController pushViewController:musicDetailViewController animated:YES];
             break;
         }

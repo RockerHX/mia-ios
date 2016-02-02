@@ -68,53 +68,30 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-#warning @andy
-	if (!_playItem && ![NSString isNull:_sID]) {
-		[MiaAPIHelper getShareById:_sID
-							  spID:nil
-					 completeBlock:
-		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-			 if (success) {
-				 _playItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
-
-				 _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
-
-				 __weak __typeof__(self)weakSelf = self;
-				 [_viewModel requestComments:^(BOOL success) {
-					 __strong __typeof__(self)strongSelf = weakSelf;
-					 [strongSelf.tableView reloadData];
-				 }];
-				 [_viewModel reportViews:^(BOOL success) {
-					 if (YES) {
-						 __strong __typeof__(self)strongSelf = weakSelf;
-						 [strongSelf.tableView reloadData];
-					 }
-				 }];
-
-			 } else {
-				 NSLog(@"getShareById failed");
-			 }
-		 } timeoutBlock:^(MiaRequestItem *requestItem) {
-			 NSLog(@"getShareById timeout");
-		 }];
-
-		// TODO 这是另外一种启动流程
-		return;
-	}
-
-    _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
-
-    __weak __typeof__(self)weakSelf = self;
-    [_viewModel requestComments:^(BOOL success) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.tableView reloadData];
-    }];
-    [_viewModel reportViews:^(BOOL success) {
-        if (YES) {
+    if (_playItem) {
+        _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+        __weak __typeof__(self)weakSelf = self;
+        [_viewModel requestComments:^(BOOL success) {
             __strong __typeof__(self)strongSelf = weakSelf;
             [strongSelf.tableView reloadData];
-        }
-    }];
+        }];
+    } else if (_sID.length) {
+        _viewModel = [[HXMusicDetailViewModel alloc] initWithID:_sID];
+        
+        __weak __typeof__(self)weakSelf = self;
+        [_viewModel fetchShareItem:^(HXMusicDetailViewModel *viewModel) {
+            __strong __typeof__(self)strongSelf = weakSelf;
+            [strongSelf.tableView reloadData];
+            
+            [viewModel requestComments:^(BOOL success) {
+                [strongSelf.tableView reloadData];
+            }];
+        } failure:^(NSString *message) {
+            [HXAlertBanner showWithMessage:message tap:nil];
+        }];
+    }
+    
+    [_viewModel reportViews:nil];
 }
 
 - (void)viewConfigure {
@@ -459,6 +436,7 @@
                              _playItem.isInfected = isInfected;
                          }
                          [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+                         [_viewModel reload];
                      } else {
                          id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                          [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
