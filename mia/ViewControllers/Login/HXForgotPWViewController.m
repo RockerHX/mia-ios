@@ -34,10 +34,8 @@ static NSString *ResetPWApi = @"/user/pauth";
     [_captchaButton timingStart:^BOOL(HXCaptchButton *button) {
         __strong __typeof__(self)strongSelf = weakSelf;
         NSString *mobile = strongSelf.mobileTextField.text;
-        if (mobile.length != 11) {
-            [self showToastWithMessage:@"请输入正确手机号！"];
-            return NO;
-        } else {
+
+		if ([self checkPhoneNumber]) {
             [strongSelf sendCaptchaRequesetWithMobile:mobile];
         }
         return YES;
