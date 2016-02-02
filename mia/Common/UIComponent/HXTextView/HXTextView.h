@@ -11,14 +11,14 @@
 
 @protocol HXTextViewDelegate <UITextViewDelegate>
 
-@optional
+@required
 - (void)textViewSizeChanged:(CGSize)size;
 
 @end
 
 @interface HXTextView: UITextView
 
-@property (nonatomic, assign)           IBInspectable  CGFloat  lineSpacing;
+@property (nonatomic, assign)           IBInspectable  CGFloat  maxLine;
 @property (nullable, nonatomic, copy)   IBInspectable NSString *placeholderText;
 @property (nullable, nonatomic, strong) IBInspectable  UIColor *placeholderColor;
 
