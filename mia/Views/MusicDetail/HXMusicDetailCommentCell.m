@@ -41,6 +41,7 @@
 - (void)displayWithComment:(HXComment *)comment {
     [_avatar sd_setImageWithURL:[NSURL URLWithString:comment.headerURL] placeholderImage:[UIImage imageNamed:@"HP-ProfileIcon"]];
     _nameLabel.text = comment.nickName;
+    _dateLabel.text = comment.formatTime;
     _contentLabel.text = comment.content;
 }
 

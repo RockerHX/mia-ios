@@ -24,6 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet     UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *contentLabel;
 
 - (void)displayWithComment:(HXComment *)comment;

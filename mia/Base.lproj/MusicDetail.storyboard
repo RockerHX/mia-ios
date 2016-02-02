@@ -384,8 +384,8 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评论者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDp-0L-54Y">
-                                                    <rect key="frame" x="57" y="15" width="255" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="评论者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDp-0L-54Y">
+                                                    <rect key="frame" x="57" y="15" width="189" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -397,22 +397,31 @@
                                                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-12-30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQv-ZZ-1LP">
+                                                    <rect key="frame" x="254" y="18" width="58" height="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="VDp-0L-54Y" firstAttribute="top" secondItem="Ftz-PD-tq3" secondAttribute="top" id="4VB-tx-h55"/>
                                                 <constraint firstItem="Ftz-PD-tq3" firstAttribute="leading" secondItem="mpf-06-yYn" secondAttribute="leading" constant="15" id="64j-uX-2RM"/>
                                                 <constraint firstItem="VDp-0L-54Y" firstAttribute="leading" secondItem="Ftz-PD-tq3" secondAttribute="trailing" constant="12" id="FL9-t2-Rl6"/>
+                                                <constraint firstAttribute="trailing" secondItem="tQv-ZZ-1LP" secondAttribute="trailing" constant="8" id="GSb-Hk-fvJ"/>
                                                 <constraint firstAttribute="bottom" secondItem="yVH-v7-RDw" secondAttribute="bottom" id="H5e-9T-Xvx"/>
                                                 <constraint firstItem="yVH-v7-RDw" firstAttribute="leading" secondItem="VDp-0L-54Y" secondAttribute="leading" id="JvS-P4-e7w"/>
-                                                <constraint firstAttribute="trailing" secondItem="VDp-0L-54Y" secondAttribute="trailing" constant="8" id="gRf-pH-BgJ"/>
+                                                <constraint firstItem="tQv-ZZ-1LP" firstAttribute="leading" secondItem="VDp-0L-54Y" secondAttribute="trailing" constant="8" id="bGi-sB-I0h"/>
+                                                <constraint firstItem="tQv-ZZ-1LP" firstAttribute="baseline" secondItem="VDp-0L-54Y" secondAttribute="baseline" id="c4t-cs-YQi"/>
                                                 <constraint firstItem="Ftz-PD-tq3" firstAttribute="top" secondItem="mpf-06-yYn" secondAttribute="top" constant="15" id="gqz-NE-pSx"/>
                                                 <constraint firstItem="yVH-v7-RDw" firstAttribute="top" secondItem="VDp-0L-54Y" secondAttribute="bottom" id="j82-Oc-EhR"/>
-                                                <constraint firstItem="yVH-v7-RDw" firstAttribute="trailing" secondItem="VDp-0L-54Y" secondAttribute="trailing" id="wlY-nV-PZZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="yVH-v7-RDw" secondAttribute="trailing" constant="8" id="wIW-Rx-mPO"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatar" destination="Ftz-PD-tq3" id="JhC-8r-5Pe"/>
                                             <outlet property="contentLabel" destination="yVH-v7-RDw" id="AaK-vr-Q2Y"/>
+                                            <outlet property="dateLabel" destination="tQv-ZZ-1LP" id="1nU-eX-P1t"/>
                                             <outlet property="delegate" destination="ryk-wB-QfC" id="tyY-iB-Z9U"/>
                                             <outlet property="nameLabel" destination="VDp-0L-54Y" id="GwJ-Gr-hDI"/>
                                         </connections>
