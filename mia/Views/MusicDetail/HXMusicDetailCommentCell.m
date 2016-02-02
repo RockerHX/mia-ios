@@ -11,26 +11,35 @@
 
 @implementation HXMusicDetailCommentCell
 
-#pragma mark - Init Methods
+#pragma mark - Awake Methods
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    [self initConfig];
-    [self viewConfig];
+    [self loadConfigure];
+    [self viewConfigure];
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)loadConfigure {
     _contentLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 70.0f;
+    
+    [_avatar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarTaped)]];
 }
 
-- (void)viewConfig {
-    _header.layer.cornerRadius = _header.frame.size.height/2;
+- (void)viewConfigure {
+    ;
+}
+
+#pragma mark - Event Response
+- (void)avatarTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(commentCellAvatarTaped:)]) {
+        [_delegate commentCellAvatarTaped:self];
+    }
 }
 
 #pragma mark - Public Methods
 - (void)displayWithComment:(HXComment *)comment {
-    [_header sd_setImageWithURL:[NSURL URLWithString:comment.headerURL] placeholderImage:[UIImage imageNamed:@"HP-ProfileIcon"]];
+    [_avatar sd_setImageWithURL:[NSURL URLWithString:comment.headerURL] placeholderImage:[UIImage imageNamed:@"HP-ProfileIcon"]];
     _nameLabel.text = comment.nickName;
     _contentLabel.text = comment.content;
 }

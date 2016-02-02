@@ -371,12 +371,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ftz-PD-tq3">
+                                                <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ftz-PD-tq3" customClass="HXIBImageView">
                                                     <rect key="frame" x="15" y="15" width="30" height="30"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="bdc-0l-5ur"/>
                                                         <constraint firstAttribute="width" secondItem="Ftz-PD-tq3" secondAttribute="height" multiplier="1:1" id="cTE-dn-wyx"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="15"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评论者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDp-0L-54Y">
                                                     <rect key="frame" x="57" y="15" width="255" height="17"/>
@@ -405,8 +411,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="avatar" destination="Ftz-PD-tq3" id="JhC-8r-5Pe"/>
                                             <outlet property="contentLabel" destination="yVH-v7-RDw" id="AaK-vr-Q2Y"/>
-                                            <outlet property="header" destination="Ftz-PD-tq3" id="kwy-Mh-5vk"/>
+                                            <outlet property="delegate" destination="ryk-wB-QfC" id="tyY-iB-Z9U"/>
                                             <outlet property="nameLabel" destination="VDp-0L-54Y" id="GwJ-Gr-hDI"/>
                                         </connections>
                                     </tableViewCell>

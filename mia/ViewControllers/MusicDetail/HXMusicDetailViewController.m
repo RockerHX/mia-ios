@@ -30,7 +30,7 @@
 #import "HXProfileViewController.h"
 #import "WebSocketMgr.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailPromptCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailPromptCellDelegate, HXMusicDetailCommentCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -366,10 +366,6 @@
 		} else {
 			[self presentLoginViewController];
 		}
-
-#warning @andy 需要把头像点击进入个人页加上
-//        GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
-//        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 
@@ -466,6 +462,22 @@
             break;
         }
     }
+}
+
+#pragma mark - HXMusicDetailCommentCellDelegate Methods
+- (void)commentCellAvatarTaped:(HXMusicDetailCommentCell *)cell {
+    NSInteger index = [self.tableView indexPathForCell:cell].row;
+    HXComment *comment = _viewModel.comments[index - _viewModel.regularRow];
+    NSString *userID = comment.uid;
+    HXProfileType type = HXProfileTypeGuest;
+    if ([[UserSession standard].uid isEqualToString:userID]) {
+        type = HXProfileTypeHost;
+    }
+    
+    HXProfileViewController *profileViewController = [HXProfileViewController instance];
+    profileViewController.uid = userID;
+    profileViewController.type = type;
+    [self.navigationController pushViewController:profileViewController animated:YES];
 }
 
 @end
