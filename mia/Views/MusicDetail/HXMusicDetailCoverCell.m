@@ -74,7 +74,7 @@
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
     _playItem = viewModel.playItem;
-    [_coverImageView sd_setImageWithURL:viewModel.frontCoverURL];
+    [_coverImageView sd_setImageWithURL:[NSURL URLWithString:viewModel.playItem.music.purl]];
     [self updatePlayState];
 }
 

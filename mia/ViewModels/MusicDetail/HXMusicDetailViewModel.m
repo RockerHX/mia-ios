@@ -39,7 +39,6 @@ typedef void(^FailureBlock)(NSString *);
     if (self) {
         if (item) {
             _playItem = item;
-            _frontCoverURL = [NSURL URLWithString:item.music.purl];
             
             [self initConfig];
         }
