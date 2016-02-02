@@ -305,8 +305,9 @@
 }
 
 #pragma mark - HXTextViewDelegate Methods
-- (void)textViewSizeChanged {
-    [self scrollToBottomWithAnimation:NO];
+- (void)textViewSizeChanged:(CGSize)size {
+    _textViewHeightConstraint.constant = (size.height > 50.0f) ? size.height : 50.0f;
+    [self scrollToBottomWithAnimation:YES];
 }
 
 #pragma mark - SongListPlayerDataSource
