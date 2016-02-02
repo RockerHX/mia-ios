@@ -11,18 +11,7 @@
 
 @class FriendItem;
 
-@protocol FriendViewControllerDelegate <NSObject>
-
-@required
-//@optional
-//- (void)friendSearchViewControllerDismissFinished;
-
-@end
-
-
 @interface FriendViewController : UIViewController
-
-@property (weak, nonatomic) id<FriendViewControllerDelegate> delegate;
 
 - (id)initWithType:(UserListViewType)type
 			isHost:(BOOL)isHost
