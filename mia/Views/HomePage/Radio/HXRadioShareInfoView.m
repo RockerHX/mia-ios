@@ -10,7 +10,6 @@
 #import "HXXib.h"
 #import "TTTAttributedLabel.h"
 #import "ShareItem.h"
-#import "UIButton+WebCache.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
 #import "UserSession.h"
@@ -59,7 +58,7 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
-- (IBAction)sharerAvatarButtonPressed {
+- (IBAction)sharerAvatarTaped {
     if ([UserSession standard].state) {
         if (![_avatarItem.uid isEqual:[UserSession standard].uid]) {
             [MiaAPIHelper followWithUID:_avatarItem.uid isFollow:!_avatarItem.follow completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -99,7 +98,7 @@ HXXibImplementation
     
     _timeLabel.text = item.formatTime;
     _shareContentLabel.text = [shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
-    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     _attentionIcon.hidden = [_avatarItem.uid isEqualToString:[UserSession standard].uid];
     _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
     [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];

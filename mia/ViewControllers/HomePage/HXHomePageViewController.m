@@ -660,7 +660,6 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
                  [_playItem parseFlyCommentsFromJsonArray:flyArray];
              }
              [self shouldDisplayInfectUsers:_playItem];
-             [self.radioViewController.carousel reloadData];
          } else {
              NSLog(@"getShareById failed");
          }

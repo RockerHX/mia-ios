@@ -113,6 +113,7 @@ static CGFloat ItemDefaultWidth = 42.0f;
         [_stacView removeArrangedSubview:view];
         [view removeFromSuperview];
     }
+    [self reCountWidth];
 }
 
 - (void)removeItem:(id)item atIndex:(NSInteger)index {
