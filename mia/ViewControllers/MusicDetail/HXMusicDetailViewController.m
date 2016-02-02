@@ -30,7 +30,7 @@
 #import "HXProfileViewController.h"
 #import "WebSocketMgr.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailPromptCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailPromptCellDelegate, HXMusicDetailCommentCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -78,17 +78,7 @@
     } else if (_sID.length) {
         _viewModel = [[HXMusicDetailViewModel alloc] initWithID:_sID];
         
-        __weak __typeof__(self)weakSelf = self;
-        [_viewModel fetchShareItem:^(HXMusicDetailViewModel *viewModel) {
-            __strong __typeof__(self)strongSelf = weakSelf;
-            [strongSelf.tableView reloadData];
-            
-            [viewModel requestComments:^(BOOL success) {
-                [strongSelf.tableView reloadData];
-            }];
-        } failure:^(NSString *message) {
-            [HXAlertBanner showWithMessage:message tap:nil];
-        }];
+        [self loadDetailData];
     }
     
     [_viewModel reportViews:nil];
@@ -188,6 +178,20 @@
 }
 
 #pragma mark - Private Methods
+- (void)loadDetailData {
+    __weak __typeof__(self)weakSelf = self;
+    [_viewModel fetchShareItem:^(HXMusicDetailViewModel *viewModel) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.tableView reloadData];
+        
+        [viewModel requestComments:^(BOOL success) {
+            [strongSelf.tableView reloadData];
+        }];
+    } failure:^(NSString *message) {
+        [HXAlertBanner showWithMessage:message tap:nil];
+    }];
+}
+
 - (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
     [self layoutCommentViewWithHeight:keyboardSize.height];
 }
@@ -362,10 +366,6 @@
 		} else {
 			[self presentLoginViewController];
 		}
-
-#warning @andy 需要把头像点击进入个人页加上
-//        GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
-//        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 
@@ -436,7 +436,7 @@
                              _viewModel.playItem.isInfected = isInfected;
                          }
                          [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
-                         [_viewModel reload];
+                         [self loadDetailData];
                      } else {
                          id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                          [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
@@ -462,6 +462,22 @@
             break;
         }
     }
+}
+
+#pragma mark - HXMusicDetailCommentCellDelegate Methods
+- (void)commentCellAvatarTaped:(HXMusicDetailCommentCell *)cell {
+    NSInteger index = [self.tableView indexPathForCell:cell].row;
+    HXComment *comment = _viewModel.comments[index - _viewModel.regularRow];
+    NSString *userID = comment.uid;
+    HXProfileType type = HXProfileTypeGuest;
+    if ([[UserSession standard].uid isEqualToString:userID]) {
+        type = HXProfileTypeHost;
+    }
+    
+    HXProfileViewController *profileViewController = [HXProfileViewController instance];
+    profileViewController.uid = userID;
+    profileViewController.type = type;
+    [self.navigationController pushViewController:profileViewController animated:YES];
 }
 
 @end

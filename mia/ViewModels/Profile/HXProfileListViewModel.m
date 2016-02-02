@@ -199,10 +199,13 @@ FavoriteMgrDelegate
 #pragma mark - FavoriteMgrDelegate Methods
 - (void)favoriteMgrDidFinishSync {
     _favoriteLists = [FavoriteMgr standard].dataSource;
-    NSMutableArray *rowTypes = @[@(HXProfileSongRowTypeSongAction)].mutableCopy;
-    [_favoriteLists enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [rowTypes addObject:@(HXProfileSongRowTypeSong)];
-    }];
+    NSMutableArray *rowTypes = @[].mutableCopy;
+    if (_favoriteLists.count) {
+        [rowTypes addObject:@(HXProfileSongRowTypeSongAction)];
+        [_favoriteLists enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [rowTypes addObject:@(HXProfileSongRowTypeSong)];
+        }];
+    }
     _rowTypes = [rowTypes copy];
     
     if (_completedBlock) {

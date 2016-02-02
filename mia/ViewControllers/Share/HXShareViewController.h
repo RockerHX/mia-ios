@@ -37,6 +37,7 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottmonConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationViewHeightConstraint;
 
 - (IBAction)backButtonPressed;

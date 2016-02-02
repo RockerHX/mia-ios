@@ -40,7 +40,7 @@ typedef void(^FailureBlock)(NSString *);
         if (item) {
             _playItem = item;
             
-            [self initConfig];
+            [self initConfigure];
         }
     }
     return self;
@@ -50,12 +50,13 @@ typedef void(^FailureBlock)(NSString *);
     self = [super init];
     if (self) {
         _sID = ID;
+        [self initConfigure];
     }
     return self;
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)initConfigure {
     [self setupRowTypes];
     _dataModel = [[CommentModel alloc] init];
     _rowCount = _rowTypes.count;
@@ -107,7 +108,8 @@ typedef void(^FailureBlock)(NSString *);
     _shareItemSuccessBlock = success;
     _shareItemFailureBlock = failure;
     
-    [MiaAPIHelper getShareById:_sID
+    NSString *ID = _playItem.sID ?: _sID;
+    [MiaAPIHelper getShareById:ID
                           spID:nil
                  completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -219,10 +221,6 @@ typedef void(^FailureBlock)(NSString *);
              strongSelf->_commentReuqestBlock(NO);
          }
      }];
-}
-
-- (void)reload {
-    [self fetchShareItem:_shareItemSuccessBlock failure:_shareItemFailureBlock];
 }
 
 #pragma mark - Private Methods

@@ -242,6 +242,7 @@
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="M6x-Ec-2XC" secondAttribute="bottom" id="5D5-EF-vg6"/>
                                     <constraint firstItem="M6x-Ec-2XC" firstAttribute="top" secondItem="1bC-Qy-IVf" secondAttribute="top" id="72o-aT-oFb"/>
@@ -253,6 +254,7 @@
                                 <connections>
                                     <outlet property="stacView" destination="M6x-Ec-2XC" id="F1d-X9-d46"/>
                                     <outlet property="widthConstraint" destination="Xs6-uh-kVk" id="uRc-LP-FD1"/>
+                                    <outletCollection property="gestureRecognizers" destination="4Jb-MJ-Gl2" appends="YES" id="ITQ-AJ-mkB"/>
                                 </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="妙推一下" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGi-8V-WGj">
@@ -335,6 +337,11 @@
                         <action selector="gestureEvent:" destination="Vwv-7l-Pgq" id="RnB-oM-8zN"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="4Jb-MJ-Gl2">
+                    <connections>
+                        <action selector="tapGesture" destination="Vwv-7l-Pgq" id="O7b-dM-MXK"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="219" y="409"/>
         </scene>

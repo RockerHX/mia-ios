@@ -102,9 +102,6 @@
                                                             <userDefinedRuntimeAttribute type="number" keyPath="placeholderAlignment">
                                                                 <integer key="value" value="1"/>
                                                             </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="lineSpacing">
-                                                                <real key="value" value="5"/>
-                                                            </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <outlet property="delegate" destination="Dxq-Jl-kQw" id="8hX-KT-Th6"/>
@@ -278,6 +275,7 @@
                         <outlet property="shareButton" destination="72x-Sd-5g2" id="8XF-mN-XQL"/>
                         <outlet property="singerLabel" destination="aKA-Fg-Bsf" id="9TA-Fb-qLg"/>
                         <outlet property="songNameLabel" destination="tja-YF-1QB" id="rhN-sc-QdX"/>
+                        <outlet property="textViewHeightConstraint" destination="x4g-QE-TXg" id="1Se-zJ-TI7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXC-2W-CSr" userLabel="First Responder" sceneMemberID="firstResponder"/>
