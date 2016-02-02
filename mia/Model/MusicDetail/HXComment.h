@@ -17,4 +17,6 @@
 @property (strong, nonatomic) NSString *content;
 @property (assign, nonatomic) NSInteger time;
 
+@property (strong, nonatomic, readonly) NSString *formatTime;
+
 @end

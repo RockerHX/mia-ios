@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet  UIImageView *frontCover;
 @property (weak, nonatomic) IBOutlet       UIView *frontCoverView;
 @property (weak, nonatomic) IBOutlet     UIButton *playButton;
+@property (weak, nonatomic) IBOutlet     UIButton *resetButton;
 @property (weak, nonatomic) IBOutlet      UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet   HXTextView *commentTextView;
 @property (weak, nonatomic) IBOutlet       UIView *locationView;
@@ -36,12 +37,14 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *frontCoverTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottmonConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationViewHeightConstraint;
 
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;
 - (IBAction)addMusicButtonPressed;
 - (IBAction)playButtonPressed;
+- (IBAction)resetButtonPressed;
 - (IBAction)closeLocationPressed;
 - (IBAction)tapGesture;
 

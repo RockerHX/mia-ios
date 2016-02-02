@@ -40,6 +40,11 @@ HXXibImplementation
 - (IBAction)backButtonPressed {
     UIViewController *firstAvailableViewController = [self firstAvailableViewController];
     [firstAvailableViewController.navigationController popViewControllerAnimated:YES];
+
+	if (_delegate && [_delegate respondsToSelector:@selector(navigationBarDidBackAction)]) {
+		[_delegate navigationBarDidBackAction];
+	}
+
 }
 
 @end

@@ -27,7 +27,6 @@ typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
 @property (nonatomic, strong, readonly)   NSArray *rowTypes;
 @property (nonatomic, strong, readonly)   NSArray *dataSource;
 
-@property (nonatomic, assign, readonly) NSInteger  shareCount;
 @property (nonatomic, assign, readonly) NSInteger  favoriteCount;
 
 @property (nonatomic, assign) HXProfileSegmentItemType  itemType;
@@ -35,7 +34,7 @@ typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
 + (instancetype)instanceWithUID:(NSString *)uid;
 
 - (void)fetchProfileListData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
-- (void)fetchProfileListMoreData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
+- (void)fetchProfileListMoreData;
 - (void)fetchUserListData;
 
 - (void)deleteShareItemWithIndex:(NSInteger)index;

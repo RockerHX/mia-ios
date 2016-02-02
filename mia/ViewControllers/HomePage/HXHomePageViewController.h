@@ -35,7 +35,7 @@
 
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;
-- (IBAction)feedBackButtonPressed;
+- (IBAction)tapGesture;
 
 - (IBAction)gestureEvent:(UIGestureRecognizer *)gesture;
 

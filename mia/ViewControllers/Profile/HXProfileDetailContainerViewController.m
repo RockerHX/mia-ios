@@ -18,6 +18,9 @@
 #import "PathHelper.h"
 #import "MusicMgr.h"
 #import "HXMusicDetailViewController.h"
+#import "UIActionSheet+Blocks.h"
+#import "UITableView+FDTemplateLayoutCell.h"
+#import "MJRefresh.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -75,6 +78,7 @@ SongListPlayerDelegate
     
     self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
     self.tableView.tableHeaderView = _header;
+    [self addRefreshFooter];
 }
 
 #pragma mark - Setter And Getter
@@ -95,7 +99,21 @@ SongListPlayerDelegate
     
 }
 
+- (void)stopMusic {
+	if ([_songListPlayer isPlaying]) {
+		[_songListPlayer stop];
+	}
+}
+
 #pragma mark - Private Methods
+- (void)addRefreshFooter {
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreShareData)];
+}
+
+- (void)removeRefreshFooter {
+    self.tableView.mj_footer = nil;
+}
+
 - (HXProfileSegmentView *)segmentView {
     if (!_segmentView) {
         _segmentView = [HXProfileSegmentView instanceWithDelegate:self];
@@ -104,10 +122,41 @@ SongListPlayerDelegate
 }
 
 - (void)endLoad {
+    [self.tableView.mj_footer endRefreshing];
     [self.tableView reloadData];
     
-    _segmentView.shareItemView.countLabel.text = @(_viewModel.shareCount).stringValue;
+    BOOL hasData = _viewModel.dataSource.count;
+    if (!hasData) {
+        NSString *prompt = nil;
+        switch (_segmentView.itemType) {
+            case HXProfileSegmentItemTypeShare: {
+                prompt = @"分享";
+                break;
+            }
+            case HXProfileSegmentItemTypeFavorite: {
+                prompt = @"收藏";
+                break;
+            }
+        }
+        _firstPromptLabel.text = prompt;
+        _secondPromptLabel.text = prompt;
+        
+        [self removeRefreshFooter];
+        [self resizeFooter];
+    }
+    
+    _promptView.hidden = hasData;
+    
     _segmentView.favoriteItemView.countLabel.text = @(_viewModel.favoriteCount).stringValue;
+}
+
+- (void)resizeFooter {
+    _footerHeight = (SCREEN_HEIGHT + self.tableView.tableHeaderView.height + 64.0f) - self.tableView.contentSize.height;
+    _footer.height = ((_footerHeight > 0) ? _footerHeight : 10.0f);
+}
+
+- (void)fetchMoreShareData {
+    [_viewModel fetchProfileListMoreData];
 }
 
 - (void)playMusic {
@@ -115,7 +164,40 @@ SongListPlayerDelegate
     [self.tableView reloadData];
 }
 
-#pragma mark - audio operations
+- (void)deleteShareWithIndex:(NSInteger)index sID:(NSString *)sID{
+	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
+		NSLog(@"cancel");
+	}];
+
+	RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"删除" action:^{
+		[MiaAPIHelper deleteShareById:sID completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
+
+				 [_viewModel deleteShareItemWithIndex:index];
+
+				 _shareCount--;
+				 [self setShareCount:_shareCount];
+                 [self endLoad];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
+		 }];
+	}];
+
+	UIActionSheet *aActionSheet = nil;
+	aActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+									   cancelButtonItem:cancelItem
+								  destructiveButtonItem:reportItem
+									   otherButtonItems:nil];
+	[aActionSheet showInView:self.view];
+}
+
+#pragma mark - Audio operations
 - (void)playFavoriteMusic {
     if ([FavoriteMgr standard].dataSource.count <= 0) {
         return;
@@ -278,7 +360,10 @@ SongListPlayerDelegate
     CGFloat height = 0.0f;
     switch (_segmentView.itemType) {
         case HXProfileSegmentItemTypeShare: {
-            height = _viewModel.shareCellHeight;
+            height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) cacheByIndexPath:indexPath configuration:
+                      ^(HXProfileShareCell *cell) {
+                          [(HXProfileShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+                      }];
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
@@ -290,10 +375,7 @@ SongListPlayerDelegate
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"$$$$$$$$$$$$: %f", tableView.tableHeaderView.height);
-    _footerHeight = (SCREEN_HEIGHT + self.tableView.tableHeaderView.height + 64.0f) - tableView.contentSize.height;
-//    NSLog(@"YYYYYYYYYYYY: %f", _footerHeight);
-    _footer.height = ((_footerHeight > 0) ? _footerHeight : 10.0f);
+    [self resizeFooter];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -317,7 +399,6 @@ SongListPlayerDelegate
                  
                  [_viewModel fetchUserListData];
                  self.editing = NO;
-                 [self.tableView reloadData];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                  [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
@@ -337,7 +418,7 @@ SongListPlayerDelegate
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMusicDetail];
             }
             HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
-            musicDetailViewController.playItem = _viewModel.dataSource[indexPath.row];
+            musicDetailViewController.sID = ((ShareItem *)_viewModel.dataSource[indexPath.row]).sID;
             [self.navigationController pushViewController:musicDetailViewController animated:YES];
             break;
         }
@@ -396,6 +477,16 @@ SongListPlayerDelegate
 
 #pragma mark - HXProfileSegmentViewDelegate Methods
 - (void)segmentView:(HXProfileSegmentView *)segmentView selectedType:(HXProfileSegmentItemType)type {
+    switch (type) {
+        case HXProfileSegmentItemTypeShare: {
+            [self addRefreshFooter];
+            break;
+        }
+        case HXProfileSegmentItemTypeFavorite: {
+            [self removeRefreshFooter];
+            break;
+        }
+    }
     _viewModel.itemType = type;
 }
 
@@ -436,20 +527,7 @@ SongListPlayerDelegate
             break;
         }
         case HXProfileShareCellActionDelete: {
-            [MiaAPIHelper deleteShareById:item.sID completeBlock:
-             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                 if (success) {
-                     [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
-                     
-                     [_viewModel deleteShareItemWithIndex:index];
-                     [self.tableView reloadData];
-                 } else {
-                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-                 }
-             } timeoutBlock:^(MiaRequestItem *requestItem) {
-                 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
-             }];
+			[self deleteShareWithIndex:index sID:item.sID];
             break;
         }
     }

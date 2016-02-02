@@ -130,9 +130,10 @@
 }
 
 - (IBAction)addMusicButtonPressed {
-	_searchViewController = nil;
-    _searchViewController = [[SearchViewController alloc] init];
-    _searchViewController.delegate = self;
+    if (!_searchViewController) {
+        _searchViewController = [[SearchViewController alloc] init];
+        _searchViewController.delegate = self;
+    }
     [self presentViewController:_searchViewController animated:YES completion:nil];
 }
 
@@ -143,6 +144,10 @@
 	} else {
 		[self playMusic];
 	}
+}
+
+- (IBAction)resetButtonPressed {
+    [self addMusicButtonPressed];
 }
 
 - (IBAction)closeLocationPressed {
@@ -276,10 +281,11 @@
 }
 
 - (void)searchViewControllerWillDismiss {
-	_searchViewController = nil;
+    ;
 }
 
 - (void)searchViewControllerDismissFinished {
+    _resetButton.hidden = NO;
     [self startAnimation];
 }
 
@@ -299,8 +305,9 @@
 }
 
 #pragma mark - HXTextViewDelegate Methods
-- (void)textViewSizeChanged {
-    [self scrollToBottomWithAnimation:NO];
+- (void)textViewSizeChanged:(CGSize)size {
+    _textViewHeightConstraint.constant = (size.height > 50.0f) ? size.height : 50.0f;
+    [self scrollToBottomWithAnimation:YES];
 }
 
 #pragma mark - SongListPlayerDataSource

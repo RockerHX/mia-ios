@@ -189,42 +189,7 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     } else if ([keyPath isEqualToString:UserSessionKey_LoginState]) {
 		if ([UserSession standard].state) {
             // 更新单条分享的信息
-            [MiaAPIHelper getShareById:_playItem.sID
-								  spID:_playItem.spID
-						 completeBlock:
-             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                 if (success) {
-                     NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
-                     id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
-                     id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
-                     id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
-                     id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
-                     int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
-                     NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-                     NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
-
-                     if ([sID isEqualToString:_playItem.sID]) {
-                         _playItem.isInfected = isInfected;
-                         _playItem.cComm = [cComm intValue];
-                         _playItem.cView = [cView intValue];
-                         _playItem.favorite = [start intValue];
-                         _playItem.infectTotal = [infectTotal intValue];
-
-						 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
-                         NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
-                         _playItem.shareUser.follow = [shareUserDict[@"follow"] boolValue];
-                         _playItem.spaceUser.follow = [spaceUserDict[@"follow"] boolValue];
-
-                         [_playItem parseInfectUsersFromJsonArray:infectArray];
-						 [_playItem parseFlyCommentsFromJsonArray:flyArray];
-                     }
-                     [self shouldDisplayInfectUsers:_playItem];
-                 } else {
-                     NSLog(@"getShareById failed");
-                 }
-             } timeoutBlock:^(MiaRequestItem *requestItem) {
-                 NSLog(@"getShareById timeout");
-             }];
+            [self getShareItem];
         } else {
             [_radioViewController cleanShareListUserState];
             [self shouldDisplayInfectUsers:_playItem];
@@ -297,9 +262,8 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }
 }
 
-- (IBAction)feedBackButtonPressed {
-    HXFeedBackViewController *feedBackViewController = [HXFeedBackViewController instance];
-    [self.navigationController pushViewController:feedBackViewController animated:YES];
+- (IBAction)tapGesture {
+    [self viewTapedCanShowMusicDetail:YES];
 }
 
 static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动画阀值
@@ -393,6 +357,8 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 
 - (void)stopAnimation {
     _animating = NO;
+    
+    [self getShareItem];
 }
 
 - (void)showInfectUsers:(NSArray *)infectUsers {
@@ -660,6 +626,45 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     profileViewController.type = type;
     profileViewController.uid = uid;
     [self.navigationController pushViewController:profileViewController animated:YES];
+}
+
+- (void)getShareItem {
+    [MiaAPIHelper getShareById:_playItem.sID
+                          spID:_playItem.spID
+                 completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+             NSArray *flyArray = userInfo[MiaAPIKey_Values][@"data"][@"flyList"];
+             
+             if ([sID isEqualToString:_playItem.sID]) {
+                 _playItem.isInfected = isInfected;
+                 _playItem.cComm = [cComm intValue];
+                 _playItem.cView = [cView intValue];
+                 _playItem.favorite = [start intValue];
+                 _playItem.infectTotal = [infectTotal intValue];
+                 
+                 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
+                 NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+                 _playItem.shareUser.follow = [shareUserDict[@"follow"] boolValue];
+                 _playItem.spaceUser.follow = [spaceUserDict[@"follow"] boolValue];
+                 
+                 [_playItem parseInfectUsersFromJsonArray:infectArray];
+                 [_playItem parseFlyCommentsFromJsonArray:flyArray];
+             }
+             [self shouldDisplayInfectUsers:_playItem];
+         } else {
+             NSLog(@"getShareById failed");
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"getShareById timeout");
+     }];
 }
 
 #pragma mark - Animation

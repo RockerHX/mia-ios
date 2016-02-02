@@ -118,10 +118,6 @@ FavoriteMgrDelegate
     }
 }
 
-- (NSInteger)shareCount {
-    return _shareLists.count;
-}
-
 - (NSInteger)favoriteCount {
     return _favoriteLists.count;
 }
@@ -133,9 +129,8 @@ FavoriteMgrDelegate
     [self fetchUserListData];
 }
 
-- (void)fetchProfileListMoreData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure {
-    _completedBlock = completed;
-    _failureBlock = failure;
+- (void)fetchProfileListMoreData {
+    [self fetchUserShareData];
 }
 
 - (void)fetchUserListData {
@@ -170,18 +165,15 @@ FavoriteMgrDelegate
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              NSArray *shareList = userInfo[@"v"][@"info"];
-             if ([shareList count] <= 0) {
-//                 [[FileLog standard] log:@"Profile requestShareList shareList is nil"];
-//                 [self checkPlaceHolder];
-                 return;
+             if ([shareList count] > 0) {
+                 
+                 for(NSDictionary *item in shareList) {
+                     ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
+                     [_shareLists addObject:shareItem];
+                 }
+                 
+                 ++_shareListPage;
              }
-             
-             for(NSDictionary *item in shareList) {
-                 ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
-                 [_shareLists addObject:shareItem];
-             }
-             
-             ++_shareListPage;
              
              if (_completedBlock) {
                  _completedBlock(self);
@@ -207,10 +199,13 @@ FavoriteMgrDelegate
 #pragma mark - FavoriteMgrDelegate Methods
 - (void)favoriteMgrDidFinishSync {
     _favoriteLists = [FavoriteMgr standard].dataSource;
-    NSMutableArray *rowTypes = @[@(HXProfileSongRowTypeSongAction)].mutableCopy;
-    [_favoriteLists enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [rowTypes addObject:@(HXProfileSongRowTypeSong)];
-    }];
+    NSMutableArray *rowTypes = @[].mutableCopy;
+    if (_favoriteLists.count) {
+        [rowTypes addObject:@(HXProfileSongRowTypeSongAction)];
+        [_favoriteLists enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [rowTypes addObject:@(HXProfileSongRowTypeSong)];
+        }];
+    }
     _rowTypes = [rowTypes copy];
     
     if (_completedBlock) {

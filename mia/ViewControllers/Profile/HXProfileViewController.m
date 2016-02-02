@@ -19,7 +19,8 @@
 #import "HXMessageCenterViewController.h"
 
 @interface HXProfileViewController () <
-HXProfileDetailContainerViewControllerDelegate
+HXProfileDetailContainerViewControllerDelegate,
+HXNavigationBarDelegate
 >
 @end
 
@@ -38,8 +39,11 @@ HXProfileDetailContainerViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:_pushed];
 	_pushed = NO;
+
+	[self showHUD];
+	[self fetchProfileData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -97,12 +101,10 @@ HXProfileDetailContainerViewControllerDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
-    
-    [self showHUD];
-    [self fetchProfileData];
 }
 
 - (void)viewConfigure {
+	_navigationBar.delegate = self;
     _settingButton.hidden = !_type;
 	[self showMessagePromptView];
 }
@@ -165,6 +167,7 @@ HXProfileDetailContainerViewControllerDelegate
             break;
         }
     }
+	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
     [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
 }
 
@@ -173,7 +176,8 @@ HXProfileDetailContainerViewControllerDelegate
 														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
 	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
 
-	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0)];
+
+	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0) || !_type];
 }
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
@@ -232,6 +236,11 @@ HXProfileDetailContainerViewControllerDelegate
 			break;
 		}
     }
+}
+
+#pragma mark - HXNavigationBarDelegate Methods
+- (void)navigationBarDidBackAction {
+	[_detailContainerViewController stopMusic];
 }
 
 @end

@@ -13,8 +13,9 @@
                 <outlet property="commentLabel" destination="1xM-nG-wgC" id="Obc-vh-ERw"/>
                 <outlet property="commentView" destination="g5n-hV-puQ" id="5hW-Kl-36Q"/>
                 <outlet property="shareContentLabel" destination="hkt-cg-nzc" id="i6e-vj-GFg"/>
-                <outlet property="sharerAvatar" destination="FzS-AE-JPh" id="XVZ-ND-nhy"/>
+                <outlet property="sharerAvatar" destination="kDi-SO-Bfv" id="Lg8-Ue-COZ"/>
                 <outlet property="sharerLabel" destination="Fag-67-cpm" id="EKe-hY-6vN"/>
+                <outlet property="sharerView" destination="FoJ-p7-vkO" id="Gy8-um-cfq"/>
                 <outlet property="timeLabel" destination="lmi-t0-mqp" id="CpM-2e-258"/>
             </connections>
         </placeholder>
@@ -26,12 +27,13 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FoJ-p7-vkO">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-AE-JPh" customClass="HXIBButton">
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kDi-SO-Bfv" customClass="HXIBImageView">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <gestureRecognizers/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="40" id="U3A-jE-JQy"/>
-                                <constraint firstAttribute="width" secondItem="FzS-AE-JPh" secondAttribute="height" multiplier="1:1" id="YTY-Qp-qfB"/>
+                                <constraint firstAttribute="width" secondItem="kDi-SO-Bfv" secondAttribute="height" multiplier="1:1" id="boR-hi-POc"/>
+                                <constraint firstAttribute="width" constant="40" id="sZy-ep-0dG"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -39,9 +41,9 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="sharerAvatarButtonPressed" destination="-1" eventType="touchUpInside" id="tmf-xO-xM5"/>
+                                <outletCollection property="gestureRecognizers" destination="GSf-XQ-Iwk" appends="YES" id="PWC-qI-hxg"/>
                             </connections>
-                        </button>
+                        </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vNt-hd-SSk">
                             <rect key="frame" x="27" y="21" width="16" height="16"/>
                             <constraints>
@@ -68,17 +70,17 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="FzS-AE-JPh" secondAttribute="bottom" id="0zS-vr-kc4"/>
+                        <constraint firstItem="vNt-hd-SSk" firstAttribute="bottom" secondItem="kDi-SO-Bfv" secondAttribute="bottom" constant="-3" id="0eY-vi-F5i"/>
+                        <constraint firstItem="kDi-SO-Bfv" firstAttribute="leading" secondItem="FoJ-p7-vkO" secondAttribute="leading" id="3aV-YO-o5c"/>
                         <constraint firstAttribute="trailing" secondItem="Fag-67-cpm" secondAttribute="trailing" id="9FI-f3-cJ8"/>
+                        <constraint firstItem="kDi-SO-Bfv" firstAttribute="top" secondItem="FoJ-p7-vkO" secondAttribute="top" id="Akw-nB-mIP"/>
+                        <constraint firstAttribute="bottom" secondItem="kDi-SO-Bfv" secondAttribute="bottom" id="B5e-wt-BnZ"/>
                         <constraint firstItem="Fag-67-cpm" firstAttribute="top" secondItem="FoJ-p7-vkO" secondAttribute="top" constant="3" id="BHG-XC-OKP"/>
-                        <constraint firstItem="FzS-AE-JPh" firstAttribute="leading" secondItem="FoJ-p7-vkO" secondAttribute="leading" id="H8z-Oe-j43"/>
                         <constraint firstItem="lmi-t0-mqp" firstAttribute="top" secondItem="Fag-67-cpm" secondAttribute="bottom" constant="2" id="KrB-7L-O2Z"/>
-                        <constraint firstItem="FzS-AE-JPh" firstAttribute="top" secondItem="FoJ-p7-vkO" secondAttribute="top" id="gF0-Jb-Xkl"/>
-                        <constraint firstItem="vNt-hd-SSk" firstAttribute="bottom" secondItem="FzS-AE-JPh" secondAttribute="bottom" constant="-3" id="gue-tk-PFg"/>
+                        <constraint firstItem="Fag-67-cpm" firstAttribute="leading" secondItem="kDi-SO-Bfv" secondAttribute="trailing" constant="14" id="iFF-n5-uCS"/>
                         <constraint firstAttribute="trailing" secondItem="lmi-t0-mqp" secondAttribute="trailing" id="jPZ-b9-nQg"/>
-                        <constraint firstItem="Fag-67-cpm" firstAttribute="leading" secondItem="FzS-AE-JPh" secondAttribute="trailing" constant="14" id="ly7-g1-o4n"/>
+                        <constraint firstItem="vNt-hd-SSk" firstAttribute="trailing" secondItem="kDi-SO-Bfv" secondAttribute="trailing" constant="3" id="ltS-3X-kIE"/>
                         <constraint firstItem="lmi-t0-mqp" firstAttribute="leading" secondItem="Fag-67-cpm" secondAttribute="leading" id="pgV-fW-n6w"/>
-                        <constraint firstItem="vNt-hd-SSk" firstAttribute="trailing" secondItem="FzS-AE-JPh" secondAttribute="trailing" constant="3" id="uis-Cr-Jof"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eD-aW-Wee">
@@ -184,6 +186,11 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-447" y="400"/>
         </view>
+        <tapGestureRecognizer id="GSf-XQ-Iwk">
+            <connections>
+                <action selector="sharerAvatarTaped" destination="-1" id="sIW-FK-BTq"/>
+            </connections>
+        </tapGestureRecognizer>
         <tapGestureRecognizer id="3N1-9D-D8P">
             <connections>
                 <action selector="contentTaped" destination="-1" id="hSB-5N-uOh"/>

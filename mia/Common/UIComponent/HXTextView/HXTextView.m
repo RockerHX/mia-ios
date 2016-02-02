@@ -85,11 +85,11 @@
     return (id<HXTextViewDelegate>)_delegate;
 }
 
-- (void)setLineSpacing:(CGFloat)lineSpacing {
-    _lineSpacing = lineSpacing;
+- (void)setMaxLine:(CGFloat)maxLine {
+    _maxLine = maxLine;
     
     CGRect textRect = [self.layoutManager usedRectForTextContainer:self.textContainer];
-    _maxHeight = lineSpacing * textRect.size.height;
+    _maxHeight = maxLine * textRect.size.height;
 }
 
 - (void)setPlaceholderColor:(UIColor *)placeholderColor {
@@ -144,12 +144,14 @@
 - (void)setText:(NSString *)text {
     [super setText:text];
     
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineHeightMultiple = 100.0f;
-    NSString *string = text;
-    NSDictionary *ats = @{NSFontAttributeName : self.font,
-                          NSParagraphStyleAttributeName : paragraphStyle};
-    self.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
+    if (_maxHeight > 0) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineHeightMultiple = 100.0f;
+        NSString *string = text;
+        NSDictionary *ats = @{NSFontAttributeName: self.font,
+                              NSParagraphStyleAttributeName: paragraphStyle};
+        self.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
+    }
     
     [self updateLayout];
     [self layoutGUI];
@@ -173,10 +175,9 @@
 }
 
 - (CGFloat)correctHeightWithHeight:(CGFloat)height {
-	if (_maxHeight <= 0) {
-		return height;
-	}
-
+    if (_maxHeight <= 0) {
+        return height;
+    }
     return (height > _maxHeight) ? _maxHeight : height;
 }
 

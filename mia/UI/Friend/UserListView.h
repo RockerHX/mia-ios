@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserCollectionViewCell.h"
 
 @class UserListModel;
 @class UserItem;
@@ -18,13 +19,18 @@ typedef NS_ENUM(NSUInteger, UserListViewType) {
 };
 
 
-@protocol UserListViewDelegate
+@protocol UserListViewDelegate <NSObject>
 
 - (UserListModel *)userListViewModelWithType:(UserListViewType)type;
 - (void)userListViewRequesNewItemsWithType:(UserListViewType)type;
 - (void)userListViewRequestMoreItemsWithType:(UserListViewType)type;
 
 - (void)userListViewDidSelectedItem:(UserItem *)item;
+- (void)userListViewFollowUID:(NSString *)uID
+							   isFollow:(BOOL)isFollow
+						 completedBlock:(UserCollectionViewCellCompletedBlock)completedBlock;
+
+
 
 @end
 

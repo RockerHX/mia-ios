@@ -13,7 +13,6 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
     HXMusicDetailRowCover,
     HXMusicDetailRowSong,
     HXMusicDetailRowShare,
-    HXMusicDetailRowInfect,
     HXMusicDetailRowPrompt,
     HXMusicDetailRowNoComment,
     HXMusicDetailRowComment
@@ -24,7 +23,6 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
 @property (nonatomic, strong, readonly) ShareItem *playItem;
 
 @property (nonatomic, assign, readonly) CGFloat  frontCoverCellHeight;
-@property (nonatomic, assign, readonly) CGFloat  infectCellHeight;
 @property (nonatomic, assign, readonly) CGFloat  promptCellHeight;
 @property (nonatomic, assign, readonly) CGFloat  noCommentCellHeight;
 
@@ -37,6 +35,8 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
 @property (nonatomic, strong, readonly)     NSURL *frontCoverURL;
 
 - (instancetype)initWithItem:(ShareItem *)item;
+- (instancetype)initWithID:(NSString *)ID;
+- (void)fetchShareItem:(void(^)(HXMusicDetailViewModel *viewModel))success failure:(void(^)(NSString *message))failure;
 - (void)requestComments:(void(^)(BOOL success))block;
 - (void)reportViews:(void(^)(BOOL success))block;
 - (void)requestLatestComments:(void(^)(BOOL success))block;

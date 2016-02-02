@@ -11,7 +11,6 @@
 #import "HXMusicDetailCoverCell.h"
 #import "HXMusicDetailSongCell.h"
 #import "HXMusicDetailShareCell.h"
-#import "HXMusicDetailInfectCell.h"
 #import "HXMusicDetailPromptCell.h"
 #import "HXMusicDetailNoCommentCell.h"
 #import "HXMusicDetailCommentCell.h"
@@ -29,8 +28,9 @@
 #import "FavoriteMgr.h"
 #import "NSString+IsNull.h"
 #import "HXProfileViewController.h"
+#import "WebSocketMgr.h"
 
-@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailInfectCellDelegate>
+@interface HXMusicDetailViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailPromptCellDelegate, HXMusicDetailCommentCellDelegate>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -49,8 +49,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initConfig];
-    [self viewConfig];
+    [self loadConfigure];
+    [self viewConfigure];
 }
 
 - (void)dealloc {
@@ -63,73 +63,33 @@
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)loadConfigure {
 	//添加键盘监听
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-#warning @andy
-	if (!_playItem && ![NSString isNull:_sID]) {
-		[MiaAPIHelper getShareById:_sID
-							  spID:nil
-					 completeBlock:
-		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-			 if (success) {
-				 _playItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
-
-				 _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
-
-				 __weak __typeof__(self)weakSelf = self;
-				 [_viewModel requestComments:^(BOOL success) {
-					 __strong __typeof__(self)strongSelf = weakSelf;
-					 [strongSelf.tableView reloadData];
-				 }];
-				 [_viewModel reportViews:^(BOOL success) {
-					 if (YES) {
-						 __strong __typeof__(self)strongSelf = weakSelf;
-						 [strongSelf.tableView reloadData];
-					 }
-				 }];
-
-			 } else {
-				 NSLog(@"getShareById failed");
-			 }
-		 } timeoutBlock:^(MiaRequestItem *requestItem) {
-			 NSLog(@"getShareById timeout");
-		 }];
-
-		// TODO 这是另外一种启动流程
-		return;
-	}
-
-    _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
-
-    __weak __typeof__(self)weakSelf = self;
-    [_viewModel requestComments:^(BOOL success) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.tableView reloadData];
-    }];
-    [_viewModel reportViews:^(BOOL success) {
-        if (YES) {
+    if (_playItem) {
+        _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+        __weak __typeof__(self)weakSelf = self;
+        [_viewModel requestComments:^(BOOL success) {
             __strong __typeof__(self)strongSelf = weakSelf;
             [strongSelf.tableView reloadData];
-        }
-    }];
+        }];
+    } else if (_sID.length) {
+        _viewModel = [[HXMusicDetailViewModel alloc] initWithID:_sID];
+        
+        [self loadDetailData];
+    }
+    
+    [_viewModel reportViews:nil];
 }
 
-- (void)viewConfig {
+- (void)viewConfigure {
     _tableView.scrollsToTop = YES;
     _editCommentView.scrollsToTop = NO;
 }
 
 #pragma mark - Event Response
-- (IBAction)backButtonPressed {
-    [self.navigationController popViewControllerAnimated:YES];
-	if (_delegate && [_delegate respondsToSelector:@selector(detailViewControllerDismissWithoutDelete)]) {
-		[_delegate detailViewControllerDismissWithoutDelete];
-	}
-}
-
 - (IBAction)moreButtonPressed {
     RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
         NSLog(@"cancel");
@@ -218,6 +178,20 @@
 }
 
 #pragma mark - Private Methods
+- (void)loadDetailData {
+    __weak __typeof__(self)weakSelf = self;
+    [_viewModel fetchShareItem:^(HXMusicDetailViewModel *viewModel) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf.tableView reloadData];
+        
+        [viewModel requestComments:^(BOOL success) {
+            [strongSelf.tableView reloadData];
+        }];
+    } failure:^(NSString *message) {
+        [HXAlertBanner showWithMessage:message tap:nil];
+    }];
+}
+
 - (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
     [self layoutCommentViewWithHeight:keyboardSize.height];
 }
@@ -315,11 +289,6 @@
                 [(HXMusicDetailShareCell *)cell displayWithShareItem:_viewModel.playItem];
                 break;
             }
-            case HXMusicDetailRowInfect: {
-                cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailInfectCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailInfectCell *)cell displayWithViewModel:_viewModel];
-                break;
-            }
             case HXMusicDetailRowPrompt: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailPromptCell class]) forIndexPath:indexPath];
                 [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
@@ -363,10 +332,6 @@
                  }];
                 break;
             }
-            case HXMusicDetailRowInfect: {
-                height = _viewModel.infectCellHeight;
-                break;
-            }
             case HXMusicDetailRowPrompt: {
                 height = _viewModel.promptCellHeight;
                 break;
@@ -401,10 +366,6 @@
 		} else {
 			[self presentLoginViewController];
 		}
-
-#warning @andy 需要把头像点击进入个人页加上
-//        GuestProfileViewController *viewController = [[GuestProfileViewController alloc] initWitUID:comment.uid nickName:comment.nickName];
-//        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 
@@ -450,16 +411,73 @@
 	[self.navigationController pushViewController:profileViewController animated:YES];
 }
 
-#pragma mark - HXMusicDetailInfectCellDelegate Methods
-- (void)cellUserWouldLikeShowInfectList:(HXMusicDetailInfectCell *)cell {
-    [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
-        InfectItem *selectedItem = item;
+#pragma mark - HXMusicDetailPromptCellDelegate Methods
+- (void)promptCell:(HXMusicDetailPromptCell *)cell takeAction:(HXMusicDetailPromptCellAction)action {
+    switch (action) {
+        case HXMusicDetailPromptCellActionInfect: {
+            if ([UserSession standard].state) {
+                // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+                [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                            longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                              address:[[LocationMgr standard] currentAddress]
+                                                 spID:_playItem.spID
+                                        completeBlock:
+                 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                     if (success) {
+                         
+                         int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+                         int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
+                         NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+                         NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
+                         
+                         if ([spID isEqualToString:_playItem.spID]) {
+                             _playItem.infectTotal = infectTotal;
+                             [_playItem parseInfectUsersFromJsonArray:infectArray];
+                             _playItem.isInfected = isInfected;
+                         }
+                         [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+                         [self loadDetailData];
+                     } else {
+                         id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                         [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                     }
+                 } timeoutBlock:^(MiaRequestItem *requestItem) {
+                     _playItem.isInfected = YES;
+                     [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+                 }];
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+            }
+            break;
+        }
+        case HXMusicDetailPromptCellActionShowInfecter: {
+            [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
+                InfectItem *selectedItem = item;
+                
+                HXProfileViewController *profileViewController = [HXProfileViewController instance];
+                profileViewController.uid = selectedItem.uID;
+                profileViewController.type = HXProfileTypeGuest;
+                [self.navigationController pushViewController:profileViewController animated:YES];
+            }];
+            break;
+        }
+    }
+}
 
-		HXProfileViewController *profileViewController = [HXProfileViewController instance];
-		profileViewController.uid = selectedItem.uID;
-		profileViewController.type = HXProfileTypeGuest;
-		[self.navigationController pushViewController:profileViewController animated:YES];
-    }];
+#pragma mark - HXMusicDetailCommentCellDelegate Methods
+- (void)commentCellAvatarTaped:(HXMusicDetailCommentCell *)cell {
+    NSInteger index = [self.tableView indexPathForCell:cell].row;
+    HXComment *comment = _viewModel.comments[index - _viewModel.regularRow];
+    NSString *userID = comment.uid;
+    HXProfileType type = HXProfileTypeGuest;
+    if ([[UserSession standard].uid isEqualToString:userID]) {
+        type = HXProfileTypeHost;
+    }
+    
+    HXProfileViewController *profileViewController = [HXProfileViewController instance];
+    profileViewController.uid = userID;
+    profileViewController.type = type;
+    [self.navigationController pushViewController:profileViewController animated:YES];
 }
 
 @end

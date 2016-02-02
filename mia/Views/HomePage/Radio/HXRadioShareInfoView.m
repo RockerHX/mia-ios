@@ -10,7 +10,6 @@
 #import "HXXib.h"
 #import "TTTAttributedLabel.h"
 #import "ShareItem.h"
-#import "UIButton+WebCache.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
 #import "UserSession.h"
@@ -59,7 +58,7 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
-- (IBAction)sharerAvatarButtonPressed {
+- (IBAction)sharerAvatarTaped {
     if ([UserSession standard].state) {
         if (![_avatarItem.uid isEqual:[UserSession standard].uid]) {
             [MiaAPIHelper followWithUID:_avatarItem.uid isFollow:!_avatarItem.follow completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -99,11 +98,14 @@ HXXibImplementation
     
     _timeLabel.text = item.formatTime;
     _shareContentLabel.text = [shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
-    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+    [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     _attentionIcon.hidden = [_avatarItem.uid isEqualToString:[UserSession standard].uid];
     _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
     [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];
     [self displayFlyComments:item.flyComments];
+
+	// 兼容0.3版本升级上来的用户，老的卡片数据，分享者这几个元素直接隐藏
+	[_sharerView setHidden:(nil == shareUser)];
 }
 
 #pragma mark - Private Methods
@@ -127,7 +129,10 @@ HXXibImplementation
         [UIView animateWithDuration:0.3f animations:^{
             _commentView.alpha = 1.0f;
         } completion:^(BOOL finished) {
-            [self starScrollFlyComments];
+			// 只有一条没必要切换
+			if (flyComments.count > 1) {
+				[self starScrollFlyComments];
+			}
         }];
     }
 }
@@ -135,7 +140,7 @@ HXXibImplementation
 - (void)starScrollFlyComments {
     _loop = 0;
     [_timer invalidate];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:8.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(scrollFlyCommentsAnimation) userInfo:nil repeats:YES];
 }
 
 - (void)scrollFlyCommentsAnimation {

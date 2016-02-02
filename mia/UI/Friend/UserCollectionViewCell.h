@@ -9,10 +9,23 @@
 #import <UIKit/UIKit.h>
 
 @class UserItem;
-	
+@class UserCollectionViewCell;
+
+typedef void(^UserCollectionViewCellCompletedBlock)(BOOL isSuccessed);
+
+@protocol UserCollectionViewCellDelegate <NSObject>
+
+@optional
+- (void)userCollectionViewCellFollowUID:(NSString *)uID
+							   isFollow:(BOOL)isFollow
+								   completedBlock:(UserCollectionViewCellCompletedBlock)completedBlock;
+@end
+
 @interface UserCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UserItem *dataItem;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+
+@property (weak, nonatomic) id<UserCollectionViewCellDelegate> delegate;
 
 @end

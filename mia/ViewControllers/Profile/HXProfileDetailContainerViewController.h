@@ -31,8 +31,11 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 
 @interface HXProfileDetailContainerViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet     id  <HXProfileDetailContainerViewControllerDelegate>delegate;
-@property (weak, nonatomic) IBOutlet UIView *footer;
+@property (weak, nonatomic) IBOutlet      id  <HXProfileDetailContainerViewControllerDelegate>delegate;
+@property (weak, nonatomic) IBOutlet  UIView *footer;
+@property (weak, nonatomic) IBOutlet  UIView *promptView;
+@property (weak, nonatomic) IBOutlet UILabel *firstPromptLabel;
+@property (weak, nonatomic) IBOutlet UILabel *secondPromptLabel;
 
 @property (nonatomic, strong)      NSString *uid;
 @property (nonatomic, assign) HXProfileType  type;
@@ -42,5 +45,6 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 @property (nonatomic, strong) HXProfileDetailHeader *header;
 
 - (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count;
+- (void)stopMusic;
 
 @end
