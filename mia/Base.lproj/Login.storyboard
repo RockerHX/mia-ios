@@ -311,15 +311,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="iwG-qJ-xUc">
-                                                    <rect key="frame" x="30" y="0.0" width="170" height="59"/>
+                                                    <rect key="frame" x="30" y="0.0" width="160" height="59"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FLm-ef-akW" customClass="HXCaptchButton">
-                                                    <rect key="frame" x="210" y="16" width="80" height="28"/>
+                                                    <rect key="frame" x="200" y="16" width="90" height="28"/>
                                                     <color key="backgroundColor" red="0.98823529409999999" green="0.35686274509999999" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="iCL-gq-QWU"/>
+                                                        <constraint firstAttribute="width" constant="90" id="iCL-gq-QWU"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <state key="normal" title="获取验证码">
@@ -327,7 +327,7 @@
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="14"/>
+                                                            <real key="value" value="3"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
@@ -486,15 +486,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="4MU-ZX-sJU">
-                                                    <rect key="frame" x="30" y="0.0" width="170" height="59"/>
+                                                    <rect key="frame" x="30" y="0.0" width="160" height="59"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKX-ub-UJA" customClass="HXCaptchButton">
-                                                    <rect key="frame" x="210" y="16" width="80" height="28"/>
+                                                    <rect key="frame" x="200" y="16" width="90" height="28"/>
                                                     <color key="backgroundColor" red="0.9882352941176471" green="0.35686274509803922" blue="0.36470588235294116" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="dZZ-oM-2LE"/>
+                                                        <constraint firstAttribute="width" constant="90" id="dZZ-oM-2LE"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <state key="normal" title="获取验证码">
@@ -502,7 +502,7 @@
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="14"/>
+                                                            <real key="value" value="2"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
