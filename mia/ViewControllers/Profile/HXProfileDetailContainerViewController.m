@@ -38,6 +38,7 @@ SongListPlayerDelegate
     HXProfileListViewModel *_viewModel;
     
     SongListPlayer *_songListPlayer;
+	BOOL _isPlayButtonSelected;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -331,6 +332,8 @@ SongListPlayerDelegate
             switch (rowType) {
                 case HXProfileSongRowTypeSongAction: {
                     cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileSongActionCell class]) forIndexPath:indexPath];
+					((HXProfileSongActionCell *)cell).playButton.selected = _isPlayButtonSelected;
+					[((HXProfileSongActionCell *)cell).editButton setTitle:self.isEditing ? @"完成": @"编辑" forState:UIControlStateNormal];
                     break;
                 }
                 case HXProfileSongRowTypeSong: {
@@ -552,6 +555,7 @@ SongListPlayerDelegate
         }
         case HXProfileSongActionEdit: {
             self.editing = !self.editing;
+			[self.tableView reloadData];
             break;
         }
     }
@@ -578,11 +582,13 @@ SongListPlayerDelegate
 
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
-//    [_profileHeaderView setIsPlaying:YES];
+	_isPlayButtonSelected = YES;
+	[self.tableView reloadData];
 }
 
 - (void)songListPlayerDidPause {
-//    [_profileHeaderView setIsPlaying:NO];
+	_isPlayButtonSelected = NO;
+    [self.tableView reloadData];
 }
 
 - (void)songListPlayerDidCompletion {

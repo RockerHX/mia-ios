@@ -387,7 +387,7 @@
                                             <state key="normal" title="播放全部" image="PF-PlayIcon">
                                                 <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
-                                            <state key="selected" title="播放全部" image="PF-PauseIcon"/>
+                                            <state key="selected" title="暂停播放" image="PF-PauseIcon"/>
                                             <connections>
                                                 <action selector="playButtonPressed:" destination="UkH-fu-roH" eventType="touchUpInside" id="RZJ-qh-1cd"/>
                                             </connections>
@@ -425,6 +425,8 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="delegate" destination="Qc6-9f-kPc" id="Gqh-z5-2Ei"/>
+                                    <outlet property="editButton" destination="TAV-XK-38z" id="eP0-7z-luc"/>
+                                    <outlet property="playButton" destination="wcu-By-GKq" id="wjd-qT-ffc"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXProfileSongCell" rowHeight="65" id="8uk-eA-52n" userLabel="HXProfileSongCell" customClass="HXProfileSongCell">
