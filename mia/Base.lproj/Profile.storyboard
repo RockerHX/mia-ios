@@ -162,6 +162,7 @@
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Az-Ky-gZ6">
                                                             <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                            <color key="backgroundColor" red="0.89411764705882346" green="0.90980392156862744" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="5Az-Ky-gZ6" secondAttribute="height" multiplier="1:1" id="Cl2-JV-SLg"/>
                                                             </constraints>
