@@ -90,10 +90,10 @@ UserCollectionViewCellDelegate
 	NSString *tips = @"";
 	switch (_type) {
 		case UserListViewTypeFans:
-			tips = @"还没有人关注你";
+			tips = @"还没有粉丝";
 			break;
 		case UserListViewTypeFollowing:
-			tips = @"你还没关注任何人";
+			tips = @"没关注任何人";
 			break;
 		case UserListViewTypeSearch:
 			tips = @"没有找到相关用户";
