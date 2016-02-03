@@ -429,21 +429,23 @@ SongListPlayerDelegate
             break;
         }
         case HXProfileSegmentItemTypeFavorite: {
-            if (!self.editing) {
-                NSInteger playIndex = [FavoriteMgr standard].currentPlaying;
-                NSArray *dataSource = _viewModel.dataSource;
-                if (playIndex < dataSource.count) {
-                    FavoriteItem *item = dataSource[playIndex];
-                    item.isPlaying = NO;
+            if (indexPath.row) {
+                if (!self.editing) {
+                    NSInteger playIndex = [FavoriteMgr standard].currentPlaying;
+                    NSArray *dataSource = _viewModel.dataSource;
+                    if (playIndex < dataSource.count) {
+                        FavoriteItem *item = dataSource[playIndex];
+                        item.isPlaying = NO;
+                    }
+                    NSInteger selectedIndex = indexPath.row - 1;
+                    if (selectedIndex < dataSource.count) {
+                        FavoriteItem *item = dataSource[selectedIndex];
+                        item.isPlaying = YES;
+                        
+                        [FavoriteMgr standard].currentPlaying = selectedIndex;
+                    }
+                    [self playMusic];
                 }
-                NSInteger selectedIndex = indexPath.row - 1;
-                if (selectedIndex < dataSource.count) {
-                    FavoriteItem *item = dataSource[selectedIndex];
-                    item.isPlaying = YES;
-                    
-                    [FavoriteMgr standard].currentPlaying = selectedIndex;
-                }
-                [self playMusic];
             }
             break;
         }
