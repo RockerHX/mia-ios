@@ -454,6 +454,7 @@
                     <connections>
                         <outlet property="firstPromptLabel" destination="DEX-ca-33Q" id="zJf-zN-efk"/>
                         <outlet property="footer" destination="hxc-oW-fRk" id="Kln-V5-7F8"/>
+                        <outlet property="promptView" destination="DEn-IC-F60" id="DZp-5M-f9k"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zHe-Uh-MJW" userLabel="First Responder" sceneMemberID="firstResponder"/>
