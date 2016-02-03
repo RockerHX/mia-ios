@@ -84,14 +84,14 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eD-aW-Wee">
-                    <rect key="frame" x="0.0" y="60" width="320" height="20"/>
+                    <rect key="frame" x="0.0" y="55" width="320" height="18"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冰心：“不错哟，很喜欢这个类型的歌”" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="312" translatesAutoresizingMaskIntoConstraints="NO" id="hkt-cg-nzc">
-                            <rect key="frame" x="4" y="0.0" width="312" height="20"/>
+                            <rect key="frame" x="4" y="0.0" width="312" height="18"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="F6U-v9-m28"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -109,7 +109,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5n-hV-puQ">
-                    <rect key="frame" x="0.0" y="100" width="320" height="40"/>
+                    <rect key="frame" x="0.0" y="88" width="320" height="40"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oPj-qa-CKi" customClass="HXIBImageView">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -172,13 +172,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="oPj-qa-CKi" firstAttribute="top" secondItem="1eD-aW-Wee" secondAttribute="bottom" constant="20" id="4oa-uF-OSJ"/>
+                <constraint firstItem="oPj-qa-CKi" firstAttribute="top" secondItem="1eD-aW-Wee" secondAttribute="bottom" constant="15" id="4oa-uF-OSJ"/>
                 <constraint firstAttribute="trailing" secondItem="1eD-aW-Wee" secondAttribute="trailing" id="GkO-P0-9rL"/>
                 <constraint firstAttribute="trailing" secondItem="g5n-hV-puQ" secondAttribute="trailing" id="NaX-Sb-0o8"/>
                 <constraint firstItem="FoJ-p7-vkO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TVf-U1-yqz"/>
                 <constraint firstItem="g5n-hV-puQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bcd-O5-CWu"/>
                 <constraint firstAttribute="trailing" secondItem="FoJ-p7-vkO" secondAttribute="trailing" id="bcd-Vv-Fe7"/>
-                <constraint firstItem="1eD-aW-Wee" firstAttribute="top" secondItem="FoJ-p7-vkO" secondAttribute="bottom" constant="20" id="eAW-WF-sie"/>
+                <constraint firstItem="1eD-aW-Wee" firstAttribute="top" secondItem="FoJ-p7-vkO" secondAttribute="bottom" constant="15" id="eAW-WF-sie"/>
                 <constraint firstItem="1eD-aW-Wee" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gmE-mv-nPs"/>
                 <constraint firstItem="FoJ-p7-vkO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jDm-Xo-coO"/>
             </constraints>

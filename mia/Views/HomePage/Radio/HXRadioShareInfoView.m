@@ -97,10 +97,10 @@ HXXibImplementation
     }
     
     _timeLabel.text = item.formatTime;
-    _shareContentLabel.text = [shareUser.nick stringByAppendingFormat:@"：%@", item.sNote];
     [_sharerAvatar sd_setImageWithURL:[NSURL URLWithString:_avatarItem.userpic] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     _attentionIcon.hidden = [_avatarItem.uid isEqualToString:[UserSession standard].uid];
     _attentionIcon.image = [UIImage imageNamed:(_avatarItem.follow ? @"C-AttentionedIcon-Small": @"C-AttentionAddIcon-Small")];
+    [self displayShareContent:[shareUser.nick stringByAppendingFormat:@"：%@", item.sNote]];
     [self displaySharerLabelWithSharer:shareUser.nick infecter:spaceUser.nick];
     [self displayFlyComments:item.flyComments];
 
@@ -117,6 +117,16 @@ HXXibImplementation
     [item addObserver:self forKeyPath:@"flyComments" options:NSKeyValueObservingOptionNew context:nil];
     [item.shareUser addObserver:self forKeyPath:@"follow" options:NSKeyValueObservingOptionNew context:nil];
     [item.spaceUser addObserver:self forKeyPath:@"follow" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)displayShareContent:(NSString *)content {
+    _shareContentLabel.text = content;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:_shareContentLabel.attributedText];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:4.0f];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [content length])];
+    _shareContentLabel.attributedText = attributedString;
+    _shareContentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 }
 
 - (void)displayFlyComments:(NSArray <FlyCommentItem *> *)flyComments {

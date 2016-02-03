@@ -143,13 +143,13 @@
                                             <rect key="frame" x="8" y="8" width="304" height="222"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="好喜欢里面的编曲" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="284" translatesAutoresizingMaskIntoConstraints="NO" id="VZc-kF-vNu">
-                                                    <rect key="frame" x="10" y="14" width="284" height="19"/>
+                                                    <rect key="frame" x="10" y="14" width="284" height="39"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-12031 分享了：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSc-wG-GHP">
-                                                    <rect key="frame" x="10" y="39" width="284" height="17"/>
+                                                    <rect key="frame" x="10" y="59" width="284" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="kk8-Nj-nga"/>
                                                     </constraints>
@@ -158,29 +158,29 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Brc-9e-1li">
-                                                    <rect key="frame" x="10" y="62" width="284" height="120"/>
+                                                    <rect key="frame" x="10" y="82" width="284" height="100"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Az-Ky-gZ6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                             <color key="backgroundColor" red="0.89411764705882346" green="0.90980392156862744" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="5Az-Ky-gZ6" secondAttribute="height" multiplier="1:1" id="Cl2-JV-SLg"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pramore" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zep-6s-mp4">
-                                                            <rect key="frame" x="140" y="36" width="136" height="22"/>
+                                                            <rect key="frame" x="120" y="26" width="156" height="22"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A-Lin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xVD-2g-1IU">
-                                                            <rect key="frame" x="140" y="62" width="136" height="18"/>
+                                                            <rect key="frame" x="120" y="52" width="156" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.62745098039215685" green="0.62745098039215685" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uAf-lM-nYa">
-                                                            <rect key="frame" x="43" y="43" width="35" height="35"/>
+                                                            <rect key="frame" x="33" y="33" width="35" height="35"/>
                                                             <state key="normal" image="M-PlayIcon"/>
                                                             <connections>
                                                                 <action selector="playButtonPressed" destination="h7b-s1-DXZ" eventType="touchUpInside" id="BqL-YU-042"/>
@@ -193,7 +193,7 @@
                                                         <constraint firstAttribute="bottom" secondItem="5Az-Ky-gZ6" secondAttribute="bottom" id="6qD-6M-s8e"/>
                                                         <constraint firstItem="xVD-2g-1IU" firstAttribute="trailing" secondItem="Zep-6s-mp4" secondAttribute="trailing" id="760-ku-0rF"/>
                                                         <constraint firstItem="Zep-6s-mp4" firstAttribute="bottom" secondItem="5Az-Ky-gZ6" secondAttribute="centerY" constant="-2" id="EjB-kO-2XI"/>
-                                                        <constraint firstAttribute="height" constant="120" id="MwF-5K-VVq"/>
+                                                        <constraint firstAttribute="height" constant="100" id="MwF-5K-VVq"/>
                                                         <constraint firstAttribute="trailing" secondItem="Zep-6s-mp4" secondAttribute="trailing" constant="8" id="PMb-zH-ZfN"/>
                                                         <constraint firstItem="xVD-2g-1IU" firstAttribute="leading" secondItem="Zep-6s-mp4" secondAttribute="leading" id="Qsr-DH-ugs"/>
                                                         <constraint firstItem="5Az-Ky-gZ6" firstAttribute="top" secondItem="Brc-9e-1li" secondAttribute="top" id="UXF-eQ-m8I"/>

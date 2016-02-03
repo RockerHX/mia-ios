@@ -57,12 +57,23 @@
     self.favorite = item.favorite;
     [_cover sd_setImageWithURL:[NSURL URLWithString:item.music.purl] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
     
-    _titleLabel.text = item.sNote;
     _descriptionLabel.text = [item.formatTime stringByAppendingFormat:@" 分享了"];
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
     _commentCountLabel.text = @(item.cComm).stringValue;
     _seeCountLabel.text = @(item.cView).stringValue;
+    
+    [self displayTitle:item.sNote];
+}
+
+#pragma mark - Private Methods
+- (void)displayTitle:(NSString *)title {
+    _titleLabel.text = title;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:_titleLabel.attributedText];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:4.0f];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [title length])];
+    _titleLabel.attributedText = attributedString;
 }
 
 @end
