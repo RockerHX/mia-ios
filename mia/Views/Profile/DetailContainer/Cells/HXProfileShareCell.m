@@ -22,6 +22,7 @@
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _titleLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 36.0f;
+    _songLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 151.0f;
 }
 
 - (void)viewConfigure {
@@ -57,7 +58,7 @@
     self.favorite = item.favorite;
     [_cover sd_setImageWithURL:[NSURL URLWithString:item.music.purl]];
     
-    _descriptionLabel.text = [item.formatTime stringByAppendingFormat:@" 分享了"];
+    _descriptionLabel.text = item.formatTime;
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
     _commentCountLabel.text = @(item.cComm).stringValue;
