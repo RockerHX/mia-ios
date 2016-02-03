@@ -55,7 +55,7 @@
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     self.favorite = item.favorite;
-    [_cover sd_setImageWithURL:[NSURL URLWithString:item.music.purl] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+    [_cover sd_setImageWithURL:[NSURL URLWithString:item.music.purl]];
     
     _descriptionLabel.text = [item.formatTime stringByAppendingFormat:@" 分享了"];
     _songLabel.text = item.music.name;
