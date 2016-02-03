@@ -105,6 +105,7 @@
                 <constraint firstAttribute="bottom" secondItem="jQr-cc-VHC" secondAttribute="bottom" id="yIb-63-umP"/>
             </constraints>
             <connections>
+                <outlet property="coverTopConstraint" destination="lGy-uv-HfU" id="i6z-gJ-acm"/>
                 <outlet property="coverWidthConstraint" destination="p2O-fX-rua" id="Fan-fX-H8v"/>
                 <outlet property="frontCoverView" destination="Adt-yX-Kcn" id="p3x-e1-iFU"/>
                 <outlet property="playButton" destination="EuO-ig-wsS" id="pra-Sy-2Dp"/>
@@ -113,6 +114,8 @@
                 <outlet property="songNameLabel" destination="ZT2-TF-oW0" id="sQw-zK-RJv"/>
                 <outlet property="songerNameLabel" destination="XRy-kE-hZ9" id="Efp-qQ-71O"/>
                 <outlet property="starButton" destination="wzP-as-myT" id="fQu-cx-fy8"/>
+                <outlet property="starIconBottomConstraint" destination="fuW-Iv-GSQ" id="GVj-Ag-5Yx"/>
+                <outlet property="starIconTopConstraint" destination="gDx-VG-7kD" id="8aZ-8i-N3x"/>
             </connections>
             <point key="canvasLocation" x="535" y="383"/>
         </view>

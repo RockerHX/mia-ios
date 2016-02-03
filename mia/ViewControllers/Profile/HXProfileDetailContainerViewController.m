@@ -72,7 +72,7 @@ SongListPlayerDelegate
 }
 
 - (void)viewConfigure {
-    _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, ((SCREEN_WIDTH/375.0f) * 264.0f))];
+    _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 264.0f)];
     _header.delegate = self;
     _header.type = _type;
     
@@ -96,7 +96,7 @@ SongListPlayerDelegate
 
 #pragma mark - Public Methods
 - (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count {
-    
+    ;
 }
 
 - (void)stopMusic {
