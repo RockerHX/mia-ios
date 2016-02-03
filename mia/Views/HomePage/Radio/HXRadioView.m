@@ -99,7 +99,7 @@ HXRadioShareInfoViewDelegate
 - (void)hanleUnderiPhone6Size {
     if ([HXVersion isIPhone5SPrior]) {
         _coverTopConstraint.constant = 60.0f;
-        _coverWidthConstraint.constant = 150.0f;
+        _coverWidthConstraint.constant = 160.0f;
         _starIconTopConstraint.constant = 0.0f;
         _starIconBottomConstraint.constant = 10.0f;
         [self layoutIfNeeded];
@@ -185,7 +185,7 @@ HXRadioShareInfoViewDelegate
     _songNameLabel.text = music.name ?: @"";
     _songerNameLabel.text = music.singerName ?: @"";
     _starButton.selected = item.favorite;
-    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+    [_frontCoverView sd_setImageWithURL:[NSURL URLWithString:music.purl]];
     [_shareInfoView displayWithItem:item];
     
     if (_delegate && [_delegate respondsToSelector:@selector(radioViewDidLoad:)]) {

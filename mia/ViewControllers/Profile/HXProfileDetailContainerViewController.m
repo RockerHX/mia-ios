@@ -106,7 +106,11 @@ SongListPlayerDelegate
 
 #pragma mark - Private Methods
 - (void)addRefreshFooter {
-    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreShareData)];
+    MJRefreshAutoNormalFooter *refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreShareData)];
+    [refreshFooter setTitle:@"" forState:MJRefreshStateIdle];
+    [refreshFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
+    [refreshFooter setAutomaticallyHidden:YES];
+    self.tableView.mj_footer = refreshFooter;
 }
 
 - (void)removeRefreshFooter {
