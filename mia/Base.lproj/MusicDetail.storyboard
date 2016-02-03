@@ -507,7 +507,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="详情页" id="HAA-WS-VHh">
                         <barButtonItem key="rightBarButtonItem" image="MD-MoreButtonIcon" id="4u4-Bc-uhY">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="moreButtonPressed" destination="ryk-wB-QfC" id="MCM-WP-LVp"/>
                             </connections>
