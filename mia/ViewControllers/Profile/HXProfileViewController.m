@@ -25,7 +25,8 @@ HXNavigationBarDelegate
 @end
 
 @implementation HXProfileViewController {
-    BOOL  _pushed;
+    BOOL _pushToFrends;
+    
     UIStatusBarStyle  _statusBarStyle;
     HXProfileCoverContainerViewController *_coverContainerViewController;
     HXProfileDetailContainerViewController *_detailContainerViewController;
@@ -39,8 +40,8 @@ HXNavigationBarDelegate
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:YES animated:_pushed];
-	_pushed = NO;
+    animated = (self.navigationController.viewControllers.count > 2);
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 
 	[self showHUD];
 	[self fetchProfileData];
@@ -49,10 +50,8 @@ HXNavigationBarDelegate
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if (!_pushed && _type) {
-        return;
-    }
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    BOOL hidden = _pushToFrends ?: (self.navigationController.viewControllers.count < 2);
+    [self.navigationController setNavigationBarHidden:hidden animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -111,7 +110,7 @@ HXNavigationBarDelegate
 
 #pragma mark - Event Response
 - (IBAction)settingButtonPressed {
-    _pushed = YES;
+    _pushToFrends = NO;
     HXSettingViewController *settingViewController = [HXSettingViewController instance];
     [self.navigationController pushViewController:settingViewController animated:YES];
 }
@@ -166,8 +165,16 @@ HXNavigationBarDelegate
             break;
         }
     }
+    
 	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
     [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
+}
+
+- (void)displayFansCountWithFollowState:(NSUInteger)state {
+    NSUInteger count = state ? 1 : -1;
+    _fansCount = _detailContainerViewController.header.fansCountLabel.text.integerValue + count;
+    _fansCount = _fansCount ?: 0;
+    [_detailContainerViewController.header.fansCountLabel setText:@(_fansCount).stringValue];
 }
 
 - (void)showMessagePromptView {
@@ -193,10 +200,11 @@ HXNavigationBarDelegate
 - (void)detailContainer:(HXProfileDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action {
     switch (action) {
         case HXProfileDetailContainerActionShowMusicDetail: {
-            _pushed = YES;
+            _pushToFrends = NO;
             break;
         }
         case HXProfileDetailContainerActionShowFans: {
+            _pushToFrends = YES;
             FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
                                                                                  isHost:_type
                                                                                     uID:_uid
@@ -206,6 +214,7 @@ HXNavigationBarDelegate
             break;
         }
         case HXProfileDetailContainerActionShowFollow: {
+            _pushToFrends = YES;
             FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
                                                                                  isHost:_type
                                                                                     uID:_uid
@@ -217,8 +226,10 @@ HXNavigationBarDelegate
         case HXProfileDetailContainerActionShoulFollow: {
             if ([UserSession standard].state) {
                 [MiaAPIHelper followWithUID:_uid isFollow:!_followState completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                    [HXAlertBanner showWithMessage:(!_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
-                    [self displayFollowState:!_followState];
+                    _followState = !_followState;
+                    [HXAlertBanner showWithMessage:(_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
+                    [self displayFollowState:_followState];
+                    [self displayFansCountWithFollowState:_followState];
                 } timeoutBlock:^(MiaRequestItem *requestItem) {
                     [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
                 }];
@@ -227,8 +238,8 @@ HXNavigationBarDelegate
             }
             break;
         }
-		case HXProfileDetailContainerActionShowMessageCenter: {
-			_pushed = YES;
+        case HXProfileDetailContainerActionShowMessageCenter: {
+            _pushToFrends = NO;
 			HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
 			[self.navigationController pushViewController:messageCenterViewController animated:YES];
 
