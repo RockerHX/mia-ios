@@ -165,8 +165,16 @@ HXNavigationBarDelegate
             break;
         }
     }
+    
 	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
     [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
+}
+
+- (void)displayFansCountWithFollowState:(NSUInteger)state {
+    NSUInteger count = state ? 1 : -1;
+    _fansCount = _detailContainerViewController.header.fansCountLabel.text.integerValue + count;
+    _fansCount = _fansCount ?: 0;
+    [_detailContainerViewController.header.fansCountLabel setText:@(_fansCount).stringValue];
 }
 
 - (void)showMessagePromptView {
@@ -218,8 +226,10 @@ HXNavigationBarDelegate
         case HXProfileDetailContainerActionShoulFollow: {
             if ([UserSession standard].state) {
                 [MiaAPIHelper followWithUID:_uid isFollow:!_followState completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                    [HXAlertBanner showWithMessage:(!_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
-                    [self displayFollowState:!_followState];
+                    _followState = !_followState;
+                    [HXAlertBanner showWithMessage:(_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
+                    [self displayFollowState:_followState];
+                    [self displayFansCountWithFollowState:_followState];
                 } timeoutBlock:^(MiaRequestItem *requestItem) {
                     [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
                 }];
