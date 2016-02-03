@@ -43,7 +43,10 @@ typedef NS_ENUM(NSUInteger, HXRadioViewAction) {
 @property (weak, nonatomic) IBOutlet             UIButton *starButton;
 @property (weak, nonatomic) IBOutlet HXRadioShareInfoView *shareInfoView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *starIconTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *starIconBottomConstraint;
 
 - (IBAction)coverTaped;
 - (IBAction)playButtonPressed:(UIButton *)button;

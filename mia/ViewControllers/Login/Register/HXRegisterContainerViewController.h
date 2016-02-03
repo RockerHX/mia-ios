@@ -1,8 +1,8 @@
 //
-//  HXRegisterViewController.h
-//  Mia
+//  HXRegisterContainerViewController.h
+//  mia
 //
-//  Created by miaios on 16/1/5.
+//  Created by miaios on 16/2/3.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 @class HXCaptchButton;
 
-@interface HXRegisterViewController : UITableViewController
+@interface HXRegisterContainerViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet    UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet HXCaptchButton *captchaButton;
