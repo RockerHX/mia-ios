@@ -14,11 +14,11 @@
 #import "Masonry.h"
 #import "MIALabel.h"
 
-static NSString * const kSearchResultCellReuseIdentifier 		= @"SearchResultCellId";
+static NSString * const kUserListViewCellReuseIdentifier 		= @"UserListViewCellId";
 
-static const CGFloat kSearchResultItemMarginH 	= 10;
-static const CGFloat kSearchResultItemMarginV 	= 0;
-static const CGFloat kSearchResultItemHeight	= 100;
+static const CGFloat kUserListViewItemMarginH 	= 10;
+static const CGFloat kUserListViewItemMarginV 	= 0;
+static const CGFloat kUserListViewItemHeight	= 68;
 
 @interface UserListView () <
 UICollectionViewDataSource,
@@ -51,8 +51,8 @@ UserCollectionViewCellDelegate
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 
 	//该方法也可以设置itemSize
-	CGFloat itemWidth = self.frame.size.width - kSearchResultItemMarginH * 2;
-	layout.itemSize =CGSizeMake(itemWidth, kSearchResultItemHeight);
+	CGFloat itemWidth = self.frame.size.width - kUserListViewItemMarginH * 2;
+	layout.itemSize =CGSizeMake(itemWidth, kUserListViewItemHeight);
 
 	//2.初始化collectionView
 	_collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
@@ -64,7 +64,7 @@ UserCollectionViewCellDelegate
 
 	//3.注册collectionViewCell
 	//注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-	[_collectionView registerClass:[UserCollectionViewCell class] forCellWithReuseIdentifier:kSearchResultCellReuseIdentifier];
+	[_collectionView registerClass:[UserCollectionViewCell class] forCellWithReuseIdentifier:kUserListViewCellReuseIdentifier];
 
 	//4.设置代理
 	_collectionView.delegate = self;
@@ -161,7 +161,7 @@ UserCollectionViewCellDelegate
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	UserCollectionViewCell *cell = (UserCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchResultCellReuseIdentifier
+	UserCollectionViewCell *cell = (UserCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kUserListViewCellReuseIdentifier
 																											   forIndexPath:indexPath];
 	cell.dataItem = [_customDelegate userListViewModelWithType:_type].dataSource[indexPath.row];
 	cell.indexPath = indexPath;
@@ -172,8 +172,8 @@ UserCollectionViewCellDelegate
 
 //设置每个item的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat itemWidth = self.frame.size.width - kSearchResultItemMarginH * 2;
-	return CGSizeMake(itemWidth, kSearchResultItemHeight);
+	CGFloat itemWidth = self.frame.size.width - kUserListViewItemMarginH * 2;
+	return CGSizeMake(itemWidth, kUserListViewItemHeight);
 }
 
 //设置每个item的UIEdgeInsets
@@ -183,12 +183,12 @@ UserCollectionViewCellDelegate
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-	return kSearchResultItemMarginH;
+	return kUserListViewItemMarginH;
 }
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-	return kSearchResultItemMarginV;
+	return kUserListViewItemMarginV;
 }
 
 //点击item方法

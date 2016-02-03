@@ -70,7 +70,7 @@
 
 	_detailLabel = [[MIALabel alloc] initWithFrame:CGRectZero
 											text:@"最近分享了 春分"
-											font:UIFontFromSize(14.0f)
+											font:UIFontFromSize(13.0f)
 									   textColor:UIColorFromHex(@"808080", 1.0)
 								   textAlignment:NSTextAlignmentLeft
 									 numberLines:1];
@@ -82,9 +82,9 @@
 		make.left.equalTo(contentView.mas_left).offset(5);
 	}];
 	[_followButton mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.size.mas_equalTo(CGSizeMake(35, 35));
+		make.size.mas_equalTo(CGSizeMake(23, 23));
 		make.right.mas_equalTo(contentView.mas_right).offset(-15);
-		make.centerY.mas_equalTo(contentView.mas_centerY).offset(-10);
+		make.centerY.mas_equalTo(contentView.mas_centerY);
 	}];
 	[_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(contentView.mas_centerY);

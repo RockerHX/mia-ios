@@ -166,10 +166,10 @@ static const long kUserListPageCount = 10;
 	[_backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[contentView addSubview:_backButton];
 
-	const CGFloat kEditBgHeight = 40;
+	const CGFloat kEditBgHeight = 30;
 	_searchBox = [[UIView alloc] init];
 	_searchBox.backgroundColor = UIColorFromHex(@"f4f4f4", 1.0);
-	_searchBox.layer.cornerRadius = kEditBgHeight / 2 - 1;
+	_searchBox.layer.cornerRadius = kEditBgHeight / 2;
 	_searchBox.layer.masksToBounds = YES;
 	[contentView addSubview:_searchBox];
 
@@ -182,7 +182,7 @@ static const long kUserListPageCount = 10;
 	_searchTextField.backgroundColor = [UIColor clearColor];
 	_searchTextField.textColor = [UIColor blackColor];
 	_searchTextField.placeholder = @"搜索好友昵称或者手机号";
-	[_searchTextField setFont:UIFontFromSize(16)];
+	[_searchTextField setFont:UIFontFromSize(14)];
 	_searchTextField.keyboardType = UIKeyboardTypeDefault;
 	_searchTextField.returnKeyType = UIReturnKeySearch;
 	_searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -222,8 +222,8 @@ static const long kUserListPageCount = 10;
 	}];
 
 	[_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_searchBox.mas_top).with.offset(11);
-		make.bottom.equalTo(_searchBox.mas_bottom).with.offset(-8);
+		make.top.equalTo(_searchBox.mas_top).with.offset(5);
+		make.bottom.equalTo(_searchBox.mas_bottom).with.offset(-3);
 		make.left.equalTo(searchIconImageView.mas_right).offset(6);
 		make.right.equalTo(_searchBox.mas_right).with.offset(-2);
 	}];

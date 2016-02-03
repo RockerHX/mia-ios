@@ -66,8 +66,8 @@
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.frame = CGRectMake(i*width4btn, .0f, width4btn, height);
             [btn setTitleColor:UIColorFromRGBValue(0x000000) forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont systemFontOfSize:18];
-            [btn setTitleColor:UIColorFromRGBValue(0x16e6d0) forState:UIControlStateSelected];
+            btn.titleLabel.font = [UIFont systemFontOfSize:17];
+            [btn setTitleColor:UIColorFromRGBValue(0x0CB4A3) forState:UIControlStateSelected];
             [btn setTitle:[titles objectAtIndex:i] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(segmentedControlChange:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = Define_Tag_add+i;
@@ -119,7 +119,7 @@
     }
     
     CGRect rect4boottomLine = self.cursorLineView.frame;
-    rect4boottomLine.origin.x = btn.frame.origin.x +5;
+    rect4boottomLine.origin.x = btn.frame.origin.x;
     
     CGPoint pt = CGPointZero;
     BOOL canScrolle = NO;
