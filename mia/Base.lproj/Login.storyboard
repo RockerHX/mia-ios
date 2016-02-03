@@ -423,16 +423,50 @@
                                     <segue destination="DDz-1c-358" kind="embed" id="vcx-61-8pv"/>
                                 </connections>
                             </containerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="说明：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n8A-3r-ob2">
+                                <rect key="frame" x="30" y="452" width="260" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.注册时你将收到验证短信，Mia绝不会在任何途径泄露你的手机号码和个人信息。" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="L4d-XM-O9y">
+                                <rect key="frame" x="30" y="470" width="260" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.注册和登录均代表你已阅读并同意《Mia音乐软件使用协议》" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="ipP-NU-eBF" customClass="TTTAttributedLabel">
+                                <rect key="frame" x="30" y="504" width="260" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Gik-of-H3g" id="dcx-tF-GW1"/>
+                                </connections>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="5aC-69-YuH" secondAttribute="trailing" id="520-qn-tZp"/>
+                            <constraint firstAttribute="trailing" secondItem="ipP-NU-eBF" secondAttribute="trailing" constant="30" id="8Sa-Pz-x11"/>
+                            <constraint firstItem="L4d-XM-O9y" firstAttribute="trailing" secondItem="ipP-NU-eBF" secondAttribute="trailing" id="Aq7-En-0nZ"/>
+                            <constraint firstItem="n8A-3r-ob2" firstAttribute="trailing" secondItem="L4d-XM-O9y" secondAttribute="trailing" id="GLm-q8-ejL"/>
                             <constraint firstItem="5aC-69-YuH" firstAttribute="top" secondItem="53o-JO-RtH" secondAttribute="top" id="Ha7-CM-f1a"/>
+                            <constraint firstItem="ipP-NU-eBF" firstAttribute="leading" secondItem="53o-JO-RtH" secondAttribute="leading" constant="30" id="RXs-U3-0eM"/>
+                            <constraint firstItem="L4d-XM-O9y" firstAttribute="top" secondItem="n8A-3r-ob2" secondAttribute="bottom" id="Xwh-EH-xXy"/>
+                            <constraint firstItem="n8A-3r-ob2" firstAttribute="leading" secondItem="L4d-XM-O9y" secondAttribute="leading" id="a3r-7J-lvr"/>
                             <constraint firstItem="5aC-69-YuH" firstAttribute="leading" secondItem="53o-JO-RtH" secondAttribute="leading" id="iKW-aC-1rd"/>
+                            <constraint firstItem="L4d-XM-O9y" firstAttribute="leading" secondItem="ipP-NU-eBF" secondAttribute="leading" id="qz4-yN-SLJ"/>
+                            <constraint firstAttribute="bottom" secondItem="ipP-NU-eBF" secondAttribute="bottom" constant="30" id="uOz-on-WpB"/>
                             <constraint firstAttribute="bottom" secondItem="5aC-69-YuH" secondAttribute="bottom" id="uSQ-D1-w23"/>
+                            <constraint firstItem="ipP-NU-eBF" firstAttribute="top" secondItem="L4d-XM-O9y" secondAttribute="bottom" id="zVP-Kz-R9Z"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="注册" id="TXh-fx-GN9"/>
+                    <connections>
+                        <outlet property="firstPromptLabel" destination="L4d-XM-O9y" id="UAJ-qq-nTT"/>
+                        <outlet property="secondPromptLabel" destination="ipP-NU-eBF" id="vmE-2C-mqg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1fs-yI-5d2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -448,7 +482,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="x3S-qk-wE7">
-                            <rect key="frame" x="0.0" y="300" width="320" height="90"/>
+                            <rect key="frame" x="0.0" y="300" width="320" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJx-Zo-oT4">
@@ -459,7 +493,7 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Gg-rN-M8e" customClass="HXIBButton">
-                                    <rect key="frame" x="30" y="50" width="260" height="40"/>
+                                    <rect key="frame" x="30" y="30" width="260" height="40"/>
                                     <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="g2f-qz-08z"/>

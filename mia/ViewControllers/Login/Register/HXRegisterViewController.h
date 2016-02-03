@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class TTTAttributedLabel;
+
 @interface HXRegisterViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet            UILabel *firstPromptLabel;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *secondPromptLabel;
 
 @end
