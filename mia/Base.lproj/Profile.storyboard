@@ -409,15 +409,15 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="山丘-李宗盛" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nwG-2u-ZLi">
-                                            <rect key="frame" x="74" y="31" width="238" height="20"/>
+                                            <rect key="frame" x="70" y="31" width="242" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PF-DownLoadIcon" translatesAutoresizingMaskIntoConstraints="NO" id="UbJ-OT-O8Q">
-                                            <rect key="frame" x="48" y="31" width="20" height="20"/>
+                                            <rect key="frame" x="48" y="33" width="16" height="16"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="20" id="NEy-QO-oCL"/>
+                                                <constraint firstAttribute="width" constant="16" id="NEy-QO-oCL"/>
                                                 <constraint firstAttribute="width" secondItem="UbJ-OT-O8Q" secondAttribute="height" multiplier="1:1" id="vpe-MD-z1g"/>
                                             </constraints>
                                         </imageView>
