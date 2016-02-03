@@ -39,8 +39,8 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 
 @property (nonatomic, strong)      NSString *uid;
 @property (nonatomic, assign) HXProfileType  type;
-@property (nonatomic, assign)    NSUInteger  shareCount;
-@property (nonatomic, assign)    NSUInteger  favoriteCount;
+@property (nonatomic, assign)    NSInteger  shareCount;
+@property (nonatomic, assign)    NSInteger  favoriteCount;
 
 @property (nonatomic, strong) HXProfileDetailHeader *header;
 

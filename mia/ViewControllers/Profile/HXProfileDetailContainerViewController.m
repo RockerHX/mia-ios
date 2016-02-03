@@ -83,15 +83,13 @@ SongListPlayerDelegate
 }
 
 #pragma mark - Setter And Getter
-- (void)setShareCount:(NSUInteger)shareCount {
-    _shareCount = shareCount;
-
+- (void)setShareCount:(NSInteger)shareCount {
+	_shareCount = shareCount > 0 ? shareCount : 0;
     _segmentView.shareItemView.countLabel.text = @(shareCount).stringValue;
 }
 
-- (void)setFavoriteCount:(NSUInteger)favoriteCount {
-    _favoriteCount = favoriteCount;
-    
+- (void)setFavoriteCount:(NSInteger)favoriteCount {
+	_favoriteCount = favoriteCount > 0 ? favoriteCount : 0;
     _segmentView.favoriteItemView.countLabel.text = @(favoriteCount).stringValue;
 }
 
@@ -515,7 +513,14 @@ SongListPlayerDelegate
                          
                          cell.favorite = favorite;
                          [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
-                         
+
+						 if (favorite) {
+							 _favoriteCount++;
+						 } else {
+							 _favoriteCount--;
+						 }
+						 [self setFavoriteCount:_favoriteCount];
+
                          // 收藏操作成功后同步下收藏列表并检查下载
                          [[FavoriteMgr standard] syncFavoriteList];
                      } else {
