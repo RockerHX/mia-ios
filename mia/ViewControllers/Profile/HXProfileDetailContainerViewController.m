@@ -38,6 +38,7 @@ SongListPlayerDelegate
     HXProfileListViewModel *_viewModel;
     
     SongListPlayer *_songListPlayer;
+	BOOL _isPlayButtonSelected;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -82,15 +83,13 @@ SongListPlayerDelegate
 }
 
 #pragma mark - Setter And Getter
-- (void)setShareCount:(NSUInteger)shareCount {
-    _shareCount = shareCount;
-
+- (void)setShareCount:(NSInteger)shareCount {
+	_shareCount = shareCount > 0 ? shareCount : 0;
     _segmentView.shareItemView.countLabel.text = @(shareCount).stringValue;
 }
 
-- (void)setFavoriteCount:(NSUInteger)favoriteCount {
-    _favoriteCount = favoriteCount;
-    
+- (void)setFavoriteCount:(NSInteger)favoriteCount {
+	_favoriteCount = favoriteCount > 0 ? favoriteCount : 0;
     _segmentView.favoriteItemView.countLabel.text = @(favoriteCount).stringValue;
 }
 
@@ -335,6 +334,8 @@ SongListPlayerDelegate
             switch (rowType) {
                 case HXProfileSongRowTypeSongAction: {
                     cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileSongActionCell class]) forIndexPath:indexPath];
+					((HXProfileSongActionCell *)cell).playButton.selected = _isPlayButtonSelected;
+					[((HXProfileSongActionCell *)cell).editButton setTitle:self.isEditing ? @"完成": @"编辑" forState:UIControlStateNormal];
                     break;
                 }
                 case HXProfileSongRowTypeSong: {
@@ -516,7 +517,14 @@ SongListPlayerDelegate
                          
                          cell.favorite = favorite;
                          [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
-                         
+
+						 if (favorite) {
+							 _favoriteCount++;
+						 } else {
+							 _favoriteCount--;
+						 }
+						 [self setFavoriteCount:_favoriteCount];
+
                          // 收藏操作成功后同步下收藏列表并检查下载
                          [[FavoriteMgr standard] syncFavoriteList];
                      } else {
@@ -556,6 +564,7 @@ SongListPlayerDelegate
         }
         case HXProfileSongActionEdit: {
             self.editing = !self.editing;
+			[self.tableView reloadData];
             break;
         }
     }
@@ -576,17 +585,23 @@ SongListPlayerDelegate
 }
 
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+	if ([FavoriteMgr standard].dataSource.count <= 0) {
+		return nil;
+	}
+
     FavoriteItem *aFavoriteItem =  [FavoriteMgr standard].dataSource[index];
     return [aFavoriteItem.music copy];
 }
 
 #pragma mark - SongListPlayerDelegate
 - (void)songListPlayerDidPlay {
-//    [_profileHeaderView setIsPlaying:YES];
+	_isPlayButtonSelected = YES;
+	[self.tableView reloadData];
 }
 
 - (void)songListPlayerDidPause {
-//    [_profileHeaderView setIsPlaying:NO];
+	_isPlayButtonSelected = NO;
+    [self.tableView reloadData];
 }
 
 - (void)songListPlayerDidCompletion {

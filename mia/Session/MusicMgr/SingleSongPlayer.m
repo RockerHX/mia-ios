@@ -189,6 +189,10 @@
 		} else {
 			NSLog(@"playWithUrl - resume play from pause");
 			[_audioStream pause];
+
+			if (_delegate) {
+				[_delegate singleSongPlayerDidPlay];
+			}
 		}
 	} else {
 		// 切换歌曲
@@ -204,10 +208,6 @@
 			[self setMediaInfo:nil andTitle:title andArtist:artist];
 		}
 	}];
-
-	if (_delegate) {
-		[_delegate singleSongPlayerDidPlay];
-	}
 }
 
 - (void)playAnotherWirUrl:(NSString *)url {
@@ -216,6 +216,10 @@
 	[self bs_performBlock:^{
 		NSLog(@"delayPlayHandlerWithUrl");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
+
+		if (_delegate) {
+			[_delegate singleSongPlayerDidPlay];
+		}
 	} afterDelay:0.5f];
 }
 

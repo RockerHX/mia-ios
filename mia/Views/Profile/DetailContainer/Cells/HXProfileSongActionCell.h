@@ -27,6 +27,9 @@ typedef NS_ENUM(NSUInteger, HXProfileSongAction) {
 
 @property (weak, nonatomic) IBOutlet id  <HXProfileSongActionCellDelegate>delegate;
 
+@property (weak, nonatomic) IBOutlet     UIButton *playButton;
+@property (weak, nonatomic) IBOutlet     UIButton *editButton;
+
 - (IBAction)playButtonPressed:(UIButton *)button;
 - (IBAction)editButtonPressed;
 
