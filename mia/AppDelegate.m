@@ -46,10 +46,10 @@
     [MobClick setAppVersion:[[HXVersion appVersion] stringByAppendingFormat:@"(%@)", [HXVersion appBuildVersion]]];
     [MobClick setEncryptEnabled:YES];       // 日志加密
     // 启动[友盟统计]
-//    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:AppstoreChannel];
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:FirimChannel];
-    
+//	[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:AppstoreChannel];
+
 //#pragma mark - Testin Crash SDK
 //    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
 #endif

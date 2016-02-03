@@ -25,5 +25,5 @@ NSString *const HXMusicPlayerMgrDidPlayNotification         = @"HXMusicPlayerMgr
 NSString *const HXMusicPlayerMgrDidPauseNotification        = @"HXMusicPlayerMgrDidPauseNotification";
 
 #pragma mark - App Constants
-NSString *const AppstoreChannel     = @"App Store";
-NSString *const FirimChannel        = @"Fir.im";
+NSString *const AppStoreChannel     = @"appstore";
+NSString *const FirimChannel        = @"fir.im";
