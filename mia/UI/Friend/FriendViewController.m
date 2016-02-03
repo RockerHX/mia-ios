@@ -85,11 +85,6 @@ static const long kUserListPageCount = 10;
 	[self.navigationController setNavigationBarHidden:YES animated:!_pushed];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:!_pushed];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 }
