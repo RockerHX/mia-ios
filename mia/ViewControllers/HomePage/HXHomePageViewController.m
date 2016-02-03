@@ -262,6 +262,11 @@ static NSString *HomePageContainerIdentifier = @"HomePageContainerIdentifier";
     }
 }
 
+- (IBAction)feedBackButtonPressed {
+    HXFeedBackViewController *feedBackViewController = [HXFeedBackViewController instance];
+    [self.navigationController pushViewController:feedBackViewController animated:YES];
+}
+
 - (IBAction)tapGesture {
     [self viewTapedCanShowMusicDetail:YES];
 }
@@ -591,6 +596,15 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
     } else {
         [self startUnInfectedStateAnimation];
     }
+    [self displayFeedBackButtonColor];
+}
+
+- (void)displayFeedBackButtonColor {
+    if ([UserSession standard].state) {
+        [_feedBackButton setTitleColor:_playItem.isInfected ? UIColorFromHex(@"3DC6B6", 1.0f) : [UIColor whiteColor] forState:UIControlStateNormal];
+    } else {
+        [_feedBackButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
 }
 
 - (void)presentLoginViewController:(void(^)(BOOL success))success {
@@ -670,6 +684,7 @@ static CGFloat OffsetHeightThreshold = 160.0f;  // 用户拖动手势触发动�
 #pragma mark - Animation
 - (void)startWaveAnimation {
     [_waveView.waveView startAnimating];
+    [self displayFeedBackButtonColor];
 }
 
 - (void)stopWaveAnimation {

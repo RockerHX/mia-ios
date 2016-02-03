@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet   HXInfectUserView *infectUserView;
 @property (weak, nonatomic) IBOutlet            UILabel *pushPromptLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *infectCountPromptLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *feedBackButton;
 @property (weak, nonatomic) IBOutlet            UILabel *infectCountRightPromptLabel;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fishBottomConstraint;
@@ -35,7 +36,7 @@
 
 - (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;
-- (IBAction)tapGesture;
+- (IBAction)feedBackButtonPressed;
 
 - (IBAction)gestureEvent:(UIGestureRecognizer *)gesture;
 
