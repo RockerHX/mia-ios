@@ -276,6 +276,10 @@
 }
 
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+	if (_shareListMgr.shareList.count <= 0) {
+		return nil;
+	}
+	
 	return [[[_shareListMgr.shareList objectAtIndex:index] music] copy];
 }
 

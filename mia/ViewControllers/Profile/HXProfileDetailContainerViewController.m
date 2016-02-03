@@ -581,6 +581,10 @@ SongListPlayerDelegate
 }
 
 - (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
+	if ([FavoriteMgr standard].dataSource.count <= 0) {
+		return nil;
+	}
+
     FavoriteItem *aFavoriteItem =  [FavoriteMgr standard].dataSource[index];
     return [aFavoriteItem.music copy];
 }
