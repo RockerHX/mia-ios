@@ -224,16 +224,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7C-Hc-FYt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="bLL-O1-8hb">
                     <connections>
-                        <segue destination="DDz-1c-358" kind="push" id="ihY-AO-Yeh"/>
+                        <segue destination="Gik-of-H3g" kind="push" id="uJm-El-N3X"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-250" y="235"/>
         </scene>
-        <!--忘记密码-->
+        <!--HXForgotPWViewController-->
         <scene sceneID="Ky4-Ja-Fz9">
             <objects>
-                <tableViewController id="tWq-dV-jfD" customClass="HXForgotPWViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="HXForgotPWViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tWq-dV-jfD" userLabel="HXForgotPWViewController" customClass="HXForgotPWViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="vmC-Cc-uZH">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -405,10 +405,43 @@
             </objects>
             <point key="canvasLocation" x="-250" y="904"/>
         </scene>
-        <!--注册-->
+        <!--HXRegisterViewController-->
+        <scene sceneID="1Lj-l2-tgu">
+            <objects>
+                <viewController storyboardIdentifier="HXRegisterViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gik-of-H3g" userLabel="HXRegisterViewController" customClass="HXRegisterViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WA8-hN-nIr"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qwx-Vx-WU9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="53o-JO-RtH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5aC-69-YuH">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <connections>
+                                    <segue destination="DDz-1c-358" kind="embed" id="vcx-61-8pv"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5aC-69-YuH" secondAttribute="trailing" id="520-qn-tZp"/>
+                            <constraint firstItem="5aC-69-YuH" firstAttribute="top" secondItem="53o-JO-RtH" secondAttribute="top" id="Ha7-CM-f1a"/>
+                            <constraint firstItem="5aC-69-YuH" firstAttribute="leading" secondItem="53o-JO-RtH" secondAttribute="leading" id="iKW-aC-1rd"/>
+                            <constraint firstAttribute="bottom" secondItem="5aC-69-YuH" secondAttribute="bottom" id="uSQ-D1-w23"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="注册" id="TXh-fx-GN9"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1fs-yI-5d2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="192" y="231"/>
+        </scene>
+        <!--HXRegisterContainerViewController-->
         <scene sceneID="wgp-WV-6KB">
             <objects>
-                <tableViewController id="DDz-1c-358" customClass="HXRegisterViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="HXRegisterContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DDz-1c-358" userLabel="HXRegisterContainerViewController" customClass="HXRegisterContainerViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="PZp-Pa-kV6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -600,7 +633,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="avy-F4-BRd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="180" y="235"/>
+            <point key="canvasLocation" x="622" y="231"/>
         </scene>
     </scenes>
     <resources>

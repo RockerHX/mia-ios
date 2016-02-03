@@ -1,11 +1,12 @@
 //
-//  HXRegisterViewController.m
-//  Mia
+//  HXRegisterContainerViewController.m
+//  mia
 //
-//  Created by miaios on 16/1/5.
+//  Created by miaios on 16/2/3.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
+#import "HXRegisterContainerViewController.h"
 #import "HXRegisterViewController.h"
 #import "HXCaptchButton.h"
 #import "HXAlertBanner.h"
@@ -15,10 +16,10 @@
 static NSString *RegisterApi = @"/user/register";
 static NSString *CaptchApi = @"/user/pauth";
 
-@interface HXRegisterViewController ()
+@interface HXRegisterContainerViewController ()
 @end
 
-@implementation HXRegisterViewController
+@implementation HXRegisterContainerViewController
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
@@ -34,13 +35,13 @@ static NSString *CaptchApi = @"/user/pauth";
     [_captchaButton timingStart:^BOOL(HXCaptchButton *button) {
         __strong __typeof__(self)strongSelf = weakSelf;
         NSString *mobile = strongSelf.mobileTextField.text;
-
-		if ([self checkPhoneNumber]) {
-			[strongSelf sendCaptchaRequesetWithMobile:mobile];
-			return YES;
-		} else {
-			return NO;
-		}
+        
+        if ([self checkPhoneNumber]) {
+            [strongSelf sendCaptchaRequesetWithMobile:mobile];
+            return YES;
+        } else {
+            return NO;
+        }
     } end:nil];
 }
 

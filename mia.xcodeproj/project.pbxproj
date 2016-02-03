@@ -164,9 +164,10 @@
 		CD9670921C52216D00130D27 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD96708F1C52216D00130D27 /* HXVersion.m */; };
 		CD96709A1C5226EF00130D27 /* HXForgotPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */; };
 		CD96709B1C5226EF00130D27 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670971C5226EF00130D27 /* HXLoginViewController.m */; };
-		CD96709C1C5226EF00130D27 /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9670991C5226EF00130D27 /* HXRegisterViewController.m */; };
 		CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */; };
 		CD9D2EC11BD77C2100A2D312 /* BRPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */; };
+		CDA713D61C61E3EF006A20EE /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA713D51C61E3EF006A20EE /* HXRegisterViewController.m */; };
+		CDA713D91C61E40A006A20EE /* HXRegisterContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA713D81C61E40A006A20EE /* HXRegisterContainerViewController.m */; };
 		CDC5FE8C1BD0FFAA001D154E /* HXHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */; };
 		CDC5FE8D1BD0FFAA001D154E /* HXRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8B1BD0FFAA001D154E /* HXRadioViewController.m */; };
 		CDC5FE921BD102AB001D154E /* HXBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5FE8F1BD102AB001D154E /* HXBubbleView.m */; };
@@ -505,12 +506,14 @@
 		CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXForgotPWViewController.m; sourceTree = "<group>"; };
 		CD9670961C5226EF00130D27 /* HXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXLoginViewController.h; sourceTree = "<group>"; };
 		CD9670971C5226EF00130D27 /* HXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXLoginViewController.m; sourceTree = "<group>"; };
-		CD9670981C5226EF00130D27 /* HXRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRegisterViewController.h; sourceTree = "<group>"; };
-		CD9670991C5226EF00130D27 /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
 		CD9D2EB81BD772AE00A2D312 /* HXFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFeedBackViewController.h; sourceTree = "<group>"; };
 		CD9D2EB91BD772AE00A2D312 /* HXFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedBackViewController.m; sourceTree = "<group>"; };
 		CD9D2EBF1BD77C2100A2D312 /* BRPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPlaceholderTextView.h; sourceTree = "<group>"; };
 		CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRPlaceholderTextView.m; sourceTree = "<group>"; };
+		CDA713D41C61E3EF006A20EE /* HXRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRegisterViewController.h; sourceTree = "<group>"; };
+		CDA713D51C61E3EF006A20EE /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
+		CDA713D71C61E40A006A20EE /* HXRegisterContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRegisterContainerViewController.h; sourceTree = "<group>"; };
+		CDA713D81C61E40A006A20EE /* HXRegisterContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterContainerViewController.m; sourceTree = "<group>"; };
 		CDC5FE871BD0FFAA001D154E /* HXHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageViewController.h; sourceTree = "<group>"; };
 		CDC5FE881BD0FFAA001D154E /* HXHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageViewController.m; sourceTree = "<group>"; };
 		CDC5FE8A1BD0FFAA001D154E /* HXRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRadioViewController.h; sourceTree = "<group>"; };
@@ -1778,10 +1781,9 @@
 		CD9670931C5226EF00130D27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				CDA713D31C61E3EF006A20EE /* Register */,
 				CD9670961C5226EF00130D27 /* HXLoginViewController.h */,
 				CD9670971C5226EF00130D27 /* HXLoginViewController.m */,
-				CD9670981C5226EF00130D27 /* HXRegisterViewController.h */,
-				CD9670991C5226EF00130D27 /* HXRegisterViewController.m */,
 				CD9670941C5226EF00130D27 /* HXForgotPWViewController.h */,
 				CD9670951C5226EF00130D27 /* HXForgotPWViewController.m */,
 			);
@@ -1808,6 +1810,17 @@
 				CD9D2EC01BD77C2100A2D312 /* BRPlaceholderTextView.m */,
 			);
 			path = PlaceholderTextView;
+			sourceTree = "<group>";
+		};
+		CDA713D31C61E3EF006A20EE /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				CDA713D41C61E3EF006A20EE /* HXRegisterViewController.h */,
+				CDA713D51C61E3EF006A20EE /* HXRegisterViewController.m */,
+				CDA713D71C61E40A006A20EE /* HXRegisterContainerViewController.h */,
+				CDA713D81C61E40A006A20EE /* HXRegisterContainerViewController.m */,
+			);
+			path = Register;
 			sourceTree = "<group>";
 		};
 		CDC5FE831BD0FD40001D154E /* Views */ = {
@@ -2139,6 +2152,7 @@
 				3908F37E1BBB811F00BACFD3 /* AFNHttpClient.m in Sources */,
 				397E429A1BA83131006BE9E7 /* ShareItem.m in Sources */,
 				39880A9E1C5871A900713FC6 /* FlyCommentItem.m in Sources */,
+				CDA713D91C61E40A006A20EE /* HXRegisterContainerViewController.m in Sources */,
 				397FA5351BAC0CA7003FD186 /* MIATextViewInternal.m in Sources */,
 				397E42DA1BA90812006BE9E7 /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				3965DF6F1BD0FC11003B1641 /* NSTimer+BlockSupport.m in Sources */,
@@ -2235,6 +2249,7 @@
 				CD96705C1C52211D00130D27 /* UIViewController+HXClass.m in Sources */,
 				397E42CF1BA90812006BE9E7 /* NSObject+PropertyAndMethods.m in Sources */,
 				CD5753901BDE33F600E7CBC4 /* HXMusicDetailPromptCell.m in Sources */,
+				CDA713D61C61E3EF006A20EE /* HXRegisterViewController.m in Sources */,
 				CD5753931BDE344900E7CBC4 /* HXMusicDetailViewModel.m in Sources */,
 				CD48CD801BDDFD43009607DE /* HXMusicDetailViewController.m in Sources */,
 				3976E3591BBAC78B006FA5E2 /* SearchSuggestionCollectionViewCell.m in Sources */,
@@ -2269,7 +2284,6 @@
 				397FA5041BAADBD8003FD186 /* PXInfiniteScrollView.m in Sources */,
 				397D9CAF1C58FEC0003BDC33 /* UserListView.m in Sources */,
 				CDFFAAEF1BD7BCF30074C0EF /* HXGuideView.m in Sources */,
-				CD96709C1C5226EF00130D27 /* HXRegisterViewController.m in Sources */,
 				39B435201BD5272400D6CB13 /* LocationMgr.m in Sources */,
 				397E42D71BA90812006BE9E7 /* UIImage+Extrude.m in Sources */,
 				393CE9A21BB7953E00FCF232 /* FavoriteItem.m in Sources */,
