@@ -22,7 +22,7 @@ static NSString *UserTermsLoadURL = @"http://www.miamusic.com/terms.html";
 }
 
 + (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameSetting;
+    return HXStoryBoardNameLogin;
 }
 
 #pragma mark - Config Methods
