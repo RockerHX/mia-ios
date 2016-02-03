@@ -85,7 +85,7 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (CGFloat)noCommentCellHeight {
-    return 40.0f;
+    return 100.0f;
 }
 
 - (NSInteger)rows {
