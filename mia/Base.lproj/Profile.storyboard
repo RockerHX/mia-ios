@@ -334,7 +334,7 @@
                                     <outlet property="titleLabel" destination="VZc-kF-vNu" id="lGo-wS-2oZ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXProfileSongActionCell" rowHeight="65" id="UkH-fu-roH" userLabel="HXProfileSongActionCell" customClass="HXProfileSongActionCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXProfileSongActionCell" rowHeight="65" id="UkH-fu-roH" userLabel="HXProfileSongActionCell" customClass="HXProfileSongActionCell">
                                 <rect key="frame" x="0.0" y="248" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UkH-fu-roH" id="G4s-Vu-p2o">
