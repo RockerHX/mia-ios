@@ -37,8 +37,10 @@ static NSString *ResetPWApi = @"/user/pauth";
 
 		if ([self checkPhoneNumber]) {
             [strongSelf sendCaptchaRequesetWithMobile:mobile];
-        }
-        return YES;
+			return YES;
+		} else {
+			return NO;
+		}
     } end:nil];
 }
 
