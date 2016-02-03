@@ -32,8 +32,8 @@ static const long kUserListPageCount = 10;
 	UserListViewType		_initListViewType;
 	NSString				*_currentUID;
 	BOOL					_isHost;
-	NSUInteger				_initFansCount;
-	NSUInteger				_initFollowingCount;
+	NSUInteger				_fansCount;
+	NSUInteger				_followingCount;
 
 	UserListModel 			*_fansModel;
 	UserListModel 			*_followingModel;
@@ -62,8 +62,8 @@ static const long kUserListPageCount = 10;
 		_initListViewType = (NSInteger)type;
 		_currentUID = uID;
 		_isHost = isHost;
-		_initFansCount = fansCount;
-		_initFollowingCount = followingCount;
+		_fansCount = fansCount;
+		_followingCount = followingCount;
 	}
 
 	return self;
@@ -242,8 +242,8 @@ static const long kUserListPageCount = 10;
 
 - (void)initContentView:(UIView *)contentView {
 	const CGFloat segmentedControlHeight = 55;
-	NSString *fansTitle = [NSString stringWithFormat:@"粉丝 %ld", _initFansCount];
-	NSString *followingTitle = [NSString stringWithFormat:@"关注 %ld", _initFollowingCount];
+	NSString *fansTitle = [NSString stringWithFormat:@"粉丝 %ld", _fansCount];
+	NSString *followingTitle = [NSString stringWithFormat:@"关注 %ld", _followingCount];
 
 	_segmentedControl = [[YHSegmentedControl alloc] initWithHeight:segmentedControlHeight titles:@[fansTitle, followingTitle] delegate:self];
 	[contentView addSubview:_segmentedControl];
@@ -322,8 +322,6 @@ static const long kUserListPageCount = 10;
 								[_fansView.collectionView reloadData];
 								[_fansView setNoDataTipsHidden:YES];
 								++_fansModel.currentPage;
-
-								[_segmentedControl setTitle:[NSString stringWithFormat:@"粉丝 %ld", _fansModel.dataSource.count] forIndex:UserListViewTypeFans];
 							} else {
 								[_fansView checkNoDataTipsStatus];
 								id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -357,8 +355,6 @@ static const long kUserListPageCount = 10;
 							   [_followingView.collectionView reloadData];
 							   [_followingView setNoDataTipsHidden:YES];
 							   ++_followingModel.currentPage;
-
-							   [_segmentedControl setTitle:[NSString stringWithFormat:@"关注 %ld", _followingModel.dataSource.count] forIndex:UserListViewTypeFollowing];
 						   } else {
 							   [_followingView checkNoDataTipsStatus];
 							   id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -507,6 +503,14 @@ static const long kUserListPageCount = 10;
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (!success) {
 			 [HXAlertBanner showWithMessage:(isFollow ? @"添加关注失败" : @"取消关注失败") tap:nil];
+		 } else {
+			 if (isFollow) {
+				 _followingCount++;
+			 } else {
+				 _followingCount--;
+			 }
+
+			 [_segmentedControl setTitle:[NSString stringWithFormat:@"关注 %ld", _followingCount] forIndex:UserListViewTypeFollowing];
 		 }
 
 		 if (completedBlock) {

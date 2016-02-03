@@ -32,8 +32,6 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailRow) {
 
 @property (nonatomic, copy, readonly)     NSArray *comments;
 
-@property (nonatomic, strong, readonly)     NSURL *frontCoverURL;
-
 - (instancetype)initWithItem:(ShareItem *)item;
 - (instancetype)initWithID:(NSString *)ID;
 - (void)fetchShareItem:(void(^)(HXMusicDetailViewModel *viewModel))success failure:(void(^)(NSString *message))failure;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3906D0B31C604F90009C001B /* FormatTimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3906D0B21C604F90009C001B /* FormatTimeHelper.m */; };
 		3908F37E1BBB811F00BACFD3 /* AFNHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F37D1BBB811F00BACFD3 /* AFNHttpClient.m */; };
 		3908F3821BBB9FF300BACFD3 /* SuggestionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3811BBB9FF300BACFD3 /* SuggestionItem.m */; };
 		3908F3861BBBA1C200BACFD3 /* XiamiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908F3851BBBA1C200BACFD3 /* XiamiHelper.m */; };
@@ -199,6 +200,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3906D0B11C604F90009C001B /* FormatTimeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTimeHelper.h; sourceTree = "<group>"; };
+		3906D0B21C604F90009C001B /* FormatTimeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTimeHelper.m; sourceTree = "<group>"; };
 		3908F37C1BBB811F00BACFD3 /* AFNHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNHttpClient.h; sourceTree = "<group>"; };
 		3908F37D1BBB811F00BACFD3 /* AFNHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNHttpClient.m; sourceTree = "<group>"; };
 		3908F3801BBB9FF300BACFD3 /* SuggestionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionItem.h; sourceTree = "<group>"; };
@@ -563,6 +566,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3906D0B01C604F90009C001B /* FormatTimeHelper */ = {
+			isa = PBXGroup;
+			children = (
+				3906D0B11C604F90009C001B /* FormatTimeHelper.h */,
+				3906D0B21C604F90009C001B /* FormatTimeHelper.m */,
+			);
+			path = FormatTimeHelper;
+			sourceTree = "<group>";
+		};
 		3908F37B1BBB811F00BACFD3 /* AFNHttpClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -1255,6 +1267,7 @@
 		39BCAD3D1B9F141B00C6F7F2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3906D0B01C604F90009C001B /* FormatTimeHelper */,
 				3997F8311BE750A000F6597D /* CacheHelper */,
 				39FBCC951BE24F8900527A6C /* UpdateHelper */,
 				39DA9BF01BDB630E001C0CD1 /* FileLog */,
@@ -2187,6 +2200,7 @@
 				CD8A5B511BFF19BB00F1CB67 /* HXSettingViewController.m in Sources */,
 				CD9D2EBA1BD772AE00A2D312 /* HXFeedBackViewController.m in Sources */,
 				CD25AA3A1C5715AD008BE101 /* HXRadioShareInfoView.m in Sources */,
+				3906D0B31C604F90009C001B /* FormatTimeHelper.m in Sources */,
 				CD8FC6461C5B4ABD007149D6 /* HXSegmentItemView.m in Sources */,
 				397D9CBB1C58FEE8003BDC33 /* YHSegmentedControl.m in Sources */,
 				3976E3611BBACDD3006FA5E2 /* SearchSuggestionModel.m in Sources */,

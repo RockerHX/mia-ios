@@ -96,7 +96,7 @@
     }];
     
     RIButtonItem *reportItem = [RIButtonItem itemWithLabel:@"举报" action:^{
-        [MiaAPIHelper reportShareById:_playItem.sID completeBlock:
+        [MiaAPIHelper reportShareById:_viewModel.playItem.sID completeBlock:
          ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
              if (success) {
                  [HXAlertBanner showWithMessage:@"举报成功" tap:nil];
@@ -110,7 +110,7 @@
     }];
     
     RIButtonItem *deleteItem = [RIButtonItem itemWithLabel:@"删除" action:^{
-        [MiaAPIHelper deleteShareById:_playItem.sID completeBlock:
+        [MiaAPIHelper deleteShareById:_viewModel.playItem.sID completeBlock:
          ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
              if (success) {
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
@@ -420,7 +420,7 @@
                 [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
                                             longitude:[[LocationMgr standard] currentCoordinate].longitude
                                               address:[[LocationMgr standard] currentAddress]
-                                                 spID:_playItem.spID
+                                                 spID:_viewModel.playItem.spID
                                         completeBlock:
                  ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                      if (success) {
@@ -430,10 +430,10 @@
                          NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
                          NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
                          
-                         if ([spID isEqualToString:_playItem.spID]) {
-                             _playItem.infectTotal = infectTotal;
-                             [_playItem parseInfectUsersFromJsonArray:infectArray];
-                             _playItem.isInfected = isInfected;
+                         if ([spID isEqualToString:_viewModel.playItem.spID]) {
+                             _viewModel.playItem.infectTotal = infectTotal;
+                             [_viewModel.playItem parseInfectUsersFromJsonArray:infectArray];
+                             _viewModel.playItem.isInfected = isInfected;
                          }
                          [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
                          [self loadDetailData];
@@ -442,7 +442,7 @@
                          [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
                      }
                  } timeoutBlock:^(MiaRequestItem *requestItem) {
-                     _playItem.isInfected = YES;
+                     _viewModel.playItem.isInfected = YES;
                      [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
                  }];
             } else {

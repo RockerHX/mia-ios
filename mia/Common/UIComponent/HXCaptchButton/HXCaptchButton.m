@@ -58,7 +58,7 @@ static NSString *TextPrompt = @"获取验证码";
         if (_startBlock) {
             if (_startBlock(self)) {
                 _timeOut = _duration;
-                [self setTitle:[NSString stringWithFormat:@"%@s", @(_timeOut)] forState:UIControlStateNormal];
+                [self setTitle:[NSString stringWithFormat:@" %@s 重新获取 ", @(_timeOut)] forState:UIControlStateNormal];
                 _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
                 self.enabled = NO;
             }
@@ -71,7 +71,7 @@ static NSString *TextPrompt = @"获取验证码";
  */
 - (void)timeFireMethod {
     _timeOut--;
-    [self setTitle:[NSString stringWithFormat:@"%@s", @(_timeOut)] forState:UIControlStateNormal];
+    [self setTitle:[NSString stringWithFormat:@" %@s 重新获取 ", @(_timeOut)] forState:UIControlStateNormal];
     
     if(_timeOut < TimeOutFlag){
         [self stop];

@@ -35,7 +35,11 @@ typedef void(^BLOCK)(void);
 #pragma mark - Config Methods
 - (void)viewConfig {
     _playButton.layer.cornerRadius = _playButton.frame.size.height/2;
-    _playButton.hidden = ![[FavoriteMgr standard] cachedCount];
+//    _playButton.hidden = ![[FavoriteMgr standard] cachedCount];
+	// TODO 1.3先把这个屏蔽了
+	// 因为Profile页面点击进去还有分享等信息，下个版本页面结构调整后再打开
+	// 受影响的是完全没有网络的情况，有3G的情况下还是可以播放收藏的歌曲的
+	_playButton.hidden = YES;
     _playPrePromptLabel.hidden = _playButton.hidden;
 }
 

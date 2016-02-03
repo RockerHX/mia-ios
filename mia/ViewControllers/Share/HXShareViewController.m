@@ -19,6 +19,7 @@
 #import "LocationMgr.h"
 #import "HXAlertBanner.h"
 #import "MusicMgr.h"
+#import "NSObject+BlockSupport.h"
 
 @interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate, SongListPlayerDelegate, SongListPlayerDataSource>
 @end
@@ -278,6 +279,10 @@
     _musicItem.murl = _dataItem.songUrl;
     
     [self updateUI];
+	
+	[self bs_performBlock:^{
+		[_commentTextView becomeFirstResponder];
+	} afterDelay:0.5f];
 }
 
 - (void)searchViewControllerWillDismiss {

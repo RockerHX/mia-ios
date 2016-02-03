@@ -34,11 +34,13 @@ static NSString *CaptchApi = @"/user/pauth";
     [_captchaButton timingStart:^BOOL(HXCaptchButton *button) {
         __strong __typeof__(self)strongSelf = weakSelf;
         NSString *mobile = strongSelf.mobileTextField.text;
-        if (![strongSelf checkPhoneNumber]) {
-            return NO;
-        }
-        [strongSelf sendCaptchaRequesetWithMobile:mobile];
-        return YES;
+
+		if ([self checkPhoneNumber]) {
+			[strongSelf sendCaptchaRequesetWithMobile:mobile];
+			return YES;
+		} else {
+			return NO;
+		}
     } end:nil];
 }
 

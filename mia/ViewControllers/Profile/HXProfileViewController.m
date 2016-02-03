@@ -130,7 +130,6 @@ HXNavigationBarDelegate
              NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
              NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
              NSLog(@"user info: %ld, %ld, %ld, %@", _fansCount, _followCount, follow, imgs);
-             // end for test
              
              _coverContainerViewController.dataSource = imgs;
              
