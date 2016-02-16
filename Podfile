@@ -4,12 +4,12 @@ platform :ios, '7.0'
 inhibit_all_warnings!
 
 # Networking
-pod 'AFNetworking', '2.6.3'
+pod 'AFNetworking'
 pod 'SocketRocket'
 pod 'SDWebImage'
 
 # Audio
-pod 'FreeStreamer', '3.4.2'
+pod 'FreeStreamer'
 
 # Utility
 pod 'Masonry'
@@ -20,20 +20,15 @@ pod 'DateTools'
 # Tool
 #pod 'IQKeyboardManager'
 
-# View Controller Componment
-
 # UIComponment
-pod 'iCarousel'
 pod 'MJRefresh'
 pod 'MBProgressHUD'
 pod 'TTTAttributedLabel'
-pod 'UIAlertView-Blocks'
 pod 'BlocksKit'
 
-pod 'UITableView+FDTemplateLayoutCell'
-pod 'UICollectionViewLeftAlignedLayout'
-
-pod 'FDStackView'
+#pod 'FDStackView'
+#pod 'UITableView+FDTemplateLayoutCell'
+#pod 'UICollectionViewLeftAlignedLayout'
 
 
 # UMeng SDK
