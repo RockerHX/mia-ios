@@ -51,6 +51,8 @@
 
 #define StatusBarHeight                                      (([[[UIDevice currentDevice] systemVersion] floatValue]) >= (7.0) ? (20.0f):(0.0f))
 #define DOCUMENT_PATH                                        [NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES) lastObject]
+#define LIBRARY_PATH                                         [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject]
+#define CACHE_PATH                                           [LIBRARY_PATH stringByAppendingString:@"/Caches"]
 
 #endif
 
