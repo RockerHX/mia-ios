@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--HXFavoriteViewController-->
+        <scene sceneID="o77-oj-OYz">
+            <objects>
+                <viewController storyboardIdentifier="HXFavoriteViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CyJ-32-f2J" userLabel="HXFavoriteViewController" customClass="HXFavoriteViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="v5k-QU-9jH"/>
+                        <viewControllerLayoutGuide type="bottom" id="P3e-ES-LkW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3bY-7X-xx1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gUh-U7-7cJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="149.33333333333334" y="409.90666666666664"/>
+        </scene>
+    </scenes>
+</document>
