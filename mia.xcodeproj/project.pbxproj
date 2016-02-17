@@ -28,6 +28,8 @@
 		CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD06900D1C746B8C001C0997 /* HXVersion.m */; };
 		CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0690221C746D10001C0997 /* HXMeViewController.m */; };
 		CD0690261C747164001C0997 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0690241C747164001C0997 /* Me.storyboard */; };
+		CD0690291C7476C1001C0997 /* HXHomePageContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0690281C7476C1001C0997 /* HXHomePageContainerViewController.m */; };
+		CD06902D1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CD06902C1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.m */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -86,6 +88,10 @@
 		CD0690211C746D10001C0997 /* HXMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeViewController.h; sourceTree = "<group>"; };
 		CD0690221C746D10001C0997 /* HXMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeViewController.m; sourceTree = "<group>"; };
 		CD0690251C747164001C0997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Me.storyboard; sourceTree = "<group>"; };
+		CD0690271C7476C1001C0997 /* HXHomePageContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageContainerViewController.h; sourceTree = "<group>"; };
+		CD0690281C7476C1001C0997 /* HXHomePageContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageContainerViewController.m; sourceTree = "<group>"; };
+		CD06902B1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHomePageCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		CD06902C1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHomePageCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -296,6 +302,15 @@
 			path = Me;
 			sourceTree = "<group>";
 		};
+		CD06902A1C7481DA001C0997 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				CD06902B1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.h */,
+				CD06902C1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.m */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
 		CDB55E4E1C72C7ED00962ED0 = {
 			isa = PBXGroup;
 			children = (
@@ -393,6 +408,7 @@
 		CDB55E791C72CEDF00962ED0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CD06902A1C7481DA001C0997 /* HomePage */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -411,6 +427,8 @@
 			children = (
 				CDB55E971C73003E00962ED0 /* HXHomePageViewController.h */,
 				CDB55E981C73003E00962ED0 /* HXHomePageViewController.m */,
+				CD0690271C7476C1001C0997 /* HXHomePageContainerViewController.h */,
+				CD0690281C7476C1001C0997 /* HXHomePageContainerViewController.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -558,6 +576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */,
+				CD0690291C7476C1001C0997 /* HXHomePageContainerViewController.m in Sources */,
 				CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */,
 				CD0690161C746B8C001C0997 /* HXIBLabel.m in Sources */,
 				CD06901A1C746B8C001C0997 /* HXCaptchButton.m in Sources */,
@@ -566,6 +585,7 @@
 				CD0690101C746B8C001C0997 /* UIViewController+HXClass.m in Sources */,
 				CD06900F1C746B8C001C0997 /* UIView+Frame.m in Sources */,
 				CD0690171C746B8C001C0997 /* HXIBView.m in Sources */,
+				CD06902D1C748208001C0997 /* HXHomePageCollectionViewFlowLayout.m in Sources */,
 				CD0690191C746B8C001C0997 /* HXAppConstants.m in Sources */,
 				CD0690151C746B8C001C0997 /* HXIBImageView.m in Sources */,
 				CDB55E991C73003E00962ED0 /* HXHomePageViewController.m in Sources */,

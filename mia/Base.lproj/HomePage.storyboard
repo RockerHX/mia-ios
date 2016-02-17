@@ -8,7 +8,7 @@
         <!--HXHomePageViewController-->
         <scene sceneID="NlT-4E-rQj">
             <objects>
-                <viewController storyboardIdentifier="HXHomePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1gK-X2-FAq" userLabel="HXHomePageViewController" customClass="HXHomePageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXHomePageViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1gK-X2-FAq" userLabel="HXHomePageViewController" customClass="HXHomePageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HQ1-oV-D18"/>
                         <viewControllerLayoutGuide type="bottom" id="chO-85-4yH"/>
@@ -16,12 +16,67 @@
                     <view key="view" contentMode="scaleToFill" id="9aB-yR-gJ9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.047058823530000002" green="0.70588235290000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lx9-Im-1k2">
+                                <rect key="frame" x="0.0" y="80" width="320" height="488"/>
+                                <connections>
+                                    <segue destination="DnZ-GQ-LBw" kind="embed" id="0C0-X2-0wR"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qW7-Qm-70h">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="FQM-q4-pCK"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lx9-Im-1k2" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="8zk-8K-2sB"/>
+                            <constraint firstItem="qW7-Qm-70h" firstAttribute="top" secondItem="9aB-yR-gJ9" secondAttribute="top" id="Efp-a0-Y18"/>
+                            <constraint firstAttribute="trailing" secondItem="lx9-Im-1k2" secondAttribute="trailing" id="cJ2-bD-bLS"/>
+                            <constraint firstAttribute="trailing" secondItem="qW7-Qm-70h" secondAttribute="trailing" id="cna-7g-J5D"/>
+                            <constraint firstItem="lx9-Im-1k2" firstAttribute="top" secondItem="qW7-Qm-70h" secondAttribute="bottom" id="ghg-Ij-hEm"/>
+                            <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="lx9-Im-1k2" secondAttribute="bottom" id="t9e-uO-yqK"/>
+                            <constraint firstItem="qW7-Qm-70h" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="vHb-aW-l9b"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zai-PF-gZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-65" y="197"/>
+        </scene>
+        <!--HXHomePageContainerViewController-->
+        <scene sceneID="2sG-DK-Imc">
+            <objects>
+                <collectionViewController storyboardIdentifier="HXHomePageContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DnZ-GQ-LBw" userLabel="HXHomePageContainerViewController" customClass="HXHomePageContainerViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="nN1-1A-wMF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewLayout key="collectionViewLayout" id="R0g-cc-3zR" customClass="HXHomePageCollectionViewFlowLayout"/>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="fQp-FU-Gmv">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <color key="backgroundColor" red="0.047058823530000002" green="0.70588235290000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="DnZ-GQ-LBw" id="dF7-hd-jmR"/>
+                            <outlet property="delegate" destination="DnZ-GQ-LBw" id="vuv-Ot-rQ3"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1MQ-uu-iXQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="369" y="197"/>
         </scene>
     </scenes>
 </document>
