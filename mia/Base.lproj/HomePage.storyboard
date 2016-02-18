@@ -17,27 +17,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lx9-Im-1k2">
-                                <rect key="frame" x="0.0" y="80" width="320" height="468"/>
-                                <connections>
-                                    <segue destination="DnZ-GQ-LBw" kind="embed" id="0C0-X2-0wR"/>
-                                </connections>
-                            </containerView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-Background" translatesAutoresizingMaskIntoConstraints="NO" id="Hoj-33-yJA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qW7-Qm-70h">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="FQM-q4-pCK"/>
                                 </constraints>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lx9-Im-1k2">
+                                <rect key="frame" x="0.0" y="80" width="320" height="468"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="DnZ-GQ-LBw" kind="embed" id="0C0-X2-0wR"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lx9-Im-1k2" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="8zk-8K-2sB"/>
                             <constraint firstItem="qW7-Qm-70h" firstAttribute="top" secondItem="9aB-yR-gJ9" secondAttribute="top" id="Efp-a0-Y18"/>
+                            <constraint firstItem="Hoj-33-yJA" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="Qga-10-2Af"/>
                             <constraint firstAttribute="trailing" secondItem="lx9-Im-1k2" secondAttribute="trailing" id="cJ2-bD-bLS"/>
                             <constraint firstAttribute="trailing" secondItem="qW7-Qm-70h" secondAttribute="trailing" id="cna-7g-J5D"/>
+                            <constraint firstItem="Hoj-33-yJA" firstAttribute="top" secondItem="9aB-yR-gJ9" secondAttribute="top" id="dC5-g2-8Lc"/>
                             <constraint firstItem="lx9-Im-1k2" firstAttribute="top" secondItem="qW7-Qm-70h" secondAttribute="bottom" id="ghg-Ij-hEm"/>
+                            <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="Hoj-33-yJA" secondAttribute="bottom" id="jJU-6V-D3a"/>
+                            <constraint firstAttribute="trailing" secondItem="Hoj-33-yJA" secondAttribute="trailing" id="lk5-Zu-0dq"/>
                             <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="lx9-Im-1k2" secondAttribute="bottom" constant="20" id="t9e-uO-yqK"/>
                             <constraint firstItem="qW7-Qm-70h" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="vHb-aW-l9b"/>
                         </constraints>
@@ -54,7 +62,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="nN1-1A-wMF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="468"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <collectionViewLayout key="collectionViewLayout" id="yGf-Nd-97Z" customClass="EBCardCollectionViewLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="fQp-FU-Gmv">
@@ -80,4 +88,7 @@
             <point key="canvasLocation" x="369" y="197"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="HP-Background" width="100" height="100"/>
+    </resources>
 </document>
