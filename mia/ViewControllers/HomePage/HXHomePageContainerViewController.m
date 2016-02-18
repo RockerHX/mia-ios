@@ -8,6 +8,7 @@
 
 #import "HXHomePageContainerViewController.h"
 #import "UIView+Frame.h"
+#import "EBCardCollectionViewLayout.h"
 
 @interface HXHomePageContainerViewController ()
 
@@ -19,11 +20,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadConfigure];
+    [self viewConfigure];
 }
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    ;
+}
+
+- (void)viewConfigure {
+    // CollectionView Configure
+    UIOffset anOffset = UIOffsetZero;
+    anOffset = UIOffsetMake(40.0f, 0.0f);
+    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setOffset:anOffset];
+    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setLayoutType:EBCardCollectionLayoutHorizontal];
+}
+
+#pragma mark - Private Methods
 
 #pragma mark - UICollectionView Data Source Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;
+    return 20;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -32,12 +50,6 @@
 }
 
 #pragma mark - UICollectionView Delegate Methods
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat itemWidth = self.view.width - 40.0f;
-    CGFloat itemHeight = self.view.height - 20.0f;
-    return CGSizeMake(itemWidth, itemHeight);
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ;
 }

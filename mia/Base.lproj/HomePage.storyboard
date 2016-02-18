@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lx9-Im-1k2">
-                                <rect key="frame" x="0.0" y="80" width="320" height="488"/>
+                                <rect key="frame" x="0.0" y="80" width="320" height="468"/>
                                 <connections>
                                     <segue destination="DnZ-GQ-LBw" kind="embed" id="0C0-X2-0wR"/>
                                 </connections>
@@ -38,7 +38,7 @@
                             <constraint firstAttribute="trailing" secondItem="lx9-Im-1k2" secondAttribute="trailing" id="cJ2-bD-bLS"/>
                             <constraint firstAttribute="trailing" secondItem="qW7-Qm-70h" secondAttribute="trailing" id="cna-7g-J5D"/>
                             <constraint firstItem="lx9-Im-1k2" firstAttribute="top" secondItem="qW7-Qm-70h" secondAttribute="bottom" id="ghg-Ij-hEm"/>
-                            <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="lx9-Im-1k2" secondAttribute="bottom" id="t9e-uO-yqK"/>
+                            <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="lx9-Im-1k2" secondAttribute="bottom" constant="20" id="t9e-uO-yqK"/>
                             <constraint firstItem="qW7-Qm-70h" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="vHb-aW-l9b"/>
                         </constraints>
                     </view>
@@ -52,20 +52,21 @@
             <objects>
                 <collectionViewController storyboardIdentifier="HXHomePageContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DnZ-GQ-LBw" userLabel="HXHomePageContainerViewController" customClass="HXHomePageContainerViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="nN1-1A-wMF">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="468"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewLayout key="collectionViewLayout" id="R0g-cc-3zR" customClass="HXHomePageCollectionViewFlowLayout"/>
+                        <collectionViewLayout key="collectionViewLayout" id="yGf-Nd-97Z" customClass="EBCardCollectionViewLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="fQp-FU-Gmv">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <rect key="frame" x="20" y="0.0" width="280" height="450"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="280" height="450"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" red="0.047058823530000002" green="0.70588235290000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="customSize" width="280" height="450"/>
                             </collectionViewCell>
                         </cells>
                         <connections>

@@ -29,6 +29,7 @@ pod 'BlocksKit'
 #pod 'FDStackView'
 #pod 'UITableView+FDTemplateLayoutCell'
 #pod 'UICollectionViewLeftAlignedLayout'
+pod 'EBCardCollectionViewLayout'
 
 
 # UMeng SDK
