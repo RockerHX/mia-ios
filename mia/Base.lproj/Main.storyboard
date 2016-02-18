@@ -29,7 +29,9 @@
         <scene sceneID="GNi-9D-WuZ">
             <objects>
                 <navigationController storyboardIdentifier="HXHomePageNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DzX-VT-5ZE" userLabel="HXHomePageNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="首页" id="JSJ-D7-xUP"/>
+                    <tabBarItem key="tabBarItem" title="" image="T-HomePageIcon" selectedImage="T-HomgePageSelectedIcon" id="JSJ-D7-xUP">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dCc-AB-kgx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -43,7 +45,9 @@
         <scene sceneID="Yrp-UD-WoW">
             <objects>
                 <navigationController storyboardIdentifier="HXFavoriteNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rQp-9P-ea9" userLabel="HXFavoriteNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="收藏" id="A5u-Ol-oOH"/>
+                    <tabBarItem key="tabBarItem" title="" image="T-FavoriteIcon" selectedImage="T-FavoriteSelectedIcon" id="A5u-Ol-oOH">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mko-MX-W0G">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -57,7 +61,9 @@
         <scene sceneID="YVX-Uk-tXZ">
             <objects>
                 <navigationController storyboardIdentifier="HXMeNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="g9L-yn-q9f" userLabel="HXMeNavgationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="我的" id="m5a-Wu-Ld5"/>
+                    <tabBarItem key="tabBarItem" title="" image="T-MeIcon" selectedImage="T-MeSelectedIcon" id="m5a-Wu-Ld5">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sji-gb-Do4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -68,4 +74,12 @@
             <point key="canvasLocation" x="487" y="688"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="T-FavoriteIcon" width="44" height="44"/>
+        <image name="T-FavoriteSelectedIcon" width="44" height="44"/>
+        <image name="T-HomePageIcon" width="44" height="44"/>
+        <image name="T-HomgePageSelectedIcon" width="44" height="44"/>
+        <image name="T-MeIcon" width="44" height="44"/>
+        <image name="T-MeSelectedIcon" width="44" height="44"/>
+    </resources>
 </document>

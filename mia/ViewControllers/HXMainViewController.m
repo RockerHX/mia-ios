@@ -24,12 +24,6 @@
     [self viewConfigure];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self tabBarItemConfigure];
-}
-
 #pragma mark - Config Methods
 - (void)loadConfigure {
     ;
@@ -37,17 +31,6 @@
 
 - (void)viewConfigure {
     [self subControllersConfigure];
-}
-
-- (void)tabBarItemConfigure {
-//    for (UIView *view in self.tabBar.subviews) {
-//        if ([NSStringFromClass([view class]) isEqualToString:@"UITabBarButton"]) {
-//            UILabel *label = [view.subviews firstObject];
-//            label.frame = (CGRect){label.frame.origin, view.frame.size};
-//            label.font = [UIFont systemFontOfSize:15.0f];
-//            label.textAlignment = NSTextAlignmentCenter;
-//        }
-//    }
 }
 
 - (void)subControllersConfigure {
