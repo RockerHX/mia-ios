@@ -7,7 +7,7 @@
 //
 
 #import "HXMainViewController.h"
-#import "HXHomePageViewController.h"
+#import "HXDiscoveryViewController.h"
 #import "HXFavoriteViewController.h"
 #import "HXMeViewController.h"
 
@@ -35,8 +35,8 @@
 
 - (void)subControllersConfigure {
     for (UINavigationController *navigationController in self.viewControllers) {
-        if ([navigationController.restorationIdentifier isEqualToString:[HXHomePageViewController navigationControllerIdentifier]]) {
-            [navigationController setViewControllers:@[[HXHomePageViewController instance]]];
+        if ([navigationController.restorationIdentifier isEqualToString:[HXDiscoveryViewController navigationControllerIdentifier]]) {
+            [navigationController setViewControllers:@[[HXDiscoveryViewController instance]]];
         } else if ([navigationController.restorationIdentifier isEqualToString:[HXFavoriteViewController navigationControllerIdentifier]]) {
             [navigationController setViewControllers:@[[HXFavoriteViewController instance]]];
         } else if ([navigationController.restorationIdentifier isEqualToString:[HXMeViewController navigationControllerIdentifier]]) {

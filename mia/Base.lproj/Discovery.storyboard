@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--HXHomePageViewController-->
+        <!--HXDiscoveryViewController-->
         <scene sceneID="NlT-4E-rQj">
             <objects>
-                <viewController storyboardIdentifier="HXHomePageViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1gK-X2-FAq" userLabel="HXHomePageViewController" customClass="HXHomePageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXDiscoveryViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1gK-X2-FAq" userLabel="HXDiscoveryViewController" customClass="HXDiscoveryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HQ1-oV-D18"/>
                         <viewControllerLayoutGuide type="bottom" id="chO-85-4yH"/>
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HP-Background" translatesAutoresizingMaskIntoConstraints="NO" id="Hoj-33-yJA">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-Background" translatesAutoresizingMaskIntoConstraints="NO" id="Hoj-33-yJA">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qW7-Qm-70h">
@@ -55,10 +55,10 @@
             </objects>
             <point key="canvasLocation" x="-65" y="197"/>
         </scene>
-        <!--HXHomePageContainerViewController-->
+        <!--HXDiscoveryContainerViewController-->
         <scene sceneID="2sG-DK-Imc">
             <objects>
-                <collectionViewController storyboardIdentifier="HXHomePageContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DnZ-GQ-LBw" userLabel="HXHomePageContainerViewController" customClass="HXHomePageContainerViewController" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="HXDiscoveryContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DnZ-GQ-LBw" userLabel="HXDiscoveryContainerViewController" customClass="HXDiscoveryContainerViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="nN1-1A-wMF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="468"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -89,6 +89,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="HP-Background" width="100" height="100"/>
+        <image name="D-Background" width="100" height="100"/>
     </resources>
 </document>

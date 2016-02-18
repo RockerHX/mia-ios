@@ -1,20 +1,20 @@
 //
-//  HXHomePageContainerViewController.m
+//  HXDiscoveryContainerViewController.m
 //  mia
 //
 //  Created by miaios on 16/2/17.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXHomePageContainerViewController.h"
+#import "HXDiscoveryContainerViewController.h"
 #import "UIView+Frame.h"
 #import "EBCardCollectionViewLayout.h"
 
-@interface HXHomePageContainerViewController ()
+@interface HXDiscoveryContainerViewController ()
 
 @end
 
-@implementation HXHomePageContainerViewController
+@implementation HXDiscoveryContainerViewController
 
 #pragma mark - View Controller Lift Cycle
 - (void)viewDidLoad {

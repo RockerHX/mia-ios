@@ -1,5 +1,5 @@
 //
-//  HXHomePageViewController.h
+//  HXDiscoveryViewController.h
 //  mia
 //
 //  Created by miaios on 16/2/16.
@@ -8,6 +8,6 @@
 
 #import "UIViewController+HXClass.h"
 
-@interface HXHomePageViewController : UIViewController
+@interface HXDiscoveryViewController : UIViewController
 
 @end

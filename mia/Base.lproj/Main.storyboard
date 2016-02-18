@@ -28,7 +28,7 @@
         <!--HXHomePageNavigationController-->
         <scene sceneID="GNi-9D-WuZ">
             <objects>
-                <navigationController storyboardIdentifier="HXHomePageNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DzX-VT-5ZE" userLabel="HXHomePageNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXDiscoveryNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DzX-VT-5ZE" userLabel="HXHomePageNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="T-HomePageIcon" selectedImage="T-HomgePageSelectedIcon" id="JSJ-D7-xUP">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>

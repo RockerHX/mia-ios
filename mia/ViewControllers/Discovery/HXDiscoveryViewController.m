@@ -1,26 +1,26 @@
 //
-//  HXHomePageViewController.m
+//  HXDiscoveryViewController.m
 //  mia
 //
 //  Created by miaios on 16/2/16.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXHomePageViewController.h"
+#import "HXDiscoveryViewController.h"
 
-@interface HXHomePageViewController ()
+@interface HXDiscoveryViewController ()
 
 @end
 
-@implementation HXHomePageViewController
+@implementation HXDiscoveryViewController
 
 #pragma mark - Class Methods
 + (NSString *)navigationControllerIdentifier {
-    return @"HXHomePageNavgationController";
+    return @"HXDiscoveryNavgationController";
 }
 
 + (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameHomePage;
+    return HXStoryBoardNameDiscovery;
 }
 
 #pragma mark - View Controller Lift Cycle

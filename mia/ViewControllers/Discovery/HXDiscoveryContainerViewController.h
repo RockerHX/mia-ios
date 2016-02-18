@@ -1,5 +1,5 @@
 //
-//  HXHomePageContainerViewController.h
+//  HXDiscoveryContainerViewController.h
 //  mia
 //
 //  Created by miaios on 16/2/17.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HXHomePageContainerViewController : UICollectionViewController
+@interface HXDiscoveryContainerViewController : UICollectionViewController
 
 @end

@@ -28,8 +28,8 @@
             storyBoardName = @"Login";
             break;
         }
-        case HXStoryBoardNameHomePage: {
-            storyBoardName = @"HomePage";
+        case HXStoryBoardNameDiscovery: {
+            storyBoardName = @"Discovery";
             break;
         }
         case HXStoryBoardNameFavorite: {
