@@ -51,7 +51,7 @@ static NSString *CaptchApi = @"/user/pauth";
 
 #pragma mark - Event Response
 - (IBAction)registerButtonPressed {
-    if (![self checkPhoneNumber]) {
+    if ([self checkPhoneNumber]) {
         if (_captchaTextField.text.length < 4) {
             [self showToastWithMessage:@"请输入正确验证码！"];
         } else if (!_nickNameTextField.text.length) {
