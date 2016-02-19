@@ -47,8 +47,8 @@
     [MobClick setEncryptEnabled:YES];       // 日志加密
     // 启动[友盟统计]
     [MobClick setCrashReportEnabled:NO];
-    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"fir.im"];
-//	[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"appstore"];
+//    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"fir.im"];
+	[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"appstore"];
 
 //#pragma mark - Testin Crash SDK
 //    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
