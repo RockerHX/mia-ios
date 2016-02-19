@@ -28,7 +28,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lx9-Im-1k2">
-                                <rect key="frame" x="0.0" y="80" width="320" height="468"/>
+                                <rect key="frame" x="0.0" y="80" width="320" height="488"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="DnZ-GQ-LBw" kind="embed" id="0C0-X2-0wR"/>
@@ -46,7 +46,7 @@
                             <constraint firstItem="lx9-Im-1k2" firstAttribute="top" secondItem="qW7-Qm-70h" secondAttribute="bottom" id="ghg-Ij-hEm"/>
                             <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="Hoj-33-yJA" secondAttribute="bottom" id="jJU-6V-D3a"/>
                             <constraint firstAttribute="trailing" secondItem="Hoj-33-yJA" secondAttribute="trailing" id="lk5-Zu-0dq"/>
-                            <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="lx9-Im-1k2" secondAttribute="bottom" constant="20" id="t9e-uO-yqK"/>
+                            <constraint firstItem="chO-85-4yH" firstAttribute="top" secondItem="lx9-Im-1k2" secondAttribute="bottom" id="t9e-uO-yqK"/>
                             <constraint firstItem="qW7-Qm-70h" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="vHb-aW-l9b"/>
                         </constraints>
                     </view>
@@ -60,12 +60,12 @@
             <objects>
                 <collectionViewController storyboardIdentifier="HXDiscoveryContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DnZ-GQ-LBw" userLabel="HXDiscoveryContainerViewController" customClass="HXDiscoveryContainerViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="nN1-1A-wMF">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="468"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <collectionViewLayout key="collectionViewLayout" id="yGf-Nd-97Z" customClass="EBCardCollectionViewLayout"/>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="fQp-FU-Gmv">
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HXDiscoveryCell" id="fQp-FU-Gmv" customClass="HXDiscoveryCell">
                                 <rect key="frame" x="20" y="0.0" width="280" height="450"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">

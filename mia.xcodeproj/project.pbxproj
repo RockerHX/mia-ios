@@ -42,6 +42,7 @@
 		CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */; };
 		CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */; };
 		CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */; };
+		CDBC45361C75D6260037FEC4 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45351C75D6260037FEC4 /* HXDiscoveryCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,8 @@
 		CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryContainerViewController.m; sourceTree = "<group>"; };
 		CDBC452F1C75D4A60037FEC4 /* HXDiscoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryViewController.h; sourceTree = "<group>"; };
 		CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryViewController.m; sourceTree = "<group>"; };
+		CDBC45341C75D6260037FEC4 /* HXDiscoveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCell.h; sourceTree = "<group>"; };
+		CDBC45351C75D6260037FEC4 /* HXDiscoveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCell.m; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -396,6 +399,7 @@
 		CDB55E791C72CEDF00962ED0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CDBC45331C75D6100037FEC4 /* Discovery */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -425,6 +429,15 @@
 				CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */,
 				CDBC452D1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.h */,
 				CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */,
+			);
+			path = Discovery;
+			sourceTree = "<group>";
+		};
+		CDBC45331C75D6100037FEC4 /* Discovery */ = {
+			isa = PBXGroup;
+			children = (
+				CDBC45341C75D6260037FEC4 /* HXDiscoveryCell.h */,
+				CDBC45351C75D6260037FEC4 /* HXDiscoveryCell.m */,
 			);
 			path = Discovery;
 			sourceTree = "<group>";
@@ -582,6 +595,7 @@
 				CD06901B1C746B8C001C0997 /* HXLabel.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
 				CDB55E8F1C72D16300962ED0 /* HXMainViewController.m in Sources */,
+				CDBC45361C75D6260037FEC4 /* HXDiscoveryCell.m in Sources */,
 				CD0690111C746B8C001C0997 /* UIButton+HXIBnspectable.m in Sources */,
 				CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */,
 				CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */,

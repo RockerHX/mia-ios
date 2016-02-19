@@ -7,8 +7,8 @@
 //
 
 #import "HXDiscoveryContainerViewController.h"
-#import "UIView+Frame.h"
 #import "EBCardCollectionViewLayout.h"
+#import "HXDiscoveryCell.h"
 
 @interface HXDiscoveryContainerViewController ()
 
@@ -31,21 +31,19 @@
 
 - (void)viewConfigure {
     // CollectionView Configure
-    UIOffset anOffset = UIOffsetZero;
-    anOffset = UIOffsetMake(40.0f, 0.0f);
-    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setOffset:anOffset];
-    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setLayoutType:EBCardCollectionLayoutHorizontal];
+    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setOffset:UIOffsetMake(30.0f, 0.0f)];
+//    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setInsets:UIEdgeInsetsMake(0.0f, 10.0f, 20.0f, 10.0f)];
 }
 
 #pragma mark - Private Methods
 
 #pragma mark - UICollectionView Data Source Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+    return 5;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    HXDiscoveryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HXDiscoveryCell class]) forIndexPath:indexPath];
     return cell;
 }
 
