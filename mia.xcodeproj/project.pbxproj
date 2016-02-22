@@ -33,6 +33,9 @@
 		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
 		CD64E9121C7AB27300270836 /* HXDiscoveryCover.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9111C7AB27300270836 /* HXDiscoveryCover.m */; };
 		CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E9131C7AB27B00270836 /* HXDiscoveryCover.xib */; };
+		CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E9181C7AFB4100270836 /* HXFavoriteHeader.xib */; };
+		CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */; };
+		CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -101,6 +104,11 @@
 		CD64E9101C7AB27300270836 /* HXDiscoveryCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCover.h; sourceTree = "<group>"; };
 		CD64E9111C7AB27300270836 /* HXDiscoveryCover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCover.m; sourceTree = "<group>"; };
 		CD64E9131C7AB27B00270836 /* HXDiscoveryCover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXDiscoveryCover.xib; sourceTree = "<group>"; };
+		CD64E9181C7AFB4100270836 /* HXFavoriteHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXFavoriteHeader.xib; sourceTree = "<group>"; };
+		CD64E91A1C7AFB5B00270836 /* HXFavoriteHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteHeader.h; sourceTree = "<group>"; };
+		CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteHeader.m; sourceTree = "<group>"; };
+		CD64E91D1C7AFC4800270836 /* HXFavoriteContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteContainerViewController.h; sourceTree = "<group>"; };
+		CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteContainerViewController.m; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -343,6 +351,32 @@
 			path = Cover;
 			sourceTree = "<group>";
 		};
+		CD64E9151C7AFB1600270836 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				CD64E9171C7AFB2E00270836 /* Header */,
+				CD64E9161C7AFB2E00270836 /* Content */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		CD64E9161C7AFB2E00270836 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		CD64E9171C7AFB2E00270836 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				CD64E91A1C7AFB5B00270836 /* HXFavoriteHeader.h */,
+				CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */,
+				CD64E9181C7AFB4100270836 /* HXFavoriteHeader.xib */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
 		CDB55E4E1C72C7ED00962ED0 = {
 			isa = PBXGroup;
 			children = (
@@ -441,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				CDBC45331C75D6100037FEC4 /* Discovery */,
+				CD64E9151C7AFB1600270836 /* Favorite */,
 				CD64E9041C7AAC9A00270836 /* HXXib.h */,
 			);
 			path = Views;
@@ -451,6 +486,8 @@
 			children = (
 				CDB55E9A1C73005B00962ED0 /* HXFavoriteViewController.h */,
 				CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */,
+				CD64E91D1C7AFC4800270836 /* HXFavoriteContainerViewController.h */,
+				CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -552,6 +589,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */,
 				CDB55E841C72CFD500962ED0 /* Profile.storyboard in Resources */,
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
 				CDB55E6D1C72C7EE00962ED0 /* LaunchScreen.storyboard in Resources */,
@@ -619,9 +657,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */,
 				CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */,
 				CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */,
 				CD0690161C746B8C001C0997 /* HXIBLabel.m in Sources */,
+				CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */,
 				CD06901A1C746B8C001C0997 /* HXCaptchButton.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
 				CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */,
