@@ -44,7 +44,7 @@ HXDiscoveryHeaderDelegate
 }
 
 #pragma mark - HXDiscoveryHeaderDelegate Methods
-- (void)discoveryActionHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
+- (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
     switch (action) {
         case HXDiscoveryHeaderActionProfile: {
             ;

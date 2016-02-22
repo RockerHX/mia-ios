@@ -15,14 +15,14 @@ HXXibImplementation
 
 #pragma mark - Event Response
 - (IBAction)profileButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(discoveryActionHeader:takeAction:)]) {
-        [_delegate discoveryActionHeader:self takeAction:HXDiscoveryHeaderActionProfile];
+    if (_delegate && [_delegate respondsToSelector:@selector(discoveryHeader:takeAction:)]) {
+        [_delegate discoveryHeader:self takeAction:HXDiscoveryHeaderActionProfile];
     }
 }
 
 - (IBAction)shareButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(discoveryActionHeader:takeAction:)]) {
-        [_delegate discoveryActionHeader:self takeAction:HXDiscoveryHeaderActionShare];
+    if (_delegate && [_delegate respondsToSelector:@selector(discoveryHeader:takeAction:)]) {
+        [_delegate discoveryHeader:self takeAction:HXDiscoveryHeaderActionShare];
     }
 }
 

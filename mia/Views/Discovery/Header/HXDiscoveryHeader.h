@@ -13,14 +13,16 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
     HXDiscoveryHeaderActionShare
 };
 
+
 @class HXDiscoveryHeader;
 
 @protocol HXDiscoveryHeaderDelegate <NSObject>
 
 @required
-- (void)discoveryActionHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action;
+- (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action;
 
 @end
+
 
 @interface HXDiscoveryHeader : UIView
 
