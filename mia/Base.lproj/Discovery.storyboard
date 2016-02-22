@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--HXDiscoveryViewController-->
@@ -74,9 +75,23 @@
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="280" height="460"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GLh-sr-NUv" customClass="HXDiscoveryCover">
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="GLh-sr-NUv" secondAttribute="height" multiplier="1:1" id="4qS-d8-cos"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" red="0.047058823530000002" green="0.70588235290000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="GLh-sr-NUv" firstAttribute="leading" secondItem="fQp-FU-Gmv" secondAttribute="leading" id="443-rj-e8h"/>
+                                    <constraint firstItem="GLh-sr-NUv" firstAttribute="top" secondItem="fQp-FU-Gmv" secondAttribute="top" id="4lf-FS-XGr"/>
+                                    <constraint firstAttribute="trailing" secondItem="GLh-sr-NUv" secondAttribute="trailing" id="Go5-Uo-kls"/>
+                                </constraints>
                                 <size key="customSize" width="280" height="460"/>
                             </collectionViewCell>
                         </cells>

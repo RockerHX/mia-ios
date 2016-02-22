@@ -31,6 +31,8 @@
 		CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */; };
 		CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */; };
 		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
+		CD64E9121C7AB27300270836 /* HXDiscoveryCover.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9111C7AB27300270836 /* HXDiscoveryCover.m */; };
+		CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E9131C7AB27B00270836 /* HXDiscoveryCover.xib */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -96,6 +98,9 @@
 		CD64E90A1C7AACE100270836 /* HXDiscoveryHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryHeader.h; sourceTree = "<group>"; };
 		CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryHeader.m; sourceTree = "<group>"; };
 		CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXDiscoveryHeader.xib; sourceTree = "<group>"; };
+		CD64E9101C7AB27300270836 /* HXDiscoveryCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCover.h; sourceTree = "<group>"; };
+		CD64E9111C7AB27300270836 /* HXDiscoveryCover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCover.m; sourceTree = "<group>"; };
+		CD64E9131C7AB27B00270836 /* HXDiscoveryCover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXDiscoveryCover.xib; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -311,6 +316,7 @@
 		CD64E9051C7AACC100270836 /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				CD64E90F1C7AB25B00270836 /* Cover */,
 				CD64E9061C7AACC100270836 /* HXDiscoveryCell.h */,
 				CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */,
 			);
@@ -325,6 +331,16 @@
 				CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */,
 			);
 			path = Header;
+			sourceTree = "<group>";
+		};
+		CD64E90F1C7AB25B00270836 /* Cover */ = {
+			isa = PBXGroup;
+			children = (
+				CD64E9101C7AB27300270836 /* HXDiscoveryCover.h */,
+				CD64E9111C7AB27300270836 /* HXDiscoveryCover.m */,
+				CD64E9131C7AB27B00270836 /* HXDiscoveryCover.xib */,
+			);
+			path = Cover;
 			sourceTree = "<group>";
 		};
 		CDB55E4E1C72C7ED00962ED0 = {
@@ -540,6 +556,7 @@
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
 				CDB55E6D1C72C7EE00962ED0 /* LaunchScreen.storyboard in Resources */,
 				CDB55E6A1C72C7EE00962ED0 /* Assets.xcassets in Resources */,
+				CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */,
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
@@ -618,6 +635,7 @@
 				CD0690181C746B8C001C0997 /* HXIBnsepectableManager.m in Sources */,
 				CD0690141C746B8C001C0997 /* HXIBButton.m in Sources */,
 				CD0690131C746B8C001C0997 /* UIView+HXIBnspectable.m in Sources */,
+				CD64E9121C7AB27300270836 /* HXDiscoveryCover.m in Sources */,
 				CD0690121C746B8C001C0997 /* UILabel+HXIBnsepectable.m in Sources */,
 				CD06901B1C746B8C001C0997 /* HXLabel.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
