@@ -11,7 +11,6 @@
 #import "HXDiscoveryCell.h"
 
 @interface HXDiscoveryContainerViewController ()
-
 @end
 
 @implementation HXDiscoveryContainerViewController
@@ -31,8 +30,7 @@
 
 - (void)viewConfigure {
     // CollectionView Configure
-    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setOffset:UIOffsetMake(30.0f, 0.0f)];
-//    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setInsets:UIEdgeInsetsMake(0.0f, 10.0f, 20.0f, 10.0f)];
+    [(EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout setOffset:UIOffsetMake(30.0f, 20.0f)];
 }
 
 #pragma mark - Private Methods

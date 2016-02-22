@@ -7,8 +7,11 @@
 //
 
 #import "HXDiscoveryViewController.h"
+#import "HXDiscoveryHeader.h"
 
-@interface HXDiscoveryViewController ()
+@interface HXDiscoveryViewController () <
+HXDiscoveryHeaderDelegate
+>
 
 @end
 
@@ -38,8 +41,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+}
+
+#pragma mark - HXDiscoveryHeaderDelegate Methods
+- (void)discoveryActionHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
+    switch (action) {
+        case HXDiscoveryHeaderActionProfile: {
+            ;
+            break;
+        }
+        case HXDiscoveryHeaderActionShare: {
+            ;
+            break;
+        }
+    }
 }
 
 @end

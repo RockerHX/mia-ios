@@ -28,6 +28,9 @@
 		CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD06900D1C746B8C001C0997 /* HXVersion.m */; };
 		CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0690221C746D10001C0997 /* HXMeViewController.m */; };
 		CD0690261C747164001C0997 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0690241C747164001C0997 /* Me.storyboard */; };
+		CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */; };
+		CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */; };
+		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -42,7 +45,6 @@
 		CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */; };
 		CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */; };
 		CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */; };
-		CDBC45361C75D6260037FEC4 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45351C75D6260037FEC4 /* HXDiscoveryCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,12 @@
 		CD0690211C746D10001C0997 /* HXMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeViewController.h; sourceTree = "<group>"; };
 		CD0690221C746D10001C0997 /* HXMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeViewController.m; sourceTree = "<group>"; };
 		CD0690251C747164001C0997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Me.storyboard; sourceTree = "<group>"; };
+		CD64E9041C7AAC9A00270836 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
+		CD64E9061C7AACC100270836 /* HXDiscoveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCell.h; sourceTree = "<group>"; };
+		CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCell.m; sourceTree = "<group>"; };
+		CD64E90A1C7AACE100270836 /* HXDiscoveryHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryHeader.h; sourceTree = "<group>"; };
+		CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryHeader.m; sourceTree = "<group>"; };
+		CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXDiscoveryHeader.xib; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -111,8 +119,6 @@
 		CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryContainerViewController.m; sourceTree = "<group>"; };
 		CDBC452F1C75D4A60037FEC4 /* HXDiscoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryViewController.h; sourceTree = "<group>"; };
 		CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryViewController.m; sourceTree = "<group>"; };
-		CDBC45341C75D6260037FEC4 /* HXDiscoveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCell.h; sourceTree = "<group>"; };
-		CDBC45351C75D6260037FEC4 /* HXDiscoveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCell.m; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -302,6 +308,25 @@
 			path = Me;
 			sourceTree = "<group>";
 		};
+		CD64E9051C7AACC100270836 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				CD64E9061C7AACC100270836 /* HXDiscoveryCell.h */,
+				CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		CD64E9081C7AACC100270836 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				CD64E90A1C7AACE100270836 /* HXDiscoveryHeader.h */,
+				CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */,
+				CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
 		CDB55E4E1C72C7ED00962ED0 = {
 			isa = PBXGroup;
 			children = (
@@ -400,6 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				CDBC45331C75D6100037FEC4 /* Discovery */,
+				CD64E9041C7AAC9A00270836 /* HXXib.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -436,8 +462,8 @@
 		CDBC45331C75D6100037FEC4 /* Discovery */ = {
 			isa = PBXGroup;
 			children = (
-				CDBC45341C75D6260037FEC4 /* HXDiscoveryCell.h */,
-				CDBC45351C75D6260037FEC4 /* HXDiscoveryCell.m */,
+				CD64E9081C7AACC100270836 /* Header */,
+				CD64E9051C7AACC100270836 /* Content */,
 			);
 			path = Discovery;
 			sourceTree = "<group>";
@@ -517,6 +543,7 @@
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
+				CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,8 +621,8 @@
 				CD0690121C746B8C001C0997 /* UILabel+HXIBnsepectable.m in Sources */,
 				CD06901B1C746B8C001C0997 /* HXLabel.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
+				CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */,
 				CDB55E8F1C72D16300962ED0 /* HXMainViewController.m in Sources */,
-				CDBC45361C75D6260037FEC4 /* HXDiscoveryCell.m in Sources */,
 				CD0690111C746B8C001C0997 /* UIButton+HXIBnspectable.m in Sources */,
 				CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */,
 				CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */,
@@ -603,6 +630,7 @@
 				CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */,
 				CDB55E901C72D16300962ED0 /* HXPanGestureNavgaitionController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
+				CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
