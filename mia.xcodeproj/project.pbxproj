@@ -28,6 +28,7 @@
 		CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD06900D1C746B8C001C0997 /* HXVersion.m */; };
 		CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0690221C746D10001C0997 /* HXMeViewController.m */; };
 		CD0690261C747164001C0997 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0690241C747164001C0997 /* Me.storyboard */; };
+		CD2D3B0B1C7B17E0002E34D1 /* HXUserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */; };
 		CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */; };
 		CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */; };
 		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
@@ -95,6 +96,8 @@
 		CD0690211C746D10001C0997 /* HXMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeViewController.h; sourceTree = "<group>"; };
 		CD0690221C746D10001C0997 /* HXMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeViewController.m; sourceTree = "<group>"; };
 		CD0690251C747164001C0997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Me.storyboard; sourceTree = "<group>"; };
+		CD2D3B091C7B17E0002E34D1 /* HXUserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserSession.h; sourceTree = "<group>"; };
+		CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserSession.m; sourceTree = "<group>"; };
 		CD64E9041C7AAC9A00270836 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
 		CD64E9061C7AACC100270836 /* HXDiscoveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCell.h; sourceTree = "<group>"; };
 		CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCell.m; sourceTree = "<group>"; };
@@ -321,6 +324,23 @@
 			path = Me;
 			sourceTree = "<group>";
 		};
+		CD2D3B071C7B17BA002E34D1 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				CD2D3B081C7B17D3002E34D1 /* User */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		CD2D3B081C7B17D3002E34D1 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				CD2D3B091C7B17E0002E34D1 /* HXUserSession.h */,
+				CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		CD64E9051C7AACC100270836 /* Content */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				CD068FDA1C746B8C001C0997 /* Common */,
+				CD2D3B071C7B17BA002E34D1 /* Session */,
 				CDB55E761C72CEDF00962ED0 /* Models */,
 				CDB55E791C72CEDF00962ED0 /* Views */,
 				CDB55E781C72CEDF00962ED0 /* ViewModels */,
@@ -678,6 +699,7 @@
 				CD64E9121C7AB27300270836 /* HXDiscoveryCover.m in Sources */,
 				CD0690121C746B8C001C0997 /* UILabel+HXIBnsepectable.m in Sources */,
 				CD06901B1C746B8C001C0997 /* HXLabel.m in Sources */,
+				CD2D3B0B1C7B17E0002E34D1 /* HXUserSession.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
 				CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */,
 				CDB55E8F1C72D16300962ED0 /* HXMainViewController.m in Sources */,

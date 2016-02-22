@@ -10,8 +10,11 @@
 #import "HXDiscoveryViewController.h"
 #import "HXFavoriteViewController.h"
 #import "HXMeViewController.h"
+#import "HXUserSession.h"
 
-@interface HXMainViewController ()
+@interface HXMainViewController () <
+UITabBarControllerDelegate
+>
 @end
 
 @implementation HXMainViewController
@@ -26,7 +29,7 @@
 
 #pragma mark - Config Methods
 - (void)loadConfigure {
-    ;
+    self.delegate = self;
 }
 
 - (void)viewConfigure {
@@ -43,6 +46,23 @@
             [navigationController setViewControllers:@[[HXMeViewController instance]]];
         }
     }
+}
+
+#pragma mark - UITabBarControllerDelegate Methods
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    if (![[self.viewControllers firstObject] isEqual:viewController]) {
+        switch ([HXUserSession share].state) {
+            case HXUserStateLogout: {
+                return NO;
+                break;
+            }
+            case HXUserStateLogin: {
+                ;
+                break;
+            }
+        }
+    }
+    return YES;
 }
 
 @end
