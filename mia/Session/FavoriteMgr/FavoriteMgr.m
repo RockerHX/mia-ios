@@ -14,7 +14,6 @@
 #import "PathHelper.h"
 #import "UserSession.h"
 #import "AFNetworking.h"
-#import "AFNHttpClient.h"
 #import "NSString+IsNull.h"
 #import "FileLog.h"
 
@@ -267,7 +266,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			return;
 		}
 
-		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
+		_downloadTask = [self downloadWithURL:item.music.murl
 										  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
 									 completeBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error)
 		{
@@ -410,6 +409,32 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	return (self);
 	
+}
+
+#pragma mark - download
+- (NSURLSessionDownloadTask *)downloadWithURL:(NSString *)url
+									 savePath:(NSString *)savePath
+								completeBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completeBlock {
+	NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+	AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+	NSURL *requestUrl = [NSURL URLWithString:url];
+	NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
+
+	NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request
+																	 progress:nil
+																  destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+																	  return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@", savePath]];
+																  } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+																	  if (completeBlock) {
+																		  completeBlock(response, filePath, error);
+																	  }
+
+																	  NSLog(@"File downloaded to: %@", filePath);
+																  }];
+	[downloadTask resume];
+	
+	return downloadTask;
 }
 
 @end

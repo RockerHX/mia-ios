@@ -7,7 +7,10 @@
 //
 
 #import "MiaAPIMacro.h"
-#import "AFNHttpClient.h"
+
+typedef void (^SuccessBlock)(id responseObject);
+typedef void (^FailedBlock)(NSError *error);
+
 
 @interface XiamiHelper : NSObject
 
