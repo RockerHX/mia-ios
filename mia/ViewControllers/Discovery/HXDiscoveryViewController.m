@@ -27,20 +27,21 @@ HXDiscoveryHeaderDelegate
 }
 
 #pragma mark - View Controller Lift Cycle
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    
+//    [self.navigationController setNavigationBarHidden:NO animated:NO];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 #pragma mark - HXDiscoveryHeaderDelegate Methods

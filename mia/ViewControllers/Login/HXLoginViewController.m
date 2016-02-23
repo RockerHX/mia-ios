@@ -75,6 +75,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
+    _shouldHideNavigationBar = YES;
     switch (_loginAction) {
         case HXLoginActionLogin: {
             [self showAnimation];

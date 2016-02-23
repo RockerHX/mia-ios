@@ -10,7 +10,7 @@
         <!--Pan Gesture Navgaition Controller-->
         <scene sceneID="7al-fV-9tm">
             <objects>
-                <navigationController storyboardIdentifier="HXLoginNavigationController" id="dP5-sD-4Ir" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXLoginNavigationController" modalTransitionStyle="flipHorizontal" id="dP5-sD-4Ir" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="lzL-c9-BOd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -11,6 +11,7 @@
 #import "HXFavoriteViewController.h"
 #import "HXMeViewController.h"
 #import "HXUserSession.h"
+#import "HXLoginViewController.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate
@@ -48,16 +49,22 @@ UITabBarControllerDelegate
     }
 }
 
+#pragma mark - Private Methods
+- (void)showLoginSence {
+    [self presentViewController:[HXLoginViewController navigationControllerInstance] animated:YES completion:nil];
+}
+
 #pragma mark - UITabBarControllerDelegate Methods
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     if (![[self.viewControllers firstObject] isEqual:viewController]) {
         switch ([HXUserSession share].state) {
             case HXUserStateLogout: {
+                [self showLoginSence];
                 return NO;
                 break;
             }
             case HXUserStateLogin: {
-                ;
+                return YES;
                 break;
             }
         }
