@@ -59,6 +59,7 @@
 		CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */; };
 		CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */; };
 		CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */; };
+		CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,6 +158,8 @@
 		CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryContainerViewController.m; sourceTree = "<group>"; };
 		CDBC452F1C75D4A60037FEC4 /* HXDiscoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryViewController.h; sourceTree = "<group>"; };
 		CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryViewController.m; sourceTree = "<group>"; };
+		CDE5393E1C7BFB3800E0616D /* UIViewController+LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LoginAction.h"; sourceTree = "<group>"; };
+		CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LoginAction.m"; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -532,6 +535,7 @@
 		CDB55E771C72CEDF00962ED0 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDE5393D1C7BFB2E00E0616D /* Category */,
 				CDBC452C1C75D4A60037FEC4 /* Discovery */,
 				CDB55E911C72D21D00962ED0 /* Favorite */,
 				CD0690201C746D08001C0997 /* Me */,
@@ -600,6 +604,15 @@
 				CD64E9051C7AACC100270836 /* Content */,
 			);
 			path = Discovery;
+			sourceTree = "<group>";
+		};
+		CDE5393D1C7BFB2E00E0616D /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				CDE5393E1C7BFB3800E0616D /* UIViewController+LoginAction.h */,
+				CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 		F054F07D4E0725BD42A9D66F /* Frameworks */ = {
@@ -756,6 +769,7 @@
 				CD0690151C746B8C001C0997 /* HXIBImageView.m in Sources */,
 				CD2D3B1C1C7B1AD4002E34D1 /* HXRegisterViewController.m in Sources */,
 				CD2D3B1A1C7B1AD4002E34D1 /* HXLoginViewController.m in Sources */,
+				CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */,
 				CD06901C1C746B8C001C0997 /* HXTextView.m in Sources */,
 				CD0690181C746B8C001C0997 /* HXIBnsepectableManager.m in Sources */,
 				CD0690141C746B8C001C0997 /* HXIBButton.m in Sources */,

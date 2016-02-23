@@ -12,6 +12,7 @@
 #import "HXMeViewController.h"
 #import "HXUserSession.h"
 #import "HXLoginViewController.h"
+#import "UIViewController+LoginAction.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate
@@ -28,9 +29,15 @@ UITabBarControllerDelegate
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLoginNotification object:nil];
+}
+
 #pragma mark - Config Methods
 - (void)loadConfigure {
     self.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginSence) name:kLoginNotification object:nil];
 }
 
 - (void)viewConfigure {
