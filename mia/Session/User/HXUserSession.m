@@ -45,7 +45,7 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 #pragma mark - Property
-- (HXUserState)state {
+- (HXUserState)userState {
     return (_user.uid && _user.token);
 }
 
@@ -146,7 +146,7 @@ typedef void(^FailureBlock)(NSString *);
     
     if (_user) {
         if (_successBlock) {
-            _successBlock(self, nil);
+            _successBlock(self, @"登录成功！");
         }
     } else {
         [self handelError:DataParseErrorPrompt];
