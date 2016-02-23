@@ -174,7 +174,7 @@ UITabBarControllerDelegate
 #pragma mark - UITabBarControllerDelegate Methods
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     if (![[self.viewControllers firstObject] isEqual:viewController]) {
-        switch ([HXUserSession share].state) {
+        switch ([HXUserSession share].userState) {
             case HXUserStateLogout: {
                 [self showLoginSence];
                 return NO;

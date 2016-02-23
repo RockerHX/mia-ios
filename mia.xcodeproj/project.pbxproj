@@ -35,8 +35,6 @@
 		CD2D3B1B1C7B1AD4002E34D1 /* HXRegisterContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B161C7B1AD4002E34D1 /* HXRegisterContainerViewController.m */; };
 		CD2D3B1C1C7B1AD4002E34D1 /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */; };
 		CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */; };
-		CD2D3B241C7B1BB8002E34D1 /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B221C7B1BB8002E34D1 /* HXAlertBanner.m */; };
-		CD2D3B251C7B1BB8002E34D1 /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD2D3B231C7B1BB8002E34D1 /* HXAlertBanner.xib */; };
 		CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */; };
 		CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */; };
 		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
@@ -54,6 +52,9 @@
 		CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */; };
 		CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */; };
 		CD74FC121C7C06FA00DBEB83 /* YHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */; };
+		CD74FC171C7C38B300DBEB83 /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC151C7C38B300DBEB83 /* HXAlertBanner.m */; };
+		CD74FC181C7C38B300DBEB83 /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC161C7C38B300DBEB83 /* HXAlertBanner.xib */; };
+		CD74FC1C1C7C39FB00DBEB83 /* HXUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC1B1C7C39FB00DBEB83 /* HXUserModel.m */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -182,9 +183,6 @@
 		CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
 		CD2D3B1D1C7B1B91002E34D1 /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
 		CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
-		CD2D3B211C7B1BB8002E34D1 /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
-		CD2D3B221C7B1BB8002E34D1 /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
-		CD2D3B231C7B1BB8002E34D1 /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
 		CD64E9041C7AAC9A00270836 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
 		CD64E9061C7AACC100270836 /* HXDiscoveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCell.h; sourceTree = "<group>"; };
 		CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCell.m; sourceTree = "<group>"; };
@@ -213,6 +211,11 @@
 		CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNoNetworkView.xib; sourceTree = "<group>"; };
 		CD74FC061C7C06FA00DBEB83 /* YHSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHSegmentedControl.h; sourceTree = "<group>"; };
 		CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHSegmentedControl.m; sourceTree = "<group>"; };
+		CD74FC141C7C38B300DBEB83 /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
+		CD74FC151C7C38B300DBEB83 /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
+		CD74FC161C7C38B300DBEB83 /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
+		CD74FC1A1C7C39FB00DBEB83 /* HXUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserModel.h; sourceTree = "<group>"; };
+		CD74FC1B1C7C39FB00DBEB83 /* HXUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserModel.m; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -459,7 +462,7 @@
 		CD068FFA1C746B8C001C0997 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
-				CD2D3B201C7B1BB8002E34D1 /* HXAlertBanner */,
+				CD74FC131C7C38B300DBEB83 /* HXAlertBanner */,
 				CD068FFB1C746B8C001C0997 /* HXCaptchButton */,
 				CD068FFE1C746B8C001C0997 /* HXLabel */,
 				CD0690011C746B8C001C0997 /* HXTextView */,
@@ -587,16 +590,6 @@
 			path = Register;
 			sourceTree = "<group>";
 		};
-		CD2D3B201C7B1BB8002E34D1 /* HXAlertBanner */ = {
-			isa = PBXGroup;
-			children = (
-				CD2D3B211C7B1BB8002E34D1 /* HXAlertBanner.h */,
-				CD2D3B221C7B1BB8002E34D1 /* HXAlertBanner.m */,
-				CD2D3B231C7B1BB8002E34D1 /* HXAlertBanner.xib */,
-			);
-			path = HXAlertBanner;
-			sourceTree = "<group>";
-		};
 		CD64E9051C7AACC100270836 /* Content */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,6 +697,25 @@
 				CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */,
 			);
 			path = YHSegmentedControl;
+			sourceTree = "<group>";
+		};
+		CD74FC131C7C38B300DBEB83 /* HXAlertBanner */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FC141C7C38B300DBEB83 /* HXAlertBanner.h */,
+				CD74FC151C7C38B300DBEB83 /* HXAlertBanner.m */,
+				CD74FC161C7C38B300DBEB83 /* HXAlertBanner.xib */,
+			);
+			path = HXAlertBanner;
+			sourceTree = "<group>";
+		};
+		CD74FC191C7C39EA00DBEB83 /* UserModel */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FC1A1C7C39FB00DBEB83 /* HXUserModel.h */,
+				CD74FC1B1C7C39FB00DBEB83 /* HXUserModel.m */,
+			);
+			path = UserModel;
 			sourceTree = "<group>";
 		};
 		CDB55E4E1C72C7ED00962ED0 = {
@@ -971,6 +983,7 @@
 		CDE539731C7BFD5200E0616D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				CD74FC191C7C39EA00DBEB83 /* UserModel */,
 				CDE539741C7BFD5200E0616D /* FavoriteItem */,
 				CDE539771C7BFD5200E0616D /* FavoriteModel */,
 				CDE5397A1C7BFD5200E0616D /* FlyCommentItem */,
@@ -1455,7 +1468,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD2D3B251C7B1BB8002E34D1 /* HXAlertBanner.xib in Resources */,
+				CD74FC181C7C38B300DBEB83 /* HXAlertBanner.xib in Resources */,
 				CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */,
 				CDB55E841C72CFD500962ED0 /* Profile.storyboard in Resources */,
 				CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */,
@@ -1529,6 +1542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD74FC171C7C38B300DBEB83 /* HXAlertBanner.m in Sources */,
 				CDE53A0E1C7BFDDB00E0616D /* NSString+DateFormatter.m in Sources */,
 				CDE539C01C7BFD5200E0616D /* UserListModel.m in Sources */,
 				CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */,
@@ -1550,6 +1564,7 @@
 				CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */,
 				CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */,
 				CD0690101C746B8C001C0997 /* UIViewController+HXClass.m in Sources */,
+				CD74FC1C1C7C39FB00DBEB83 /* HXUserModel.m in Sources */,
 				CDE539BA1C7BFD5200E0616D /* SearchResultItem.m in Sources */,
 				CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */,
 				CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */,
@@ -1627,7 +1642,6 @@
 				CDB55E901C72D16300962ED0 /* HXPanGestureNavgaitionController.m in Sources */,
 				CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
-				CD2D3B241C7B1BB8002E34D1 /* HXAlertBanner.m in Sources */,
 				CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
