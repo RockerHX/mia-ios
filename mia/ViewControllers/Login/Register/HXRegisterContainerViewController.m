@@ -9,9 +9,8 @@
 #import "HXRegisterContainerViewController.h"
 #import "HXRegisterViewController.h"
 #import "HXCaptchButton.h"
-#import "HXAlertBanner.h"
-//#import "MiaAPIHelper.h"
-//#import "NSString+MD5.h"
+#import "MiaAPIHelper.h"
+#import "NSString+MD5.h"
 
 static NSString *RegisterApi = @"/user/register";
 static NSString *CaptchApi = @"/user/pauth";
@@ -76,53 +75,48 @@ static NSString *CaptchApi = @"/user/pauth";
         && [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
         return YES;
     }
-    [HXAlertBanner showWithMessage:@"手机号码不符合规范，请重新输入" tap:nil];
+    [self showBannerWithPrompt:@"手机号码不符合规范，请重新输入！"];
     return NO;
 }
 
 - (void)sendCaptchaRequesetWithMobile:(NSString *)mobile {
-//    __weak __typeof__(self)weakSelf = self;
-//    [MiaAPIHelper getVerificationCodeWithType:0
-//                                  phoneNumber:mobile
-//                                completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         if (success) {
-//             [HXAlertBanner showWithMessage:@"验证码已经发送" tap:nil];
-//         } else {
-//             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-//             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-//             [strongSelf.captchaButton stop];
-//         }
-//     } timeoutBlock:^(MiaRequestItem *requestItem) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         [HXAlertBanner showWithMessage:@"验证码发送超时，请重新获取" tap:nil];
-//         [strongSelf.captchaButton stop];
-//     }];
+    [MiaAPIHelper getVerificationCodeWithType:0
+                                  phoneNumber:mobile
+                                completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [self showBannerWithPrompt:@"验证码已经发送"];
+         } else {
+             NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [self showBannerWithPrompt:error];
+             [_captchaButton stop];
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [self showBannerWithPrompt:TimtOutPrompt];
+         [_captchaButton stop];
+     }];
 }
 
 - (void)startRegisterRequestWithMobile:(NSString *)mobile captcha:(NSString *)captcha nickName:(NSString *)nickName password:(NSString *)password {
-//    [self showHUD];
-//    __weak __typeof__(self)weakSelf = self;
-//    [MiaAPIHelper registerWithPhoneNum:mobile
-//                                 scode:captcha
-//                              nickName:nickName
-//                          passwordHash:[NSString md5HexDigest:password]
-//                         completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         if (success) {
-//             [strongSelf registerSuccess];
-//         } else {
-//             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]] tap:nil];
-//         }
-//         
-//         [strongSelf hiddenHUD];
-//     } timeoutBlock:^(MiaRequestItem *requestItem) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         [HXAlertBanner showWithMessage:@"注册失败，网络请求超时" tap:nil];
-//         [strongSelf hiddenHUD];
-//     }];
+    [self showHUD];
+    [MiaAPIHelper registerWithPhoneNum:mobile
+                                 scode:captcha
+                              nickName:nickName
+                          passwordHash:[NSString md5HexDigest:password]
+                         completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [self registerSuccess];
+         } else {
+             NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [self showBannerWithPrompt:error];
+         }
+         
+         [self hiddenHUD];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [self showBannerWithPrompt:TimtOutPrompt];
+         [self hiddenHUD];
+     }];
 }
 
 - (void)registerSuccessWithData:(NSDictionary *)data {
@@ -130,7 +124,7 @@ static NSString *CaptchApi = @"/user/pauth";
 }
 
 - (void)registerSuccess {
-    [HXAlertBanner showWithMessage:@"注册成功" tap:nil];
+    [self showBannerWithPrompt:@"注册成功"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
