@@ -8,9 +8,9 @@
 
 #import "HXForgotPWViewController.h"
 #import "HXCaptchButton.h"
-#import "HXAlertBanner.h"
-//#import "MiaAPIHelper.h"
-//#import "NSString+MD5.h"
+#import "HXUserSession.h"
+#import "MiaAPIHelper.h"
+#import "NSString+MD5.h"
 
 static NSString *CaptchApi = @"/user/pauth";
 static NSString *ResetPWApi = @"/user/pauth";
@@ -72,52 +72,48 @@ static NSString *ResetPWApi = @"/user/pauth";
         && [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
         return YES;
     }
-    [HXAlertBanner showWithMessage:@"手机号码不符合规范，请重新输入" tap:nil];
+    [self showBannerWithPrompt:@"手机号码不符合规范，请重新输入！"];
     return NO;
 }
 
 - (void)sendCaptchaRequesetWithMobile:(NSString *)mobile {
-//    __weak __typeof__(self)weakSelf = self;
-//    [MiaAPIHelper getVerificationCodeWithType:1
-//                                  phoneNumber:mobile
-//                                completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         if (success) {
-//             [HXAlertBanner showWithMessage:@"验证码已经发送" tap:nil];
-//         } else {
-//             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-//             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-//             [strongSelf.captchaButton stop];
-//         }
-//     } timeoutBlock:^(MiaRequestItem *requestItem) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         [HXAlertBanner showWithMessage:@"验证码发送超时，请重新获取" tap:nil];
-//         [strongSelf.captchaButton stop];
-//     }];
+    [MiaAPIHelper getVerificationCodeWithType:1
+                                  phoneNumber:mobile
+                                completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [self showBannerWithPrompt:@"验证码已经发送！"];
+         } else {
+             NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [self showBannerWithPrompt:error];
+             [_captchaButton stop];
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [self showBannerWithPrompt:TimtOutPrompt];
+         [_captchaButton stop];
+     }];
 }
 
 - (void)startResetPWRequestWithMobile:(NSString *)mobile captcha:(NSString *)captcha password:(NSString *)password {
-//    [self showHUD];
-//    __weak __typeof__(self)weakSelf = self;
-//    [MiaAPIHelper resetPasswordWithPhoneNum:mobile
-//                               passwordHash:[NSString md5HexDigest:password]
-//                                      scode:captcha
-//                              completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         if (success) {
-//             [strongSelf resetSuccess];
-//         } else {
-//             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][MiaAPIKey_Error]] tap:nil];
-//         }
-//         
-//         [strongSelf hiddenHUD];
-//     } timeoutBlock:^(MiaRequestItem *requestItem) {
-//         __strong __typeof__(self)strongSelf = weakSelf;
-//         [HXAlertBanner showWithMessage:@"注册失败，网络请求超时" tap:nil];
-//         [strongSelf hiddenHUD];
-//     }];
+    [self showHUD];
+    
+    [MiaAPIHelper resetPasswordWithPhoneNum:mobile
+                               passwordHash:[NSString md5HexDigest:password]
+                                      scode:captcha
+                              completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [self resetSuccess];
+         } else {
+             NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [self showBannerWithPrompt:error];
+         }
+
+         [self hiddenHUD];
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [self showBannerWithPrompt:TimtOutPrompt];
+         [self hiddenHUD];
+     }];
 }
 
 - (void)resetSuccessWithData:(NSDictionary *)data {
@@ -125,7 +121,7 @@ static NSString *ResetPWApi = @"/user/pauth";
 }
 
 - (void)resetSuccess {
-    [HXAlertBanner showWithMessage:@"修改密码成功" tap:nil];
+    [self showBannerWithPrompt:@"修改密码成功！"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

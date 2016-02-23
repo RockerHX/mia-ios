@@ -64,13 +64,6 @@ typedef void(^FailureBlock)(NSString *);
     [self startLoginRequestWithMobile:mobile password:password];
 }
 
-- (void)resetPasswordWithMobile:(NSString *)mobile captcha:(NSString *)captcha password:(NSString *)password success:(nullable void(^)(HXUserSession *, NSString *))success failure:(nullable void(^)(NSString *))failure; {
-    _successBlock = success;
-    _failureBlock = failure;
-    
-    [self startResetPWRequestWithMobile:mobile captcha:captcha password:password];
-}
-
 - (void)updateUser:(nonnull HXUserModel *)user {
     _user = user;
     [self archiveUser:user];
@@ -140,24 +133,6 @@ typedef void(^FailureBlock)(NSString *);
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              [self requestSuccessHandleData:userInfo[MiaAPIKey_Values]];
-         } else {
-             [self handelError:userInfo[MiaAPIKey_Values][MiaAPIKey_Error]];
-         }
-     } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [self requestTimeOut];
-     }];
-}
-
-- (void)startResetPWRequestWithMobile:(NSString *)mobile captcha:(NSString *)captcha password:(NSString *)password {
-    [MiaAPIHelper resetPasswordWithPhoneNum:mobile
-                               passwordHash:[NSString md5HexDigest:password]
-                                      scode:captcha
-                              completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         if (success) {
-             if (_successBlock) {
-                 _successBlock(self, nil);
-             }
          } else {
              [self handelError:userInfo[MiaAPIKey_Values][MiaAPIKey_Error]];
          }

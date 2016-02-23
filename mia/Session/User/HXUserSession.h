@@ -33,12 +33,6 @@ typedef NS_ENUM(BOOL, HXUserState) {
                 success:(nullable void(^)(HXUserSession *session, NSString *prompt))success
                 failure:(nullable void(^)(NSString *prompt))failure;
 
-- (void)resetPasswordWithMobile:(NSString *)mobile
-                        captcha:(NSString *)captcha
-                       password:(NSString *)password
-                        success:(nullable void(^)(HXUserSession *session, NSString *prompt))success
-                        failure:(nullable void(^)(NSString *prompt))failure;
-
 - (void)updateUser:(HXUserModel *)user;
 - (void)logout;
 
