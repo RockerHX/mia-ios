@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,12 +17,32 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="L-LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-D2-W16">
+                                <rect key="frame" x="32" y="87" width="257" height="257"/>
+                            </imageView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试用版" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jia-0p-UTY">
+                                <rect key="frame" x="133" y="526" width="54" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Jia-0p-UTY" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2ee-cy-vXo"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Jia-0p-UTY" secondAttribute="bottom" constant="20" id="BmZ-YP-mun"/>
+                            <constraint firstItem="LVg-D2-W16" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="60" id="Usk-30-hMv"/>
+                            <constraint firstItem="LVg-D2-W16" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qF7-l1-Qne"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28.266666666666666" y="355"/>
+            <point key="canvasLocation" x="28" y="355"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="L-LaunchLogo" width="257" height="257"/>
+    </resources>
 </document>
