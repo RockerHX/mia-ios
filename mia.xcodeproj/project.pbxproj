@@ -29,6 +29,14 @@
 		CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0690221C746D10001C0997 /* HXMeViewController.m */; };
 		CD0690261C747164001C0997 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0690241C747164001C0997 /* Me.storyboard */; };
 		CD2D3B0B1C7B17E0002E34D1 /* HXUserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */; };
+		CD2D3B0E1C7B1A89002E34D1 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD2D3B0C1C7B1A89002E34D1 /* Login.storyboard */; };
+		CD2D3B191C7B1AD4002E34D1 /* HXForgotPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B111C7B1AD4002E34D1 /* HXForgotPWViewController.m */; };
+		CD2D3B1A1C7B1AD4002E34D1 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B131C7B1AD4002E34D1 /* HXLoginViewController.m */; };
+		CD2D3B1B1C7B1AD4002E34D1 /* HXRegisterContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B161C7B1AD4002E34D1 /* HXRegisterContainerViewController.m */; };
+		CD2D3B1C1C7B1AD4002E34D1 /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */; };
+		CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */; };
+		CD2D3B241C7B1BB8002E34D1 /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B221C7B1BB8002E34D1 /* HXAlertBanner.m */; };
+		CD2D3B251C7B1BB8002E34D1 /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD2D3B231C7B1BB8002E34D1 /* HXAlertBanner.xib */; };
 		CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */; };
 		CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */; };
 		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
@@ -98,6 +106,20 @@
 		CD0690251C747164001C0997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Me.storyboard; sourceTree = "<group>"; };
 		CD2D3B091C7B17E0002E34D1 /* HXUserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserSession.h; sourceTree = "<group>"; };
 		CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserSession.m; sourceTree = "<group>"; };
+		CD2D3B0D1C7B1A89002E34D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
+		CD2D3B101C7B1AD4002E34D1 /* HXForgotPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXForgotPWViewController.h; sourceTree = "<group>"; };
+		CD2D3B111C7B1AD4002E34D1 /* HXForgotPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXForgotPWViewController.m; sourceTree = "<group>"; };
+		CD2D3B121C7B1AD4002E34D1 /* HXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXLoginViewController.h; sourceTree = "<group>"; };
+		CD2D3B131C7B1AD4002E34D1 /* HXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXLoginViewController.m; sourceTree = "<group>"; };
+		CD2D3B151C7B1AD4002E34D1 /* HXRegisterContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRegisterContainerViewController.h; sourceTree = "<group>"; };
+		CD2D3B161C7B1AD4002E34D1 /* HXRegisterContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterContainerViewController.m; sourceTree = "<group>"; };
+		CD2D3B171C7B1AD4002E34D1 /* HXRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXRegisterViewController.h; sourceTree = "<group>"; };
+		CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
+		CD2D3B1D1C7B1B91002E34D1 /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
+		CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
+		CD2D3B211C7B1BB8002E34D1 /* HXAlertBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXAlertBanner.h; sourceTree = "<group>"; };
+		CD2D3B221C7B1BB8002E34D1 /* HXAlertBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXAlertBanner.m; sourceTree = "<group>"; };
+		CD2D3B231C7B1BB8002E34D1 /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
 		CD64E9041C7AAC9A00270836 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
 		CD64E9061C7AACC100270836 /* HXDiscoveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCell.h; sourceTree = "<group>"; };
 		CD64E9071C7AACC100270836 /* HXDiscoveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCell.m; sourceTree = "<group>"; };
@@ -244,6 +266,7 @@
 		CD068FFA1C746B8C001C0997 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				CD2D3B201C7B1BB8002E34D1 /* HXAlertBanner */,
 				CD068FFB1C746B8C001C0997 /* HXCaptchButton */,
 				CD068FFE1C746B8C001C0997 /* HXLabel */,
 				CD0690011C746B8C001C0997 /* HXTextView */,
@@ -339,6 +362,41 @@
 				CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		CD2D3B0F1C7B1AD4002E34D1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CD2D3B141C7B1AD4002E34D1 /* Register */,
+				CD2D3B101C7B1AD4002E34D1 /* HXForgotPWViewController.h */,
+				CD2D3B111C7B1AD4002E34D1 /* HXForgotPWViewController.m */,
+				CD2D3B121C7B1AD4002E34D1 /* HXLoginViewController.h */,
+				CD2D3B131C7B1AD4002E34D1 /* HXLoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CD2D3B141C7B1AD4002E34D1 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				CD2D3B151C7B1AD4002E34D1 /* HXRegisterContainerViewController.h */,
+				CD2D3B161C7B1AD4002E34D1 /* HXRegisterContainerViewController.m */,
+				CD2D3B171C7B1AD4002E34D1 /* HXRegisterViewController.h */,
+				CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */,
+				CD2D3B1D1C7B1B91002E34D1 /* HXUserTermsViewController.h */,
+				CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		CD2D3B201C7B1BB8002E34D1 /* HXAlertBanner */ = {
+			isa = PBXGroup;
+			children = (
+				CD2D3B211C7B1BB8002E34D1 /* HXAlertBanner.h */,
+				CD2D3B221C7B1BB8002E34D1 /* HXAlertBanner.m */,
+				CD2D3B231C7B1BB8002E34D1 /* HXAlertBanner.xib */,
+			);
+			path = HXAlertBanner;
 			sourceTree = "<group>";
 		};
 		CD64E9051C7AACC100270836 /* Content */ = {
@@ -458,6 +516,7 @@
 				CDB55E7A1C72CFB500962ED0 /* Discovery.storyboard */,
 				CDB55E7D1C72CFC000962ED0 /* Favorite.storyboard */,
 				CD0690241C747164001C0997 /* Me.storyboard */,
+				CD2D3B0C1C7B1A89002E34D1 /* Login.storyboard */,
 				CDB55E821C72CFD500962ED0 /* Profile.storyboard */,
 			);
 			name = UI;
@@ -476,6 +535,7 @@
 				CDBC452C1C75D4A60037FEC4 /* Discovery */,
 				CDB55E911C72D21D00962ED0 /* Favorite */,
 				CD0690201C746D08001C0997 /* Me */,
+				CD2D3B0F1C7B1AD4002E34D1 /* Login */,
 				CDB55E931C72D21D00962ED0 /* Profile */,
 				CDB55E8D1C72D16300962ED0 /* HXPanGestureNavgaitionController.h */,
 				CDB55E8E1C72D16300962ED0 /* HXPanGestureNavgaitionController.m */,
@@ -610,6 +670,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD2D3B251C7B1BB8002E34D1 /* HXAlertBanner.xib in Resources */,
 				CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */,
 				CDB55E841C72CFD500962ED0 /* Profile.storyboard in Resources */,
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
@@ -620,6 +681,7 @@
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
 				CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */,
+				CD2D3B0E1C7B1A89002E34D1 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,6 +754,8 @@
 				CD0690171C746B8C001C0997 /* HXIBView.m in Sources */,
 				CD0690191C746B8C001C0997 /* HXAppConstants.m in Sources */,
 				CD0690151C746B8C001C0997 /* HXIBImageView.m in Sources */,
+				CD2D3B1C1C7B1AD4002E34D1 /* HXRegisterViewController.m in Sources */,
+				CD2D3B1A1C7B1AD4002E34D1 /* HXLoginViewController.m in Sources */,
 				CD06901C1C746B8C001C0997 /* HXTextView.m in Sources */,
 				CD0690181C746B8C001C0997 /* HXIBnsepectableManager.m in Sources */,
 				CD0690141C746B8C001C0997 /* HXIBButton.m in Sources */,
@@ -706,10 +770,14 @@
 				CD0690111C746B8C001C0997 /* UIButton+HXIBnspectable.m in Sources */,
 				CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */,
 				CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */,
+				CD2D3B1B1C7B1AD4002E34D1 /* HXRegisterContainerViewController.m in Sources */,
 				CD06901D1C746B8C001C0997 /* HXStoryBoardManager.m in Sources */,
 				CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */,
+				CD2D3B191C7B1AD4002E34D1 /* HXForgotPWViewController.m in Sources */,
 				CDB55E901C72D16300962ED0 /* HXPanGestureNavgaitionController.m in Sources */,
+				CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
+				CD2D3B241C7B1BB8002E34D1 /* HXAlertBanner.m in Sources */,
 				CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -723,6 +791,14 @@
 				CD0690251C747164001C0997 /* Base */,
 			);
 			name = Me.storyboard;
+			sourceTree = "<group>";
+		};
+		CD2D3B0C1C7B1A89002E34D1 /* Login.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD2D3B0D1C7B1A89002E34D1 /* Base */,
+			);
+			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
 		CDB55E661C72C7EE00962ED0 /* Main.storyboard */ = {
