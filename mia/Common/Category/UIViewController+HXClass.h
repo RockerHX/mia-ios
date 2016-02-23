@@ -27,4 +27,6 @@
 - (void)showHUD;
 - (void)hiddenHUD;
 
+- (void)showBannerWithPrompt:(NSString *)prompt;
+
 @end
