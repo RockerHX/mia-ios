@@ -55,6 +55,9 @@
 		CD74FC171C7C38B300DBEB83 /* HXAlertBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC151C7C38B300DBEB83 /* HXAlertBanner.m */; };
 		CD74FC181C7C38B300DBEB83 /* HXAlertBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC161C7C38B300DBEB83 /* HXAlertBanner.xib */; };
 		CD74FC1C1C7C39FB00DBEB83 /* HXUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC1B1C7C39FB00DBEB83 /* HXUserModel.m */; };
+		CD74FC1F1C7C65CD00DBEB83 /* HXLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC1E1C7C65CD00DBEB83 /* HXLoadingView.xib */; };
+		CD74FC221C7C65EA00DBEB83 /* HXLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC211C7C65EA00DBEB83 /* HXLoadingView.m */; };
+		CD74FC251C7C662B00DBEB83 /* HXActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC241C7C662B00DBEB83 /* HXActivityIndicator.m */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -216,6 +219,11 @@
 		CD74FC161C7C38B300DBEB83 /* HXAlertBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXAlertBanner.xib; sourceTree = "<group>"; };
 		CD74FC1A1C7C39FB00DBEB83 /* HXUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserModel.h; sourceTree = "<group>"; };
 		CD74FC1B1C7C39FB00DBEB83 /* HXUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserModel.m; sourceTree = "<group>"; };
+		CD74FC1E1C7C65CD00DBEB83 /* HXLoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXLoadingView.xib; sourceTree = "<group>"; };
+		CD74FC201C7C65EA00DBEB83 /* HXLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXLoadingView.h; sourceTree = "<group>"; };
+		CD74FC211C7C65EA00DBEB83 /* HXLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXLoadingView.m; sourceTree = "<group>"; };
+		CD74FC231C7C662B00DBEB83 /* HXActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXActivityIndicator.h; sourceTree = "<group>"; };
+		CD74FC241C7C662B00DBEB83 /* HXActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXActivityIndicator.m; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -462,6 +470,7 @@
 		CD068FFA1C746B8C001C0997 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				CD74FC1D1C7C655400DBEB83 /* HXLoadingView */,
 				CD74FC131C7C38B300DBEB83 /* HXAlertBanner */,
 				CD068FFB1C746B8C001C0997 /* HXCaptchButton */,
 				CD068FFE1C746B8C001C0997 /* HXLabel */,
@@ -716,6 +725,18 @@
 				CD74FC1B1C7C39FB00DBEB83 /* HXUserModel.m */,
 			);
 			path = UserModel;
+			sourceTree = "<group>";
+		};
+		CD74FC1D1C7C655400DBEB83 /* HXLoadingView */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FC231C7C662B00DBEB83 /* HXActivityIndicator.h */,
+				CD74FC241C7C662B00DBEB83 /* HXActivityIndicator.m */,
+				CD74FC201C7C65EA00DBEB83 /* HXLoadingView.h */,
+				CD74FC211C7C65EA00DBEB83 /* HXLoadingView.m */,
+				CD74FC1E1C7C65CD00DBEB83 /* HXLoadingView.xib */,
+			);
+			path = HXLoadingView;
 			sourceTree = "<group>";
 		};
 		CDB55E4E1C72C7ED00962ED0 = {
@@ -1473,6 +1494,7 @@
 				CDB55E841C72CFD500962ED0 /* Profile.storyboard in Resources */,
 				CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */,
 				CD74FC0B1C7C06FA00DBEB83 /* HXInfectUserListCell.xib in Resources */,
+				CD74FC1F1C7C65CD00DBEB83 /* HXLoadingView.xib in Resources */,
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
 				CDB55E6D1C72C7EE00962ED0 /* LaunchScreen.storyboard in Resources */,
 				CDB55E6A1C72C7EE00962ED0 /* Assets.xcassets in Resources */,
@@ -1565,6 +1587,7 @@
 				CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */,
 				CD0690101C746B8C001C0997 /* UIViewController+HXClass.m in Sources */,
 				CD74FC1C1C7C39FB00DBEB83 /* HXUserModel.m in Sources */,
+				CD74FC251C7C662B00DBEB83 /* HXActivityIndicator.m in Sources */,
 				CDE539BA1C7BFD5200E0616D /* SearchResultItem.m in Sources */,
 				CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */,
 				CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */,
@@ -1581,6 +1604,7 @@
 				CDE539B31C7BFD5200E0616D /* MessageItem.m in Sources */,
 				CDE539711C7BFD1000E0616D /* WebSocketMgr.m in Sources */,
 				CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */,
+				CD74FC221C7C65EA00DBEB83 /* HXLoadingView.m in Sources */,
 				CD06901C1C746B8C001C0997 /* HXTextView.m in Sources */,
 				CD0690181C746B8C001C0997 /* HXIBnsepectableManager.m in Sources */,
 				CD0690141C746B8C001C0997 /* HXIBButton.m in Sources */,

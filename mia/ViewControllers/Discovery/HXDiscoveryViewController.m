@@ -13,6 +13,7 @@
 #import "ShareListMgr.h"
 #import "MiaAPIHelper.h"
 #import "FileLog.h"
+#import "HXLoadingView.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate
@@ -48,9 +49,21 @@ HXDiscoveryHeaderDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     [self startLoadMusic];
+}
+
+- (void)viewConfigure {
+    HXLoadingView *loadingView = [HXLoadingView new];
+    [loadingView showOnViewController:self];
 }
 
 #pragma mark - Public Methods
