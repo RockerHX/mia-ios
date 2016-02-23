@@ -45,6 +45,15 @@
 		CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E9181C7AFB4100270836 /* HXFavoriteHeader.xib */; };
 		CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */; };
 		CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */; };
+		CD74FC0A1C7C06FA00DBEB83 /* HXInfectUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FBF81C7C06FA00DBEB83 /* HXInfectUserListCell.m */; };
+		CD74FC0B1C7C06FA00DBEB83 /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FBF91C7C06FA00DBEB83 /* HXInfectUserListCell.xib */; };
+		CD74FC0C1C7C06FA00DBEB83 /* HXInfectUserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FBFB1C7C06FA00DBEB83 /* HXInfectUserListView.m */; };
+		CD74FC0D1C7C06FA00DBEB83 /* HXInfectUserListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FBFC1C7C06FA00DBEB83 /* HXInfectUserListView.xib */; };
+		CD74FC0E1C7C06FA00DBEB83 /* HXNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FBFF1C7C06FA00DBEB83 /* HXNavigationBar.m */; };
+		CD74FC0F1C7C06FA00DBEB83 /* HXNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC001C7C06FA00DBEB83 /* HXNavigationBar.xib */; };
+		CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */; };
+		CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */; };
+		CD74FC121C7C06FA00DBEB83 /* YHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -190,6 +199,20 @@
 		CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteHeader.m; sourceTree = "<group>"; };
 		CD64E91D1C7AFC4800270836 /* HXFavoriteContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteContainerViewController.h; sourceTree = "<group>"; };
 		CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteContainerViewController.m; sourceTree = "<group>"; };
+		CD74FBF71C7C06FA00DBEB83 /* HXInfectUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListCell.h; sourceTree = "<group>"; };
+		CD74FBF81C7C06FA00DBEB83 /* HXInfectUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListCell.m; sourceTree = "<group>"; };
+		CD74FBF91C7C06FA00DBEB83 /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
+		CD74FBFA1C7C06FA00DBEB83 /* HXInfectUserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListView.h; sourceTree = "<group>"; };
+		CD74FBFB1C7C06FA00DBEB83 /* HXInfectUserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListView.m; sourceTree = "<group>"; };
+		CD74FBFC1C7C06FA00DBEB83 /* HXInfectUserListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListView.xib; sourceTree = "<group>"; };
+		CD74FBFE1C7C06FA00DBEB83 /* HXNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNavigationBar.h; sourceTree = "<group>"; };
+		CD74FBFF1C7C06FA00DBEB83 /* HXNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNavigationBar.m; sourceTree = "<group>"; };
+		CD74FC001C7C06FA00DBEB83 /* HXNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNavigationBar.xib; sourceTree = "<group>"; };
+		CD74FC021C7C06FA00DBEB83 /* HXNoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNoNetworkView.h; sourceTree = "<group>"; };
+		CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNoNetworkView.m; sourceTree = "<group>"; };
+		CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNoNetworkView.xib; sourceTree = "<group>"; };
+		CD74FC061C7C06FA00DBEB83 /* YHSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHSegmentedControl.h; sourceTree = "<group>"; };
+		CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHSegmentedControl.m; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -630,6 +653,59 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		CD74FBF11C7C06FA00DBEB83 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FBF61C7C06FA00DBEB83 /* HXInfectUserListView */,
+				CD74FBFD1C7C06FA00DBEB83 /* HXNavigationBar */,
+				CD74FC011C7C06FA00DBEB83 /* HXNoNetworkView */,
+				CD74FC051C7C06FA00DBEB83 /* YHSegmentedControl */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		CD74FBF61C7C06FA00DBEB83 /* HXInfectUserListView */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FBF71C7C06FA00DBEB83 /* HXInfectUserListCell.h */,
+				CD74FBF81C7C06FA00DBEB83 /* HXInfectUserListCell.m */,
+				CD74FBF91C7C06FA00DBEB83 /* HXInfectUserListCell.xib */,
+				CD74FBFA1C7C06FA00DBEB83 /* HXInfectUserListView.h */,
+				CD74FBFB1C7C06FA00DBEB83 /* HXInfectUserListView.m */,
+				CD74FBFC1C7C06FA00DBEB83 /* HXInfectUserListView.xib */,
+			);
+			path = HXInfectUserListView;
+			sourceTree = "<group>";
+		};
+		CD74FBFD1C7C06FA00DBEB83 /* HXNavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FBFE1C7C06FA00DBEB83 /* HXNavigationBar.h */,
+				CD74FBFF1C7C06FA00DBEB83 /* HXNavigationBar.m */,
+				CD74FC001C7C06FA00DBEB83 /* HXNavigationBar.xib */,
+			);
+			path = HXNavigationBar;
+			sourceTree = "<group>";
+		};
+		CD74FC011C7C06FA00DBEB83 /* HXNoNetworkView */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FC021C7C06FA00DBEB83 /* HXNoNetworkView.h */,
+				CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */,
+				CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */,
+			);
+			path = HXNoNetworkView;
+			sourceTree = "<group>";
+		};
+		CD74FC051C7C06FA00DBEB83 /* YHSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				CD74FC061C7C06FA00DBEB83 /* YHSegmentedControl.h */,
+				CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */,
+			);
+			path = YHSegmentedControl;
+			sourceTree = "<group>";
+		};
 		CDB55E4E1C72C7ED00962ED0 = {
 			isa = PBXGroup;
 			children = (
@@ -734,6 +810,7 @@
 		CDB55E791C72CEDF00962ED0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CD74FBF11C7C06FA00DBEB83 /* Common */,
 				CDBC45331C75D6100037FEC4 /* Discovery */,
 				CD64E9151C7AFB1600270836 /* Favorite */,
 				CD64E9041C7AAC9A00270836 /* HXXib.h */,
@@ -1381,10 +1458,14 @@
 				CD2D3B251C7B1BB8002E34D1 /* HXAlertBanner.xib in Resources */,
 				CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */,
 				CDB55E841C72CFD500962ED0 /* Profile.storyboard in Resources */,
+				CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */,
+				CD74FC0B1C7C06FA00DBEB83 /* HXInfectUserListCell.xib in Resources */,
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
 				CDB55E6D1C72C7EE00962ED0 /* LaunchScreen.storyboard in Resources */,
 				CDB55E6A1C72C7EE00962ED0 /* Assets.xcassets in Resources */,
 				CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */,
+				CD74FC0F1C7C06FA00DBEB83 /* HXNavigationBar.xib in Resources */,
+				CD74FC0D1C7C06FA00DBEB83 /* HXInfectUserListView.xib in Resources */,
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
@@ -1462,6 +1543,7 @@
 				CDE539AF1C7BFD5200E0616D /* FlyCommentItem.m in Sources */,
 				CDE539B81C7BFD5200E0616D /* MusicItem.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
+				CD74FC0C1C7C06FA00DBEB83 /* HXInfectUserListView.m in Sources */,
 				CDE539591C7BFCE200E0616D /* SongListPlayer.m in Sources */,
 				CDE539B41C7BFD5200E0616D /* MessageModel.m in Sources */,
 				CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */,
@@ -1502,12 +1584,15 @@
 				CDE53A171C7BFDDB00E0616D /* UIImage+ImageEffects.m in Sources */,
 				CDE539B91C7BFD5200E0616D /* ProfileShareModel.m in Sources */,
 				CDE53A0C1C7BFDDB00E0616D /* NSObject+BlockSupport.m in Sources */,
+				CD74FC0A1C7C06FA00DBEB83 /* HXInfectUserListCell.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
 				CDE53A161C7BFDDB00E0616D /* UIImage+Extrude.m in Sources */,
 				CD64E9091C7AACC100270836 /* HXDiscoveryCell.m in Sources */,
 				CDE53A191C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
 				CDE53A0F1C7BFDDB00E0616D /* NSString+Emoji.m in Sources */,
+				CD74FC121C7C06FA00DBEB83 /* YHSegmentedControl.m in Sources */,
 				CDB55E8F1C72D16300962ED0 /* HXMainViewController.m in Sources */,
+				CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */,
 				CD0690111C746B8C001C0997 /* UIButton+HXIBnspectable.m in Sources */,
 				CDE53A131C7BFDDB00E0616D /* UIButton+UIButtonExt.m in Sources */,
 				CDE539BC1C7BFD5200E0616D /* SearchSuggestionModel.m in Sources */,
@@ -1519,6 +1604,7 @@
 				CD06901D1C746B8C001C0997 /* HXStoryBoardManager.m in Sources */,
 				CDE539BB1C7BFD5200E0616D /* SearchResultModel.m in Sources */,
 				CDE53A101C7BFDDB00E0616D /* NSString+IsNull.m in Sources */,
+				CD74FC0E1C7C06FA00DBEB83 /* HXNavigationBar.m in Sources */,
 				CDE53A0B1C7BFDDB00E0616D /* NSData+Base64.m in Sources */,
 				CDE53A0D1C7BFDDB00E0616D /* NSObject+PropertyAndMethods.m in Sources */,
 				CDE539B61C7BFD5200E0616D /* CommentModel.m in Sources */,

@@ -10,4 +10,6 @@
 
 @interface HXDiscoveryViewController : UIViewController
 
+- (void)fetchShareList;
+
 @end
