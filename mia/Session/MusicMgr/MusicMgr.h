@@ -10,7 +10,17 @@
 #import <AVFoundation/AVFoundation.h>
 
 extern NSString * const MusicMgrNotificationKey_Msg;
+extern NSString * const MusicMgrNotificationKey_sID;
+extern NSString * const MusicMgrNotificationKey_Event;
+
 extern NSString * const MusicMgrNotificationRemoteControlEvent;
+extern NSString * const MusicMgrNotificationPlayerEvent;
+
+typedef NS_ENUM(NSUInteger, MiaPlayerEvent) {
+	MiaPlayerEventDidPlay,
+	MiaPlayerEventDidPause,
+	MiaPlayerEventDidCompletion
+};
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 

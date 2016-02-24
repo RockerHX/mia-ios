@@ -17,8 +17,14 @@
 #import "UIAlertView+BlocksKit.h"
 #import "NSObject+BlockSupport.h"
 
+
 NSString * const MusicMgrNotificationKey_Msg 			= @"msg";
+NSString * const MusicMgrNotificationKey_sID			= @"sID";
+NSString * const MusicMgrNotificationKey_Event			= @"event";
+
 NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotificationRemoteControlEvent";
+NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayerEvent";
+
 
 @interface MusicMgr() <SingleSongPlayerDelegate, SongPreloaderDelegate>
 
@@ -279,24 +285,27 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 
 #pragma mark - SingleSongPlayerDelegate
 - (void)singleSongPlayerDidPlay {
-	// TODO 改成通知
-//	if (_delegate) {
-//		[_delegate songListPlayerDidPlay];
-//	}
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPlay], MusicMgrNotificationKey_Event,
+							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
 
 - (void)singleSongPlayerDidPause {
-	// TODO 改成通知
-//	if (_delegate) {
-//		[_delegate songListPlayerDidPause];
-//	}
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_Event,
+							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
 
 - (void)singleSongPlayerDidCompletion {
-	// TODO 改成通知
-//	if (_delegate) {
-//		[_delegate songListPlayerDidCompletion];
-//	}
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_Event,
+							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
 
 - (void)singleSongPlayerDidBufferStream {
@@ -309,10 +318,11 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 }
 
 - (void)singleSongPlayerDidFailure {
-	// TODO 改成通知
-	//	if (_delegate) {
-	//		[_delegate songListPlayerDidPause];
-	//	}
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_Event,
+							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
 
 #pragma mark - SongPreloaderDelegate
