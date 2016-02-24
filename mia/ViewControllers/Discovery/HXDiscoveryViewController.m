@@ -155,17 +155,18 @@ HXDiscoveryContainerViewControllerDelegate
 
 #pragma mark - HXDiscoveryContainerViewControllerDelegate Methods
 - (void)containerViewController:(HXDiscoveryContainerViewController *)container takeAction:(HXDiscoveryCardAction)action {
+    _shareListMgr.currentIndex = container.currentPage;
+    
     switch (action) {
         case HXDiscoveryCardActionSlidePrevious: {
             ;
             break;
         }
         case HXDiscoveryCardActionSlideNext: {
-            _shareListMgr.currentIndex = _containerViewController.currentPage;
             
             [self checkShouldFetchNewItems];
             if ([_shareListMgr checkHistoryItemsMaxCount]) {
-                _containerViewController.currentPage = _shareListMgr.currentIndex;
+                container.currentPage = _shareListMgr.currentIndex;
             }
             break;
         }
