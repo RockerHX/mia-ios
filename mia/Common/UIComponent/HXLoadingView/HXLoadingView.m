@@ -74,7 +74,13 @@ HXXibImplementation
 }
 
 - (void)hiddenLoadingView {
-    [_activityIndicatorView stopAnimating];
+    [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        self.alpha = 1.0f;
+        [_activityIndicatorView stopAnimating];
+        [self removeFromSuperview];
+    }];
 }
 
 - (void)showErrorView {

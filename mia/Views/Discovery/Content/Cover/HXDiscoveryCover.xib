@@ -6,60 +6,84 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXDiscoveryCover"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXDiscoveryCover">
+            <connections>
+                <outlet property="cardUserAvatar" destination="QUd-EQ-JaH" id="k9q-gR-x5Y"/>
+                <outlet property="cardUserLabel" destination="Bf7-hc-ci7" id="MKT-ZX-uil"/>
+                <outlet property="cover" destination="2U2-sO-h5F" id="XTg-7c-IKv"/>
+                <outlet property="singerNameLabel" destination="wQu-4t-emA" id="rPu-cb-maa"/>
+                <outlet property="songNameLabel" destination="RM3-0g-IQ9" id="Qnd-iP-gyJ"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="260" height="260"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2U2-sO-h5F">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2U2-sO-h5F" userLabel="音乐封面">
                     <rect key="frame" x="0.0" y="0.0" width="260" height="260"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RM3-0g-IQ9">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RM3-0g-IQ9" userLabel="歌曲名">
                     <rect key="frame" x="15" y="188" width="230" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQu-4t-emA">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="表演者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQu-4t-emA" userLabel="表演者">
                     <rect key="frame" x="15" y="219" width="230" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8sl-fo-mRt">
-                    <rect key="frame" x="8" y="8" width="98" height="40"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8sl-fo-mRt" userLabel="卡片分享者信息">
+                    <rect key="frame" x="8" y="8" width="119" height="40"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QUd-EQ-JaH">
-                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="QUd-EQ-JaH" secondAttribute="height" multiplier="1:1" id="jCq-L7-krN"/>
-                                <constraint firstAttribute="width" constant="40" id="pTt-KL-eeJ"/>
-                            </constraints>
-                        </imageView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNs-kT-Qq0">
-                            <rect key="frame" x="40" y="9" width="58" height="22"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNs-kT-Qq0" userLabel="昵称" customClass="HXIBLabel">
+                            <rect key="frame" x="26" y="9" width="93" height="22"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf7-hc-ci7">
-                                    <rect key="frame" x="10" y="2" width="38" height="18"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf7-hc-ci7">
+                                    <rect key="frame" x="16" y="3" width="65" height="16"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="Bf7-hc-ci7" firstAttribute="top" secondItem="hNs-kT-Qq0" secondAttribute="top" constant="2" id="5P4-nk-iYc"/>
-                                <constraint firstItem="Bf7-hc-ci7" firstAttribute="leading" secondItem="hNs-kT-Qq0" secondAttribute="leading" constant="10" id="6zn-5e-lcf"/>
-                                <constraint firstAttribute="bottom" secondItem="Bf7-hc-ci7" secondAttribute="bottom" constant="2" id="nZB-rq-wRy"/>
-                                <constraint firstAttribute="trailing" secondItem="Bf7-hc-ci7" secondAttribute="trailing" constant="10" id="xGB-MB-tDa"/>
+                                <constraint firstItem="Bf7-hc-ci7" firstAttribute="top" secondItem="hNs-kT-Qq0" secondAttribute="top" constant="3" id="5P4-nk-iYc"/>
+                                <constraint firstItem="Bf7-hc-ci7" firstAttribute="leading" secondItem="hNs-kT-Qq0" secondAttribute="leading" constant="16" id="6zn-5e-lcf"/>
+                                <constraint firstAttribute="bottom" secondItem="Bf7-hc-ci7" secondAttribute="bottom" constant="3" id="nZB-rq-wRy"/>
+                                <constraint firstAttribute="trailing" secondItem="Bf7-hc-ci7" secondAttribute="trailing" constant="12" id="xGB-MB-tDa"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="11"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QUd-EQ-JaH" userLabel="头像" customClass="HXIBImageView">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="QUd-EQ-JaH" secondAttribute="height" multiplier="1:1" id="jCq-L7-krN"/>
+                                <constraint firstAttribute="width" constant="40" id="pTt-KL-eeJ"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="20"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="hNs-kT-Qq0" secondAttribute="trailing" id="FS7-yX-lpd"/>
-                        <constraint firstItem="hNs-kT-Qq0" firstAttribute="leading" secondItem="QUd-EQ-JaH" secondAttribute="trailing" id="fuW-w4-GbG"/>
+                        <constraint firstItem="hNs-kT-Qq0" firstAttribute="leading" secondItem="QUd-EQ-JaH" secondAttribute="trailing" constant="-14" id="fuW-w4-GbG"/>
                         <constraint firstItem="QUd-EQ-JaH" firstAttribute="leading" secondItem="8sl-fo-mRt" secondAttribute="leading" id="gPd-dd-sK8"/>
                         <constraint firstItem="QUd-EQ-JaH" firstAttribute="top" secondItem="8sl-fo-mRt" secondAttribute="top" id="hql-56-ahR"/>
                         <constraint firstItem="hNs-kT-Qq0" firstAttribute="centerY" secondItem="QUd-EQ-JaH" secondAttribute="centerY" id="sqR-AJ-qc5"/>

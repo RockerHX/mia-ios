@@ -7,6 +7,7 @@
 //
 
 #import "HXDiscoveryViewController.h"
+#import "HXDiscoveryContainerViewController.h"
 #import "HXDiscoveryHeader.h"
 #import "WebSocketMgr.h"
 #import "LocationMgr.h"
@@ -16,13 +17,18 @@
 #import "HXLoadingView.h"
 
 @interface HXDiscoveryViewController () <
-HXDiscoveryHeaderDelegate
+HXDiscoveryHeaderDelegate,
+HXDiscoveryContainerViewControllerDelegate
 >
 
 @end
 
 @implementation HXDiscoveryViewController {
+    HXDiscoveryContainerViewController *_containerViewController;
+    
     ShareListMgr *_shareListMgr;
+    
+    HXLoadingView *_loadingView;
 }
 
 #pragma mark - Class Methods
@@ -32,6 +38,12 @@ HXDiscoveryHeaderDelegate
 
 + (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameDiscovery;
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    _containerViewController = segue.destinationViewController;
+    _containerViewController.delegate = self;
 }
 
 #pragma mark - View Controller Lift Cycle
@@ -58,12 +70,14 @@ HXDiscoveryHeaderDelegate
 - (void)loadConfigure {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
-    [self startLoadMusic];
+    [[WebSocketMgr standard] watchNetworkStatus];
+    [[LocationMgr standard] initLocationMgr];
+    [[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
 }
 
 - (void)viewConfigure {
-    HXLoadingView *loadingView = [HXLoadingView new];
-    [loadingView showOnViewController:self];
+    _loadingView = [HXLoadingView new];
+    [_loadingView showOnViewController:self];
 }
 
 #pragma mark - Public Methods
@@ -74,48 +88,54 @@ HXDiscoveryHeaderDelegate
     }
     
     _shareListMgr = [ShareListMgr initFromArchive];
-//    [self reloadLoopPlayerData:YES];
     if ([_shareListMgr isNeedGetNearbyItems]) {
-        [self requestNewShares];
+        [self fetchNewShares];
+    } else {
+        [self hiddenLoadingView];
+        [self reloadShareList];
     }
 }
 
 #pragma mark - Private Methods
-- (void)startLoadMusic {
-    [[WebSocketMgr standard] watchNetworkStatus];
-    [self initLocationMgr];
+- (void)hiddenLoadingView {
+    _loadingView.loadState = HXLoadStateSuccess;
 }
 
-- (void)initLocationMgr {
-    [[LocationMgr standard] initLocationMgr];
-    [[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
+- (void)reloadShareList {
+    _containerViewController.dataSoure = _shareListMgr.shareList;
 }
 
-- (void)requestNewShares {
+- (void)checkShouldFetchNewItems {
+    if ([_shareListMgr isNeedGetNearbyItems]) {
+        [self fetchNewShares];
+    }
+}
+
+- (void)fetchNewShares {
     const long kRequestItemCount = 10;
-    __weak __typeof__(self)weakSelf = self;
     [MiaAPIHelper getNearbyWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
                               longitude:[[LocationMgr standard] currentCoordinate].longitude
                                   start:1
                                    item:kRequestItemCount
-                          completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                              if (success) {
-                                  __strong __typeof__(self)strongSelf = weakSelf;
-                                  NSArray *shareList = userInfo[@"v"][@"data"];
-                                  if (!shareList.count) {
-                                      [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
-                                      return;
-                                  }
-                                  
-                                  [strongSelf->_shareListMgr addSharesWithArray:shareList];
-//                                  [strongSelf reloadLoopPlayerData:NO];
-                              } else {
-                                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                                  [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
-                              }
-                          } timeoutBlock:^(MiaRequestItem *requestItem) {
-                              [[FileLog standard] log:@"getNearbyWithLatitude timeout"];
-                          }];
+                          completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSArray *shareList = userInfo[@"v"][@"data"];
+             if (!shareList.count) {
+                 [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
+                 return;
+             }
+             
+             [_shareListMgr addSharesWithArray:shareList];
+             [self hiddenLoadingView];
+             [self reloadShareList];
+         } else {
+             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [[FileLog standard] log:@"getNearbyWithLatitude timeout"];
+     }];
 }
 
 #pragma mark - HXDiscoveryHeaderDelegate Methods
@@ -127,6 +147,29 @@ HXDiscoveryHeaderDelegate
         }
         case HXDiscoveryHeaderActionShare: {
             ;
+            break;
+        }
+    }
+}
+
+#pragma mark - HXDiscoveryContainerViewControllerDelegate Methods
+- (void)containerViewController:(HXDiscoveryContainerViewController *)container takeAction:(HXDiscoveryCardAction)action {
+    switch (action) {
+        case HXDiscoveryCardActionSlidePrevious: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardActionSlideNext: {
+            _shareListMgr.currentIndex = _containerViewController.currentPage;
+            
+            [self checkShouldFetchNewItems];
+            if ([_shareListMgr checkHistoryItemsMaxCount]) {
+                _containerViewController.currentPage = _shareListMgr.currentIndex;
+            }
+            break;
+        }
+        case HXDiscoveryCardActionPlay: {
+#warning Eden
             break;
         }
     }

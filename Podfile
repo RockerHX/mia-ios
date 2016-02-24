@@ -21,6 +21,7 @@ pod 'DateTools'
 #pod 'IQKeyboardManager'
 
 # UIComponment
+pod 'iCarousel'
 pod 'MJRefresh'
 pod 'MBProgressHUD'
 pod 'TTTAttributedLabel'
@@ -29,7 +30,6 @@ pod 'BlocksKit'
 #pod 'FDStackView'
 #pod 'UITableView+FDTemplateLayoutCell'
 #pod 'UICollectionViewLeftAlignedLayout'
-pod 'EBCardCollectionViewLayout'
 
 
 # UMeng SDK

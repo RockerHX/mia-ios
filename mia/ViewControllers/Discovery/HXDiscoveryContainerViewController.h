@@ -8,6 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HXDiscoveryContainerViewController : UICollectionViewController
+@class iCarousel;
+@class HXDiscoveryContainerViewController;
+
+typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
+    HXDiscoveryCardActionSlidePrevious,
+    HXDiscoveryCardActionSlideNext,
+    HXDiscoveryCardActionPlay
+};
+
+@protocol HXDiscoveryContainerViewControllerDelegate <NSObject>
+
+@optional
+- (void)containerViewController:(HXDiscoveryContainerViewController *)container takeAction:(HXDiscoveryCardAction)action;
+
+@end
+
+@interface HXDiscoveryContainerViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet iCarousel *carousel;
+
+@property (nonatomic, weak)          id  <HXDiscoveryContainerViewControllerDelegate>delegate;
+@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong)   NSArray *dataSoure;
 
 @end
