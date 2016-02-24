@@ -17,7 +17,8 @@
 #import "HXLoadingView.h"
 
 @interface HXDiscoveryViewController () <
-HXDiscoveryHeaderDelegate
+HXDiscoveryHeaderDelegate,
+HXDiscoveryContainerViewControllerDelegate
 >
 
 @end
@@ -42,6 +43,7 @@ HXDiscoveryHeaderDelegate
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     _containerViewController = segue.destinationViewController;
+    _containerViewController.delegate = self;
 }
 
 #pragma mark - View Controller Lift Cycle
@@ -87,7 +89,7 @@ HXDiscoveryHeaderDelegate
     
     _shareListMgr = [ShareListMgr initFromArchive];
     if ([_shareListMgr isNeedGetNearbyItems]) {
-        [self requestNewShares];
+        [self fetchNewShares];
     } else {
         [self hiddenLoadingView];
         [self reloadShareList];
@@ -103,7 +105,13 @@ HXDiscoveryHeaderDelegate
     _containerViewController.shareList = _shareListMgr.shareList;
 }
 
-- (void)requestNewShares {
+- (void)checkShouldFetchNewItems {
+    if ([_shareListMgr isNeedGetNearbyItems]) {
+        [self fetchNewShares];
+    }
+}
+
+- (void)fetchNewShares {
     const long kRequestItemCount = 10;
     [MiaAPIHelper getNearbyWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
                               longitude:[[LocationMgr standard] currentCoordinate].longitude
@@ -138,6 +146,32 @@ HXDiscoveryHeaderDelegate
             break;
         }
         case HXDiscoveryHeaderActionShare: {
+            ;
+            break;
+        }
+    }
+}
+
+#pragma mark - HXDiscoveryContainerViewControllerDelegate Methods
+- (void)containerViewController:(HXDiscoveryContainerViewController *)container takeAction:(HXDiscoveryCardAction)action {
+//    for (ShareItem *item in _shareListMgr.shareList) {
+//        NSLog(@"音乐：%@", item.music.name);
+//    }
+    
+    _shareListMgr.currentIndex = _containerViewController.currentPage;
+    if ([_shareListMgr checkHistoryItemsMaxCount]) {
+        _containerViewController.currentPage = _shareListMgr.currentIndex;
+    }
+    switch (action) {
+        case HXDiscoveryCardActionSlidePrevious: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardActionSlideNext: {
+            [self checkShouldFetchNewItems];
+            break;
+        }
+        case HXDiscoveryCardActionPlay: {
             ;
             break;
         }

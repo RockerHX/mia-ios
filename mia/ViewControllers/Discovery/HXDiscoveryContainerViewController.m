@@ -34,6 +34,12 @@
 }
 
 #pragma mark - Property
+- (void)setCurrentPage:(NSInteger)currentPage {
+    _currentPage = currentPage;
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+    [self.collectionView reloadData];
+}
+
 - (void)setShareList:(NSArray *)shareList {
     _shareList = shareList;
     
@@ -60,6 +66,21 @@
 #pragma mark - UICollectionView Delegate Methods
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ;
+}
+
+#pragma mark - UIScrollView Delegate Methods
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSInteger page = ((EBCardCollectionViewLayout *)self.collectionView.collectionViewLayout).currentPage;
+    if (page < _currentPage) {
+        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionSlidePrevious];
+        }
+    } else if (page > _currentPage) {
+        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionSlideNext];
+        }
+    }
+    _currentPage = page;
 }
 
 @end
