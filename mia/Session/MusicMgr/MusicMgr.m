@@ -18,12 +18,12 @@
 #import "NSObject+BlockSupport.h"
 
 
-NSString * const MusicMgrNotificationKey_Msg 			= @"msg";
-NSString * const MusicMgrNotificationKey_sID			= @"sID";
-NSString * const MusicMgrNotificationKey_Event			= @"event";
+NSString * const MusicMgrNotificationKey_RemoteControlEvent	= @"RemoteControlEvent";
+NSString * const MusicMgrNotificationKey_PlayerEvent		= @"PlayerEvent";
+NSString * const MusicMgrNotificationKey_sID				= @"sID";
 
-NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotificationRemoteControlEvent";
-NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayerEvent";
+NSString * const MusicMgrNotificationRemoteControlEvent		= @"MusicMgrNotificationRemoteControlEvent";
+NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlayerEvent";
 
 
 @interface MusicMgr() <SingleSongPlayerDelegate, SongPreloaderDelegate>
@@ -212,7 +212,7 @@ NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayer
 }
 
 - (void)remountControlEvent:(NSNotification *)notification {
-	UIEvent* event = [[notification userInfo] valueForKey:MusicMgrNotificationKey_Msg];
+	UIEvent* event = [[notification userInfo] valueForKey:MusicMgrNotificationKey_RemoteControlEvent];
 	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
 	if(event.type == UIEventTypeRemoteControl){
 		switch (event.subtype) {
@@ -286,7 +286,7 @@ NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayer
 #pragma mark - SingleSongPlayerDelegate
 - (void)singleSongPlayerDidPlay {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPlay], MusicMgrNotificationKey_Event,
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPlay], MusicMgrNotificationKey_PlayerEvent,
 							  _currentItem.sID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
@@ -294,7 +294,7 @@ NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayer
 
 - (void)singleSongPlayerDidPause {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_Event,
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
 							  _currentItem.sID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
@@ -302,7 +302,7 @@ NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayer
 
 - (void)singleSongPlayerDidCompletion {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_Event,
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_PlayerEvent,
 							  _currentItem.sID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
@@ -319,7 +319,7 @@ NSString * const MusicMgrNotificationPlayerEvent		= @"MusicMgrNotificationPlayer
 
 - (void)singleSongPlayerDidFailure {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_Event,
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
 							  _currentItem.sID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];

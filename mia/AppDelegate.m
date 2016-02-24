@@ -69,7 +69,7 @@
 
 #pragma mark - 远程控制事件
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicMgrNotificationKey_Msg];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:event forKey:MusicMgrNotificationKey_RemoteControlEvent];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationRemoteControlEvent object:self userInfo:userInfo];
 }
 

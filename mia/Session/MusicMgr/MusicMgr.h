@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-extern NSString * const MusicMgrNotificationKey_Msg;
+extern NSString * const MusicMgrNotificationKey_RemoteControlEvent;
+extern NSString * const MusicMgrNotificationKey_PlayerEvent;
 extern NSString * const MusicMgrNotificationKey_sID;
-extern NSString * const MusicMgrNotificationKey_Event;
 
 extern NSString * const MusicMgrNotificationRemoteControlEvent;
 extern NSString * const MusicMgrNotificationPlayerEvent;
