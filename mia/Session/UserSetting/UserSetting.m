@@ -22,6 +22,14 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 @implementation UserSetting {
 }
 
++ (void)registerUserDefaults {
+	NSDictionary *defaultValues = [NSDictionary dictionaryWithObjectsAndKeys:
+								   [NSNumber numberWithBool:NO], UserDefaultsKey_PlayWith3G,
+								   [NSNumber numberWithBool:YES], UserDefaultsKey_AutoPlay,
+								   nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+}
+
 + (BOOL)playWith3G {
 	return [UserDefaultsUtils boolValueWithKey:UserDefaultsKey_PlayWith3G];
 }

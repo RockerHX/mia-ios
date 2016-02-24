@@ -77,7 +77,6 @@
 		CDE539561C7BFCE200E0616D /* FavoriteMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539431C7BFCE200E0616D /* FavoriteMgr.m */; };
 		CDE539571C7BFCE200E0616D /* MusicMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539461C7BFCE200E0616D /* MusicMgr.m */; };
 		CDE539581C7BFCE200E0616D /* SingleSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539481C7BFCE200E0616D /* SingleSongPlayer.m */; };
-		CDE539591C7BFCE200E0616D /* SongListPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5394A1C7BFCE200E0616D /* SongListPlayer.m */; };
 		CDE5395A1C7BFCE200E0616D /* SongPreloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5394C1C7BFCE200E0616D /* SongPreloader.m */; };
 		CDE5395B1C7BFCE200E0616D /* ShareListMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5394F1C7BFCE200E0616D /* ShareListMgr.m */; };
 		CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539521C7BFCE200E0616D /* UserSession.m */; };
@@ -256,8 +255,6 @@
 		CDE539461C7BFCE200E0616D /* MusicMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicMgr.m; sourceTree = "<group>"; };
 		CDE539471C7BFCE200E0616D /* SingleSongPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSongPlayer.h; sourceTree = "<group>"; };
 		CDE539481C7BFCE200E0616D /* SingleSongPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleSongPlayer.m; sourceTree = "<group>"; };
-		CDE539491C7BFCE200E0616D /* SongListPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongListPlayer.h; sourceTree = "<group>"; };
-		CDE5394A1C7BFCE200E0616D /* SongListPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongListPlayer.m; sourceTree = "<group>"; };
 		CDE5394B1C7BFCE200E0616D /* SongPreloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPreloader.h; sourceTree = "<group>"; };
 		CDE5394C1C7BFCE200E0616D /* SongPreloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPreloader.m; sourceTree = "<group>"; };
 		CDE5394E1C7BFCE200E0616D /* ShareListMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareListMgr.h; sourceTree = "<group>"; };
@@ -916,8 +913,6 @@
 				CDE539461C7BFCE200E0616D /* MusicMgr.m */,
 				CDE539471C7BFCE200E0616D /* SingleSongPlayer.h */,
 				CDE539481C7BFCE200E0616D /* SingleSongPlayer.m */,
-				CDE539491C7BFCE200E0616D /* SongListPlayer.h */,
-				CDE5394A1C7BFCE200E0616D /* SongListPlayer.m */,
 				CDE5394B1C7BFCE200E0616D /* SongPreloader.h */,
 				CDE5394C1C7BFCE200E0616D /* SongPreloader.m */,
 			);
@@ -1571,7 +1566,6 @@
 				CDE539B81C7BFD5200E0616D /* MusicItem.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
 				CD74FC0C1C7C06FA00DBEB83 /* HXInfectUserListView.m in Sources */,
-				CDE539591C7BFCE200E0616D /* SongListPlayer.m in Sources */,
 				CDE539B41C7BFD5200E0616D /* MessageModel.m in Sources */,
 				CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */,
 				CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */,

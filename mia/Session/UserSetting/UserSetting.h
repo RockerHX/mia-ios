@@ -14,6 +14,8 @@ extern NSString * const UserDefaultsKey_AutoPlay;
 
 @interface UserSetting : NSObject
 
++ (void)registerUserDefaults;
+
 + (BOOL)playWith3G;
 + (void)setPlayWith3G:(BOOL)value;
 
