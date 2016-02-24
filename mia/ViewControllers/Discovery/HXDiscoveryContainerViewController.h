@@ -10,4 +10,6 @@
 
 @interface HXDiscoveryContainerViewController : UICollectionViewController
 
+@property (nonatomic, strong) NSArray *shareList;
+
 @end

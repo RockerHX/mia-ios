@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class HXDiscoveryCover;
+
 @interface HXDiscoveryCell : UICollectionViewCell
+
+@property (weak, nonatomic) IBOutlet HXDiscoveryCover *coverView;
+//@property (weak, nonatomic) IBOutlet *;
+//@property (weak, nonatomic) IBOutlet *;
+//@property (weak, nonatomic) IBOutlet *;
+//@property (weak, nonatomic) IBOutlet *;
+//@property (weak, nonatomic) IBOutlet *;
+
+- (void)displayWithItem:(id)item;
 
 @end

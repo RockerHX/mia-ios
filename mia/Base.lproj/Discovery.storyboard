@@ -93,6 +93,9 @@
                                     <constraint firstAttribute="trailing" secondItem="GLh-sr-NUv" secondAttribute="trailing" id="Go5-Uo-kls"/>
                                 </constraints>
                                 <size key="customSize" width="280" height="460"/>
+                                <connections>
+                                    <outlet property="coverView" destination="GLh-sr-NUv" id="ofb-bt-JUl"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>

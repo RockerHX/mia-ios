@@ -7,6 +7,8 @@
 //
 
 #import "HXDiscoveryCell.h"
+#import "HXDiscoveryCover.h"
+#import "ShareItem.h"
 
 @implementation HXDiscoveryCell
 
@@ -28,6 +30,14 @@
     self.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
     self.layer.shadowRadius = 4.0f;
     self.layer.shadowOpacity = 1.0f;
+}
+
+#pragma mark - Public Methods
+- (void)displayWithItem:(id)item {
+    if ([item isKindOfClass:[ShareItem class]]) {
+        ShareItem *shareItem = item;
+        [_coverView displayWithMusicItem:shareItem.music];
+    }
 }
 
 @end

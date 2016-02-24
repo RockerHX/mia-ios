@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class MusicItem;
+
 @interface HXDiscoveryCover : UIView
+
+@property (weak, nonatomic) IBOutlet UIImageView *cover;
+
+- (void)displayWithMusicItem:(MusicItem *)item;
 
 @end
