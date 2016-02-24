@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--HXDiscoveryViewController-->
@@ -25,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="55" width="320" height="513"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="DnZ-GQ-LBw" kind="embed" id="0C0-X2-0wR"/>
+                                    <segue destination="ea9-x7-lm0" kind="embed" id="Yii-OP-eM9"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qW7-Qm-70h" customClass="HXDiscoveryHeader">
@@ -60,53 +59,40 @@
             <point key="canvasLocation" x="-65" y="197"/>
         </scene>
         <!--HXDiscoveryContainerViewController-->
-        <scene sceneID="2sG-DK-Imc">
+        <scene sceneID="Muw-6t-YjU">
             <objects>
-                <collectionViewController storyboardIdentifier="HXDiscoveryContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DnZ-GQ-LBw" userLabel="HXDiscoveryContainerViewController" customClass="HXDiscoveryContainerViewController" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="nN1-1A-wMF">
+                <viewController storyboardIdentifier="HXDiscoveryContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ea9-x7-lm0" userLabel="HXDiscoveryContainerViewController" customClass="HXDiscoveryContainerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XFc-x5-ggU"/>
+                        <viewControllerLayoutGuide type="bottom" id="kyd-Zb-JyY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eWv-wf-BjY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="513"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <collectionViewLayout key="collectionViewLayout" id="yGf-Nd-97Z" customClass="EBCardCollectionViewLayout"/>
-                        <cells>
-                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HXDiscoveryCell" id="fQp-FU-Gmv" customClass="HXDiscoveryCell">
-                                <rect key="frame" x="20" y="0.0" width="280" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="280" height="460"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GLh-sr-NUv" customClass="HXDiscoveryCover">
-                                            <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="GLh-sr-NUv" secondAttribute="height" multiplier="1:1" id="4qS-d8-cos"/>
-                                            </constraints>
-                                        </view>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" red="0.047058823530000002" green="0.70588235290000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="GLh-sr-NUv" firstAttribute="leading" secondItem="fQp-FU-Gmv" secondAttribute="leading" id="443-rj-e8h"/>
-                                    <constraint firstItem="GLh-sr-NUv" firstAttribute="top" secondItem="fQp-FU-Gmv" secondAttribute="top" id="4lf-FS-XGr"/>
-                                    <constraint firstAttribute="trailing" secondItem="GLh-sr-NUv" secondAttribute="trailing" id="Go5-Uo-kls"/>
-                                </constraints>
-                                <size key="customSize" width="280" height="460"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="StG-uK-D9T" customClass="iCarousel">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="513"/>
                                 <connections>
-                                    <outlet property="coverView" destination="GLh-sr-NUv" id="ofb-bt-JUl"/>
+                                    <outlet property="dataSource" destination="ea9-x7-lm0" id="vUX-BI-4f7"/>
+                                    <outlet property="delegate" destination="ea9-x7-lm0" id="5Jl-58-qBu"/>
                                 </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="DnZ-GQ-LBw" id="dF7-hd-jmR"/>
-                            <outlet property="delegate" destination="DnZ-GQ-LBw" id="vuv-Ot-rQ3"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1MQ-uu-iXQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="StG-uK-D9T" firstAttribute="leading" secondItem="eWv-wf-BjY" secondAttribute="leading" id="4MC-pO-pq0"/>
+                            <constraint firstAttribute="trailing" secondItem="StG-uK-D9T" secondAttribute="trailing" id="JSc-sj-tHF"/>
+                            <constraint firstAttribute="bottom" secondItem="StG-uK-D9T" secondAttribute="bottom" id="gav-Ic-UKl"/>
+                            <constraint firstItem="StG-uK-D9T" firstAttribute="top" secondItem="eWv-wf-BjY" secondAttribute="top" id="hu2-Mg-P35"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="carousel" destination="StG-uK-D9T" id="idK-Lg-4hf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YUc-yd-hFx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="369" y="197"/>
+            <point key="canvasLocation" x="365" y="197"/>
         </scene>
     </scenes>
     <resources>

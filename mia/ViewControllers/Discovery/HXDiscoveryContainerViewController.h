@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class iCarousel;
 @class HXDiscoveryContainerViewController;
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
@@ -23,10 +24,12 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
 
 @end
 
-@interface HXDiscoveryContainerViewController : UICollectionViewController
+@interface HXDiscoveryContainerViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet iCarousel *carousel;
 
 @property (nonatomic, weak)          id  <HXDiscoveryContainerViewControllerDelegate>delegate;
 @property (nonatomic, assign) NSInteger currentPage;
-@property (nonatomic, strong)   NSArray *shareList;
+@property (nonatomic, strong)   NSArray *dataSoure;
 
 @end

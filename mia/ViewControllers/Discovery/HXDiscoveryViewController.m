@@ -102,7 +102,7 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 - (void)reloadShareList {
-    _containerViewController.shareList = _shareListMgr.shareList;
+    _containerViewController.dataSoure = _shareListMgr.shareList;
 }
 
 - (void)checkShouldFetchNewItems {
@@ -154,25 +154,22 @@ HXDiscoveryContainerViewControllerDelegate
 
 #pragma mark - HXDiscoveryContainerViewControllerDelegate Methods
 - (void)containerViewController:(HXDiscoveryContainerViewController *)container takeAction:(HXDiscoveryCardAction)action {
-//    for (ShareItem *item in _shareListMgr.shareList) {
-//        NSLog(@"音乐：%@", item.music.name);
-//    }
-    
-    _shareListMgr.currentIndex = _containerViewController.currentPage;
-    if ([_shareListMgr checkHistoryItemsMaxCount]) {
-        _containerViewController.currentPage = _shareListMgr.currentIndex;
-    }
     switch (action) {
         case HXDiscoveryCardActionSlidePrevious: {
             ;
             break;
         }
         case HXDiscoveryCardActionSlideNext: {
+            _shareListMgr.currentIndex = _containerViewController.currentPage;
+            
             [self checkShouldFetchNewItems];
+            if ([_shareListMgr checkHistoryItemsMaxCount]) {
+                _containerViewController.currentPage = _shareListMgr.currentIndex;
+            }
             break;
         }
         case HXDiscoveryCardActionPlay: {
-            ;
+#warning Eden
             break;
         }
     }

@@ -1,16 +1,19 @@
 //
-//  HXDiscoveryCell.m
+//  HXDiscoveryCardView.m
 //  mia
 //
 //  Created by miaios on 16/2/18.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXDiscoveryCell.h"
+#import "HXDiscoveryCardView.h"
+#import "HXXib.h"
 #import "HXDiscoveryCover.h"
 #import "ShareItem.h"
 
-@implementation HXDiscoveryCell
+@implementation HXDiscoveryCardView
+
+HXXibImplementation
 
 #pragma mark - Load Methods
 - (void)awakeFromNib {
@@ -26,10 +29,7 @@
 }
 
 - (void)viewConfigure {
-    self.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    self.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
-    self.layer.shadowRadius = 4.0f;
-    self.layer.shadowOpacity = 1.0f;
+    ;
 }
 
 #pragma mark - Public Methods
