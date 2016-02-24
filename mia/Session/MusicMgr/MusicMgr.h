@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 extern NSString * const MusicMgrNotificationKey_Msg;
 extern NSString * const MusicMgrNotificationRemoteControlEvent;
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
-@class SongListPlayer;
+@class ShareItem;
 
 @interface MusicMgr : NSObject
 
@@ -23,13 +24,28 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  */
 + (MusicMgr *)standard;
 
-@property (strong, nonatomic) SongListPlayer 	*currentPlayer;
+@property (strong, nonatomic) NSMutableArray 	*playList;
+@property (strong, nonatomic) ShareItem 		*currentItem;
+@property (strong, nonatomic) ShareItem 		*nextItem;
+@property (assign, nonatomic) NSInteger 		currentIndex;
+
+@property (assign , nonatomic) BOOL				shufflePlay;
 @property (assign, nonatomic) BOOL				isInterruption;
 
+- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock;
+
 - (BOOL)isPlayWith3GOnceTime;
+- (void)playCurrentItem;
+- (void)playWithItem:(ShareItem *)item;
+- (void)playNext;
+- (void)playPrevios;
+- (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)pause;
+- (void)stop;
+- (float)playPosition;
 
-- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock;
+
+
 
 @end
