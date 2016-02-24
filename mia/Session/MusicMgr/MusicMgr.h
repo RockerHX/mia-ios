@@ -34,21 +34,24 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  */
 + (MusicMgr *)standard;
 
-@property (strong, nonatomic) NSMutableArray 	*playList;
+@property (strong, nonatomic) NSArray 			*playList;
 @property (strong, nonatomic) ShareItem 		*currentItem;
-@property (strong, nonatomic) ShareItem 		*nextItem;
 @property (assign, nonatomic) NSInteger 		currentIndex;
 
-@property (assign , nonatomic) BOOL				shufflePlay;
+@property (assign , nonatomic) BOOL				isShufflePlay;
+@property (assign , nonatomic) BOOL				isLoopPlay;
 @property (assign, nonatomic) BOOL				isInterruption;
 
 - (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock;
 
 - (BOOL)isPlayWith3GOnceTime;
-- (void)playCurrentItem;
+
+- (void)playWithIndex:(NSInteger)index;
 - (void)playWithItem:(ShareItem *)item;
-- (void)playNext;
+- (void)playCurrent;
 - (void)playPrevios;
+- (void)playNext;
+
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)pause;

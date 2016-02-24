@@ -76,18 +76,24 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Getter and Setter
-- (void)setPlayList:(NSMutableArray *)playList {
-	// TODO 切换歌单的话需要先停止再开始播放
+- (void)setPlayList:(NSArray *)playList {
+	[_player stop];
+	[_preloader stop];
+
+	_playList = [[NSArray alloc] initWithArray:playList];
+	_currentIndex = 0;
 }
 
 - (ShareItem *)getCurrentItem {
-	// TODO
-	return nil;
-}
+	if (_playList.count <= 0) {
+		return nil;
+	}
 
-- (ShareItem *)getNextItem {
-	// TODO
-	return nil;
+	if (_currentIndex < 0 && _currentIndex >= _playList.count) {
+		return nil;
+	}
+
+	return _playList[_currentIndex];
 }
 
 #pragma mark - Public Methods
@@ -138,31 +144,107 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
                             }];
 }
 
+#pragma mark - Private Methods
+- (NSInteger)getPrevIndex {
+	if (_playList.count <= 0) {
+		return 0;
+	}
+
+	// TODO 这里是不考虑随机播放和循环播放的情况
+	// isShufflePlay;
+	// isLoopPlay;
+
+	NSInteger prevIndex = _currentIndex - 1;
+	if (prevIndex < 0 || prevIndex >= _playList.count) {
+		return 0;
+	} else {
+		return prevIndex;
+	}
+}
+
+- (NSInteger)getNextIndex {
+	if (_playList.count <= 0) {
+		return 0;
+	}
+
+	// TODO 这里是不考虑随机播放和循环播放的情况
+	// isShufflePlay;
+	// isLoopPlay;
+
+	NSInteger nextIndex = _currentIndex + 1;
+	if (nextIndex < 0 || nextIndex >= _playList.count) {
+		return 0;
+	} else {
+		return nextIndex;
+	}
+}
+
+
+
 #pragma mark - Player Methods
 
 - (BOOL)isPlayWith3GOnceTime {
 	return _playWith3GOnceTime;
 }
 
-- (void)playCurrentItem {
-//	[_player playWithMusicItem:[self currentItem]];
+- (void)playWithIndex:(NSInteger)index {
+	if (_playList.count <= 0) {
+		return;
+	}
+
+	if (index < 0 || index >= _playList.count) {
+		return;
+	}
+
+	ShareItem *item = _playList[index];
+	if (item) {
+		[_player playWithMusicItem:item.music];
+		_currentIndex = index;
+	}
 }
 
 - (void)playWithItem:(ShareItem *)item {
-	[_preloader stop];
-	[_player playWithMusicItem:item.music];
+	NSUInteger count = [_playList count];
+
+	if (count <= 0) {
+		return;
+	}
+
+	for (int i = 0 ; i < count; i++) {
+		ShareItem *it = [_playList objectAtIndex:i];
+		if ([it.sID isEqualToString:item.sID]) {
+			[_preloader stop];
+			[_player playWithMusicItem:item.music];
+			_currentIndex = i;
+
+			return;
+		}
+
+	}
 }
 
-- (void)playNext {
-//	if (_delegate && [_delegate respondsToSelector:@selector(songListPlayerShouldPlayNext)]) {
-//		[_delegate songListPlayerShouldPlayNext];
-//	}
+- (void)playCurrent {
+	[_player playWithMusicItem:_currentItem.music];
 }
 
 - (void)playPrevios {
-//	if (_delegate && [_delegate respondsToSelector:@selector(songListPlayerShouldPlayPrevios)]) {
-//		[_delegate songListPlayerShouldPlayPrevios];
-//	}
+	if (_playList.count <= 0) {
+		return;
+	}
+
+	NSInteger prevIndex = [self getPrevIndex];
+	[_player playWithMusicItem:_playList[prevIndex]];
+	_currentIndex = prevIndex;
+}
+
+- (void)playNext {
+	if (_playList.count <= 0) {
+		return;
+	}
+
+	NSInteger nextIndex = [self getPrevIndex];
+	[_player playWithMusicItem:_playList[nextIndex]];
+	_currentIndex = nextIndex;
 }
 
 - (BOOL)isPlaying {
@@ -217,7 +299,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	if(event.type == UIEventTypeRemoteControl){
 		switch (event.subtype) {
 			case UIEventSubtypeRemoteControlPlay:
-				[self playCurrentItem];
+				[self playCurrent];
 				break;
 			case UIEventSubtypeRemoteControlPause:
 				[self pause];
@@ -259,7 +341,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	[_player stop];
 	[self checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
 		if (isAllowed) {
-			[self playCurrentItem];
+			[self playCurrent];
 		}
 	}];
 }
@@ -311,8 +393,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidBufferStream {
 	[self bs_performBlock:^{
 		NSLog(@"delayPreloader");
-		if (_nextItem) {
-			[_preloader preloadWithMusicItem:_nextItem.music];
+		if (_playList.count > 0) {
+			ShareItem *nextItem = _playList[[self getNextIndex]];
+			[_preloader preloadWithMusicItem:nextItem.music];
 		}
 	} afterDelay:30.0f];
 }
