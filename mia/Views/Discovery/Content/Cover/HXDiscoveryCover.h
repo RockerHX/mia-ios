@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class MusicItem;
+@class ShareItem;
 
 @interface HXDiscoveryCover : UIView
 
 @property (weak, nonatomic) IBOutlet UIImageView *cover;
+@property (weak, nonatomic) IBOutlet     UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *singerNameLabel;
 
-- (void)displayWithMusicItem:(MusicItem *)item;
+@property (weak, nonatomic) IBOutlet UIImageView *cardUserAvatar;
+@property (weak, nonatomic) IBOutlet     UILabel *cardUserLabel;
+
+- (void)displayWithItem:(ShareItem *)item;
 
 @end

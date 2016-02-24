@@ -36,7 +36,7 @@
 - (void)displayWithItem:(id)item {
     if ([item isKindOfClass:[ShareItem class]]) {
         ShareItem *shareItem = item;
-        [_coverView displayWithMusicItem:shareItem.music];
+        [_coverView displayWithItem:shareItem];
     }
 }
 
