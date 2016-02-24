@@ -15,6 +15,7 @@
 #import "MiaAPIHelper.h"
 #import "FileLog.h"
 #import "HXLoadingView.h"
+#import "MusicMgr.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -169,7 +170,8 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionPlay: {
-#warning Eden
+			[[MusicMgr standard] setPlayList:_shareListMgr.shareList];
+			[[MusicMgr standard] playWithIndex:_shareListMgr.currentIndex];
             break;
         }
     }
