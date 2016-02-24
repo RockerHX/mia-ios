@@ -81,7 +81,6 @@
 		CDE5395B1C7BFCE200E0616D /* ShareListMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5394F1C7BFCE200E0616D /* ShareListMgr.m */; };
 		CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539521C7BFCE200E0616D /* UserSession.m */; };
 		CDE5395D1C7BFCE200E0616D /* UserSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539551C7BFCE200E0616D /* UserSetting.m */; };
-		CDE5396E1C7BFD1000E0616D /* AFNHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539611C7BFD1000E0616D /* AFNHttpClient.m */; };
 		CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539641C7BFD1000E0616D /* MiaAPIHelper.m */; };
 		CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539681C7BFD1000E0616D /* MiaRequestItem.m */; };
 		CDE539711C7BFD1000E0616D /* WebSocketMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5396A1C7BFD1000E0616D /* WebSocketMgr.m */; };
@@ -265,8 +264,6 @@
 		CDE539521C7BFCE200E0616D /* UserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSession.m; sourceTree = "<group>"; };
 		CDE539541C7BFCE200E0616D /* UserSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSetting.h; sourceTree = "<group>"; };
 		CDE539551C7BFCE200E0616D /* UserSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSetting.m; sourceTree = "<group>"; };
-		CDE539601C7BFD1000E0616D /* AFNHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNHttpClient.h; sourceTree = "<group>"; };
-		CDE539611C7BFD1000E0616D /* AFNHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNHttpClient.m; sourceTree = "<group>"; };
 		CDE539631C7BFD1000E0616D /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
 		CDE539641C7BFD1000E0616D /* MiaAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiaAPIHelper.m; sourceTree = "<group>"; };
 		CDE539651C7BFD1000E0616D /* MiaAPIMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIMacro.h; sourceTree = "<group>"; };
@@ -954,21 +951,11 @@
 		CDE5395E1C7BFD1000E0616D /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				CDE5395F1C7BFD1000E0616D /* AFNHttpClient */,
 				CDE539621C7BFD1000E0616D /* MiaAPIHelper */,
 				CDE539661C7BFD1000E0616D /* WebSocketMgr */,
 				CDE5396B1C7BFD1000E0616D /* XiamiHelper */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		CDE5395F1C7BFD1000E0616D /* AFNHttpClient */ = {
-			isa = PBXGroup;
-			children = (
-				CDE539601C7BFD1000E0616D /* AFNHttpClient.h */,
-				CDE539611C7BFD1000E0616D /* AFNHttpClient.m */,
-			);
-			path = AFNHttpClient;
 			sourceTree = "<group>";
 		};
 		CDE539621C7BFD1000E0616D /* MiaAPIHelper */ = {
@@ -1572,7 +1559,6 @@
 				CDE539AD1C7BFD5200E0616D /* FavoriteItem.m in Sources */,
 				CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */,
 				CDE53A141C7BFDDB00E0616D /* UIColor+HexColorString.m in Sources */,
-				CDE5396E1C7BFD1000E0616D /* AFNHttpClient.m in Sources */,
 				CD0690161C746B8C001C0997 /* HXIBLabel.m in Sources */,
 				CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */,
 				CD06901A1C746B8C001C0997 /* HXCaptchButton.m in Sources */,
