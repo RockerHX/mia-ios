@@ -23,15 +23,18 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2U2-sO-h5F" userLabel="音乐封面">
                     <rect key="frame" x="0.0" y="0.0" width="260" height="260"/>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-MaskBG" translatesAutoresizingMaskIntoConstraints="NO" id="IqH-MH-7nG" userLabel="Mask View">
+                    <rect key="frame" x="0.0" y="0.0" width="260" height="260"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RM3-0g-IQ9" userLabel="歌曲名">
-                    <rect key="frame" x="15" y="188" width="230" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <rect key="frame" x="15" y="194" width="230" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="表演者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQu-4t-emA" userLabel="表演者">
-                    <rect key="frame" x="15" y="219" width="230" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <rect key="frame" x="15" y="225" width="230" height="20"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -90,19 +93,29 @@
                         <constraint firstAttribute="bottom" secondItem="QUd-EQ-JaH" secondAttribute="bottom" id="ty6-AD-qb7"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBP-ye-QIy">
+                    <rect key="frame" x="113" y="112" width="35" height="35"/>
+                    <state key="normal" image="M-PlayIcon"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="UBP-ye-QIy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3gT-4j-7Hc"/>
                 <constraint firstAttribute="trailing" secondItem="wQu-4t-emA" secondAttribute="trailing" constant="15" id="6ju-ZO-cHV"/>
-                <constraint firstAttribute="bottom" secondItem="wQu-4t-emA" secondAttribute="bottom" constant="20" id="9Rx-1x-HMh"/>
+                <constraint firstAttribute="bottom" secondItem="wQu-4t-emA" secondAttribute="bottom" constant="15" id="9Rx-1x-HMh"/>
                 <constraint firstItem="wQu-4t-emA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="FBf-gh-bw9"/>
+                <constraint firstItem="IqH-MH-7nG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Jag-aY-GmH"/>
+                <constraint firstItem="IqH-MH-7nG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PAD-7g-5DE"/>
                 <constraint firstAttribute="trailing" secondItem="2U2-sO-h5F" secondAttribute="trailing" id="R53-hK-lBe"/>
                 <constraint firstItem="2U2-sO-h5F" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TPr-cD-eKS"/>
                 <constraint firstItem="RM3-0g-IQ9" firstAttribute="width" secondItem="wQu-4t-emA" secondAttribute="width" id="UXB-hR-QA8"/>
                 <constraint firstAttribute="bottom" secondItem="2U2-sO-h5F" secondAttribute="bottom" id="Zos-Qy-QGt"/>
+                <constraint firstItem="UBP-ye-QIy" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fta-DO-L4f"/>
                 <constraint firstItem="2U2-sO-h5F" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fz4-RM-3aH"/>
                 <constraint firstItem="8sl-fo-mRt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="h18-H3-uQD"/>
+                <constraint firstAttribute="bottom" secondItem="IqH-MH-7nG" secondAttribute="bottom" id="h3U-dI-D0a"/>
                 <constraint firstItem="wQu-4t-emA" firstAttribute="top" secondItem="RM3-0g-IQ9" secondAttribute="bottom" constant="10" id="iTk-e8-1M1"/>
+                <constraint firstAttribute="trailing" secondItem="IqH-MH-7nG" secondAttribute="trailing" id="jaj-TX-Ofn"/>
                 <constraint firstItem="RM3-0g-IQ9" firstAttribute="leading" secondItem="wQu-4t-emA" secondAttribute="leading" id="p7Y-rP-btX"/>
                 <constraint firstItem="8sl-fo-mRt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="ptV-Ri-jti"/>
             </constraints>
@@ -111,4 +124,8 @@
             <point key="canvasLocation" x="315" y="350"/>
         </view>
     </objects>
+    <resources>
+        <image name="D-MaskBG" width="325" height="325"/>
+        <image name="M-PlayIcon" width="35" height="35"/>
+    </resources>
 </document>

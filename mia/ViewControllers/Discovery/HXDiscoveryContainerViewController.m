@@ -55,10 +55,10 @@ HXDiscoveryCardViewDelegate
 
 #pragma mark - Private Methods
 - (UIView *)setupCarouselCard:(iCarousel *)carousel {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.width - 60.0f, carousel.height - 40.0f)];
-    view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
-    view.layer.shadowRadius = 4.0f;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.width - 50.0f, carousel.height - 40.0f)];
+    view.layer.shadowColor = [UIColor grayColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 0.5f);
+    view.layer.shadowRadius = 3.0f;
     view.layer.shadowOpacity = 1.0f;
     return view;
 }
