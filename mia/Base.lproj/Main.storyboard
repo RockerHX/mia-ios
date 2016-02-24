@@ -29,7 +29,7 @@
         <scene sceneID="GNi-9D-WuZ">
             <objects>
                 <navigationController storyboardIdentifier="HXDiscoveryNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DzX-VT-5ZE" userLabel="HXHomePageNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="T-HomePageIcon" selectedImage="T-HomgePageSelectedIcon" id="JSJ-D7-xUP">
+                    <tabBarItem key="tabBarItem" title="" image="T-DiscoveryIcon" selectedImage="T-DiscoveryIcon-S" id="JSJ-D7-xUP">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dCc-AB-kgx">
@@ -45,7 +45,7 @@
         <scene sceneID="Yrp-UD-WoW">
             <objects>
                 <navigationController storyboardIdentifier="HXFavoriteNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rQp-9P-ea9" userLabel="HXFavoriteNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="T-FavoriteIcon" selectedImage="T-FavoriteSelectedIcon" id="A5u-Ol-oOH">
+                    <tabBarItem key="tabBarItem" title="" image="T-FavoriteIcon" selectedImage="T-FavoriteIcon-S" id="A5u-Ol-oOH">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mko-MX-W0G">
@@ -61,7 +61,7 @@
         <scene sceneID="YVX-Uk-tXZ">
             <objects>
                 <navigationController storyboardIdentifier="HXMeNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="g9L-yn-q9f" userLabel="HXMeNavgationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="T-MeIcon" selectedImage="T-MeSelectedIcon" id="m5a-Wu-Ld5">
+                    <tabBarItem key="tabBarItem" title="" image="T-MeIcon" selectedImage="T-MeIcon-S" id="m5a-Wu-Ld5">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sji-gb-Do4">
@@ -75,11 +75,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="T-FavoriteIcon" width="44" height="44"/>
-        <image name="T-FavoriteSelectedIcon" width="44" height="44"/>
-        <image name="T-HomePageIcon" width="44" height="44"/>
-        <image name="T-HomgePageSelectedIcon" width="44" height="44"/>
-        <image name="T-MeIcon" width="44" height="44"/>
-        <image name="T-MeSelectedIcon" width="44" height="44"/>
+        <image name="T-DiscoveryIcon" width="35" height="35"/>
+        <image name="T-DiscoveryIcon-S" width="35" height="35"/>
+        <image name="T-FavoriteIcon" width="35" height="35"/>
+        <image name="T-FavoriteIcon-S" width="35" height="35"/>
+        <image name="T-MeIcon" width="35" height="35"/>
+        <image name="T-MeIcon-S" width="35" height="35"/>
     </resources>
 </document>
