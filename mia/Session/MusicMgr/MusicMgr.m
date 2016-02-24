@@ -31,6 +31,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 @end
 
 @implementation MusicMgr {
+	NSArray 				*_playList;
 	SingleSongPlayer		*_player;
 	SongPreloader			*_preloader;
 
@@ -76,14 +77,6 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Getter and Setter
-- (void)setPlayList:(NSArray *)playList {
-	[_player stop];
-	[_preloader stop];
-
-	_playList = [[NSArray alloc] initWithArray:playList];
-	_currentIndex = 0;
-}
-
 - (ShareItem *)getCurrentItem {
 	if (_playList.count <= 0) {
 		return nil;
@@ -98,95 +91,20 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 
 #pragma mark - Public Methods
 
-- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock {
-	[_player pause];
+- (void)setPlayList:(NSArray *)playList {
+	[_player stop];
+	[_preloader stop];
 
-	if (![[WebSocketMgr standard] isNetworkEnable]) {
-		return;
-	}
-
-	if (_playWith3GOnceTime && playWith3GOnceTimeBlock) {
-		playWith3GOnceTimeBlock(YES);
-		return;
-	}
-
-	if (_playWith3GAlertView) {
-		NSLog(@"Last play with 3G alert view is still showing");
-		if (playWith3GOnceTimeBlock) {
-			playWith3GOnceTimeBlock(NO);
-		}
-		return;
-	}
-
-	static NSString *kAlertTitleError = @"网络连接提醒";
-	static NSString *kAlertMsgNotAllowToPlayWith3G = @"您现在使用的是运营商网络，继续播放会产生流量费用。是否允许在2G/3G/4G网络下播放？";
-    
-    _playWith3GAlertView = [UIAlertView bk_showAlertViewWithTitle:kAlertTitleError
-                                                          message:kAlertMsgNotAllowToPlayWith3G
-                                                cancelButtonTitle:@"取消"
-                                                otherButtonTitles:@[@"允许播放"]
-                                                          handler:
-                            ^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                if (alertView.cancelButtonIndex == buttonIndex) {
-                                    NSLog(@"cancel");
-                                    _playWith3GAlertView = nil;
-                                    if (playWith3GOnceTimeBlock) {
-                                        playWith3GOnceTimeBlock(NO);
-                                    }
-                                } else {
-                                    NSLog(@"allow to play");
-                                    _playWith3GAlertView = nil;
-                                    _playWith3GOnceTime = YES;
-                                    if (playWith3GOnceTimeBlock) {
-                                        playWith3GOnceTimeBlock(YES);
-                                    }
-                                }
-                            }];
+	_playList = [[NSArray alloc] initWithArray:playList];
+	_currentIndex = 0;
 }
 
-#pragma mark - Private Methods
-- (NSInteger)getPrevIndex {
-	if (_playList.count <= 0) {
-		return 0;
-	}
-
-	// TODO 这里是不考虑随机播放和循环播放的情况
-	// isShufflePlay;
-	// isLoopPlay;
-
-	NSInteger prevIndex = _currentIndex - 1;
-	if (prevIndex < 0 || prevIndex >= _playList.count) {
-		return 0;
-	} else {
-		return prevIndex;
-	}
+- (void)setPlayListWithItem:(ShareItem *)item {
+	NSArray *playList = [[NSArray alloc] initWithObjects:item, nil];
+	[self setPlayList:playList];
 }
-
-- (NSInteger)getNextIndex {
-	if (_playList.count <= 0) {
-		return 0;
-	}
-
-	// TODO 这里是不考虑随机播放和循环播放的情况
-	// isShufflePlay;
-	// isLoopPlay;
-
-	NSInteger nextIndex = _currentIndex + 1;
-	if (nextIndex < 0 || nextIndex >= _playList.count) {
-		return 0;
-	} else {
-		return nextIndex;
-	}
-}
-
-
 
 #pragma mark - Player Methods
-
-- (BOOL)isPlayWith3GOnceTime {
-	return _playWith3GOnceTime;
-}
-
 - (void)playWithIndex:(NSInteger)index {
 	if (_playList.count <= 0) {
 		return;
@@ -247,6 +165,56 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	_currentIndex = nextIndex;
 }
 
+- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock {
+	[_player pause];
+
+	if (![[WebSocketMgr standard] isNetworkEnable]) {
+		return;
+	}
+
+	if (_playWith3GOnceTime && playWith3GOnceTimeBlock) {
+		playWith3GOnceTimeBlock(YES);
+		return;
+	}
+
+	if (_playWith3GAlertView) {
+		NSLog(@"Last play with 3G alert view is still showing");
+		if (playWith3GOnceTimeBlock) {
+			playWith3GOnceTimeBlock(NO);
+		}
+		return;
+	}
+
+	static NSString *kAlertTitleError = @"网络连接提醒";
+	static NSString *kAlertMsgNotAllowToPlayWith3G = @"您现在使用的是运营商网络，继续播放会产生流量费用。是否允许在2G/3G/4G网络下播放？";
+
+	_playWith3GAlertView = [UIAlertView bk_showAlertViewWithTitle:kAlertTitleError
+														  message:kAlertMsgNotAllowToPlayWith3G
+												cancelButtonTitle:@"取消"
+												otherButtonTitles:@[@"允许播放"]
+														  handler:
+							^(UIAlertView *alertView, NSInteger buttonIndex) {
+								if (alertView.cancelButtonIndex == buttonIndex) {
+									NSLog(@"cancel");
+									_playWith3GAlertView = nil;
+									if (playWith3GOnceTimeBlock) {
+										playWith3GOnceTimeBlock(NO);
+									}
+								} else {
+									NSLog(@"allow to play");
+									_playWith3GAlertView = nil;
+									_playWith3GOnceTime = YES;
+									if (playWith3GOnceTimeBlock) {
+										playWith3GOnceTimeBlock(YES);
+									}
+								}
+							}];
+}
+
+- (BOOL)isPlayWith3GOnceTime {
+	return _playWith3GOnceTime;
+}
+
 - (BOOL)isPlaying {
 	return [_player isPlaying];
 }
@@ -266,6 +234,41 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 
 - (float)playPosition {
 	return [_player playPosition];
+}
+
+#pragma mark - Private Methods
+- (NSInteger)getPrevIndex {
+	if (_playList.count <= 0) {
+		return 0;
+	}
+
+	// TODO 这里是不考虑随机播放和循环播放的情况
+	// isShufflePlay;
+	// isLoopPlay;
+
+	NSInteger prevIndex = _currentIndex - 1;
+	if (prevIndex < 0 || prevIndex >= _playList.count) {
+		return 0;
+	} else {
+		return prevIndex;
+	}
+}
+
+- (NSInteger)getNextIndex {
+	if (_playList.count <= 0) {
+		return 0;
+	}
+
+	// TODO 这里是不考虑随机播放和循环播放的情况
+	// isShufflePlay;
+	// isLoopPlay;
+
+	NSInteger nextIndex = _currentIndex + 1;
+	if (nextIndex < 0 || nextIndex >= _playList.count) {
+		return 0;
+	} else {
+		return nextIndex;
+	}
 }
 
 #pragma mark - Notification

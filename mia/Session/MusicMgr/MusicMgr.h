@@ -34,7 +34,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  */
 + (MusicMgr *)standard;
 
-@property (strong, nonatomic) NSArray 			*playList;
 @property (strong, nonatomic) ShareItem 		*currentItem;
 @property (assign, nonatomic) NSInteger 		currentIndex;
 
@@ -42,16 +41,21 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 @property (assign , nonatomic) BOOL				isLoopPlay;
 @property (assign, nonatomic) BOOL				isInterruption;
 
-- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock;
+- (void)setPlayList:(NSArray *)playList;
+- (void)setPlayListWithItem:(ShareItem *)item;
 
-- (BOOL)isPlayWith3GOnceTime;
-
+// 播放当前列表对应下标的歌曲
 - (void)playWithIndex:(NSInteger)index;
+
+// 在当前播放列表中查找item并播放
 - (void)playWithItem:(ShareItem *)item;
+
 - (void)playCurrent;
 - (void)playPrevios;
 - (void)playNext;
 
+- (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock;
+- (BOOL)isPlayWith3GOnceTime;
 - (BOOL)isPlaying;
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)pause;
