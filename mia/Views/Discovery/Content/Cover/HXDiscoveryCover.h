@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet     UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *singerNameLabel;
 
+@property (weak, nonatomic) IBOutlet      UIView *cardUserView;
 @property (weak, nonatomic) IBOutlet UIImageView *cardUserAvatar;
 @property (weak, nonatomic) IBOutlet     UILabel *cardUserLabel;
 

@@ -28,6 +28,11 @@ HXXibImplementation
 - (void)loadConfigure {
     _cover.layer.drawsAsynchronously = YES;
     _cardUserAvatar.layer.drawsAsynchronously = YES;
+    
+    _cardUserView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    _cardUserView.layer.shadowOffset = CGSizeMake(0.0f, 0.5f);
+    _cardUserView.layer.shadowRadius = 3.0f;
+    _cardUserView.layer.shadowOpacity = 1.0f;
 }
 
 - (void)viewConfigure {
