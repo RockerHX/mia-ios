@@ -8,8 +8,14 @@
 
 #import "UIViewController+HXClass.h"
 
+@class HXPlayTopBar;
+@class HXPlayBottomBar;
+@class HXPlayMusicSummaryView;
+
 @interface HXPlayViewController : UIViewController
 
-- (IBAction)backButtonPressed;
+@property (weak, nonatomic) IBOutlet           HXPlayTopBar *topBar;
+@property (weak, nonatomic) IBOutlet HXPlayMusicSummaryView *summaryView;
+@property (weak, nonatomic) IBOutlet        HXPlayBottomBar *bottomBar;
 
 @end

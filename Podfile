@@ -26,6 +26,7 @@ pod 'MJRefresh'
 pod 'MBProgressHUD'
 pod 'TTTAttributedLabel'
 pod 'BlocksKit'
+pod 'FXBlurView'
 
 #pod 'FDStackView'
 #pod 'UITableView+FDTemplateLayoutCell'

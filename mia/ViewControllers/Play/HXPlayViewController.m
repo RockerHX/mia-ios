@@ -7,9 +7,14 @@
 //
 
 #import "HXPlayViewController.h"
+#import "HXPlayTopBar.h"
+#import "HXPlayMusicSummaryView.h"
+#import "HXPlayBottomBar.h"
 
-@interface HXPlayViewController ()
-
+@interface HXPlayViewController () <
+HXPlayTopBarDelegate,
+HXPlayMusicSummaryViewDelegate
+>
 @end
 
 @implementation HXPlayViewController
@@ -24,6 +29,10 @@
 }
 
 #pragma mark - View Controller Lift Cycle
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -32,12 +41,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    ;
 }
 
-#pragma mark - Event Response
-- (IBAction)backButtonPressed {
-    [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - HXPlayTopBarDelegate Methods
+- (void)topBar:(HXPlayTopBar *)bar takeAction:(HXPlayTopBarAction)action {
+    switch (action) {
+        case HXPlayTopBarActionBack: {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        }
+        case HXPlayTopBarActionShowList: {
+            ;
+            break;
+        }
+    }
+}
+
+#pragma mark - HXPlayMusicSummaryViewDelegate Methods
+- (void)summaryViewTaped:(HXPlayMusicSummaryView *)summaryView {
+    ;
 }
 
 @end

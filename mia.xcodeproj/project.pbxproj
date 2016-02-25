@@ -133,6 +133,12 @@
 		CDE53A1F1C7BFDDB00E0616D /* UserDefaultsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE53A081C7BFDDB00E0616D /* UserDefaultsUtils.m */; };
 		CDEF7ABF1C7EE98500354229 /* Play.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDEF7ABD1C7EE98500354229 /* Play.storyboard */; };
 		CDEF7AC31C7EE9CA00354229 /* HXPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7AC21C7EE9CA00354229 /* HXPlayViewController.m */; };
+		CDEF7ACA1C7EFDD400354229 /* HXPlayTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7AC91C7EFDD400354229 /* HXPlayTopBar.m */; };
+		CDEF7ACD1C7EFDE000354229 /* HXPlayBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7ACC1C7EFDE000354229 /* HXPlayBottomBar.m */; };
+		CDEF7AD01C7EFDFF00354229 /* HXPlayMusicSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7ACF1C7EFDFF00354229 /* HXPlayMusicSummaryView.m */; };
+		CDEF7AD21C7EFE2C00354229 /* HXPlayBottomBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDEF7AD11C7EFE2C00354229 /* HXPlayBottomBar.xib */; };
+		CDEF7AD41C7EFE3300354229 /* HXPlayMusicSummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDEF7AD31C7EFE3300354229 /* HXPlayMusicSummaryView.xib */; };
+		CDEF7AD61C7EFE3900354229 /* HXPlayTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDEF7AD51C7EFE3900354229 /* HXPlayTopBar.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -372,6 +378,15 @@
 		CDEF7ABE1C7EE98500354229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Play.storyboard; sourceTree = "<group>"; };
 		CDEF7AC11C7EE9CA00354229 /* HXPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayViewController.h; sourceTree = "<group>"; };
 		CDEF7AC21C7EE9CA00354229 /* HXPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayViewController.m; sourceTree = "<group>"; };
+		CDEF7AC81C7EFDD400354229 /* HXPlayTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayTopBar.h; sourceTree = "<group>"; };
+		CDEF7AC91C7EFDD400354229 /* HXPlayTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayTopBar.m; sourceTree = "<group>"; };
+		CDEF7ACB1C7EFDE000354229 /* HXPlayBottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayBottomBar.h; sourceTree = "<group>"; };
+		CDEF7ACC1C7EFDE000354229 /* HXPlayBottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayBottomBar.m; sourceTree = "<group>"; };
+		CDEF7ACE1C7EFDFF00354229 /* HXPlayMusicSummaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayMusicSummaryView.h; sourceTree = "<group>"; };
+		CDEF7ACF1C7EFDFF00354229 /* HXPlayMusicSummaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayMusicSummaryView.m; sourceTree = "<group>"; };
+		CDEF7AD11C7EFE2C00354229 /* HXPlayBottomBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXPlayBottomBar.xib; sourceTree = "<group>"; };
+		CDEF7AD31C7EFE3300354229 /* HXPlayMusicSummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXPlayMusicSummaryView.xib; sourceTree = "<group>"; };
+		CDEF7AD51C7EFE3900354229 /* HXPlayTopBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXPlayTopBar.xib; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1450,8 +1465,41 @@
 		CDEF7AC41C7EEBEB00354229 /* Play */ = {
 			isa = PBXGroup;
 			children = (
+				CDEF7AC71C7EFD8E00354229 /* TopBar */,
+				CDEF7AC61C7EFD8E00354229 /* Content */,
+				CDEF7AC51C7EFD8E00354229 /* BottomBar */,
 			);
 			path = Play;
+			sourceTree = "<group>";
+		};
+		CDEF7AC51C7EFD8E00354229 /* BottomBar */ = {
+			isa = PBXGroup;
+			children = (
+				CDEF7ACB1C7EFDE000354229 /* HXPlayBottomBar.h */,
+				CDEF7ACC1C7EFDE000354229 /* HXPlayBottomBar.m */,
+				CDEF7AD11C7EFE2C00354229 /* HXPlayBottomBar.xib */,
+			);
+			path = BottomBar;
+			sourceTree = "<group>";
+		};
+		CDEF7AC61C7EFD8E00354229 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				CDEF7ACE1C7EFDFF00354229 /* HXPlayMusicSummaryView.h */,
+				CDEF7ACF1C7EFDFF00354229 /* HXPlayMusicSummaryView.m */,
+				CDEF7AD31C7EFE3300354229 /* HXPlayMusicSummaryView.xib */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		CDEF7AC71C7EFD8E00354229 /* TopBar */ = {
+			isa = PBXGroup;
+			children = (
+				CDEF7AC81C7EFDD400354229 /* HXPlayTopBar.h */,
+				CDEF7AC91C7EFDD400354229 /* HXPlayTopBar.m */,
+				CDEF7AD51C7EFE3900354229 /* HXPlayTopBar.xib */,
+			);
+			path = TopBar;
 			sourceTree = "<group>";
 		};
 		F054F07D4E0725BD42A9D66F /* Frameworks */ = {
@@ -1533,16 +1581,19 @@
 				CD74FC1F1C7C65CD00DBEB83 /* HXLoadingView.xib in Resources */,
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
 				CDB55E6D1C72C7EE00962ED0 /* LaunchScreen.storyboard in Resources */,
+				CDEF7AD21C7EFE2C00354229 /* HXPlayBottomBar.xib in Resources */,
 				CDB55E6A1C72C7EE00962ED0 /* Assets.xcassets in Resources */,
 				CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */,
 				CD74FC0F1C7C06FA00DBEB83 /* HXNavigationBar.xib in Resources */,
 				CD9A36481C7ED9FD0016DDB1 /* HXInfectListCell.xib in Resources */,
+				CDEF7AD61C7EFE3900354229 /* HXPlayTopBar.xib in Resources */,
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
 				CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */,
 				CD9A36541C7EDB3F0016DDB1 /* HXInfectCell.xib in Resources */,
 				CDEF7ABF1C7EE98500354229 /* Play.storyboard in Resources */,
+				CDEF7AD41C7EFE3300354229 /* HXPlayMusicSummaryView.xib in Resources */,
 				CD2D3B0E1C7B1A89002E34D1 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1616,6 +1667,7 @@
 				CDE539AF1C7BFD5200E0616D /* FlyCommentItem.m in Sources */,
 				CDE539B81C7BFD5200E0616D /* MusicItem.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
+				CDEF7ACD1C7EFDE000354229 /* HXPlayBottomBar.m in Sources */,
 				CDE539B41C7BFD5200E0616D /* MessageModel.m in Sources */,
 				CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */,
 				CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */,
@@ -1626,6 +1678,7 @@
 				CDE539BA1C7BFD5200E0616D /* SearchResultItem.m in Sources */,
 				CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */,
 				CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */,
+				CDEF7ACA1C7EFDD400354229 /* HXPlayTopBar.m in Sources */,
 				CD06900F1C746B8C001C0997 /* UIView+Frame.m in Sources */,
 				CD0690171C746B8C001C0997 /* HXIBView.m in Sources */,
 				CDE53A181C7BFDDB00E0616D /* UIImageView+BlurredImage.m in Sources */,
@@ -1701,6 +1754,7 @@
 				CDE539BD1C7BFD5200E0616D /* ShareItem.m in Sources */,
 				CDE539B21C7BFD5200E0616D /* InfectUserItem.m in Sources */,
 				CD2D3B191C7B1AD4002E34D1 /* HXForgotPWViewController.m in Sources */,
+				CDEF7AD01C7EFDFF00354229 /* HXPlayMusicSummaryView.m in Sources */,
 				CDB55E901C72D16300962ED0 /* HXPanGestureNavgaitionController.m in Sources */,
 				CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
