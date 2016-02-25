@@ -32,8 +32,8 @@
 @property (strong, nonatomic) UserItem *shareUser;
 @property (strong, nonatomic) UserItem *spaceUser;
 
-@property (strong, nonatomic) NSArray <InfectUserItem *>*infectUsers;
-@property (strong, nonatomic) NSArray <FlyCommentItem *>*flyComments;
+@property (strong, nonatomic) NSArray<InfectUserItem *> *infectUsers;
+@property (strong, nonatomic) NSArray<FlyCommentItem *> *flyComments;
 
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
