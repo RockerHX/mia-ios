@@ -1,13 +1,13 @@
 //
-//  HXInfectUserListView.m
+//  HXInfectListView.m
 //  mia
 //
 //  Created by miaios on 15/10/22.
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import "HXInfectUserListView.h"
-#import "HXInfectUserListCell.h"
+#import "HXInfectListView.h"
+#import "HXInfectListCell.h"
 #import "AppDelegate.h"
 #import "MiaAPIHelper.h"
 #import "MJRefresh.h"
@@ -18,7 +18,7 @@ typedef void(^BLOCK)(id item, NSInteger index);
 
 static NSInteger kInfectListItemCountInPage = 10;
 
-@implementation HXInfectUserListView {
+@implementation HXInfectListView {
     BLOCK _tapBlock;
     NSString *_sID;
     __block NSString *_lastInfectID;
@@ -27,17 +27,17 @@ static NSInteger kInfectListItemCountInPage = 10;
 
 #pragma mark - Class Methods
 + (instancetype)instance {
-    return [[[NSBundle mainBundle] loadNibNamed:@"HXInfectUserListView" owner:self options:nil] firstObject];
+    return [[[NSBundle mainBundle] loadNibNamed:@"HXInfectListView" owner:self options:nil] firstObject];
 }
 
 + (instancetype)showWithItems:(NSArray *)items taped:(void(^)(id item, NSInteger index))taped {
-    HXInfectUserListView *view = [HXInfectUserListView instance];
+    HXInfectListView *view = [HXInfectListView instance];
     [view showWithItems:items taped:taped];
     return view;
 }
 
 + (instancetype)showWithSharerID:(NSString *)sID taped:(void(^)(id item, NSInteger index))taped {
-    HXInfectUserListView *view = [HXInfectUserListView instance];
+    HXInfectListView *view = [HXInfectListView instance];
     [view showWithSharerID:sID taped:taped];
     return view;
 }
@@ -54,7 +54,7 @@ static NSInteger kInfectListItemCountInPage = 10;
 - (void)initConfig {
     _lastInfectID = @"0";
     _listItems = @[].mutableCopy;
-    NSString *className = NSStringFromClass([HXInfectUserListCell class]);
+    NSString *className = NSStringFromClass([HXInfectListCell class]);
     UINib *nib = [UINib nibWithNibName:className bundle:nil];
     [_tableView registerNib:nib forCellReuseIdentifier:className];
 }
@@ -237,8 +237,8 @@ static NSInteger kInfectListItemCountInPage = 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellName = NSStringFromClass([HXInfectUserListCell class]);
-    HXInfectUserListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
+    NSString *cellName = NSStringFromClass([HXInfectListCell class]);
+    HXInfectListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
         NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:cellName owner:nil options:nil];
         cell = [nibs lastObject];

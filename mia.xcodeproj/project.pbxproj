@@ -43,10 +43,6 @@
 		CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E9181C7AFB4100270836 /* HXFavoriteHeader.xib */; };
 		CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */; };
 		CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */; };
-		CD74FC0A1C7C06FA00DBEB83 /* HXInfectUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FBF81C7C06FA00DBEB83 /* HXInfectUserListCell.m */; };
-		CD74FC0B1C7C06FA00DBEB83 /* HXInfectUserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FBF91C7C06FA00DBEB83 /* HXInfectUserListCell.xib */; };
-		CD74FC0C1C7C06FA00DBEB83 /* HXInfectUserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FBFB1C7C06FA00DBEB83 /* HXInfectUserListView.m */; };
-		CD74FC0D1C7C06FA00DBEB83 /* HXInfectUserListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FBFC1C7C06FA00DBEB83 /* HXInfectUserListView.xib */; };
 		CD74FC0E1C7C06FA00DBEB83 /* HXNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FBFF1C7C06FA00DBEB83 /* HXNavigationBar.m */; };
 		CD74FC0F1C7C06FA00DBEB83 /* HXNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC001C7C06FA00DBEB83 /* HXNavigationBar.xib */; };
 		CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */; };
@@ -59,6 +55,10 @@
 		CD74FC221C7C65EA00DBEB83 /* HXLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC211C7C65EA00DBEB83 /* HXLoadingView.m */; };
 		CD74FC251C7C662B00DBEB83 /* HXActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC241C7C662B00DBEB83 /* HXActivityIndicator.m */; };
 		CD74FC271C7DB05E00DBEB83 /* HXDiscoveryCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC261C7DB05E00DBEB83 /* HXDiscoveryCardView.xib */; };
+		CD9A36471C7ED9FD0016DDB1 /* HXInfectListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9A36411C7ED9FD0016DDB1 /* HXInfectListCell.m */; };
+		CD9A36481C7ED9FD0016DDB1 /* HXInfectListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD9A36421C7ED9FD0016DDB1 /* HXInfectListCell.xib */; };
+		CD9A36491C7ED9FD0016DDB1 /* HXInfectListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9A36441C7ED9FD0016DDB1 /* HXInfectListView.m */; };
+		CD9A364A1C7ED9FD0016DDB1 /* HXInfectListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD9A36451C7ED9FD0016DDB1 /* HXInfectListView.xib */; };
 		CDB55E5C1C72C7EE00962ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5B1C72C7EE00962ED0 /* main.m */; };
 		CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E5E1C72C7EE00962ED0 /* AppDelegate.m */; };
 		CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB55E661C72C7EE00962ED0 /* Main.storyboard */; };
@@ -199,12 +199,6 @@
 		CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteHeader.m; sourceTree = "<group>"; };
 		CD64E91D1C7AFC4800270836 /* HXFavoriteContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteContainerViewController.h; sourceTree = "<group>"; };
 		CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteContainerViewController.m; sourceTree = "<group>"; };
-		CD74FBF71C7C06FA00DBEB83 /* HXInfectUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListCell.h; sourceTree = "<group>"; };
-		CD74FBF81C7C06FA00DBEB83 /* HXInfectUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListCell.m; sourceTree = "<group>"; };
-		CD74FBF91C7C06FA00DBEB83 /* HXInfectUserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListCell.xib; sourceTree = "<group>"; };
-		CD74FBFA1C7C06FA00DBEB83 /* HXInfectUserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectUserListView.h; sourceTree = "<group>"; };
-		CD74FBFB1C7C06FA00DBEB83 /* HXInfectUserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectUserListView.m; sourceTree = "<group>"; };
-		CD74FBFC1C7C06FA00DBEB83 /* HXInfectUserListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectUserListView.xib; sourceTree = "<group>"; };
 		CD74FBFE1C7C06FA00DBEB83 /* HXNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNavigationBar.h; sourceTree = "<group>"; };
 		CD74FBFF1C7C06FA00DBEB83 /* HXNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNavigationBar.m; sourceTree = "<group>"; };
 		CD74FC001C7C06FA00DBEB83 /* HXNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNavigationBar.xib; sourceTree = "<group>"; };
@@ -224,6 +218,12 @@
 		CD74FC231C7C662B00DBEB83 /* HXActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXActivityIndicator.h; sourceTree = "<group>"; };
 		CD74FC241C7C662B00DBEB83 /* HXActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXActivityIndicator.m; sourceTree = "<group>"; };
 		CD74FC261C7DB05E00DBEB83 /* HXDiscoveryCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXDiscoveryCardView.xib; sourceTree = "<group>"; };
+		CD9A36401C7ED9FD0016DDB1 /* HXInfectListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectListCell.h; sourceTree = "<group>"; };
+		CD9A36411C7ED9FD0016DDB1 /* HXInfectListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectListCell.m; sourceTree = "<group>"; };
+		CD9A36421C7ED9FD0016DDB1 /* HXInfectListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectListCell.xib; sourceTree = "<group>"; };
+		CD9A36431C7ED9FD0016DDB1 /* HXInfectListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXInfectListView.h; sourceTree = "<group>"; };
+		CD9A36441C7ED9FD0016DDB1 /* HXInfectListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXInfectListView.m; sourceTree = "<group>"; };
+		CD9A36451C7ED9FD0016DDB1 /* HXInfectListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXInfectListView.xib; sourceTree = "<group>"; };
 		CDB55E571C72C7EE00962ED0 /* mia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB55E5B1C72C7EE00962ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CDB55E5D1C72C7EE00962ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -655,25 +655,13 @@
 		CD74FBF11C7C06FA00DBEB83 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				CD74FBF61C7C06FA00DBEB83 /* HXInfectUserListView */,
+				CD9A36461C7ED9FD0016DDB1 /* HXInfectView */,
+				CD9A363F1C7ED9FD0016DDB1 /* HXInfectListView */,
 				CD74FBFD1C7C06FA00DBEB83 /* HXNavigationBar */,
 				CD74FC011C7C06FA00DBEB83 /* HXNoNetworkView */,
 				CD74FC051C7C06FA00DBEB83 /* YHSegmentedControl */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		CD74FBF61C7C06FA00DBEB83 /* HXInfectUserListView */ = {
-			isa = PBXGroup;
-			children = (
-				CD74FBF71C7C06FA00DBEB83 /* HXInfectUserListCell.h */,
-				CD74FBF81C7C06FA00DBEB83 /* HXInfectUserListCell.m */,
-				CD74FBF91C7C06FA00DBEB83 /* HXInfectUserListCell.xib */,
-				CD74FBFA1C7C06FA00DBEB83 /* HXInfectUserListView.h */,
-				CD74FBFB1C7C06FA00DBEB83 /* HXInfectUserListView.m */,
-				CD74FBFC1C7C06FA00DBEB83 /* HXInfectUserListView.xib */,
-			);
-			path = HXInfectUserListView;
 			sourceTree = "<group>";
 		};
 		CD74FBFD1C7C06FA00DBEB83 /* HXNavigationBar */ = {
@@ -734,6 +722,26 @@
 				CD74FC1E1C7C65CD00DBEB83 /* HXLoadingView.xib */,
 			);
 			path = HXLoadingView;
+			sourceTree = "<group>";
+		};
+		CD9A363F1C7ED9FD0016DDB1 /* HXInfectListView */ = {
+			isa = PBXGroup;
+			children = (
+				CD9A36401C7ED9FD0016DDB1 /* HXInfectListCell.h */,
+				CD9A36411C7ED9FD0016DDB1 /* HXInfectListCell.m */,
+				CD9A36421C7ED9FD0016DDB1 /* HXInfectListCell.xib */,
+				CD9A36431C7ED9FD0016DDB1 /* HXInfectListView.h */,
+				CD9A36441C7ED9FD0016DDB1 /* HXInfectListView.m */,
+				CD9A36451C7ED9FD0016DDB1 /* HXInfectListView.xib */,
+			);
+			path = HXInfectListView;
+			sourceTree = "<group>";
+		};
+		CD9A36461C7ED9FD0016DDB1 /* HXInfectView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HXInfectView;
 			sourceTree = "<group>";
 		};
 		CDB55E4E1C72C7ED00962ED0 = {
@@ -1479,15 +1487,15 @@
 				CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */,
 				CDB55E841C72CFD500962ED0 /* Profile.storyboard in Resources */,
 				CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */,
+				CD9A364A1C7ED9FD0016DDB1 /* HXInfectListView.xib in Resources */,
 				CD74FC271C7DB05E00DBEB83 /* HXDiscoveryCardView.xib in Resources */,
-				CD74FC0B1C7C06FA00DBEB83 /* HXInfectUserListCell.xib in Resources */,
 				CD74FC1F1C7C65CD00DBEB83 /* HXLoadingView.xib in Resources */,
 				CDB55E7C1C72CFB500962ED0 /* Discovery.storyboard in Resources */,
 				CDB55E6D1C72C7EE00962ED0 /* LaunchScreen.storyboard in Resources */,
 				CDB55E6A1C72C7EE00962ED0 /* Assets.xcassets in Resources */,
 				CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */,
 				CD74FC0F1C7C06FA00DBEB83 /* HXNavigationBar.xib in Resources */,
-				CD74FC0D1C7C06FA00DBEB83 /* HXInfectUserListView.xib in Resources */,
+				CD9A36481C7ED9FD0016DDB1 /* HXInfectListCell.xib in Resources */,
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
@@ -1565,7 +1573,6 @@
 				CDE539AF1C7BFD5200E0616D /* FlyCommentItem.m in Sources */,
 				CDE539B81C7BFD5200E0616D /* MusicItem.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
-				CD74FC0C1C7C06FA00DBEB83 /* HXInfectUserListView.m in Sources */,
 				CDE539B41C7BFD5200E0616D /* MessageModel.m in Sources */,
 				CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */,
 				CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */,
@@ -1604,11 +1611,11 @@
 				CD06901B1C746B8C001C0997 /* HXLabel.m in Sources */,
 				CDE539B01C7BFD5200E0616D /* FriendItem.m in Sources */,
 				CDE539BE1C7BFD5200E0616D /* SuggestionItem.m in Sources */,
+				CD9A36471C7ED9FD0016DDB1 /* HXInfectListCell.m in Sources */,
 				CD2D3B0B1C7B17E0002E34D1 /* HXUserSession.m in Sources */,
 				CDE53A171C7BFDDB00E0616D /* UIImage+ImageEffects.m in Sources */,
 				CDE539B91C7BFD5200E0616D /* ProfileShareModel.m in Sources */,
 				CDE53A0C1C7BFDDB00E0616D /* NSObject+BlockSupport.m in Sources */,
-				CD74FC0A1C7C06FA00DBEB83 /* HXInfectUserListCell.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
 				CDE53A161C7BFDDB00E0616D /* UIImage+Extrude.m in Sources */,
 				CD64E9091C7AACC100270836 /* HXDiscoveryCardView.m in Sources */,
@@ -1652,6 +1659,7 @@
 				CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
 				CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */,
+				CD9A36491C7ED9FD0016DDB1 /* HXInfectListView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

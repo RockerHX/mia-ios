@@ -1,15 +1,15 @@
 //
-//  HXInfectUserListCell.m
+//  HXInfectListCell.m
 //  mia
 //
 //  Created by miaios on 15/10/22.
 //  Copyright © 2015年 Mia Music. All rights reserved.
 //
 
-#import "HXInfectUserListCell.h"
+#import "HXInfectListCell.h"
 #import "UIImageView+WebCache.h"
 
-@implementation HXInfectUserListCell
+@implementation HXInfectListCell
 
 #pragma mark - Init Methods
 - (void)awakeFromNib {

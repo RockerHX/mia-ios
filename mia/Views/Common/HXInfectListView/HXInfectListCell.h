@@ -1,5 +1,5 @@
 //
-//  HXInfectUserListCell.h
+//  HXInfectListCell.h
 //  mia
 //
 //  Created by miaios on 15/10/22.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "InfectItem.h"
 
-@interface HXInfectUserListCell : UITableViewCell
+@interface HXInfectListCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *header;
 @property (weak, nonatomic) IBOutlet     UILabel *nameLabel;

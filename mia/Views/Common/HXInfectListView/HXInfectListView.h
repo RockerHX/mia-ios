@@ -1,5 +1,5 @@
 //
-//  HXInfectUserListView.h
+//  HXInfectListView.h
 //  mia
 //
 //  Created by miaios on 15/10/22.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HXInfectUserListView : UIView <UITableViewDataSource, UITableViewDelegate>
+@interface HXInfectListView : UIView <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet      UIView *containerView;
 @property (weak, nonatomic) IBOutlet     UILabel *titleLabel;
