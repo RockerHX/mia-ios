@@ -131,6 +131,8 @@
 		CDE53A1C1C7BFDDB00E0616D /* LocationMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539FF1C7BFDDB00E0616D /* LocationMgr.m */; };
 		CDE53A1D1C7BFDDB00E0616D /* PathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE53A021C7BFDDB00E0616D /* PathHelper.m */; };
 		CDE53A1F1C7BFDDB00E0616D /* UserDefaultsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE53A081C7BFDDB00E0616D /* UserDefaultsUtils.m */; };
+		CDEF7ABF1C7EE98500354229 /* Play.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDEF7ABD1C7EE98500354229 /* Play.storyboard */; };
+		CDEF7AC31C7EE9CA00354229 /* HXPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7AC21C7EE9CA00354229 /* HXPlayViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -367,6 +369,9 @@
 		CDE53A021C7BFDDB00E0616D /* PathHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathHelper.m; sourceTree = "<group>"; };
 		CDE53A071C7BFDDB00E0616D /* UserDefaultsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaultsUtils.h; sourceTree = "<group>"; };
 		CDE53A081C7BFDDB00E0616D /* UserDefaultsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsUtils.m; sourceTree = "<group>"; };
+		CDEF7ABE1C7EE98500354229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Play.storyboard; sourceTree = "<group>"; };
+		CDEF7AC11C7EE9CA00354229 /* HXPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayViewController.h; sourceTree = "<group>"; };
+		CDEF7AC21C7EE9CA00354229 /* HXPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayViewController.m; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -825,6 +830,7 @@
 				CD0690241C747164001C0997 /* Me.storyboard */,
 				CD2D3B0C1C7B1A89002E34D1 /* Login.storyboard */,
 				CDB55E821C72CFD500962ED0 /* Profile.storyboard */,
+				CDEF7ABD1C7EE98500354229 /* Play.storyboard */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -846,6 +852,7 @@
 				CD0690201C746D08001C0997 /* Me */,
 				CD2D3B0F1C7B1AD4002E34D1 /* Login */,
 				CDB55E931C72D21D00962ED0 /* Profile */,
+				CDEF7AC01C7EE9BA00354229 /* Play */,
 				CDB55E8D1C72D16300962ED0 /* HXPanGestureNavgaitionController.h */,
 				CDB55E8E1C72D16300962ED0 /* HXPanGestureNavgaitionController.m */,
 				CDB55E8B1C72D16300962ED0 /* HXMainViewController.h */,
@@ -867,6 +874,7 @@
 				CD74FBF11C7C06FA00DBEB83 /* Common */,
 				CDBC45331C75D6100037FEC4 /* Discovery */,
 				CD64E9151C7AFB1600270836 /* Favorite */,
+				CDEF7AC41C7EEBEB00354229 /* Play */,
 				CD64E9041C7AAC9A00270836 /* HXXib.h */,
 			);
 			path = Views;
@@ -1430,6 +1438,22 @@
 			path = UserDefaultsUtils;
 			sourceTree = "<group>";
 		};
+		CDEF7AC01C7EE9BA00354229 /* Play */ = {
+			isa = PBXGroup;
+			children = (
+				CDEF7AC11C7EE9CA00354229 /* HXPlayViewController.h */,
+				CDEF7AC21C7EE9CA00354229 /* HXPlayViewController.m */,
+			);
+			path = Play;
+			sourceTree = "<group>";
+		};
+		CDEF7AC41C7EEBEB00354229 /* Play */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Play;
+			sourceTree = "<group>";
+		};
 		F054F07D4E0725BD42A9D66F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1518,6 +1542,7 @@
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
 				CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */,
 				CD9A36541C7EDB3F0016DDB1 /* HXInfectCell.xib in Resources */,
+				CDEF7ABF1C7EE98500354229 /* Play.storyboard in Resources */,
 				CD2D3B0E1C7B1A89002E34D1 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1639,6 +1664,7 @@
 				CDE53A161C7BFDDB00E0616D /* UIImage+Extrude.m in Sources */,
 				CD64E9091C7AACC100270836 /* HXDiscoveryCardView.m in Sources */,
 				CDE53A191C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
+				CDEF7AC31C7EE9CA00354229 /* HXPlayViewController.m in Sources */,
 				CDE53A0F1C7BFDDB00E0616D /* NSString+Emoji.m in Sources */,
 				CD74FC121C7C06FA00DBEB83 /* YHSegmentedControl.m in Sources */,
 				CDB55E8F1C72D16300962ED0 /* HXMainViewController.m in Sources */,
@@ -1740,6 +1766,14 @@
 				CDB55E831C72CFD500962ED0 /* Base */,
 			);
 			name = Profile.storyboard;
+			sourceTree = "<group>";
+		};
+		CDEF7ABD1C7EE98500354229 /* Play.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDEF7ABE1C7EE98500354229 /* Base */,
+			);
+			name = Play.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

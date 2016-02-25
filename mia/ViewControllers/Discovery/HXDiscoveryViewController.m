@@ -16,6 +16,7 @@
 #import "FileLog.h"
 #import "HXLoadingView.h"
 #import "MusicMgr.h"
+#import "HXPlayViewController.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -142,12 +143,14 @@ HXDiscoveryContainerViewControllerDelegate
 #pragma mark - HXDiscoveryHeaderDelegate Methods
 - (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
     switch (action) {
-        case HXDiscoveryHeaderActionProfile: {
+        case HXDiscoveryHeaderActionShare: {
             ;
             break;
         }
-        case HXDiscoveryHeaderActionShare: {
-            ;
+        case HXDiscoveryHeaderActionPlay: {
+            UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
+//            HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
+            [self presentViewController:playNavigationController animated:YES completion:nil];
             break;
         }
     }

@@ -44,6 +44,10 @@
             storyBoardName = @"Profile";
             break;
         }
+        case HXStoryBoardNamePlay: {
+            storyBoardName = @"Play";
+            break;
+        }
     }
     return storyBoardName;
 }

@@ -16,14 +16,14 @@
                     <rect key="frame" x="14" y="29" width="25" height="25"/>
                     <state key="normal" image="D-ShareIcon"/>
                     <connections>
-                        <action selector="profileButtonPressed" destination="-1" eventType="touchUpInside" id="oOo-IB-wOZ"/>
+                        <action selector="shareButtonPressed" destination="-1" eventType="touchUpInside" id="0RN-Tp-7Hn"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYU-eQ-zAf">
                     <rect key="frame" x="281" y="29" width="25" height="25"/>
                     <state key="normal" image="D-MuisIcon"/>
                     <connections>
-                        <action selector="shareButtonPressed" destination="-1" eventType="touchUpInside" id="Nnc-Z9-Q9m"/>
+                        <action selector="playButtonPressed" destination="-1" eventType="touchUpInside" id="y02-Yy-Ndu"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发现" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lPU-Je-cXV">

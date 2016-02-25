@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
-    HXDiscoveryHeaderActionProfile,
-    HXDiscoveryHeaderActionShare
+    HXDiscoveryHeaderActionShare,
+    HXDiscoveryHeaderActionPlay
 };
 
 
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
 
 @property (nonatomic, weak) IBOutlet id <HXDiscoveryHeaderDelegate>delegate;
 
-- (IBAction)profileButtonPressed;
 - (IBAction)shareButtonPressed;
+- (IBAction)playButtonPressed;
 
 @end

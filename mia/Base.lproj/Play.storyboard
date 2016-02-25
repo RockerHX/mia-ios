@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--HXPlayNavigationController-->
+        <scene sceneID="M5O-Dt-w0n">
+            <objects>
+                <navigationController storyboardIdentifier="HXPlayNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Go-qd-9PF" userLabel="HXPlayNavigationController" customClass="HXPlayNavigationController" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JAz-Ms-g4h">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="grR-Jb-QG7" kind="relationship" relationship="rootViewController" id="UR6-l6-oOj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lMj-37-aya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="344" y="90"/>
+        </scene>
+        <!--HXPlayViewController-->
+        <scene sceneID="NVp-NM-yFp">
+            <objects>
+                <viewController storyboardIdentifier="HXPlayViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="grR-Jb-QG7" userLabel="HXPlayViewController" customClass="HXPlayViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DHx-pc-gm2"/>
+                        <viewControllerLayoutGuide type="bottom" id="9HS-wu-fWe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kt3-6L-6rJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cfy-w9-Cnq">
+                                <rect key="frame" x="20" y="96" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="backButtonPressed" destination="grR-Jb-QG7" eventType="touchUpInside" id="pZW-Sh-8LH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="N5A-gd-fND"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BK8-ZL-Qzu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="765" y="90"/>
+        </scene>
+    </scenes>
+</document>
