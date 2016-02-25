@@ -7,8 +7,6 @@
 //
 
 #import "ShareItem.h"
-#import "InfectUserItem.h"
-#import "FlyCommentItem.h"
 #import "FormatTimeHelper.h"
 
 @implementation ShareItem
