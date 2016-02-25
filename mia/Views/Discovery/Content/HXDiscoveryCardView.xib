@@ -11,6 +11,7 @@
                 <outlet property="commentContentLabel" destination="rkS-0f-fMn" id="OX6-Lu-aVR"/>
                 <outlet property="commentatorsNameLabel" destination="V83-uH-kB6" id="Lpf-iw-aNh"/>
                 <outlet property="coverView" destination="ZlF-TJ-5uI" id="GOL-pc-XNz"/>
+                <outlet property="infectView" destination="KMu-t3-LtB" id="RWg-qV-SXp"/>
                 <outlet property="sharerLabel" destination="Wib-Wl-9pg" id="cqO-Y4-zWV"/>
             </connections>
         </placeholder>
@@ -52,9 +53,9 @@
                         <constraint firstItem="Wib-Wl-9pg" firstAttribute="top" secondItem="cgq-mw-184" secondAttribute="top" id="cPA-T4-GwY"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMu-t3-LtB" userLabel="Infecter View">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMu-t3-LtB" userLabel="Infecter View" customClass="HXInfectView">
                     <rect key="frame" x="15" y="437" width="290" height="32"/>
-                    <color key="backgroundColor" red="0.89411764709999997" green="0.90980392160000001" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="aFE-ni-g4u"/>
                     </constraints>

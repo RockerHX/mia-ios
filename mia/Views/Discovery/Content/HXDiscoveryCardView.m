@@ -8,9 +8,10 @@
 
 #import "HXDiscoveryCardView.h"
 #import "HXXib.h"
-#import "HXDiscoveryCover.h"
 #import "ShareItem.h"
+#import "HXDiscoveryCover.h"
 #import "TTTAttributedLabel.h"
+#import "HXInfectView.h"
 #import "UIConstants.h"
 
 @implementation HXDiscoveryCardView {
@@ -41,8 +42,8 @@ HXXibImplementation
     if ([item isKindOfClass:[ShareItem class]]) {
         ShareItem *shareItem = item;
         [_coverView displayWithItem:shareItem];
-        
         [self displaySharerLabelWithSharer:shareItem.sNick content:shareItem.sNote];
+        [_infectView setInfecters:shareItem.infectUsers];
         
 //        _commentatorsNameLabel.text = shareItem.flyComments.firstObject.comment;
         _commentContentLabel.text = shareItem.flyComments.firstObject.comment ?: _commentContentLabel.text;

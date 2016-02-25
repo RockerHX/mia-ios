@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class HXInfectView;
 @class HXDiscoveryCover;
 @class TTTAttributedLabel;
 @class HXDiscoveryCardView;
@@ -27,12 +28,9 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
 
 @property (weak, nonatomic) IBOutlet   HXDiscoveryCover *coverView;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *sharerLabel;
-//@property (weak, nonatomic) IBOutlet *;
-//@property (weak, nonatomic) IBOutlet *;
-//@property (weak, nonatomic) IBOutlet *;
-//@property (weak, nonatomic) IBOutlet *;
-@property (weak, nonatomic) IBOutlet UILabel *commentatorsNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *commentContentLabel;
+@property (weak, nonatomic) IBOutlet       HXInfectView *infectView;
+@property (weak, nonatomic) IBOutlet            UILabel *commentatorsNameLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *commentContentLabel;
 
 @property (nonatomic, weak) id <HXDiscoveryCardViewDelegate>delegate;
 
