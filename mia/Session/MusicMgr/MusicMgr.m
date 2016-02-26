@@ -252,8 +252,8 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	return [_player currentPlayedPostion];
 }
 
-- (void)playFromPostion:(float)postion {
-	return [_player playFromPostion:postion];
+- (void)seekToPosition:(float)postion {
+	return [_player seekToPosition:postion];
 }
 
 #pragma mark - Private Methods

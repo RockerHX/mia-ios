@@ -67,7 +67,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  * and 1.0 is the end.
  */
 - (float)currentPlayedPostion;
-- (void)playFromPostion:(float)postion;
+- (void)seekToPosition:(float)postion;
 
 
 

@@ -174,14 +174,18 @@
 	return [_audioStream currentTimePlayed].position;
 }
 
-- (void)playFromPostion:(float)postion {
+- (void)seekToPosition:(float)postion {
 	if (!_audioStream) {
 		return;
 	}
 
-	FSSeekByteOffset offset = _audioStream.currentSeekByteOffset;
-	offset.position = postion;
-	[_audioStream playFromOffset:offset];
+	unsigned destTotalSeconds = (_audioStream.duration.minute * 60 + _audioStream.duration.second) * postion;
+	FSStreamPosition destPostion;
+	destPostion.position = postion;
+	destPostion.minute = destTotalSeconds / 60;
+	destPostion.second = destTotalSeconds % 60;
+
+	[_audioStream seekToPosition:destPostion];
 }
 
 #pragma mark -private method
