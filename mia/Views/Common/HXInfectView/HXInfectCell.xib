@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mlF-5F-6Yo" customClass="HXIBImageView">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mlF-5F-6Yo" customClass="HXIBImageView">
                         <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
