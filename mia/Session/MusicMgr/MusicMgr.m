@@ -97,6 +97,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 
 	_playList = [[NSArray alloc] initWithArray:playList];
 	_currentIndex = 0;
+	_isShufflePlay = NO;
+//	_isLoopPlay = YES;
+
 }
 
 - (void)setPlayListWithItem:(ShareItem *)item {
@@ -242,9 +245,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		return 0;
 	}
 
-	// TODO 这里是不考虑随机播放和循环播放的情况
-	// isShufflePlay;
-	// isLoopPlay;
+	if (_isShufflePlay) {
+		return [self getNextIndex];
+	}
 
 	NSInteger prevIndex = _currentIndex - 1;
 	if (prevIndex < 0 || prevIndex >= _playList.count) {
@@ -259,11 +262,18 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		return 0;
 	}
 
-	// TODO 这里是不考虑随机播放和循环播放的情况
-	// isShufflePlay;
-	// isLoopPlay;
+	NSInteger lastIndex = _currentIndex;
+	NSInteger nextIndex = lastIndex;
 
-	NSInteger nextIndex = _currentIndex + 1;
+	if (_isShufflePlay) {
+		nextIndex = arc4random() % _playList.count;
+		if (nextIndex == lastIndex) {
+			nextIndex = lastIndex + 1;
+		}
+	} else {
+		nextIndex = _currentIndex + 1;
+	}
+
 	if (nextIndex < 0 || nextIndex >= _playList.count) {
 		return 0;
 	} else {

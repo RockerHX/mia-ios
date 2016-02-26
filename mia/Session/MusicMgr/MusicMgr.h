@@ -38,7 +38,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 @property (assign, nonatomic) NSInteger 		currentIndex;
 
 @property (assign , nonatomic) BOOL				isShufflePlay;
-@property (assign , nonatomic) BOOL				isLoopPlay;
+//@property (assign , nonatomic) BOOL				isLoopPlay;
 @property (assign, nonatomic) BOOL				isInterruption;
 
 - (void)setPlayList:(NSArray *)playList;
