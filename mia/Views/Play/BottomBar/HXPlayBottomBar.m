@@ -8,6 +8,7 @@
 
 #import "HXPlayBottomBar.h"
 #import "HXXib.h"
+#import "UIImage+ColorToImage.h"
 
 @implementation HXPlayBottomBar
 
@@ -28,6 +29,7 @@ HXXibImplementation
 
 - (void)viewConfigure {
     _containerView.backgroundColor = [UIColor clearColor];
+    [_slider setThumbImage:[UIImage imageNamed:@"P-CursorIcon"] forState:UIControlStateNormal];
 }
 
 #pragma mark - Property
