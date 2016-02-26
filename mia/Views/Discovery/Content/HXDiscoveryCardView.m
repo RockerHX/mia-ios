@@ -59,7 +59,7 @@ HXXibImplementation
     // 文字背景Layer
     if (!_sharerNickNameLayer) {
         _sharerNickNameLayer = [CAShapeLayer layer];
-        _sharerNickNameLayer.fillColor = UIColorFromRGB(0xEBEFF0).CGColor;
+        _sharerNickNameLayer.fillColor = UIColorByHex(0xEBEFF0).CGColor;
         _sharerNickNameLayer.strokeColor = _sharerNickNameLayer.fillColor;
         [_sharerLabel.layer insertSublayer:_sharerNickNameLayer atIndex:0];
     }

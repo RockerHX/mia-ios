@@ -17,6 +17,7 @@
 #import "HXLoadingView.h"
 #import "MusicMgr.h"
 #import "HXPlayViewController.h"
+#import "HXShareViewController.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -49,17 +50,17 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 #pragma mark - View Controller Lift Cycle
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    
-//    [self.navigationController setNavigationBarHidden:NO animated:NO];
-//}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -144,7 +145,7 @@ HXDiscoveryContainerViewControllerDelegate
 - (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
     switch (action) {
         case HXDiscoveryHeaderActionShare: {
-            ;
+            [self.navigationController pushViewController:[HXShareViewController instance] animated:YES];
             break;
         }
         case HXDiscoveryHeaderActionPlay: {
