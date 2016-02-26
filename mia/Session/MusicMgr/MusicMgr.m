@@ -180,7 +180,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		return;
 	}
 
-	NSInteger nextIndex = [self getPrevIndex];
+	NSInteger nextIndex = [self getNextIndex];
 	[_player playWithMusicItem:_playList[nextIndex].music];
 	_currentIndex = nextIndex;
 }
