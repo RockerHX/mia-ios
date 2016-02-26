@@ -12,9 +12,12 @@
                 <outlet property="containerView" destination="iN0-l3-epB" id="T4P-tq-Bgn"/>
                 <outlet property="favoriteButton" destination="Brz-V5-BDW" id="vA5-Hj-hik"/>
                 <outlet property="infectButton" destination="2eI-cX-yfV" id="SdU-w7-Ns3"/>
+                <outlet property="musicTimeLabel" destination="Jqv-eI-Piq" id="lau-J1-wCW"/>
                 <outlet property="nextButton" destination="Hdq-TX-gVP" id="x7e-fL-cT7"/>
                 <outlet property="pauseButton" destination="eRt-O0-d3C" id="Chk-Wb-kFI"/>
+                <outlet property="playTimeLabel" destination="SPf-jR-nmu" id="gkj-jQ-nET"/>
                 <outlet property="previousButton" destination="Bgc-qM-UEV" id="cL9-gE-xQX"/>
+                <outlet property="slider" destination="J89-Cz-qgi" id="NAY-cD-PWF"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

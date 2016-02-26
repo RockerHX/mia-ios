@@ -46,6 +46,18 @@ HXXibImplementation
     _nextButton.enabled = enableNext;
 }
 
+- (void)setPlayTime:(NSUInteger)playTime {
+    _playTime = playTime;
+    
+    _playTimeLabel.text = [self timeText:playTime];
+}
+
+- (void)setMusicTime:(NSUInteger)musicTime {
+    _musicTime = musicTime;
+    
+    _musicTimeLabel.text = [self timeText:musicTime];
+}
+
 #pragma mark - Event Response
 - (IBAction)favoriteButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(bottomBar:takeAction:)]) {
@@ -75,6 +87,15 @@ HXXibImplementation
     if (_delegate && [_delegate respondsToSelector:@selector(bottomBar:takeAction:)]) {
         [_delegate bottomBar:self takeAction:HXPlayBottomBarActionInfect];
     }
+}
+
+#pragma mark - Private Methods
+- (NSString *)timeText:(NSUInteger)time {
+    NSUInteger minute = (time / 60);
+    NSUInteger second = (time % 60);
+    NSString *minuteText = [NSString stringWithFormat:@"%@%@", ((minute < 10) ? @"0" : @""), @(minute).stringValue];
+    NSString *secondText = [NSString stringWithFormat:@"%@%@", ((second < 10) ? @"0" : @""), @(second).stringValue];
+    return [NSString stringWithFormat:@"%@:%@", minuteText, secondText];
 }
 
 @end

@@ -30,6 +30,11 @@ typedef NS_ENUM(NSUInteger, HXPlayBottomBarAction) {
 @property (weak, nonatomic) IBOutlet     id  <HXPlayBottomBarDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet   UIView *containerView;
+
+@property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet  UILabel *playTimeLabel;
+@property (weak, nonatomic) IBOutlet  UILabel *musicTimeLabel;
+
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousButton;
 @property (weak, nonatomic) IBOutlet UIButton *pauseButton;
@@ -39,6 +44,9 @@ typedef NS_ENUM(NSUInteger, HXPlayBottomBarAction) {
 @property (nonatomic, assign) BOOL  pause;
 @property (nonatomic, assign) BOOL  enablePrevious;
 @property (nonatomic, assign) BOOL  enableNext;
+
+@property (nonatomic, assign) NSUInteger  playTime;
+@property (nonatomic, assign) NSUInteger  musicTime;
 
 - (IBAction)favoriteButtonPressed;
 - (IBAction)previousButtonPressed;
