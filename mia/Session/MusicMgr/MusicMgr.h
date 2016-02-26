@@ -34,14 +34,16 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  */
 + (MusicMgr *)standard;
 
-@property (strong, nonatomic) NSArray 			*playList;
+@property (strong, nonatomic, readonly) NSArray *playList;
 @property (strong, nonatomic) ShareItem 		*currentItem;
 @property (assign, nonatomic) NSInteger 		currentIndex;
 
 @property (assign , nonatomic) BOOL				isShufflePlay;
 @property (assign, nonatomic) BOOL				isInterruption;
 
-- (void)setPlayListWithItem:(ShareItem *)item;
+- (BOOL)isCurrentHostObject:(id)hostObject;
+- (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject;
+- (void)setPlayListWithItem:(ShareItem *)item hostObject:(id)hostObject;
 
 // 播放当前列表对应下标的歌曲
 - (void)playWithIndex:(NSInteger)index;

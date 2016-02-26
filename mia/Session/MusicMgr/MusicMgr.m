@@ -31,6 +31,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 @end
 
 @implementation MusicMgr {
+	NSString				*_hostObjectName;
+	long					_hostObjectID;
+
 	SingleSongPlayer		*_player;
 	SongPreloader			*_preloader;
 
@@ -78,16 +81,6 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Getter and Setter
-- (void)setPlayList:(NSArray *)playList {
-	[_player stop];
-	[_preloader stop];
-
-	_playList = [[NSArray alloc] initWithArray:playList];
-	_currentIndex = 0;
-	_isShufflePlay = NO;
-
-}
-
 - (ShareItem *)currentItem {
 	if (_playList.count <= 0) {
 		return nil;
@@ -101,9 +94,31 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Public Methods
-- (void)setPlayListWithItem:(ShareItem *)item {
+- (BOOL)isCurrentHostObject:(id)hostObject {
+	if (0 == _hostObjectID) {
+		return NO;
+	}
+
+	long objectID = (long)(__bridge void *)hostObject;
+	return (objectID == _hostObjectID);
+}
+
+- (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject {
+	_hostObjectName = NSStringFromClass([hostObject class]);
+	_hostObjectID = (long)(__bridge void *)hostObject;
+
+	[_player stop];
+	[_preloader stop];
+
+	_playList = [[NSArray alloc] initWithArray:playList];
+	_currentIndex = 0;
+	_isShufflePlay = NO;
+
+}
+
+- (void)setPlayListWithItem:(ShareItem *)item hostObject:(id)hostObject {
 	NSArray *playList = [[NSArray alloc] initWithObjects:item, nil];
-	[self setPlayList:playList];
+	[self setPlayList:playList hostObject:hostObject];
 }
 
 #pragma mark - Player Methods

@@ -183,7 +183,7 @@
 	ShareItem *itemForPlay = [[ShareItem alloc] init];
 	itemForPlay.sID = kDefaultShareID;
 	itemForPlay.music = _musicItem;
-	[[MusicMgr standard] setPlayListWithItem:itemForPlay];
+	[[MusicMgr standard] setPlayListWithItem:itemForPlay hostObject:self];
 	[[MusicMgr standard] playCurrent];
 
 	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
@@ -195,6 +195,10 @@
 }
 
 - (void)stopMusic {
+	if (![[MusicMgr standard] isCurrentHostObject:self]) {
+		return;
+	}
+
 	[[MusicMgr standard] stop];
     [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
