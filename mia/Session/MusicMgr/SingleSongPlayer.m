@@ -166,7 +166,7 @@
 	}
 }
 
-- (float)playPosition {
+- (float)currentPlayedPostion {
 	if (!_audioStream) {
 		return 0.0;
 	}
