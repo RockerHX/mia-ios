@@ -35,6 +35,8 @@
 - (void)pause;
 - (void)stop;
 
+- (float)durationSeconds;
+- (float)currentPlayedSeconds;
 - (float)currentPlayedPostion;
 - (void)seekToPosition:(float)postion;
 
