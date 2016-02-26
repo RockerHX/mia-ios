@@ -24,6 +24,9 @@ HXPlayListViewControllerDelegate
 
 @implementation HXPlayViewController {
     BOOL _willDismiss;
+    
+    MusicMgr *_musicMgr;
+    dispatch_source_t _timer;
 }
 
 #pragma mark - Class Methods
@@ -61,6 +64,8 @@ HXPlayListViewControllerDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+    _musicMgr = [MusicMgr standard];
+    
     [self displayPlayView];
 }
 
@@ -70,7 +75,7 @@ HXPlayListViewControllerDelegate
 
 #pragma mark - Private Methods
 - (void)displayPlayView {
-    [_coverBG sd_setImageWithURL:[NSURL URLWithString:[MusicMgr standard].currentItem.music.purl] placeholderImage:nil];
+    [_coverBG sd_setImageWithURL:[NSURL URLWithString:_musicMgr.currentItem.music.purl] placeholderImage:nil];
     
     [self updateTopBar];
     [self updateSummaryView];
@@ -78,43 +83,46 @@ HXPlayListViewControllerDelegate
 }
 
 - (void)updateTopBar {
-    ShareItem *item = [MusicMgr standard].currentItem;
+    ShareItem *item = _musicMgr.currentItem;
     _topBar.sharerNameLabel.text = item.shareUser.nick;
 }
 
 - (void)updateSummaryView {
-    [_summaryView displayWithMusic:[MusicMgr standard].currentItem.music];
+    [_summaryView displayWithMusic:_musicMgr.currentItem.music];
 }
 
 - (void)updateBottomBar {
     [self startMusicTimeRead];
     
-    MusicMgr *musicMgr = [MusicMgr standard];
-    NSInteger playIndex = musicMgr.currentIndex;
+    NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
-    BOOL isLast = (playIndex == musicMgr.musicCount);
+    BOOL isLast = (playIndex == _musicMgr.musicCount);
     _bottomBar.enablePrevious = !isFirst;
     _bottomBar.enableNext = !isLast;
-//    _bottomBar.musicTime = musicMgr
 }
 
 - (void)startMusicTimeRead {
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, NSEC_PER_SEC, 0);
-    dispatch_source_set_event_handler(timer, ^{
-        _bottomBar.slider.value = [MusicMgr standard].currentPlayedPostion;
-        [self updatePlayTime];
+    uint64_t interval = NSEC_PER_SEC;
+    dispatch_queue_t queue = dispatch_queue_create(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_timer, dispatch_time(DISPATCH_TIME_NOW, 0), interval, 0);
+    dispatch_source_set_event_handler(_timer, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updatePlayTime];
+        });
     });
-    dispatch_resume(timer);
+    dispatch_resume(_timer);
 }
 
 - (void)updatePlayTime {
-    _bottomBar.playTime = [MusicMgr standard].currentPlayedPostion;
+    _bottomBar.musicTime = _musicMgr.durationSeconds;
+    _bottomBar.slider.value = _musicMgr.currentPlayedPostion;
+    _bottomBar.playTime = _musicMgr.currentPlayedSeconds;
 }
 
 - (NSArray *)musicList {
     NSMutableArray *musicList = @[].mutableCopy;
-    NSArray *playList = [MusicMgr standard].playList;
+    NSArray *playList = _musicMgr.playList;
     for (ShareItem *item in playList) {
         MusicItem *music = item.music;
         if (music && [music isKindOfClass:[MusicItem class]]) {
@@ -125,19 +133,21 @@ HXPlayListViewControllerDelegate
 }
 
 - (void)play {
-//    [[MusicMgr standard] play];
+    [_musicMgr playCurrent];
 }
 
 - (void)pause {
-    [[MusicMgr standard] pause];
+    [_musicMgr pause];
 }
 
 - (void)previous {
-    [[MusicMgr standard] playPrevios];
+    [_musicMgr playPrevios];
+    [self displayPlayView];
 }
 
 - (void)next {
-    [[MusicMgr standard] playNext];
+    [_musicMgr playNext];
+    [self displayPlayView];
 }
 
 #pragma mark - HXPlayTopBarDelegate Methods
@@ -152,7 +162,7 @@ HXPlayListViewControllerDelegate
             HXPlayListViewController *playListViewController = [HXPlayListViewController instance];
             playListViewController.delegate = self;
             playListViewController.musicList = [self musicList];
-            playListViewController.playIndex = [MusicMgr standard].currentIndex;
+            playListViewController.playIndex = _musicMgr.currentIndex;
             [self.navigationController pushViewController:playListViewController animated:YES];
             break;
         }
@@ -192,7 +202,7 @@ HXPlayListViewControllerDelegate
 
 #pragma mark - HXPlayListViewControllerDelegate Methods
 - (void)playListViewController:(HXPlayListViewController *)viewController playIndex:(NSInteger)index {
-    [[MusicMgr standard] playWithIndex:index];
+    [_musicMgr playWithIndex:index];
     [self displayPlayView];
 }
 
