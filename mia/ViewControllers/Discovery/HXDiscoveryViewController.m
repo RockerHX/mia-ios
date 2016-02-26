@@ -149,9 +149,11 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryHeaderActionPlay: {
-            UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
-//            HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
-            [self presentViewController:playNavigationController animated:YES completion:nil];
+            if ([MusicMgr standard].currentItem) {
+                UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
+//                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
+                [self presentViewController:playNavigationController animated:YES completion:nil];
+            }
             break;
         }
     }
