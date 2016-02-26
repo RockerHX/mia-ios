@@ -147,6 +147,8 @@
 		CDEF7AF11C7FEAC900354229 /* MIALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7AF01C7FEAC900354229 /* MIALabel.m */; };
 		CDEF7AF51C7FEB0400354229 /* MIAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7AF41C7FEB0400354229 /* MIAButton.m */; };
 		CDEF7B101C7FEF1F00354229 /* MBProgressHUDHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7B0F1C7FEF1F00354229 /* MBProgressHUDHelp.m */; };
+		CDEF7B141C8030DE00354229 /* HXPlayListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7B131C8030DE00354229 /* HXPlayListViewController.m */; };
+		CDEF7B181C8031AA00354229 /* HXPlayListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7B171C8031AA00354229 /* HXPlayListCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -409,6 +411,10 @@
 		CDEF7AF41C7FEB0400354229 /* MIAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIAButton.m; sourceTree = "<group>"; };
 		CDEF7B0E1C7FEF1F00354229 /* MBProgressHUDHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUDHelp.h; sourceTree = "<group>"; };
 		CDEF7B0F1C7FEF1F00354229 /* MBProgressHUDHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUDHelp.m; sourceTree = "<group>"; };
+		CDEF7B121C8030DE00354229 /* HXPlayListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayListViewController.h; sourceTree = "<group>"; };
+		CDEF7B131C8030DE00354229 /* HXPlayListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayListViewController.m; sourceTree = "<group>"; };
+		CDEF7B161C8031AA00354229 /* HXPlayListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayListCell.h; sourceTree = "<group>"; };
+		CDEF7B171C8031AA00354229 /* HXPlayListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayListCell.m; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1461,6 +1467,8 @@
 			children = (
 				CDEF7AC11C7EE9CA00354229 /* HXPlayViewController.h */,
 				CDEF7AC21C7EE9CA00354229 /* HXPlayViewController.m */,
+				CDEF7B121C8030DE00354229 /* HXPlayListViewController.h */,
+				CDEF7B131C8030DE00354229 /* HXPlayListViewController.m */,
 			);
 			path = Play;
 			sourceTree = "<group>";
@@ -1468,6 +1476,7 @@
 		CDEF7AC41C7EEBEB00354229 /* Play */ = {
 			isa = PBXGroup;
 			children = (
+				CDEF7B151C80319A00354229 /* PlayList */,
 				CDEF7AC71C7EFD8E00354229 /* TopBar */,
 				CDEF7AC61C7EFD8E00354229 /* Content */,
 				CDEF7AC51C7EFD8E00354229 /* BottomBar */,
@@ -1560,6 +1569,15 @@
 				CDEF7B0F1C7FEF1F00354229 /* MBProgressHUDHelp.m */,
 			);
 			path = MBProgressHUDHelp;
+			sourceTree = "<group>";
+		};
+		CDEF7B151C80319A00354229 /* PlayList */ = {
+			isa = PBXGroup;
+			children = (
+				CDEF7B161C8031AA00354229 /* HXPlayListCell.h */,
+				CDEF7B171C8031AA00354229 /* HXPlayListCell.m */,
+			);
+			path = PlayList;
 			sourceTree = "<group>";
 		};
 		F054F07D4E0725BD42A9D66F /* Frameworks */ = {
@@ -1726,6 +1744,7 @@
 				CD06901A1C746B8C001C0997 /* HXCaptchButton.m in Sources */,
 				CDE539AF1C7BFD5200E0616D /* FlyCommentItem.m in Sources */,
 				CDE539B81C7BFD5200E0616D /* MusicItem.m in Sources */,
+				CDEF7B141C8030DE00354229 /* HXPlayListViewController.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
 				CDEF7ACD1C7EFDE000354229 /* HXPlayBottomBar.m in Sources */,
 				CDE539B41C7BFD5200E0616D /* MessageModel.m in Sources */,
@@ -1770,6 +1789,7 @@
 				CDEF7AE91C7FEA7200354229 /* SearchResultCollectionViewCell.m in Sources */,
 				CDE539B01C7BFD5200E0616D /* FriendItem.m in Sources */,
 				CDE539BE1C7BFD5200E0616D /* SuggestionItem.m in Sources */,
+				CDEF7B181C8031AA00354229 /* HXPlayListCell.m in Sources */,
 				CDEF7AED1C7FEA7200354229 /* SearchViewController.m in Sources */,
 				CDEF7AEC1C7FEA7200354229 /* SearchSuggestionView.m in Sources */,
 				CDEF7AEA1C7FEA7200354229 /* SearchResultView.m in Sources */,

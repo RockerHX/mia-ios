@@ -12,6 +12,7 @@
 #import "HXPlayBottomBar.h"
 #import "MusicMgr.h"
 #import "UIImageView+WebCache.h"
+#import "HXPlayListViewController.h"
 
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
@@ -19,7 +20,9 @@ HXPlayMusicSummaryViewDelegate
 >
 @end
 
-@implementation HXPlayViewController
+@implementation HXPlayViewController {
+    BOOL _willDismiss;
+}
 
 #pragma mark - Class Methods
 + (NSString *)navigationControllerIdentifier {
@@ -38,7 +41,13 @@ HXPlayMusicSummaryViewDelegate
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:_willDismiss animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -79,15 +88,30 @@ HXPlayMusicSummaryViewDelegate
     
 }
 
+- (NSArray *)musicList {
+    NSMutableArray *musicList = @[].mutableCopy;
+    NSArray *playList = [MusicMgr standard].playList;
+    for (ShareItem *item in playList) {
+        MusicItem *music = item.music;
+        if (music && [music isKindOfClass:[MusicItem class]]) {
+            [musicList addObject:music];
+        }
+    }
+    return [musicList copy];
+}
+
 #pragma mark - HXPlayTopBarDelegate Methods
 - (void)topBar:(HXPlayTopBar *)bar takeAction:(HXPlayTopBarAction)action {
     switch (action) {
         case HXPlayTopBarActionBack: {
+            _willDismiss = YES;
             [self dismissViewControllerAnimated:YES completion:nil];
             break;
         }
         case HXPlayTopBarActionShowList: {
-            ;
+            HXPlayListViewController *playListViewController = [HXPlayListViewController instance];
+            playListViewController.musicList = [self musicList];
+            [self.navigationController pushViewController:playListViewController animated:YES];
             break;
         }
     }

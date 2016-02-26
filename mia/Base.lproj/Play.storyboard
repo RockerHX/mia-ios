@@ -144,6 +144,83 @@
             </objects>
             <point key="canvasLocation" x="765" y="90"/>
         </scene>
+        <!--HXPlayListViewController-->
+        <scene sceneID="sT7-zV-acj">
+            <objects>
+                <tableViewController storyboardIdentifier="HXPlayListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZhM-da-Ofc" userLabel="HXPlayListViewController" customClass="HXPlayListViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="sOM-zd-ld4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="50" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXPlayListCell" id="Cvs-zS-roM" userLabel="HXPlayListCell" customClass="HXPlayListCell">
+                                <rect key="frame" x="0.0" y="28" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cvs-zS-roM" id="zgr-9k-4Wu">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMI-od-34h">
+                                            <rect key="frame" x="50" y="12" width="258" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="em2-1T-3si">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="59"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Td5-8D-rN2">
+                                                    <rect key="frame" x="20" y="21" width="10" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="Td5-8D-rN2" firstAttribute="centerY" secondItem="em2-1T-3si" secondAttribute="centerY" id="2px-rY-pzn"/>
+                                                <constraint firstItem="Td5-8D-rN2" firstAttribute="centerX" secondItem="em2-1T-3si" secondAttribute="centerX" id="C2a-0n-WYj"/>
+                                                <constraint firstAttribute="width" constant="50" id="x6r-FE-JnA"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7My-Jm-J5h">
+                                            <rect key="frame" x="50" y="34" width="258" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7My-Jm-J5h" firstAttribute="trailing" secondItem="RMI-od-34h" secondAttribute="trailing" id="6KN-ZB-ROO"/>
+                                        <constraint firstItem="em2-1T-3si" firstAttribute="leading" secondItem="zgr-9k-4Wu" secondAttribute="leading" id="Jfc-Mq-bfV"/>
+                                        <constraint firstAttribute="trailing" secondItem="RMI-od-34h" secondAttribute="trailing" constant="12" id="JhO-2k-tmH"/>
+                                        <constraint firstItem="RMI-od-34h" firstAttribute="leading" secondItem="em2-1T-3si" secondAttribute="trailing" id="MSt-on-Gg2"/>
+                                        <constraint firstAttribute="bottom" secondItem="em2-1T-3si" secondAttribute="bottom" id="OgN-jg-9Oo"/>
+                                        <constraint firstItem="RMI-od-34h" firstAttribute="top" secondItem="zgr-9k-4Wu" secondAttribute="top" constant="12" id="XcF-Sr-K4F"/>
+                                        <constraint firstItem="7My-Jm-J5h" firstAttribute="leading" secondItem="RMI-od-34h" secondAttribute="leading" id="hib-Qc-v5t"/>
+                                        <constraint firstItem="em2-1T-3si" firstAttribute="top" secondItem="zgr-9k-4Wu" secondAttribute="top" id="pPD-Hb-ahT"/>
+                                        <constraint firstItem="7My-Jm-J5h" firstAttribute="top" secondItem="RMI-od-34h" secondAttribute="bottom" constant="4" id="qsH-6t-I2d"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="indexLabel" destination="Td5-8D-rN2" id="RQw-sB-GdN"/>
+                                    <outlet property="singerNameLabel" destination="7My-Jm-J5h" id="io9-bq-Pxx"/>
+                                    <outlet property="songNameLabel" destination="RMI-od-34h" id="Tth-R5-kaK"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZhM-da-Ofc" id="ONY-Lf-qJs"/>
+                            <outlet property="delegate" destination="ZhM-da-Ofc" id="AOM-CK-gnm"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="播放列表" id="QBU-1T-atc"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3yE-Ki-emv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1189" y="90"/>
+        </scene>
     </scenes>
     <resources>
         <image name="P-MaskBG-Bottom" width="375" height="250"/>
