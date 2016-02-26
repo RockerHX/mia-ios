@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class MusicItem;
 @class HXPlayMusicSummaryView;
 
 @protocol HXPlayMusicSummaryViewDelegate <NSObject>
@@ -27,5 +28,7 @@
 @property (weak, nonatomic) IBOutlet     UILabel *singerNameLabel;
 
 - (IBAction)tapedGesture;
+
+- (void)displayWithMusic:(MusicItem *)music;
 
 @end

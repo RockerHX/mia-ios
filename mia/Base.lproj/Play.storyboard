@@ -9,7 +9,7 @@
         <!--HXPlayNavigationController-->
         <scene sceneID="M5O-Dt-w0n">
             <objects>
-                <navigationController storyboardIdentifier="HXPlayNavigationController" modalTransitionStyle="crossDissolve" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Go-qd-9PF" userLabel="HXPlayNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXPlayNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Go-qd-9PF" userLabel="HXPlayNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JAz-Ms-g4h">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -34,7 +34,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pcc-0D-j7q" userLabel="Cover Background">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pcc-0D-j7q" userLabel="Cover Background">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r3V-fs-5VI" userLabel="Blure View" customClass="FXBlurView">
@@ -135,6 +135,7 @@
                     <navigationItem key="navigationItem" id="N5A-gd-fND"/>
                     <connections>
                         <outlet property="bottomBar" destination="Viw-8t-TVr" id="wma-dg-PDg"/>
+                        <outlet property="coverBG" destination="pcc-0D-j7q" id="fXj-AC-unM"/>
                         <outlet property="summaryView" destination="ojs-3e-kaP" id="uIj-7Y-Oa2"/>
                         <outlet property="topBar" destination="doZ-wp-Dcx" id="ccf-Kh-y91"/>
                     </connections>

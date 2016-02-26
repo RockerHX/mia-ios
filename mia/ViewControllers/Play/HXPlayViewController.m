@@ -10,6 +10,8 @@
 #import "HXPlayTopBar.h"
 #import "HXPlayMusicSummaryView.h"
 #import "HXPlayBottomBar.h"
+#import "MusicMgr.h"
+#import "UIImageView+WebCache.h"
 
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
@@ -41,7 +43,40 @@ HXPlayMusicSummaryViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    [self displayPlayView];
+}
+
+- (void)viewConfigure {
     ;
+}
+
+#pragma mark - Private Methods
+- (void)displayPlayView {
+    [_coverBG sd_setImageWithURL:[NSURL URLWithString:[MusicMgr standard].currentItem.music.purl] placeholderImage:nil];
+    
+    [self updateTopBar];
+    [self updateSummaryView];
+    [self updateBottomBar];
+}
+
+- (void)updateTopBar {
+    ShareItem *item = [MusicMgr standard].currentItem;
+    _topBar.sharerNameLabel.text = item.shareUser.nick;
+}
+
+- (void)updateSummaryView {
+    [_summaryView displayWithMusic:[MusicMgr standard].currentItem.music];
+}
+
+- (void)updateBottomBar {
+    
 }
 
 #pragma mark - HXPlayTopBarDelegate Methods

@@ -8,6 +8,8 @@
 
 #import "HXPlayMusicSummaryView.h"
 #import "HXXib.h"
+#import "MusicItem.h"
+#import "UIImageView+WebCache.h"
 
 @implementation HXPlayMusicSummaryView
 
@@ -35,6 +37,13 @@ HXXibImplementation
     if (_delegate && [_delegate respondsToSelector:@selector(summaryViewTaped:)]) {
         [_delegate summaryViewTaped:self];
     }
+}
+
+#pragma mark - Public Methods
+- (void)displayWithMusic:(MusicItem *)music {
+    [_cover sd_setImageWithURL:[NSURL URLWithString:music.purl] placeholderImage:nil];
+    _songNameLabel.text = music.name;
+    _singerNameLabel.text = music.singerName;
 }
 
 @end

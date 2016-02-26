@@ -14,6 +14,7 @@
 
 @interface HXPlayViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet            UIImageView *coverBG;
 @property (weak, nonatomic) IBOutlet           HXPlayTopBar *topBar;
 @property (weak, nonatomic) IBOutlet HXPlayMusicSummaryView *summaryView;
 @property (weak, nonatomic) IBOutlet        HXPlayBottomBar *bottomBar;

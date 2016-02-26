@@ -8,7 +8,6 @@
 //
 
 #import "MusicMgr.h"
-#import "ShareItem.h"
 #import "SingleSongPlayer.h"
 #import "SongPreloader.h"
 #import "WebSocketMgr.h"
@@ -168,7 +167,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	}
 
 	NSInteger prevIndex = [self getPrevIndex];
-	[_player playWithMusicItem:_playList[prevIndex]];
+	[_player playWithMusicItem:_playList[prevIndex].music];
 	_currentIndex = prevIndex;
 }
 
@@ -178,7 +177,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	}
 
 	NSInteger nextIndex = [self getPrevIndex];
-	[_player playWithMusicItem:_playList[nextIndex]];
+	[_player playWithMusicItem:_playList[nextIndex].music];
 	_currentIndex = nextIndex;
 }
 
