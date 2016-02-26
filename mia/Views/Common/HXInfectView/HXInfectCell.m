@@ -45,6 +45,8 @@
 }
 
 - (void)displayWithInfecter:(InfectUserItem *)infecter {
+    _avatar.layer.cornerRadius = 16.0f;
+    _avatar.layer.borderWidth = 1.0f;
     [_avatar sd_setImageWithURL:[NSURL URLWithString:infecter.avatar] placeholderImage:nil];
 }
 
