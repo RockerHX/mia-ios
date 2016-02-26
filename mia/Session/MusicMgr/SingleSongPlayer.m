@@ -179,11 +179,13 @@
 		return;
 	}
 
-	unsigned destTotalSeconds = (_audioStream.duration.minute * 60 + _audioStream.duration.second) * postion;
 	FSStreamPosition destPostion;
 	destPostion.position = postion;
-	destPostion.minute = destTotalSeconds / 60;
-	destPostion.second = destTotalSeconds % 60;
+
+	// postion小于等于0时才需要用下面这两个参数
+//	unsigned destTotalSeconds = (_audioStream.duration.minute * 60 + _audioStream.duration.second) * postion;
+//	destPostion.minute = destTotalSeconds / 60;
+//	destPostion.second = destTotalSeconds % 60;
 
 	[_audioStream seekToPosition:destPostion];
 }
