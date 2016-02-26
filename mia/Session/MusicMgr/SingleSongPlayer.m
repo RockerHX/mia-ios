@@ -167,12 +167,12 @@
 }
 
 - (float)durationSeconds {
-	return _audioStream.currentTimePlayed.playbackTimeInSeconds;
+    float totalSeconds = [_audioStream duration].minute * 60.0 + [_audioStream duration].second;
+    return totalSeconds;
 }
 
 - (float)currentPlayedSeconds {
-	float totalSeconds = [_audioStream duration].minute * 60.0 + [_audioStream duration].second;
-	return totalSeconds;
+    return _audioStream.currentTimePlayed.playbackTimeInSeconds;
 }
 
 - (float)currentPlayedPostion {
