@@ -169,9 +169,19 @@
 - (float)playPosition {
 	if (!_audioStream) {
 		return 0.0;
-	} else {
-		return [_audioStream currentTimePlayed].position;
 	}
+
+	return [_audioStream currentTimePlayed].position;
+}
+
+- (void)playFromPostion:(float)postion {
+	if (!_audioStream) {
+		return;
+	}
+
+	FSSeekByteOffset offset = _audioStream.currentSeekByteOffset;
+	offset.position = postion;
+	[_audioStream playFromOffset:offset];
 }
 
 #pragma mark -private method

@@ -253,6 +253,10 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	return [_player playPosition];
 }
 
+- (void)playFromPostion:(float)postion {
+	return [_player playFromPostion:postion];
+}
+
 #pragma mark - Private Methods
 - (NSInteger)getPrevIndex {
 	if (_playList.count <= 0) {

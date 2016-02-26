@@ -36,5 +36,6 @@
 - (void)stop;
 
 - (float)playPosition;
+- (void)playFromPostion:(float)postion;
 
 @end

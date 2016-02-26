@@ -62,7 +62,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 - (void)pause;
 - (void)stop;
 - (float)playPosition;
-
+- (void)playFromPostion:(float)postion;
 
 
 
