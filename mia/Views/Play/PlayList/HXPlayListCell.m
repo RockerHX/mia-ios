@@ -7,6 +7,7 @@
 //
 
 #import "HXPlayListCell.h"
+#import "MusicItem.h"
 
 @implementation HXPlayListCell
 
@@ -18,6 +19,16 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark -
+- (void)displayWithMusicList:(NSArray *)list index:(NSInteger)index {
+    if (index < list.count) {
+        MusicItem *music = list[index];
+        _indexLabel.text = @(index).stringValue;
+        _songNameLabel.text = music.name;
+        _singerNameLabel.text = music.singerName;
+    }
 }
 
 @end
