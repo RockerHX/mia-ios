@@ -166,12 +166,28 @@
 	}
 }
 
-- (float)playPosition {
+- (float)currentPlayedPostion {
 	if (!_audioStream) {
 		return 0.0;
-	} else {
-		return [_audioStream currentTimePlayed].position;
 	}
+
+	return [_audioStream currentTimePlayed].position;
+}
+
+- (void)seekToPosition:(float)postion {
+	if (!_audioStream) {
+		return;
+	}
+
+	FSStreamPosition destPostion;
+	destPostion.position = postion;
+
+	// postion小于等于0时才需要用下面这两个参数
+//	unsigned destTotalSeconds = (_audioStream.duration.minute * 60 + _audioStream.duration.second) * postion;
+//	destPostion.minute = destTotalSeconds / 60;
+//	destPostion.second = destTotalSeconds % 60;
+
+	[_audioStream seekToPosition:destPostion];
 }
 
 #pragma mark -private method

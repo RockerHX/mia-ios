@@ -248,8 +248,12 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	[_preloader stop];
 }
 
-- (float)playPosition {
-	return [_player playPosition];
+- (float)currentPlayedPostion {
+	return [_player currentPlayedPostion];
+}
+
+- (void)seekToPosition:(float)postion {
+	return [_player seekToPosition:postion];
 }
 
 #pragma mark - Private Methods

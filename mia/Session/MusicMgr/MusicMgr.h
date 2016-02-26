@@ -61,8 +61,13 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 - (BOOL)isPlayingWithUrl:(NSString *)url;
 - (void)pause;
 - (void)stop;
-- (float)playPosition;
 
+/**
+ * Position within the stream, where 0 is the beginning
+ * and 1.0 is the end.
+ */
+- (float)currentPlayedPostion;
+- (void)seekToPosition:(float)postion;
 
 
 
