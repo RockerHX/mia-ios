@@ -14,6 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *singerNameLabel;
 
-- (void)displayWithMusicList:(NSArray *)list index:(NSInteger)index;
+- (void)displayWithMusicList:(NSArray *)list index:(NSInteger)index selected:(BOOL)selected;
 
 @end

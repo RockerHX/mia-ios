@@ -8,8 +8,20 @@
 
 #import "UIViewController+HXClass.h"
 
+@class HXPlayListViewController;
+
+@protocol HXPlayListViewControllerDelegate <NSObject>
+
+@optional
+- (void)playListViewController:(HXPlayListViewController *)viewController playIndex:(NSInteger)index;
+
+@end
+
 @interface HXPlayListViewController : UITableViewController
 
-@property (nonatomic, strong) NSArray *musicList;
+@property (weak, nonatomic) IBOutlet id  <HXPlayListViewControllerDelegate>delegate;
+
+@property (nonatomic, strong)   NSArray *musicList;
+@property (nonatomic, assign) NSInteger  playIndex;
 
 @end

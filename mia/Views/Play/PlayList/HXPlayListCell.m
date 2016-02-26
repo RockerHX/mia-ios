@@ -8,27 +8,24 @@
 
 #import "HXPlayListCell.h"
 #import "MusicItem.h"
+#import "UIConstants.h"
 
 @implementation HXPlayListCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-#pragma mark -
-- (void)displayWithMusicList:(NSArray *)list index:(NSInteger)index {
+#pragma mark - Public Methods
+- (void)displayWithMusicList:(NSArray *)list index:(NSInteger)index selected:(BOOL)selected {
     if (index < list.count) {
         MusicItem *music = list[index];
-        _indexLabel.text = @(index).stringValue;
+        _indexLabel.text = @(index + 1).stringValue;
         _songNameLabel.text = music.name;
         _singerNameLabel.text = music.singerName;
     }
+    
+    UIColor *color = selected ? UIColorByHex(0x04B4A2) : [UIColor blackColor];
+    
+    _indexLabel.textColor = color;
+    _songNameLabel.textColor = color;
+    _singerNameLabel.textColor = color;
 }
 
 @end

@@ -52,11 +52,16 @@
 #pragma mark - Table View Delegate Methods
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     HXPlayListCell *listCell = (HXPlayListCell *)cell;
-    [listCell displayWithMusicList:_musicList index:indexPath.row];
+    [listCell displayWithMusicList:_musicList index:indexPath.row selected:(indexPath.row == _playIndex)];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
+    _playIndex = indexPath.row;
+    [tableView reloadData];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(playListViewController:playIndex:)]) {
+        [_delegate playListViewController:self playIndex:indexPath.row];
+    }
 }
 
 @end

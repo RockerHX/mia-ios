@@ -16,7 +16,8 @@
 
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
-HXPlayMusicSummaryViewDelegate
+HXPlayMusicSummaryViewDelegate,
+HXPlayListViewControllerDelegate
 >
 @end
 
@@ -110,7 +111,9 @@ HXPlayMusicSummaryViewDelegate
         }
         case HXPlayTopBarActionShowList: {
             HXPlayListViewController *playListViewController = [HXPlayListViewController instance];
+            playListViewController.delegate = self;
             playListViewController.musicList = [self musicList];
+            playListViewController.playIndex = [MusicMgr standard].currentIndex;
             [self.navigationController pushViewController:playListViewController animated:YES];
             break;
         }
@@ -120,6 +123,12 @@ HXPlayMusicSummaryViewDelegate
 #pragma mark - HXPlayMusicSummaryViewDelegate Methods
 - (void)summaryViewTaped:(HXPlayMusicSummaryView *)summaryView {
     ;
+}
+
+#pragma mark - HXPlayListViewControllerDelegate Methods
+- (void)playListViewController:(HXPlayListViewController *)viewController playIndex:(NSInteger)index {
+    [[MusicMgr standard] playWithIndex:index];
+    [self displayPlayView];
 }
 
 @end
