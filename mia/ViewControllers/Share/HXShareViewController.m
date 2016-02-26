@@ -10,7 +10,6 @@
 #import "SearchViewController.h"
 #import "SearchResultItem.h"
 #import "MusicItem.h"
-//#import "SongListPlayer.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
 #import "UserSession.h"
@@ -21,8 +20,9 @@
 #import "MusicMgr.h"
 #import "NSObject+BlockSupport.h"
 #import "UIConstants.h"
+#import "ShareItem.h"
 
-@interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>//, SongListPlayerDelegate, SongListPlayerDataSource>
+@interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>
 @end
 
 @implementation HXShareViewController {
@@ -31,7 +31,6 @@
     CLLocationCoordinate2D	_coordinate;
     
     MusicItem 				*_musicItem;
-//    SongListPlayer 			*_songListPlayer;
     SearchResultItem 		*_dataItem;
 	SearchViewController 	*_searchViewController;
 }
@@ -51,6 +50,7 @@
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -65,15 +65,15 @@
     _commentTextView.scrollsToTop = NO;
     
     [self initData];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
+
     //添加键盘监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)initData {
-//    _songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"DetailHeaderView Song List"];
-//    _songListPlayer.dataSource = self;
-//    _songListPlayer.delegate = self;
     _musicItem = [[MusicItem alloc] init];
 }
 
@@ -179,19 +179,27 @@
         NSLog(@"Music is nil, stop play it.");
         return;
     }
-    
-//    [[MusicMgr standard] setCurrentPlayer:_songListPlayer];
-//    [_songListPlayer playWithMusicItem:_musicItem];
-    [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+
+	ShareItem *itemForPlay = [[ShareItem alloc] init];
+	itemForPlay.sID = kDefaultShareID;
+	itemForPlay.music = _musicItem;
+	[[MusicMgr standard] setPlayListWithItem:itemForPlay hostObject:self];
+	[[MusicMgr standard] playCurrent];
+
+	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 }
 
 - (void)pauseMusic {
-//    [_songListPlayer pause];
+	[[MusicMgr standard] pause];
     [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
-//    [_songListPlayer stop];
+	if (![[MusicMgr standard] isCurrentHostObject:self]) {
+		return;
+	}
+
+	[[MusicMgr standard] stop];
     [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
 }
 
@@ -316,33 +324,30 @@
     [self scrollToBottomWithAnimation:YES];
 }
 
-#pragma mark - SongListPlayerDataSource
-- (NSInteger)songListPlayerCurrentItemIndex {
-    // 只有一首歌
-    return 0;
-}
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+	NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+	MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
 
-- (NSInteger)songListPlayerNextItemIndex {
-    return 0;
-}
-
-- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
-    // 只有一首歌
-    return _musicItem;
-}
-
-#pragma mark - SongListPlayerDelegate
-- (void)songListPlayerDidPlay {
-    [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
-}
-
-- (void)songListPlayerDidPause {
-    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-}
-
-- (void)songListPlayerDidCompletion {
-    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-	[_searchViewController playCompletion];
+	if (![kDefaultShareID isEqualToString:sID]) {
+		return;
+	}
+	
+	switch (event) {
+		case MiaPlayerEventDidPlay:
+			    [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+			break;
+		case MiaPlayerEventDidPause:
+			    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+			break;
+		case MiaPlayerEventDidCompletion:
+			[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+			[_searchViewController playCompletion];
+			break;
+		default:
+			NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
+			break;
+	}
 }
 
 @end

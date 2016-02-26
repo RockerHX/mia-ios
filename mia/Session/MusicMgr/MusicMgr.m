@@ -31,7 +31,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 @end
 
 @implementation MusicMgr {
-	NSArray 				*_playList;
+	NSString				*_hostObjectName;
+	long					_hostObjectID;
+
 	SingleSongPlayer		*_player;
 	SongPreloader			*_preloader;
 
@@ -56,6 +58,8 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	self = [super init];
 	if (self) {
 		_player = [[SingleSongPlayer alloc] init];
+		_player.delegate = self;
+
 		_preloader = [[SongPreloader alloc] init];
 		_preloader.delegate = self;
 
@@ -90,18 +94,31 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Public Methods
+- (BOOL)isCurrentHostObject:(id)hostObject {
+	if (0 == _hostObjectID) {
+		return NO;
+	}
 
-- (void)setPlayList:(NSArray *)playList {
+	long objectID = (long)(__bridge void *)hostObject;
+	return (objectID == _hostObjectID);
+}
+
+- (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject {
+	_hostObjectName = NSStringFromClass([hostObject class]);
+	_hostObjectID = (long)(__bridge void *)hostObject;
+
 	[_player stop];
 	[_preloader stop];
 
 	_playList = [[NSArray alloc] initWithArray:playList];
 	_currentIndex = 0;
+	_isShufflePlay = NO;
+
 }
 
-- (void)setPlayListWithItem:(ShareItem *)item {
+- (void)setPlayListWithItem:(ShareItem *)item hostObject:(id)hostObject {
 	NSArray *playList = [[NSArray alloc] initWithObjects:item, nil];
-	[self setPlayList:playList];
+	[self setPlayList:playList hostObject:hostObject];
 }
 
 #pragma mark - Player Methods
@@ -142,7 +159,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 - (void)playCurrent {
-	[_player playWithMusicItem:_currentItem.music];
+	[_player playWithMusicItem:self.currentItem.music];
 }
 
 - (void)playPrevios {
@@ -242,9 +259,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		return 0;
 	}
 
-	// TODO 这里是不考虑随机播放和循环播放的情况
-	// isShufflePlay;
-	// isLoopPlay;
+	if (_isShufflePlay) {
+		return [self getNextIndex];
+	}
 
 	NSInteger prevIndex = _currentIndex - 1;
 	if (prevIndex < 0 || prevIndex >= _playList.count) {
@@ -259,11 +276,18 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		return 0;
 	}
 
-	// TODO 这里是不考虑随机播放和循环播放的情况
-	// isShufflePlay;
-	// isLoopPlay;
+	NSInteger lastIndex = _currentIndex;
+	NSInteger nextIndex = lastIndex;
 
-	NSInteger nextIndex = _currentIndex + 1;
+	if (_isShufflePlay) {
+		nextIndex = arc4random() % _playList.count;
+		if (nextIndex == lastIndex) {
+			nextIndex = lastIndex + 1;
+		}
+	} else {
+		nextIndex = _currentIndex + 1;
+	}
+
 	if (nextIndex < 0 || nextIndex >= _playList.count) {
 		return 0;
 	} else {
@@ -372,7 +396,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidPlay {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPlay], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
@@ -380,7 +404,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidPause {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
@@ -388,7 +412,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidCompletion {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
@@ -406,7 +430,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidFailure {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }

@@ -12,6 +12,8 @@
 #import "InfectUserItem.h"
 #import "FlyCommentItem.h"
 
+extern NSString * const kDefaultShareID;
+
 @interface ShareItem : NSObject <NSCoding>
 
 @property (strong, nonatomic) NSString *spID;

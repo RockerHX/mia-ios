@@ -177,7 +177,7 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionPlay: {
-			[[MusicMgr standard] setPlayList:_shareListMgr.shareList];
+			[[MusicMgr standard] setPlayList:_shareListMgr.shareList hostObject:self];
 			[[MusicMgr standard] playWithIndex:_shareListMgr.currentIndex];
             break;
         }

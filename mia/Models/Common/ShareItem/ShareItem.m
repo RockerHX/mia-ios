@@ -9,6 +9,8 @@
 #import "ShareItem.h"
 #import "FormatTimeHelper.h"
 
+NSString * const kDefaultShareID = @"0";
+
 @implementation ShareItem
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {

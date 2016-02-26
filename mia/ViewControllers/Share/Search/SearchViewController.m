@@ -8,7 +8,6 @@
 
 #import "SearchViewController.h"
 #import "MIAButton.h"
-//#import "UIScrollView+MIARefresh.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
