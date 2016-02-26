@@ -43,7 +43,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
  *  使用单例初始化
  *
  */
-+ (MusicMgr *)standard{
++ (MusicMgr *)standard {
     static MusicMgr *aMusicMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
@@ -52,7 +52,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
     return aMusicMgr;
 }
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self) {
 		_player = [[SingleSongPlayer alloc] init];
@@ -77,7 +77,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Getter and Setter
-- (ShareItem *)getCurrentItem {
+- (ShareItem *)currentItem {
 	if (_playList.count <= 0) {
 		return nil;
 	}
