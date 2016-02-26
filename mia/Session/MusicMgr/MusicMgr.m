@@ -252,6 +252,14 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	[_preloader stop];
 }
 
+- (float)durationSeconds {
+	return [_player durationSeconds];
+}
+
+- (float)currentPlayedSeconds {
+	return [_player currentPlayedSeconds];
+}
+
 - (float)currentPlayedPostion {
 	return [_player currentPlayedPostion];
 }
