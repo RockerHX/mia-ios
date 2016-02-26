@@ -1622,7 +1622,7 @@
 				TargetAttributes = {
 					CDB55E561C72C7EE00962ED0 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = H2JE2CWJS7;
+						DevelopmentTeam = PQE2NCR38L;
 					};
 				};
 			};
@@ -2017,10 +2017,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = mia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.mia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.enterprise.mia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "97f7e2ab-36a2-424d-aee3-fc8dff18005f";
 			};
 			name = Debug;
 		};
@@ -2030,12 +2031,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				INFOPLIST_FILE = mia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.mia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.enterprise.mia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "97f7e2ab-36a2-424d-aee3-fc8dff18005f";
 			};
 			name = Release;
 		};
