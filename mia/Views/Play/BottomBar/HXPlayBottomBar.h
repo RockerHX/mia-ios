@@ -8,8 +8,42 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, HXPlayBottomBarAction) {
+    HXPlayBottomBarActionFavorite,
+    HXPlayBottomBarActionPrevious,
+    HXPlayBottomBarActionPause,
+    HXPlayBottomBarActionNext,
+    HXPlayBottomBarActionInfect
+};
+
+@class HXPlayBottomBar;
+
+@protocol HXPlayBottomBarDelegate <NSObject>
+
+@required
+- (void)bottomBar:(HXPlayBottomBar *)bar takeAction:(HXPlayBottomBarAction)action;
+
+@end
+
 @interface HXPlayBottomBar : UIView
 
-@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet     id  <HXPlayBottomBarDelegate>delegate;
+
+@property (weak, nonatomic) IBOutlet   UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *previousButton;
+@property (weak, nonatomic) IBOutlet UIButton *pauseButton;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UIButton *infectButton;
+
+@property (nonatomic, assign) BOOL  pause;
+@property (nonatomic, assign) BOOL  enablePrevious;
+@property (nonatomic, assign) BOOL  enableNext;
+
+- (IBAction)favoriteButtonPressed;
+- (IBAction)previousButtonPressed;
+- (IBAction)pauseButtonPressed;
+- (IBAction)nextButtonPressed;
+- (IBAction)infectButtonPressed;
 
 @end

@@ -33,13 +33,14 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  */
 + (MusicMgr *)standard;
 
-@property (assign, nonatomic) NSInteger  currentIndex;
-@property (strong, nonatomic) ShareItem *currentItem;
+@property (nonatomic, assign) NSInteger  currentIndex;
+@property (nonatomic, strong) ShareItem *currentItem;
 
-@property (strong, nonatomic, readonly) NSArray<ShareItem *> *playList;
+@property (nonatomic, assign, readonly)            NSInteger  musicCount;
+@property (nonatomic, strong, readonly) NSArray<ShareItem *> *playList;
 
-@property (assign, nonatomic) BOOL  isShufflePlay;
-@property (assign, nonatomic) BOOL  isInterruption;
+@property (nonatomic, assign) BOOL  isShufflePlay;
+@property (nonatomic, assign) BOOL  isInterruption;
 
 - (BOOL)isCurrentHostObject:(id)hostObject;
 - (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject;

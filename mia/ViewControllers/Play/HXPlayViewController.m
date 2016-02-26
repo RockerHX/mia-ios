@@ -17,6 +17,7 @@
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
 HXPlayMusicSummaryViewDelegate,
+HXPlayBottomBarDelegate,
 HXPlayListViewControllerDelegate
 >
 @end
@@ -86,7 +87,12 @@ HXPlayListViewControllerDelegate
 }
 
 - (void)updateBottomBar {
-    
+    MusicMgr *musicMgr = [MusicMgr standard];
+    NSInteger playIndex = musicMgr.currentIndex;
+    BOOL isFirst = (playIndex == 0);
+    BOOL isLast = (playIndex == musicMgr.musicCount);
+    _bottomBar.enablePrevious = !isFirst;
+    _bottomBar.enableNext = !isLast;
 }
 
 - (NSArray *)musicList {
@@ -99,6 +105,22 @@ HXPlayListViewControllerDelegate
         }
     }
     return [musicList copy];
+}
+
+- (void)play {
+//    [[MusicMgr standard] play];
+}
+
+- (void)pause {
+    [[MusicMgr standard] pause];
+}
+
+- (void)previous {
+    [[MusicMgr standard] playPrevios];
+}
+
+- (void)next {
+    [[MusicMgr standard] playNext];
 }
 
 #pragma mark - HXPlayTopBarDelegate Methods
@@ -123,6 +145,32 @@ HXPlayListViewControllerDelegate
 #pragma mark - HXPlayMusicSummaryViewDelegate Methods
 - (void)summaryViewTaped:(HXPlayMusicSummaryView *)summaryView {
     ;
+}
+
+#pragma mark - HXPlayBottomBarDelegate Methods
+- (void)bottomBar:(HXPlayBottomBar *)bar takeAction:(HXPlayBottomBarAction)action {
+    switch (action) {
+        case HXPlayBottomBarActionFavorite: {
+            ;
+            break;
+        }
+        case HXPlayBottomBarActionPrevious: {
+            [self previous];
+            break;
+        }
+        case HXPlayBottomBarActionPause: {
+            [self pause];
+            break;
+        }
+        case HXPlayBottomBarActionNext: {
+            [self next];
+            break;
+        }
+        case HXPlayBottomBarActionInfect: {
+            ;
+            break;
+        }
+    }
 }
 
 #pragma mark - HXPlayListViewControllerDelegate Methods

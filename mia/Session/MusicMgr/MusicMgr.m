@@ -92,6 +92,10 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	return _playList[_currentIndex];
 }
 
+- (NSInteger)musicCount {
+    return (_playList.count - 1);
+}
+
 #pragma mark - Public Methods
 - (BOOL)isCurrentHostObject:(id)hostObject {
 	if (0 == _hostObjectID) {

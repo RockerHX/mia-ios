@@ -96,6 +96,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="160" id="P5X-fR-4gJ"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="grR-Jb-QG7" id="2Gb-DT-V8j"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
