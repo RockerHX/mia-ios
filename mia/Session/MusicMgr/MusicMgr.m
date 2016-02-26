@@ -85,7 +85,6 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	_playList = [[NSArray alloc] initWithArray:playList];
 	_currentIndex = 0;
 	_isShufflePlay = NO;
-	//	_isLoopPlay = YES;
 
 }
 
