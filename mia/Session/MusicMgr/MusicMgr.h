@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "ShareItem.h"
 
 extern NSString * const MusicMgrNotificationKey_RemoteControlEvent;
 extern NSString * const MusicMgrNotificationKey_PlayerEvent;
@@ -24,8 +25,6 @@ typedef NS_ENUM(NSUInteger, MiaPlayerEvent) {
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
-@class ShareItem;
-
 @interface MusicMgr : NSObject
 
 /**
@@ -34,12 +33,13 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
  */
 + (MusicMgr *)standard;
 
-@property (strong, nonatomic, readonly) NSArray *playList;
-@property (strong, nonatomic) ShareItem 		*currentItem;
-@property (assign, nonatomic) NSInteger 		currentIndex;
+@property (assign, nonatomic) NSInteger  currentIndex;
+@property (strong, nonatomic) ShareItem *currentItem;
 
-@property (assign , nonatomic) BOOL				isShufflePlay;
-@property (assign, nonatomic) BOOL				isInterruption;
+@property (strong, nonatomic, readonly) NSArray<ShareItem *> *playList;
+
+@property (assign, nonatomic) BOOL  isShufflePlay;
+@property (assign, nonatomic) BOOL  isInterruption;
 
 - (BOOL)isCurrentHostObject:(id)hostObject;
 - (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject;

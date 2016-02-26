@@ -123,7 +123,6 @@
 		CDE53A151C7BFDDB00E0616D /* UIImage+ColorToImage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539EA1C7BFDDB00E0616D /* UIImage+ColorToImage.m */; };
 		CDE53A161C7BFDDB00E0616D /* UIImage+Extrude.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539ED1C7BFDDB00E0616D /* UIImage+Extrude.m */; };
 		CDE53A171C7BFDDB00E0616D /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539F01C7BFDDB00E0616D /* UIImage+ImageEffects.m */; };
-		CDE53A181C7BFDDB00E0616D /* UIImageView+BlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539F31C7BFDDB00E0616D /* UIImageView+BlurredImage.m */; };
 		CDE53A191C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539F61C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.m */; };
 		CDE53A1A1C7BFDDB00E0616D /* FileLog.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539F91C7BFDDB00E0616D /* FileLog.m */; };
 		CDE53A1B1C7BFDDB00E0616D /* FormatTimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539FC1C7BFDDB00E0616D /* FormatTimeHelper.m */; };
@@ -367,8 +366,6 @@
 		CDE539ED1C7BFDDB00E0616D /* UIImage+Extrude.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extrude.m"; sourceTree = "<group>"; };
 		CDE539EF1C7BFDDB00E0616D /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		CDE539F01C7BFDDB00E0616D /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		CDE539F21C7BFDDB00E0616D /* UIImageView+BlurredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+BlurredImage.h"; sourceTree = "<group>"; };
-		CDE539F31C7BFDDB00E0616D /* UIImageView+BlurredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+BlurredImage.m"; sourceTree = "<group>"; };
 		CDE539F51C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AllowPanGestureEventPass.h"; sourceTree = "<group>"; };
 		CDE539F61C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AllowPanGestureEventPass.m"; sourceTree = "<group>"; };
 		CDE539F81C7BFDDB00E0616D /* FileLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileLog.h; sourceTree = "<group>"; };
@@ -1283,7 +1280,6 @@
 				CDE539E81C7BFDDB00E0616D /* UIImage+ColorToImage */,
 				CDE539EB1C7BFDDB00E0616D /* UIImage+Extrude */,
 				CDE539EE1C7BFDDB00E0616D /* UIImage+ImageEffects */,
-				CDE539F11C7BFDDB00E0616D /* UIImageView+BlurredImage */,
 				CDE539F41C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass */,
 			);
 			path = Categories;
@@ -1404,15 +1400,6 @@
 				CDE539F01C7BFDDB00E0616D /* UIImage+ImageEffects.m */,
 			);
 			path = "UIImage+ImageEffects";
-			sourceTree = "<group>";
-		};
-		CDE539F11C7BFDDB00E0616D /* UIImageView+BlurredImage */ = {
-			isa = PBXGroup;
-			children = (
-				CDE539F21C7BFDDB00E0616D /* UIImageView+BlurredImage.h */,
-				CDE539F31C7BFDDB00E0616D /* UIImageView+BlurredImage.m */,
-			);
-			path = "UIImageView+BlurredImage";
 			sourceTree = "<group>";
 		};
 		CDE539F41C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass */ = {
@@ -1754,7 +1741,6 @@
 				CDEF7ACA1C7EFDD400354229 /* HXPlayTopBar.m in Sources */,
 				CD06900F1C746B8C001C0997 /* UIView+Frame.m in Sources */,
 				CD0690171C746B8C001C0997 /* HXIBView.m in Sources */,
-				CDE53A181C7BFDDB00E0616D /* UIImageView+BlurredImage.m in Sources */,
 				CD0690191C746B8C001C0997 /* HXAppConstants.m in Sources */,
 				CD0690151C746B8C001C0997 /* HXIBImageView.m in Sources */,
 				CDE53A1D1C7BFDDB00E0616D /* PathHelper.m in Sources */,
