@@ -27,11 +27,12 @@ HXDiscoveryContainerViewControllerDelegate
 @end
 
 @implementation HXDiscoveryViewController {
+    HXLoadingView *_loadingView;
     HXDiscoveryContainerViewController *_containerViewController;
     
     ShareListMgr *_shareListMgr;
     
-    HXLoadingView *_loadingView;
+    BOOL _shouldHiddenNavigationBar;
 }
 
 #pragma mark - Class Methods
@@ -59,7 +60,7 @@ HXDiscoveryContainerViewControllerDelegate
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:_shouldHiddenNavigationBar animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -150,9 +151,15 @@ HXDiscoveryContainerViewControllerDelegate
         }
         case HXDiscoveryHeaderActionPlay: {
             if ([MusicMgr standard].currentItem) {
+                _shouldHiddenNavigationBar = YES;
                 UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
 //                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
-                [self presentViewController:playNavigationController animated:YES completion:nil];
+                
+                __weak __typeof__(self)weakSelf = self;
+                [self presentViewController:playNavigationController animated:YES completion:^{
+                    __strong __typeof__(self)strongSelf = weakSelf;
+                    strongSelf->_shouldHiddenNavigationBar = NO;
+                }];
             }
             break;
         }
