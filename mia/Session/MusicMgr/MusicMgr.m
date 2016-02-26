@@ -31,7 +31,6 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 @end
 
 @implementation MusicMgr {
-	NSArray 				*_playList;
 	SingleSongPlayer		*_player;
 	SongPreloader			*_preloader;
 
@@ -56,6 +55,8 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	self = [super init];
 	if (self) {
 		_player = [[SingleSongPlayer alloc] init];
+		_player.delegate = self;
+
 		_preloader = [[SongPreloader alloc] init];
 		_preloader.delegate = self;
 
@@ -77,7 +78,18 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Getter and Setter
-- (ShareItem *)getCurrentItem {
+- (void)setPlayList:(NSArray *)playList {
+	[_player stop];
+	[_preloader stop];
+
+	_playList = [[NSArray alloc] initWithArray:playList];
+	_currentIndex = 0;
+	_isShufflePlay = NO;
+	//	_isLoopPlay = YES;
+
+}
+
+- (ShareItem *)currentItem {
 	if (_playList.count <= 0) {
 		return nil;
 	}
@@ -90,18 +102,6 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 #pragma mark - Public Methods
-
-- (void)setPlayList:(NSArray *)playList {
-	[_player stop];
-	[_preloader stop];
-
-	_playList = [[NSArray alloc] initWithArray:playList];
-	_currentIndex = 0;
-	_isShufflePlay = NO;
-//	_isLoopPlay = YES;
-
-}
-
 - (void)setPlayListWithItem:(ShareItem *)item {
 	NSArray *playList = [[NSArray alloc] initWithObjects:item, nil];
 	[self setPlayList:playList];
@@ -145,7 +145,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 - (void)playCurrent {
-	[_player playWithMusicItem:_currentItem.music];
+	[_player playWithMusicItem:self.currentItem.music];
 }
 
 - (void)playPrevios {
@@ -382,7 +382,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidPlay {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPlay], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
@@ -390,7 +390,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidPause {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
@@ -398,7 +398,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidCompletion {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
@@ -416,7 +416,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)singleSongPlayerDidFailure {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
-							  _currentItem.sID, MusicMgrNotificationKey_sID,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
 							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
 }
