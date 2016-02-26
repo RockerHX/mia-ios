@@ -63,13 +63,14 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 - (void)pause;
 - (void)stop;
 
+- (float)durationSeconds;
+- (float)currentPlayedSeconds;
+
 /**
  * Position within the stream, where 0 is the beginning
  * and 1.0 is the end.
  */
 - (float)currentPlayedPostion;
 - (void)seekToPosition:(float)postion;
-
-
 
 @end
