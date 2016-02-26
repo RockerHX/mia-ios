@@ -144,6 +144,35 @@
             </objects>
             <point key="canvasLocation" x="765" y="90"/>
         </scene>
+        <!--HXPlayListViewController-->
+        <scene sceneID="sT7-zV-acj">
+            <objects>
+                <tableViewController storyboardIdentifier="HXPlayListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZhM-da-Ofc" userLabel="HXPlayListViewController" customClass="HXPlayListViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="sOM-zd-ld4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXPlayListCell" id="Cvs-zS-roM">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cvs-zS-roM" id="zgr-9k-4Wu">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZhM-da-Ofc" id="ONY-Lf-qJs"/>
+                            <outlet property="delegate" destination="ZhM-da-Ofc" id="AOM-CK-gnm"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="播放列表" id="QBU-1T-atc"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3yE-Ki-emv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1189" y="90"/>
+        </scene>
     </scenes>
     <resources>
         <image name="P-MaskBG-Bottom" width="375" height="250"/>
