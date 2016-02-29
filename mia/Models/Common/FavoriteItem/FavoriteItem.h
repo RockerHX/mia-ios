@@ -19,6 +19,10 @@
 @property (strong, nonatomic) NSString * mID;
 @property (strong, nonatomic) NSString * fID;
 
+@property (strong, nonatomic) NSString * spID;
+@property (assign, nonatomic) NSInteger time;
+@property (assign, nonatomic) BOOL isInfected;
+
 @property (strong, nonatomic) MusicItem *music;
 
 @property (assign, nonatomic) BOOL isSelected;
