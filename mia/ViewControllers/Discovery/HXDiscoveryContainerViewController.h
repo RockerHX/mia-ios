@@ -14,7 +14,14 @@
 typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
     HXDiscoveryCardActionSlidePrevious,
     HXDiscoveryCardActionSlideNext,
-    HXDiscoveryCardActionPlay
+    HXDiscoveryCardActionPlay,
+    HXDiscoveryCardActionShowSharer,
+    HXDiscoveryCardActionShowInfecter,
+    HXDiscoveryCardActionShowCommenter,
+    HXDiscoveryCardActionShowDetail,
+    HXDiscoveryCardActionInfect,
+    HXDiscoveryCardActionFavorite,
+    HXDiscoveryCardActionComment
 };
 
 @protocol HXDiscoveryContainerViewControllerDelegate <NSObject>

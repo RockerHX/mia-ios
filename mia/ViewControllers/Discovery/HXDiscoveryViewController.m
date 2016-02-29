@@ -18,6 +18,7 @@
 #import "MusicMgr.h"
 #import "HXPlayViewController.h"
 #import "HXShareViewController.h"
+#import "HXProfileViewController.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -141,6 +142,12 @@ HXDiscoveryContainerViewControllerDelegate
      }];
 }
 
+- (void)showProfileWithUID:(NSString *)uid {
+    HXProfileViewController *profileViewController = [HXProfileViewController instance];
+    profileViewController.uid = uid;
+    [self.navigationController pushViewController:profileViewController animated:YES];
+}
+
 #pragma mark - HXDiscoveryHeaderDelegate Methods
 - (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
     switch (action) {
@@ -175,7 +182,6 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionSlideNext: {
-            
             [self checkShouldFetchNewItems];
             if ([_shareListMgr checkHistoryItemsMaxCount]) {
                 container.currentPage = _shareListMgr.currentIndex;
@@ -183,8 +189,36 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionPlay: {
-			[[MusicMgr standard] setPlayList:_shareListMgr.shareList hostObject:self];
-			[[MusicMgr standard] playWithIndex:_shareListMgr.currentIndex];
+            [[MusicMgr standard] setPlayList:_shareListMgr.shareList hostObject:self];
+            [[MusicMgr standard] playWithIndex:_shareListMgr.currentIndex];
+            break;
+        }
+        case HXDiscoveryCardActionShowSharer: {
+            [self showProfileWithUID:[MusicMgr standard].currentItem.shareUser.uid];
+            break;
+        }
+        case HXDiscoveryCardActionShowInfecter: {
+            [self showProfileWithUID:[MusicMgr standard].currentItem.spaceUser.uid];
+            break;
+        }
+        case HXDiscoveryCardActionShowCommenter: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardActionShowDetail: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardActionInfect: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardActionFavorite: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardActionComment: {
+            ;
             break;
         }
     }

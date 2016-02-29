@@ -9,7 +9,7 @@
         <!--HXProfileViewController-->
         <scene sceneID="C7b-a8-51m">
             <objects>
-                <viewController storyboardIdentifier="HXProfileViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J2q-U5-he9" userLabel="HXProfileViewController" customClass="HXProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HXProfileViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J2q-U5-he9" userLabel="HXProfileViewController" customClass="HXProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O5S-5s-sot"/>
                         <viewControllerLayoutGuide type="bottom" id="eDz-3f-jta"/>

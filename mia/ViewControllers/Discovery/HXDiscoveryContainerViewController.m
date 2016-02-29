@@ -7,9 +7,9 @@
 //
 
 #import "HXDiscoveryContainerViewController.h"
+#import "UIView+Frame.h"
 #import "iCarousel.h"
 #import "HXDiscoveryCardView.h"
-#import "UIView+Frame.h"
 
 @interface HXDiscoveryContainerViewController () <
 iCarouselDataSource,
@@ -114,38 +114,11 @@ HXDiscoveryCardViewDelegate
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-//    if (_carousel.currentItemIndex < _dataSoure.count) {
-//        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
-//            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionPlay];
-//        }
-//    }
-}
-
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-//    if (_items.count) {
-//        NSLog(@"-----------[carouselDidEndScrollingAnimation]-----------");
-//        if (_delegate && [_delegate respondsToSelector:@selector(helper:takeAction:)]) {
-//            [_delegate helper:self takeAction:HXRadioCarouselHelperActionPlay];
-//        }
-//    }
-}
-
-- (void)carouselDidScroll:(iCarousel *)carousel {
-//    if (!_firstLoad) {
-//        CGFloat scrollOffset = carousel.scrollOffset;
-//        CGFloat width = carousel.frame.size.width;
-//        if (scrollOffset < 0) {
-//            CGFloat offsetX = fabs(width * scrollOffset);
-//            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoLastest:offsetX:)]) {
-//                [_delegate helperScrollNoLastest:self offsetX:offsetX];
-//            }
-//        } else if (scrollOffset > (carousel.currentItemIndex + 1)) {
-//            CGFloat offsetX = width * (scrollOffset - carousel.currentItemIndex);
-//            if (_delegate && [_delegate respondsToSelector:@selector(helperScrollNoNewest:offsetX:)]) {
-//                [_delegate helperScrollNoNewest:self offsetX:offsetX];
-//            }
-//        }
-//    }
+    if (_carousel.currentItemIndex < _dataSoure.count) {
+        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionShowDetail];
+        }
+    }
 }
 
 - (void)carouselDidEndDecelerating:(iCarousel *)carousel {
@@ -165,41 +138,42 @@ HXDiscoveryCardViewDelegate
 
 #pragma mark - HXDiscoveryCardViewDelegate Methods
 - (void)cardView:(HXDiscoveryCardView *)view takeAction:(HXDiscoveryCardViewAction)action {
+    HXDiscoveryCardAction cardAction = HXDiscoveryCardActionPlay;
     switch (action) {
         case HXDiscoveryCardViewActionPlay: {
-            if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
-                [_delegate containerViewController:self takeAction:HXDiscoveryCardActionPlay];
-            }
             break;
         }
         case HXDiscoveryCardViewActionShowSharer: {
-            ;
+            cardAction = HXDiscoveryCardActionShowSharer;
             break;
         }
         case HXDiscoveryCardViewActionShowInfecter: {
-            ;
+            cardAction = HXDiscoveryCardActionShowInfecter;
             break;
         }
         case HXDiscoveryCardViewActionShowCommenter: {
-            ;
+            cardAction = HXDiscoveryCardActionShowCommenter;
             break;
         }
         case HXDiscoveryCardViewActionShowDetail: {
-            ;
+            cardAction = HXDiscoveryCardActionShowDetail;
             break;
         }
         case HXDiscoveryCardViewActionInfect: {
-            ;
+            cardAction = HXDiscoveryCardActionInfect;
             break;
         }
         case HXDiscoveryCardViewActionFavorite: {
-            ;
+            cardAction = HXDiscoveryCardActionFavorite;
             break;
         }
         case HXDiscoveryCardViewActionComment: {
-            ;
+            cardAction = HXDiscoveryCardActionComment;
             break;
         }
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+        [_delegate containerViewController:self takeAction:cardAction];
     }
 }
 
