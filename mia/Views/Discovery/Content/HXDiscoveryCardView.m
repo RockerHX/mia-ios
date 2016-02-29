@@ -14,6 +14,11 @@
 #import "HXInfectView.h"
 #import "UIConstants.h"
 
+@interface HXDiscoveryCardView () <
+HXDiscoveryCoverDelegate
+>
+@end
+
 @implementation HXDiscoveryCardView {
     CAShapeLayer *_sharerNickNameLayer;
 }
@@ -76,6 +81,23 @@ HXXibImplementation
     _sharerLabel.activeLinkAttributes = linkAttributes;
     _sharerLabel.linkAttributes = linkAttributes;
     [_sharerLabel addLinkToPhoneNumber:sharer withRange:[_sharerLabel.text rangeOfString:sharer]];
+}
+
+#pragma mark - HXDiscoveryCoverDelegate Methods
+- (void)cover:(HXDiscoveryCover *)cover takeAcion:(HXDiscoveryCoverAction)action {
+    HXDiscoveryCardViewAction cardAction = HXDiscoveryCardViewActionPlay;
+    switch (action) {
+        case HXDiscoveryCoverActionPlay: {
+            break;
+        }
+        case HXDiscoveryCoverActionShowProfile: {
+            cardAction = HXDiscoveryCardViewActionShowProfile;
+            break;
+        }
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+        [_delegate cardView:self takeAction:cardAction];
+    }
 }
 
 @end

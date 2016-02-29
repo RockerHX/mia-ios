@@ -33,7 +33,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNs-kT-Qq0" userLabel="昵称" customClass="HXIBLabel">
                             <rect key="frame" x="26" y="9" width="93" height="22"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf7-hc-ci7">
+                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf7-hc-ci7">
                                     <rect key="frame" x="16" y="3" width="65" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -53,7 +53,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QUd-EQ-JaH" userLabel="头像" customClass="HXIBImageView">
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QUd-EQ-JaH" userLabel="头像" customClass="HXIBImageView">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="QUd-EQ-JaH" secondAttribute="height" multiplier="1:1" id="jCq-L7-krN"/>
@@ -73,6 +73,7 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="hNs-kT-Qq0" secondAttribute="trailing" id="FS7-yX-lpd"/>
                         <constraint firstItem="hNs-kT-Qq0" firstAttribute="leading" secondItem="QUd-EQ-JaH" secondAttribute="trailing" constant="-14" id="fuW-w4-GbG"/>
@@ -81,10 +82,16 @@
                         <constraint firstItem="hNs-kT-Qq0" firstAttribute="centerY" secondItem="QUd-EQ-JaH" secondAttribute="centerY" id="sqR-AJ-qc5"/>
                         <constraint firstAttribute="bottom" secondItem="QUd-EQ-JaH" secondAttribute="bottom" id="ty6-AD-qb7"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="aBk-5v-LuC" appends="YES" id="eHv-mV-tU9"/>
+                    </connections>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBP-ye-QIy">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBP-ye-QIy" userLabel="Play Button">
                     <rect key="frame" x="113" y="112" width="35" height="35"/>
                     <state key="normal" image="M-PlayIcon"/>
+                    <connections>
+                        <action selector="playAction" destination="-1" eventType="touchUpInside" id="OW0-8c-EyZ"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RM3-0g-IQ9" userLabel="歌曲名">
                     <rect key="frame" x="18" y="193" width="224" height="26"/>
@@ -100,6 +107,7 @@
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="UBP-ye-QIy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3gT-4j-7Hc"/>
                 <constraint firstAttribute="trailing" secondItem="wQu-4t-emA" secondAttribute="trailing" constant="18" id="6ju-ZO-cHV"/>
@@ -122,8 +130,21 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="0oj-SW-e4G" appends="YES" id="SlO-f7-tIj"/>
+            </connections>
             <point key="canvasLocation" x="315" y="350"/>
         </view>
+        <tapGestureRecognizer id="0oj-SW-e4G">
+            <connections>
+                <action selector="playAction" destination="-1" id="D3B-fP-CLq"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="aBk-5v-LuC">
+            <connections>
+                <action selector="showProfileAction" destination="-1" id="pl6-wC-yuV"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="D-MaskBG" width="325" height="325"/>

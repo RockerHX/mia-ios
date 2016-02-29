@@ -14,7 +14,11 @@
 @class HXDiscoveryCardView;
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
-    HXDiscoveryCardViewActionPlay
+    HXDiscoveryCardViewActionPlay,
+    HXDiscoveryCardViewActionShowProfile,
+    HXDiscoveryCardViewActionShowDetail,
+    HXDiscoveryCardViewActionInfect,
+    HXDiscoveryCardViewActionFavorite
 };
 
 @protocol HXDiscoveryCardViewDelegate <NSObject>

@@ -114,11 +114,11 @@ HXDiscoveryCardViewDelegate
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    if (_carousel.currentItemIndex < _dataSoure.count) {
-        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
-            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionPlay];
-        }
-    }
+//    if (_carousel.currentItemIndex < _dataSoure.count) {
+//        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+//            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionPlay];
+//        }
+//    }
 }
 
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
@@ -164,5 +164,31 @@ HXDiscoveryCardViewDelegate
 }
 
 #pragma mark - HXDiscoveryCardViewDelegate Methods
+- (void)cardView:(HXDiscoveryCardView *)view takeAction:(HXDiscoveryCardViewAction)action {
+    switch (action) {
+        case HXDiscoveryCardViewActionPlay: {
+            if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+                [_delegate containerViewController:self takeAction:HXDiscoveryCardActionPlay];
+            }
+            break;
+        }
+        case HXDiscoveryCardViewActionShowProfile: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardViewActionShowDetail: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardViewActionInfect: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardViewActionFavorite: {
+            ;
+            break;
+        }
+    }
+}
 
 @end

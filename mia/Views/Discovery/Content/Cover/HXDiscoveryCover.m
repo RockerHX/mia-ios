@@ -47,11 +47,24 @@ HXXibImplementation
     _singerNameLabel.layer.shadowOpacity = 1.0f;
 }
 
+#pragma mark - Event Response
+- (IBAction)playAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
+        [_delegate cover:self takeAcion:HXDiscoveryCoverActionPlay];
+    }
+}
+
+- (IBAction)showProfileAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
+        [_delegate cover:self takeAcion:HXDiscoveryCoverActionShowProfile];
+    }
+}
+
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     BOOL isShare = [item.shareUser.uid isEqualToString:item.spaceUser.uid];
     UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
-    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @"分享" : @"秒推")];
+    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @"分享" : @"妙推")];
     _cardUserLabel.text = userPrompt;
     [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil];
     
