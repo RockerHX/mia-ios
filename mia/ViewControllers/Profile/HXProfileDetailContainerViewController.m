@@ -332,19 +332,19 @@ HXProfileShareCellDelegate
             }
             break;
         }
-        case HXProfileDetailHeaderActionShowMessage: {
-			if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
-				[_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMessageCenter];
-			}
-
-            break;
-        }
-        case HXProfileDetailHeaderActionTakeFollow: {
-            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
-                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShoulFollow];
-            }
-            break;
-        }
+//        case HXProfileDetailHeaderActionShowMessage: {
+//			if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+//				[_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMessageCenter];
+//			}
+//
+//            break;
+//        }
+//        case HXProfileDetailHeaderActionTakeFollow: {
+//            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+//                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShoulFollow];
+//            }
+//            break;
+//        }
     }
 }
 

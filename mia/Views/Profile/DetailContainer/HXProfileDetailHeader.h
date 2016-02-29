@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXProfileHeaderModel.h"
 
 typedef NS_ENUM(BOOL, HXProfileType) {
     HXProfileTypeHost = YES,
@@ -14,10 +15,11 @@ typedef NS_ENUM(BOOL, HXProfileType) {
 };
 
 typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
+    HXProfileDetailHeaderActionPlayFM,
     HXProfileDetailHeaderActionShowFans,
     HXProfileDetailHeaderActionShowFollow,
-    HXProfileDetailHeaderActionShowMessage,
-    HXProfileDetailHeaderActionTakeFollow,
+    HXProfileDetailHeaderActionSetting,
+    HXProfileDetailHeaderActionAttention
 };
 
 @class HXProfileDetailHeader;
@@ -37,16 +39,15 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *followButton;
-@property (weak, nonatomic) IBOutlet      UIView *messagePromptView;
-@property (weak, nonatomic) IBOutlet     UILabel *messageCountLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *messageAvatar;
+@property (weak, nonatomic) IBOutlet    UIButton *actionButton;
 
 @property (nonatomic, assign) HXProfileType  type;
 
 - (IBAction)fansViewTaped;
 - (IBAction)followViewTaped;
-- (IBAction)messageViewTaped;
-- (IBAction)followButtonPressed;
+- (IBAction)actionButtonPressed;
+- (IBAction)playButtonPressed;
+
+- (void)displayWithHeaderModel:(HXProfileHeaderModel *)model;
 
 @end

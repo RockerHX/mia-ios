@@ -8,6 +8,7 @@
 
 #import "HXProfileDetailHeader.h"
 #import "HXXib.h"
+#import "UIImageView+WebCache.h"
 
 @implementation HXProfileDetailHeader
 
@@ -34,8 +35,7 @@ HXXibImplementation
 #pragma mark - Setter And Getter
 - (void)setType:(HXProfileType)type {
     _type = type;
-    _followButton.hidden = type;
-    _messagePromptView.hidden = !type;
+//    _followButton.hidden = type;
 }
 
 #pragma mark - Event Response
@@ -51,18 +51,22 @@ HXXibImplementation
     }
 }
 
-- (IBAction)messageViewTaped {
-    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowMessage];
-    }
+- (IBAction)actionButtonPressed {
+//    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+//        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionTakeFollow];
+//    }
 }
 
-- (IBAction)followButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionTakeFollow];
-    }
+- (IBAction)playButtonPressed {
+    
 }
 
 #pragma mark - Public Methods
+- (void)displayWithHeaderModel:(HXProfileHeaderModel *)model {
+    [_avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+    _nickNameLabel.text = model.nickName;
+    _fansCountLabel.text = model.fansCount;
+    _followCountLabel.text = model.followCount;
+}
 
 @end

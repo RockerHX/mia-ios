@@ -7,6 +7,8 @@
 //
 
 #import "HXProfileViewController.h"
+#import "HXProfileCoverContainerViewController.h"
+#import "HXProfileDetailContainerViewController.h"
 #import "HXNavigationBar.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
@@ -27,6 +29,7 @@ HXNavigationBarDelegate
     BOOL _pushToFrends;
     
     UIStatusBarStyle  _statusBarStyle;
+    HXProfileCoverContainerViewController *_coverContainerViewController;
     HXProfileDetailContainerViewController *_detailContainerViewController;
 
 	NSUInteger _fansCount;
@@ -40,8 +43,7 @@ HXNavigationBarDelegate
     
     animated = (self.navigationController.viewControllers.count > 2);
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-
-	[self showHUD];
+    
 	[self fetchProfileData];
 }
 
@@ -77,7 +79,10 @@ HXNavigationBarDelegate
 
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:[HXProfileDetailContainerViewController segueIdentifier]]) {
+    NSString *identifier = segue.identifier;
+    if ([identifier isEqualToString:[HXProfileCoverContainerViewController segueIdentifier]]) {
+        _coverContainerViewController = segue.destinationViewController;
+    } else if ([identifier isEqualToString:[HXProfileDetailContainerViewController segueIdentifier]]) {
         _detailContainerViewController = segue.destinationViewController;
         _detailContainerViewController.uid = _uid;
         _detailContainerViewController.delegate = self;
@@ -113,32 +118,17 @@ HXNavigationBarDelegate
     [MiaAPIHelper getUserInfoWithUID:_uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-             NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
-             _fansCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"fansCnt"] integerValue];
-             _followCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] integerValue];
-             _detailContainerViewController.shareCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"shareCnt"] integerValue];
-             _detailContainerViewController.favoriteCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"favCnt"] integerValue];
+             NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];
+             HXProfileHeaderModel *model = [HXProfileHeaderModel mj_objectWithKeyValues:data];
+             [_detailContainerViewController.header displayWithHeaderModel:model];
+             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+             
              NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
-             NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
-             NSLog(@"user info: %ld, %ld, %ld, %@", _fansCount, _followCount, follow, imgs);
-             
-             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-             [_detailContainerViewController.header.avatar sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-                                                             placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
-             _detailContainerViewController.header.nickNameLabel.text = nickName;
-             _detailContainerViewController.header.fansCountLabel.text = @(_fansCount).stringValue;
-             _detailContainerViewController.header.followCountLabel.text = @(_followCount).stringValue;
-             
              [self displayFollowState:follow];
-             
-             [self hiddenHUD];
          } else {
-             [self hiddenHUD];
              NSLog(@"getUserInfoWithUID failed");
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [self hiddenHUD];
          NSLog(@"getUserInfoWithUID timeout");
      }];
 }
@@ -157,8 +147,8 @@ HXNavigationBarDelegate
         }
     }
     
-	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
-    [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
+//	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
+//    [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
 }
 
 - (void)displayFansCountWithFollowState:(NSUInteger)state {
@@ -169,9 +159,9 @@ HXNavigationBarDelegate
 }
 
 - (void)showMessagePromptView {
-	[_detailContainerViewController.header.messageAvatar sd_setImageWithURL:[NSURL URLWithString:[UserSession standard].notifyUserpic]
-														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
-	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
+//	[_detailContainerViewController.header.messageAvatar sd_setImageWithURL:[NSURL URLWithString:[UserSession standard].notifyUserpic]
+//														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+//	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
 //
 //
 //	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0) || !_type];

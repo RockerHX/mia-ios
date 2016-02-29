@@ -7,7 +7,6 @@
 //
 
 #import "UIViewController+HXClass.h"
-#import "HXProfileDetailContainerViewController.h"
 
 @class HXNavigationBar;
 
