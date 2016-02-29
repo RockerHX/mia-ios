@@ -8,23 +8,12 @@
 
 #import "HXProfileShareCell.h"
 
-typedef NS_ENUM(NSUInteger, HXProfileSongRowType) {
-    HXProfileSongRowTypeSongAction,
-    HXProfileSongRowTypeSong
-};
-
 @interface HXProfileListViewModel : NSObject
 
 @property (nonatomic, strong)  NSString *uid;
 
-@property (nonatomic, assign, readonly)   CGFloat  shareCellHeight;
-@property (nonatomic, assign, readonly)   CGFloat  favoriteHeight;
-@property (nonatomic, assign, readonly)   CGFloat  segmentHeight;
 @property (nonatomic, assign, readonly) NSInteger  rows;
-@property (nonatomic, strong, readonly)   NSArray *rowTypes;
 @property (nonatomic, strong, readonly)   NSArray *dataSource;
-
-@property (nonatomic, assign, readonly) NSInteger  favoriteCount;
 
 + (instancetype)instanceWithUID:(NSString *)uid;
 

@@ -7,6 +7,7 @@
 //
 
 #import "HXProfileDetailHeader.h"
+#import "UIView+Frame.h"
 
 typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
     HXProfileDetailContainerActionShowMusicDetail,

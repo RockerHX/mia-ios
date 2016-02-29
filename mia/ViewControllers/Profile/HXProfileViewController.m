@@ -18,6 +18,8 @@
 #import "WebSocketMgr.h"
 #import "HXAlertBanner.h"
 //#import "HXMessageCenterViewController.h"
+#import "MusicMgr.h"
+#import "HXPlayViewController.h"
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate,
@@ -98,6 +100,7 @@ HXNavigationBarDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+    _statusBarStyle = UIStatusBarStyleLightContent;
     [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -122,6 +125,7 @@ HXNavigationBarDelegate
              HXProfileHeaderModel *model = [HXProfileHeaderModel mj_objectWithKeyValues:data];
              [_detailContainerViewController.header displayWithHeaderModel:model];
              [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+             [_navigationBar setTitle:model.nickName];
              
              NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
              [self displayFollowState:follow];
@@ -169,13 +173,11 @@ HXNavigationBarDelegate
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
 - (void)detailContainerDidScroll:(HXProfileDetailContainerViewController *)controller scrollOffset:(CGPoint)scrollOffset {
-//    CGFloat scrollThreshold = _detailContainerViewController.header.height - 64.0f;
-//    CGFloat alpha = scrollOffset.y/scrollThreshold;
-//    _navigationBar.colorAlpha = alpha;
-//    _statusBarStyle = ((alpha > 0.1f) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent);
-//    [self setNeedsStatusBarAppearanceUpdate];
-//    
-//    [_coverContainerViewController scrollPosition:((scrollOffset.y < scrollThreshold) ? UICollectionViewScrollPositionTop : UICollectionViewScrollPositionBottom)];
+    CGFloat scrollThreshold = _detailContainerViewController.header.height - 64.0f;
+    CGFloat alpha = scrollOffset.y/scrollThreshold;
+    _navigationBar.colorAlpha = alpha;
+    _statusBarStyle = ((alpha > 0.1f) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent);
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)detailContainer:(HXProfileDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action {
@@ -229,8 +231,27 @@ HXNavigationBarDelegate
 }
 
 #pragma mark - HXNavigationBarDelegate Methods
-- (void)navigationBarDidBackAction {
-	[_detailContainerViewController stopMusic];
+- (void)navigationBar:(HXNavigationBar *)bar takeAction:(HXNavigationBarAction)action {
+    switch (action) {
+        case HXNavigationBarBack: {
+            [_detailContainerViewController stopMusic];
+            break;
+        }
+        case HXNavigationBarMusic: {
+            if ([MusicMgr standard].currentItem) {
+                _pushToFrends = YES;
+                UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
+//                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
+                
+                __weak __typeof__(self)weakSelf = self;
+                [self presentViewController:playNavigationController animated:YES completion:^{
+                    __strong __typeof__(self)strongSelf = weakSelf;
+                    strongSelf->_pushToFrends = NO;
+                }];
+            }
+            break;
+        }
+    }
 }
 
 @end

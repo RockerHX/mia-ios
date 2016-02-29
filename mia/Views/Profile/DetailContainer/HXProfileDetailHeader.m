@@ -39,6 +39,18 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
+- (IBAction)actionButtonPressed {
+//    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+//        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionTakeFollow];
+//    }
+}
+
+- (IBAction)playFMTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionPlayFM];
+    }
+}
+
 - (IBAction)fansViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
         [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFans];
@@ -49,16 +61,6 @@ HXXibImplementation
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
         [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFollow];
     }
-}
-
-- (IBAction)actionButtonPressed {
-//    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-//        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionTakeFollow];
-//    }
-}
-
-- (IBAction)playButtonPressed {
-    
 }
 
 #pragma mark - Public Methods

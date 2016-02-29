@@ -8,7 +8,6 @@
 
 #import "HXProfileListViewModel.h"
 #import "MiaAPIHelper.h"
-#import "FavoriteMgr.h"
 #import "UIConstants.h"
 
 static NSInteger ListPageLimit = 10;
@@ -16,20 +15,13 @@ static NSInteger ListPageLimit = 10;
 typedef void(^CompletedBlock)(HXProfileListViewModel *);
 typedef void(^FailureBlock)(NSString *);
 
-@interface HXProfileListViewModel () <
-FavoriteMgrDelegate
->
-@end
-
 @implementation HXProfileListViewModel {
     CompletedBlock _completedBlock;
     FailureBlock _failureBlock;
     
     NSInteger _shareListPage;
-    NSInteger _favoriteListPage;
     
     NSMutableArray *_shareLists;
-    NSMutableArray *_favoriteLists;
 }
 
 #pragma mark - Class Methods
@@ -51,33 +43,16 @@ FavoriteMgrDelegate
 #pragma mark - Configure Methods
 - (void)initConfigure {
     _shareListPage = 1;
-    _favoriteListPage = 1;
-    
     _shareLists = @[].mutableCopy;
-    _favoriteLists = @[].mutableCopy;
-    
-    [FavoriteMgr standard].customDelegate = self;
 }
 
 #pragma mark - Setter And Getter
-- (CGFloat)shareCellHeight {
-    return (SCREEN_WIDTH/378.0f) * 232.0f;
-}
-
-- (CGFloat)favoriteHeight {
-    return 65.0f;
-}
-
-- (CGFloat)segmentHeight {
-    return 60.0f;
-}
-
 - (NSInteger)rows {
-    return _dataSource.count;
+    return self.dataSource.count;
 }
 
-- (NSInteger)favoriteCount {
-    return _favoriteLists.count;
+- (NSArray *)dataSource {
+    return _shareLists;
 }
 
 #pragma mark - Public Methods
@@ -139,27 +114,6 @@ FavoriteMgrDelegate
              _failureBlock(@"无法获取分享列表，网络请求超时");
          }
      }];
-}
-
-- (void)fetchUserFavoriteData {
-    [[FavoriteMgr standard] syncFavoriteList];
-}
-
-#pragma mark - FavoriteMgrDelegate Methods
-- (void)favoriteMgrDidFinishSync {
-    _favoriteLists = [FavoriteMgr standard].dataSource;
-    NSMutableArray *rowTypes = @[].mutableCopy;
-    if (_favoriteLists.count) {
-        [rowTypes addObject:@(HXProfileSongRowTypeSongAction)];
-        [_favoriteLists enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [rowTypes addObject:@(HXProfileSongRowTypeSong)];
-        }];
-    }
-    _rowTypes = [rowTypes copy];
-    
-    if (_completedBlock) {
-        _completedBlock(self);
-    }
 }
 
 @end

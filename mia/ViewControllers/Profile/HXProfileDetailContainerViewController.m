@@ -20,7 +20,6 @@
 //#import "HXMusicDetailViewController.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "MJRefresh.h"
-#import "UIView+Frame.h"
 #import "UIConstants.h"
 #import "UIActionSheet+BlocksKit.h"
 
@@ -121,9 +120,14 @@ HXProfileShareCellDelegate
     BOOL hasData = _viewModel.dataSource.count;
     if (!hasData) {
         [self removeRefreshFooter];
+        [self resizeFooter];
     }
     
     _promptView.hidden = hasData;
+}
+
+- (void)resizeFooter {
+    _footer.height = SCREEN_HEIGHT;
 }
 
 - (void)fetchMoreShareData {
@@ -270,11 +274,9 @@ HXProfileShareCellDelegate
 
 #pragma mark - ScrollView Delegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    if (_footerHeight <= _header.height) {
-//        if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
-//            [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
-//        }
-//    }
+    if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
+        [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
+    }
 }
 
 #pragma mark - Table View Data Source Methods
@@ -288,10 +290,6 @@ HXProfileShareCellDelegate
 }
 
 #pragma mark - Table View Delegate Methods
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return _type ? _viewModel.segmentHeight : 0.0f;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0.0f;
     height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) cacheByIndexPath:indexPath configuration:
@@ -302,6 +300,8 @@ HXProfileShareCellDelegate
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self resizeFooter];
+    
     HXProfileShareCell *shareCell = (HXProfileShareCell *)cell;
     [shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
 }

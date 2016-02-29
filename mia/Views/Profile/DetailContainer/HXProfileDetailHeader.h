@@ -15,11 +15,11 @@ typedef NS_ENUM(BOOL, HXProfileType) {
 };
 
 typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
+    HXProfileDetailHeaderActionSetting,
+    HXProfileDetailHeaderActionAttention,
     HXProfileDetailHeaderActionPlayFM,
     HXProfileDetailHeaderActionShowFans,
-    HXProfileDetailHeaderActionShowFollow,
-    HXProfileDetailHeaderActionSetting,
-    HXProfileDetailHeaderActionAttention
+    HXProfileDetailHeaderActionShowFollow
 };
 
 @class HXProfileDetailHeader;
@@ -43,10 +43,10 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 
 @property (nonatomic, assign) HXProfileType  type;
 
+- (IBAction)actionButtonPressed;
+- (IBAction)playFMTaped;
 - (IBAction)fansViewTaped;
 - (IBAction)followViewTaped;
-- (IBAction)actionButtonPressed;
-- (IBAction)playButtonPressed;
 
 - (void)displayWithHeaderModel:(HXProfileHeaderModel *)model;
 
