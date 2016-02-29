@@ -57,7 +57,15 @@ HXXibImplementation
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (indexPath.row) {
+        if (_delegate && [_delegate respondsToSelector:@selector(infectViewInfecterTaped:atIndex:)]) {
+            [_delegate infectViewInfecterTaped:self atIndex:(indexPath.row - 1)];
+        }
+    } else {
+        if (_delegate && [_delegate respondsToSelector:@selector(infectView:takeAction:)]) {
+            [_delegate infectView:self takeAction:HXInfectViewActionInfect];
+        }
+    }
 }
 
 @end

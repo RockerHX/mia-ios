@@ -33,7 +33,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgq-mw-184" userLabel="Share Content View">
                     <rect key="frame" x="15" y="335" width="290" height="90"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BBC要按照基本法来拍纪录片，这次做的很好，我很欣慰，他们以前还too young，不知道裤子要提多高，我和他们谈笑风生之后，他们总算是明白了一些人生哲理" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Wib-Wl-9pg" customClass="TTTAttributedLabel">
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BBC要按照基本法来拍纪录片，这次做的很好，我很欣慰，他们以前还too young，不知道裤子要提多高，我和他们谈笑风生之后，他们总算是明白了一些人生哲理" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Wib-Wl-9pg" customClass="TTTAttributedLabel">
                             <rect key="frame" x="0.0" y="0.0" width="290" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="IfE-iE-fVS"/>
@@ -46,9 +46,13 @@
                                     <real key="value" value="4"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="rQs-Bx-pt5"/>
+                            </connections>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Wib-Wl-9pg" secondAttribute="bottom" id="7W2-pv-2ow"/>
                         <constraint firstAttribute="trailing" secondItem="Wib-Wl-9pg" secondAttribute="trailing" id="Gof-lf-MDx"/>
@@ -59,17 +63,25 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMu-t3-LtB" userLabel="Infecter View" customClass="HXInfectView">
                     <rect key="frame" x="15" y="437" width="290" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="aFE-ni-g4u"/>
                     </constraints>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="NwV-65-W4P"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFm-6C-XzL" userLabel="Favorite View">
                     <rect key="frame" x="15" y="481" width="290" height="30"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-FavoriteIcon" translatesAutoresizingMaskIntoConstraints="NO" id="TPV-BU-Fvz">
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-FavoriteIcon" translatesAutoresizingMaskIntoConstraints="NO" id="TPV-BU-Fvz">
                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                            <gestureRecognizers/>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="cv0-0w-qFJ" appends="YES" id="YrK-g8-4Rk"/>
+                            </connections>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0人收藏" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzl-Fx-DG0">
+                        <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="0人收藏" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzl-Fx-DG0">
                             <rect key="frame" x="45" y="0.0" width="245" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,17 +102,21 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0i-8S-rZK" userLabel="Comment Container View">
                     <rect key="frame" x="15" y="523" width="290" height="30"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-CommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="CqQ-VA-ehL">
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-CommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="CqQ-VA-ehL">
                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7sQ-rK-X8E" userLabel="Comment Centent View">
                             <rect key="frame" x="45" y="0.0" width="245" height="30"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="说说你此刻的想法。。。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkS-0f-fMn" userLabel="用户评论内容">
+                                <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="说说你此刻的想法。。。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkS-0f-fMn" userLabel="用户评论内容">
                                     <rect key="frame" x="56" y="0.0" width="189" height="30"/>
+                                    <gestureRecognizers/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="KSM-fD-ufy" appends="YES" id="6SX-xc-5AJ"/>
+                                    </connections>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AGa-up-Gju" userLabel="Commentators Name View" customClass="HXIBView">
                                     <rect key="frame" x="0.0" y="3" width="48" height="25"/>
@@ -113,6 +129,7 @@
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" red="0.92156862745098034" green="0.93725490196078431" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                    <gestureRecognizers/>
                                     <constraints>
                                         <constraint firstItem="V83-uH-kB6" firstAttribute="leading" secondItem="AGa-up-Gju" secondAttribute="leading" constant="10" id="4hp-h2-qqb"/>
                                         <constraint firstItem="V83-uH-kB6" firstAttribute="top" secondItem="AGa-up-Gju" secondAttribute="top" constant="4" id="Sa8-Pm-9Nh"/>
@@ -124,6 +141,9 @@
                                             <real key="value" value="12.5"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="t8M-eD-T8g" appends="YES" id="OOG-cg-o2v"/>
+                                    </connections>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -172,6 +192,21 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="457" y="350"/>
         </view>
+        <tapGestureRecognizer id="cv0-0w-qFJ" userLabel="Favorite Gesture">
+            <connections>
+                <action selector="favoriteAction" destination="-1" id="jPY-ZC-35R"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="t8M-eD-T8g" userLabel="Commenter Gesture">
+            <connections>
+                <action selector="showCommenterAction" destination="-1" id="6Ls-w8-vRG"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="KSM-fD-ufy" userLabel="Comment Gesture">
+            <connections>
+                <action selector="showCommentAction" destination="-1" id="dhQ-Ci-eeM"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="D-CommentIcon" width="30" height="30"/>

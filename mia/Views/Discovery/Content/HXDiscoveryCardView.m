@@ -15,7 +15,9 @@
 #import "UIConstants.h"
 
 @interface HXDiscoveryCardView () <
-HXDiscoveryCoverDelegate
+HXDiscoveryCoverDelegate,
+TTTAttributedLabelDelegate,
+HXInfectViewDelegate
 >
 @end
 
@@ -40,6 +42,31 @@ HXXibImplementation
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - Event Response
+- (IBAction)favoriteAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionFavorite];
+    }
+}
+
+- (IBAction)showCommenterAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionShowCommenter];
+    }
+}
+
+- (IBAction)showCommentAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionComment];
+    }
+}
+
+- (IBAction)showDetailAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionShowDetail];
+    }
 }
 
 #pragma mark - Public Methods
@@ -80,7 +107,7 @@ HXXibImplementation
                                      (__bridge id)kCTFontAttributeName: [UIFont systemFontOfSize:14.0f]};
     _sharerLabel.activeLinkAttributes = linkAttributes;
     _sharerLabel.linkAttributes = linkAttributes;
-    [_sharerLabel addLinkToPhoneNumber:sharer withRange:[_sharerLabel.text rangeOfString:sharer]];
+    [_sharerLabel addLinkToPhoneNumber:sharer withRange:[shareContent rangeOfString:sharer]];
 }
 
 #pragma mark - HXDiscoveryCoverDelegate Methods
@@ -90,14 +117,41 @@ HXXibImplementation
         case HXDiscoveryCoverActionPlay: {
             break;
         }
-        case HXDiscoveryCoverActionShowProfile: {
-            cardAction = HXDiscoveryCardViewActionShowProfile;
+        case HXDiscoveryCoverActionShowSharer: {
+            cardAction = HXDiscoveryCardViewActionShowSharer;
+            break;
+        }
+        case HXDiscoveryCoverActionShowInfecter: {
+            cardAction = HXDiscoveryCardViewActionShowInfecter;
             break;
         }
     }
     if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
         [_delegate cardView:self takeAction:cardAction];
     }
+}
+
+#pragma mark - TTTAttributedLabelDelegate Methdos
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber {
+    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionShowSharer];
+    }
+}
+
+#pragma mark - HXInfectViewDelegate Methods
+- (void)infectView:(HXInfectView *)infectView takeAction:(HXInfectViewAction)action {
+    switch (action) {
+        case HXInfectViewActionInfect: {
+            if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
+                [_delegate cardView:self takeAction:HXDiscoveryCardViewActionInfect];
+            }
+            break;
+        }
+    }
+}
+
+- (void)infectViewInfecterTaped:(HXInfectView *)infectView atIndex:(NSInteger)index {
+    [self showDetailAction];
 }
 
 @end

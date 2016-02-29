@@ -172,7 +172,15 @@ HXDiscoveryCardViewDelegate
             }
             break;
         }
-        case HXDiscoveryCardViewActionShowProfile: {
+        case HXDiscoveryCardViewActionShowSharer: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardViewActionShowInfecter: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardViewActionShowCommenter: {
             ;
             break;
         }
@@ -185,6 +193,10 @@ HXDiscoveryCardViewDelegate
             break;
         }
         case HXDiscoveryCardViewActionFavorite: {
+            ;
+            break;
+        }
+        case HXDiscoveryCardViewActionComment: {
             ;
             break;
         }

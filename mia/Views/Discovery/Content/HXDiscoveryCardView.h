@@ -15,10 +15,13 @@
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
     HXDiscoveryCardViewActionPlay,
-    HXDiscoveryCardViewActionShowProfile,
+    HXDiscoveryCardViewActionShowSharer,
+    HXDiscoveryCardViewActionShowInfecter,
+    HXDiscoveryCardViewActionShowCommenter,
     HXDiscoveryCardViewActionShowDetail,
     HXDiscoveryCardViewActionInfect,
-    HXDiscoveryCardViewActionFavorite
+    HXDiscoveryCardViewActionFavorite,
+    HXDiscoveryCardViewActionComment
 };
 
 @protocol HXDiscoveryCardViewDelegate <NSObject>
@@ -37,6 +40,11 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
 @property (weak, nonatomic) IBOutlet            UILabel *commentContentLabel;
 
 @property (nonatomic, weak) id <HXDiscoveryCardViewDelegate>delegate;
+
+- (IBAction)favoriteAction;
+- (IBAction)showCommenterAction;
+- (IBAction)showCommentAction;
+- (IBAction)showDetailAction;
 
 - (void)displayWithItem:(id)item;
 

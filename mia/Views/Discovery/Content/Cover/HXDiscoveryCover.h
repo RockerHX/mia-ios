@@ -10,7 +10,8 @@
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryCoverAction) {
     HXDiscoveryCoverActionPlay,
-    HXDiscoveryCoverActionShowProfile
+    HXDiscoveryCoverActionShowSharer,
+    HXDiscoveryCoverActionShowInfecter
 };
 
 @class ShareItem;
