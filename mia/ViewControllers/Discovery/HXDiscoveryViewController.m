@@ -107,12 +107,11 @@ HXDiscoveryContainerViewControllerDelegate
 
 - (void)reloadShareList {
     _containerViewController.dataSoure = _shareListMgr.shareList;
+    _containerViewController.currentPage = _shareListMgr.currentIndex;
 }
 
 - (void)checkShouldFetchNewItems {
-    if ([_shareListMgr isNeedGetNearbyItems]) {
-        [self fetchNewShares];
-    }
+    [self fetchNewShares];
 }
 
 - (void)fetchNewShares {

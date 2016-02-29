@@ -12,7 +12,9 @@
 #import "UIImageView+WebCache.h"
 #import "UIView+Frame.h"
 
-@implementation HXDiscoveryCover
+@implementation HXDiscoveryCover {
+    __weak ShareItem *_shareItem;
+}
 
 HXXibImplementation
 
@@ -47,11 +49,26 @@ HXXibImplementation
     _singerNameLabel.layer.shadowOpacity = 1.0f;
 }
 
+#pragma mark - Event Response
+- (IBAction)playAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
+        [_delegate cover:self takeAcion:HXDiscoveryCoverActionPlay];
+    }
+}
+
+- (IBAction)showProfileAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
+        [_delegate cover:self takeAcion:([self isSharer] ? HXDiscoveryCoverActionShowSharer : HXDiscoveryCoverActionShowInfecter)];
+    }
+}
+
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
-    BOOL isShare = [item.shareUser.uid isEqualToString:item.spaceUser.uid];
+    _shareItem = item;
+    
+    BOOL isShare = [self isSharer];
     UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
-    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @"分享" : @"秒推")];
+    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @"分享" : @"妙推")];
     _cardUserLabel.text = userPrompt;
     [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil];
     
@@ -59,6 +76,11 @@ HXXibImplementation
     [_cover sd_setImageWithURL:[NSURL URLWithString:musicItem.purl] placeholderImage:nil];
     _songNameLabel.text = musicItem.name;
     _singerNameLabel.text = musicItem.singerName;
+}
+
+#pragma mark - Private Methods
+- (BOOL)isSharer {
+    return [_shareItem.shareUser.uid isEqualToString:_shareItem.spaceUser.uid];
 }
 
 //#pragma mark - Public Methods
