@@ -21,10 +21,14 @@ extern NSString * const kDefaultShareID;
 @property (strong, nonatomic) NSString *uID;
 @property (strong, nonatomic) NSString *sNick;
 @property (strong, nonatomic) NSString *sNote;
+
 @property (assign, nonatomic) int cView;
 @property (assign, nonatomic) int cComm;
 @property (assign, nonatomic) int newCommCnt;
 @property (assign, nonatomic) int infectTotal;
+@property (assign, nonatomic) int starCnt;
+@property (assign, nonatomic) int shareCnt;
+
 @property (strong, nonatomic) NSString *sAddress;
 @property (strong, nonatomic) NSString *sLongitude;
 @property (strong, nonatomic) NSString *sLatitude;
