@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @interface HXProfileDetailHeader : UIView
 
 @property (weak, nonatomic) IBOutlet       id  <HXProfileDetailHeaderDelegate>delegate;
+@property (weak, nonatomic) IBOutlet      UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;

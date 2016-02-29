@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 @property (nonatomic, assign)    NSInteger  shareCount;
 @property (nonatomic, assign)    NSInteger  favoriteCount;
 
-@property (nonatomic, strong) HXProfileDetailHeader *header;
+@property (nonatomic, strong) IBOutlet HXProfileDetailHeader *header;
 
 - (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count;
 - (void)stopMusic;

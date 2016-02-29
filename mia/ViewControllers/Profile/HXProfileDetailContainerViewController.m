@@ -72,12 +72,12 @@ HXProfileShareCellDelegate
 }
 
 - (void)viewConfigure {
-    _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 264.0f)];
-    _header.delegate = self;
-    _header.type = _type;
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
-    self.tableView.tableHeaderView = _header;
+//    _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 264.0f)];
+//    _header.delegate = self;
+//    _header.type = _type;
+//    
+//    self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
+//    self.tableView.tableHeaderView = _header;
     [self addRefreshFooter];
 }
 
@@ -270,11 +270,11 @@ HXProfileShareCellDelegate
 
 #pragma mark - ScrollView Delegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (_footerHeight <= _header.height) {
-        if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
-            [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
-        }
-    }
+//    if (_footerHeight <= _header.height) {
+//        if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
+//            [_delegate detailContainerDidScroll:self scrollOffset:scrollView.contentOffset];
+//        }
+//    }
 }
 
 #pragma mark - Table View Data Source Methods

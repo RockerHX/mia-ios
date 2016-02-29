@@ -27,7 +27,7 @@ HXXibImplementation
 }
 
 - (void)viewConfigure {
-    ;
+    _containerView.backgroundColor = [UIColor clearColor];
 }
 
 

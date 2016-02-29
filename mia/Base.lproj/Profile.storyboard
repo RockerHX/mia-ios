@@ -59,8 +59,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="CcN-mL-Cj2" customClass="HXProfileDetailHeader">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="330"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="hxc-oW-fRk">
-                            <rect key="frame" x="0.0" y="248" width="320" height="1"/>
+                            <rect key="frame" x="0.0" y="578" width="320" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DEn-IC-F60">
@@ -108,7 +113,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXProfileShareCell" rowHeight="220" id="h7b-s1-DXZ" userLabel="HXProfileShareCell" customClass="HXProfileShareCell">
-                                <rect key="frame" x="0.0" y="28" width="320" height="220"/>
+                                <rect key="frame" x="0.0" y="358" width="320" height="220"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h7b-s1-DXZ" id="FvN-SF-mWx">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="220"/>
