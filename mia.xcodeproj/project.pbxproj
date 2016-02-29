@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39E8A7211C841F8900C0D776 /* UpdateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E8A7201C841F8900C0D776 /* UpdateHelper.m */; };
 		79102612DC8A468AD9D05D67 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DE6B5500149DDEAE233F794 /* libPods.a */; };
 		CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD068FDD1C746B8C001C0997 /* UIView+FindUIViewController.m */; };
 		CD06900F1C746B8C001C0997 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CD068FDF1C746B8C001C0997 /* UIView+Frame.m */; };
@@ -153,6 +154,8 @@
 
 /* Begin PBXFileReference section */
 		20B98B5DB24170C5D64D6BE3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		39E8A71F1C841F8900C0D776 /* UpdateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateHelper.h; sourceTree = "<group>"; };
+		39E8A7201C841F8900C0D776 /* UpdateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateHelper.m; sourceTree = "<group>"; };
 		7DE6B5500149DDEAE233F794 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD068FDC1C746B8C001C0997 /* UIView+FindUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FindUIViewController.h"; sourceTree = "<group>"; };
 		CD068FDD1C746B8C001C0997 /* UIView+FindUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FindUIViewController.m"; sourceTree = "<group>"; };
@@ -430,6 +433,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39E8A71E1C841F8900C0D776 /* UpdateHelper */ = {
+			isa = PBXGroup;
+			children = (
+				39E8A71F1C841F8900C0D776 /* UpdateHelper.h */,
+				39E8A7201C841F8900C0D776 /* UpdateHelper.m */,
+			);
+			path = UpdateHelper;
+			sourceTree = "<group>";
+		};
 		4DCA609385D279E600EAA8D6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1250,6 +1262,7 @@
 		CDE539C11C7BFDDB00E0616D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				39E8A71E1C841F8900C0D776 /* UpdateHelper */,
 				CDE539C31C7BFDDB00E0616D /* CacheHelper */,
 				CDE539C61C7BFDDB00E0616D /* Categories */,
 				CDE539F71C7BFDDB00E0616D /* FileLog */,
@@ -1810,6 +1823,7 @@
 				CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */,
 				CD0690111C746B8C001C0997 /* UIButton+HXIBnspectable.m in Sources */,
 				CDE53A131C7BFDDB00E0616D /* UIButton+UIButtonExt.m in Sources */,
+				39E8A7211C841F8900C0D776 /* UpdateHelper.m in Sources */,
 				CDE539BC1C7BFD5200E0616D /* SearchSuggestionModel.m in Sources */,
 				CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */,
 				CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */,
