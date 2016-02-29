@@ -84,6 +84,7 @@
 		CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */; };
 		CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */; };
 		CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */; };
+		CDE109391C844F2D00024937 /* HXProfileHeaderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE109381C844F2D00024937 /* HXProfileHeaderModel.m */; };
 		CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */; };
 		CDE539561C7BFCE200E0616D /* FavoriteMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539431C7BFCE200E0616D /* FavoriteMgr.m */; };
 		CDE539571C7BFCE200E0616D /* MusicMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539461C7BFCE200E0616D /* MusicMgr.m */; };
@@ -294,6 +295,8 @@
 		CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryContainerViewController.m; sourceTree = "<group>"; };
 		CDBC452F1C75D4A60037FEC4 /* HXDiscoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryViewController.h; sourceTree = "<group>"; };
 		CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryViewController.m; sourceTree = "<group>"; };
+		CDE109371C844F2D00024937 /* HXProfileHeaderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileHeaderModel.h; sourceTree = "<group>"; };
+		CDE109381C844F2D00024937 /* HXProfileHeaderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileHeaderModel.m; sourceTree = "<group>"; };
 		CDE5393E1C7BFB3800E0616D /* UIViewController+LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LoginAction.h"; sourceTree = "<group>"; };
 		CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LoginAction.m"; sourceTree = "<group>"; };
 		CDE539421C7BFCE200E0616D /* FavoriteMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteMgr.h; sourceTree = "<group>"; };
@@ -955,6 +958,7 @@
 			isa = PBXGroup;
 			children = (
 				CDE539731C7BFD5200E0616D /* Common */,
+				CDE109361C844F1800024937 /* Profile */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1039,6 +1043,15 @@
 				CD64E9051C7AACC100270836 /* Content */,
 			);
 			path = Discovery;
+			sourceTree = "<group>";
+		};
+		CDE109361C844F1800024937 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CDE109371C844F2D00024937 /* HXProfileHeaderModel.h */,
+				CDE109381C844F2D00024937 /* HXProfileHeaderModel.m */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		CDE5393D1C7BFB2E00E0616D /* Category */ = {
@@ -1891,6 +1904,7 @@
 				CDE539B51C7BFD5200E0616D /* CommentItem.m in Sources */,
 				CDEF7B101C7FEF1F00354229 /* MBProgressHUDHelp.m in Sources */,
 				CD9A364F1C7EDA660016DDB1 /* HXInfectView.m in Sources */,
+				CDE109391C844F2D00024937 /* HXProfileHeaderModel.m in Sources */,
 				CD06901D1C746B8C001C0997 /* HXStoryBoardManager.m in Sources */,
 				CDE539BB1C7BFD5200E0616D /* SearchResultModel.m in Sources */,
 				CDE53A101C7BFDDB00E0616D /* NSString+IsNull.m in Sources */,
