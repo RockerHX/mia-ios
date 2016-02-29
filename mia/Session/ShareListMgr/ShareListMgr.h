@@ -10,8 +10,10 @@
 
 @interface ShareListMgr : NSObject <NSCoding>
 
-@property (strong, nonatomic) NSMutableArray *shareList;
-@property (assign, nonatomic) NSInteger currentIndex;
+@property (nonatomic, strong) NSMutableArray<ShareItem *> *shareList;
+
+@property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, strong, readonly) ShareItem *currentItem;
 
 + (instancetype)initFromArchive;
 

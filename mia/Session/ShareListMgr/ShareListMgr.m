@@ -53,10 +53,14 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
     return (self);
 }
 
-#pragma mark - Setter And Getter
+#pragma mark - Property
 - (void)setCurrentIndex:(NSInteger)currentIndex {
     _currentIndex = currentIndex;
     [self saveChanges];
+}
+
+- (ShareItem *)currentItem {
+    return _shareList[_currentIndex];
 }
 
 #pragma mark - Public Methods

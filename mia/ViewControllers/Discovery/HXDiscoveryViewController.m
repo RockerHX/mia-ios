@@ -194,11 +194,11 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionShowSharer: {
-            [self showProfileWithUID:[MusicMgr standard].currentItem.shareUser.uid];
+            [self showProfileWithUID:_shareListMgr.currentItem.shareUser.uid];
             break;
         }
         case HXDiscoveryCardActionShowInfecter: {
-            [self showProfileWithUID:[MusicMgr standard].currentItem.spaceUser.uid];
+            [self showProfileWithUID:_shareListMgr.currentItem.spaceUser.uid];
             break;
         }
         case HXDiscoveryCardActionShowCommenter: {
