@@ -21,6 +21,10 @@
 		self.mID = [dictionary objectForKey:@"mID"];
 		self.fID = [dictionary objectForKey:@"fID"];
 
+		self.spID = [dictionary objectForKey:@"spID"];
+		self.isInfected = [[dictionary objectForKey:@"isInfected"] intValue];
+		self.time = [[dictionary objectForKey:@"time"] integerValue];
+
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 
 		// 服务器不返回的数据
@@ -41,6 +45,11 @@
 	[aCoder encodeObject:self.sNote forKey:@"sNote"];
 	[aCoder encodeObject:self.mID forKey:@"mID"];
 	[aCoder encodeObject:self.fID forKey:@"fID"];
+
+	[aCoder encodeObject:self.spID forKey:@"spID"];
+	[aCoder encodeBool:self.isInfected forKey:@"isInfected"];
+	[aCoder encodeInteger:self.time forKey:@"time"];
+
 	[aCoder encodeObject:self.music forKey:@"music"];
 
 	[aCoder encodeBool:self.isCached forKey:@"isCached"];
@@ -56,6 +65,11 @@
 		self.sNote = [aDecoder decodeObjectForKey:@"sNote"];
 		self.mID = [aDecoder decodeObjectForKey:@"mID"];
 		self.fID = [aDecoder decodeObjectForKey:@"fID"];
+
+		self.spID = [aDecoder decodeObjectForKey:@"spID"];
+		self.isInfected = [aDecoder decodeBoolForKey:@"isInfected"];
+		self.time = [aDecoder decodeIntegerForKey:@"time"];
+
 		self.music = [aDecoder decodeObjectForKey:@"music"];
 
 		self.isCached = [aDecoder decodeBoolForKey:@"isCached"];

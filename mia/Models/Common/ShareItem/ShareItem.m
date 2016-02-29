@@ -24,20 +24,24 @@ NSString * const kDefaultShareID = @"0";
 		self.sAddress = [dictionary objectForKey:@"sAddress"];
 		self.sLongitude = [dictionary objectForKey:@"sLongitude"];
 		self.sLatitude = [dictionary objectForKey:@"sLatitude"];
+
 		self.time = [[dictionary objectForKey:@"time"] integerValue];
 		self.cView = [[dictionary objectForKey:@"cView"] intValue];
 		self.cComm = [[dictionary objectForKey:@"cComm"] intValue];
 		self.newCommCnt = [[dictionary objectForKey:@"newCommCnt"] intValue];
 		self.infectTotal = [[dictionary objectForKey:@"infectTotal"] intValue];
+		self.starCnt = [[dictionary objectForKey:@"starCnt"] intValue];
+		self.shareCnt = [[dictionary objectForKey:@"shareCnt"] intValue];
+
 		self.favorite = [[dictionary objectForKey:@"star"] intValue];
 		self.isInfected = [[dictionary objectForKey:@"isInfected"] intValue];
 
 		self.music = [[MusicItem alloc] initWithDictionary:[dictionary objectForKey:@"music"]];
 		self.shareUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"shareUser"]];
 		self.spaceUser = [[UserItem alloc] initWithDictionary:[dictionary objectForKey:@"spaceUser"]];
+		self.lastComment = [[LastCommentItem alloc] initWithDictionary:[dictionary objectForKey:@"comment"]];
 
 		[self parseInfectUsersFromJsonArray:[dictionary objectForKey:@"infectList"]];
-		[self parseFlyCommentsFromJsonArray:[dictionary objectForKey:@"flyList"]];
     }
 	
     return self;
@@ -57,20 +61,6 @@ NSString * const kDefaultShareID = @"0";
 	_infectUsers = resultArray;
 }
 
-- (void)parseFlyCommentsFromJsonArray:(NSArray *)jsonArray {
-	NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:[jsonArray count]];
-	if (!jsonArray || [jsonArray count] == 0) {
-		return;
-	}
-
-	for (NSDictionary *dicItem in jsonArray) {
-		FlyCommentItem *flyItem = [[FlyCommentItem alloc] initWithDictionary:dicItem];
-		[resultArray addObject:flyItem];
-	}
-
-	self.flyComments = resultArray;
-}
-
 //将对象编码(即:序列化)
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:self.spID forKey:@"spID"];
@@ -85,11 +75,17 @@ NSString * const kDefaultShareID = @"0";
 	[aCoder encodeObject:self.music forKey:@"music"];
 	[aCoder encodeObject:self.shareUser forKey:@"shareUser"];
 	[aCoder encodeObject:self.spaceUser forKey:@"spaceUser"];
+	[aCoder encodeObject:self.lastComment forKey:@"comment"];
+
 	[aCoder encodeObject:self.infectUsers forKey:@"infectUsers"];
+
 	[aCoder encodeInt:self.cView forKey:@"cView"];
 	[aCoder encodeInt:self.cComm forKey:@"cComm"];
 	[aCoder encodeInt:self.newCommCnt forKey:@"newCommCnt"];
 	[aCoder encodeInt:self.infectTotal forKey:@"infectTotal"];
+	[aCoder encodeInt:self.starCnt forKey:@"starCnt"];
+	[aCoder encodeInt:self.shareCnt forKey:@"shareCnt"];
+
 	[aCoder encodeBool:self.favorite forKey:@"favorite"];
 	[aCoder encodeBool:self.isInfected forKey:@"isInfected"];
 }
@@ -109,11 +105,17 @@ NSString * const kDefaultShareID = @"0";
 		self.music = [aDecoder decodeObjectForKey:@"music"];
 		self.shareUser = [aDecoder decodeObjectForKey:@"shareUser"];
 		self.spaceUser = [aDecoder decodeObjectForKey:@"spaceUser"];
+		self.lastComment = [aDecoder decodeObjectForKey:@"comment"];
+
 		self.infectUsers = [aDecoder decodeObjectForKey:@"infectUsers"];
+
 		self.cView = [aDecoder decodeIntForKey:@"cView"];
 		self.cComm = [aDecoder decodeIntForKey:@"cComm"];
 		self.newCommCnt = [aDecoder decodeIntForKey:@"newCommCnt"];
 		self.infectTotal = [aDecoder decodeIntForKey:@"infectTotal"];
+		self.starCnt = [aDecoder decodeIntForKey:@"starCnt"];
+		self.shareCnt = [aDecoder decodeIntForKey:@"shareCnt"];
+
 		self.favorite = [aDecoder decodeBoolForKey:@"favorite"];
 		self.isInfected = [aDecoder decodeBoolForKey:@"isInfected"];
 	}

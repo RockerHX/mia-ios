@@ -17,6 +17,7 @@
 #import "MiaAPIHelper.h"
 #import "HXNoNetworkView.h"
 #import "HXAlertBanner.h"
+#import "UpdateHelper.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate
@@ -81,6 +82,8 @@ UITabBarControllerDelegate
     [HXNoNetworkView hidden];
     [MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
         if (success) {
+			[self checkUpdate];
+
             if (![self autoLogin]) {
                 HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
                 [discoveryViewController fetchShareList];
@@ -118,6 +121,11 @@ UITabBarControllerDelegate
 
 - (void)notificationWebSocketDidCloseWithCode:(NSNotification *)notification {
     NSLog(@"Connection Closed! (see logs)");
+}
+
+- (void)checkUpdate {
+	UpdateHelper *aUpdateHelper = [[UpdateHelper alloc] init];
+	[aUpdateHelper checkNow];
 }
 
 - (BOOL)autoLogin {

@@ -77,9 +77,9 @@ HXXibImplementation
         [self displaySharerLabelWithSharer:shareItem.sNick content:shareItem.sNote];
         [_infectView setInfecters:shareItem.infectUsers];
         
-//        FlyCommentItem *comment = shareItem.flyComments.firstObject;
-//        _commentatorsNameLabel.text = comment.;
-//        _commentContentLabel.text = comment.comment ?: _commentContentLabel.text;
+        LastCommentItem *comment = shareItem.lastComment;
+        _commentatorsNameLabel.text = comment.nick ?: @"";
+        _commentContentLabel.text = comment.comment ?: _commentContentLabel.text;
     }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39E8A7211C841F8900C0D776 /* UpdateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E8A7201C841F8900C0D776 /* UpdateHelper.m */; };
+		39E8A7251C8425D300C0D776 /* LastCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E8A7241C8425D300C0D776 /* LastCommentItem.m */; };
 		79102612DC8A468AD9D05D67 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DE6B5500149DDEAE233F794 /* libPods.a */; };
 		CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD068FDD1C746B8C001C0997 /* UIView+FindUIViewController.m */; };
 		CD06900F1C746B8C001C0997 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CD068FDF1C746B8C001C0997 /* UIView+Frame.m */; };
@@ -96,7 +98,6 @@
 		CDE539721C7BFD1000E0616D /* XiamiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5396D1C7BFD1000E0616D /* XiamiHelper.m */; };
 		CDE539AD1C7BFD5200E0616D /* FavoriteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539761C7BFD5200E0616D /* FavoriteItem.m */; };
 		CDE539AE1C7BFD5200E0616D /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539791C7BFD5200E0616D /* FavoriteModel.m */; };
-		CDE539AF1C7BFD5200E0616D /* FlyCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5397C1C7BFD5200E0616D /* FlyCommentItem.m */; };
 		CDE539B01C7BFD5200E0616D /* FriendItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5397F1C7BFD5200E0616D /* FriendItem.m */; };
 		CDE539B11C7BFD5200E0616D /* InfectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539821C7BFD5200E0616D /* InfectItem.m */; };
 		CDE539B21C7BFD5200E0616D /* InfectUserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539851C7BFD5200E0616D /* InfectUserItem.m */; };
@@ -158,6 +159,10 @@
 
 /* Begin PBXFileReference section */
 		20B98B5DB24170C5D64D6BE3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		39E8A71F1C841F8900C0D776 /* UpdateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateHelper.h; sourceTree = "<group>"; };
+		39E8A7201C841F8900C0D776 /* UpdateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateHelper.m; sourceTree = "<group>"; };
+		39E8A7231C8425D300C0D776 /* LastCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastCommentItem.h; sourceTree = "<group>"; };
+		39E8A7241C8425D300C0D776 /* LastCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastCommentItem.m; sourceTree = "<group>"; };
 		7DE6B5500149DDEAE233F794 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD068FDC1C746B8C001C0997 /* UIView+FindUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FindUIViewController.h"; sourceTree = "<group>"; };
 		CD068FDD1C746B8C001C0997 /* UIView+FindUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FindUIViewController.m"; sourceTree = "<group>"; };
@@ -318,8 +323,6 @@
 		CDE539761C7BFD5200E0616D /* FavoriteItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteItem.m; sourceTree = "<group>"; };
 		CDE539781C7BFD5200E0616D /* FavoriteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteModel.h; sourceTree = "<group>"; };
 		CDE539791C7BFD5200E0616D /* FavoriteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteModel.m; sourceTree = "<group>"; };
-		CDE5397B1C7BFD5200E0616D /* FlyCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlyCommentItem.h; sourceTree = "<group>"; };
-		CDE5397C1C7BFD5200E0616D /* FlyCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlyCommentItem.m; sourceTree = "<group>"; };
 		CDE5397E1C7BFD5200E0616D /* FriendItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendItem.h; sourceTree = "<group>"; };
 		CDE5397F1C7BFD5200E0616D /* FriendItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendItem.m; sourceTree = "<group>"; };
 		CDE539811C7BFD5200E0616D /* InfectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfectItem.h; sourceTree = "<group>"; };
@@ -444,6 +447,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39E8A71E1C841F8900C0D776 /* UpdateHelper */ = {
+			isa = PBXGroup;
+			children = (
+				39E8A71F1C841F8900C0D776 /* UpdateHelper.h */,
+				39E8A7201C841F8900C0D776 /* UpdateHelper.m */,
+			);
+			path = UpdateHelper;
+			sourceTree = "<group>";
+		};
+		39E8A7221C8425D300C0D776 /* LastCommentItem */ = {
+			isa = PBXGroup;
+			children = (
+				39E8A7231C8425D300C0D776 /* LastCommentItem.h */,
+				39E8A7241C8425D300C0D776 /* LastCommentItem.m */,
+			);
+			path = LastCommentItem;
+			sourceTree = "<group>";
+		};
 		4DCA609385D279E600EAA8D6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1121,10 +1142,10 @@
 		CDE539731C7BFD5200E0616D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				39E8A7221C8425D300C0D776 /* LastCommentItem */,
 				CD74FC191C7C39EA00DBEB83 /* UserModel */,
 				CDE539741C7BFD5200E0616D /* FavoriteItem */,
 				CDE539771C7BFD5200E0616D /* FavoriteModel */,
-				CDE5397A1C7BFD5200E0616D /* FlyCommentItem */,
 				CDE5397D1C7BFD5200E0616D /* FriendItem */,
 				CDE539801C7BFD5200E0616D /* InfectItem */,
 				CDE539831C7BFD5200E0616D /* InfectUserItem */,
@@ -1159,15 +1180,6 @@
 				CDE539791C7BFD5200E0616D /* FavoriteModel.m */,
 			);
 			path = FavoriteModel;
-			sourceTree = "<group>";
-		};
-		CDE5397A1C7BFD5200E0616D /* FlyCommentItem */ = {
-			isa = PBXGroup;
-			children = (
-				CDE5397B1C7BFD5200E0616D /* FlyCommentItem.h */,
-				CDE5397C1C7BFD5200E0616D /* FlyCommentItem.m */,
-			);
-			path = FlyCommentItem;
 			sourceTree = "<group>";
 		};
 		CDE5397D1C7BFD5200E0616D /* FriendItem */ = {
@@ -1305,6 +1317,7 @@
 		CDE539C11C7BFDDB00E0616D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				39E8A71E1C841F8900C0D776 /* UpdateHelper */,
 				CDE539C31C7BFDDB00E0616D /* CacheHelper */,
 				CDE539C61C7BFDDB00E0616D /* Categories */,
 				CDE539F71C7BFDDB00E0616D /* FileLog */,
@@ -1677,7 +1690,7 @@
 				TargetAttributes = {
 					CDB55E561C72C7EE00962ED0 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = H2JE2CWJS7;
+						DevelopmentTeam = PQE2NCR38L;
 					};
 				};
 			};
@@ -1798,7 +1811,7 @@
 				CD0690161C746B8C001C0997 /* HXIBLabel.m in Sources */,
 				CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */,
 				CD06901A1C746B8C001C0997 /* HXCaptchButton.m in Sources */,
-				CDE539AF1C7BFD5200E0616D /* FlyCommentItem.m in Sources */,
+				39E8A7251C8425D300C0D776 /* LastCommentItem.m in Sources */,
 				CDE539B81C7BFD5200E0616D /* MusicItem.m in Sources */,
 				CDEF7B141C8030DE00354229 /* HXPlayListViewController.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
@@ -1869,6 +1882,7 @@
 				CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */,
 				CD0690111C746B8C001C0997 /* UIButton+HXIBnspectable.m in Sources */,
 				CDE53A131C7BFDDB00E0616D /* UIButton+UIButtonExt.m in Sources */,
+				39E8A7211C841F8900C0D776 /* UpdateHelper.m in Sources */,
 				CDE539BC1C7BFD5200E0616D /* SearchSuggestionModel.m in Sources */,
 				CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */,
 				CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */,
@@ -2077,10 +2091,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = mia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.mia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.enterprise.mia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "97f7e2ab-36a2-424d-aee3-fc8dff18005f";
 			};
 			name = Debug;
 		};
@@ -2090,12 +2105,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				INFOPLIST_FILE = mia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.mia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.enterprise.mia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "97f7e2ab-36a2-424d-aee3-fc8dff18005f";
 			};
 			name = Release;
 		};
