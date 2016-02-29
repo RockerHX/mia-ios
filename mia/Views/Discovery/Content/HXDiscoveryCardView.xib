@@ -108,7 +108,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7sQ-rK-X8E" userLabel="Comment Centent View">
                             <rect key="frame" x="45" y="0.0" width="245" height="30"/>
                             <subviews>
-                                <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="说说你此刻的想法。。。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkS-0f-fMn" userLabel="用户评论内容">
+                                <label opaque="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="说说你此刻的想法。。。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkS-0f-fMn" userLabel="用户评论内容">
                                     <rect key="frame" x="56" y="0.0" width="189" height="30"/>
                                     <gestureRecognizers/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
