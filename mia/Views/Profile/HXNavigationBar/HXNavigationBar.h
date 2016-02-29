@@ -8,21 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, HXNavigationBarAction) {
+    HXNavigationBarBack,
+    HXNavigationBarMusic,
+};
+
+@class HXNavigationBar;
+
 @protocol HXNavigationBarDelegate <NSObject>
 
 @optional
-- (void)navigationBarDidBackAction;
+- (void)navigationBar:(HXNavigationBar *)bar takeAction:(HXNavigationBarAction)action;
 
 @end
 
 
 @interface HXNavigationBar : UIView
 
+@property (weak, nonatomic) IBOutlet id  <HXNavigationBarDelegate>delegate;
+
 @property (nonatomic, assign)  CGFloat  colorAlpha;
 @property (nonatomic, strong) NSString *title;
-
-@property (weak, nonatomic) IBOutlet     id  <HXNavigationBarDelegate>delegate;
-
-- (IBAction)backButtonPressed;
 
 @end

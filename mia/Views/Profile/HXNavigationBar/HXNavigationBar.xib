@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXNavigationBar">
             <connections>
+                <outlet property="backButton" destination="EDM-DY-yeI" id="U0R-bL-F3w"/>
                 <outlet property="backgroundView" destination="uos-yF-YdI" id="Tfb-Ue-mMi"/>
-                <outlet property="containerView" destination="Fd4-HS-c5h" id="Vga-UW-4Rh"/>
+                <outlet property="containerView" destination="iN0-l3-epB" id="Cfh-c2-gAM"/>
+                <outlet property="musicButton" destination="bkl-J8-i9o" id="cLR-IG-eNh"/>
                 <outlet property="titleLabel" destination="elw-aF-JWl" id="f9a-gD-8a4"/>
             </connections>
         </placeholder>
@@ -44,7 +46,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" constant="46" id="K5T-qB-4FR"/>
                             </constraints>
-                            <state key="normal" image="C-BackIcon-Gray"/>
+                            <state key="normal" image="C-BackIcon-White"/>
                             <connections>
                                 <action selector="backButtonPressed" destination="-1" eventType="touchUpInside" id="boM-Ll-Gqd"/>
                             </connections>
@@ -59,19 +61,32 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkl-J8-i9o">
+                            <rect key="frame" x="260" y="0.0" width="60" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="p3J-YJ-Hgj"/>
+                            </constraints>
+                            <state key="normal" image="PF-PlayIcon"/>
+                            <connections>
+                                <action selector="musicButtonPressed" destination="-1" eventType="touchUpInside" id="eZy-J3-ABD"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="bkl-J8-i9o" firstAttribute="top" secondItem="Fd4-HS-c5h" secondAttribute="top" id="8Vd-cC-9cQ"/>
                         <constraint firstItem="EDM-DY-yeI" firstAttribute="top" secondItem="Fd4-HS-c5h" secondAttribute="top" id="AfA-hU-oKC"/>
+                        <constraint firstAttribute="bottom" secondItem="bkl-J8-i9o" secondAttribute="bottom" id="BuK-7i-PV5"/>
                         <constraint firstAttribute="bottom" secondItem="EDM-DY-yeI" secondAttribute="bottom" id="Rnf-Di-06y"/>
                         <constraint firstItem="EDM-DY-yeI" firstAttribute="leading" secondItem="Fd4-HS-c5h" secondAttribute="leading" id="enu-CX-bKm"/>
                         <constraint firstItem="elw-aF-JWl" firstAttribute="centerX" secondItem="Fd4-HS-c5h" secondAttribute="centerX" id="ihl-Iv-E5V"/>
                         <constraint firstAttribute="height" constant="44" id="o8p-ip-lZN"/>
+                        <constraint firstAttribute="trailing" secondItem="bkl-J8-i9o" secondAttribute="trailing" id="tAo-wz-bWX"/>
                         <constraint firstItem="elw-aF-JWl" firstAttribute="centerY" secondItem="Fd4-HS-c5h" secondAttribute="centerY" id="uIz-N5-MbO"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Fd4-HS-c5h" secondAttribute="trailing" id="7OK-g8-WLo"/>
                 <constraint firstAttribute="bottom" secondItem="Fd4-HS-c5h" secondAttribute="bottom" id="9gU-jH-L7s"/>
@@ -86,6 +101,7 @@
         </view>
     </objects>
     <resources>
-        <image name="C-BackIcon-Gray" width="25" height="25"/>
+        <image name="C-BackIcon-White" width="25" height="25"/>
+        <image name="PF-PlayIcon" width="25" height="25"/>
     </resources>
 </document>
