@@ -29,7 +29,7 @@ pod 'BlocksKit'
 pod 'FXBlurView'
 
 #pod 'FDStackView'
-#pod 'UITableView+FDTemplateLayoutCell'
+pod 'UITableView+FDTemplateLayoutCell'
 #pod 'UICollectionViewLeftAlignedLayout'
 
 
