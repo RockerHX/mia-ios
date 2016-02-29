@@ -10,7 +10,7 @@
 #import "MusicItem.h"
 #import "UserItem.h"
 #import "InfectUserItem.h"
-#import "FlyCommentItem.h"
+#import "LastCommentItem.h"
 
 extern NSString * const kDefaultShareID;
 
@@ -37,9 +37,9 @@ extern NSString * const kDefaultShareID;
 @property (strong, nonatomic) MusicItem *music;
 @property (strong, nonatomic) UserItem *shareUser;
 @property (strong, nonatomic) UserItem *spaceUser;
+@property (strong, nonatomic) LastCommentItem *lastComment;
 
 @property (strong, nonatomic) NSArray<InfectUserItem *> *infectUsers;
-@property (strong, nonatomic) NSArray<FlyCommentItem *> *flyComments;
 
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
@@ -49,6 +49,5 @@ extern NSString * const kDefaultShareID;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)parseInfectUsersFromJsonArray:(NSArray *)jsonArray;
-- (void)parseFlyCommentsFromJsonArray:(NSArray *)jsonArray;
 
 @end
