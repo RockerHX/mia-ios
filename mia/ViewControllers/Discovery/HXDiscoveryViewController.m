@@ -111,12 +111,6 @@ HXDiscoveryContainerViewControllerDelegate
     _containerViewController.currentPage = _shareListMgr.currentIndex;
 }
 
-- (void)checkShouldFetchNewItems {
-	if ([_shareListMgr isNeedGetNearbyItems]) {
-		[self fetchNewShares];
-	}
-}
-
 - (void)fetchNewShares {
     const long kRequestItemCount = 10;
     [MiaAPIHelper getNearbyWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
@@ -184,7 +178,9 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionSlideNext: {
-            [self checkShouldFetchNewItems];
+            if ([_shareListMgr isNeedGetNearbyItems]) {
+                [self fetchNewShares];
+            }
             if ([_shareListMgr checkHistoryItemsMaxCount]) {
                 container.currentPage = _shareListMgr.currentIndex;
             }
