@@ -9,7 +9,7 @@
 #import "HXProfileViewController.h"
 #import "HXProfileCoverContainerViewController.h"
 #import "HXProfileDetailContainerViewController.h"
-#import "HXNavigationBar.h"
+#import "HXProfileNavigationBar.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
 //#import "FriendViewController.h"
@@ -23,7 +23,7 @@
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate,
-HXNavigationBarDelegate
+HXProfileNavigationBarDelegate
 >
 @end
 
@@ -230,14 +230,14 @@ HXNavigationBarDelegate
     }
 }
 
-#pragma mark - HXNavigationBarDelegate Methods
-- (void)navigationBar:(HXNavigationBar *)bar takeAction:(HXNavigationBarAction)action {
+#pragma mark - HXProfileNavigationBarDelegate Methods
+- (void)navigationBar:(HXProfileNavigationBar *)bar takeAction:(HXProfileNavigationBarAction)action {
     switch (action) {
-        case HXNavigationBarBack: {
+        case HXProfileNavigationBarBack: {
             [_detailContainerViewController stopMusic];
             break;
         }
-        case HXNavigationBarMusic: {
+        case HXProfileNavigationBarMusic: {
             if ([MusicMgr standard].currentItem) {
                 _pushToFrends = YES;
                 UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];

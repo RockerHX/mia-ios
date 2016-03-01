@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXNavigationBar">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXMeNavigationBar">
             <connections>
                 <outlet property="backButton" destination="EDM-DY-yeI" id="U0R-bL-F3w"/>
                 <outlet property="backgroundView" destination="uos-yF-YdI" id="Tfb-Ue-mMi"/>

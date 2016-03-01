@@ -1,16 +1,16 @@
 //
-//  HXNavigationBar.m
+//  HXProfileNavigationBar.m
 //  mia
 //
 //  Created by miaios on 16/1/27.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXNavigationBar.h"
+#import "HXProfileNavigationBar.h"
 #import "HXXib.h"
 #import "UIView+FindUIViewController.h"
 
-@interface HXNavigationBar ()
+@interface HXProfileNavigationBar ()
 
 @property (weak, nonatomic) IBOutlet   UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet   UIView *containerView;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation HXNavigationBar
+@implementation HXProfileNavigationBar
 
 HXXibImplementation
 
@@ -71,13 +71,13 @@ HXXibImplementation
     [firstAvailableViewController.navigationController popViewControllerAnimated:YES];
 
 	if (_delegate && [_delegate respondsToSelector:@selector(navigationBar:takeAction:)]) {
-		[_delegate navigationBar:self takeAction:HXNavigationBarBack];
+		[_delegate navigationBar:self takeAction:HXProfileNavigationBarBack];
 	}
 }
 
 - (IBAction)musicButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(navigationBar:takeAction:)]) {
-        [_delegate navigationBar:self takeAction:HXNavigationBarMusic];
+        [_delegate navigationBar:self takeAction:HXProfileNavigationBarMusic];
     }
 }
 

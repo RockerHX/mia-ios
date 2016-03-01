@@ -1,13 +1,13 @@
 //
-//  HXProfileDetailContainerViewController.m
+//  HXMeDetailContainerViewController.m
 //  mia
 //
 //  Created by miaios on 16/1/26.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXProfileDetailContainerViewController.h"
-#import "HXProfileViewModel.h"
+#import "HXMeDetailContainerViewController.h"
+#import "HXMeViewModel.h"
 #import "HXAlertBanner.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
@@ -23,17 +23,17 @@
 #import "UIConstants.h"
 #import "UIActionSheet+BlocksKit.h"
 
-@interface HXProfileDetailContainerViewController () <
-HXProfileDetailHeaderDelegate,
-HXProfileShareCellDelegate
+@interface HXMeDetailContainerViewController () <
+HXMeDetailHeaderDelegate,
+HXMeShareCellDelegate
 //SongListPlayerDataSource,
 //SongListPlayerDelegate
 >
 @end
 
-@implementation HXProfileDetailContainerViewController {
+@implementation HXMeDetailContainerViewController {
     CGFloat _footerHeight;
-    HXProfileViewModel *_viewModel;
+    HXMeViewModel *_viewModel;
     
 //    SongListPlayer *_songListPlayer;
 	BOOL _isPlayButtonSelected;
@@ -48,17 +48,17 @@ HXProfileShareCellDelegate
 }
 
 + (NSString *)segueIdentifier {
-    return @"HXProfileDetailContainerIdentifier";
+    return @"HXMeDetailContainerIdentifier";
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _footerHeight = 10.0f;
     
-    _viewModel = [HXProfileViewModel instanceWithUID:_uid];
+    _viewModel = [HXMeViewModel instanceWithUID:_uid];
     
     __weak __typeof__(self)weakSelf = self;
-    [_viewModel fetchProfileListData:^(HXProfileViewModel *viewModel) {
+    [_viewModel fetchProfileListData:^(HXMeViewModel *viewModel) {
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf endLoad];
     } failure:^(NSString *message) {
@@ -71,7 +71,7 @@ HXProfileShareCellDelegate
 }
 
 - (void)viewConfigure {
-//    _header = [[HXProfileDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 264.0f)];
+//    _header = [[HXMeDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 264.0f)];
 //    _header.delegate = self;
 //    _header.type = _type;
 //    
@@ -280,29 +280,30 @@ HXProfileShareCellDelegate
 
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _viewModel.rows;
+    return 10;
+//    return _viewModel.rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HXProfileShareCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) forIndexPath:indexPath];
+    HXMeShareCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMeShareCell class]) forIndexPath:indexPath];
     return cell;
 }
 
 #pragma mark - Table View Delegate Methods
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 0.0f;
-    height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXProfileShareCell class]) cacheByIndexPath:indexPath configuration:
-              ^(HXProfileShareCell *cell) {
-                  [(HXProfileShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
-              }];
-    return height;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    CGFloat height = 0.0f;
+//    height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMeShareCell class]) cacheByIndexPath:indexPath configuration:
+//              ^(HXMeShareCell *cell) {
+//                  [(HXMeShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+//              }];
+//    return height;
+//}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self resizeFooter];
     
-    HXProfileShareCell *shareCell = (HXProfileShareCell *)cell;
-    [shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
+//    HXMeShareCell *shareCell = (HXMeShareCell *)cell;
+//    [shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -316,29 +317,29 @@ HXProfileShareCellDelegate
 //    [self.navigationController pushViewController:musicDetailViewController animated:YES];
 }
 
-#pragma mark - HXProfileDetailHeaderDelegate Methods
-- (void)detailHeader:(HXProfileDetailHeader *)header takeAction:(HXProfileDetailHeaderAction)action {
+#pragma mark - HXMeDetailHeaderDelegate Methods
+- (void)detailHeader:(HXMeDetailHeader *)header takeAction:(HXMeDetailHeaderAction)action {
     switch (action) {
-        case HXProfileDetailHeaderActionShowFans: {
+        case HXMeDetailHeaderActionShowFans: {
             if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFans];
             }
             break;
         }
-        case HXProfileDetailHeaderActionShowFollow: {
+        case HXMeDetailHeaderActionShowFollow: {
             if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFollow];
             }
             break;
         }
-//        case HXProfileDetailHeaderActionShowMessage: {
+//        case HXMeDetailHeaderActionShowMessage: {
 //			if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
 //				[_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMessageCenter];
 //			}
 //
 //            break;
 //        }
-//        case HXProfileDetailHeaderActionTakeFollow: {
+//        case HXMeDetailHeaderActionTakeFollow: {
 //            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
 //                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShoulFollow];
 //            }
@@ -347,12 +348,12 @@ HXProfileShareCellDelegate
     }
 }
 
-#pragma mark - HXProfileShareCellDelegate Methods
-- (void)shareCell:(HXProfileShareCell *)cell takeAction:(HXProfileShareCellAction)action {
+#pragma mark - HXMeShareCellDelegate Methods
+- (void)shareCell:(HXMeShareCell *)cell takeAction:(HXMeShareCellAction)action {
     NSInteger index = [self.tableView indexPathForCell:cell].row;
     ShareItem *item = _viewModel.dataSource[index];
     switch (action) {
-        case HXProfileShareCellActionFavorite: {
+        case HXMeShareCellActionFavorite: {
             if ([[UserSession standard] isLogined]) {
                 [MiaAPIHelper favoriteMusicWithShareID:item.sID
                                             isFavorite:!item.favorite
@@ -390,7 +391,7 @@ HXProfileShareCellDelegate
             }
             break;
         }
-        case HXProfileShareCellActionDelete: {
+        case HXMeShareCellActionDelete: {
 			[self deleteShareWithIndex:index sID:item.sID];
             break;
         }
