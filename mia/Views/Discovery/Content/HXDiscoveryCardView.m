@@ -14,6 +14,10 @@
 #import "HXInfectView.h"
 #import "UIConstants.h"
 #import "HXUserSession.h"
+#import "MiaAPIHelper.h"
+#import "FavoriteMgr.h"
+#import "HXAlertBanner.h"
+#import "WebSocketMgr.h"
 
 @interface HXDiscoveryCardView () <
 HXDiscoveryCoverDelegate,
@@ -24,6 +28,7 @@ HXInfectViewDelegate
 
 @implementation HXDiscoveryCardView {
     CAShapeLayer *_sharerNickNameLayer;
+    __weak ShareItem *_shareItem;
 }
 
 HXXibImplementation
@@ -47,8 +52,33 @@ HXXibImplementation
 
 #pragma mark - Event Response
 - (IBAction)favoriteAction {
-    if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
-        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionFavorite];
+    if ([HXUserSession share].userState) {
+        [MiaAPIHelper favoriteMusicWithShareID:_shareItem.sID
+                                    isFavorite:!_shareItem.favorite
+                                 completeBlock:
+         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+             if (success) {
+                 id act = userInfo[MiaAPIKey_Values][@"act"];
+                 id sID = userInfo[MiaAPIKey_Values][@"id"];
+                 BOOL favorite = [act intValue];
+                 if ([_shareItem.sID integerValue] == [sID intValue]) {
+                     _shareItem.favorite = favorite;
+                 }
+                 
+                 _favoriteIcon.image = [UIImage imageNamed:(favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")];
+                 [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                 
+                 // 收藏操作成功后同步下收藏列表并检查下载
+                 [[FavoriteMgr standard] syncFavoriteList];
+             } else {
+                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+             }
+         } timeoutBlock:^(MiaRequestItem *requestItem) {
+             [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+         }];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
     }
 }
 
@@ -73,14 +103,15 @@ HXXibImplementation
 #pragma mark - Public Methods
 - (void)displayWithItem:(id)item {
     if ([item isKindOfClass:[ShareItem class]]) {
-        ShareItem *shareItem = item;
-        [_coverView displayWithItem:shareItem];
-        [self displaySharerLabelWithSharer:shareItem.sNick content:shareItem.sNote];
-        [_infectView setInfecters:shareItem.infectUsers];
+        _shareItem = item;
+        [_coverView displayWithItem:_shareItem];
+        [self displaySharerLabelWithSharer:_shareItem.sNick content:_shareItem.sNote];
+        [_infectView setInfecters:_shareItem.infectUsers];
         
-        _favoriteCountLabel.text = [@(shareItem.starCnt).stringValue stringByAppendingString:@"人收藏"];
+        _favoriteIcon.image = [UIImage imageNamed:(_shareItem.favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")];
+        _favoriteCountLabel.text = [@(_shareItem.starCnt).stringValue stringByAppendingString:@"人收藏"];
         
-        LastCommentItem *comment = shareItem.lastComment;
+        LastCommentItem *comment = _shareItem.lastComment;
         _commentatorsNameLabel.text = (comment.nick ?: ([HXUserSession share].user.nickName ?: @"快来"));
         _commentContentLabel.text = comment.comment ?: @"说说你此刻的想法。。。";
     }

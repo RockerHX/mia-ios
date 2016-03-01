@@ -220,10 +220,6 @@ HXDiscoveryContainerViewControllerDelegate
             ;
             break;
         }
-        case HXDiscoveryCardActionFavorite: {
-            ;
-            break;
-        }
         case HXDiscoveryCardActionComment: {
             ;
             break;

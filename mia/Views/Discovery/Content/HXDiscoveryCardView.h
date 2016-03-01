@@ -20,7 +20,6 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
     HXDiscoveryCardViewActionShowCommenter,
     HXDiscoveryCardViewActionShowDetail,
     HXDiscoveryCardViewActionInfect,
-    HXDiscoveryCardViewActionFavorite,
     HXDiscoveryCardViewActionComment
 };
 
@@ -36,6 +35,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
 @property (weak, nonatomic) IBOutlet   HXDiscoveryCover *coverView;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *sharerLabel;
 @property (weak, nonatomic) IBOutlet       HXInfectView *infectView;
+@property (weak, nonatomic) IBOutlet        UIImageView *favoriteIcon;
 @property (weak, nonatomic) IBOutlet            UILabel *favoriteCountLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *commentatorsNameLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *commentContentLabel;

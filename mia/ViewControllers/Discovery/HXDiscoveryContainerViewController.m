@@ -167,10 +167,6 @@ HXDiscoveryCardViewDelegate
             cardAction = HXDiscoveryCardActionInfect;
             break;
         }
-        case HXDiscoveryCardViewActionFavorite: {
-            cardAction = HXDiscoveryCardActionFavorite;
-            break;
-        }
         case HXDiscoveryCardViewActionComment: {
             cardAction = HXDiscoveryCardActionComment;
             break;
