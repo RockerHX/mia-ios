@@ -131,7 +131,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (BOOL)checkHistoryItemsMaxCount {
     BOOL change = NO;
-	NSInteger overCount = _currentIndex - kHistoryItemsMaxCount;
+	NSInteger overCount = _shareList.count - kHistoryItemsMaxCount;
 	if (overCount > 0) {
 		for (NSInteger i = 0; i < overCount; i++) {
 			[_shareList removeObjectAtIndex:0];
