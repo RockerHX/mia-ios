@@ -6,9 +6,8 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "iCarousel.h"
 
-@class iCarousel;
 @class ShareItem;
 @class HXDiscoveryContainerViewController;
 

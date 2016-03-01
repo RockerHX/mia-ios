@@ -21,7 +21,8 @@
 #import "FileLog.h"
 
 @interface HXMainViewController () <
-UITabBarControllerDelegate
+UITabBarControllerDelegate,
+HXLoginViewControllerDelegate
 >
 @end
 
@@ -44,7 +45,7 @@ UITabBarControllerDelegate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
     
     // Login
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedLoginNotification object:nil];
 }
 
 #pragma mark - Config Methods
@@ -59,7 +60,7 @@ UITabBarControllerDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
     
     // Login
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginSence) name:kLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginSence) name:kNeedLoginNotification object:nil];
 }
 
 - (void)viewConfigure {
@@ -161,7 +162,10 @@ UITabBarControllerDelegate
 
 #pragma mark - Private Methods
 - (void)showLoginSence {
-    [self presentViewController:[HXLoginViewController navigationControllerInstance] animated:YES completion:nil];
+    UINavigationController *loginNavigationController = [HXLoginViewController navigationControllerInstance];
+    HXLoginViewController *loginViewController = loginNavigationController.viewControllers.firstObject;
+    loginViewController.delegate = self;
+    [self presentViewController:loginNavigationController animated:YES completion:nil];
 }
 
 - (void)showNoNetworkView {
@@ -184,6 +188,13 @@ UITabBarControllerDelegate
         }
     }
     return YES;
+}
+
+#pragma mark - HXLoginViewControllerDelegate Methods
+- (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController {
+    HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
+    [discoveryViewController refreshShareItem];
+    [loginViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

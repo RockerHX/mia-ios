@@ -8,7 +8,6 @@
 
 #import "HXDiscoveryContainerViewController.h"
 #import "UIView+Frame.h"
-#import "iCarousel.h"
 #import "HXDiscoveryCardView.h"
 
 @interface HXDiscoveryContainerViewController () <
