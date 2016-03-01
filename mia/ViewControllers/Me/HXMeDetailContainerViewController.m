@@ -173,7 +173,9 @@ HXMeShareCellDelegate
 - (void)detailHeader:(HXMeDetailHeader *)header takeAction:(HXMeDetailHeaderAction)action {
     switch (action) {
         case HXMeDetailHeaderActionSetting: {
-            ;
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowSetting];
+            }
             break;
         }
         case HXMeDetailHeaderActionPlay: {

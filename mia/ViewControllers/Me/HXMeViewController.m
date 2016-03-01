@@ -20,6 +20,7 @@
 //#import "HXMessageCenterViewController.h"
 #import "HXPlayViewController.h"
 #import "MusicMgr.h"
+#import "HXSettingViewController.h"
 
 @interface HXMeViewController () <
 HXMeDetailContainerViewControllerDelegate,
@@ -28,7 +29,7 @@ HXMeNavigationBarDelegate
 @end
 
 @implementation HXMeViewController {
-    BOOL _pushToFrends;
+    BOOL _hiddenNavigationBar;
     
     UIStatusBarStyle  _statusBarStyle;
     HXMeCoverContainerViewController *_coverContainerViewController;
@@ -52,7 +53,7 @@ HXMeNavigationBarDelegate
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    BOOL hidden = _pushToFrends ?: (self.navigationController.viewControllers.count < 2);
+    BOOL hidden = _hiddenNavigationBar ?: (self.navigationController.viewControllers.count < 2);
     [self.navigationController setNavigationBarHidden:hidden animated:YES];
 }
 
@@ -112,7 +113,7 @@ HXMeNavigationBarDelegate
              NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];
              HXProfileHeaderModel *model = [HXProfileHeaderModel mj_objectWithKeyValues:data];
              [_detailContainerViewController.header displayWithHeaderModel:model];
-             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
              [_navigationBar setTitle:model.nickName];
              
              NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
@@ -168,11 +169,12 @@ HXMeNavigationBarDelegate
 - (void)detailContainer:(HXMeDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action {
     switch (action) {
         case HXProfileDetailContainerActionShowSetting: {
-            _pushToFrends = NO;
+            _hiddenNavigationBar = NO;
+            [self.navigationController pushViewController:[HXSettingViewController instance] animated:YES];
             break;
         }
         case HXProfileDetailContainerActionShowFans: {
-            _pushToFrends = YES;
+            _hiddenNavigationBar = YES;
 //            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
 //                                                                                 isHost:_type
 //                                                                                    uID:_uid
@@ -182,7 +184,7 @@ HXMeNavigationBarDelegate
             break;
         }
         case HXProfileDetailContainerActionShowFollow: {
-            _pushToFrends = YES;
+            _hiddenNavigationBar = YES;
 //            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
 //                                                                                 isHost:_type
 //                                                                                    uID:_uid
@@ -208,14 +210,14 @@ HXMeNavigationBarDelegate
     switch (action) {
         case HXMeNavigationBarMusic: {
             if ([MusicMgr standard].currentItem) {
-                _pushToFrends = YES;
+                _hiddenNavigationBar = YES;
                 UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
 //                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
                 
                 __weak __typeof__(self)weakSelf = self;
                 [self presentViewController:playNavigationController animated:YES completion:^{
                     __strong __typeof__(self)strongSelf = weakSelf;
-                    strongSelf->_pushToFrends = NO;
+                    strongSelf->_hiddenNavigationBar = NO;
                 }];
             }
             break;

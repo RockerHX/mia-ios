@@ -158,7 +158,8 @@
 		CDFEABCE1C8585E40039954C /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDFEABCC1C8585E40039954C /* Setting.storyboard */; };
 		CDFEABD61C85863D0039954C /* HXFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABD11C85863D0039954C /* HXFeedBackViewController.m */; };
 		CDFEABD71C85863D0039954C /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABD31C85863D0039954C /* HXSettingViewController.m */; };
-		CDFEABD81C85863D0039954C /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABD51C85863D0039954C /* HXUserTermsViewController.m */; };
+		CDFEABDC1C858A3C0039954C /* GenderPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABDB1C858A3C0039954C /* GenderPickerView.m */; };
+		CDFEABDF1C858AA20039954C /* ChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABDE1C858AA20039954C /* ChangePwdViewController.m */; };
 		CDFFB8FA1C853112009C452B /* HXMeCoverContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */; };
 		CDFFB8FB1C853112009C452B /* HXMeDetailContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F91C853112009C452B /* HXMeDetailContainerViewController.m */; };
 		CDFFB9001C8534A8009C452B /* HXProfileNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8FE1C8534A8009C452B /* HXProfileNavigationBar.m */; };
@@ -452,8 +453,10 @@
 		CDFEABD11C85863D0039954C /* HXFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFeedBackViewController.m; sourceTree = "<group>"; };
 		CDFEABD21C85863D0039954C /* HXSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
 		CDFEABD31C85863D0039954C /* HXSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
-		CDFEABD41C85863D0039954C /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
-		CDFEABD51C85863D0039954C /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
+		CDFEABDA1C858A3C0039954C /* GenderPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenderPickerView.h; sourceTree = "<group>"; };
+		CDFEABDB1C858A3C0039954C /* GenderPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenderPickerView.m; sourceTree = "<group>"; };
+		CDFEABDD1C858AA20039954C /* ChangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePwdViewController.h; sourceTree = "<group>"; };
+		CDFEABDE1C858AA20039954C /* ChangePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePwdViewController.m; sourceTree = "<group>"; };
 		CDFFB8F61C853112009C452B /* HXMeCoverContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeCoverContainerViewController.h; sourceTree = "<group>"; };
 		CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeCoverContainerViewController.m; sourceTree = "<group>"; };
 		CDFFB8F81C853112009C452B /* HXMeDetailContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeDetailContainerViewController.h; sourceTree = "<group>"; };
@@ -1030,6 +1033,7 @@
 				CDBC45331C75D6100037FEC4 /* Discovery */,
 				CD64E9151C7AFB1600270836 /* Favorite */,
 				CDFFB9021C853514009C452B /* Me */,
+				CDFEABD91C858A270039954C /* Setting */,
 				CD487E191C84226F004835A9 /* Profile */,
 				CDEF7AC41C7EEBEB00354229 /* Play */,
 				CD64E9041C7AAC9A00270836 /* HXXib.h */,
@@ -1700,12 +1704,21 @@
 		CDFEABCF1C85863D0039954C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				CDFEABD01C85863D0039954C /* HXFeedBackViewController.h */,
-				CDFEABD11C85863D0039954C /* HXFeedBackViewController.m */,
 				CDFEABD21C85863D0039954C /* HXSettingViewController.h */,
 				CDFEABD31C85863D0039954C /* HXSettingViewController.m */,
-				CDFEABD41C85863D0039954C /* HXUserTermsViewController.h */,
-				CDFEABD51C85863D0039954C /* HXUserTermsViewController.m */,
+				CDFEABDD1C858AA20039954C /* ChangePwdViewController.h */,
+				CDFEABDE1C858AA20039954C /* ChangePwdViewController.m */,
+				CDFEABD01C85863D0039954C /* HXFeedBackViewController.h */,
+				CDFEABD11C85863D0039954C /* HXFeedBackViewController.m */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		CDFEABD91C858A270039954C /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CDFEABDA1C858A3C0039954C /* GenderPickerView.h */,
+				CDFEABDB1C858A3C0039954C /* GenderPickerView.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -1965,6 +1978,7 @@
 				CDE539B71C7BFD5200E0616D /* HXComment.m in Sources */,
 				CDE539B31C7BFD5200E0616D /* MessageItem.m in Sources */,
 				CDE539711C7BFD1000E0616D /* WebSocketMgr.m in Sources */,
+				CDFEABDC1C858A3C0039954C /* GenderPickerView.m in Sources */,
 				CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */,
 				CD74FC221C7C65EA00DBEB83 /* HXLoadingView.m in Sources */,
 				CD06901C1C746B8C001C0997 /* HXTextView.m in Sources */,
@@ -1987,7 +2001,6 @@
 				CDEF7AE91C7FEA7200354229 /* SearchResultCollectionViewCell.m in Sources */,
 				CDE539B01C7BFD5200E0616D /* FriendItem.m in Sources */,
 				CDE539BE1C7BFD5200E0616D /* SuggestionItem.m in Sources */,
-				CDFEABD81C85863D0039954C /* HXUserTermsViewController.m in Sources */,
 				CDEF7B181C8031AA00354229 /* HXPlayListCell.m in Sources */,
 				CDEF7AED1C7FEA7200354229 /* SearchViewController.m in Sources */,
 				CDEF7AEC1C7FEA7200354229 /* SearchSuggestionView.m in Sources */,
@@ -2045,6 +2058,7 @@
 				CDE53A1B1C7BFDDB00E0616D /* FormatTimeHelper.m in Sources */,
 				CDE5395A1C7BFCE200E0616D /* SongPreloader.m in Sources */,
 				CDE53A1F1C7BFDDB00E0616D /* UserDefaultsUtils.m in Sources */,
+				CDFEABDF1C858AA20039954C /* ChangePwdViewController.m in Sources */,
 				CDE539561C7BFCE200E0616D /* FavoriteMgr.m in Sources */,
 				CDE539BD1C7BFD5200E0616D /* ShareItem.m in Sources */,
 				CDE539B21C7BFD5200E0616D /* InfectUserItem.m in Sources */,
