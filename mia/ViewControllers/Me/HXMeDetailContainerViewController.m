@@ -177,7 +177,8 @@ HXMeShareCellDelegate
             break;
         }
         case HXMeDetailHeaderActionPlay: {
-            ;
+            [[MusicMgr standard] setPlayList:_viewModel.dataSource hostObject:self];
+            [[MusicMgr standard] playCurrent];
             break;
         }
         case HXMeDetailHeaderActionShowFans: {
@@ -200,6 +201,12 @@ HXMeShareCellDelegate
     NSInteger index = [self.tableView indexPathForCell:cell].row;
     ShareItem *item = _viewModel.dataSource[index];
     switch (action) {
+        case HXMeShareCellActionPlay: {
+            NSInteger index = [self.tableView indexPathForCell:cell].row;
+            [[MusicMgr standard] setPlayListWithItem:_viewModel.dataSource[index] hostObject:self];
+            [[MusicMgr standard] playCurrent];
+            break;
+        }
         case HXMeShareCellActionFavorite: {
             [MiaAPIHelper favoriteMusicWithShareID:item.sID
                                         isFavorite:!item.favorite

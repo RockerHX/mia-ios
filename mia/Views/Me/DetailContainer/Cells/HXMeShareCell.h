@@ -10,6 +10,7 @@
 #import "ShareItem.h"
 
 typedef NS_ENUM(NSUInteger, HXMeShareCellAction) {
+    HXMeShareCellActionPlay,
     HXMeShareCellActionFavorite,
     HXMeShareCellActionDelete
 };
