@@ -12,15 +12,14 @@
 #import "HXMeNavigationBar.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
-//#import "FriendViewController.h"
 #import "HXUserSession.h"
-//#import "HXSettingViewController.h"
 #import "HXAlertBanner.h"
 #import "WebSocketMgr.h"
-//#import "HXMessageCenterViewController.h"
-#import "HXPlayViewController.h"
 #import "MusicMgr.h"
+//#import "FriendViewController.h"
+#import "HXPlayViewController.h"
 #import "HXSettingViewController.h"
+#import "HXMessageCenterViewController.h"
 
 @interface HXMeViewController () <
 HXMeDetailContainerViewControllerDelegate,
@@ -96,13 +95,6 @@ HXMeNavigationBarDelegate
 - (void)viewConfigure {
     _navigationBar.delegate = self;
     [self showMessagePromptView];
-}
-
-#pragma mark - Event Response
-- (IBAction)settingButtonPressed {
-//    _pushToFrends = NO;
-//    HXSettingViewController *settingViewController = [HXSettingViewController instance];
-//    [self.navigationController pushViewController:settingViewController animated:YES];
 }
 
 #pragma mark - Private Methods
@@ -194,9 +186,9 @@ HXMeNavigationBarDelegate
             break;
         }
         case HXProfileDetailContainerActionShowMessageCenter: {
-//            _pushToFrends = NO;
-//			HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
-//			[self.navigationController pushViewController:messageCenterViewController animated:YES];
+            _hiddenNavigationBar = NO;
+			HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
+			[self.navigationController pushViewController:messageCenterViewController animated:YES];
             break;
         }
         case HXProfileDetailContainerActionShowMusicDetail: {

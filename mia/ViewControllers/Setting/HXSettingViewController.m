@@ -19,7 +19,7 @@
 #import "UIImage+Extrude.h"
 #import "UIImageView+WebCache.h"
 #import "UserSetting.h"
-//#import "HXMessageCenterViewController.h"
+#import "HXMessageCenterViewController.h"
 #import "AFNetworking.h"
 #import "HXUserSession.h"
 
@@ -393,8 +393,8 @@ static CGFloat SectionSpace = 16.0f;
                     break;
                 }
                 case HXUserSectionRowMessageCenter: {
-//                    HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
-//                    [self.navigationController pushViewController:messageCenterViewController animated:YES];
+                    HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
+                    [self.navigationController pushViewController:messageCenterViewController animated:YES];
                     break;
                 }
             }

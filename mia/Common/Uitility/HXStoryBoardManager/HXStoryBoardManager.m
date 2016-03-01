@@ -56,6 +56,10 @@
             storyBoardName = @"Share";
             break;
         }
+        case HXStoryBoardNameMessageCenter: {
+            storyBoardName = @"MessageCenter";
+            break;
+        }
     }
     return storyBoardName;
 }
