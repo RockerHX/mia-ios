@@ -55,7 +55,6 @@ static double kMaxUpdateTimeInterval = 60 * 60 * 24;	// 24 Hours
 		 } else {
 			 NSLog(@"get update info failed");
 		 }
-		NSLog(@"...");
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		NSLog(@"get update info timeout");
 	}];
