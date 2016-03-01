@@ -13,7 +13,6 @@
 @property (nonatomic, strong) NSMutableArray<ShareItem *> *shareList;
 
 @property (nonatomic, assign) NSInteger currentIndex;
-@property (nonatomic, strong, readonly) ShareItem *currentItem;
 
 + (instancetype)initFromArchive;
 

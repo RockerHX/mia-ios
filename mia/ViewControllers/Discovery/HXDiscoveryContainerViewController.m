@@ -53,6 +53,10 @@ HXDiscoveryCardViewDelegate
     [_carousel reloadData];
 }
 
+- (ShareItem *)currentItem {
+    return _dataSoure[_carousel.currentItemIndex];
+}
+
 #pragma mark - Private Methods
 - (UIView *)setupCarouselCard:(iCarousel *)carousel {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, carousel.width - 50.0f, carousel.height - 40.0f)];

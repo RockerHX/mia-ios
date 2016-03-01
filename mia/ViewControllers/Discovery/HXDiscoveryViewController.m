@@ -192,11 +192,11 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionShowSharer: {
-            [self showProfileWithUID:_shareListMgr.currentItem.shareUser.uid];
+            [self showProfileWithUID:container.currentItem.shareUser.uid];
             break;
         }
         case HXDiscoveryCardActionShowInfecter: {
-            [self showProfileWithUID:_shareListMgr.currentItem.spaceUser.uid];
+            [self showProfileWithUID:container.currentItem.spaceUser.uid];
             break;
         }
         case HXDiscoveryCardActionShowCommenter: {
