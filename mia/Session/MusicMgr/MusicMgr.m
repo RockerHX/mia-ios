@@ -425,6 +425,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 - (void)singleSongPlayerDidCompletion {
+	[self playNext];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_PlayerEvent,
 							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,

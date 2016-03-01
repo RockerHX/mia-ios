@@ -38,7 +38,7 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        NSLog(@"%@", NSStringFromCGRect(self.frame));
+        NSLog(@"HXActivityIndicator: %@", NSStringFromCGRect(self.frame));
         [self setupViewLayout:self.frame];
     }
     return self;
