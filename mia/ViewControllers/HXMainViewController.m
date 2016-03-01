@@ -18,6 +18,7 @@
 #import "HXNoNetworkView.h"
 #import "HXAlertBanner.h"
 #import "UpdateHelper.h"
+#import "FileLog.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate
@@ -83,13 +84,10 @@ UITabBarControllerDelegate
     [MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
         if (success) {
 			[self checkUpdate];
-
-            if (![self autoLogin]) {
-                HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
-                [discoveryViewController fetchShareList];
-#warning TODO
-                //[_radioView checkIsNeedToGetNewItems];
-            }
+            [self autoLogin];
+            
+            HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
+            [discoveryViewController fetchShareList];
         } else {
             [self autoReconnect];
         }
@@ -128,41 +126,32 @@ UITabBarControllerDelegate
 	[aUpdateHelper checkNow];
 }
 
-- (BOOL)autoLogin {
-//    NSString *uid = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionUID];
-//    NSString *token = [UserDefaultsUtils valueWithKey:UserDefaultsKey_SessionToken];
-//    if ([NSString isNull:uid] || [NSString isNull:token]) {
-//        return NO;
-//    }
-//    
-//    [MiaAPIHelper loginWithSession:uid
-//                             token:token
-//                     completeBlock:
-//     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-//         if (success) {
-//             [[UserSession standard] setUid:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][@"uid"]]];
-//             [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-//             [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-//             [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
-//             [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
-//             
-//             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-//             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-//             [[UserSession standard] setAvatar:avatarUrlWithTime];
-//             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"uid"] forKey:UserDefaultsKey_UID];
-//             [UserDefaultsUtils saveValue:userInfo[MiaAPIKey_Values][@"nick"] forKey:UserDefaultsKey_Nick];
-//             [UserSession standard].state = UserSessionLoginStateLogin;
-//         } else {
-//             [[FileLog standard] log:@"autoLogin failed, logout"];
-//             [[UserSession standard] logout];
-//         }
-//         
-//         [_radioViewController loadShareList];
-//     } timeoutBlock:^(MiaRequestItem *requestItem) {
-//         NSLog(@"audo login timeout!");
-//         [_radioViewController loadShareList];
-//     }];
-    return NO;
+- (void)autoLogin {
+    HXUserSession *userSession = [HXUserSession share];
+    switch (userSession.userState) {
+        case HXUserStateLogout: {
+            return;
+            break;
+        }
+        case HXUserStateLogin: {
+            [MiaAPIHelper loginWithSession:userSession.user.uid
+                                     token:userSession.user.token
+                             completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 if (success) {
+                     NSDictionary *data = userInfo[MiaAPIKey_Values];
+                     HXUserModel *user = [HXUserModel mj_objectWithKeyValues:data];
+                     [userSession updateUser:user];
+                 } else {
+                     [[FileLog standard] log:@"autoLogin failed, logout"];
+                     [userSession logout];
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 NSLog(@"audo login timeout!");
+             }];
+            break;
+        }
+    }
 }
 
 - (void)autoReconnect {

@@ -33,6 +33,12 @@ HXMeShareCellDelegate
 }
 
 #pragma mark - View Controller Life Cycle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self fetchShareItem];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -47,14 +53,6 @@ HXMeShareCellDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _viewModel = [HXMeViewModel instanceWithUID:_uid];
-    
-    __weak __typeof__(self)weakSelf = self;
-    [_viewModel fetchProfileListData:^(HXMeViewModel *viewModel) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf endLoad];
-    } failure:^(NSString *message) {
-        [HXAlertBanner showWithMessage:message tap:nil];
-    }];
 }
 
 - (void)viewConfigure {
@@ -72,6 +70,16 @@ HXMeShareCellDelegate
 
 - (void)removeRefreshFooter {
     self.tableView.mj_footer = nil;
+}
+
+- (void)fetchShareItem {
+    __weak __typeof__(self)weakSelf = self;
+    [_viewModel fetchProfileListData:^(HXMeViewModel *viewModel) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf endLoad];
+    } failure:^(NSString *message) {
+        [HXAlertBanner showWithMessage:message tap:nil];
+    }];
 }
 
 - (void)endLoad {

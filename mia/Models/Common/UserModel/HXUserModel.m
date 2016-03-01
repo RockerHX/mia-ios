@@ -20,10 +20,8 @@ MJCodingImplementation
          @"notifyAvatar": @"notifyUserpic"};
 }
 
-+ (instancetype)mj_objectWithKeyValues:(id)keyValues {
-    HXUserModel *model = [super mj_objectWithKeyValues:keyValues];
-    model.uid = [NSString stringWithFormat:@"%@", model.uid];
-    return model;
+- (void)mj_objectDidFinishConvertingToKeyValues {
+    _uid = [NSString stringWithFormat:@"%@", _uid];
 }
 
 @end
