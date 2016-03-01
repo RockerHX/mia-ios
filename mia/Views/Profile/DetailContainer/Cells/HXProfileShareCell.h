@@ -35,14 +35,11 @@ typedef NS_ENUM(NSUInteger, HXProfileShareCellAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *singerLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet     UILabel *commentCountLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *seeCountLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *deleteButton;
 
 @property (nonatomic, assign) BOOL favorite;
 
 - (IBAction)playButtonPressed;
 - (IBAction)favoriteButtonPressed;
-- (IBAction)deleteButtonPressed;
 
 - (void)displayWithItem:(ShareItem *)item;
 
