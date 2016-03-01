@@ -76,7 +76,6 @@ HXProfileShareCellDelegate
 //    _header.type = _type;
 //    
 //    self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
-//    self.tableView.tableHeaderView = _header;
     [self addRefreshFooter];
 }
 
