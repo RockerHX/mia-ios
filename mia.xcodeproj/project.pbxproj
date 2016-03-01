@@ -164,6 +164,9 @@
 		CDFEABE71C8594000039954C /* MessageCenter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDFEABE51C8594000039954C /* MessageCenter.storyboard */; };
 		CDFEABEB1C85941E0039954C /* HXMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABEA1C85941E0039954C /* HXMessageCell.m */; };
 		CDFEABEE1C8594670039954C /* HXListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABED1C8594670039954C /* HXListViewController.m */; };
+		CDFEABF51C8595370039954C /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABF01C8595370039954C /* FriendViewController.m */; };
+		CDFEABF61C8595370039954C /* UserCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABF21C8595370039954C /* UserCollectionViewCell.m */; };
+		CDFEABF71C8595370039954C /* UserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFEABF41C8595370039954C /* UserListView.m */; };
 		CDFFB8FA1C853112009C452B /* HXMeCoverContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */; };
 		CDFFB8FB1C853112009C452B /* HXMeDetailContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F91C853112009C452B /* HXMeDetailContainerViewController.m */; };
 		CDFFB9001C8534A8009C452B /* HXProfileNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8FE1C8534A8009C452B /* HXProfileNavigationBar.m */; };
@@ -468,6 +471,12 @@
 		CDFEABEA1C85941E0039954C /* HXMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMessageCell.m; sourceTree = "<group>"; };
 		CDFEABEC1C8594670039954C /* HXListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXListViewController.h; sourceTree = "<group>"; };
 		CDFEABED1C8594670039954C /* HXListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXListViewController.m; sourceTree = "<group>"; };
+		CDFEABEF1C8595370039954C /* FriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendViewController.h; sourceTree = "<group>"; };
+		CDFEABF01C8595370039954C /* FriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendViewController.m; sourceTree = "<group>"; };
+		CDFEABF11C8595370039954C /* UserCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCollectionViewCell.h; sourceTree = "<group>"; };
+		CDFEABF21C8595370039954C /* UserCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCollectionViewCell.m; sourceTree = "<group>"; };
+		CDFEABF31C8595370039954C /* UserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListView.h; sourceTree = "<group>"; };
+		CDFEABF41C8595370039954C /* UserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListView.m; sourceTree = "<group>"; };
 		CDFFB8F61C853112009C452B /* HXMeCoverContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeCoverContainerViewController.h; sourceTree = "<group>"; };
 		CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeCoverContainerViewController.m; sourceTree = "<group>"; };
 		CDFFB8F81C853112009C452B /* HXMeDetailContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeDetailContainerViewController.h; sourceTree = "<group>"; };
@@ -1743,6 +1752,12 @@
 		CDFEABE01C858FCF0039954C /* Friend */ = {
 			isa = PBXGroup;
 			children = (
+				CDFEABEF1C8595370039954C /* FriendViewController.h */,
+				CDFEABF01C8595370039954C /* FriendViewController.m */,
+				CDFEABF11C8595370039954C /* UserCollectionViewCell.h */,
+				CDFEABF21C8595370039954C /* UserCollectionViewCell.m */,
+				CDFEABF31C8595370039954C /* UserListView.h */,
+				CDFEABF41C8595370039954C /* UserListView.m */,
 			);
 			path = Friend;
 			sourceTree = "<group>";
@@ -1984,6 +1999,7 @@
 				CDE53A0E1C7BFDDB00E0616D /* NSString+DateFormatter.m in Sources */,
 				CDE539C01C7BFD5200E0616D /* UserListModel.m in Sources */,
 				CDFFB9001C8534A8009C452B /* HXProfileNavigationBar.m in Sources */,
+				CDFEABF71C8595370039954C /* UserListView.m in Sources */,
 				CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */,
 				CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */,
 				CDE539AD1C7BFD5200E0616D /* FavoriteItem.m in Sources */,
@@ -2008,6 +2024,7 @@
 				CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */,
 				CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */,
 				CDEF7ACA1C7EFDD400354229 /* HXPlayTopBar.m in Sources */,
+				CDFEABF51C8595370039954C /* FriendViewController.m in Sources */,
 				CD06900F1C746B8C001C0997 /* UIView+Frame.m in Sources */,
 				CD0690171C746B8C001C0997 /* HXIBView.m in Sources */,
 				CD487E321C84226F004835A9 /* HXProfileDetailHeader.m in Sources */,
@@ -2036,6 +2053,7 @@
 				CDE53A1C1C7BFDDB00E0616D /* LocationMgr.m in Sources */,
 				CD64E9121C7AB27300270836 /* HXDiscoveryCover.m in Sources */,
 				CDE5395B1C7BFCE200E0616D /* ShareListMgr.m in Sources */,
+				CDFEABF61C8595370039954C /* UserCollectionViewCell.m in Sources */,
 				CDE53A151C7BFDDB00E0616D /* UIImage+ColorToImage.m in Sources */,
 				CD0690121C746B8C001C0997 /* UILabel+HXIBnsepectable.m in Sources */,
 				CDEF7ADA1C7FEA2100354229 /* HXShareViewController.m in Sources */,

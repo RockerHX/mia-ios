@@ -16,7 +16,7 @@
 #import "HXAlertBanner.h"
 #import "WebSocketMgr.h"
 #import "MusicMgr.h"
-//#import "FriendViewController.h"
+#import "FriendViewController.h"
 #import "HXPlayViewController.h"
 #import "HXSettingViewController.h"
 #import "HXMessageCenterViewController.h"
@@ -82,7 +82,7 @@ HXMeNavigationBarDelegate
         _coverContainerViewController = segue.destinationViewController;
     } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
         _detailContainerViewController = segue.destinationViewController;
-        _detailContainerViewController.uid = [HXUserSession share].user.uid;
+        _detailContainerViewController.uid = [HXUserSession share].uid;
         _detailContainerViewController.delegate = self;
     }
 }
@@ -99,7 +99,7 @@ HXMeNavigationBarDelegate
 
 #pragma mark - Private Methods
 - (void)fetchProfileData {
-    [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].user.uid completeBlock:
+    [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];
@@ -108,6 +108,8 @@ HXMeNavigationBarDelegate
              [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
              [_navigationBar setTitle:model.nickName];
              
+             _fansCount = [model.fansCount integerValue];
+             _followCount = [model.followCount integerValue];
              NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
              [self displayFollowState:follow];
          } else {
@@ -167,22 +169,22 @@ HXMeNavigationBarDelegate
         }
         case HXProfileDetailContainerActionShowFans: {
             _hiddenNavigationBar = YES;
-//            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
-//                                                                                 isHost:_type
-//                                                                                    uID:_uid
-//                                                                              fansCount:_fansCount
-//                                                                         followingCount:_followCount];
-//            [self.navigationController pushViewController:friendVC animated:YES];
+            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
+                                                                                 isHost:NO
+                                                                                    uID:[HXUserSession share].uid
+                                                                              fansCount:_fansCount
+                                                                         followingCount:_followCount];
+            [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
         case HXProfileDetailContainerActionShowFollow: {
             _hiddenNavigationBar = YES;
-//            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
-//                                                                                 isHost:_type
-//                                                                                    uID:_uid
-//                                                                              fansCount:_fansCount
-//                                                                         followingCount:_followCount];
-//            [self.navigationController pushViewController:friendVC animated:YES];
+            FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
+                                                                                 isHost:NO
+                                                                                    uID:[HXUserSession share].uid
+                                                                              fansCount:_fansCount
+                                                                         followingCount:_followCount];
+            [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
         case HXProfileDetailContainerActionShowMessageCenter: {

@@ -49,6 +49,10 @@ typedef void(^FailureBlock)(NSString *);
     return (_user.uid && _user.token);
 }
 
+- (NSString *)uid {
+    return _user.uid;
+}
+
 #pragma mark - Public Methods
 - (void)loginWithSDKUser:(SSDKUser *)user success:(nullable void(^)(HXUserSession *, NSString *))success failure:(nullable void(^)(NSString *))failure {
     _successBlock = success;

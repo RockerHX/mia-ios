@@ -96,7 +96,7 @@ GenderPickerViewDelegate
 
 - (void)loadAvatar {
     __weak __typeof__(self)weakSelf = self;
-    [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].user.uid completeBlock:
+    [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
