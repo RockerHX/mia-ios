@@ -31,6 +31,13 @@ HXXibImplementation
     _containerView.backgroundColor = [UIColor clearColor];
 }
 
+#pragma mark - Property
+- (void)setFollow:(BOOL)follow {
+    _follow = follow;
+    
+    [_actionButton setImage:[UIImage imageNamed:(follow ? @"PF-AttentionedIcon" : @"PF-AttentionIcon")] forState:UIControlStateNormal];
+}
+
 #pragma mark - Event Response
 - (IBAction)actionButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {

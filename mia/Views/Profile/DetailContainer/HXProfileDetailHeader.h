@@ -35,6 +35,8 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *actionButton;
 
+@property (nonatomic, assign) BOOL follow;
+
 - (IBAction)actionButtonPressed;
 - (IBAction)playViewTaped;
 - (IBAction)fansViewTaped;

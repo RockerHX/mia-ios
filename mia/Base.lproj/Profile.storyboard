@@ -76,6 +76,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="330"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="delegate" destination="Qc6-9f-kPc" id="dZ4-Zh-TQw"/>
+                            </connections>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="hxc-oW-fRk">
                             <rect key="frame" x="0.0" y="578" width="320" height="1"/>

@@ -10,8 +10,8 @@
 #import "ShareItem.h"
 
 typedef NS_ENUM(NSUInteger, HXProfileShareCellAction) {
+    HXProfileShareCellActionPlay,
     HXProfileShareCellActionFavorite,
-    HXProfileShareCellActionDelete
 };
 
 @class HXProfileShareCell;

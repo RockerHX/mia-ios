@@ -9,18 +9,13 @@
 #import "HXMeDetailContainerViewController.h"
 #import "HXMeViewModel.h"
 #import "HXAlertBanner.h"
-#import "UserSession.h"
 #import "MiaAPIHelper.h"
-#import "FavoriteMgr.h"
-//#import "SongListPlayer.h"
-#import "UserSetting.h"
-#import "PathHelper.h"
 #import "MusicMgr.h"
-//#import "HXMusicDetailViewController.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "MJRefresh.h"
 #import "UIConstants.h"
 #import "UIActionSheet+BlocksKit.h"
+#import "FavoriteMgr.h"
 
 @interface HXMeDetailContainerViewController () <
 HXMeDetailHeaderDelegate,

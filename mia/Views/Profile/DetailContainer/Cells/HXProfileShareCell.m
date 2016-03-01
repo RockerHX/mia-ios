@@ -39,7 +39,9 @@
 
 #pragma mark - Event Response
 - (IBAction)playButtonPressed {
-    ;
+    if (_delegate && [_delegate respondsToSelector:@selector(shareCell:takeAction:)]) {
+        [_delegate shareCell:self takeAction:HXProfileShareCellActionPlay];
+    }
 }
 
 - (IBAction)favoriteButtonPressed {
