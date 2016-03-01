@@ -13,7 +13,7 @@
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
 //#import "FriendViewController.h"
-#import "UserSession.h"
+#import "HXUserSession.h"
 //#import "HXSettingViewController.h"
 #import "HXAlertBanner.h"
 #import "WebSocketMgr.h"
@@ -75,10 +75,6 @@ HXMeNavigationBarDelegate
     return _statusBarStyle;
 }
 
-- (void)dealloc {
-    [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NotifyCount context:nil];
-}
-
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *identifier = segue.identifier;
@@ -86,22 +82,14 @@ HXMeNavigationBarDelegate
         _coverContainerViewController = segue.destinationViewController;
     } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
         _detailContainerViewController = segue.destinationViewController;
-        _detailContainerViewController.uid = [UserSession standard].uid;
+        _detailContainerViewController.uid = [HXUserSession share].user.uid;
         _detailContainerViewController.delegate = self;
-    }
-}
-
-#pragma mark - KVO Methods
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:UserSessionKey_NotifyCount]) {
-        [self showMessagePromptView];
     }
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _statusBarStyle = UIStatusBarStyleLightContent;
-    [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)viewConfigure {
@@ -118,7 +106,7 @@ HXMeNavigationBarDelegate
 
 #pragma mark - Private Methods
 - (void)fetchProfileData {
-    [MiaAPIHelper getUserInfoWithUID:[UserSession standard].uid completeBlock:
+    [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].user.uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];

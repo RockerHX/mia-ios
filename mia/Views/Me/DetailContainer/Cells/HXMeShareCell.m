@@ -63,7 +63,6 @@
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
     _commentCountLabel.text = @(item.cComm).stringValue;
-    _seeCountLabel.text = @(item.cView).stringValue;
     
     [self displayTitle:item.sNote];
 }

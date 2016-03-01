@@ -25,17 +25,11 @@
 @interface HXMeDetailContainerViewController () <
 HXMeDetailHeaderDelegate,
 HXMeShareCellDelegate
-//SongListPlayerDataSource,
-//SongListPlayerDelegate
 >
 @end
 
 @implementation HXMeDetailContainerViewController {
-    CGFloat _footerHeight;
     HXMeViewModel *_viewModel;
-    
-//    SongListPlayer *_songListPlayer;
-	BOOL _isPlayButtonSelected;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -52,8 +46,6 @@ HXMeShareCellDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    _footerHeight = 10.0f;
-    
     _viewModel = [HXMeViewModel instanceWithUID:_uid];
     
     __weak __typeof__(self)weakSelf = self;
@@ -63,18 +55,9 @@ HXMeShareCellDelegate
     } failure:^(NSString *message) {
         [HXAlertBanner showWithMessage:message tap:nil];
     }];
-    
-//    _songListPlayer = [[SongListPlayer alloc] initWithModelID:(long)(__bridge void *)self name:@"HXProfileViewController Song List"];
-//    _songListPlayer.dataSource = self;
-//    _songListPlayer.delegate = self;
 }
 
 - (void)viewConfigure {
-//    _header = [[HXMeDetailHeader alloc] initWithFrame:CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 264.0f)];
-//    _header.delegate = self;
-//    _header.type = _type;
-//    
-//    self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
     [self addRefreshFooter];
 }
 
@@ -120,12 +103,11 @@ HXMeShareCellDelegate
          ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
              if (success) {
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
-                 
                  [_viewModel deleteShareItemWithIndex:index];
                  [self endLoad];
              } else {
-                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                 NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                 [HXAlertBanner showWithMessage:error tap:nil];
              }
          } timeoutBlock:^(MiaRequestItem *requestItem) {
              [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
