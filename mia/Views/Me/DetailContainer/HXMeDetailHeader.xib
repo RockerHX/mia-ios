@@ -134,7 +134,7 @@
                                 <constraint firstAttribute="width" constant="30" id="d5d-oz-aX7"/>
                                 <constraint firstAttribute="width" secondItem="qcP-EE-K6u" secondAttribute="height" multiplier="1:1" id="pCX-Ln-eIG"/>
                             </constraints>
-                            <state key="normal" image="M-SettingIcon"/>
+                            <state key="normal" image="MP-SettingIcon"/>
                             <connections>
                                 <action selector="settingButtonPressed" destination="-1" eventType="touchUpInside" id="P2G-O3-Vz9"/>
                             </connections>
@@ -157,7 +157,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5x0-Sd-5K7">
                             <rect key="frame" x="20" y="5" width="115" height="20"/>
                             <subviews>
-                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gVZ-Fc-ga3">
+                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MP-PlayIcon" translatesAutoresizingMaskIntoConstraints="NO" id="gVZ-Fc-ga3">
                                     <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="gVZ-Fc-ga3" secondAttribute="height" multiplier="1:1" id="Owj-tu-aSQ"/>
@@ -247,6 +247,7 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="M-SettingIcon" width="20" height="20"/>
+        <image name="MP-PlayIcon" width="20" height="20"/>
+        <image name="MP-SettingIcon" width="20" height="20"/>
     </resources>
 </document>
