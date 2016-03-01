@@ -15,11 +15,11 @@
 //#import "FriendViewController.h"
 #import "UserSession.h"
 //#import "HXSettingViewController.h"
-#import "WebSocketMgr.h"
 #import "HXAlertBanner.h"
+#import "WebSocketMgr.h"
 //#import "HXMessageCenterViewController.h"
-#import "MusicMgr.h"
 #import "HXPlayViewController.h"
+#import "MusicMgr.h"
 
 @interface HXMeViewController () <
 HXMeDetailContainerViewControllerDelegate,
@@ -86,7 +86,7 @@ HXMeNavigationBarDelegate
         _coverContainerViewController = segue.destinationViewController;
     } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
         _detailContainerViewController = segue.destinationViewController;
-        _detailContainerViewController.uid = _uid;
+        _detailContainerViewController.uid = [UserSession standard].uid;
         _detailContainerViewController.delegate = self;
     }
 }
@@ -118,7 +118,7 @@ HXMeNavigationBarDelegate
 
 #pragma mark - Private Methods
 - (void)fetchProfileData {
-    [MiaAPIHelper getUserInfoWithUID:_uid completeBlock:
+    [MiaAPIHelper getUserInfoWithUID:[UserSession standard].uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];
@@ -150,9 +150,6 @@ HXMeNavigationBarDelegate
             break;
         }
     }
-    
-//	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
-//    [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
 }
 
 - (void)displayFansCountWithFollowState:(NSUInteger)state {
@@ -182,7 +179,7 @@ HXMeNavigationBarDelegate
 
 - (void)detailContainer:(HXMeDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action {
     switch (action) {
-        case HXProfileDetailContainerActionShowMusicDetail: {
+        case HXProfileDetailContainerActionShowSetting: {
             _pushToFrends = NO;
             break;
         }
@@ -206,25 +203,13 @@ HXMeNavigationBarDelegate
 //            [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
-        case HXProfileDetailContainerActionShoulFollow: {
-            if ([UserSession standard].state) {
-                [MiaAPIHelper followWithUID:_uid isFollow:!_followState completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                    _followState = !_followState;
-                    [HXAlertBanner showWithMessage:(_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
-                    [self displayFollowState:_followState];
-                    [self displayFansCountWithFollowState:_followState];
-                } timeoutBlock:^(MiaRequestItem *requestItem) {
-                    [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
-                }];
-            } else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
-            }
-            break;
-        }
         case HXProfileDetailContainerActionShowMessageCenter: {
 //            _pushToFrends = NO;
 //			HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
 //			[self.navigationController pushViewController:messageCenterViewController animated:YES];
+            break;
+        }
+        case HXProfileDetailContainerActionShowMusicDetail: {
             break;
         }
     }

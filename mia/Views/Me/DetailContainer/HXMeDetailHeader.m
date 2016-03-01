@@ -31,23 +31,16 @@ HXXibImplementation
     _containerView.backgroundColor = [UIColor clearColor];
 }
 
-
-#pragma mark - Setter And Getter
-- (void)setType:(HXProfileType)type {
-    _type = type;
-//    _followButton.hidden = type;
-}
-
 #pragma mark - Event Response
-- (IBAction)actionButtonPressed {
-//    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-//        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionTakeFollow];
-//    }
+- (IBAction)settingButtonPressed {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionSetting];
+    }
 }
 
-- (IBAction)playFMTaped {
+- (IBAction)playViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionPlayFM];
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionPlay];
     }
 }
 

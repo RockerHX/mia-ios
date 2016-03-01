@@ -134,9 +134,9 @@
                                 <constraint firstAttribute="width" constant="30" id="d5d-oz-aX7"/>
                                 <constraint firstAttribute="width" secondItem="qcP-EE-K6u" secondAttribute="height" multiplier="1:1" id="pCX-Ln-eIG"/>
                             </constraints>
-                            <state key="normal" image="PF-AttentionIcon"/>
+                            <state key="normal" image="M-SettingIcon"/>
                             <connections>
-                                <action selector="actionButtonPressed" destination="-1" eventType="touchUpInside" id="Bwj-vf-PrR"/>
+                                <action selector="settingButtonPressed" destination="-1" eventType="touchUpInside" id="P2G-O3-Vz9"/>
                             </connections>
                         </button>
                     </subviews>
@@ -242,11 +242,11 @@
         </view>
         <tapGestureRecognizer id="tuS-pE-V4h" userLabel="Play FM Gesture">
             <connections>
-                <action selector="playFMTaped" destination="-1" id="RbA-Mz-aNa"/>
+                <action selector="playViewTaped" destination="-1" id="s7r-Cb-6aI"/>
             </connections>
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="PF-AttentionIcon" width="20" height="20"/>
+        <image name="M-SettingIcon" width="20" height="20"/>
     </resources>
 </document>

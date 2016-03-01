@@ -9,17 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HXProfileHeaderModel.h"
 
-typedef NS_ENUM(BOOL, HXProfileType) {
-    HXProfileTypeHost = YES,
-    HXProfileTypeGuest = NO
-};
-
 typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
-    HXProfileDetailHeaderActionSetting,
     HXProfileDetailHeaderActionAttention,
-    HXProfileDetailHeaderActionPlayFM,
+    HXProfileDetailHeaderActionPlay,
     HXProfileDetailHeaderActionShowFans,
-    HXProfileDetailHeaderActionShowFollow
+    HXProfileDetailHeaderActionShowFollow,
 };
 
 @class HXProfileDetailHeader;
@@ -41,10 +35,8 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *actionButton;
 
-@property (nonatomic, assign) HXProfileType  type;
-
 - (IBAction)actionButtonPressed;
-- (IBAction)playFMTaped;
+- (IBAction)playViewTaped;
 - (IBAction)fansViewTaped;
 - (IBAction)followViewTaped;
 

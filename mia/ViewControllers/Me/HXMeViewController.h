@@ -14,6 +14,4 @@
 
 @property (weak, nonatomic) IBOutlet HXMeNavigationBar *navigationBar;
 
-@property (nonatomic, strong) NSString *uid;
-
 @end

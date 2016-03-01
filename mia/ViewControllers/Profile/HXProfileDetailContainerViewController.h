@@ -38,7 +38,6 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 @property (weak, nonatomic) IBOutlet UILabel *secondPromptLabel;
 
 @property (nonatomic, strong)      NSString *uid;
-@property (nonatomic, assign) HXProfileType  type;
 @property (nonatomic, assign)    NSInteger  shareCount;
 @property (nonatomic, assign)    NSInteger  favoriteCount;
 

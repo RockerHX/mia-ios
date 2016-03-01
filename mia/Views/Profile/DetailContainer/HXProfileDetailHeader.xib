@@ -242,7 +242,7 @@
         </view>
         <tapGestureRecognizer id="tuS-pE-V4h" userLabel="Play FM Gesture">
             <connections>
-                <action selector="playFMTaped" destination="-1" id="RbA-Mz-aNa"/>
+                <action selector="playViewTaped" destination="-1" id="BJo-x7-jPb"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

@@ -10,11 +10,11 @@
 #import "UIView+Frame.h"
 
 typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
-    HXProfileDetailContainerActionShowMusicDetail,
+    HXProfileDetailContainerActionShowSetting,
     HXProfileDetailContainerActionShowFans,
     HXProfileDetailContainerActionShowFollow,
-    HXProfileDetailContainerActionShoulFollow,
-	HXProfileDetailContainerActionShowMessageCenter
+    HXProfileDetailContainerActionShowMessageCenter,
+    HXProfileDetailContainerActionShowMusicDetail,
 };
 
 @class HXMeDetailContainerViewController;
@@ -32,19 +32,11 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
 @interface HXMeDetailContainerViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet      id  <HXMeDetailContainerViewControllerDelegate>delegate;
-@property (weak, nonatomic) IBOutlet  UIView *footer;
-@property (weak, nonatomic) IBOutlet  UIView *promptView;
-@property (weak, nonatomic) IBOutlet UILabel *firstPromptLabel;
-@property (weak, nonatomic) IBOutlet UILabel *secondPromptLabel;
+
+@property (weak, nonatomic) IBOutlet HXMeDetailHeader *header;
+@property (weak, nonatomic) IBOutlet           UIView *footer;
+@property (weak, nonatomic) IBOutlet          UILabel *promptLabel;
 
 @property (nonatomic, strong)      NSString *uid;
-@property (nonatomic, assign) HXProfileType  type;
-@property (nonatomic, assign)    NSInteger  shareCount;
-@property (nonatomic, assign)    NSInteger  favoriteCount;
-
-@property (nonatomic, strong) IBOutlet HXMeDetailHeader *header;
-
-- (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count;
-- (void)stopMusic;
 
 @end

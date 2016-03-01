@@ -11,7 +11,6 @@
 #import "HXAlertBanner.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
-#import "WebSocketMgr.h"
 #import "FavoriteMgr.h"
 //#import "SongListPlayer.h"
 #import "UserSetting.h"
@@ -79,26 +78,6 @@ HXMeShareCellDelegate
     [self addRefreshFooter];
 }
 
-#pragma mark - Setter And Getter
-- (void)setShareCount:(NSInteger)shareCount {
-	_shareCount = shareCount > 0 ? shareCount : 0;
-}
-
-- (void)setFavoriteCount:(NSInteger)favoriteCount {
-	_favoriteCount = favoriteCount > 0 ? favoriteCount : 0;
-}
-
-#pragma mark - Public Methods
-- (void)showMessageWithAvatar:(NSString *)avatar count:(NSInteger)count {
-    ;
-}
-
-- (void)stopMusic {
-//	if ([_songListPlayer isPlaying]) {
-//		[_songListPlayer stop];
-//	}
-}
-
 #pragma mark - Private Methods
 - (void)addRefreshFooter {
     MJRefreshAutoNormalFooter *refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreShareData)];
@@ -122,7 +101,7 @@ HXMeShareCellDelegate
         [self resizeFooter];
     }
     
-    _promptView.hidden = hasData;
+    _promptLabel.hidden = hasData;
 }
 
 - (void)resizeFooter {
@@ -131,11 +110,6 @@ HXMeShareCellDelegate
 
 - (void)fetchMoreShareData {
     [_viewModel fetchProfileListMoreData];
-}
-
-- (void)playMusic {
-    [self playFavoriteMusic];
-    [self.tableView reloadData];
 }
 
 - (void)deleteShareWithIndex:(NSInteger)index sID:(NSString *)sID {
@@ -148,9 +122,6 @@ HXMeShareCellDelegate
                  [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
                  
                  [_viewModel deleteShareItemWithIndex:index];
-                 
-                 _shareCount--;
-                 [self setShareCount:_shareCount];
                  [self endLoad];
              } else {
                  id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -163,114 +134,6 @@ HXMeShareCellDelegate
 	[actionSheet showInView:self.view];
 }
 
-#pragma mark - Audio operations
-- (void)playFavoriteMusic {
-//    if ([FavoriteMgr standard].dataSource.count <= 0) {
-//        return;
-//    }
-//    
-//    FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].currentPlaying];
-//    
-//    // Wifi环境或者歌曲已经缓存，直接播放
-//    if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
-//        [self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
-//        return;
-//    }
-//    
-//    // 用户允许3G环境下播放歌曲
-//    if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.murl]) {
-//        [self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
-//        return;
-//    }
-//    
-//    // 寻找下一首已经缓存了的歌曲
-//    itemForPlay = nil;
-//    for (unsigned long i = 0; i < [FavoriteMgr standard].dataSource.count; i++) {
-//        FavoriteItem* item = [FavoriteMgr standard].dataSource[i];
-//        if ([[FavoriteMgr standard] isItemCached:item]) {
-//            itemForPlay = item;
-//            [FavoriteMgr standard].currentPlaying = i;
-//            break;
-//        }
-//    }
-//    
-//    if (nil == itemForPlay) {
-//        NSLog(@"没有可以播放的离线歌曲");
-//        return;
-//    }
-//    
-//    [self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
-}
-
-- (void)playPreviosFavoriteMusic {
-//    if ([FavoriteMgr standard].dataSource.count <= 0) {
-//        return;
-//    }
-//    if (([FavoriteMgr standard].currentPlaying - 1) < 0) {
-//        return;
-//    }
-//    
-//    [FavoriteMgr standard].currentPlaying--;
-//    
-//    FavoriteItem *itemForPlay = [FavoriteMgr standard].dataSource[[FavoriteMgr standard].currentPlaying];
-//    
-//    // Wifi环境或者歌曲已经缓存，直接播放
-//    if ([[WebSocketMgr standard] isWifiNetwork] || [[FavoriteMgr standard] isItemCached:itemForPlay]) {
-//        [self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
-//        return;
-//    }
-//    
-//    // 用户允许3G环境下播放歌曲
-//    if ([UserSetting isAllowedToPlayNowWithURL:itemForPlay.music.murl]) {
-//        [self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
-//        return;
-//    }
-//    
-//    // 寻找上一首已经缓存了的歌曲
-//    itemForPlay = nil;
-//    for (long i = [FavoriteMgr standard].dataSource.count - 1; i >= 0; i--) {
-//        FavoriteItem* item = [FavoriteMgr standard].dataSource[i];
-//        if ([[FavoriteMgr standard] isItemCached:item]) {
-//            itemForPlay = item;
-//            [FavoriteMgr standard].currentPlaying = i;
-//            break;
-//        }
-//    }
-//    
-//    if (nil == itemForPlay) {
-//        NSLog(@"没有可以播放的离线歌曲");
-//        return;
-//    }
-//    
-//    [self playFavoriteMusicWithoutCheckNetwork:itemForPlay];
-}
-
-- (void)playFavoriteMusicWithoutCheckNetwork:(FavoriteItem *)aFavoriteItem {
-//    if (!aFavoriteItem) {
-//        NSLog(@"FavoriteItem is nil, play was ignored.");
-//        return;
-//    }
-//    
-//    MusicItem *musicItem = [aFavoriteItem.music copy];
-//    if (!musicItem.murl || !musicItem.name || !musicItem.singerName) {
-//        NSLog(@"Music is nil, stop play it.");
-//        return;
-//    }
-//    
-//    if (aFavoriteItem.isCached && [[FavoriteMgr standard] isItemCached:aFavoriteItem]) {
-//        musicItem.murl = [NSString stringWithFormat:@"file://%@", [PathHelper genMusicFilenameWithUrl:musicItem.murl]];
-//    } else {
-//        NSLog(@"收藏中播放还未下载的歌曲");
-//    }
-//    
-//    [[MusicMgr standard] setCurrentPlayer:_songListPlayer];
-//    [_songListPlayer playWithMusicItem:musicItem];
-}
-
-- (void)pauseMusic {
-//    [_songListPlayer pause];
-}
-
 #pragma mark - ScrollView Delegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (_delegate && [_delegate respondsToSelector:@selector(detailContainerDidScroll:scrollOffset:)]) {
@@ -280,8 +143,7 @@ HXMeShareCellDelegate
 
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
-//    return _viewModel.rows;
+    return _viewModel.rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -290,20 +152,20 @@ HXMeShareCellDelegate
 }
 
 #pragma mark - Table View Delegate Methods
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    CGFloat height = 0.0f;
-//    height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMeShareCell class]) cacheByIndexPath:indexPath configuration:
-//              ^(HXMeShareCell *cell) {
-//                  [(HXMeShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
-//              }];
-//    return height;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 0.0f;
+    height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMeShareCell class]) cacheByIndexPath:indexPath configuration:
+              ^(HXMeShareCell *cell) {
+                  [(HXMeShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+              }];
+    return height;
+}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self resizeFooter];
     
-//    HXMeShareCell *shareCell = (HXMeShareCell *)cell;
-//    [shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
+    HXMeShareCell *shareCell = (HXMeShareCell *)cell;
+    [shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -320,6 +182,14 @@ HXMeShareCellDelegate
 #pragma mark - HXMeDetailHeaderDelegate Methods
 - (void)detailHeader:(HXMeDetailHeader *)header takeAction:(HXMeDetailHeaderAction)action {
     switch (action) {
+        case HXMeDetailHeaderActionSetting: {
+            ;
+            break;
+        }
+        case HXMeDetailHeaderActionPlay: {
+            ;
+            break;
+        }
         case HXMeDetailHeaderActionShowFans: {
             if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFans];
@@ -332,19 +202,6 @@ HXMeShareCellDelegate
             }
             break;
         }
-//        case HXMeDetailHeaderActionShowMessage: {
-//			if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
-//				[_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMessageCenter];
-//			}
-//
-//            break;
-//        }
-//        case HXMeDetailHeaderActionTakeFollow: {
-//            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
-//                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShoulFollow];
-//            }
-//            break;
-//        }
     }
 }
 
@@ -354,41 +211,30 @@ HXMeShareCellDelegate
     ShareItem *item = _viewModel.dataSource[index];
     switch (action) {
         case HXMeShareCellActionFavorite: {
-            if ([[UserSession standard] isLogined]) {
-                [MiaAPIHelper favoriteMusicWithShareID:item.sID
-                                            isFavorite:!item.favorite
-                                         completeBlock:
-                 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                     if (success) {
-                         id act = userInfo[MiaAPIKey_Values][@"act"];
-                         id sID = userInfo[MiaAPIKey_Values][@"id"];
-                         BOOL favorite = [act intValue];
-                         if ([item.sID integerValue] == [sID intValue]) {
-                             item.favorite = favorite;
-                         }
-                         
-                         cell.favorite = favorite;
-                         [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
-
-						 if (favorite) {
-							 _favoriteCount++;
-						 } else {
-							 _favoriteCount--;
-						 }
-						 [self setFavoriteCount:_favoriteCount];
-
-                         // 收藏操作成功后同步下收藏列表并检查下载
-                         [[FavoriteMgr standard] syncFavoriteList];
-                     } else {
-                         id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                         [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+            [MiaAPIHelper favoriteMusicWithShareID:item.sID
+                                        isFavorite:!item.favorite
+                                     completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 if (success) {
+                     id act = userInfo[MiaAPIKey_Values][@"act"];
+                     id sID = userInfo[MiaAPIKey_Values][@"id"];
+                     BOOL favorite = [act intValue];
+                     if ([item.sID integerValue] == [sID intValue]) {
+                         item.favorite = favorite;
                      }
-                 } timeoutBlock:^(MiaRequestItem *requestItem) {
-                     [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
-                 }];
-            } else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
-            }
+                     
+                     cell.favorite = favorite;
+                     [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                     
+                     // 收藏操作成功后同步下收藏列表并检查下载
+                     [[FavoriteMgr standard] syncFavoriteList];
+                 } else {
+                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+             }];
             break;
         }
         case HXMeShareCellActionDelete: {
@@ -396,67 +242,6 @@ HXMeShareCellDelegate
             break;
         }
     }
-}
-
-#pragma mark - SongListPlayerDataSource
-- (NSInteger)songListPlayerCurrentItemIndex {
-    return [FavoriteMgr standard].currentPlaying;
-}
-
-- (NSInteger)songListPlayerNextItemIndex {
-    NSInteger nextIndex = [FavoriteMgr standard].currentPlaying + 1;
-    if (nextIndex >= [FavoriteMgr standard].dataSource.count) {
-        nextIndex = 0;
-    }
-    
-    return nextIndex;
-}
-
-//- (MusicItem *)songListPlayerItemAtIndex:(NSInteger)index {
-//	if ([FavoriteMgr standard].dataSource.count <= 0) {
-//		return nil;
-//	}
-//
-//    FavoriteItem *aFavoriteItem =  [FavoriteMgr standard].dataSource[index];
-//    return [aFavoriteItem.music copy];
-//}
-
-#pragma mark - SongListPlayerDelegate
-- (void)songListPlayerDidPlay {
-	_isPlayButtonSelected = YES;
-	[self.tableView reloadData];
-}
-
-- (void)songListPlayerDidPause {
-	_isPlayButtonSelected = NO;
-    [self.tableView reloadData];
-}
-
-- (void)songListPlayerDidCompletion {
-//    NSInteger playIndex = [FavoriteMgr standard].currentPlaying;
-//    NSArray *dataSource = _viewModel.dataSource;
-//    if (playIndex < dataSource.count) {
-//        FavoriteItem *item = dataSource[playIndex];
-//        item.isPlaying = NO;
-//    }
-//    [FavoriteMgr standard].currentPlaying++;
-//    NSInteger selectedIndex = [FavoriteMgr standard].currentPlaying;
-//    if (selectedIndex < dataSource.count) {
-//        FavoriteItem *item = dataSource[selectedIndex];
-//        item.isPlaying = YES;
-//        
-//        [FavoriteMgr standard].currentPlaying = selectedIndex;
-//    }
-//    [self playMusic];
-}
-
-- (void)songListPlayerShouldPlayNext {
-    [FavoriteMgr standard].currentPlaying++;
-    [self playFavoriteMusic];
-}
-
-- (void)songListPlayerShouldPlayPrevios {
-    [self playPreviosFavoriteMusic];
 }
 
 @end

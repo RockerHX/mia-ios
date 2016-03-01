@@ -81,47 +81,17 @@
                             <rect key="frame" x="0.0" y="578" width="320" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="glt-Vd-XX0">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂没有分享的歌曲" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QOL-6P-sOx">
                                     <rect key="frame" x="100" y="80" width="120" height="18"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂没有" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QOL-6P-sOx">
-                                            <rect key="frame" x="0.0" y="0.0" width="45" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h76-2V-Uld">
-                                            <rect key="frame" x="45" y="0.0" width="30" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="的歌曲" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32B-bQ-Rxi">
-                                            <rect key="frame" x="75" y="0.0" width="45" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="32B-bQ-Rxi" secondAttribute="bottom" id="0Ex-fY-dM3"/>
-                                        <constraint firstItem="QOL-6P-sOx" firstAttribute="leading" secondItem="glt-Vd-XX0" secondAttribute="leading" id="1RT-vO-DfC"/>
-                                        <constraint firstItem="32B-bQ-Rxi" firstAttribute="leading" secondItem="h76-2V-Uld" secondAttribute="trailing" id="FSW-8T-5zl"/>
-                                        <constraint firstAttribute="bottom" secondItem="h76-2V-Uld" secondAttribute="bottom" id="Fp8-FK-iwf"/>
-                                        <constraint firstItem="h76-2V-Uld" firstAttribute="leading" secondItem="QOL-6P-sOx" secondAttribute="trailing" id="UH4-nT-PRJ"/>
-                                        <constraint firstItem="32B-bQ-Rxi" firstAttribute="top" secondItem="glt-Vd-XX0" secondAttribute="top" id="X45-Wx-Q5T"/>
-                                        <constraint firstAttribute="trailing" secondItem="32B-bQ-Rxi" secondAttribute="trailing" id="dse-Ee-2Df"/>
-                                        <constraint firstItem="h76-2V-Uld" firstAttribute="top" secondItem="glt-Vd-XX0" secondAttribute="top" id="lyP-Il-bra"/>
-                                        <constraint firstAttribute="bottom" secondItem="QOL-6P-sOx" secondAttribute="bottom" id="naC-ne-y3d"/>
-                                        <constraint firstItem="QOL-6P-sOx" firstAttribute="top" secondItem="glt-Vd-XX0" secondAttribute="top" id="wBm-qL-we6"/>
-                                    </constraints>
-                                </view>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstItem="glt-Vd-XX0" firstAttribute="centerX" secondItem="PQS-if-9xm" secondAttribute="centerX" id="9aZ-UH-Vrc"/>
-                                <constraint firstItem="glt-Vd-XX0" firstAttribute="top" secondItem="PQS-if-9xm" secondAttribute="top" constant="80" id="JXj-5N-gh3"/>
+                                <constraint firstItem="QOL-6P-sOx" firstAttribute="top" secondItem="PQS-if-9xm" secondAttribute="top" constant="80" id="AqJ-QT-xZx"/>
+                                <constraint firstItem="QOL-6P-sOx" firstAttribute="centerX" secondItem="PQS-if-9xm" secondAttribute="centerX" id="fXH-9z-WEU"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -317,10 +287,9 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="firstPromptLabel" destination="h76-2V-Uld" id="z8R-HS-K1m"/>
                         <outlet property="footer" destination="PQS-if-9xm" id="APc-6C-v0X"/>
                         <outlet property="header" destination="hy7-7A-gkP" id="vFg-dY-3nX"/>
-                        <outlet property="promptView" destination="glt-Vd-XX0" id="BP6-vU-PYB"/>
+                        <outlet property="promptLabel" destination="QOL-6P-sOx" id="iMl-vI-ScY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fn-Q3-aRf" userLabel="First Responder" sceneMemberID="firstResponder"/>
