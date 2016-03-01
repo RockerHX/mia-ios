@@ -13,6 +13,7 @@
 #import "TTTAttributedLabel.h"
 #import "HXInfectView.h"
 #import "UIConstants.h"
+#import "HXUserSession.h"
 
 @interface HXDiscoveryCardView () <
 HXDiscoveryCoverDelegate,
@@ -77,9 +78,11 @@ HXXibImplementation
         [self displaySharerLabelWithSharer:shareItem.sNick content:shareItem.sNote];
         [_infectView setInfecters:shareItem.infectUsers];
         
+        _favoriteCountLabel.text = [@(shareItem.starCnt).stringValue stringByAppendingString:@"人收藏"];
+        
         LastCommentItem *comment = shareItem.lastComment;
-        _commentatorsNameLabel.text = comment.nick ?: @"";
-        _commentContentLabel.text = comment.comment ?: _commentContentLabel.text;
+        _commentatorsNameLabel.text = (comment.nick ?: ([HXUserSession share].user.nickName ?: @"快来"));
+        _commentContentLabel.text = comment.comment ?: @"说说你此刻的想法。。。";
     }
 }
 

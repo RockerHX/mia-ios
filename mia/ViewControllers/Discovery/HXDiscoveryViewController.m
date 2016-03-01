@@ -19,6 +19,7 @@
 #import "HXPlayViewController.h"
 #import "HXShareViewController.h"
 #import "HXProfileViewController.h"
+#import "HXUserSession.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -200,7 +201,15 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionShowCommenter: {
-            ;
+            NSString *commenterID = container.currentItem.lastComment.uID;
+            NSString *userID = [HXUserSession share].uid;
+            if (commenterID.length > 0) {
+                [self showProfileWithUID:commenterID];
+            } else {
+                if (userID.length > 0) {
+                    [self showProfileWithUID:userID];
+                }
+            }
             break;
         }
         case HXDiscoveryCardActionShowDetail: {
