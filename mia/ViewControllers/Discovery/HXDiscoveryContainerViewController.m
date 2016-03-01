@@ -8,7 +8,6 @@
 
 #import "HXDiscoveryContainerViewController.h"
 #import "UIView+Frame.h"
-#import "iCarousel.h"
 #import "HXDiscoveryCardView.h"
 
 @interface HXDiscoveryContainerViewController () <
@@ -51,6 +50,10 @@ HXDiscoveryCardViewDelegate
     _dataSoure = dataSoure;
     
     [_carousel reloadData];
+}
+
+- (ShareItem *)currentItem {
+    return _dataSoure[_carousel.currentItemIndex];
 }
 
 #pragma mark - Private Methods
@@ -161,10 +164,6 @@ HXDiscoveryCardViewDelegate
         }
         case HXDiscoveryCardViewActionInfect: {
             cardAction = HXDiscoveryCardActionInfect;
-            break;
-        }
-        case HXDiscoveryCardViewActionFavorite: {
-            cardAction = HXDiscoveryCardActionFavorite;
             break;
         }
         case HXDiscoveryCardViewActionComment: {

@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "iCarousel.h"
 
-@class iCarousel;
+@class ShareItem;
 @class HXDiscoveryContainerViewController;
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
@@ -20,8 +20,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
     HXDiscoveryCardActionShowCommenter,
     HXDiscoveryCardActionShowDetail,
     HXDiscoveryCardActionInfect,
-    HXDiscoveryCardActionFavorite,
-    HXDiscoveryCardActionComment
+    HXDiscoveryCardActionComment,
 };
 
 @protocol HXDiscoveryContainerViewControllerDelegate <NSObject>
@@ -38,5 +37,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
 @property (nonatomic, weak)          id  <HXDiscoveryContainerViewControllerDelegate>delegate;
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong)   NSArray *dataSoure;
+
+@property (nonatomic, strong, readonly) ShareItem *currentItem;
 
 @end

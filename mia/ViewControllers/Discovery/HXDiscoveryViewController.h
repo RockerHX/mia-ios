@@ -11,5 +11,6 @@
 @interface HXDiscoveryViewController : UIViewController
 
 - (void)fetchShareList;
+- (void)refreshShareItem;
 
 @end

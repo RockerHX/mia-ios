@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXProfileDetailHeader">
             <connections>
                 <outlet property="actionButton" destination="qcP-EE-K6u" id="Qcb-lR-D93"/>
+                <outlet property="actionButtonWidthConstraint" destination="d5d-oz-aX7" id="q5i-C9-K4D"/>
                 <outlet property="avatar" destination="R0N-UP-ARd" id="HPx-ia-hlA"/>
                 <outlet property="containerView" destination="XzQ-mD-mKd" id="WNH-fX-9WO"/>
                 <outlet property="fansCountLabel" destination="Yxm-YX-RAQ" id="cKN-wh-SwK"/>
@@ -44,7 +45,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1NI-Xf-mYb" userLabel="Info View">
                     <rect key="frame" x="244" y="287" width="115" height="27"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaS-a8-OM2">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaS-a8-OM2" userLabel="Fans View">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="27"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="粉丝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ku-my-rYm">
@@ -69,6 +70,9 @@
                                 <constraint firstItem="6ku-my-rYm" firstAttribute="baseline" secondItem="Yxm-YX-RAQ" secondAttribute="baseline" id="ZaK-6G-FDb"/>
                                 <constraint firstItem="Yxm-YX-RAQ" firstAttribute="leading" secondItem="6ku-my-rYm" secondAttribute="trailing" constant="4" id="jWg-Kx-kQf"/>
                             </constraints>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="khD-R6-0HC" appends="YES" id="WTX-aw-gOb"/>
+                            </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xqw-x4-VrY" userLabel="Center Line">
                             <rect key="frame" x="57" y="8" width="1" height="13"/>
@@ -77,7 +81,7 @@
                                 <constraint firstAttribute="width" constant="0.5" id="p3i-Pq-ohB"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TEN-gc-uZs">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TEN-gc-uZs" userLabel="Follow View">
                             <rect key="frame" x="73" y="0.0" width="42" height="27"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYQ-lC-ETi">
@@ -103,6 +107,9 @@
                                 <constraint firstAttribute="bottom" secondItem="p8e-Qi-wC4" secondAttribute="bottom" id="jdA-76-7QP"/>
                                 <constraint firstItem="JYQ-lC-ETi" firstAttribute="baseline" secondItem="p8e-Qi-wC4" secondAttribute="baseline" id="sAV-HB-Gn7"/>
                             </constraints>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="4T0-AJ-7i0" appends="YES" id="GbP-vq-wtq"/>
+                            </connections>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -132,7 +139,7 @@
                             <rect key="frame" x="40" y="0.0" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="d5d-oz-aX7"/>
-                                <constraint firstAttribute="width" secondItem="qcP-EE-K6u" secondAttribute="height" multiplier="1:1" id="pCX-Ln-eIG"/>
+                                <constraint firstAttribute="height" constant="30" id="p5f-4S-gye"/>
                             </constraints>
                             <state key="normal" image="PF-AttentionIcon"/>
                             <connections>
@@ -243,6 +250,16 @@
         <tapGestureRecognizer id="tuS-pE-V4h" userLabel="Play FM Gesture">
             <connections>
                 <action selector="playViewTaped" destination="-1" id="BJo-x7-jPb"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="khD-R6-0HC" userLabel="Fans Gesture">
+            <connections>
+                <action selector="fansViewTaped" destination="-1" id="vMA-pa-AeA"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="4T0-AJ-7i0" userLabel="Follow Gesture">
+            <connections>
+                <action selector="followViewTaped" destination="-1" id="WVG-d7-Edq"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

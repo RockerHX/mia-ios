@@ -20,6 +20,7 @@ typedef NS_ENUM(BOOL, HXUserState) {
 
 @property (nonatomic, assign, readonly) HXUserState  userState;
 @property (nonatomic, strong, readonly) HXUserModel *user;
+@property (nonatomic, strong, readonly)    NSString *uid;
 
 
 + (instancetype)share;

@@ -44,7 +44,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1NI-Xf-mYb" userLabel="Info View">
                     <rect key="frame" x="244" y="287" width="115" height="27"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaS-a8-OM2">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaS-a8-OM2" userLabel="Fans View">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="27"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="粉丝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ku-my-rYm">
@@ -69,6 +69,9 @@
                                 <constraint firstItem="6ku-my-rYm" firstAttribute="baseline" secondItem="Yxm-YX-RAQ" secondAttribute="baseline" id="ZaK-6G-FDb"/>
                                 <constraint firstItem="Yxm-YX-RAQ" firstAttribute="leading" secondItem="6ku-my-rYm" secondAttribute="trailing" constant="4" id="jWg-Kx-kQf"/>
                             </constraints>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="pyW-3Q-ZZz" appends="YES" id="Tbd-UZ-9Yj"/>
+                            </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xqw-x4-VrY" userLabel="Center Line">
                             <rect key="frame" x="57" y="8" width="1" height="13"/>
@@ -77,7 +80,7 @@
                                 <constraint firstAttribute="width" constant="0.5" id="p3i-Pq-ohB"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TEN-gc-uZs">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TEN-gc-uZs" userLabel="Follow View">
                             <rect key="frame" x="73" y="0.0" width="42" height="27"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYQ-lC-ETi">
@@ -103,6 +106,9 @@
                                 <constraint firstAttribute="bottom" secondItem="p8e-Qi-wC4" secondAttribute="bottom" id="jdA-76-7QP"/>
                                 <constraint firstItem="JYQ-lC-ETi" firstAttribute="baseline" secondItem="p8e-Qi-wC4" secondAttribute="baseline" id="sAV-HB-Gn7"/>
                             </constraints>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="Gfs-hI-RwV" appends="YES" id="3eT-2u-mWV"/>
+                            </connections>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -243,6 +249,16 @@
         <tapGestureRecognizer id="tuS-pE-V4h" userLabel="Play FM Gesture">
             <connections>
                 <action selector="playViewTaped" destination="-1" id="s7r-Cb-6aI"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="pyW-3Q-ZZz" userLabel="Fans Gesture">
+            <connections>
+                <action selector="fansViewTaped" destination="-1" id="MZG-yb-KNq"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="Gfs-hI-RwV" userLabel="Follow Gesture">
+            <connections>
+                <action selector="followViewTaped" destination="-1" id="wbv-J5-LE8"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

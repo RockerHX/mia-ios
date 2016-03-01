@@ -9,18 +9,13 @@
 #import "HXMeDetailContainerViewController.h"
 #import "HXMeViewModel.h"
 #import "HXAlertBanner.h"
-#import "UserSession.h"
 #import "MiaAPIHelper.h"
-#import "FavoriteMgr.h"
-//#import "SongListPlayer.h"
-#import "UserSetting.h"
-#import "PathHelper.h"
 #import "MusicMgr.h"
-//#import "HXMusicDetailViewController.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "MJRefresh.h"
 #import "UIConstants.h"
 #import "UIActionSheet+BlocksKit.h"
+#import "FavoriteMgr.h"
 
 @interface HXMeDetailContainerViewController () <
 HXMeDetailHeaderDelegate,
@@ -173,11 +168,14 @@ HXMeShareCellDelegate
 - (void)detailHeader:(HXMeDetailHeader *)header takeAction:(HXMeDetailHeaderAction)action {
     switch (action) {
         case HXMeDetailHeaderActionSetting: {
-            ;
+            if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
+                [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowSetting];
+            }
             break;
         }
         case HXMeDetailHeaderActionPlay: {
-            ;
+            [[MusicMgr standard] setPlayList:_viewModel.dataSource hostObject:self];
+            [[MusicMgr standard] playCurrent];
             break;
         }
         case HXMeDetailHeaderActionShowFans: {
@@ -200,6 +198,12 @@ HXMeShareCellDelegate
     NSInteger index = [self.tableView indexPathForCell:cell].row;
     ShareItem *item = _viewModel.dataSource[index];
     switch (action) {
+        case HXMeShareCellActionPlay: {
+            NSInteger index = [self.tableView indexPathForCell:cell].row;
+            [[MusicMgr standard] setPlayListWithItem:_viewModel.dataSource[index] hostObject:self];
+            [[MusicMgr standard] playCurrent];
+            break;
+        }
         case HXMeShareCellActionFavorite: {
             [MiaAPIHelper favoriteMusicWithShareID:item.sID
                                         isFavorite:!item.favorite

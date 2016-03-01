@@ -35,8 +35,8 @@ extern NSString * const kDefaultShareID;
 @property (assign, nonatomic) NSInteger time;
 
 @property (strong, nonatomic) MusicItem *music;
-@property (strong, nonatomic) UserItem *shareUser;
-@property (strong, nonatomic) UserItem *spaceUser;
+@property (strong, nonatomic)  UserItem *shareUser;
+@property (strong, nonatomic)  UserItem *spaceUser;
 @property (strong, nonatomic) LastCommentItem *lastComment;
 
 @property (strong, nonatomic) NSArray<InfectUserItem *> *infectUsers;

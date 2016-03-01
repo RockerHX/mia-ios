@@ -11,6 +11,8 @@
                 <outlet property="commentContentLabel" destination="rkS-0f-fMn" id="OX6-Lu-aVR"/>
                 <outlet property="commentatorsNameLabel" destination="V83-uH-kB6" id="Lpf-iw-aNh"/>
                 <outlet property="coverView" destination="ZlF-TJ-5uI" id="GOL-pc-XNz"/>
+                <outlet property="favoriteCountLabel" destination="Mzl-Fx-DG0" id="jii-mr-HG5"/>
+                <outlet property="favoriteIcon" destination="TPV-BU-Fvz" id="EDi-or-usz"/>
                 <outlet property="infectView" destination="KMu-t3-LtB" id="RWg-qV-SXp"/>
                 <outlet property="sharerLabel" destination="Wib-Wl-9pg" id="cqO-Y4-zWV"/>
             </connections>

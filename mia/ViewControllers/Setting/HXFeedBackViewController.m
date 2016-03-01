@@ -7,11 +7,12 @@
 //
 
 #import "HXFeedBackViewController.h"
-#import "BRPlaceholderTextView.h"
+#import "HXTextView.h"
 #import "NSString+IsNull.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
 #import "MBProgressHUDHelp.h"
+#import "UIConstants.h"
 
 static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议，我们将为您不断改进。";
 
@@ -37,19 +38,19 @@ static NSString *FeedContentPrompt = @"欢迎您提出宝贵的意见或建议�
 
 #pragma mark - Config Methods
 - (void)loadConfigure {
-    _feedContentTextView.placeholder = FeedContentPrompt;
+    _feedContentTextView.placeholderText = FeedContentPrompt;
     _feedContentTextView.delegate = self;
 }
 
 - (void)viewConfigure {
     _sendButton.enabled = NO;
     _feedContentTextView.layer.borderWidth = 0.5f;
-    _feedContentTextView.layer.borderColor = UIColorFromRGB(230.0f, 230.0f, 230.0f).CGColor;
+    _feedContentTextView.layer.borderColor = UIColorByRGBA(230.0f, 230.0f, 230.0f, 1.0).CGColor;
     
     _feedContactTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 5.0f, 1.0f)];
     _feedContactTextField.leftViewMode = UITextFieldViewModeAlways;
     _feedContactTextField.layer.borderWidth = 0.5f;
-    _feedContactTextField.layer.borderColor = UIColorFromRGB(230.0f, 230.0f, 230.0f).CGColor;
+    _feedContactTextField.layer.borderColor = UIColorByRGBA(230.0f, 230.0f, 230.0f, 1.0).CGColor;
 }
 
 #pragma mark - Event Response

@@ -40,6 +40,10 @@
             storyBoardName = @"Me";
             break;
         }
+        case HXStoryBoardNameSetting: {
+            storyBoardName = @"Setting";
+            break;
+        }
         case HXStoryBoardNameProfile: {
             storyBoardName = @"Profile";
             break;
@@ -50,6 +54,10 @@
         }
         case HXStoryBoardNameShare: {
             storyBoardName = @"Share";
+            break;
+        }
+        case HXStoryBoardNameMessageCenter: {
+            storyBoardName = @"MessageCenter";
             break;
         }
     }

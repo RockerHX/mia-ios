@@ -261,8 +261,6 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
         [_delegate loginViewControllerLoginSuccess:self];
     }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loginFailureHanleWithPrompt:(NSString *)prompt {

@@ -8,13 +8,13 @@
 
 #import "UIViewController+HXClass.h"
 
-@class BRPlaceholderTextView;
+@class HXTextView;
 
 @interface HXFeedBackViewController : UIViewController <UITextViewDelegate>
 
-@property (weak, nonatomic) IBOutlet              UIButton *sendButton;
-@property (weak, nonatomic) IBOutlet BRPlaceholderTextView *feedContentTextView;
-@property (weak, nonatomic) IBOutlet           UITextField *feedContactTextField;
+@property (weak, nonatomic) IBOutlet    UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet  HXTextView *feedContentTextView;
+@property (weak, nonatomic) IBOutlet UITextField *feedContactTextField;
 
 - (IBAction)backButtonPressed;
 - (IBAction)sendButtonPressed;

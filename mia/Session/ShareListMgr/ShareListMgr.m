@@ -59,10 +59,6 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
     [self saveChanges];
 }
 
-- (ShareItem *)currentItem {
-    return _shareList[_currentIndex];
-}
-
 #pragma mark - Public Methods
 - (BOOL)cursorShiftLeft {
     NSInteger newIndex = _currentIndex - 1;

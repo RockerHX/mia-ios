@@ -19,6 +19,7 @@
 #import "HXPlayViewController.h"
 #import "HXShareViewController.h"
 #import "HXProfileViewController.h"
+#import "HXUserSession.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -101,6 +102,44 @@ HXDiscoveryContainerViewControllerDelegate
     }
 }
 
+- (void)refreshShareItem {
+    ShareItem *item = _containerViewController.currentItem;
+    [MiaAPIHelper getShareById:item.sID
+                          spID:item.spID
+                 completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             NSString *sID = userInfo[MiaAPIKey_Values][@"data"][@"sID"];
+             id start = userInfo[MiaAPIKey_Values][@"data"][@"star"];
+             id cComm = userInfo[MiaAPIKey_Values][@"data"][@"cComm"];
+             id cView = userInfo[MiaAPIKey_Values][@"data"][@"cView"];
+             id infectTotal = userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"];
+             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+             
+             if ([sID isEqualToString:item.sID]) {
+                 item.isInfected = isInfected;
+                 item.cComm = [cComm intValue];
+                 item.cView = [cView intValue];
+                 item.favorite = [start intValue];
+                 item.infectTotal = [infectTotal intValue];
+                 
+                 NSDictionary *shareUserDict = userInfo[MiaAPIKey_Values][@"data"][@"shareUser"];
+                 NSDictionary *spaceUserDict = userInfo[MiaAPIKey_Values][@"data"][@"spaceUser"];
+                 item.shareUser.follow = [shareUserDict[@"follow"] boolValue];
+                 item.spaceUser.follow = [spaceUserDict[@"follow"] boolValue];
+                 
+                 [item parseInfectUsersFromJsonArray:infectArray];
+             }
+             [_containerViewController.carousel reloadData];
+         } else {
+             NSLog(@"getShareById failed");
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         NSLog(@"getShareById timeout");
+     }];
+}
+
 #pragma mark - Private Methods
 - (void)hiddenLoadingView {
     _loadingView.loadState = HXLoadStateSuccess;
@@ -109,12 +148,6 @@ HXDiscoveryContainerViewControllerDelegate
 - (void)reloadShareList {
     _containerViewController.dataSoure = _shareListMgr.shareList;
     _containerViewController.currentPage = _shareListMgr.currentIndex;
-}
-
-- (void)checkShouldFetchNewItems {
-	if ([_shareListMgr isNeedGetNearbyItems]) {
-		[self fetchNewShares];
-	}
 }
 
 - (void)fetchNewShares {
@@ -180,11 +213,14 @@ HXDiscoveryContainerViewControllerDelegate
     
     switch (action) {
         case HXDiscoveryCardActionSlidePrevious: {
-            ;
+            [self refreshShareItem];
             break;
         }
         case HXDiscoveryCardActionSlideNext: {
-            [self checkShouldFetchNewItems];
+            [self refreshShareItem];
+            if ([_shareListMgr isNeedGetNearbyItems]) {
+                [self fetchNewShares];
+            }
             if ([_shareListMgr checkHistoryItemsMaxCount]) {
                 container.currentPage = _shareListMgr.currentIndex;
             }
@@ -196,15 +232,25 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionShowSharer: {
-            [self showProfileWithUID:_shareListMgr.currentItem.shareUser.uid];
+            [self showProfileWithUID:container.currentItem.shareUser.uid];
             break;
         }
         case HXDiscoveryCardActionShowInfecter: {
-            [self showProfileWithUID:_shareListMgr.currentItem.spaceUser.uid];
+            [self showProfileWithUID:container.currentItem.spaceUser.uid];
             break;
         }
         case HXDiscoveryCardActionShowCommenter: {
-            ;
+            NSString *commenterID = container.currentItem.lastComment.uID;
+            NSString *userID = [HXUserSession share].uid;
+            if (commenterID.length > 0) {
+                [self showProfileWithUID:commenterID];
+            } else {
+                if (userID.length > 0) {
+                    [self showProfileWithUID:userID];
+                } else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+                }
+            }
             break;
         }
         case HXDiscoveryCardActionShowDetail: {
@@ -212,10 +258,6 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionInfect: {
-            ;
-            break;
-        }
-        case HXDiscoveryCardActionFavorite: {
             ;
             break;
         }
