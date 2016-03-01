@@ -7,7 +7,7 @@
 //
 
 #import "HXProfileDetailContainerViewController.h"
-#import "HXProfileListViewModel.h"
+#import "HXProfileViewModel.h"
 #import "HXAlertBanner.h"
 #import "UserSession.h"
 #import "MiaAPIHelper.h"
@@ -33,7 +33,7 @@ HXProfileShareCellDelegate
 
 @implementation HXProfileDetailContainerViewController {
     CGFloat _footerHeight;
-    HXProfileListViewModel *_viewModel;
+    HXProfileViewModel *_viewModel;
     
 //    SongListPlayer *_songListPlayer;
 	BOOL _isPlayButtonSelected;
@@ -55,10 +55,10 @@ HXProfileShareCellDelegate
 - (void)loadConfigure {
     _footerHeight = 10.0f;
     
-    _viewModel = [HXProfileListViewModel instanceWithUID:_uid];
+    _viewModel = [HXProfileViewModel instanceWithUID:_uid];
     
     __weak __typeof__(self)weakSelf = self;
-    [_viewModel fetchProfileListData:^(HXProfileListViewModel *viewModel) {
+    [_viewModel fetchProfileListData:^(HXProfileViewModel *viewModel) {
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf endLoad];
     } failure:^(NSString *message) {
@@ -76,7 +76,6 @@ HXProfileShareCellDelegate
 //    _header.type = _type;
 //    
 //    self.tableView.contentInset = UIEdgeInsetsMake(64.0f, 0.0f, 0.0f, 0.0f);
-//    self.tableView.tableHeaderView = _header;
     [self addRefreshFooter];
 }
 

@@ -30,7 +30,7 @@
                                     <segue destination="Qc6-9f-kPc" kind="embed" identifier="HXProfileDetailContainerIdentifier" id="BQi-Dz-yLg"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W7x-hu-DJG" customClass="HXNavigationBar">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W7x-hu-DJG" customClass="HXProfileNavigationBar">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -68,11 +68,11 @@
         <scene sceneID="ZLa-yj-pDJ">
             <objects>
                 <tableViewController storyboardIdentifier="HXProfileDetailContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Qc6-9f-kPc" userLabel="HXProfileDetailContainerViewController" customClass="HXProfileDetailContainerViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="JcE-rF-vWE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="JcE-rF-vWE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="CcN-mL-Cj2" customClass="HXProfileDetailHeader">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="CcN-mL-Cj2" userLabel="HXProfileDetailHeader" customClass="HXProfileDetailHeader">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="330"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

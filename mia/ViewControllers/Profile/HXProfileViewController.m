@@ -9,7 +9,7 @@
 #import "HXProfileViewController.h"
 #import "HXProfileCoverContainerViewController.h"
 #import "HXProfileDetailContainerViewController.h"
-#import "HXNavigationBar.h"
+#import "HXProfileNavigationBar.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
 //#import "FriendViewController.h"
@@ -23,7 +23,7 @@
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate,
-HXNavigationBarDelegate
+HXProfileNavigationBarDelegate
 >
 @end
 
@@ -230,25 +230,11 @@ HXNavigationBarDelegate
     }
 }
 
-#pragma mark - HXNavigationBarDelegate Methods
-- (void)navigationBar:(HXNavigationBar *)bar takeAction:(HXNavigationBarAction)action {
+#pragma mark - HXProfileNavigationBarDelegate Methods
+- (void)navigationBar:(HXProfileNavigationBar *)bar takeAction:(HXProfileNavigationBarAction)action {
     switch (action) {
-        case HXNavigationBarBack: {
+        case HXProfileNavigationBarBack: {
             [_detailContainerViewController stopMusic];
-            break;
-        }
-        case HXNavigationBarMusic: {
-            if ([MusicMgr standard].currentItem) {
-                _pushToFrends = YES;
-                UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
-//                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
-                
-                __weak __typeof__(self)weakSelf = self;
-                [self presentViewController:playNavigationController animated:YES completion:^{
-                    __strong __typeof__(self)strongSelf = weakSelf;
-                    strongSelf->_pushToFrends = NO;
-                }];
-            }
             break;
         }
     }

@@ -41,7 +41,7 @@
 		CD487E321C84226F004835A9 /* HXProfileDetailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD487E261C84226F004835A9 /* HXProfileDetailHeader.m */; };
 		CD487E331C84226F004835A9 /* HXProfileDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD487E271C84226F004835A9 /* HXProfileDetailHeader.xib */; };
 		CD487E401C842D6D004835A9 /* HXProfileDetailContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD487E3E1C842D6D004835A9 /* HXProfileDetailContainerViewController.m */; };
-		CD487E441C842E6B004835A9 /* HXProfileListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD487E431C842E6B004835A9 /* HXProfileListViewModel.m */; };
+		CD487E441C842E6B004835A9 /* HXProfileViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD487E431C842E6B004835A9 /* HXProfileViewModel.m */; };
 		CD64E9091C7AACC100270836 /* HXDiscoveryCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E9071C7AACC100270836 /* HXDiscoveryCardView.m */; };
 		CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E90B1C7AACE200270836 /* HXDiscoveryHeader.m */; };
 		CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E90D1C7AAE6400270836 /* HXDiscoveryHeader.xib */; };
@@ -155,8 +155,16 @@
 		CDEF7B101C7FEF1F00354229 /* MBProgressHUDHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7B0F1C7FEF1F00354229 /* MBProgressHUDHelp.m */; };
 		CDEF7B141C8030DE00354229 /* HXPlayListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7B131C8030DE00354229 /* HXPlayListViewController.m */; };
 		CDEF7B181C8031AA00354229 /* HXPlayListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF7B171C8031AA00354229 /* HXPlayListCell.m */; };
-		CDFFB8F41C846C49009C452B /* HXNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F21C846C49009C452B /* HXNavigationBar.m */; };
-		CDFFB8F51C846C49009C452B /* HXNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFB8F31C846C49009C452B /* HXNavigationBar.xib */; };
+		CDFFB8FA1C853112009C452B /* HXMeCoverContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */; };
+		CDFFB8FB1C853112009C452B /* HXMeDetailContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8F91C853112009C452B /* HXMeDetailContainerViewController.m */; };
+		CDFFB9001C8534A8009C452B /* HXProfileNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB8FE1C8534A8009C452B /* HXProfileNavigationBar.m */; };
+		CDFFB9011C8534A8009C452B /* HXProfileNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFB8FF1C8534A8009C452B /* HXProfileNavigationBar.xib */; };
+		CDFFB90E1C853514009C452B /* HXMeShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB9061C853514009C452B /* HXMeShareCell.m */; };
+		CDFFB90F1C853514009C452B /* HXMeDetailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB9081C853514009C452B /* HXMeDetailHeader.m */; };
+		CDFFB9101C853514009C452B /* HXMeDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFB9091C853514009C452B /* HXMeDetailHeader.xib */; };
+		CDFFB9111C853514009C452B /* HXMeNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB90C1C853514009C452B /* HXMeNavigationBar.m */; };
+		CDFFB9121C853514009C452B /* HXMeNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFFB90D1C853514009C452B /* HXMeNavigationBar.xib */; };
+		CDFFB9161C85368D009C452B /* HXMeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFFB9151C85368D009C452B /* HXMeViewModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -226,8 +234,8 @@
 		CD487E271C84226F004835A9 /* HXProfileDetailHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXProfileDetailHeader.xib; sourceTree = "<group>"; };
 		CD487E3D1C842D6D004835A9 /* HXProfileDetailContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileDetailContainerViewController.h; sourceTree = "<group>"; };
 		CD487E3E1C842D6D004835A9 /* HXProfileDetailContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileDetailContainerViewController.m; sourceTree = "<group>"; };
-		CD487E421C842E6B004835A9 /* HXProfileListViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileListViewModel.h; sourceTree = "<group>"; };
-		CD487E431C842E6B004835A9 /* HXProfileListViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileListViewModel.m; sourceTree = "<group>"; };
+		CD487E421C842E6B004835A9 /* HXProfileViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileViewModel.h; sourceTree = "<group>"; };
+		CD487E431C842E6B004835A9 /* HXProfileViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileViewModel.m; sourceTree = "<group>"; };
 		CD64E9041C7AAC9A00270836 /* HXXib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXXib.h; sourceTree = "<group>"; };
 		CD64E9061C7AACC100270836 /* HXDiscoveryCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryCardView.h; sourceTree = "<group>"; };
 		CD64E9071C7AACC100270836 /* HXDiscoveryCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryCardView.m; sourceTree = "<group>"; };
@@ -435,9 +443,23 @@
 		CDEF7B131C8030DE00354229 /* HXPlayListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayListViewController.m; sourceTree = "<group>"; };
 		CDEF7B161C8031AA00354229 /* HXPlayListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlayListCell.h; sourceTree = "<group>"; };
 		CDEF7B171C8031AA00354229 /* HXPlayListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlayListCell.m; sourceTree = "<group>"; };
-		CDFFB8F11C846C49009C452B /* HXNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNavigationBar.h; sourceTree = "<group>"; };
-		CDFFB8F21C846C49009C452B /* HXNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNavigationBar.m; sourceTree = "<group>"; };
-		CDFFB8F31C846C49009C452B /* HXNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNavigationBar.xib; sourceTree = "<group>"; };
+		CDFFB8F61C853112009C452B /* HXMeCoverContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeCoverContainerViewController.h; sourceTree = "<group>"; };
+		CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeCoverContainerViewController.m; sourceTree = "<group>"; };
+		CDFFB8F81C853112009C452B /* HXMeDetailContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeDetailContainerViewController.h; sourceTree = "<group>"; };
+		CDFFB8F91C853112009C452B /* HXMeDetailContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeDetailContainerViewController.m; sourceTree = "<group>"; };
+		CDFFB8FD1C8534A8009C452B /* HXProfileNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileNavigationBar.h; sourceTree = "<group>"; };
+		CDFFB8FE1C8534A8009C452B /* HXProfileNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileNavigationBar.m; sourceTree = "<group>"; };
+		CDFFB8FF1C8534A8009C452B /* HXProfileNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXProfileNavigationBar.xib; sourceTree = "<group>"; };
+		CDFFB9051C853514009C452B /* HXMeShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeShareCell.h; sourceTree = "<group>"; };
+		CDFFB9061C853514009C452B /* HXMeShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeShareCell.m; sourceTree = "<group>"; };
+		CDFFB9071C853514009C452B /* HXMeDetailHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeDetailHeader.h; sourceTree = "<group>"; };
+		CDFFB9081C853514009C452B /* HXMeDetailHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeDetailHeader.m; sourceTree = "<group>"; };
+		CDFFB9091C853514009C452B /* HXMeDetailHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMeDetailHeader.xib; sourceTree = "<group>"; };
+		CDFFB90B1C853514009C452B /* HXMeNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeNavigationBar.h; sourceTree = "<group>"; };
+		CDFFB90C1C853514009C452B /* HXMeNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeNavigationBar.m; sourceTree = "<group>"; };
+		CDFFB90D1C853514009C452B /* HXMeNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXMeNavigationBar.xib; sourceTree = "<group>"; };
+		CDFFB9141C85368D009C452B /* HXMeViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeViewModel.h; sourceTree = "<group>"; };
+		CDFFB9151C85368D009C452B /* HXMeViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeViewModel.m; sourceTree = "<group>"; };
 		E2440684D64E12C6BEB63D9B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -643,6 +665,10 @@
 			children = (
 				CD0690211C746D10001C0997 /* HXMeViewController.h */,
 				CD0690221C746D10001C0997 /* HXMeViewController.m */,
+				CDFFB8F61C853112009C452B /* HXMeCoverContainerViewController.h */,
+				CDFFB8F71C853112009C452B /* HXMeCoverContainerViewController.m */,
+				CDFFB8F81C853112009C452B /* HXMeDetailContainerViewController.h */,
+				CDFFB8F91C853112009C452B /* HXMeDetailContainerViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -697,7 +723,7 @@
 		CD487E191C84226F004835A9 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				CDFFB8F01C846C49009C452B /* HXNavigationBar */,
+				CDFFB8FC1C8534A8009C452B /* NavigationBar */,
 				CD487E1D1C84226F004835A9 /* DetailContainer */,
 			);
 			path = Profile;
@@ -726,8 +752,8 @@
 		CD487E411C842E6B004835A9 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				CD487E421C842E6B004835A9 /* HXProfileListViewModel.h */,
-				CD487E431C842E6B004835A9 /* HXProfileListViewModel.m */,
+				CD487E421C842E6B004835A9 /* HXProfileViewModel.h */,
+				CD487E431C842E6B004835A9 /* HXProfileViewModel.m */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -978,6 +1004,7 @@
 		CDB55E781C72CEDF00962ED0 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				CDFFB9131C85368D009C452B /* Me */,
 				CD487E411C842E6B004835A9 /* Profile */,
 			);
 			path = ViewModels;
@@ -989,6 +1016,7 @@
 				CD74FBF11C7C06FA00DBEB83 /* Common */,
 				CDBC45331C75D6100037FEC4 /* Discovery */,
 				CD64E9151C7AFB1600270836 /* Favorite */,
+				CDFFB9021C853514009C452B /* Me */,
 				CD487E191C84226F004835A9 /* Profile */,
 				CDEF7AC41C7EEBEB00354229 /* Play */,
 				CD64E9041C7AAC9A00270836 /* HXXib.h */,
@@ -1656,14 +1684,62 @@
 			path = PlayList;
 			sourceTree = "<group>";
 		};
-		CDFFB8F01C846C49009C452B /* HXNavigationBar */ = {
+		CDFFB8FC1C8534A8009C452B /* NavigationBar */ = {
 			isa = PBXGroup;
 			children = (
-				CDFFB8F11C846C49009C452B /* HXNavigationBar.h */,
-				CDFFB8F21C846C49009C452B /* HXNavigationBar.m */,
-				CDFFB8F31C846C49009C452B /* HXNavigationBar.xib */,
+				CDFFB8FD1C8534A8009C452B /* HXProfileNavigationBar.h */,
+				CDFFB8FE1C8534A8009C452B /* HXProfileNavigationBar.m */,
+				CDFFB8FF1C8534A8009C452B /* HXProfileNavigationBar.xib */,
 			);
-			path = HXNavigationBar;
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		CDFFB9021C853514009C452B /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				CDFFB90A1C853514009C452B /* NavigationBar */,
+				CDFFB9031C853514009C452B /* DetailContainer */,
+			);
+			path = Me;
+			sourceTree = "<group>";
+		};
+		CDFFB9031C853514009C452B /* DetailContainer */ = {
+			isa = PBXGroup;
+			children = (
+				CDFFB9041C853514009C452B /* Cells */,
+				CDFFB9071C853514009C452B /* HXMeDetailHeader.h */,
+				CDFFB9081C853514009C452B /* HXMeDetailHeader.m */,
+				CDFFB9091C853514009C452B /* HXMeDetailHeader.xib */,
+			);
+			path = DetailContainer;
+			sourceTree = "<group>";
+		};
+		CDFFB9041C853514009C452B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CDFFB9051C853514009C452B /* HXMeShareCell.h */,
+				CDFFB9061C853514009C452B /* HXMeShareCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CDFFB90A1C853514009C452B /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				CDFFB90B1C853514009C452B /* HXMeNavigationBar.h */,
+				CDFFB90C1C853514009C452B /* HXMeNavigationBar.m */,
+				CDFFB90D1C853514009C452B /* HXMeNavigationBar.xib */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		CDFFB9131C85368D009C452B /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				CDFFB9141C85368D009C452B /* HXMeViewModel.h */,
+				CDFFB9151C85368D009C452B /* HXMeViewModel.m */,
+			);
+			path = Me;
 			sourceTree = "<group>";
 		};
 		F054F07D4E0725BD42A9D66F /* Frameworks */ = {
@@ -1750,16 +1826,18 @@
 				CDB55E6A1C72C7EE00962ED0 /* Assets.xcassets in Resources */,
 				CD64E9141C7AB27B00270836 /* HXDiscoveryCover.xib in Resources */,
 				CD9A36481C7ED9FD0016DDB1 /* HXInfectListCell.xib in Resources */,
+				CDFFB9101C853514009C452B /* HXMeDetailHeader.xib in Resources */,
 				CDEF7AD61C7EFE3900354229 /* HXPlayTopBar.xib in Resources */,
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
 				CD64E90E1C7AAE6400270836 /* HXDiscoveryHeader.xib in Resources */,
+				CDFFB9121C853514009C452B /* HXMeNavigationBar.xib in Resources */,
 				CD9A36541C7EDB3F0016DDB1 /* HXInfectCell.xib in Resources */,
-				CDFFB8F51C846C49009C452B /* HXNavigationBar.xib in Resources */,
 				CDEF7ABF1C7EE98500354229 /* Play.storyboard in Resources */,
 				CD487E331C84226F004835A9 /* HXProfileDetailHeader.xib in Resources */,
 				CDEF7AD41C7EFE3300354229 /* HXPlayMusicSummaryView.xib in Resources */,
+				CDFFB9011C8534A8009C452B /* HXProfileNavigationBar.xib in Resources */,
 				CD2D3B0E1C7B1A89002E34D1 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1822,6 +1900,7 @@
 				CD74FC171C7C38B300DBEB83 /* HXAlertBanner.m in Sources */,
 				CDE53A0E1C7BFDDB00E0616D /* NSString+DateFormatter.m in Sources */,
 				CDE539C01C7BFD5200E0616D /* UserListModel.m in Sources */,
+				CDFFB9001C8534A8009C452B /* HXProfileNavigationBar.m in Sources */,
 				CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */,
 				CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */,
 				CDE539AD1C7BFD5200E0616D /* FavoriteItem.m in Sources */,
@@ -1834,6 +1913,7 @@
 				CDEF7B141C8030DE00354229 /* HXPlayListViewController.m in Sources */,
 				CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */,
 				CDEF7ACD1C7EFDE000354229 /* HXPlayBottomBar.m in Sources */,
+				CDFFB9161C85368D009C452B /* HXMeViewModel.m in Sources */,
 				CDE539B41C7BFD5200E0616D /* MessageModel.m in Sources */,
 				CD06900E1C746B8C001C0997 /* UIView+FindUIViewController.m in Sources */,
 				CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */,
@@ -1883,13 +1963,15 @@
 				CDEF7AED1C7FEA7200354229 /* SearchViewController.m in Sources */,
 				CDEF7AEC1C7FEA7200354229 /* SearchSuggestionView.m in Sources */,
 				CDEF7AEA1C7FEA7200354229 /* SearchResultView.m in Sources */,
+				CDFFB90F1C853514009C452B /* HXMeDetailHeader.m in Sources */,
 				CD9A36471C7ED9FD0016DDB1 /* HXInfectListCell.m in Sources */,
 				CD2D3B0B1C7B17E0002E34D1 /* HXUserSession.m in Sources */,
 				CDE53A171C7BFDDB00E0616D /* UIImage+ImageEffects.m in Sources */,
 				CDE539B91C7BFD5200E0616D /* ProfileShareModel.m in Sources */,
 				CDE53A0C1C7BFDDB00E0616D /* NSObject+BlockSupport.m in Sources */,
 				CD06901E1C746B8C001C0997 /* HXThemeManager.m in Sources */,
-				CD487E441C842E6B004835A9 /* HXProfileListViewModel.m in Sources */,
+				CD487E441C842E6B004835A9 /* HXProfileViewModel.m in Sources */,
+				CDFFB9111C853514009C452B /* HXMeNavigationBar.m in Sources */,
 				CDE53A161C7BFDDB00E0616D /* UIImage+Extrude.m in Sources */,
 				CD64E9091C7AACC100270836 /* HXDiscoveryCardView.m in Sources */,
 				CDE53A191C7BFDDB00E0616D /* UIScrollView+AllowPanGestureEventPass.m in Sources */,
@@ -1917,12 +1999,14 @@
 				CDE53A0B1C7BFDDB00E0616D /* NSData+Base64.m in Sources */,
 				CDE53A0D1C7BFDDB00E0616D /* NSObject+PropertyAndMethods.m in Sources */,
 				CDE539B61C7BFD5200E0616D /* CommentModel.m in Sources */,
+				CDFFB90E1C853514009C452B /* HXMeShareCell.m in Sources */,
 				CDE53A0A1C7BFDDB00E0616D /* CLLocation+YCLocation.m in Sources */,
 				CD487E401C842D6D004835A9 /* HXProfileDetailContainerViewController.m in Sources */,
 				CDE53A121C7BFDDB00E0616D /* NSTimer+BlockSupport.m in Sources */,
 				CDE53A091C7BFDDB00E0616D /* CacheHelper.m in Sources */,
 				CDEF7AF51C7FEB0400354229 /* MIAButton.m in Sources */,
 				CDE5395D1C7BFCE200E0616D /* UserSetting.m in Sources */,
+				CDFFB8FA1C853112009C452B /* HXMeCoverContainerViewController.m in Sources */,
 				CDE539581C7BFCE200E0616D /* SingleSongPlayer.m in Sources */,
 				CDE53A1A1C7BFDDB00E0616D /* FileLog.m in Sources */,
 				CDE539721C7BFD1000E0616D /* XiamiHelper.m in Sources */,
@@ -1934,10 +2018,10 @@
 				CDE539561C7BFCE200E0616D /* FavoriteMgr.m in Sources */,
 				CDE539BD1C7BFD5200E0616D /* ShareItem.m in Sources */,
 				CDE539B21C7BFD5200E0616D /* InfectUserItem.m in Sources */,
-				CDFFB8F41C846C49009C452B /* HXNavigationBar.m in Sources */,
 				CD2D3B191C7B1AD4002E34D1 /* HXForgotPWViewController.m in Sources */,
 				CDEF7AD01C7EFDFF00354229 /* HXPlayMusicSummaryView.m in Sources */,
 				CDB55E901C72D16300962ED0 /* HXPanGestureNavgaitionController.m in Sources */,
+				CDFFB8FB1C853112009C452B /* HXMeDetailContainerViewController.m in Sources */,
 				CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
 				CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */,

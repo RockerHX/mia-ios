@@ -1,5 +1,5 @@
 //
-//  HXProfileListViewModel.h
+//  HXProfileViewModel.h
 //  mia
 //
 //  Created by miaios on 16/1/29.
@@ -8,7 +8,7 @@
 
 #import "HXProfileShareCell.h"
 
-@interface HXProfileListViewModel : NSObject
+@interface HXProfileViewModel : NSObject
 
 @property (nonatomic, strong)  NSString *uid;
 
@@ -17,7 +17,7 @@
 
 + (instancetype)instanceWithUID:(NSString *)uid;
 
-- (void)fetchProfileListData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
+- (void)fetchProfileListData:(void(^)(HXProfileViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
 - (void)fetchProfileListMoreData;
 - (void)fetchUserListData;
 

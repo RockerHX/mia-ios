@@ -1,16 +1,16 @@
 //
-//  HXProfileDetailHeader.m
+//  HXMeDetailHeader.m
 //  mia
 //
 //  Created by miaios on 16/1/28.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXProfileDetailHeader.h"
+#import "HXMeDetailHeader.h"
 #import "HXXib.h"
 #import "UIImageView+WebCache.h"
 
-@implementation HXProfileDetailHeader
+@implementation HXMeDetailHeader
 
 HXXibImplementation
 
@@ -32,27 +32,27 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
-- (IBAction)actionButtonPressed {
+- (IBAction)settingButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionAttention];
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionSetting];
     }
 }
 
 - (IBAction)playViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionPlay];
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionPlay];
     }
 }
 
 - (IBAction)fansViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFans];
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionShowFans];
     }
 }
 
 - (IBAction)followViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
-        [_delegate detailHeader:self takeAction:HXProfileDetailHeaderActionShowFollow];
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionShowFollow];
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  HXProfileDetailHeader.h
+//  HXMeDetailHeader.h
 //  mia
 //
 //  Created by miaios on 16/1/28.
@@ -9,25 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "HXProfileHeaderModel.h"
 
-typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
-    HXProfileDetailHeaderActionAttention,
-    HXProfileDetailHeaderActionPlay,
-    HXProfileDetailHeaderActionShowFans,
-    HXProfileDetailHeaderActionShowFollow,
+typedef NS_ENUM(NSUInteger, HXMeDetailHeaderAction) {
+    HXMeDetailHeaderActionSetting,
+    HXMeDetailHeaderActionPlay,
+    HXMeDetailHeaderActionShowFans,
+    HXMeDetailHeaderActionShowFollow,
 };
 
-@class HXProfileDetailHeader;
+@class HXMeDetailHeader;
 
-@protocol HXProfileDetailHeaderDelegate <NSObject>
+@protocol HXMeDetailHeaderDelegate <NSObject>
 
 @optional
-- (void)detailHeader:(HXProfileDetailHeader *)header takeAction:(HXProfileDetailHeaderAction)action;
+- (void)detailHeader:(HXMeDetailHeader *)header takeAction:(HXMeDetailHeaderAction)action;
 
 @end
 
-@interface HXProfileDetailHeader : UIView
+@interface HXMeDetailHeader : UIView
 
-@property (weak, nonatomic) IBOutlet       id  <HXProfileDetailHeaderDelegate>delegate;
+@property (weak, nonatomic) IBOutlet       id  <HXMeDetailHeaderDelegate>delegate;
 @property (weak, nonatomic) IBOutlet      UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *actionButton;
 
-- (IBAction)actionButtonPressed;
+- (IBAction)settingButtonPressed;
 - (IBAction)playViewTaped;
 - (IBAction)fansViewTaped;
 - (IBAction)followViewTaped;

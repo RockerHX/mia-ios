@@ -1,16 +1,16 @@
 //
-//  HXNavigationBar.m
+//  HXProfileNavigationBar.m
 //  mia
 //
 //  Created by miaios on 16/1/27.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXNavigationBar.h"
+#import "HXProfileNavigationBar.h"
 #import "HXXib.h"
 #import "UIView+FindUIViewController.h"
 
-@interface HXNavigationBar ()
+@interface HXProfileNavigationBar ()
 
 @property (weak, nonatomic) IBOutlet   UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet   UIView *containerView;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation HXNavigationBar
+@implementation HXProfileNavigationBar
 
 HXXibImplementation
 
@@ -38,9 +38,9 @@ HXXibImplementation
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     [_backButton setImage:[[_backButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [_musicButton setImage:[[_musicButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+//    [_musicButton setImage:[[_musicButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [_backButton setTintColor:[UIColor whiteColor]];
-    [_musicButton setTintColor:[UIColor whiteColor]];
+//    [_musicButton setTintColor:[UIColor whiteColor]];
 }
 
 - (void)viewConfigure {
@@ -56,7 +56,7 @@ HXXibImplementation
     UIColor *color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
     _titleLabel.textColor = color;
     [_backButton setTintColor:color];
-    [_musicButton setTintColor:color];
+//    [_musicButton setTintColor:color];
 }
 
 - (void)setTitle:(NSString *)title {
@@ -71,14 +71,12 @@ HXXibImplementation
     [firstAvailableViewController.navigationController popViewControllerAnimated:YES];
 
 	if (_delegate && [_delegate respondsToSelector:@selector(navigationBar:takeAction:)]) {
-		[_delegate navigationBar:self takeAction:HXNavigationBarBack];
+		[_delegate navigationBar:self takeAction:HXProfileNavigationBarBack];
 	}
 }
 
 - (IBAction)musicButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(navigationBar:takeAction:)]) {
-        [_delegate navigationBar:self takeAction:HXNavigationBarMusic];
-    }
+    ;
 }
 
 @end

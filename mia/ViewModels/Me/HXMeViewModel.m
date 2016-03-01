@@ -1,21 +1,21 @@
 //
-//  HXProfileListViewModel.m
+//  HXMeViewModel.m
 //  mia
 //
 //  Created by miaios on 16/1/29.
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import "HXProfileListViewModel.h"
+#import "HXMeViewModel.h"
 #import "MiaAPIHelper.h"
 #import "UIConstants.h"
 
 static NSInteger ListPageLimit = 10;
 
-typedef void(^CompletedBlock)(HXProfileListViewModel *);
+typedef void(^CompletedBlock)(HXMeViewModel *);
 typedef void(^FailureBlock)(NSString *);
 
-@implementation HXProfileListViewModel {
+@implementation HXMeViewModel {
     CompletedBlock _completedBlock;
     FailureBlock _failureBlock;
     
@@ -26,7 +26,7 @@ typedef void(^FailureBlock)(NSString *);
 
 #pragma mark - Class Methods
 + (instancetype)instanceWithUID:(NSString *)uid {
-    HXProfileListViewModel *viewModel = [HXProfileListViewModel new];
+    HXMeViewModel *viewModel = [HXMeViewModel new];
     viewModel.uid = uid;
     return viewModel;
 }
@@ -56,7 +56,7 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 #pragma mark - Public Methods
-- (void)fetchProfileListData:(void(^)(HXProfileListViewModel *viewModel))completed failure:(void(^)(NSString *message))failure {
+- (void)fetchProfileListData:(void(^)(HXMeViewModel *viewModel))completed failure:(void(^)(NSString *message))failure {
     _completedBlock = completed;
     _failureBlock = failure;
     [self fetchUserListData];

@@ -7,7 +7,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXProfileDetailHeader">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXMeDetailHeader">
             <connections>
                 <outlet property="actionButton" destination="qcP-EE-K6u" id="Qcb-lR-D93"/>
                 <outlet property="avatar" destination="R0N-UP-ARd" id="HPx-ia-hlA"/>
@@ -134,9 +134,9 @@
                                 <constraint firstAttribute="width" constant="30" id="d5d-oz-aX7"/>
                                 <constraint firstAttribute="width" secondItem="qcP-EE-K6u" secondAttribute="height" multiplier="1:1" id="pCX-Ln-eIG"/>
                             </constraints>
-                            <state key="normal" image="PF-AttentionIcon"/>
+                            <state key="normal" image="MP-SettingIcon"/>
                             <connections>
-                                <action selector="actionButtonPressed" destination="-1" eventType="touchUpInside" id="Bwj-vf-PrR"/>
+                                <action selector="settingButtonPressed" destination="-1" eventType="touchUpInside" id="P2G-O3-Vz9"/>
                             </connections>
                         </button>
                     </subviews>
@@ -242,12 +242,12 @@
         </view>
         <tapGestureRecognizer id="tuS-pE-V4h" userLabel="Play FM Gesture">
             <connections>
-                <action selector="playViewTaped" destination="-1" id="BJo-x7-jPb"/>
+                <action selector="playViewTaped" destination="-1" id="s7r-Cb-6aI"/>
             </connections>
         </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="MP-PlayIcon" width="20" height="20"/>
-        <image name="PF-AttentionIcon" width="20" height="20"/>
+        <image name="MP-SettingIcon" width="20" height="20"/>
     </resources>
 </document>
