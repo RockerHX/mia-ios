@@ -48,12 +48,6 @@
     }
 }
 
-- (IBAction)deleteButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(shareCell:takeAction:)]) {
-        [_delegate shareCell:self takeAction:HXProfileShareCellActionDelete];
-    }
-}
-
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     self.favorite = item.favorite;
@@ -63,7 +57,6 @@
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
     _commentCountLabel.text = @(item.cComm).stringValue;
-    _seeCountLabel.text = @(item.cView).stringValue;
     
     [self displayTitle:item.sNote];
 }
