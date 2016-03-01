@@ -148,7 +148,7 @@ HXProfileNavigationBarDelegate
         case HXProfileDetailContainerActionShowFans: {
             _hiddenNavigationBar = YES;
             FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
-                                                                                 isHost:YES
+                                                                                 isHost:NO
                                                                                     uID:_uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
@@ -158,7 +158,7 @@ HXProfileNavigationBarDelegate
         case HXProfileDetailContainerActionShowFollow: {
             _hiddenNavigationBar = YES;
             FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
-                                                                                 isHost:YES
+                                                                                 isHost:NO
                                                                                     uID:_uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
