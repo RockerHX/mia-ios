@@ -237,20 +237,6 @@ HXProfileNavigationBarDelegate
             [_detailContainerViewController stopMusic];
             break;
         }
-        case HXProfileNavigationBarMusic: {
-            if ([MusicMgr standard].currentItem) {
-                _pushToFrends = YES;
-                UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
-//                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
-                
-                __weak __typeof__(self)weakSelf = self;
-                [self presentViewController:playNavigationController animated:YES completion:^{
-                    __strong __typeof__(self)strongSelf = weakSelf;
-                    strongSelf->_pushToFrends = NO;
-                }];
-            }
-            break;
-        }
     }
 }
 

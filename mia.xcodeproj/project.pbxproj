@@ -1697,8 +1697,8 @@
 		CDFFB9021C853514009C452B /* Me */ = {
 			isa = PBXGroup;
 			children = (
-				CDFFB9031C853514009C452B /* DetailContainer */,
 				CDFFB90A1C853514009C452B /* NavigationBar */,
+				CDFFB9031C853514009C452B /* DetailContainer */,
 			);
 			path = Me;
 			sourceTree = "<group>";

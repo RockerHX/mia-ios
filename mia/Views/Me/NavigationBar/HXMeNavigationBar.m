@@ -8,7 +8,6 @@
 
 #import "HXMeNavigationBar.h"
 #import "HXXib.h"
-#import "UIView+FindUIViewController.h"
 
 @interface HXMeNavigationBar ()
 
@@ -37,9 +36,9 @@ HXXibImplementation
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    [_backButton setImage:[[_backButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+//    [_backButton setImage:[[_backButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [_musicButton setImage:[[_musicButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [_backButton setTintColor:[UIColor whiteColor]];
+//    [_backButton setTintColor:[UIColor whiteColor]];
     [_musicButton setTintColor:[UIColor whiteColor]];
 }
 
@@ -55,7 +54,7 @@ HXXibImplementation
     _titleLabel.alpha = colorAlpha;
     UIColor *color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
     _titleLabel.textColor = color;
-    [_backButton setTintColor:color];
+//    [_backButton setTintColor:color];
     [_musicButton setTintColor:color];
 }
 
@@ -67,12 +66,7 @@ HXXibImplementation
 
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
-    UIViewController *firstAvailableViewController = [self firstAvailableViewController];
-    [firstAvailableViewController.navigationController popViewControllerAnimated:YES];
-
-	if (_delegate && [_delegate respondsToSelector:@selector(navigationBar:takeAction:)]) {
-		[_delegate navigationBar:self takeAction:HXMeNavigationBarBack];
-	}
+    ;
 }
 
 - (IBAction)musicButtonPressed {

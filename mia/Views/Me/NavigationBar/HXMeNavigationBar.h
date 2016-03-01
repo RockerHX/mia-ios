@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, HXMeNavigationBarAction) {
-    HXMeNavigationBarBack,
     HXMeNavigationBarMusic,
 };
 

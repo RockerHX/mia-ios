@@ -10,7 +10,6 @@
 
 typedef NS_ENUM(NSUInteger, HXProfileNavigationBarAction) {
     HXProfileNavigationBarBack,
-    HXProfileNavigationBarMusic,
 };
 
 @class HXProfileNavigationBar;

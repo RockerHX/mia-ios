@@ -233,10 +233,6 @@ HXMeNavigationBarDelegate
 #pragma mark - HXMeNavigationBarDelegate Methods
 - (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationBarAction)action {
     switch (action) {
-        case HXMeNavigationBarBack: {
-            [_detailContainerViewController stopMusic];
-            break;
-        }
         case HXMeNavigationBarMusic: {
             if ([MusicMgr standard].currentItem) {
                 _pushToFrends = YES;
