@@ -112,7 +112,9 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 - (void)checkShouldFetchNewItems {
-    [self fetchNewShares];
+	if ([_shareListMgr isNeedGetNearbyItems]) {
+		[self fetchNewShares];
+	}
 }
 
 - (void)fetchNewShares {
