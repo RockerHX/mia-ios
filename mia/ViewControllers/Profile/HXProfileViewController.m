@@ -89,6 +89,7 @@ HXProfileNavigationBarDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _statusBarStyle = UIStatusBarStyleLightContent;
+    _detailContainerViewController.header.host = ([[HXUserSession share].uid isEqualToString:_uid]);
 }
 
 - (void)viewConfigure {

@@ -33,9 +33,12 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *actionButton;
+
+@property (weak, nonatomic) IBOutlet           UIButton *actionButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionButtonWidthConstraint;
 
 @property (nonatomic, assign) BOOL follow;
+@property (nonatomic, assign) BOOL host;
 
 - (IBAction)actionButtonPressed;
 - (IBAction)playViewTaped;
