@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -21,7 +20,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYU-eQ-zAf">
                     <rect key="frame" x="281" y="29" width="25" height="25"/>
-                    <state key="normal" image="D-MuisIcon"/>
+                    <state key="normal" image="C-MuisIcon-Black"/>
                     <connections>
                         <action selector="playButtonPressed" destination="-1" eventType="touchUpInside" id="y02-Yy-Ndu"/>
                     </connections>
@@ -48,7 +47,7 @@
         </view>
     </objects>
     <resources>
-        <image name="D-MuisIcon" width="25" height="25"/>
+        <image name="C-MuisIcon-Black" width="25" height="25"/>
         <image name="D-ShareIcon" width="25" height="25"/>
     </resources>
 </document>
