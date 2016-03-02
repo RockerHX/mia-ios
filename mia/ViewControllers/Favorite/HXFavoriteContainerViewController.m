@@ -185,7 +185,6 @@ HXFavoriteEditViewControllerDelegate
 #pragma mark - Notification Methods
 - (void)notificationPlayerEvent:(NSNotification *)notification {
     NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
-    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
     
     if ([[MusicMgr standard] isCurrentHostObject:self]) {
         _playIndex = [self playIndexBySID:sID];
