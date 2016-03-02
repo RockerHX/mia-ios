@@ -9,6 +9,9 @@
 #import "HXFavoriteEditContainerViewController.h"
 #import "HXFavoriteEditCell.h"
 #import "FavoriteMgr.h"
+#import "MusicMgr.h"
+#import "MiaAPIHelper.h"
+#import "HXAlertBanner.h"
 
 @interface HXFavoriteEditContainerViewController ()
 
@@ -50,6 +53,32 @@
 #pragma mark - Public Methods
 - (void)deleteAction {
     [[FavoriteMgr standard] removeSelectedItemsWithCompleteBlock:^(BOOL isChanged, BOOL deletePlaying, NSArray *idArray) {
+		if (!isChanged) {
+			return ;
+		}
+
+		if (deletePlaying) {
+			if ([[FavoriteMgr standard].dataSource count] > 0) {
+				[[MusicMgr standard] playNext];
+			} else {
+				[[MusicMgr standard] stop];
+			}
+		}
+
+		[MiaAPIHelper deleteFavoritesWithIDs:idArray completeBlock:
+		 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+			 if (success) {
+				 [HXAlertBanner showWithMessage:@"删除收藏成功" tap:nil];
+			 } else {
+				 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+				 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+			 }
+		 } timeoutBlock:^(MiaRequestItem *requestItem) {
+			 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+
+		 }];
+
+#pragma warning @andy 更新UI
         [self.tableView reloadData];
     }];
 }
