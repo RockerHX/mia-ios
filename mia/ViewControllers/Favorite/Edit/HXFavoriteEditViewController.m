@@ -7,12 +7,15 @@
 //
 
 #import "HXFavoriteEditViewController.h"
+#import "HXFavoriteEditContainerViewController.h"
 
 @interface HXFavoriteEditViewController ()
 
 @end
 
-@implementation HXFavoriteEditViewController
+@implementation HXFavoriteEditViewController {
+    HXFavoriteEditContainerViewController *_containerViewController;
+}
 
 #pragma mark - Class Methods
 + (NSString *)navigationControllerIdentifier {
@@ -21,6 +24,11 @@
 
 + (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameFavorite;
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    _containerViewController = segue.destinationViewController;
 }
 
 #pragma mark - View Controller Lift Cycle
@@ -38,6 +46,20 @@
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - Event Response
+- (IBAction)selectAllButtonPressed {
+    _containerViewController.selectAll = !_containerViewController.selectAll;
+    [_selectedAllButton setTitle:(_containerViewController.selectAll ? @"取消" : @"全选") forState:UIControlStateNormal];
+}
+
+- (IBAction)doneButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)deleteButtonPressed {
+    [_containerViewController deleteAction];
 }
 
 @end

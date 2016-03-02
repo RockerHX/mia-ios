@@ -7,92 +7,83 @@
 //
 
 #import "HXFavoriteEditContainerViewController.h"
+#import "HXFavoriteEditCell.h"
+#import "FavoriteMgr.h"
 
 @interface HXFavoriteEditContainerViewController ()
 
 @end
 
-@implementation HXFavoriteEditContainerViewController
+@implementation HXFavoriteEditContainerViewController {
+    NSMutableArray<FavoriteItem *> *_favoriteLists;
+}
 
+#pragma mark - View Controller Lift Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
+}
+
+- (void)viewConfigure {
+    ;
+}
+
+#pragma mark - Property
+- (void)setSelectAll:(BOOL)selectAll {
+    _selectAll = selectAll;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+#warning Eden
+    [_favoriteLists enumerateObjectsUsingBlock:^(FavoriteItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.isSelected = selectAll;
+    }];
+    [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Public Methods
+- (void)deleteAction {
+    [[FavoriteMgr standard] removeSelectedItemsWithCompleteBlock:^(BOOL isChanged, BOOL deletePlaying, NSArray *idArray) {
+        [self.tableView reloadData];
+    }];
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+#pragma mark - Private Methods
+- (NSMutableArray *)resetStateList:(BOOL)all {
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:_favoriteLists.count];
+    [_favoriteLists enumerateObjectsUsingBlock:^(FavoriteItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [list addObject:@(all)];
+    }];
+    return [list mutableCopy];
 }
 
+#pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return _favoriteLists.count;
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    HXFavoriteEditCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXFavoriteEditCell class]) forIndexPath:indexPath];
     return cell;
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+#pragma mark - Table View Delegate Methods
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    HXFavoriteEditCell *editCell = (HXFavoriteEditCell *)cell;
+    [editCell displayWithItem:_favoriteLists[indexPath.row]];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    FavoriteItem *item = _favoriteLists[indexPath.row];
+    item.isSelected = !item.isSelected;
+    
+    [tableView reloadData];
 }
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

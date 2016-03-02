@@ -10,4 +10,8 @@
 
 @interface HXFavoriteEditContainerViewController : UITableViewController
 
+@property (nonatomic, assign) BOOL  selectAll;
+
+- (void)deleteAction;
+
 @end

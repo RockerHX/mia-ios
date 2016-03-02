@@ -7,17 +7,15 @@
 //
 
 #import "HXFavoriteEditCell.h"
+#import "FavoriteItem.h"
 
 @implementation HXFavoriteEditCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+#pragma mark - Public Methods
+- (void)displayWithItem:(FavoriteItem *)item {
+    _stateIcon.image = [UIImage imageNamed:(item.isSelected ? @"F-SelectedIcon" : @"F-SelecteIcon")];
+    _songNameLabel.text = item.music.name;
+    _singerNameLabel.text = item.music.singerName;
 }
 
 @end

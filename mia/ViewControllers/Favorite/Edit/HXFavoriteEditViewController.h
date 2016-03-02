@@ -10,4 +10,10 @@
 
 @interface HXFavoriteEditViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *selectedAllButton;
+
+- (IBAction)selectAllButtonPressed;
+- (IBAction)doneButtonPressed;
+- (IBAction)deleteButtonPressed;
+
 @end
