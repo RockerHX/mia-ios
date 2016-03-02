@@ -34,10 +34,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="我的收藏" id="1d8-qr-Sej">
                         <barButtonItem key="rightBarButtonItem" id="30h-7p-vff">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="ec7-Rf-61d">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="ec7-Rf-61d" userLabel="Music Button">
                                 <rect key="frame" x="279" y="9" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="C-MuisIcon-Black"/>
+                                <connections>
+                                    <action selector="musicButtonPressed" destination="CyJ-32-f2J" eventType="touchUpInside" id="1y6-In-TaE"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>

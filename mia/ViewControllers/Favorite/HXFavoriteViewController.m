@@ -9,6 +9,7 @@
 #import "HXFavoriteViewController.h"
 #import "HXFavoriteContainerViewController.h"
 #import "HXShareViewController.h"
+#import "HXPlayViewController.h"
 
 @interface HXFavoriteViewController () <
 HXFavoriteContainerViewControllerDelegate
@@ -47,6 +48,12 @@ HXFavoriteContainerViewControllerDelegate
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - Event Response
+- (IBAction)musicButtonPressed {
+    UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
+    [self presentViewController:playNavigationController animated:YES completion:nil];
 }
 
 #pragma mark - HXFavoriteContainerViewControllerDelegate Methods

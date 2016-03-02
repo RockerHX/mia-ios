@@ -34,8 +34,14 @@ HXFavoriteEditViewControllerDelegate
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
+    
     _playIndex = -1;
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
     _header.favoriteCount = _favoriteLists.count;
@@ -49,14 +55,6 @@ HXFavoriteEditViewControllerDelegate
 #pragma mark - Private Methods
 - (void)fetchUserFavoriteData {
     [[FavoriteMgr standard] syncFavoriteList];
-}
-
-- (NSArray<MusicItem *> *)musicList {
-    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:_favoriteLists.count];
-    for (FavoriteItem *item in _favoriteLists) {
-        [list addObject:item.music];
-    }
-    return list.copy;
 }
 
 - (void)cancelFavoriteItemAtIndex:(NSInteger)index {
@@ -87,6 +85,23 @@ HXFavoriteEditViewControllerDelegate
     
     _header.favoriteCount = _favoriteLists.count;
     [self.tableView reloadData];
+}
+
+- (NSArray *)shareList {
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:_favoriteLists.count];
+    for (FavoriteItem *item in _favoriteLists) {
+        [list addObject:item.shareItem];
+    }
+    return [list copy];
+}
+
+- (NSInteger)playIndexBySID:(NSString *)sid {
+    for (FavoriteItem *item in _favoriteLists) {
+        if ([item.shareItem.sID isEqualToString:sid]) {
+            return [_favoriteLists indexOfObject:item];
+        }
+    }
+    return -1;
 }
 
 #pragma mark - Table View Data Source Methods
@@ -128,15 +143,19 @@ HXFavoriteEditViewControllerDelegate
     _playIndex = indexPath.row;
     [tableView reloadData];
     
-//    [[MusicMgr standard] setPlayList:[self musicList] hostObject:self];
-//    [[MusicMgr standard] playWithIndex:indexPath.row];
+    MusicMgr *musicMgr = [MusicMgr standard];
+    [musicMgr setPlayList:[self shareList] hostObject:self];
+    [musicMgr playWithIndex:indexPath.row];
 }
 
 #pragma mark - HXFavoriteHeaderDelegate Methods
 - (void)favoriteHeader:(HXFavoriteHeader *)header takeAction:(HXFavoriteHeaderAction)action {
     switch (action) {
         case HXFavoriteHeaderActionShuffle: {
-            ;
+            MusicMgr *musicMgr = [MusicMgr standard];
+            [musicMgr setPlayList:[self shareList] hostObject:self];
+            musicMgr.isShufflePlay = YES;
+            [musicMgr playNext];
             break;
         }
         case HXFavoriteHeaderActionEdit: {
@@ -161,6 +180,17 @@ HXFavoriteEditViewControllerDelegate
 #pragma mark - HXFavoriteEditViewControllerDelegate Methods
 - (void)editFinish:(HXFavoriteEditViewController *)editViewController {
     [self dataSysnc];
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    if ([[MusicMgr standard] isCurrentHostObject:self]) {
+        _playIndex = [self playIndexBySID:sID];
+        [self.tableView reloadData];
+    }
 }
 
 @end

@@ -10,4 +10,6 @@
 
 @interface HXFavoriteViewController : UIViewController
 
+- (IBAction)musicButtonPressed;
+
 @end
