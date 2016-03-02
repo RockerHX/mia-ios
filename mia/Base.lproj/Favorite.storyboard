@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--HXFavoriteViewController-->
@@ -114,7 +113,7 @@
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iOg-4p-Ol0" userLabel="Bottom Line">
-                                            <rect key="frame" x="50" y="60" width="262" height="0.0"/>
+                                            <rect key="frame" x="50" y="60" width="270" height="0.0"/>
                                             <color key="backgroundColor" red="0.8901960784313725" green="0.8901960784313725" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="0.5" id="uLr-Nu-rx9"/>
@@ -130,7 +129,7 @@
                                         <constraint firstAttribute="trailing" secondItem="aSu-Fh-iMz" secondAttribute="trailing" constant="12" id="eRp-Fu-X24"/>
                                         <constraint firstAttribute="bottom" secondItem="iOg-4p-Ol0" secondAttribute="bottom" id="kce-1G-oj6"/>
                                         <constraint firstItem="HeM-h7-4Rw" firstAttribute="leading" secondItem="jpA-RK-a7N" secondAttribute="leading" id="lAh-cK-Eg4"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="iOg-4p-Ol0" secondAttribute="trailing" id="lLl-EM-DvV"/>
+                                        <constraint firstAttribute="trailing" secondItem="iOg-4p-Ol0" secondAttribute="trailing" id="mkH-kh-kDR"/>
                                         <constraint firstItem="iOg-4p-Ol0" firstAttribute="leading" secondItem="bSD-oV-Thx" secondAttribute="leading" id="poi-ac-pJv"/>
                                         <constraint firstItem="bSD-oV-Thx" firstAttribute="top" secondItem="aSu-Fh-iMz" secondAttribute="bottom" constant="4" id="sO3-rz-bTD"/>
                                         <constraint firstAttribute="bottom" secondItem="HeM-h7-4Rw" secondAttribute="bottom" id="tUB-41-g03"/>

@@ -11,6 +11,8 @@
 #import "HXFavoriteCell.h"
 #import "FavoriteMgr.h"
 #import "MusicMgr.h"
+#import "MiaAPIHelper.h"
+#import "HXAlertBanner.h"
 
 @interface HXFavoriteContainerViewController () <
 HXFavoriteHeaderDelegate,
@@ -55,6 +57,29 @@ FavoriteMgrDelegate
     return list.copy;
 }
 
+- (void)cancelFavoriteItemAtIndex:(NSInteger)index {
+    FavoriteItem *selectedItem = _favoriteLists[index];
+    NSString *sID = selectedItem.sID;
+    if (selectedItem.isPlaying) {
+//        [self songListPlayerDidCompletion];
+    }
+    
+    [MiaAPIHelper deleteFavoritesWithIDs:@[sID] completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             [HXAlertBanner showWithMessage:@"取消收藏成功！" tap:nil];
+             [[FavoriteMgr standard] removeSelectedItem:selectedItem];
+             
+             [self fetchUserFavoriteData];
+         } else {
+             NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:error tap:nil];
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [HXAlertBanner showWithMessage:@"取消收藏失败，网络请求超时!" tap:nil];
+     }];
+}
+
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _favoriteLists.count;
@@ -69,6 +94,22 @@ FavoriteMgrDelegate
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     HXFavoriteCell *favoriteCell = (HXFavoriteCell *)cell;
     [favoriteCell displayWithFavoriteList:_favoriteLists.copy index:indexPath.row selected:(indexPath.row == _playIndex)];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak __typeof__(self)weakSelf = self;
+    UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"分享" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        ;
+    }];
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf cancelFavoriteItemAtIndex:indexPath.row];
+    }];
+    return @[deleteAction, shareAction];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
