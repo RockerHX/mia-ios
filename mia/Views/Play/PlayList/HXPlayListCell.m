@@ -25,7 +25,7 @@
     
     _indexLabel.textColor = color;
     _songNameLabel.textColor = color;
-    _singerNameLabel.textColor = color;
+    _singerNameLabel.textColor = selected ? UIColorByHex(0x04B4A2) : UIColorByHex(0x808080);
 }
 
 @end

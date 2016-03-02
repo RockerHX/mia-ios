@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class FavoriteItem;
+#import "FavoriteItem.h"
 
 @protocol FavoriteMgrDelegate <NSObject>
 

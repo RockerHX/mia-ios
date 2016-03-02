@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -100,30 +101,39 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="表演者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQf-I2-ted">
-                                            <rect key="frame" x="50" y="34" width="258" height="16"/>
+                                            <rect key="frame" x="70" y="34" width="238" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="F-DownLoadIcon" translatesAutoresizingMaskIntoConstraints="NO" id="bSD-oV-Thx" userLabel="State Icon">
+                                            <rect key="frame" x="50" y="34" width="16" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="bSD-oV-Thx" secondAttribute="height" multiplier="1:1" id="EEm-eu-b50"/>
+                                                <constraint firstAttribute="width" constant="16" id="q7Q-Jg-znc"/>
+                                            </constraints>
+                                        </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iOg-4p-Ol0" userLabel="Bottom Line">
                                             <rect key="frame" x="50" y="60" width="262" height="0.0"/>
-                                            <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.8901960784313725" green="0.8901960784313725" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="0.5" id="uLr-Nu-rx9"/>
                                             </constraints>
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="WQf-I2-ted" firstAttribute="leading" secondItem="aSu-Fh-iMz" secondAttribute="leading" id="RW4-ZP-PNA"/>
+                                        <constraint firstItem="WQf-I2-ted" firstAttribute="centerY" secondItem="bSD-oV-Thx" secondAttribute="centerY" id="JGI-wA-fPi"/>
                                         <constraint firstItem="HeM-h7-4Rw" firstAttribute="top" secondItem="jpA-RK-a7N" secondAttribute="top" id="Sd1-32-rPm"/>
+                                        <constraint firstItem="bSD-oV-Thx" firstAttribute="leading" secondItem="aSu-Fh-iMz" secondAttribute="leading" id="axv-1Y-9G0"/>
+                                        <constraint firstItem="WQf-I2-ted" firstAttribute="leading" secondItem="bSD-oV-Thx" secondAttribute="trailing" constant="4" id="bN0-08-fHF"/>
                                         <constraint firstItem="WQf-I2-ted" firstAttribute="trailing" secondItem="aSu-Fh-iMz" secondAttribute="trailing" id="cJz-sU-YPg"/>
                                         <constraint firstAttribute="trailing" secondItem="aSu-Fh-iMz" secondAttribute="trailing" constant="12" id="eRp-Fu-X24"/>
                                         <constraint firstAttribute="bottom" secondItem="iOg-4p-Ol0" secondAttribute="bottom" id="kce-1G-oj6"/>
-                                        <constraint firstItem="WQf-I2-ted" firstAttribute="top" secondItem="aSu-Fh-iMz" secondAttribute="bottom" constant="4" id="kya-9T-7LC"/>
                                         <constraint firstItem="HeM-h7-4Rw" firstAttribute="leading" secondItem="jpA-RK-a7N" secondAttribute="leading" id="lAh-cK-Eg4"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="iOg-4p-Ol0" secondAttribute="trailing" id="lLl-EM-DvV"/>
+                                        <constraint firstItem="iOg-4p-Ol0" firstAttribute="leading" secondItem="bSD-oV-Thx" secondAttribute="leading" id="poi-ac-pJv"/>
+                                        <constraint firstItem="bSD-oV-Thx" firstAttribute="top" secondItem="aSu-Fh-iMz" secondAttribute="bottom" constant="4" id="sO3-rz-bTD"/>
                                         <constraint firstAttribute="bottom" secondItem="HeM-h7-4Rw" secondAttribute="bottom" id="tUB-41-g03"/>
-                                        <constraint firstItem="iOg-4p-Ol0" firstAttribute="leading" secondItem="WQf-I2-ted" secondAttribute="leading" id="tyR-aI-vVV"/>
                                         <constraint firstItem="aSu-Fh-iMz" firstAttribute="top" secondItem="jpA-RK-a7N" secondAttribute="top" constant="12" id="u6O-bl-OQ0"/>
                                         <constraint firstItem="aSu-Fh-iMz" firstAttribute="leading" secondItem="HeM-h7-4Rw" secondAttribute="trailing" id="zw4-Ka-4la"/>
                                     </constraints>
@@ -132,6 +142,7 @@
                                     <outlet property="indexLabel" destination="Qg9-4n-KPN" id="mqt-vU-xqq"/>
                                     <outlet property="singerNameLabel" destination="WQf-I2-ted" id="3Ub-Jr-ppN"/>
                                     <outlet property="songNameLabel" destination="aSu-Fh-iMz" id="oik-3l-gbw"/>
+                                    <outlet property="stateIcon" destination="bSD-oV-Thx" id="dR8-ax-Cb7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -149,5 +160,6 @@
     </scenes>
     <resources>
         <image name="C-MuisIcon-Black" width="25" height="25"/>
+        <image name="F-DownLoadIcon" width="20" height="20"/>
     </resources>
 </document>

@@ -10,6 +10,7 @@
 #import "HXFavoriteHeader.h"
 #import "HXFavoriteCell.h"
 #import "FavoriteMgr.h"
+#import "MusicMgr.h"
 
 @interface HXFavoriteContainerViewController () <
 HXFavoriteHeaderDelegate,
@@ -46,6 +47,14 @@ FavoriteMgrDelegate
     [[FavoriteMgr standard] syncFavoriteList];
 }
 
+- (NSArray<MusicItem *> *)musicList {
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:_favoriteLists.count];
+    for (FavoriteItem *item in _favoriteLists) {
+        [list addObject:item.music];
+    }
+    return list.copy;
+}
+
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _favoriteLists.count;
@@ -65,6 +74,9 @@ FavoriteMgrDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _playIndex = indexPath.row;
     [tableView reloadData];
+    
+//    [[MusicMgr standard] setPlayList:[self musicList] hostObject:self];
+//    [[MusicMgr standard] playWithIndex:indexPath.row];
 }
 
 #pragma mark - HXFavoriteHeaderDelegate Methods

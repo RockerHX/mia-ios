@@ -18,6 +18,7 @@
         FavoriteItem *favorite = list[index];
         _indexLabel.text = @(index + 1).stringValue;
         _songNameLabel.text = favorite.music.name;
+        _stateIcon.image = [UIImage imageNamed:(favorite.isCached ? @"F-DownLoadedIcon" : @"F-DownLoadIcon")];
         _singerNameLabel.text = favorite.music.singerName;
     }
     
@@ -25,7 +26,7 @@
     
     _indexLabel.textColor = color;
     _songNameLabel.textColor = color;
-    _singerNameLabel.textColor = color;
+    _singerNameLabel.textColor = selected ? UIColorByHex(0x04B4A2) : UIColorByHex(0x808080);
 }
 
 @end

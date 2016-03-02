@@ -10,9 +10,10 @@
 
 @interface HXFavoriteCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *indexLabel;
-@property (weak, nonatomic) IBOutlet UILabel *songNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *singerNameLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *indexLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *songNameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *stateIcon;
+@property (weak, nonatomic) IBOutlet     UILabel *singerNameLabel;
 
 - (void)displayWithFavoriteList:(NSArray *)list index:(NSInteger)index selected:(BOOL)selected;
 

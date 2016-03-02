@@ -10,7 +10,6 @@
 #import "FavoriteMgr.h"
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
-#import "FavoriteItem.h"
 #import "PathHelper.h"
 #import "UserSession.h"
 #import "AFNetworking.h"
