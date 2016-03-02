@@ -7,6 +7,7 @@
 //
 
 #import "FavoriteItem.h"
+#import "ShareItem.h"
 
 @implementation FavoriteItem
 
@@ -36,6 +37,21 @@
     return self;
 }
 
+- (ShareItem *)shareItem {
+	ShareItem *item = [[ShareItem alloc] init];
+
+	item.spID = self.spID;
+	item.sID = self.sID;
+	item.uID = self.uID;
+	item.sNick = self.sNick;
+	item.sNote = self.sNote;
+	item.time = self.time;
+	item.music = self.music;
+	item.favorite = YES;
+	item.isInfected = self.isInfected;
+
+	return item;
+}
 //将对象编码(即:序列化)
 - (void) encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:self.sID forKey:@"sID"];
