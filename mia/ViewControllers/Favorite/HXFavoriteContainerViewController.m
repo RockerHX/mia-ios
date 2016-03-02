@@ -9,7 +9,6 @@
 #import "HXFavoriteContainerViewController.h"
 #import "HXFavoriteHeader.h"
 #import "HXFavoriteCell.h"
-#import "FavoriteMgr.h"
 #import "MusicMgr.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
@@ -104,7 +103,10 @@ FavoriteMgrDelegate
 - (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak __typeof__(self)weakSelf = self;
     UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"分享" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        ;
+        __strong __typeof__(self)strongSelf = weakSelf;
+        if (strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(containerShouldShare:item:)]) {
+            [strongSelf.delegate containerShouldShare:strongSelf item:strongSelf->_favoriteLists[indexPath.row]];
+        }
     }];
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         __strong __typeof__(self)strongSelf = weakSelf;

@@ -21,6 +21,7 @@
 #import "NSObject+BlockSupport.h"
 #import "UIConstants.h"
 #import "ShareItem.h"
+#import "FavoriteItem.h"
 
 @interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>
 @end
@@ -44,8 +45,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initConfig];
-    [self viewConfig];
+    [self loadConfigure];
+    [self viewConfigure];
     [self startUpdatingLocation];
 }
 
@@ -60,46 +61,24 @@
 }
 
 #pragma mark - Config Methods
-- (void)initConfig {
+- (void)loadConfigure {
     _scrollView.scrollsToTop = YES;
     _commentTextView.scrollsToTop = NO;
     
-    [self initData];
+    _musicItem = [[MusicItem alloc] init];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
-
     //添加键盘监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (void)initData {
-    _musicItem = [[MusicItem alloc] init];
-}
-
-- (void)viewConfig {
+- (void)viewConfigure {
     _shareButton.enabled = NO;
-    
-    _songNameLabel.alpha = 0.0f;
-    _singerLabel.alpha = 0.0f;
-    
     _nickNameLabel.text = [[UserSession standard] nick];
-    _locationLabel.text = @"定位中...";
-    
-    [self configFrontCover];
-}
-
-- (void)configFrontCover {
-    _frontCoverView.hidden = YES;
-    _frontCover.layer.borderColor = UIColorByHex(0xd7dede).CGColor;
-    _frontCover.layer.borderWidth = 0.5f;
 }
 
 #pragma mark - Event Response
-- (IBAction)backButtonPressed {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (IBAction)sendButtonPressed {
     NSString *comment = _commentTextView.text;
     if ([comment length] <= 0) {

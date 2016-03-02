@@ -8,6 +8,7 @@
 
 #import "UIViewController+HXClass.h"
 
+@class FavoriteItem;
 @class HXTextView;
 
 @protocol HXShareViewControllerDelegate <NSObject>
@@ -40,7 +41,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationViewHeightConstraint;
 
-- (IBAction)backButtonPressed;
+@property (nonatomic, weak) FavoriteItem *favoriteItem;
+
 - (IBAction)sendButtonPressed;
 - (IBAction)addMusicButtonPressed;
 - (IBAction)playButtonPressed;

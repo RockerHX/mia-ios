@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FavoriteMgr.h"
+
+@class HXFavoriteContainerViewController;
+
+@protocol HXFavoriteContainerViewControllerDelegate <NSObject>
+
+@required
+- (void)containerShouldShare:(HXFavoriteContainerViewController *)container item:(FavoriteItem *)item;
+
+@end
 
 @interface HXFavoriteContainerViewController : UITableViewController
+
+@property (weak, nonatomic) IBOutlet id  <HXFavoriteContainerViewControllerDelegate>delegate;
 
 @end

@@ -7,9 +7,12 @@
 //
 
 #import "HXFavoriteViewController.h"
+#import "HXFavoriteContainerViewController.h"
+#import "HXShareViewController.h"
 
-@interface HXFavoriteViewController ()
-
+@interface HXFavoriteViewController () <
+HXFavoriteContainerViewControllerDelegate
+>
 @end
 
 @implementation HXFavoriteViewController
@@ -21,6 +24,12 @@
 
 + (HXStoryBoardName)storyBoardName {
     return HXStoryBoardNameFavorite;
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    HXFavoriteContainerViewController *containerViewController = segue.destinationViewController;
+    containerViewController.delegate = self;
 }
 
 #pragma mark - View Controller Lift Cycle
@@ -38,6 +47,12 @@
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - HXFavoriteContainerViewControllerDelegate Methods
+- (void)containerShouldShare:(HXFavoriteContainerViewController *)container item:(FavoriteItem *)item {
+    HXShareViewController *shareViewController = [HXShareViewController instance];
+    [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
 @end
