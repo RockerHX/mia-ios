@@ -18,7 +18,7 @@
 @end
 
 @implementation HXFavoriteEditContainerViewController {
-    NSMutableArray<FavoriteItem *> *_favoriteLists;
+    NSArray<FavoriteItem *> *_favoriteLists;
 }
 
 #pragma mark - View Controller Lift Cycle
@@ -31,7 +31,7 @@
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
+    [self syncFavoriteList];
 }
 
 - (void)viewConfigure {
@@ -42,8 +42,6 @@
 - (void)setSelectAll:(BOOL)selectAll {
     _selectAll = selectAll;
     
-    
-#warning Eden
     [_favoriteLists enumerateObjectsUsingBlock:^(FavoriteItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.isSelected = selectAll;
     }];
@@ -76,14 +74,18 @@
 		 } timeoutBlock:^(MiaRequestItem *requestItem) {
 			 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
 
-		 }];
-
-#pragma warning @andy 更新UI
+         }];
+        
+        [self syncFavoriteList];
         [self.tableView reloadData];
     }];
 }
 
 #pragma mark - Private Methods
+- (void)syncFavoriteList {
+    _favoriteLists = [FavoriteMgr standard].dataSource.copy;
+}
+
 - (NSMutableArray *)resetStateList:(BOOL)all {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:_favoriteLists.count];
     [_favoriteLists enumerateObjectsUsingBlock:^(FavoriteItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

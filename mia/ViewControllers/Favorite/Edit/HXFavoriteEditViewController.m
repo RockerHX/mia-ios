@@ -60,6 +60,10 @@
 
 - (IBAction)deleteButtonPressed {
     [_containerViewController deleteAction];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(editFinish:)]) {
+        [_delegate editFinish:self];
+    }
 }
 
 @end

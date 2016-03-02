@@ -16,7 +16,8 @@
 
 @interface HXFavoriteContainerViewController () <
 HXFavoriteHeaderDelegate,
-FavoriteMgrDelegate
+FavoriteMgrDelegate,
+HXFavoriteEditViewControllerDelegate
 >
 @end
 
@@ -131,7 +132,10 @@ FavoriteMgrDelegate
             break;
         }
         case HXFavoriteHeaderActionEdit: {
-            [self presentViewController:[HXFavoriteEditViewController navigationControllerInstance] animated:YES completion:nil];
+            UINavigationController *editNavigationController = [HXFavoriteEditViewController navigationControllerInstance];
+            HXFavoriteEditViewController *editViewController = editNavigationController.viewControllers.firstObject;
+            editViewController.delegate = self;
+            [self presentViewController:editNavigationController animated:YES completion:nil];
             break;
         }
     }
@@ -141,6 +145,15 @@ FavoriteMgrDelegate
 - (void)favoriteMgrDidFinishSync {
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
     [self.tableView reloadData];
+}
+
+- (void)favoriteMgrDidFinishDownload {
+    [self favoriteMgrDidFinishSync];
+}
+
+#pragma mark - HXFavoriteEditViewControllerDelegate Methods
+- (void)editFinish:(HXFavoriteEditViewController *)editViewController {
+    [self favoriteMgrDidFinishSync];
 }
 
 @end

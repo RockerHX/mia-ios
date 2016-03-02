@@ -38,5 +38,4 @@
 - (BOOL)isItemCached:(FavoriteItem *)item;
 - (BOOL)isItemCachedWithUrl:(NSString *)url;
 
-
 @end
