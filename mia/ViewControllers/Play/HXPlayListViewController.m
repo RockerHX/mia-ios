@@ -55,7 +55,7 @@
     [listCell displayWithMusicList:_musicList index:indexPath.row selected:(indexPath.row == _playIndex)];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _playIndex = indexPath.row;
     [tableView reloadData];
     

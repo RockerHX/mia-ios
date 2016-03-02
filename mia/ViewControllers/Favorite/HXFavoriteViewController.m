@@ -27,7 +27,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    [self loadConfigure];
+    [self viewConfigure];
+}
+
+#pragma mark - Configure Methods
+- (void)loadConfigure {
+    ;
+}
+
+- (void)viewConfigure {
+    ;
 }
 
 @end

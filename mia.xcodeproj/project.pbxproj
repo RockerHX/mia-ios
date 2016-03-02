@@ -50,6 +50,7 @@
 		CD64E9191C7AFB4100270836 /* HXFavoriteHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD64E9181C7AFB4100270836 /* HXFavoriteHeader.xib */; };
 		CD64E91C1C7AFB5B00270836 /* HXFavoriteHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */; };
 		CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */; };
+		CD708D2E1C86C2A300AC55CA /* HXFavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD708D2D1C86C2A300AC55CA /* HXFavoriteCell.m */; };
 		CD74FC101C7C06FA00DBEB83 /* HXNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */; };
 		CD74FC111C7C06FA00DBEB83 /* HXNoNetworkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */; };
 		CD74FC121C7C06FA00DBEB83 /* YHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CD74FC071C7C06FA00DBEB83 /* YHSegmentedControl.m */; };
@@ -262,6 +263,8 @@
 		CD64E91B1C7AFB5B00270836 /* HXFavoriteHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteHeader.m; sourceTree = "<group>"; };
 		CD64E91D1C7AFC4800270836 /* HXFavoriteContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteContainerViewController.h; sourceTree = "<group>"; };
 		CD64E91E1C7AFC4800270836 /* HXFavoriteContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteContainerViewController.m; sourceTree = "<group>"; };
+		CD708D2C1C86C2A300AC55CA /* HXFavoriteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteCell.h; sourceTree = "<group>"; };
+		CD708D2D1C86C2A300AC55CA /* HXFavoriteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteCell.m; sourceTree = "<group>"; };
 		CD74FC021C7C06FA00DBEB83 /* HXNoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXNoNetworkView.h; sourceTree = "<group>"; };
 		CD74FC031C7C06FA00DBEB83 /* HXNoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXNoNetworkView.m; sourceTree = "<group>"; };
 		CD74FC041C7C06FA00DBEB83 /* HXNoNetworkView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXNoNetworkView.xib; sourceTree = "<group>"; };
@@ -835,6 +838,8 @@
 		CD64E9161C7AFB2E00270836 /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				CD708D2C1C86C2A300AC55CA /* HXFavoriteCell.h */,
+				CD708D2D1C86C2A300AC55CA /* HXFavoriteCell.m */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -2124,6 +2129,7 @@
 				CDFEABDF1C858AA20039954C /* ChangePwdViewController.m in Sources */,
 				CDE539561C7BFCE200E0616D /* FavoriteMgr.m in Sources */,
 				CDE539BD1C7BFD5200E0616D /* ShareItem.m in Sources */,
+				CD708D2E1C86C2A300AC55CA /* HXFavoriteCell.m in Sources */,
 				CDE539B21C7BFD5200E0616D /* InfectUserItem.m in Sources */,
 				CD2D3B191C7B1AD4002E34D1 /* HXForgotPWViewController.m in Sources */,
 				CDEF7AD01C7EFDFF00354229 /* HXPlayMusicSummaryView.m in Sources */,
