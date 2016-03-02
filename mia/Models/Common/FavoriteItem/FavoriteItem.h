@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MusicItem.h"
+
+@class ShareItem;
 
 @interface FavoriteItem : NSObject <NSCoding>
 
@@ -28,6 +31,8 @@
 @property (assign, nonatomic) BOOL isSelected;
 @property (assign, nonatomic) BOOL isPlaying;
 @property (assign, nonatomic) BOOL isCached;
+
+@property (assign, nonatomic, readonly) ShareItem *shareItem;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
