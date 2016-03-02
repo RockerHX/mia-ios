@@ -76,6 +76,7 @@ HXXibImplementation
 - (void)displayWithHeaderModel:(HXProfileHeaderModel *)model {
     [_avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
     _nickNameLabel.text = model.nickName;
+    _playNickNameLabel.text = model.nickName;
     _fansCountLabel.text = model.fansCount;
     _followCountLabel.text = model.followCount;
 }

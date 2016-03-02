@@ -31,9 +31,9 @@ typedef NS_ENUM(NSUInteger, HXMeDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet      UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
+@property (weak, nonatomic) IBOutlet     UILabel *playNickNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *actionButton;
 
 - (IBAction)settingButtonPressed;
 - (IBAction)playViewTaped;

@@ -16,6 +16,7 @@
                 <outlet property="fansCountLabel" destination="Yxm-YX-RAQ" id="cKN-wh-SwK"/>
                 <outlet property="followCountLabel" destination="p8e-Qi-wC4" id="dqD-tV-FD3"/>
                 <outlet property="nickNameLabel" destination="uqx-5D-eyB" id="CGt-Pe-0oW"/>
+                <outlet property="playNickNameLabel" destination="ydG-SQ-UvC" id="R8O-80-R8f"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

@@ -9,12 +9,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXMeDetailHeader">
             <connections>
-                <outlet property="actionButton" destination="qcP-EE-K6u" id="Qcb-lR-D93"/>
                 <outlet property="avatar" destination="R0N-UP-ARd" id="HPx-ia-hlA"/>
                 <outlet property="containerView" destination="XzQ-mD-mKd" id="WNH-fX-9WO"/>
                 <outlet property="fansCountLabel" destination="Yxm-YX-RAQ" id="cKN-wh-SwK"/>
                 <outlet property="followCountLabel" destination="p8e-Qi-wC4" id="dqD-tV-FD3"/>
                 <outlet property="nickNameLabel" destination="uqx-5D-eyB" id="CGt-Pe-0oW"/>
+                <outlet property="playNickNameLabel" destination="ydG-SQ-UvC" id="8Z3-KG-vdn"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
