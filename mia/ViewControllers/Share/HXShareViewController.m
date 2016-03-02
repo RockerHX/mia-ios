@@ -31,7 +31,6 @@
     NSString 				*_address;
     CLLocationCoordinate2D	_coordinate;
     
-    MusicItem 				*_musicItem;
     SearchResultItem 		*_dataItem;
 	SearchViewController 	*_searchViewController;
 }
@@ -65,7 +64,13 @@
     _scrollView.scrollsToTop = YES;
     _commentTextView.scrollsToTop = NO;
     
-    _musicItem = [[MusicItem alloc] init];
+    if (!_musicItem) {
+        _musicItem = [[MusicItem alloc] init];
+    } else {
+        [self updateUI];
+        [self startAnimation];
+        [_commentTextView becomeFirstResponder];
+    }
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
     //添加键盘监听
@@ -76,6 +81,14 @@
 - (void)viewConfigure {
     _shareButton.enabled = NO;
     _nickNameLabel.text = [[UserSession standard] nick];
+}
+
+#pragma mark - Property
+- (void)setMusicItem:(MusicItem *)musicItem {
+    _musicItem = musicItem;
+    
+    _dataItem = [[SearchResultItem alloc] init];
+    _dataItem.songID = musicItem.mid;
 }
 
 #pragma mark - Event Response
@@ -151,7 +164,6 @@
     [self hiddenKeyboard];
 }
 
-
 #pragma mark - audio operations
 - (void)playMusic {
     if (!_musicItem.murl || !_musicItem.name || !_musicItem.singerName) {
@@ -218,12 +230,12 @@
 - (void)updateUI {
     _addMusicButton.enabled = NO;
     _frontCoverView.hidden = NO;
-    [_frontCover sd_setImageWithURL:[NSURL URLWithString:_dataItem.albumPic] placeholderImage:[UIImage imageNamed:@"default_cover"]];
+    [_frontCover sd_setImageWithURL:[NSURL URLWithString:_musicItem.purl] placeholderImage:[UIImage imageNamed:@"default_cover"]];
     
-    _songNameLabel.text = _dataItem.title;
-    _singerLabel.text = _dataItem.artist;
-
-	if ([[MusicMgr standard] isPlayingWithUrl:_dataItem.songUrl]) {
+    _songNameLabel.text = _musicItem.name;
+    _singerLabel.text = _musicItem.singerName;
+    
+	if ([[MusicMgr standard] isPlayingWithUrl:_musicItem.murl]) {
 		[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
 	} else {
 		[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];

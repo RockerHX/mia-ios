@@ -52,6 +52,7 @@ HXFavoriteContainerViewControllerDelegate
 #pragma mark - HXFavoriteContainerViewControllerDelegate Methods
 - (void)containerShouldShare:(HXFavoriteContainerViewController *)container item:(FavoriteItem *)item {
     HXShareViewController *shareViewController = [HXShareViewController instance];
+    shareViewController.musicItem = item.music;
     [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
