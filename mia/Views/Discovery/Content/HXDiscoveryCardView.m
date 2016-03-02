@@ -106,6 +106,8 @@ HXXibImplementation
         _shareItem = item;
         [_coverView displayWithItem:_shareItem];
         [self displaySharerLabelWithSharer:_shareItem.sNick content:_shareItem.sNote];
+        
+        _infectView.infected = _shareItem.isInfected;
         [_infectView setInfecters:_shareItem.infectUsers];
         
         _favoriteIcon.image = [UIImage imageNamed:(_shareItem.favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")];

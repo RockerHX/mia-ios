@@ -20,6 +20,7 @@
 #import "HXShareViewController.h"
 #import "HXProfileViewController.h"
 #import "HXUserSession.h"
+#import "HXAlertBanner.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -131,7 +132,7 @@ HXDiscoveryContainerViewControllerDelegate
                  
                  [item parseInfectUsersFromJsonArray:infectArray];
              }
-             [_containerViewController.carousel reloadData];
+             [self refreshCard];
          } else {
              NSLog(@"getShareById failed");
          }
@@ -181,6 +182,41 @@ HXDiscoveryContainerViewControllerDelegate
     HXProfileViewController *profileViewController = [HXProfileViewController instance];
     profileViewController.uid = uid;
     [self.navigationController pushViewController:profileViewController animated:YES];
+}
+
+- (void)takeInfectAction {
+    ShareItem *item = _containerViewController.currentItem;
+    // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+    [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                  address:[[LocationMgr standard] currentAddress]
+                                     spID:item.spID
+                            completeBlock:
+     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+         if (success) {
+             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+             int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
+             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+             NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
+             
+             if ([spID isEqualToString:item.spID]) {
+                 item.infectTotal = infectTotal;
+                 [item parseInfectUsersFromJsonArray:infectArray];
+                 item.isInfected = isInfected;
+             }
+             [self refreshCard];
+         } else {
+             NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+             [HXAlertBanner showWithMessage:error tap:nil];
+         }
+     } timeoutBlock:^(MiaRequestItem *requestItem) {
+         item.isInfected = YES;
+         [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+     }];
+}
+
+- (void)refreshCard {
+    [_containerViewController.carousel reloadData];
 }
 
 #pragma mark - HXDiscoveryHeaderDelegate Methods
@@ -258,7 +294,7 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionInfect: {
-            ;
+            [self takeInfectAction];
             break;
         }
         case HXDiscoveryCardActionComment: {
