@@ -13,6 +13,7 @@
 #import "MusicMgr.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
+#import "HXFavoriteEditViewController.h"
 
 @interface HXFavoriteContainerViewController () <
 HXFavoriteHeaderDelegate,
@@ -128,7 +129,7 @@ FavoriteMgrDelegate
             break;
         }
         case HXFavoriteHeaderActionEdit: {
-            ;
+            [self presentViewController:[HXFavoriteEditViewController navigationControllerInstance] animated:YES completion:nil];
             break;
         }
     }

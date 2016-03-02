@@ -37,6 +37,9 @@
 		CD2D3B1B1C7B1AD4002E34D1 /* HXRegisterContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B161C7B1AD4002E34D1 /* HXRegisterContainerViewController.m */; };
 		CD2D3B1C1C7B1AD4002E34D1 /* HXRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */; };
 		CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */; };
+		CD3E35D21C86DF7400F713EB /* HXFavoriteEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3E35D11C86DF7400F713EB /* HXFavoriteEditViewController.m */; };
+		CD3E35D51C86DF9B00F713EB /* HXFavoriteEditContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3E35D41C86DF9B00F713EB /* HXFavoriteEditContainerViewController.m */; };
+		CD3E35D81C86E4C900F713EB /* HXFavoriteEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3E35D71C86E4C900F713EB /* HXFavoriteEditCell.m */; };
 		CD487E2F1C84226F004835A9 /* HXProfileShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD487E201C84226F004835A9 /* HXProfileShareCell.m */; };
 		CD487E321C84226F004835A9 /* HXProfileDetailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CD487E261C84226F004835A9 /* HXProfileDetailHeader.m */; };
 		CD487E331C84226F004835A9 /* HXProfileDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD487E271C84226F004835A9 /* HXProfileDetailHeader.xib */; };
@@ -240,6 +243,12 @@
 		CD2D3B181C7B1AD4002E34D1 /* HXRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXRegisterViewController.m; sourceTree = "<group>"; };
 		CD2D3B1D1C7B1B91002E34D1 /* HXUserTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserTermsViewController.h; sourceTree = "<group>"; };
 		CD2D3B1E1C7B1B91002E34D1 /* HXUserTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserTermsViewController.m; sourceTree = "<group>"; };
+		CD3E35D01C86DF7400F713EB /* HXFavoriteEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteEditViewController.h; sourceTree = "<group>"; };
+		CD3E35D11C86DF7400F713EB /* HXFavoriteEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteEditViewController.m; sourceTree = "<group>"; };
+		CD3E35D31C86DF9B00F713EB /* HXFavoriteEditContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteEditContainerViewController.h; sourceTree = "<group>"; };
+		CD3E35D41C86DF9B00F713EB /* HXFavoriteEditContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteEditContainerViewController.m; sourceTree = "<group>"; };
+		CD3E35D61C86E4C900F713EB /* HXFavoriteEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteEditCell.h; sourceTree = "<group>"; };
+		CD3E35D71C86E4C900F713EB /* HXFavoriteEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteEditCell.m; sourceTree = "<group>"; };
 		CD487E1F1C84226F004835A9 /* HXProfileShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileShareCell.h; sourceTree = "<group>"; };
 		CD487E201C84226F004835A9 /* HXProfileShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileShareCell.m; sourceTree = "<group>"; };
 		CD487E251C84226F004835A9 /* HXProfileDetailHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileDetailHeader.h; sourceTree = "<group>"; };
@@ -757,6 +766,17 @@
 			path = Register;
 			sourceTree = "<group>";
 		};
+		CD3E35CF1C86DF6300F713EB /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				CD3E35D01C86DF7400F713EB /* HXFavoriteEditViewController.h */,
+				CD3E35D11C86DF7400F713EB /* HXFavoriteEditViewController.m */,
+				CD3E35D31C86DF9B00F713EB /* HXFavoriteEditContainerViewController.h */,
+				CD3E35D41C86DF9B00F713EB /* HXFavoriteEditContainerViewController.m */,
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
 		CD487E191C84226F004835A9 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -840,6 +860,8 @@
 			children = (
 				CD708D2C1C86C2A300AC55CA /* HXFavoriteCell.h */,
 				CD708D2D1C86C2A300AC55CA /* HXFavoriteCell.m */,
+				CD3E35D61C86E4C900F713EB /* HXFavoriteEditCell.h */,
+				CD3E35D71C86E4C900F713EB /* HXFavoriteEditCell.m */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -1075,6 +1097,7 @@
 		CDB55E911C72D21D00962ED0 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
+				CD3E35CF1C86DF6300F713EB /* Edit */,
 				CDB55E9A1C73005B00962ED0 /* HXFavoriteViewController.h */,
 				CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */,
 				CD64E91D1C7AFC4800270836 /* HXFavoriteContainerViewController.h */,
@@ -2007,6 +2030,7 @@
 				CDFEABF71C8595370039954C /* UserListView.m in Sources */,
 				CD64E91F1C7AFC4800270836 /* HXFavoriteContainerViewController.m in Sources */,
 				CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */,
+				CD3E35D21C86DF7400F713EB /* HXFavoriteEditViewController.m in Sources */,
 				CDE539AD1C7BFD5200E0616D /* FavoriteItem.m in Sources */,
 				CDB55E5F1C72C7EE00962ED0 /* AppDelegate.m in Sources */,
 				CD0690161C746B8C001C0997 /* HXIBLabel.m in Sources */,
@@ -2099,6 +2123,7 @@
 				CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */,
 				CDE53A111C7BFDDB00E0616D /* NSString+MD5.m in Sources */,
 				CD2D3B1B1C7B1AD4002E34D1 /* HXRegisterContainerViewController.m in Sources */,
+				CD3E35D81C86E4C900F713EB /* HXFavoriteEditCell.m in Sources */,
 				CDE539B51C7BFD5200E0616D /* CommentItem.m in Sources */,
 				CDEF7B101C7FEF1F00354229 /* MBProgressHUDHelp.m in Sources */,
 				CD9A364F1C7EDA660016DDB1 /* HXInfectView.m in Sources */,
@@ -2139,6 +2164,7 @@
 				CD2D3B1F1C7B1B91002E34D1 /* HXUserTermsViewController.m in Sources */,
 				CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */,
 				CD64E90C1C7AACE200270836 /* HXDiscoveryHeader.m in Sources */,
+				CD3E35D51C86DF9B00F713EB /* HXFavoriteEditContainerViewController.m in Sources */,
 				CD9A36491C7ED9FD0016DDB1 /* HXInfectListView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
