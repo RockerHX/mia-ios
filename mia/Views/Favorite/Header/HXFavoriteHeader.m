@@ -13,6 +13,12 @@
 
 HXXibImplementation
 
+#pragma mark - Property
+- (void)setFavoriteCount:(NSInteger)favoriteCount {
+    _favoriteCount = favoriteCount;
+    _countLabel.text = [NSString stringWithFormat:@"%@首", @(favoriteCount)];
+}
+
 #pragma mark - Event Response
 - (IBAction)shufflePlayViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(favoriteHeader:takeAction:)]) {

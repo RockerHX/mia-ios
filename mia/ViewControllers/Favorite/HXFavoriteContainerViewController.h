@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FavoriteMgr.h"
 
+@class HXFavoriteHeader;
 @class HXFavoriteContainerViewController;
 
 @protocol HXFavoriteContainerViewControllerDelegate <NSObject>
@@ -20,6 +21,7 @@
 
 @interface HXFavoriteContainerViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet id  <HXFavoriteContainerViewControllerDelegate>delegate;
+@property (weak, nonatomic) IBOutlet               id  <HXFavoriteContainerViewControllerDelegate>delegate;
+@property (weak, nonatomic) IBOutlet HXFavoriteHeader *header;
 
 @end

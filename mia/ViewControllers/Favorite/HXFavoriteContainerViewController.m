@@ -38,6 +38,7 @@ HXFavoriteEditViewControllerDelegate
 - (void)loadConfigure {
     _playIndex = -1;
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
+    _header.favoriteCount = _favoriteLists.count;
     [FavoriteMgr standard].customDelegate = self;
 }
 
@@ -79,6 +80,13 @@ HXFavoriteEditViewControllerDelegate
      } timeoutBlock:^(MiaRequestItem *requestItem) {
          [HXAlertBanner showWithMessage:@"取消收藏失败，网络请求超时!" tap:nil];
      }];
+}
+
+- (void)dataSysnc {
+    _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
+    
+    _header.favoriteCount = _favoriteLists.count;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table View Data Source Methods
@@ -143,17 +151,16 @@ HXFavoriteEditViewControllerDelegate
 
 #pragma mark - FavoriteMgrDelegate Methods
 - (void)favoriteMgrDidFinishSync {
-    _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
-    [self.tableView reloadData];
+    [self dataSysnc];
 }
 
 - (void)favoriteMgrDidFinishDownload {
-    [self favoriteMgrDidFinishSync];
+    [self dataSysnc];
 }
 
 #pragma mark - HXFavoriteEditViewControllerDelegate Methods
 - (void)editFinish:(HXFavoriteEditViewController *)editViewController {
-    [self favoriteMgrDidFinishSync];
+    [self dataSysnc];
 }
 
 @end
