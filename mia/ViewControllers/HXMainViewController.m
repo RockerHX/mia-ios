@@ -51,6 +51,7 @@ HXLoginViewControllerDelegate
 #pragma mark - Config Methods
 - (void)loadConfigure {
     self.delegate = self;
+    self.view.backgroundColor = [UIColor whiteColor];
     
     // Socket
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidOpen:) name:WebSocketMgrNotificationDidOpen object:nil];
