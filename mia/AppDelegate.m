@@ -23,7 +23,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15.0f]}];
+    
 	//启用远程控制事件接收
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 	// 默认用户配置

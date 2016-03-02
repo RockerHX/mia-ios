@@ -32,7 +32,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="我的收藏" id="1d8-qr-Sej">
-                        <barButtonItem key="rightBarButtonItem" title="Play" id="Zgi-ro-FgF"/>
+                        <barButtonItem key="rightBarButtonItem" id="30h-7p-vff">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="ec7-Rf-61d">
+                                <rect key="frame" x="279" y="9" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="C-MuisIcon-Black"/>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUh-U7-7cJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -101,4 +107,7 @@
             <point key="canvasLocation" x="406" y="418"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="C-MuisIcon-Black" width="25" height="25"/>
+    </resources>
 </document>

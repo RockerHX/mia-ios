@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -12,21 +13,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6d-0x-mkR">
-                    <rect key="frame" x="14" y="29" width="25" height="25"/>
+                    <rect key="frame" x="16" y="25" width="25" height="25"/>
                     <state key="normal" image="D-ShareIcon"/>
                     <connections>
                         <action selector="shareButtonPressed" destination="-1" eventType="touchUpInside" id="0RN-Tp-7Hn"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYU-eQ-zAf">
-                    <rect key="frame" x="281" y="29" width="25" height="25"/>
+                    <rect key="frame" x="279" y="25" width="25" height="25"/>
                     <state key="normal" image="C-MuisIcon-Black"/>
                     <connections>
                         <action selector="playButtonPressed" destination="-1" eventType="touchUpInside" id="y02-Yy-Ndu"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发现" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lPU-Je-cXV">
-                    <rect key="frame" x="145" y="33" width="30" height="18"/>
+                    <rect key="frame" x="145" y="29" width="30" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -34,11 +35,11 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="NYU-eQ-zAf" secondAttribute="trailing" constant="14" id="Eik-bX-F7a"/>
+                <constraint firstAttribute="trailing" secondItem="NYU-eQ-zAf" secondAttribute="trailing" constant="16" id="Eik-bX-F7a"/>
                 <constraint firstItem="NYU-eQ-zAf" firstAttribute="centerY" secondItem="lPU-Je-cXV" secondAttribute="centerY" id="Pis-Nx-aVS"/>
                 <constraint firstItem="P6d-0x-mkR" firstAttribute="centerY" secondItem="lPU-Je-cXV" secondAttribute="centerY" id="gHq-SS-DPS"/>
-                <constraint firstItem="lPU-Je-cXV" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="1.3" id="xOT-A4-tgO"/>
-                <constraint firstItem="P6d-0x-mkR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="yEa-2Y-6uJ"/>
+                <constraint firstItem="lPU-Je-cXV" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="1.3" constant="-4" id="xOT-A4-tgO"/>
+                <constraint firstItem="P6d-0x-mkR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="yEa-2Y-6uJ"/>
                 <constraint firstItem="lPU-Je-cXV" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="znS-QZ-IFq"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
