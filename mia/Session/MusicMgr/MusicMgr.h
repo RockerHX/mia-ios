@@ -49,9 +49,6 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 // 播放当前列表对应下标的歌曲
 - (void)playWithIndex:(NSInteger)index;
 
-// 在当前播放列表中查找item并播放
-- (void)playWithItem:(ShareItem *)item;
-
 - (void)playCurrent;
 - (void)playPrevios;
 - (void)playNext;
