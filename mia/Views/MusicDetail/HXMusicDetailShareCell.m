@@ -48,8 +48,8 @@ TTTAttributedLabelDelegate
 
 #pragma mark - TTTAttributedLabelDelegate Methods
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber {
-    if (_delegate && [_delegate respondsToSelector:@selector(cellUserWouldLikeSeeSharerInfo:)]) {
-        [_delegate cellUserWouldLikeSeeSharerInfo:self];
+    if (_delegate && [_delegate respondsToSelector:@selector(shareCell:takeAction:)]) {
+        [_delegate shareCell:self takeAction:HXMusicDetailShareCellActionShowSharer];
     }
 }
 

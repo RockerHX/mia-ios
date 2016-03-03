@@ -1196,18 +1196,18 @@
 		CDDAC5021C87DAF900F27051 /* MusicDetail */ = {
 			isa = PBXGroup;
 			children = (
-				CDDAC5031C87DAF900F27051 /* HXMusicDetailCommentCell.h */,
-				CDDAC5041C87DAF900F27051 /* HXMusicDetailCommentCell.m */,
 				CDDAC5051C87DAF900F27051 /* HXMusicDetailCoverCell.h */,
 				CDDAC5061C87DAF900F27051 /* HXMusicDetailCoverCell.m */,
-				CDDAC5071C87DAF900F27051 /* HXMusicDetailNoCommentCell.h */,
-				CDDAC5081C87DAF900F27051 /* HXMusicDetailNoCommentCell.m */,
-				CDDAC5091C87DAF900F27051 /* HXMusicDetailPromptCell.h */,
-				CDDAC50A1C87DAF900F27051 /* HXMusicDetailPromptCell.m */,
-				CDDAC50B1C87DAF900F27051 /* HXMusicDetailShareCell.h */,
-				CDDAC50C1C87DAF900F27051 /* HXMusicDetailShareCell.m */,
 				CDDAC50D1C87DAF900F27051 /* HXMusicDetailSongCell.h */,
 				CDDAC50E1C87DAF900F27051 /* HXMusicDetailSongCell.m */,
+				CDDAC50B1C87DAF900F27051 /* HXMusicDetailShareCell.h */,
+				CDDAC50C1C87DAF900F27051 /* HXMusicDetailShareCell.m */,
+				CDDAC5091C87DAF900F27051 /* HXMusicDetailPromptCell.h */,
+				CDDAC50A1C87DAF900F27051 /* HXMusicDetailPromptCell.m */,
+				CDDAC5071C87DAF900F27051 /* HXMusicDetailNoCommentCell.h */,
+				CDDAC5081C87DAF900F27051 /* HXMusicDetailNoCommentCell.m */,
+				CDDAC5031C87DAF900F27051 /* HXMusicDetailCommentCell.h */,
+				CDDAC5041C87DAF900F27051 /* HXMusicDetailCommentCell.m */,
 			);
 			path = MusicDetail;
 			sourceTree = "<group>";
