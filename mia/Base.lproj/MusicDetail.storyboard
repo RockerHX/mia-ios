@@ -18,6 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dwx-2O-wz1">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="508"/>
+                                <connections>
+                                    <segue destination="skb-wG-FT4" kind="embed" id="e9h-sa-jac"/>
+                                </connections>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-Ru-GcS" userLabel="Comment View">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
                                 <subviews>
@@ -40,7 +46,7 @@
                                     <constraint firstItem="81u-60-SHd" firstAttribute="leading" secondItem="rOj-Ru-GcS" secondAttribute="leading" constant="15" id="SYm-c3-EwZ"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPW-L7-lOu">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPW-L7-lOu" userLabel="Edit Comment View">
                                 <rect key="frame" x="0.0" y="588" width="320" height="30"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="w8R-Og-j0S" customClass="HXTextView">
@@ -76,12 +82,6 @@
                                     <constraint firstItem="w8R-Og-j0S" firstAttribute="top" secondItem="nPW-L7-lOu" secondAttribute="top" constant="8" id="pZV-4e-Wcz"/>
                                 </constraints>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dwx-2O-wz1">
-                                <rect key="frame" x="0.0" y="20" width="320" height="488"/>
-                                <connections>
-                                    <segue destination="skb-wG-FT4" kind="embed" id="e9h-sa-jac"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -89,12 +89,12 @@
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="top" secondItem="Dwx-2O-wz1" secondAttribute="bottom" id="FPN-ca-lW7"/>
                             <constraint firstAttribute="trailing" secondItem="Dwx-2O-wz1" secondAttribute="trailing" id="MR9-lQ-2ei"/>
                             <constraint firstItem="nPW-L7-lOu" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="Nl8-N8-RB8"/>
+                            <constraint firstItem="Dwx-2O-wz1" firstAttribute="top" secondItem="loc-IR-PTY" secondAttribute="top" id="PRw-H4-dOT"/>
                             <constraint firstAttribute="trailing" secondItem="nPW-L7-lOu" secondAttribute="trailing" id="iGt-HH-Lcs"/>
                             <constraint firstAttribute="bottom" secondItem="nPW-L7-lOu" secondAttribute="bottom" constant="-50" id="ia2-mQ-kYd"/>
                             <constraint firstAttribute="trailing" secondItem="rOj-Ru-GcS" secondAttribute="trailing" id="oQd-Xh-7j4"/>
                             <constraint firstItem="Dwx-2O-wz1" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="vk2-2X-LdX"/>
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="wy2-Uh-9vA"/>
-                            <constraint firstItem="Dwx-2O-wz1" firstAttribute="top" secondItem="f1L-EU-SJ5" secondAttribute="bottom" id="x8g-3s-md7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="详情页" id="HAA-WS-VHh">
@@ -106,6 +106,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="commentViewBottomConstraint" destination="ia2-mQ-kYd" id="1IC-9C-g9q"/>
                         <outlet property="editCommentView" destination="w8R-Og-j0S" id="OKl-Vw-F1t"/>
                     </connections>
                 </viewController>
