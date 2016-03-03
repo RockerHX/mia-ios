@@ -12,6 +12,7 @@
                 <outlet property="cardUserLabel" destination="Bf7-hc-ci7" id="MKT-ZX-uil"/>
                 <outlet property="cardUserView" destination="8sl-fo-mRt" id="VqD-yI-zYA"/>
                 <outlet property="cover" destination="2U2-sO-h5F" id="XTg-7c-IKv"/>
+                <outlet property="playButton" destination="UBP-ye-QIy" id="njs-QE-Vje"/>
                 <outlet property="singerNameLabel" destination="wQu-4t-emA" id="rPu-cb-maa"/>
                 <outlet property="songNameLabel" destination="RM3-0g-IQ9" id="Qnd-iP-gyJ"/>
             </connections>
@@ -89,6 +90,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBP-ye-QIy" userLabel="Play Button">
                     <rect key="frame" x="113" y="112" width="35" height="35"/>
                     <state key="normal" image="M-PlayIcon"/>
+                    <state key="selected" image="M-PauseIcon"/>
                     <connections>
                         <action selector="playAction" destination="-1" eventType="touchUpInside" id="OW0-8c-EyZ"/>
                     </connections>
@@ -148,6 +150,7 @@
     </objects>
     <resources>
         <image name="D-MaskBG" width="325" height="325"/>
+        <image name="M-PauseIcon" width="35" height="35"/>
         <image name="M-PlayIcon" width="35" height="35"/>
     </resources>
 </document>

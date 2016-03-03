@@ -11,6 +11,7 @@
 #import "ShareItem.h"
 #import "UIImageView+WebCache.h"
 #import "UIView+Frame.h"
+#import "MusicMgr.h"
 
 @implementation HXDiscoveryCover {
     __weak ShareItem *_shareItem;
@@ -26,10 +27,16 @@ HXXibImplementation
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _cover.layer.drawsAsynchronously = YES;
     _cardUserAvatar.layer.drawsAsynchronously = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
@@ -51,9 +58,22 @@ HXXibImplementation
 
 #pragma mark - Event Response
 - (IBAction)playAction {
-    if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
-        [_delegate cover:self takeAcion:HXDiscoveryCoverActionPlay];
+    MusicMgr *musicMgr = [MusicMgr standard];
+    if ([musicMgr.currentItem.music.murl isEqualToString:_shareItem.music.murl]) {
+        if (musicMgr.isPlaying) {
+            _playButton.selected = YES;
+            [musicMgr pause];
+        } else {
+            _playButton.selected = NO;
+            [[MusicMgr standard] playCurrent];
+        }
+    } else {
+        _playButton.selected = NO;
+        if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
+            [_delegate cover:self takeAcion:HXDiscoveryCoverActionPlay];
+        }
     }
+    
 }
 
 - (IBAction)showProfileAction {
@@ -68,9 +88,31 @@ HXXibImplementation
     }
 }
 
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    if ([_shareItem.sID isEqualToString:sID]) {
+        switch (event) {
+            case MiaPlayerEventDidPlay:
+                _playButton.selected = YES;
+                break;
+            case MiaPlayerEventDidPause:
+            case MiaPlayerEventDidCompletion:
+                _playButton.selected = NO;
+                break;
+            default:
+                NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
+                break;
+        }
+    }
+}
+
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     _shareItem = item;
+    [self updatePlayState];
     
     BOOL isShare = [self isSharer];
     UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
@@ -87,6 +129,15 @@ HXXibImplementation
 #pragma mark - Private Methods
 - (BOOL)isSharer {
     return [_shareItem.shareUser.uid isEqualToString:_shareItem.spaceUser.uid];
+}
+
+- (void)updatePlayState {
+    MusicMgr *musicMgr = [MusicMgr standard];
+    if ([musicMgr isPlayingWithUrl:_shareItem.music.murl]) {
+        _playButton.selected = YES;
+    } else {
+        _playButton.selected = NO;
+    }
 }
 
 //#pragma mark - Public Methods

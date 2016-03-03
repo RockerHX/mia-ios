@@ -189,6 +189,9 @@ HXXibImplementation
             }
             break;
         }
+        case HXInfectViewActionLayout: {
+            break;
+        }
     }
 }
 
