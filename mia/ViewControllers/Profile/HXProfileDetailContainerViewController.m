@@ -19,6 +19,7 @@
 #import "FavoriteMgr.h"
 #import "HXUserSession.h"
 #import "NSObject+LoginAction.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -169,9 +170,9 @@ HXProfileShareCellDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
-        [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMusicDetail];
-    }
+    HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+    detailViewController.playItem = _viewModel.dataSource[indexPath.row];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 #pragma mark - HXProfileDetailHeaderDelegate Methods

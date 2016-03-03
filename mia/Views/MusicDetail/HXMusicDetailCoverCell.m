@@ -9,9 +9,8 @@
 #import "HXMusicDetailCoverCell.h"
 #import "HXMusicDetailViewModel.h"
 #import "UIImageView+WebCache.h"
-#import "MusicMgr.h"
-#import "HXVersion.h"
 #import "UIConstants.h"
+#import "MusicMgr.h"
 
 @implementation HXMusicDetailCoverCell {
     ShareItem *_playItem;
@@ -32,26 +31,22 @@
 }
 
 - (void)viewConfigure {
-    [self configFrontCover];
-    
-    if ([HXVersion isIPhone5SPrior]) {
-        _coverToTopConstraint.constant = 25.0f;
-    }
-}
-
-- (void)configFrontCover {
     _coverImageView.layer.borderColor = UIColorByHex(0xd7dede).CGColor;
     _coverImageView.layer.borderWidth = 0.5f;
 }
 
 #pragma mark - Event Response
 - (IBAction)playButtonPressed {
+    HXMusicDetailCoverCellAction action = HXMusicDetailCoverCellActionPlay;
     MusicMgr *musicMgr = [MusicMgr standard];
     if ([musicMgr isPlayingWithUrl:_playItem.music.murl]) {
-        [musicMgr pause];
+        action = HXMusicDetailCoverCellActionPause;
         _playButton.selected = NO;
     } else {
-        [musicMgr playWithItem:_playItem];
+        _playButton.selected = YES;
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(coverCell:takeAction:)]) {
+        [_delegate coverCell:self takeAction:action];
     }
 }
 

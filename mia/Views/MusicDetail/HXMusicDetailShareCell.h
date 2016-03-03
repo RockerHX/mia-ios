@@ -8,6 +8,10 @@
 
 #import "UITableView+FDTemplateLayoutCell.h"
 
+typedef NS_ENUM(NSUInteger, HXMusicDetailShareCellAction) {
+    HXMusicDetailShareCellActionShowSharer,
+};
+
 @class ShareItem;
 @class TTTAttributedLabel;
 @class HXMusicDetailShareCell;
@@ -15,7 +19,7 @@
 @protocol HXMusicDetailShareCellDelegate <NSObject>
 
 @required
-- (void)cellUserWouldLikeSeeSharerInfo:(HXMusicDetailShareCell *)cell;
+- (void)shareCell:(HXMusicDetailShareCell *)cell takeAction:(HXMusicDetailShareCellAction)action;
 
 @end
 

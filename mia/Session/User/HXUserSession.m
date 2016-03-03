@@ -73,6 +73,10 @@ typedef void(^FailureBlock)(NSString *);
     [self archiveUser:user];
 }
 
+- (void)sysnc {
+    [self updateUser:_user];
+}
+
 - (void)logout {
     [self updateUser:[HXUserModel new]];
 }

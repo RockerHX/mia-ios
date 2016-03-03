@@ -27,7 +27,6 @@ typedef void(^FailureBlock)(NSString *);
     CommentReuqestBlock _lastCommentReuqestBlock;
     CommentReuqestBlock _reportViewsBlock;
     
-    NSInteger _rowCount;
     NSArray *_rowTypes;
     CommentModel *_dataModel;
     ShareItem *_playItem;
@@ -59,7 +58,6 @@ typedef void(^FailureBlock)(NSString *);
 - (void)initConfigure {
     [self setupRowTypes];
     _dataModel = [[CommentModel alloc] init];
-    _rowCount = _rowTypes.count;
 }
 
 - (void)setupRowTypes {
@@ -67,7 +65,6 @@ typedef void(^FailureBlock)(NSString *);
                   @(HXMusicDetailRowSong),
                   @(HXMusicDetailRowShare),
                   @(HXMusicDetailRowPrompt)];
-    _rowCount = _rowTypes.count;
 }
 
 #pragma mark - Setter And Getter
@@ -88,7 +85,7 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (NSInteger)rows {
-    return (_playItem ? _rowCount : 0);
+    return (_playItem ? _rowTypes.count : 0);
 }
 
 - (NSInteger)regularRow {
@@ -248,7 +245,6 @@ typedef void(^FailureBlock)(NSString *);
     } else {
         [array addObject:@(HXMusicDetailRowNoComment)];
     }
-    _rowCount = array.count;
     _rowTypes = [array copy];
 }
 

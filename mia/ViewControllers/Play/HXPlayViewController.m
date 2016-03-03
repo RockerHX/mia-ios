@@ -13,6 +13,11 @@
 #import "MusicMgr.h"
 #import "UIImageView+WebCache.h"
 #import "HXPlayListViewController.h"
+#import "HXUserSession.h"
+#import "MiaAPIHelper.h"
+#import "LocationMgr.h"
+#import "HXAlertBanner.h"
+#import "FavoriteMgr.h"
 
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
@@ -94,6 +99,10 @@ HXPlayListViewControllerDelegate
 - (void)updateBottomBar {
     [self startMusicTimeRead];
     
+    ShareItem *item = _musicMgr.currentItem;
+    _bottomBar.favorited = item.favorite;
+    _bottomBar.infected = item.isInfected;
+    
     NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);
@@ -150,6 +159,82 @@ HXPlayListViewControllerDelegate
     [self displayPlayView];
 }
 
+- (void)takeFavoriteAction {
+    switch ([HXUserSession share].userState) {
+        case HXUserStateLogout: {
+            [self shouldLogin];
+            break;
+        }
+        case HXUserStateLogin: {
+            ShareItem *item = _musicMgr.currentItem;
+            [MiaAPIHelper favoriteMusicWithShareID:item.sID
+                                        isFavorite:!item.favorite
+                                     completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 if (success) {
+                     id act = userInfo[MiaAPIKey_Values][@"act"];
+                     id sID = userInfo[MiaAPIKey_Values][@"id"];
+                     BOOL favorite = [act intValue];
+                     if ([item.sID integerValue] == [sID intValue]) {
+                         item.favorite = favorite;
+                     }
+                     
+                     [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                     [self displayPlayView];
+                     // 收藏操作成功后同步下收藏列表并检查下载
+                     [[FavoriteMgr standard] syncFavoriteList];
+                 } else {
+                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+             }];
+            break;
+        }
+    }
+}
+
+- (void)takeInfectAction {
+    switch ([HXUserSession share].userState) {
+        case HXUserStateLogout: {
+            [self shouldLogin];
+            break;
+        }
+        case HXUserStateLogin: {
+            ShareItem *item = _musicMgr.currentItem;
+            // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+            [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                        longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                          address:[[LocationMgr standard] currentAddress]
+                                             spID:item.spID
+                                    completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 if (success) {
+                     int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+                     int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
+                     NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+                     NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
+                     
+                     if ([spID isEqualToString:item.spID]) {
+                         item.infectTotal = infectTotal;
+                         [item parseInfectUsersFromJsonArray:infectArray];
+                         item.isInfected = isInfected;
+                     }
+                     [self displayPlayView];
+                 } else {
+                     NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                     [HXAlertBanner showWithMessage:error tap:nil];
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 item.isInfected = YES;
+                 [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+             }];
+            break;
+        }
+    }
+}
+
 #pragma mark - HXPlayTopBarDelegate Methods
 - (void)topBar:(HXPlayTopBar *)bar takeAction:(HXPlayTopBarAction)action {
     switch (action) {
@@ -178,7 +263,7 @@ HXPlayListViewControllerDelegate
 - (void)bottomBar:(HXPlayBottomBar *)bar takeAction:(HXPlayBottomBarAction)action {
     switch (action) {
         case HXPlayBottomBarActionFavorite: {
-            ;
+            [self takeFavoriteAction];
             break;
         }
         case HXPlayBottomBarActionPrevious: {
@@ -194,7 +279,7 @@ HXPlayListViewControllerDelegate
             break;
         }
         case HXPlayBottomBarActionInfect: {
-            ;
+            [self takeInfectAction];
             break;
         }
     }

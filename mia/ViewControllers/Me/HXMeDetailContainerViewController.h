@@ -14,7 +14,6 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailContainerAction) {
     HXProfileDetailContainerActionShowFans,
     HXProfileDetailContainerActionShowFollow,
     HXProfileDetailContainerActionShowMessageCenter,
-    HXProfileDetailContainerActionShowMusicDetail,
 };
 
 @class HXMeDetailContainerViewController;

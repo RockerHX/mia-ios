@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, HXMusicDetailCoverCellAction) {
+    HXMusicDetailCoverCellActionPlay,
+    HXMusicDetailCoverCellActionPause,
+};
+
 @class HXMusicDetailViewModel;
+@class HXMusicDetailCoverCell;
 
 @protocol HXMusicDetailCoverCellDelegate <NSObject>
 
 @required
+- (void)coverCell:(HXMusicDetailCoverCell *)cell takeAction:(HXMusicDetailCoverCellAction)action;
 
 @end
 
@@ -24,11 +31,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet    UIButton *playButton;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverToTopConstraint;
-
 - (IBAction)playButtonPressed;
 
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
-- (void)stopPlay;
 
 @end

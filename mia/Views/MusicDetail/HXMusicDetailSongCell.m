@@ -23,14 +23,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 60.0f;
-}
-
-#pragma mark - Event Response
-- (IBAction)starButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(cellUserWouldLikeStar:)]) {
-        [_delegate cellUserWouldLikeStar:self];
-    }
+    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 30.0f;
 }
 
 #pragma mark - Public Methods
@@ -40,16 +33,7 @@
 	}
 	
     MusicItem *musicItem = item.music;
-    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@"-" stringByAppendingString:musicItem.singerName]];
-    [self updateStatStateWithFavorite:item.favorite];
-}
-
-- (void)updateStatStateWithFavorite:(BOOL)favorite {
-    if (favorite) {
-        [_starButton setImage:[UIImage imageNamed:@"MD-StarIcon"] forState:UIControlStateNormal];
-    } else {
-        [_starButton setImage:[UIImage imageNamed:@"MD-UnStarIcon"] forState:UIControlStateNormal];
-    }
+    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@" - " stringByAppendingString:musicItem.singerName]];
 }
 
 #pragma mark - Private Methods

@@ -8,8 +8,8 @@
 
 #import "ShareListMgr.h"
 #import "PathHelper.h"
-#import "UserSession.h"
 #import "FileLog.h"
+#import "HXUserSession.h"
 
 const int kShareListCapacity					= 25;
 const int kHistoryItemsMaxCount					= 15;
@@ -19,7 +19,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 #pragma mark - Class Methods
 + (instancetype)initFromArchive {
-	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper shareArchivePathWithUID:[[UserSession standard] uid]]];
+	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper shareArchivePathWithUID:[[HXUserSession share] uid]]];
 	if (!aMgr) {
 	    aMgr = [[self alloc] init];
 	}
@@ -113,7 +113,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 - (BOOL)saveChanges {
-	NSString *fileName = [PathHelper shareArchivePathWithUID:[[UserSession standard] uid]];
+	NSString *fileName = [PathHelper shareArchivePathWithUID:[[HXUserSession share] uid]];
 	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {

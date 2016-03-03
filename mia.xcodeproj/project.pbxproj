@@ -104,7 +104,6 @@
 		CDE539581C7BFCE200E0616D /* SingleSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539481C7BFCE200E0616D /* SingleSongPlayer.m */; };
 		CDE5395A1C7BFCE200E0616D /* SongPreloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5394C1C7BFCE200E0616D /* SongPreloader.m */; };
 		CDE5395B1C7BFCE200E0616D /* ShareListMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5394F1C7BFCE200E0616D /* ShareListMgr.m */; };
-		CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539521C7BFCE200E0616D /* UserSession.m */; };
 		CDE5395D1C7BFCE200E0616D /* UserSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539551C7BFCE200E0616D /* UserSetting.m */; };
 		CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539641C7BFD1000E0616D /* MiaAPIHelper.m */; };
 		CDE539701C7BFD1000E0616D /* MiaRequestItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539681C7BFD1000E0616D /* MiaRequestItem.m */; };
@@ -370,8 +369,6 @@
 		CDE5394C1C7BFCE200E0616D /* SongPreloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPreloader.m; sourceTree = "<group>"; };
 		CDE5394E1C7BFCE200E0616D /* ShareListMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareListMgr.h; sourceTree = "<group>"; };
 		CDE5394F1C7BFCE200E0616D /* ShareListMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareListMgr.m; sourceTree = "<group>"; };
-		CDE539511C7BFCE200E0616D /* UserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSession.h; sourceTree = "<group>"; };
-		CDE539521C7BFCE200E0616D /* UserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSession.m; sourceTree = "<group>"; };
 		CDE539541C7BFCE200E0616D /* UserSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSetting.h; sourceTree = "<group>"; };
 		CDE539551C7BFCE200E0616D /* UserSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSetting.m; sourceTree = "<group>"; };
 		CDE539631C7BFD1000E0616D /* MiaAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiaAPIHelper.h; sourceTree = "<group>"; };
@@ -756,7 +753,6 @@
 				CDE539411C7BFCE200E0616D /* FavoriteMgr */,
 				CDE539441C7BFCE200E0616D /* MusicMgr */,
 				CDE5394D1C7BFCE200E0616D /* ShareListMgr */,
-				CDE539501C7BFCE200E0616D /* UserSession */,
 				CDE539531C7BFCE200E0616D /* UserSetting */,
 				CD2D3B081C7B17D3002E34D1 /* User */,
 			);
@@ -1196,18 +1192,18 @@
 		CDDAC5021C87DAF900F27051 /* MusicDetail */ = {
 			isa = PBXGroup;
 			children = (
-				CDDAC5031C87DAF900F27051 /* HXMusicDetailCommentCell.h */,
-				CDDAC5041C87DAF900F27051 /* HXMusicDetailCommentCell.m */,
 				CDDAC5051C87DAF900F27051 /* HXMusicDetailCoverCell.h */,
 				CDDAC5061C87DAF900F27051 /* HXMusicDetailCoverCell.m */,
-				CDDAC5071C87DAF900F27051 /* HXMusicDetailNoCommentCell.h */,
-				CDDAC5081C87DAF900F27051 /* HXMusicDetailNoCommentCell.m */,
-				CDDAC5091C87DAF900F27051 /* HXMusicDetailPromptCell.h */,
-				CDDAC50A1C87DAF900F27051 /* HXMusicDetailPromptCell.m */,
-				CDDAC50B1C87DAF900F27051 /* HXMusicDetailShareCell.h */,
-				CDDAC50C1C87DAF900F27051 /* HXMusicDetailShareCell.m */,
 				CDDAC50D1C87DAF900F27051 /* HXMusicDetailSongCell.h */,
 				CDDAC50E1C87DAF900F27051 /* HXMusicDetailSongCell.m */,
+				CDDAC50B1C87DAF900F27051 /* HXMusicDetailShareCell.h */,
+				CDDAC50C1C87DAF900F27051 /* HXMusicDetailShareCell.m */,
+				CDDAC5091C87DAF900F27051 /* HXMusicDetailPromptCell.h */,
+				CDDAC50A1C87DAF900F27051 /* HXMusicDetailPromptCell.m */,
+				CDDAC5071C87DAF900F27051 /* HXMusicDetailNoCommentCell.h */,
+				CDDAC5081C87DAF900F27051 /* HXMusicDetailNoCommentCell.m */,
+				CDDAC5031C87DAF900F27051 /* HXMusicDetailCommentCell.h */,
+				CDDAC5041C87DAF900F27051 /* HXMusicDetailCommentCell.m */,
 			);
 			path = MusicDetail;
 			sourceTree = "<group>";
@@ -1250,15 +1246,6 @@
 				CDE5394F1C7BFCE200E0616D /* ShareListMgr.m */,
 			);
 			path = ShareListMgr;
-			sourceTree = "<group>";
-		};
-		CDE539501C7BFCE200E0616D /* UserSession */ = {
-			isa = PBXGroup;
-			children = (
-				CDE539511C7BFCE200E0616D /* UserSession.h */,
-				CDE539521C7BFCE200E0616D /* UserSession.m */,
-			);
-			path = UserSession;
 			sourceTree = "<group>";
 		};
 		CDE539531C7BFCE200E0616D /* UserSetting */ = {
@@ -2117,7 +2104,6 @@
 				CD74FC251C7C662B00DBEB83 /* HXActivityIndicator.m in Sources */,
 				CDE539BA1C7BFD5200E0616D /* SearchResultItem.m in Sources */,
 				CDE5396F1C7BFD1000E0616D /* MiaAPIHelper.m in Sources */,
-				CDE5395C1C7BFCE200E0616D /* UserSession.m in Sources */,
 				CDEF7ACA1C7EFDD400354229 /* HXPlayTopBar.m in Sources */,
 				CDFEABF51C8595370039954C /* FriendViewController.m in Sources */,
 				CDDAC5011C87DAD800F27051 /* HXMusicDetailViewModel.m in Sources */,

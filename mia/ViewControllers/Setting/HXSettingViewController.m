@@ -9,7 +9,6 @@
 #import "HXSettingViewController.h"
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
-#import "UserSession.h"
 #import "HXAlertBanner.h"
 #import "FileLog.h"
 #import "HXFeedBackViewController.h"
@@ -120,7 +119,7 @@ GenderPickerViewDelegate
 }
 
 - (void)loadNickName {
-    _nickNameTextField.text = [[UserSession standard] nick];
+    _nickNameTextField.text = [HXUserSession share].user.nickName;
 }
 
 - (void)loadNetworkingSetting {
@@ -197,8 +196,8 @@ GenderPickerViewDelegate
     }];
     
     [_avatarImageView setImage:avatarImage];
-    NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
-    [[UserSession standard] setAvatar:avatarUrlWithTime];
+    [HXUserSession share].user.avatar = url;
+    [[HXUserSession share] sysnc];
 }
 
 - (void)postNickNameChange:(NSString *)nick {
@@ -211,7 +210,8 @@ GenderPickerViewDelegate
     
     [MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
         if (success) {
-            [[UserSession standard] setNick:_nickNameTextField.text];
+            [HXUserSession share].user.nickName = _nickNameTextField.text;
+            [[HXUserSession share] sysnc];
             _lastNickName = _nickNameTextField.text;
             [HXAlertBanner showWithMessage:@"修改昵称成功" tap:nil];
         } else {
@@ -342,7 +342,7 @@ GenderPickerViewDelegate
                 NSLog(@"logout then sendUUID timeout");
             }];
             
-            [[UserSession standard] logout];
+            [[HXUserSession share] logout];
             [HXAlertBanner showWithMessage:@"退出登录成功" tap:nil];
             [strongSelf.navigationController popToRootViewControllerAnimated:YES];
         } else {

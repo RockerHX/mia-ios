@@ -193,9 +193,6 @@ HXMeNavigationBarDelegate
 			[self.navigationController pushViewController:messageCenterViewController animated:YES];
             break;
         }
-        case HXProfileDetailContainerActionShowMusicDetail: {
-            break;
-        }
     }
 }
 

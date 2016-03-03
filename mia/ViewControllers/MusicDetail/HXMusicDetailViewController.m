@@ -135,13 +135,12 @@
 }
 
 - (IBAction)sendButtonPressed {
-    [_editCommentView resignFirstResponder];
-    
     NSString *content = _editCommentView.text;
     if (content.length) {
+        [_editCommentView resignFirstResponder];
         [self postCommentWithSID:_viewModel.playItem.sID content:content];
     } else {
-        ;
+        [self showBannerWithPrompt:@"评论不能为空！"];
     }
 }
 
@@ -168,9 +167,9 @@
         strongSelf->_container.viewModel = viewModel;
         [strongSelf->_container reload];
         
-//        [viewModel requestComments:^(BOOL success) {
-//            [strongSelf->_container reload];
-//        }];
+        [viewModel requestComments:^(BOOL success) {
+            [strongSelf->_container reload];
+        }];
         [self hiddenLoadingView];
     } failure:^(NSString *message) {
         [HXAlertBanner showWithMessage:message tap:nil];
@@ -188,14 +187,14 @@
 - (void)layoutCommentViewWithHeight:(CGFloat)height {
     __weak __typeof__(self)weakSelf = self;
     _commentViewBottomConstraint.constant = height;
-    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         __strong __typeof__(self)strongSelf = weakSelf;
         [strongSelf.view layoutIfNeeded];
     } completion:nil];
 }
 
 - (void)postCommentWithSID:(NSString *)sID content:(NSString *)content {
-    [self showMessage:@"正在提交评论"];
+    [self showBannerWithPrompt:@"正在提交评论。。。"];
     [MiaAPIHelper postCommentWithShareID:sID
                                  comment:content
 							   commentID:_atComment ? _atComment.cmid : nil

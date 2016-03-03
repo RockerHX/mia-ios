@@ -13,7 +13,6 @@
 #import "HXAlertBanner.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIView+Frame.h"
-#import "UserSession.h"
 #import "HXProfileViewController.h"
 //#import "HXMusicDetailViewController.h"
 
@@ -72,7 +71,7 @@ static const long kMessagePageCount = 10;
 						completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [[UserSession standard] clearNotify];
+//			 [[UserSession standard] clearNotify];
 
 			 NSArray *items = userInfo[@"v"][@"info"];
 			 if ([items count] > 0) {

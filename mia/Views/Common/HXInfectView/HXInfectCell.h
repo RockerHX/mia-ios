@@ -16,7 +16,6 @@
 + (UINib *)nib;
 + (NSString *)className;
 
-- (void)displayInfected:(BOOL)infected;
 - (void)displayWithInfecter:(InfectUserItem *)infecter;
 
 @end
