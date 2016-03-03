@@ -43,16 +43,20 @@
 
 #pragma mark - Event Response
 - (IBAction)playButtonPressed {
-    HXMusicDetailCoverCellAction action = HXMusicDetailCoverCellActionPlay;
     MusicMgr *musicMgr = [MusicMgr standard];
-    if ([musicMgr isPlayingWithUrl:_playItem.music.murl]) {
-        action = HXMusicDetailCoverCellActionPause;
-        _playButton.selected = NO;
+    if ([musicMgr.currentItem.music.murl isEqualToString:_playItem.music.murl]) {
+        if (musicMgr.isPlaying) {
+            _playButton.selected = NO;
+            [musicMgr pause];
+        } else {
+            _playButton.selected = YES;
+            [[MusicMgr standard] playCurrent];
+        }
     } else {
         _playButton.selected = YES;
-    }
-    if (_delegate && [_delegate respondsToSelector:@selector(coverCell:takeAction:)]) {
-        [_delegate coverCell:self takeAction:action];
+        if (_delegate && [_delegate respondsToSelector:@selector(coverCell:takeAction:)]) {
+            [_delegate coverCell:self takeAction:HXMusicDetailCoverCellActionPlay];
+        }
     }
 }
 

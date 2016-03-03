@@ -203,7 +203,6 @@
             break;
         }
         case HXMusicDetailCoverCellActionPause: {
-            [[MusicMgr standard] pause];
             break;
         }
     }

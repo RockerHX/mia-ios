@@ -73,7 +73,6 @@ HXXibImplementation
             [_delegate cover:self takeAcion:HXDiscoveryCoverActionPlay];
         }
     }
-    
 }
 
 - (IBAction)showProfileAction {
