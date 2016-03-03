@@ -67,15 +67,38 @@ HXPlayListViewControllerDelegate
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _musicMgr = [MusicMgr standard];
-    
-    [self displayPlayView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
-    ;
+    [self displayPlayView];
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    switch (event) {
+        case MiaPlayerEventDidPlay:
+            _bottomBar.pause = NO;
+            break;
+        case MiaPlayerEventDidPause:
+            _bottomBar.pause = YES;
+            break;
+        case MiaPlayerEventDidCompletion:
+            _bottomBar.pause = NO;
+            break;
+        default:
+            NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
+            break;
+    }
 }
 
 #pragma mark - Private Methods
