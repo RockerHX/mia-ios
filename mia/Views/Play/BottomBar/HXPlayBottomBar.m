@@ -45,7 +45,7 @@ HXXibImplementation
 
 - (void)setPause:(BOOL)pause {
     _pause = pause;
-    [_pauseButton setImage:[UIImage imageNamed:(pause ? @"P-PlayIcon" : @"P-PauseIcon")] forState:UIControlStateNormal];
+    [_pauseButton setImage:[UIImage imageNamed:(pause ? @"P-PauseIcon" : @"P-PlayIcon")] forState:UIControlStateNormal];
 }
 
 - (void)setEnablePrevious:(BOOL)enablePrevious {

@@ -83,20 +83,6 @@ HXPlayListViewControllerDelegate
 
 #pragma mark - Notification Methods
 - (void)notificationPlayerEvent:(NSNotification *)notification {
-    NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
-    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
-    switch (event) {
-        case MiaPlayerEventDidPlay:
-            _bottomBar.pause = NO;
-            break;
-        case MiaPlayerEventDidPause:
-        case MiaPlayerEventDidCompletion:
-            _bottomBar.pause = YES;
-            break;
-        default:
-            NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
-            break;
-    }
     [self displayPlayView];
 }
 
@@ -128,6 +114,8 @@ HXPlayListViewControllerDelegate
     NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);
+#warning Eden 播放状态的问题
+    _bottomBar.pause = _musicMgr.isPlaying;
     _bottomBar.enablePrevious = !isFirst;
     _bottomBar.enableNext = !isLast;
 }
