@@ -59,6 +59,10 @@ typedef void(^FailureBlock)(NSString *);
 - (void)fetchProfileListData:(void(^)(HXMeViewModel *viewModel))completed failure:(void(^)(NSString *message))failure {
     _completedBlock = completed;
     _failureBlock = failure;
+
+	_shareListPage = 1;
+	_shareLists = @[].mutableCopy;
+	
     [self fetchUserListData];
 }
 
