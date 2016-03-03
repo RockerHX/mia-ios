@@ -7,25 +7,23 @@
 //
 
 #import "HXMusicDetailViewController.h"
-#import "HXMusicDetailViewModel.h"
+#import "HXMusicDetailContainerViewController.h"
 #import "ShareItem.h"
 #import "UIActionSheet+BlocksKit.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
-#import "HXInfectListView.h"
-#import "LocationMgr.h"
-#import "MBProgressHUDHelp.h"
 #import "HXTextView.h"
-#import "FavoriteMgr.h"
-#import "HXProfileViewController.h"
-#import "WebSocketMgr.h"
 #import "HXComment.h"
 #import "HXUserSession.h"
+#import "HXLoadingView.h"
 
 @interface HXMusicDetailViewController ()
 @end
 
 @implementation HXMusicDetailViewController {
+    HXLoadingView *_loadingView;
+    HXMusicDetailContainerViewController *_container;
+    
     HXMusicDetailViewModel *_viewModel;
     HXComment *_atComment;
 }
@@ -35,12 +33,19 @@
     return HXStoryBoardNameMusicDetail;
 }
 
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    _container = segue.destinationViewController;
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self loadConfigure];
     [self viewConfigure];
+    
+    [self fetchData];
 }
 
 - (void)dealloc {
@@ -50,13 +55,25 @@
 
 #pragma mark - Config Methods
 - (void)loadConfigure {
-	//添加键盘监听
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [self initConfigure];
+    [self registerNotification];
+}
+
+- (void)initConfigure {
+    _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+}
+
+- (void)registerNotification {
+    //添加键盘监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewConfigure {
     _editCommentView.scrollsToTop = NO;
+    
+    _loadingView = [HXLoadingView new];
+    [_loadingView showOnViewController:self];
 }
 
 #pragma mark - Event Response
@@ -140,15 +157,21 @@
 }
 
 #pragma mark - Private Methods
-- (void)loadDetailData {
+- (void)hiddenLoadingView {
+    _loadingView.loadState = HXLoadStateSuccess;
+}
+
+- (void)fetchData {
     __weak __typeof__(self)weakSelf = self;
     [_viewModel fetchShareItem:^(HXMusicDetailViewModel *viewModel) {
         __strong __typeof__(self)strongSelf = weakSelf;
-//        [strongSelf.tableView reloadData];
+        strongSelf->_container.viewModel = viewModel;
+        [strongSelf->_container reload];
         
-        [viewModel requestComments:^(BOOL success) {
-//            [strongSelf.tableView reloadData];
-        }];
+//        [viewModel requestComments:^(BOOL success) {
+//            [strongSelf->_container reload];
+//        }];
+        [self hiddenLoadingView];
     } failure:^(NSString *message) {
         [HXAlertBanner showWithMessage:message tap:nil];
     }];
@@ -172,29 +195,26 @@
 }
 
 - (void)postCommentWithSID:(NSString *)sID content:(NSString *)content {
-    __weak __typeof__(self)weakSelf = self;
-    MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
+    [self showMessage:@"正在提交评论"];
     [MiaAPIHelper postCommentWithShareID:sID
                                  comment:content
 							   commentID:_atComment ? _atComment.cmid : nil
                            completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
-             strongSelf.editCommentView.text = @"";
-			 strongSelf.editCommentView.placeholderText = @"";
-			 strongSelf->_atComment = nil;
+             _editCommentView.text = @"";
+			 _editCommentView.placeholderText = @"";
+			 _atComment = nil;
 
-             [strongSelf requestLatestComments];
+             [self requestLatestComments];
              [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
              [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
          }
-         
-         [aMBProgressHUD removeFromSuperview];
+         [self hiddenHUD];
      } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [aMBProgressHUD removeFromSuperview];
+         [self hiddenHUD];
          [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
      }];
 }
@@ -204,7 +224,7 @@
     [_viewModel requestLatestComments:^(BOOL success) {
         __strong __typeof__(self)strongSelf = weakSelf;
         if (YES) {
-//            [strongSelf.tableView reloadData];
+            [strongSelf->_container reload];
         }
     }];
 }

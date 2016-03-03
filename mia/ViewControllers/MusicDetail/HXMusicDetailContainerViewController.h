@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXMusicDetailViewModel.h"
 
 @interface HXMusicDetailContainerViewController : UITableViewController
+
+@property (nonatomic, weak) HXMusicDetailViewModel *viewModel;
+
+- (void)reload;
 
 @end

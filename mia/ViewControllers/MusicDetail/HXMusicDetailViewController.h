@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailAction) {
 
 @property (nonatomic, assign)      BOOL  fromProfile;
 @property (nonatomic, strong) ShareItem *playItem;
-@property (strong, nonatomic) NSString 	*sID;
+@property (strong, nonatomic)  NSString *sID;
 
 - (IBAction)moreButtonPressed;
 - (IBAction)commentButtonPressed;

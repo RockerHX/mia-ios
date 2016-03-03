@@ -7,7 +7,6 @@
 //
 
 #import "HXMusicDetailContainerViewController.h"
-#import "HXMusicDetailViewModel.h"
 #import "HXMusicDetailCoverCell.h"
 #import "HXMusicDetailSongCell.h"
 #import "HXMusicDetailShareCell.h"
@@ -31,9 +30,7 @@
 @interface HXMusicDetailContainerViewController () <HXMusicDetailCoverCellDelegate, HXMusicDetailSongCellDelegate, HXMusicDetailShareCellDelegate, HXMusicDetailPromptCellDelegate, HXMusicDetailCommentCellDelegate>
 @end
 
-@implementation HXMusicDetailContainerViewController {
-    HXMusicDetailViewModel 	*_viewModel;
-}
+@implementation HXMusicDetailContainerViewController
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
@@ -50,6 +47,11 @@
 
 - (void)viewConfigure {
     self.tableView.scrollsToTop = YES;
+}
+
+#pragma mark - Public Methods
+- (void)reload {
+    [self.tableView reloadData];
 }
 
 #pragma mark - Private Methods
@@ -76,22 +78,18 @@
         switch (rowType) {
             case HXMusicDetailRowCover: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCoverCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailCoverCell *)cell displayWithViewModel:_viewModel];
                 break;
             }
             case HXMusicDetailRowSong: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailSongCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailSongCell *)cell displayWithPlayItem:_viewModel.playItem];
                 break;
             }
             case HXMusicDetailRowShare: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailShareCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailShareCell *)cell displayWithShareItem:_viewModel.playItem];
                 break;
             }
             case HXMusicDetailRowPrompt: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailPromptCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
                 break;
             }
             case HXMusicDetailRowNoComment: {
@@ -100,7 +98,6 @@
             }
             case HXMusicDetailRowComment: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCommentCell class]) forIndexPath:indexPath];
-                [(HXMusicDetailCommentCell *)cell displayWithComment:_viewModel.comments[indexPath.row - _viewModel.regularRow]];
                 break;
             }
         }
@@ -109,13 +106,46 @@
 }
 
 #pragma mark - Table View Delegate Methods
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger index = indexPath.row;
+    NSArray *rowTypes = _viewModel.rowTypes;
+    if (rowTypes.count < index) {
+        HXMusicDetailRow rowType = [rowTypes[index] integerValue];
+        switch (rowType) {
+            case HXMusicDetailRowCover: {
+                [(HXMusicDetailCoverCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowSong: {
+                [(HXMusicDetailSongCell *)cell displayWithPlayItem:_viewModel.playItem];
+                break;
+            }
+            case HXMusicDetailRowShare: {
+                [(HXMusicDetailShareCell *)cell displayWithShareItem:_viewModel.playItem];
+                break;
+            }
+            case HXMusicDetailRowPrompt: {
+                [(HXMusicDetailPromptCell *)cell displayWithViewModel:_viewModel];
+                break;
+            }
+            case HXMusicDetailRowNoComment: {
+                break;
+            }
+            case HXMusicDetailRowComment: {
+                [(HXMusicDetailCommentCell *)cell displayWithComment:_viewModel.comments[indexPath.row - _viewModel.regularRow]];
+                break;
+            }
+        }
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0.0f;
     if (_viewModel) {
         HXMusicDetailRow rowType = [_viewModel.rowTypes[indexPath.row] integerValue];
         switch (rowType) {
             case HXMusicDetailRowCover: {
-                height = _viewModel.frontCoverCellHeight;
+                height = _viewModel.coverCellHeight;
                 break;
             }
             case HXMusicDetailRowSong: {

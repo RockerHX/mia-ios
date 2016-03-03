@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-Ru-GcS">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-Ru-GcS" userLabel="Comment View">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81u-60-SHd">
@@ -77,7 +77,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dwx-2O-wz1">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="508"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="488"/>
                                 <connections>
                                     <segue destination="skb-wG-FT4" kind="embed" id="e9h-sa-jac"/>
                                 </connections>
@@ -85,7 +85,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Dwx-2O-wz1" firstAttribute="top" secondItem="loc-IR-PTY" secondAttribute="top" id="6j6-aJ-Ur0"/>
                             <constraint firstAttribute="bottom" secondItem="rOj-Ru-GcS" secondAttribute="bottom" id="Aag-yz-bRO"/>
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="top" secondItem="Dwx-2O-wz1" secondAttribute="bottom" id="FPN-ca-lW7"/>
                             <constraint firstAttribute="trailing" secondItem="Dwx-2O-wz1" secondAttribute="trailing" id="MR9-lQ-2ei"/>
@@ -95,10 +94,11 @@
                             <constraint firstAttribute="trailing" secondItem="rOj-Ru-GcS" secondAttribute="trailing" id="oQd-Xh-7j4"/>
                             <constraint firstItem="Dwx-2O-wz1" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="vk2-2X-LdX"/>
                             <constraint firstItem="rOj-Ru-GcS" firstAttribute="leading" secondItem="loc-IR-PTY" secondAttribute="leading" id="wy2-Uh-9vA"/>
+                            <constraint firstItem="Dwx-2O-wz1" firstAttribute="top" secondItem="f1L-EU-SJ5" secondAttribute="bottom" id="x8g-3s-md7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="详情页" id="HAA-WS-VHh">
-                        <barButtonItem key="rightBarButtonItem" image="MD-MoreButtonIcon" id="4u4-Bc-uhY">
+                        <barButtonItem key="rightBarButtonItem" image="MD-MoreActionIcon" id="4u4-Bc-uhY">
                             <color key="tintColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="moreButtonPressed" destination="ryk-wB-QfC" id="MCM-WP-LVp"/>
@@ -151,14 +151,6 @@
                                                         <constraint firstAttribute="height" constant="40" id="mp2-Dt-qAO"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wU5-1g-z32">
-                                                    <rect key="frame" x="131" y="135" width="40" height="40"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="wU5-1g-z32" secondAttribute="height" multiplier="1:1" id="RdV-GA-3JV"/>
-                                                        <constraint firstAttribute="width" constant="40" id="pMl-sh-hsI"/>
-                                                    </constraints>
-                                                    <state key="normal" image="MD-FavoriteIcon"/>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -170,9 +162,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="UOg-IU-BKu" secondAttribute="bottom" id="B37-rb-djg"/>
                                                 <constraint firstAttribute="trailing" secondItem="p9W-Va-xc8" secondAttribute="trailing" id="KdE-0e-jHa"/>
                                                 <constraint firstItem="mrq-1u-jAT" firstAttribute="centerY" secondItem="Jzq-DT-Lmi" secondAttribute="centerY" id="Mwa-gy-j7Q"/>
-                                                <constraint firstAttribute="bottom" secondItem="wU5-1g-z32" secondAttribute="bottom" id="cJc-X1-Rgm"/>
                                                 <constraint firstItem="UOg-IU-BKu" firstAttribute="leading" secondItem="Jzq-DT-Lmi" secondAttribute="leading" id="oPm-rV-Oz6"/>
-                                                <constraint firstAttribute="trailing" secondItem="wU5-1g-z32" secondAttribute="trailing" constant="4" id="oiB-Kx-wZo"/>
                                                 <constraint firstAttribute="bottom" secondItem="p9W-Va-xc8" secondAttribute="bottom" id="rHO-aH-R72"/>
                                                 <constraint firstAttribute="trailing" secondItem="UOg-IU-BKu" secondAttribute="trailing" id="yzS-Nd-Jql"/>
                                             </constraints>
@@ -197,7 +187,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="歌曲名-演唱者" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="97" translatesAutoresizingMaskIntoConstraints="NO" id="iVd-Yu-XFX" customClass="TTTAttributedLabel">
-                                            <rect key="frame" x="97" y="0.0" width="97" height="20"/>
+                                            <rect key="frame" x="15" y="0.0" width="290" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -540,9 +530,8 @@
         <image name="M-PlayIcon" width="35" height="35"/>
         <image name="MD-CommentButtonIcon" width="345" height="41"/>
         <image name="MD-CoverMask" width="250" height="65"/>
-        <image name="MD-FavoriteIcon" width="25" height="25"/>
         <image name="MD-LocationIcon" width="15" height="15"/>
-        <image name="MD-MoreButtonIcon" width="25" height="25"/>
+        <image name="MD-MoreActionIcon" width="25" height="25"/>
         <image name="MD-SofaIcon" width="25" height="25"/>
     </resources>
 </document>

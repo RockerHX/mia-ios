@@ -75,12 +75,12 @@ typedef void(^FailureBlock)(NSString *);
     return _playItem;
 }
 
-- (CGFloat)frontCoverCellHeight {
-    return [HXVersion isIPhone5SPrior] ? 225.0f : 240.0f;
+- (CGFloat)coverCellHeight {
+    return 230.0f;
 }
 
 - (CGFloat)promptCellHeight {
-    return 112.0f;
+    return 186.0f;
 }
 
 - (CGFloat)noCommentCellHeight {
