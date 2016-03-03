@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, HXStoryBoardName) {
     HXStoryBoardNamePlay,
     HXStoryBoardNameShare,
     HXStoryBoardNameMessageCenter,
+    HXStoryBoardNameMusicDetail,
 };
 
 @interface HXStoryBoardManager : NSObject

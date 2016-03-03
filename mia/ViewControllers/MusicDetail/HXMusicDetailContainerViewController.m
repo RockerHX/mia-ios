@@ -15,12 +15,10 @@
 #import "HXMusicDetailNoCommentCell.h"
 #import "HXMusicDetailCommentCell.h"
 #import "ShareItem.h"
-#import "UIActionSheet+BlocksKit.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
-#import "HXLoginViewController.h"
 #import "UserSession.h"
-#import "HXInfectUserListView.h"
+#import "HXInfectListView.h"
 #import "InfectItem.h"
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"
@@ -35,17 +33,9 @@
 
 @implementation HXMusicDetailContainerViewController {
     HXMusicDetailViewModel 	*_viewModel;
-    
-    HXMusicDetailCoverCell 	*_coverCell;
-	HXComment 				*_atComment;
 }
 
 #pragma mark - View Controller Life Cycle
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-	[_coverCell stopPlay];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -53,189 +43,17 @@
     [self viewConfigure];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
-+ (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameMusicDetail;
-}
-
 #pragma mark - Config Methods
 - (void)loadConfigure {
-	//添加键盘监听
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-
-    if (_playItem) {
-        _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
-        __weak __typeof__(self)weakSelf = self;
-        [_viewModel requestComments:^(BOOL success) {
-            __strong __typeof__(self)strongSelf = weakSelf;
-            [strongSelf.tableView reloadData];
-        }];
-    } else if (_sID.length) {
-        _viewModel = [[HXMusicDetailViewModel alloc] initWithID:_sID];
-        
-        [self loadDetailData];
-    }
-    
-    [_viewModel reportViews:nil];
+    ;
 }
 
 - (void)viewConfigure {
-    _tableView.scrollsToTop = YES;
-    _editCommentView.scrollsToTop = NO;
-}
-
-#pragma mark - Event Response
-- (IBAction)moreButtonPressed {
-    
-    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:nil];
-    [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-    [actionSheet bk_setDestructiveButtonWithTitle:@"举报" handler:^{
-        [MiaAPIHelper reportShareById:_viewModel.playItem.sID completeBlock:
-         ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-             if (success) {
-                 [HXAlertBanner showWithMessage:@"举报成功" tap:nil];
-             } else {
-                 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-             }
-         } timeoutBlock:^(MiaRequestItem *requestItem) {
-             [HXAlertBanner showWithMessage:@"举报失败，网络请求超时" tap:nil];
-         }];
-    }];
-    
-    if (_fromProfile) {
-        [actionSheet bk_addButtonWithTitle:@"删除" handler:^{
-            [MiaAPIHelper deleteShareById:_viewModel.playItem.sID completeBlock:
-             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                 if (success) {
-                     [HXAlertBanner showWithMessage:@"删除成功" tap:nil];
-                     [self.navigationController popViewControllerAnimated:YES];
-                     
-                     if (_delegate && [_delegate respondsToSelector:@selector(detailViewControllerDidDeleteShare)]) {
-                         [_delegate detailViewControllerDidDeleteShare];
-                     }
-                 } else {
-                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-                 }
-             } timeoutBlock:^(MiaRequestItem *requestItem) {
-                 [HXAlertBanner showWithMessage:@"删除失败，网络请求超时" tap:nil];
-             }];
-        }];
-    }
-    
-    [actionSheet showInView:self.view];
-}
-
-- (IBAction)commentButtonPressed {
-    if ([[UserSession standard] isLogined]) {
-		_editCommentView.placeholderText = @"";
-		_atComment = nil;
-
-        [_editCommentView becomeFirstResponder];
-    } else {
-        [self presentLoginViewController];
-    }
-}
-
-- (IBAction)sendButtonPressed {
-    [_editCommentView resignFirstResponder];
-    
-    NSString *content = _editCommentView.text;
-    if (content.length) {
-        [self postCommentWithSID:_viewModel.playItem.sID content:content];
-    } else {
-        ;
-    }
-}
-
-- (void)keyBoardWillShow:(NSNotification *)notification {
-    NSDictionary *info = [notification userInfo];
-    //获取当前显示的键盘高度
-    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey ] CGRectValue].size;
-    [self moveUpViewForKeyboard:keyboardSize];
-}
-
-- (void)keyBoardWillHide:(NSNotification *)notification {
-    [self resumeView];
+    self.tableView.scrollsToTop = YES;
 }
 
 #pragma mark - Private Methods
-- (void)loadDetailData {
-    __weak __typeof__(self)weakSelf = self;
-    [_viewModel fetchShareItem:^(HXMusicDetailViewModel *viewModel) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.tableView reloadData];
-        
-        [viewModel requestComments:^(BOOL success) {
-            [strongSelf.tableView reloadData];
-        }];
-    } failure:^(NSString *message) {
-        [HXAlertBanner showWithMessage:message tap:nil];
-    }];
-}
-
-- (void)moveUpViewForKeyboard:(CGSize)keyboardSize {
-    [self layoutCommentViewWithHeight:keyboardSize.height];
-}
-
-- (void)resumeView {
-    [self layoutCommentViewWithHeight:-50.0f];
-}
-
-- (void)layoutCommentViewWithHeight:(CGFloat)height {
-    __weak __typeof__(self)weakSelf = self;
-    _commentViewBottomConstraint.constant = height;
-    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)postCommentWithSID:(NSString *)sID content:(NSString *)content {
-    __weak __typeof__(self)weakSelf = self;
-    MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"正在提交评论"];
-    [MiaAPIHelper postCommentWithShareID:sID
-                                 comment:content
-							   commentID:_atComment ? _atComment.cmid : nil
-                           completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         __strong __typeof__(self)strongSelf = weakSelf;
-         if (success) {
-             strongSelf.editCommentView.text = @"";
-			 strongSelf.editCommentView.placeholderText = @"";
-			 strongSelf->_atComment = nil;
-
-             [strongSelf requestLatestComments];
-             [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
-         } else {
-             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-         }
-         
-         [aMBProgressHUD removeFromSuperview];
-     } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [aMBProgressHUD removeFromSuperview];
-         [HXAlertBanner showWithMessage:@"提交评论失败，网络请求超时" tap:nil];
-     }];
-}
-
-- (void)requestLatestComments {
-    __weak __typeof__(self)weakSelf = self;
-    [_viewModel requestLatestComments:^(BOOL success) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        if (YES) {
-            [strongSelf.tableView reloadData];
-        }
-    }];
-}
-
-- (void)tableView:(UITableView *)tableView scrollTableToFoot:(BOOL)animated {
+- (void)tableView:(UITableView *)tableView scrollTableToBottom:(BOOL)animated {
     NSInteger section = [tableView numberOfSections];
     if (section < 1) return;
     NSInteger row = [tableView numberOfRowsInSection:(section - 1)];
@@ -246,9 +64,8 @@
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
-- (void)presentLoginViewController {
-    UINavigationController *loginNavigationController = [HXLoginViewController navigationControllerInstance];
-    [self presentViewController:loginNavigationController animated:YES completion:nil];
+- (void)shouldLogin {
+    ;
 }
 
 #pragma mark - Table View Data Source Methods
@@ -264,7 +81,6 @@
             case HXMusicDetailRowCover: {
                 cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HXMusicDetailCoverCell class]) forIndexPath:indexPath];
                 [(HXMusicDetailCoverCell *)cell displayWithViewModel:_viewModel];
-                _coverCell = (HXMusicDetailCoverCell *)cell;
                 break;
             }
             case HXMusicDetailRowSong: {
@@ -346,14 +162,14 @@
     if ((indexPath.row >= _viewModel.regularRow) && (_viewModel.comments.count)) {
         HXComment *comment = _viewModel.comments[indexPath.row - _viewModel.regularRow];
 
-		_atComment = [comment copy];
-		_editCommentView.placeholderText = [NSString stringWithFormat:@"回复%@:", _atComment.nickName];
-
-		if ([[UserSession standard] isLogined]) {
-			[_editCommentView becomeFirstResponder];
-		} else {
-			[self presentLoginViewController];
-		}
+//		_atComment = [comment copy];
+//		_editCommentView.placeholderText = [NSString stringWithFormat:@"回复%@:", _atComment.nickName];
+//
+//		if ([[UserSession standard] isLogined]) {
+//			[_editCommentView becomeFirstResponder];
+//		} else {
+//			[self shouldLogin];
+//		}
     }
 }
 
@@ -385,7 +201,7 @@
              [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
          }];
     } else {
-        [self presentLoginViewController];
+        [self shouldLogin];
     }
 }
 
@@ -395,7 +211,6 @@
 
 	HXProfileViewController *profileViewController = [HXProfileViewController instance];
 	profileViewController.uid = playItem.uID;
-	profileViewController.type = HXProfileTypeGuest;
 	[self.navigationController pushViewController:profileViewController animated:YES];
 }
 
@@ -424,7 +239,7 @@
                              _viewModel.playItem.isInfected = isInfected;
                          }
                          [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
-                         [self loadDetailData];
+//                         [self loadDetailData];
                      } else {
                          id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                          [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
@@ -439,12 +254,11 @@
             break;
         }
         case HXMusicDetailPromptCellActionShowInfecter: {
-            [HXInfectUserListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
+            [HXInfectListView showWithSharerID:_viewModel.playItem.sID taped:^(id item, NSInteger index) {
                 InfectItem *selectedItem = item;
                 
                 HXProfileViewController *profileViewController = [HXProfileViewController instance];
                 profileViewController.uid = selectedItem.uID;
-                profileViewController.type = HXProfileTypeGuest;
                 [self.navigationController pushViewController:profileViewController animated:YES];
             }];
             break;
@@ -456,15 +270,8 @@
 - (void)commentCellAvatarTaped:(HXMusicDetailCommentCell *)cell {
     NSInteger index = [self.tableView indexPathForCell:cell].row;
     HXComment *comment = _viewModel.comments[index - _viewModel.regularRow];
-    NSString *userID = comment.uid;
-    HXProfileType type = HXProfileTypeGuest;
-    if ([[UserSession standard].uid isEqualToString:userID]) {
-        type = HXProfileTypeHost;
-    }
-    
     HXProfileViewController *profileViewController = [HXProfileViewController instance];
-    profileViewController.uid = userID;
-    profileViewController.type = type;
+    profileViewController.uid = comment.uid;
     [self.navigationController pushViewController:profileViewController animated:YES];
 }
 

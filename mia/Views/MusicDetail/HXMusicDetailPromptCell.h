@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class HXMusicDetailViewModel;
-@class HXInfectUserView;
+@class HXInfectView;
 @class HXMusicDetailPromptCell;
 
 typedef NS_ENUM(NSUInteger, HXMusicDetailPromptCellAction) {
@@ -28,12 +28,12 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailPromptCellAction) {
 
 @property (weak, nonatomic) IBOutlet                id  <HXMusicDetailPromptCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet           UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet           UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet           UIView *infectionView;
-@property (weak, nonatomic) IBOutlet HXInfectUserView *infectUserView;
-@property (weak, nonatomic) IBOutlet           UILabel *infectionCountLabel;
-@property (weak, nonatomic) IBOutlet           UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet       UIView *infectionView;
+@property (weak, nonatomic) IBOutlet HXInfectView *infectUserView;
+@property (weak, nonatomic) IBOutlet      UILabel *infectionCountLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *commentCountLabel;
 
 - (IBAction)infectButtonPressed;
 
