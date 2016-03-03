@@ -162,6 +162,10 @@ HXXibImplementation
             cardAction = HXDiscoveryCardViewActionShowInfecter;
             break;
         }
+        case HXDiscoveryCoverActionShowDetail: {
+            cardAction = HXDiscoveryCardViewActionShowDetail;
+            break;
+        }
     }
     if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
         [_delegate cardView:self takeAction:cardAction];

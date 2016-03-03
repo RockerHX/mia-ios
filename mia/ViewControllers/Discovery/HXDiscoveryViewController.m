@@ -21,6 +21,7 @@
 #import "HXProfileViewController.h"
 #import "HXUserSession.h"
 #import "HXAlertBanner.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -290,7 +291,9 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionShowDetail: {
-            ;
+            HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+            detailViewController.playItem = _containerViewController.currentItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
             break;
         }
         case HXDiscoveryCardActionInfect: {

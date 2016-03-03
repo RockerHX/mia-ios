@@ -62,6 +62,12 @@ HXXibImplementation
     }
 }
 
+- (IBAction)showDetailAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(cover:takeAcion:)]) {
+        [_delegate cover:self takeAcion:HXDiscoveryCoverActionShowDetail];
+    }
+}
+
 #pragma mark - Public Methods
 - (void)displayWithItem:(ShareItem *)item {
     _shareItem = item;
