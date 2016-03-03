@@ -254,6 +254,7 @@
 
 #pragma mark - HXMusicDetailPromptCellDelegate Methods
 - (void)promptCell:(HXMusicDetailPromptCell *)cell takeAction:(HXMusicDetailPromptCellAction)action {
+    ShareItem *item = _viewModel.playItem;
     switch (action) {
         case HXMusicDetailPromptCellActionInfect: {
             switch ([HXUserSession share].userState) {
@@ -266,20 +267,19 @@
                     [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
                                                 longitude:[[LocationMgr standard] currentCoordinate].longitude
                                                   address:[[LocationMgr standard] currentAddress]
-                                                     spID:_viewModel.playItem.spID
+                                                     spID:item.spID
                                             completeBlock:
                      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                          if (success) {
-                             
                              int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
                              int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
                              NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
                              NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
                              
                              if ([spID isEqualToString:_viewModel.playItem.spID]) {
-                                 _viewModel.playItem.infectTotal = infectTotal;
-                                 [_viewModel.playItem parseInfectUsersFromJsonArray:infectArray];
-                                 _viewModel.playItem.isInfected = isInfected;
+                                 item.infectTotal = infectTotal;
+                                 [item parseInfectUsersFromJsonArray:infectArray];
+                                 item.isInfected = isInfected;
                              }
                              [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
                              [self reload];
@@ -288,8 +288,43 @@
                              [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
                          }
                      } timeoutBlock:^(MiaRequestItem *requestItem) {
-                         _viewModel.playItem.isInfected = YES;
+                         item.isInfected = YES;
                          [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+                     }];
+                    break;
+                }
+            }
+            break;
+        }
+        case HXMusicDetailPromptCellActionFavorite: {
+            switch ([HXUserSession share].userState) {
+                case HXUserStateLogout: {
+                    [self shouldLogin];
+                    break;
+                }
+                case HXUserStateLogin: {
+                    [MiaAPIHelper favoriteMusicWithShareID:item.sID
+                                                isFavorite:!item.favorite
+                                             completeBlock:
+                     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                         if (success) {
+                             id act = userInfo[MiaAPIKey_Values][@"act"];
+                             id sID = userInfo[MiaAPIKey_Values][@"id"];
+                             BOOL favorite = [act intValue];
+                             if ([item.sID integerValue] == [sID intValue]) {
+                                 item.favorite = favorite;
+                             }
+                             
+                             [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                             [self reload];
+                             // 收藏操作成功后同步下收藏列表并检查下载
+                             [[FavoriteMgr standard] syncFavoriteList];
+                         } else {
+                             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                         }
+                     } timeoutBlock:^(MiaRequestItem *requestItem) {
+                         [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
                      }];
                     break;
                 }
@@ -304,6 +339,9 @@
                 profileViewController.uid = selectedItem.uID;
                 [self.navigationController pushViewController:profileViewController animated:YES];
             }];
+            break;
+        }
+        case HXMusicDetailPromptCellActionShowFavorite: {
             break;
         }
     }
