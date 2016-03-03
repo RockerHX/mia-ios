@@ -54,6 +54,8 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		if (!aMgr) {
 			aMgr = [[self alloc] init];
 		}
+
+		[aMgr loadConfig];
     });
     return aMgr;
 }
@@ -61,17 +63,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (instancetype)init {
 	self = [super init];
 	if (self) {
-		_player = [[SingleSongPlayer alloc] init];
-		_player.delegate = self;
-
-		_preloader = [[SongPreloader alloc] init];
-		_preloader.delegate = self;
-
-		// 添加通知，拔出耳机后暂停播放
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
+		[self loadConfig];
 	}
 
 	return self;
@@ -82,6 +74,20 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationRemoteControlEvent object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
+}
+
+- (void)loadConfig {
+	_player = [[SingleSongPlayer alloc] init];
+	_player.delegate = self;
+
+	_preloader = [[SongPreloader alloc] init];
+	_preloader.delegate = self;
+
+	// 添加通知，拔出耳机后暂停播放
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
 }
 
 #pragma mark - Getter and Setter
