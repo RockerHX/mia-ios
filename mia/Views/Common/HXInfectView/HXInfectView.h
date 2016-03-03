@@ -9,7 +9,8 @@
 #import "HXInfectCell.h"
 
 typedef NS_ENUM(NSUInteger, HXInfectViewAction) {
-    HXInfectViewActionInfect
+    HXInfectViewActionInfect,
+    HXInfectViewActionLayout,
 };
 
 @class HXInfectView;
@@ -24,10 +25,15 @@ typedef NS_ENUM(NSUInteger, HXInfectViewAction) {
 
 @interface HXInfectView : UIView <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet               id  <HXInfectViewDelegate>delegate;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet                 id  <HXInfectViewDelegate>delegate;
+@property (weak, nonatomic) IBOutlet   UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewWidthConstraint;
+@property (weak, nonatomic) IBOutlet           UIButton *infectButton;
 
 @property (nonatomic, assign) BOOL infected;
 @property (nonatomic, strong) NSArray<InfectUserItem *> *infecters;
+@property (nonatomic, assign, readonly) CGFloat controlToSpace;
+
+- (IBAction)infectButtonPressed;
 
 @end

@@ -30,12 +30,11 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailPromptCellAction) {
 
 @property (weak, nonatomic) IBOutlet      UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet      UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet       UIView *infectionView;
-@property (weak, nonatomic) IBOutlet HXInfectView *infectUserView;
+@property (weak, nonatomic) IBOutlet HXInfectView *infectView;
 @property (weak, nonatomic) IBOutlet      UILabel *infectionCountLabel;
 @property (weak, nonatomic) IBOutlet      UILabel *commentCountLabel;
 
-- (IBAction)infectButtonPressed;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spaceConstraint;
 
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
 

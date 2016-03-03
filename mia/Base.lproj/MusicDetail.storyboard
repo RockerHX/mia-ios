@@ -237,7 +237,7 @@
                                     <outlet property="shareInfoLabel" destination="pVC-k2-QIk" id="59M-bL-HL5"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailPromptCell" rowHeight="186" id="QL0-Cs-qws" customClass="HXMusicDetailPromptCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailPromptCell" rowHeight="186" id="QL0-Cs-qws" userLabel="HXMusicDetailPromptCell" customClass="HXMusicDetailPromptCell">
                                 <rect key="frame" x="0.0" y="353" width="320" height="186"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QL0-Cs-qws" id="H1w-sV-Z98">
@@ -284,16 +284,27 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="II3-hF-m16" userLabel="Infection Info View">
                                             <rect key="frame" x="0.0" y="34" width="320" height="55"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AJz-4f-7Ox" userLabel="Infect View" customClass="HXInfectView">
+                                                    <rect key="frame" x="15" y="12" width="184" height="32"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="184" id="MW7-uG-nzv"/>
+                                                        <constraint firstAttribute="height" constant="32" id="wYt-tv-Sfd"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="QL0-Cs-qws" id="02u-Gk-KBg"/>
+                                                    </connections>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFT-oW-1Dv">
-                                                    <rect key="frame" x="224" y="19" width="51" height="17"/>
+                                                    <rect key="frame" x="215" y="19" width="51" height="17"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNd-NL-OMZ">
+                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="人妙推" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNd-NL-OMZ">
                                                             <rect key="frame" x="9" y="0.0" width="42" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6KK-po-SRW">
+                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6KK-po-SRW">
                                                             <rect key="frame" x="0.0" y="0.0" width="9" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -311,23 +322,15 @@
                                                         <constraint firstItem="PNd-NL-OMZ" firstAttribute="leading" secondItem="6KK-po-SRW" secondAttribute="trailing" id="twm-ml-fOL"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AJz-4f-7Ox" userLabel="Infect View">
-                                                    <rect key="frame" x="16" y="8" width="184" height="39"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="184" id="MW7-uG-nzv"/>
-                                                        <constraint firstAttribute="height" constant="39" id="wYt-tv-Sfd"/>
-                                                    </constraints>
-                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <gestureRecognizers/>
                                             <constraints>
                                                 <constraint firstItem="AJz-4f-7Ox" firstAttribute="centerY" secondItem="II3-hF-m16" secondAttribute="centerY" id="9Wn-BL-Nza"/>
                                                 <constraint firstItem="gFT-oW-1Dv" firstAttribute="centerY" secondItem="II3-hF-m16" secondAttribute="centerY" id="SG7-qs-a1N"/>
-                                                <constraint firstItem="gFT-oW-1Dv" firstAttribute="leading" secondItem="AJz-4f-7Ox" secondAttribute="trailing" constant="24" id="Zj8-BZ-kjd"/>
                                                 <constraint firstAttribute="height" constant="55" id="cXU-C6-dVb"/>
-                                                <constraint firstItem="AJz-4f-7Ox" firstAttribute="leading" secondItem="II3-hF-m16" secondAttribute="leading" constant="16" id="n9w-Kv-phT"/>
+                                                <constraint firstItem="AJz-4f-7Ox" firstAttribute="leading" secondItem="II3-hF-m16" secondAttribute="leading" constant="15" id="n9w-Kv-phT"/>
+                                                <constraint firstItem="gFT-oW-1Dv" firstAttribute="leading" secondItem="AJz-4f-7Ox" secondAttribute="leading" constant="200" id="p98-GB-iP4"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyW-Fb-hCV" userLabel="Share Info View">
@@ -404,10 +407,13 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="commentCountLabel" destination="wqn-Ne-pwC" id="o9U-Km-eJc"/>
                                     <outlet property="dateLabel" destination="Vkd-2H-Ie4" id="WrZ-xY-QI5"/>
+                                    <outlet property="delegate" destination="skb-wG-FT4" id="lbx-ta-K5g"/>
+                                    <outlet property="infectView" destination="AJz-4f-7Ox" id="cXp-kH-HWa"/>
                                     <outlet property="infectionCountLabel" destination="6KK-po-SRW" id="dOe-rN-aup"/>
-                                    <outlet property="infectionView" destination="II3-hF-m16" id="Wnv-QE-NwX"/>
                                     <outlet property="locationLabel" destination="p2S-cs-Cu1" id="K2r-aa-gKe"/>
+                                    <outlet property="spaceConstraint" destination="p98-GB-iP4" id="Rc1-Fj-zCL"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HXMusicDetailNoCommentCell" rowHeight="80" id="7FY-Nw-MQY" customClass="HXMusicDetailNoCommentCell">

@@ -256,38 +256,43 @@
 - (void)promptCell:(HXMusicDetailPromptCell *)cell takeAction:(HXMusicDetailPromptCellAction)action {
     switch (action) {
         case HXMusicDetailPromptCellActionInfect: {
-            if ([UserSession standard].state) {
-                // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
-                [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
-                                            longitude:[[LocationMgr standard] currentCoordinate].longitude
-                                              address:[[LocationMgr standard] currentAddress]
-                                                 spID:_viewModel.playItem.spID
-                                        completeBlock:
-                 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                     if (success) {
-                         
-                         int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
-                         int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
-                         NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
-                         NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
-                         
-                         if ([spID isEqualToString:_viewModel.playItem.spID]) {
-                             _viewModel.playItem.infectTotal = infectTotal;
-                             [_viewModel.playItem parseInfectUsersFromJsonArray:infectArray];
-                             _viewModel.playItem.isInfected = isInfected;
+            switch ([HXUserSession share].userState) {
+                case HXUserStateLogout: {
+                    [self shouldLogin];
+                    break;
+                }
+                case HXUserStateLogin: {
+                    // 传播出去不需要切换歌曲，需要记录下传播的状态和上报服务器
+                    [MiaAPIHelper InfectMusicWithLatitude:[[LocationMgr standard] currentCoordinate].latitude
+                                                longitude:[[LocationMgr standard] currentCoordinate].longitude
+                                                  address:[[LocationMgr standard] currentAddress]
+                                                     spID:_viewModel.playItem.spID
+                                            completeBlock:
+                     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                         if (success) {
+                             
+                             int isInfected = [userInfo[MiaAPIKey_Values][@"data"][@"isInfected"] intValue];
+                             int infectTotal = [userInfo[MiaAPIKey_Values][@"data"][@"infectTotal"] intValue];
+                             NSArray *infectArray = userInfo[MiaAPIKey_Values][@"data"][@"infectList"];
+                             NSString *spID = [userInfo[MiaAPIKey_Values][@"data"][@"spID"] stringValue];
+                             
+                             if ([spID isEqualToString:_viewModel.playItem.spID]) {
+                                 _viewModel.playItem.infectTotal = infectTotal;
+                                 [_viewModel.playItem parseInfectUsersFromJsonArray:infectArray];
+                                 _viewModel.playItem.isInfected = isInfected;
+                             }
+                             [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+                             [self reload];
+                         } else {
+                             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
                          }
-                         [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
-//                         [self loadDetailData];
-                     } else {
-                         id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-                         [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-                     }
-                 } timeoutBlock:^(MiaRequestItem *requestItem) {
-                     _viewModel.playItem.isInfected = YES;
-                     [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
-                 }];
-            } else {
-                [self shouldLogin];
+                     } timeoutBlock:^(MiaRequestItem *requestItem) {
+                         _viewModel.playItem.isInfected = YES;
+                         [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
+                     }];
+                    break;
+                }
             }
             break;
         }

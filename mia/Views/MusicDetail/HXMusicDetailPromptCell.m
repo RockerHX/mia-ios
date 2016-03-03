@@ -9,7 +9,11 @@
 #import "HXMusicDetailPromptCell.h"
 #import "HXMusicDetailViewModel.h"
 #import "HXInfectView.h"
-#import "InfectUserItem.h"
+
+@interface HXMusicDetailPromptCell () <
+HXInfectViewDelegate
+>
+@end
 
 @implementation HXMusicDetailPromptCell
 
@@ -25,16 +29,10 @@
 }
 
 - (void)viewConfigure {
-    [_infectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectViewTaped)]];
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectViewTaped)]];
 }
 
 #pragma mark - Event Response
-- (IBAction)infectButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
-        [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionInfect];
-    }
-}
-
 - (void)infectViewTaped {
     if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
         [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionShowInfecter];
@@ -49,35 +47,28 @@
     _infectionCountLabel.text = @(item.infectTotal).stringValue;
     _commentCountLabel.text = @(item.cComm).stringValue;
     
-    [self showInfectUsers:viewModel.playItem.infectUsers];
+    _infectView.infected = viewModel.playItem.isInfected;
+    _infectView.infecters = viewModel.playItem.infectUsers;
 }
 
-#pragma mark - Private Methods
-- (void)showInfectUsers:(NSArray *)infectUsers {
-//    [_infectUserView removeAllItem];
-//    if (infectUsers) {
-//        NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
-//        if (itmes.count > 5) {
-//            for (NSInteger index = 0; index < 5; index ++) {
-//                InfectUserItem *item = infectUsers[index];
-//                [itmes addObject:[NSURL URLWithString:item.avatar]];
-//            }
-//        } else {
-//            for (InfectUserItem *item in infectUsers) {
-//                [itmes addObject:[NSURL URLWithString:item.avatar]];
-//            }
-//        }
-//        [_infectUserView showWithItems:itmes];
-//        __weak __typeof__(self)weakSelf = self;
-//        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-//            __strong __typeof__(self)strongSelf = weakSelf;
-//            [strongSelf.infectUserView refresh];
-//        } completion:^(BOOL finished) {
-//            __strong __typeof__(self)strongSelf = weakSelf;
-//            // 妙推用户头像跳动动画
-//            [strongSelf.infectUserView refreshItemWithAnimation];
-//        }];
-//    }
+#pragma mark - HXInfectViewDelegate Methods
+- (void)infectView:(HXInfectView *)infectView takeAction:(HXInfectViewAction)action {
+    switch (action) {
+        case HXInfectViewActionInfect: {
+            if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
+                [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionInfect];
+            }
+            break;
+        }
+        case HXInfectViewActionLayout: {
+            _spaceConstraint.constant = infectView.controlToSpace;
+            break;
+        }
+    }
+}
+
+- (void)infectViewInfecterTaped:(HXInfectView *)infectView atIndex:(NSInteger)index {
+    [self infectViewTaped];
 }
 
 @end

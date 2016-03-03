@@ -38,15 +38,7 @@
 }
 
 #pragma mark - Public Methods
-- (void)displayInfected:(BOOL)infected {
-    _avatar.layer.cornerRadius = 0.0f;
-    _avatar.layer.borderWidth = 0.0f;
-    _avatar.image = [UIImage imageNamed:(infected ? @"D-InfectedIcon": @"D-InfectIcon")];
-}
-
 - (void)displayWithInfecter:(InfectUserItem *)infecter {
-    _avatar.layer.cornerRadius = 16.0f;
-    _avatar.layer.borderWidth = 1.0f;
     [_avatar sd_setImageWithURL:[NSURL URLWithString:infecter.avatar] placeholderImage:nil];
 }
 
