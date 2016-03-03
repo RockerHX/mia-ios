@@ -16,7 +16,7 @@
 #import "UIAlertView+BlocksKit.h"
 #import "NSObject+BlockSupport.h"
 #import "PathHelper.h"
-#import "UserSession.h"
+#import "HXUserSession.h"
 
 
 NSString * const MusicMgrNotificationKey_RemoteControlEvent	= @"RemoteControlEvent";
@@ -50,7 +50,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
     static MusicMgr *aMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-		aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper playlistArchivePathWithUID:[[UserSession standard] uid]]];
+		aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]]];
 		if (!aMgr) {
 			aMgr = [[self alloc] init];
 		}
@@ -317,7 +317,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 - (BOOL)saveChanges {
-	NSString *fileName = [PathHelper playlistArchivePathWithUID:[[UserSession standard] uid]];
+	NSString *fileName = [PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]];
 	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
