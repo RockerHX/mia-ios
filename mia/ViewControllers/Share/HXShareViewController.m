@@ -12,7 +12,6 @@
 #import "MusicItem.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
-#import "UserSession.h"
 #import "HXTextView.h"
 #import "MBProgressHUDHelp.h"
 #import "LocationMgr.h"
@@ -22,6 +21,7 @@
 #import "UIConstants.h"
 #import "ShareItem.h"
 #import "FavoriteItem.h"
+#import "HXUserSession.h"
 
 @interface HXShareViewController () <SearchViewControllerDelegate, HXTextViewDelegate>
 @end
@@ -80,7 +80,7 @@
 
 - (void)viewConfigure {
     _shareButton.enabled = NO;
-    _nickNameLabel.text = [[UserSession standard] nick];
+    _nickNameLabel.text = [HXUserSession share].user.nickName;
 }
 
 #pragma mark - Property

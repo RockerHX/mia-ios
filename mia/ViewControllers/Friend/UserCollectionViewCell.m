@@ -15,8 +15,8 @@
 #import "NSString+IsNull.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
-#import "UserSession.h"
 #import "UIConstants.h"
+#import "HXUserSession.h"
 
 @interface UserCollectionViewCell()
 
@@ -117,7 +117,7 @@
 	[_titleLabel setText:item.nick];
 	[_detailLabel setText:[NSString stringWithFormat:@"最近分享了 %@", item.sharem]];
 
-	if ([[UserSession standard].uid isEqualToString:_dataItem.uid]) {
+	if ([[HXUserSession share].uid isEqualToString:_dataItem.uid]) {
 		[_followButton setHidden:YES];
 	} else {
 		[self setIsFollowing:_dataItem.follow];

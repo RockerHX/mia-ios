@@ -11,10 +11,10 @@
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
 #import "PathHelper.h"
-#import "UserSession.h"
 #import "AFNetworking.h"
 #import "NSString+IsNull.h"
 #import "FileLog.h"
+#import "HXUserSession.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -376,14 +376,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)loadData {
-	_dataSource = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]]];
+	_dataSource = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[HXUserSession share] uid]]];
 	if (!_dataSource) {
 		_dataSource = [[NSMutableArray alloc] init];
 	}
 }
 
 - (BOOL)saveData {
-	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]];
+	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[HXUserSession share] uid]];
 	if (![NSKeyedArchiver archiveRootObject:_dataSource toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {

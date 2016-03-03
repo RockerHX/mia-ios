@@ -35,6 +35,7 @@ typedef NS_ENUM(BOOL, HXUserState) {
                 failure:(nullable void(^)(NSString *prompt))failure;
 
 - (void)updateUser:(HXUserModel *)user;
+- (void)sysnc;
 - (void)logout;
 
 @end

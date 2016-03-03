@@ -16,7 +16,6 @@
 #import "ShareItem.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
-#import "UserSession.h"
 #import "HXInfectListView.h"
 #import "InfectItem.h"
 #import "LocationMgr.h"
