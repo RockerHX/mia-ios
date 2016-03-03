@@ -94,6 +94,10 @@ HXPlayListViewControllerDelegate
 - (void)updateBottomBar {
     [self startMusicTimeRead];
     
+    ShareItem *item = _musicMgr.currentItem;
+    _bottomBar.favorited = item.favorite;
+    _bottomBar.infected = item.isInfected;
+    
     NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);

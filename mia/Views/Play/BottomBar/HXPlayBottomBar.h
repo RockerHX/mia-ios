@@ -41,6 +41,8 @@ typedef NS_ENUM(NSUInteger, HXPlayBottomBarAction) {
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UIButton *infectButton;
 
+@property (nonatomic, assign) BOOL  favorited;
+@property (nonatomic, assign) BOOL  infected;
 @property (nonatomic, assign) BOOL  pause;
 @property (nonatomic, assign) BOOL  enablePrevious;
 @property (nonatomic, assign) BOOL  enableNext;

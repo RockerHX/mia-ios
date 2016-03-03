@@ -33,6 +33,16 @@ HXXibImplementation
 }
 
 #pragma mark - Property
+- (void)setFavorited:(BOOL)favorited {
+    _favorited = favorited;
+    [_favoriteButton setImage:[UIImage imageNamed:(favorited ? @"P-FavoritedIcon" : @"P-FavoriteIcon")] forState:UIControlStateNormal];
+}
+
+- (void)setInfected:(BOOL)infected {
+    _infected = infected;
+    [_infectButton setImage:[UIImage imageNamed:(infected ? @"P-InfectedIcon" : @"P-InfectIcon")] forState:UIControlStateNormal];
+}
+
 - (void)setPause:(BOOL)pause {
     _pause = pause;
     [_pauseButton setImage:[UIImage imageNamed:(pause ? @"P-PauseIcon" : @"P-PlayIcon")] forState:UIControlStateNormal];
