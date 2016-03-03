@@ -164,6 +164,32 @@
     [self hiddenKeyboard];
 }
 
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    if (![kDefaultShareID isEqualToString:sID]) {
+        return;
+    }
+    
+    switch (event) {
+        case MiaPlayerEventDidPlay:
+            [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+            break;
+        case MiaPlayerEventDidPause:
+            [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+            break;
+        case MiaPlayerEventDidCompletion:
+            [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+            [_searchViewController playCompletion];
+            break;
+        default:
+            NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
+            break;
+    }
+}
+
 #pragma mark - audio operations
 - (void)playMusic {
     if (!_musicItem.murl || !_musicItem.name || !_musicItem.singerName) {
@@ -313,32 +339,6 @@
 - (void)textViewSizeChanged:(CGSize)size {
     _textViewHeightConstraint.constant = (size.height > 50.0f) ? size.height : 50.0f;
     [self scrollToBottomWithAnimation:YES];
-}
-
-#pragma mark - Notification Methods
-- (void)notificationPlayerEvent:(NSNotification *)notification {
-	NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
-	MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
-
-	if (![kDefaultShareID isEqualToString:sID]) {
-		return;
-	}
-	
-	switch (event) {
-		case MiaPlayerEventDidPlay:
-			    [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
-			break;
-		case MiaPlayerEventDidPause:
-			    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-			break;
-		case MiaPlayerEventDidCompletion:
-			[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
-			[_searchViewController playCompletion];
-			break;
-		default:
-			NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
-			break;
-	}
 }
 
 @end

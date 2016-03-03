@@ -67,15 +67,23 @@ HXPlayListViewControllerDelegate
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _musicMgr = [MusicMgr standard];
-    
-    [self displayPlayView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
-    ;
+    [self displayPlayView];
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    [self displayPlayView];
 }
 
 #pragma mark - Private Methods
@@ -106,6 +114,8 @@ HXPlayListViewControllerDelegate
     NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);
+#warning Eden 播放状态的问题
+    _bottomBar.pause = _musicMgr.isPlaying;
     _bottomBar.enablePrevious = !isFirst;
     _bottomBar.enableNext = !isLast;
 }

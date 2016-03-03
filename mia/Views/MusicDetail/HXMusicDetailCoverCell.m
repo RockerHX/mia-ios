@@ -24,29 +24,60 @@
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Config Methods
 - (void)loadConfigure {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playButtonPressed)];
-    [_coverView addGestureRecognizer:tap];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playButtonPressed)];
+    [_coverView addGestureRecognizer:tap];
+    
     _coverImageView.layer.borderColor = UIColorByHex(0xd7dede).CGColor;
     _coverImageView.layer.borderWidth = 0.5f;
 }
 
 #pragma mark - Event Response
 - (IBAction)playButtonPressed {
-    HXMusicDetailCoverCellAction action = HXMusicDetailCoverCellActionPlay;
     MusicMgr *musicMgr = [MusicMgr standard];
-    if ([musicMgr isPlayingWithUrl:_playItem.music.murl]) {
-        action = HXMusicDetailCoverCellActionPause;
-        _playButton.selected = NO;
+    if ([musicMgr.currentItem.music.murl isEqualToString:_playItem.music.murl]) {
+        if (musicMgr.isPlaying) {
+            _playButton.selected = NO;
+            [musicMgr pause];
+        } else {
+            _playButton.selected = YES;
+            [[MusicMgr standard] playCurrent];
+        }
     } else {
         _playButton.selected = YES;
+        if (_delegate && [_delegate respondsToSelector:@selector(coverCell:takeAction:)]) {
+            [_delegate coverCell:self takeAction:HXMusicDetailCoverCellActionPlay];
+        }
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(coverCell:takeAction:)]) {
-        [_delegate coverCell:self takeAction:action];
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    if ([_playItem.sID isEqualToString:sID]) {
+        switch (event) {
+            case MiaPlayerEventDidPlay:
+                _playButton.selected = YES;
+                break;
+            case MiaPlayerEventDidPause:
+            case MiaPlayerEventDidCompletion:
+                _playButton.selected = NO;
+                break;
+            default:
+                NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
+                break;
+        }
     }
 }
 

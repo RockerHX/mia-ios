@@ -29,6 +29,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCoverAction) {
 
 @property (weak, nonatomic) IBOutlet          id  <HXDiscoveryCoverDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UIImageView *cover;
+@property (weak, nonatomic) IBOutlet    UIButton *playButton;
 @property (weak, nonatomic) IBOutlet     UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *singerNameLabel;
 
