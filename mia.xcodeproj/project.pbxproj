@@ -30,6 +30,7 @@
 		CD06901F1C746B8C001C0997 /* HXVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CD06900D1C746B8C001C0997 /* HXVersion.m */; };
 		CD0690231C746D10001C0997 /* HXMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0690221C746D10001C0997 /* HXMeViewController.m */; };
 		CD0690261C747164001C0997 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0690241C747164001C0997 /* Me.storyboard */; };
+		CD16C5F31C881E9600C17D3D /* NSObject+LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CD16C5F21C881E9600C17D3D /* NSObject+LoginAction.m */; };
 		CD2D3B0B1C7B17E0002E34D1 /* HXUserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */; };
 		CD2D3B0E1C7B1A89002E34D1 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD2D3B0C1C7B1A89002E34D1 /* Login.storyboard */; };
 		CD2D3B191C7B1AD4002E34D1 /* HXForgotPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2D3B111C7B1AD4002E34D1 /* HXForgotPWViewController.m */; };
@@ -98,7 +99,6 @@
 		CDDAC5221C87E55200F27051 /* HXMusicDetailContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDDAC5211C87E55200F27051 /* HXMusicDetailContainerViewController.m */; };
 		CDE109391C844F2D00024937 /* HXProfileHeaderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE109381C844F2D00024937 /* HXProfileHeaderModel.m */; };
 		CDE1093C1C84537B00024937 /* HXProfileCoverContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE1093B1C84537B00024937 /* HXProfileCoverContainerViewController.m */; };
-		CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */; };
 		CDE539561C7BFCE200E0616D /* FavoriteMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539431C7BFCE200E0616D /* FavoriteMgr.m */; };
 		CDE539571C7BFCE200E0616D /* MusicMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539461C7BFCE200E0616D /* MusicMgr.m */; };
 		CDE539581C7BFCE200E0616D /* SingleSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE539481C7BFCE200E0616D /* SingleSongPlayer.m */; };
@@ -240,6 +240,8 @@
 		CD0690211C746D10001C0997 /* HXMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXMeViewController.h; sourceTree = "<group>"; };
 		CD0690221C746D10001C0997 /* HXMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXMeViewController.m; sourceTree = "<group>"; };
 		CD0690251C747164001C0997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Me.storyboard; sourceTree = "<group>"; };
+		CD16C5F11C881E9600C17D3D /* NSObject+LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+LoginAction.h"; sourceTree = "<group>"; };
+		CD16C5F21C881E9600C17D3D /* NSObject+LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+LoginAction.m"; sourceTree = "<group>"; };
 		CD2D3B091C7B17E0002E34D1 /* HXUserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXUserSession.h; sourceTree = "<group>"; };
 		CD2D3B0A1C7B17E0002E34D1 /* HXUserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXUserSession.m; sourceTree = "<group>"; };
 		CD2D3B0D1C7B1A89002E34D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
@@ -358,8 +360,6 @@
 		CDE109381C844F2D00024937 /* HXProfileHeaderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileHeaderModel.m; sourceTree = "<group>"; };
 		CDE1093A1C84537B00024937 /* HXProfileCoverContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProfileCoverContainerViewController.h; sourceTree = "<group>"; };
 		CDE1093B1C84537B00024937 /* HXProfileCoverContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileCoverContainerViewController.m; sourceTree = "<group>"; };
-		CDE5393E1C7BFB3800E0616D /* UIViewController+LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LoginAction.h"; sourceTree = "<group>"; };
-		CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LoginAction.m"; sourceTree = "<group>"; };
 		CDE539421C7BFCE200E0616D /* FavoriteMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteMgr.h; sourceTree = "<group>"; };
 		CDE539431C7BFCE200E0616D /* FavoriteMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteMgr.m; sourceTree = "<group>"; };
 		CDE539451C7BFCE200E0616D /* MusicMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicMgr.h; sourceTree = "<group>"; };
@@ -592,6 +592,8 @@
 		CD068FDB1C746B8C001C0997 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				CD16C5F11C881E9600C17D3D /* NSObject+LoginAction.h */,
+				CD16C5F21C881E9600C17D3D /* NSObject+LoginAction.m */,
 				CD068FDC1C746B8C001C0997 /* UIView+FindUIViewController.h */,
 				CD068FDD1C746B8C001C0997 /* UIView+FindUIViewController.m */,
 				CD068FDE1C746B8C001C0997 /* UIView+Frame.h */,
@@ -1078,7 +1080,6 @@
 		CDB55E771C72CEDF00962ED0 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				CDE5393D1C7BFB2E00E0616D /* Category */,
 				CDBC452C1C75D4A60037FEC4 /* Discovery */,
 				CDB55E911C72D21D00962ED0 /* Favorite */,
 				CD0690201C746D08001C0997 /* Me */,
@@ -1218,15 +1219,6 @@
 				CDE109381C844F2D00024937 /* HXProfileHeaderModel.m */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		CDE5393D1C7BFB2E00E0616D /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				CDE5393E1C7BFB3800E0616D /* UIViewController+LoginAction.h */,
-				CDE5393F1C7BFB3800E0616D /* UIViewController+LoginAction.m */,
-			);
-			path = Category;
 			sourceTree = "<group>";
 		};
 		CDE539411C7BFCE200E0616D /* FavoriteMgr */ = {
@@ -2144,7 +2136,6 @@
 				CDE539B31C7BFD5200E0616D /* MessageItem.m in Sources */,
 				CDE539711C7BFD1000E0616D /* WebSocketMgr.m in Sources */,
 				CDFEABDC1C858A3C0039954C /* GenderPickerView.m in Sources */,
-				CDE539401C7BFB3800E0616D /* UIViewController+LoginAction.m in Sources */,
 				CD74FC221C7C65EA00DBEB83 /* HXLoadingView.m in Sources */,
 				CD06901C1C746B8C001C0997 /* HXTextView.m in Sources */,
 				CD0690181C746B8C001C0997 /* HXIBnsepectableManager.m in Sources */,
@@ -2219,6 +2210,7 @@
 				CDE539B61C7BFD5200E0616D /* CommentModel.m in Sources */,
 				CDFFB90E1C853514009C452B /* HXMeShareCell.m in Sources */,
 				CDE53A0A1C7BFDDB00E0616D /* CLLocation+YCLocation.m in Sources */,
+				CD16C5F31C881E9600C17D3D /* NSObject+LoginAction.m in Sources */,
 				CD487E401C842D6D004835A9 /* HXProfileDetailContainerViewController.m in Sources */,
 				CDE53A121C7BFDDB00E0616D /* NSTimer+BlockSupport.m in Sources */,
 				CDE53A091C7BFDDB00E0616D /* CacheHelper.m in Sources */,

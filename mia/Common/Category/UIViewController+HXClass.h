@@ -7,6 +7,7 @@
 
 #import "HXStoryBoardManager.h"
 #import "MBProgressHUD.h"
+#import "NSObject+LoginAction.h"
 
 @interface UIViewController (HXClass)
 

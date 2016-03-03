@@ -12,18 +12,15 @@
 #import "UIActionSheet+BlocksKit.h"
 #import "MiaAPIHelper.h"
 #import "HXAlertBanner.h"
-#import "HXLoginViewController.h"
-#import "UserSession.h"
 #import "HXInfectListView.h"
-#import "InfectItem.h"
 #import "LocationMgr.h"
 #import "MBProgressHUDHelp.h"
 #import "HXTextView.h"
 #import "FavoriteMgr.h"
-#import "NSString+IsNull.h"
 #import "HXProfileViewController.h"
 #import "WebSocketMgr.h"
 #import "HXComment.h"
+#import "HXUserSession.h"
 
 @interface HXMusicDetailViewController ()
 @end
@@ -105,13 +102,18 @@
 }
 
 - (IBAction)commentButtonPressed {
-    if ([[UserSession standard] isLogined]) {
-		_editCommentView.placeholderText = @"";
-		_atComment = nil;
-
-        [_editCommentView becomeFirstResponder];
-    } else {
-        [self presentLoginViewController];
+    switch ([HXUserSession share].userState) {
+        case HXUserStateLogout: {
+            [self shouldLogin];
+            break;
+        }
+        case HXUserStateLogin: {
+            _editCommentView.placeholderText = @"";
+            _atComment = nil;
+            
+            [_editCommentView becomeFirstResponder];
+            break;
+        }
     }
 }
 
@@ -207,8 +209,8 @@
     }];
 }
 
-- (void)presentLoginViewController {
-//    [[NSNotificationCenter defaultCenter] postNotificationName:<#(nonnull NSString *)#> object:<#(nullable id)#>];
+- (void)shouldLogin {
+    [self shouldLogin];
 }
 
 @end

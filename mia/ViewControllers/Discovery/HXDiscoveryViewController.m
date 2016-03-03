@@ -285,7 +285,7 @@ HXDiscoveryContainerViewControllerDelegate
                 if (userID.length > 0) {
                     [self showProfileWithUID:userID];
                 } else {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+                    [self shouldLogin];
                 }
             }
             break;

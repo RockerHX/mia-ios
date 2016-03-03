@@ -10,7 +10,7 @@
 
 NSString *const kLoginNotification  = @"kLoginNotification";
 
-@implementation UIViewController (LoginAction)
+@implementation NSObject (LoginAction)
 
 - (void)shouldLogin {
     [[NSNotificationCenter defaultCenter] postNotificationName:kLoginNotification object:nil];

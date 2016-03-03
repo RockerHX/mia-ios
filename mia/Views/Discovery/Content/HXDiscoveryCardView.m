@@ -18,6 +18,7 @@
 #import "FavoriteMgr.h"
 #import "HXAlertBanner.h"
 #import "WebSocketMgr.h"
+#import "NSObject+LoginAction.h"
 
 @interface HXDiscoveryCardView () <
 HXDiscoveryCoverDelegate,
@@ -78,7 +79,7 @@ HXXibImplementation
              [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
          }];
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+        [self shouldLogin];
     }
 }
 

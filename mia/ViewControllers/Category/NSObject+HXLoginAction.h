@@ -10,7 +10,7 @@
 
 FOUNDATION_EXPORT NSString *const kLoginNotification;
 
-@interface UIViewController (LoginAction)
+@interface NSObject (LoginAction)
 
 - (void)shouldLogin;
 

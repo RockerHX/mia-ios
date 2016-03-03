@@ -64,10 +64,6 @@
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
-- (void)shouldLogin {
-    ;
-}
-
 #pragma mark - Table View Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _viewModel.rows;
@@ -249,7 +245,7 @@
                      [HXAlertBanner showWithMessage:@"妙推失败，网络请求超时" tap:nil];
                  }];
             } else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+                [self shouldLogin];
             }
             break;
         }
