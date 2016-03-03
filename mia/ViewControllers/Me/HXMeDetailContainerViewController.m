@@ -200,6 +200,8 @@ HXMeShareCellDelegate
             NSInteger index = [self.tableView indexPathForCell:cell].row;
             [[MusicMgr standard] setPlayListWithItem:_viewModel.dataSource[index] hostObject:self];
             [[MusicMgr standard] playCurrent];
+            
+            [self.tableView reloadData];
             break;
         }
         case HXMeShareCellActionFavorite: {

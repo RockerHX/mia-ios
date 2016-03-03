@@ -56,7 +56,7 @@
 											  font:nil
 										   logoImg:nil
 								   backgroundImage:nil];
-	[_followButton setBackgroundImage:[UIImage imageNamed:@"follow"] forState:UIControlStateNormal];
+	[_followButton setBackgroundImage:[UIImage imageNamed:@"C-FollowIcon"] forState:UIControlStateNormal];
 	[_followButton addTarget:self action:@selector(followButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[contentView addSubview:_followButton];
 
@@ -128,9 +128,9 @@
 - (void)setIsFollowing:(BOOL)isFollow {
 	_dataItem.follow = isFollow;
 	if (isFollow) {
-		[_followButton setBackgroundImage:[UIImage imageNamed:@"following"] forState:UIControlStateNormal];
+		[_followButton setBackgroundImage:[UIImage imageNamed:@"C-FollowingIcon"] forState:UIControlStateNormal];
 	} else {
-		[_followButton setBackgroundImage:[UIImage imageNamed:@"follow"] forState:UIControlStateNormal];
+		[_followButton setBackgroundImage:[UIImage imageNamed:@"C-FollowIcon"] forState:UIControlStateNormal];
 	}
 }
 
