@@ -17,6 +17,7 @@
 #import "MiaAPIHelper.h"
 #import "LocationMgr.h"
 #import "HXAlertBanner.h"
+#import "FavoriteMgr.h"
 
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
@@ -158,6 +159,42 @@ HXPlayListViewControllerDelegate
     [self displayPlayView];
 }
 
+- (void)takeFavoriteAction {
+    switch ([HXUserSession share].userState) {
+        case HXUserStateLogout: {
+            [self shouldLogin];
+            break;
+        }
+        case HXUserStateLogin: {
+            ShareItem *item = _musicMgr.currentItem;
+            [MiaAPIHelper favoriteMusicWithShareID:item.sID
+                                        isFavorite:!item.favorite
+                                     completeBlock:
+             ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                 if (success) {
+                     id act = userInfo[MiaAPIKey_Values][@"act"];
+                     id sID = userInfo[MiaAPIKey_Values][@"id"];
+                     BOOL favorite = [act intValue];
+                     if ([item.sID integerValue] == [sID intValue]) {
+                         item.favorite = favorite;
+                     }
+                     
+                     [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
+                     [self displayPlayView];
+                     // 收藏操作成功后同步下收藏列表并检查下载
+                     [[FavoriteMgr standard] syncFavoriteList];
+                 } else {
+                     id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+                     [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+                 }
+             } timeoutBlock:^(MiaRequestItem *requestItem) {
+                 [HXAlertBanner showWithMessage:@"收藏失败，网络请求超时" tap:nil];
+             }];
+            break;
+        }
+    }
+}
+
 - (void)takeInfectAction {
     switch ([HXUserSession share].userState) {
         case HXUserStateLogout: {
@@ -226,7 +263,7 @@ HXPlayListViewControllerDelegate
 - (void)bottomBar:(HXPlayBottomBar *)bar takeAction:(HXPlayBottomBarAction)action {
     switch (action) {
         case HXPlayBottomBarActionFavorite: {
-            ;
+            [self takeFavoriteAction];
             break;
         }
         case HXPlayBottomBarActionPrevious: {
