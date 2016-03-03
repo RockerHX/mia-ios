@@ -169,7 +169,7 @@ HXProfileNavigationBarDelegate
         case HXProfileDetailContainerActionShoulFollow: {
             switch ([HXUserSession share].userState) {
                 case HXUserStateLogout: {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+                    [self shouldLogin];
                     break;
                 }
                 case HXUserStateLogin: {

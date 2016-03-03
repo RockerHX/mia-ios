@@ -135,12 +135,12 @@
             </connections>
             <point key="canvasLocation" x="315" y="350"/>
         </view>
-        <tapGestureRecognizer id="0oj-SW-e4G">
+        <tapGestureRecognizer id="0oj-SW-e4G" userLabel="Cover Tap Gesture">
             <connections>
-                <action selector="playAction" destination="-1" id="D3B-fP-CLq"/>
+                <action selector="showDetailAction" destination="-1" id="U8H-FU-gWf"/>
             </connections>
         </tapGestureRecognizer>
-        <tapGestureRecognizer id="aBk-5v-LuC">
+        <tapGestureRecognizer id="aBk-5v-LuC" userLabel="Sharer Tap Gesture">
             <connections>
                 <action selector="showProfileAction" destination="-1" id="pl6-wC-yuV"/>
             </connections>

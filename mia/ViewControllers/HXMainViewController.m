@@ -12,7 +12,7 @@
 #import "HXMeViewController.h"
 #import "HXUserSession.h"
 #import "HXLoginViewController.h"
-#import "UIViewController+LoginAction.h"
+#import "NSObject+LoginAction.h"
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
 #import "HXNoNetworkView.h"
@@ -45,7 +45,7 @@ HXLoginViewControllerDelegate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationDidCloseWithCode object:nil];
     
     // Login
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLoginNotification object:nil];
 }
 
 #pragma mark - Config Methods
@@ -61,7 +61,7 @@ HXLoginViewControllerDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketDidCloseWithCode:) name:WebSocketMgrNotificationDidCloseWithCode object:nil];
     
     // Login
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginSence) name:kNeedLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginSence) name:kLoginNotification object:nil];
 }
 
 - (void)viewConfigure {

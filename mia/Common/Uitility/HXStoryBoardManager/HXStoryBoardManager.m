@@ -60,6 +60,10 @@
             storyBoardName = @"MessageCenter";
             break;
         }
+        case HXStoryBoardNameMusicDetail: {
+            storyBoardName = @"MusicDetail";
+            break;
+        }
     }
     return storyBoardName;
 }

@@ -18,6 +18,7 @@
 #import "UIActionSheet+BlocksKit.h"
 #import "FavoriteMgr.h"
 #import "HXUserSession.h"
+#import "NSObject+LoginAction.h"
 
 @interface HXProfileDetailContainerViewController () <
 HXProfileDetailHeaderDelegate,
@@ -216,7 +217,7 @@ HXProfileShareCellDelegate
         case HXProfileShareCellActionFavorite: {
             switch ([HXUserSession share].userState) {
                 case HXUserStateLogout: {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+                    [self shouldLogin];
                     break;
                 }
                 case HXUserStateLogin: {

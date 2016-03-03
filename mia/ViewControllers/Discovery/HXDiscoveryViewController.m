@@ -21,6 +21,7 @@
 #import "HXProfileViewController.h"
 #import "HXUserSession.h"
 #import "HXAlertBanner.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -284,13 +285,15 @@ HXDiscoveryContainerViewControllerDelegate
                 if (userID.length > 0) {
                     [self showProfileWithUID:userID];
                 } else {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+                    [self shouldLogin];
                 }
             }
             break;
         }
         case HXDiscoveryCardActionShowDetail: {
-            ;
+            HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+            detailViewController.playItem = _containerViewController.currentItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
             break;
         }
         case HXDiscoveryCardActionInfect: {
