@@ -15,6 +15,8 @@
 #import "FileLog.h"
 #import "UIAlertView+BlocksKit.h"
 #import "NSObject+BlockSupport.h"
+#import "PathHelper.h"
+#import "UserSession.h"
 
 
 NSString * const MusicMgrNotificationKey_RemoteControlEvent	= @"RemoteControlEvent";
@@ -45,12 +47,15 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
  *
  */
 + (MusicMgr *)standard {
-    static MusicMgr *aMusicMgr = nil;
+    static MusicMgr *aMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        aMusicMgr = [[self alloc] init];
+		aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper playlistArchivePathWithUID:[[UserSession standard] uid]]];
+		if (!aMgr) {
+			aMgr = [[self alloc] init];
+		}
     });
-    return aMusicMgr;
+    return aMgr;
 }
 
 - (instancetype)init {
@@ -117,6 +122,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	_currentIndex = 0;
 	_isShufflePlay = NO;
 
+	[self saveChanges];
 }
 
 - (void)setPlayListWithItem:(ShareItem *)item hostObject:(id)hostObject {
@@ -308,6 +314,39 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	} else {
 		return nextIndex;
 	}
+}
+
+- (BOOL)saveChanges {
+	NSString *fileName = [PathHelper playlistArchivePathWithUID:[[UserSession standard] uid]];
+	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
+		NSLog(@"archive share list failed.");
+		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
+			NSLog(@"delete share list archive file.");
+		}
+		return NO;
+	}
+
+	return YES;
+}
+
+#pragma mark - NSCoding
+//将对象编码(即:序列化)
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+	[aCoder encodeObject:_currentItem forKey:@"currentItem"];
+	[aCoder encodeObject:_playList forKey:@"playList"];
+	[aCoder encodeInteger:_currentIndex forKey:@"currentIndex"];
+	[aCoder encodeInteger:_isShufflePlay forKey:@"isShufflePlay"];
+}
+
+//将对象解码(反序列化)
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+	if (self=[super init]) {
+		_currentItem = [aDecoder decodeObjectForKey:@"currentItem"];
+		_playList = [aDecoder decodeObjectForKey:@"playList"];
+		_currentIndex = [aDecoder decodeIntegerForKey:@"currentIndex"];
+		_isShufflePlay = [aDecoder decodeIntegerForKey:@"isShufflePlay"];
+	}
+	return (self);
 }
 
 #pragma mark - Notification

@@ -87,6 +87,10 @@
     return [NSString stringWithFormat:@"%@/favorite.archive", [self userDirWithUID:uid]];
 }
 
++ (NSString *)playlistArchivePathWithUID:(NSString *)uid {
+	return [NSString stringWithFormat:@"%@/playlist.archive", [self userDirWithUID:uid]];
+}
+
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url {
     return [NSString stringWithFormat:@"%@/%@", [self favoriteCacheDir], [NSString md5HexDigest:url]];
 }
