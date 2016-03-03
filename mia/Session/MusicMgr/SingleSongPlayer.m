@@ -28,6 +28,11 @@
 @implementation SingleSongPlayer {
 	FSAudioStream 		*_audioStream;
 	FSAudioStreamState	_audioState;
+
+	// FSAudioStream开始播放和FSAudioStream的状态改变中间存在时间差
+	// 界面刷新要求isPlaying及时更新，所以加上这个变量进行控制
+	// @eden 2016-03-03
+	BOOL				_tryingPlay;
 }
 
 - (id)init {
@@ -62,6 +67,17 @@
 				if ([strongPlayer delegate]) {
 					[[strongPlayer delegate] singleSongPlayerDidBufferStream];
 				}
+			}
+
+			// 状态延迟的一个重要原因就是因为先stop再播放，所以stoped的状态这个需要过滤掉 @eden
+			// @eden 2016-03-03
+			if (kFsAudioStreamUnknownState == state
+//				|| kFsAudioStreamStopped == state
+				|| kFsAudioStreamFailed == state
+				|| kFsAudioStreamPlaying == state
+				|| kFsAudioStreamPaused == state
+				|| kFsAudioStreamRetryingFailed == state) {
+				_tryingPlay = NO;
 			}
 		};
 
@@ -101,7 +117,12 @@
 
 - (BOOL)isPlaying {
 	if (_audioStream) {
-		return [_audioStream isPlaying];
+		if (_tryingPlay) {
+			NSLog(@"isPlaying return YES by tryPlay, _audioState: %ld", (long)_audioState);
+			return YES;
+		} else {
+			return [_audioStream isPlaying];
+		}
 	} else {
 		return NO;
 	}
@@ -233,6 +254,7 @@
 - (void)playAnotherWirUrl:(NSString *)url {
 	NSLog(@"stop - stop before playAnotherWirUrl");
 	[_audioStream stop];
+	_tryingPlay = YES;
 	[self bs_performBlock:^{
 		NSLog(@"delayPlayHandlerWithUrl");
 		[_audioStream playFromURL:[NSURL URLWithString:url]];
