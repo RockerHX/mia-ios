@@ -16,6 +16,7 @@
 #import "UIConstants.h"
 #import "UIActionSheet+BlocksKit.h"
 #import "FavoriteMgr.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXMeDetailContainerViewController () <
 HXMeDetailHeaderDelegate,
@@ -156,12 +157,9 @@ HXMeShareCellDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
-        [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowMusicDetail];
-    }
-//    HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
-//    musicDetailViewController.sID = ((ShareItem *)_viewModel.dataSource[indexPath.row]).sID;
-//    [self.navigationController pushViewController:musicDetailViewController animated:YES];
+    HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+    detailViewController.playItem = _viewModel.dataSource[indexPath.row];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 #pragma mark - HXMeDetailHeaderDelegate Methods
