@@ -90,15 +90,14 @@ HXPlayListViewControllerDelegate
             _bottomBar.pause = NO;
             break;
         case MiaPlayerEventDidPause:
-            _bottomBar.pause = YES;
-            break;
         case MiaPlayerEventDidCompletion:
-            _bottomBar.pause = NO;
+            _bottomBar.pause = YES;
             break;
         default:
             NSLog(@"It's a bug, sID: %@, PlayerEvent: %lu", sID, (unsigned long)event);
             break;
     }
+    [self displayPlayView];
 }
 
 #pragma mark - Private Methods
