@@ -154,9 +154,11 @@ HXMeShareCellDelegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self resizeFooter];
-    
-    HXMeShareCell *shareCell = (HXMeShareCell *)cell;
-    [shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
+
+	if (_viewModel.rows > 0) {
+		HXMeShareCell *shareCell = (HXMeShareCell *)cell;
+		[shareCell displayWithItem:_viewModel.dataSource[indexPath.row]];
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
