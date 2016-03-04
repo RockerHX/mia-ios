@@ -33,7 +33,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="我的收藏" id="1d8-qr-Sej">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="aDf-ry-N8x">
+                        <barButtonItem key="rightBarButtonItem" id="aDf-ry-N8x">
                             <view key="customView" contentMode="scaleToFill" id="bgV-Ta-XJF" customClass="HXMusicStateView">
                                 <rect key="frame" x="274" y="5" width="30" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
