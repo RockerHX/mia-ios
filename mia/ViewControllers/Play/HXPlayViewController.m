@@ -18,6 +18,7 @@
 #import "LocationMgr.h"
 #import "HXAlertBanner.h"
 #import "FavoriteMgr.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXPlayViewController () <
 HXPlayTopBarDelegate,
@@ -114,7 +115,7 @@ HXPlayListViewControllerDelegate
     NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);
-#warning Eden 播放状态的问题
+    
     _bottomBar.pause = _musicMgr.isPlaying;
     _bottomBar.enablePrevious = !isFirst;
     _bottomBar.enableNext = !isLast;
@@ -245,6 +246,12 @@ HXPlayListViewControllerDelegate
     }
 }
 
+- (void)showMusicDetail {
+    HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+    detailViewController.playItem = _musicMgr.currentItem;
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 #pragma mark - HXPlayTopBarDelegate Methods
 - (void)topBar:(HXPlayTopBar *)bar takeAction:(HXPlayTopBarAction)action {
     switch (action) {
@@ -261,12 +268,16 @@ HXPlayListViewControllerDelegate
             [self.navigationController pushViewController:playListViewController animated:YES];
             break;
         }
+        case HXPlayTopBarActionSharerTaped: {
+            [self showMusicDetail];
+            break;
+        }
     }
 }
 
 #pragma mark - HXPlayMusicSummaryViewDelegate Methods
 - (void)summaryViewTaped:(HXPlayMusicSummaryView *)summaryView {
-    ;
+    [self showMusicDetail];
 }
 
 #pragma mark - HXPlayBottomBarDelegate Methods

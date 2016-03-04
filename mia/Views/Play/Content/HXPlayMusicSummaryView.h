@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet     UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *singerNameLabel;
 
-- (IBAction)tapedGesture;
+- (IBAction)coverTapedGesture;
 
 - (void)displayWithMusic:(MusicItem *)music;
 
