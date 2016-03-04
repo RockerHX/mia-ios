@@ -74,7 +74,7 @@ HXMeNavigationBarDelegate
     animated = (self.navigationController.viewControllers.count > 2);
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
-    [self updateMusicEntryState];
+    [self updateUI];
     [self fetchProfileData];
 }
 
@@ -125,6 +125,14 @@ HXMeNavigationBarDelegate
 }
 
 #pragma mark - Private Methods
+- (void)updateUI {
+    [self updateMusicEntryState];
+    
+    HXUserSession *session = [HXUserSession share];
+    _detailContainerViewController.header.messagePromptView.hidden = !session.notify;
+    [_detailContainerViewController.header.messagePromptView displayWithAvatarURL:session.notifyAvatar promptCount:session.notifyMessageCount];
+}
+
 - (void)updateMusicEntryState {
     _navigationBar.stateView.state = ([MusicMgr standard].isPlaying ? HXMusicStatePlay : HXMusicStateStop);
 //    _navigationBar.stateView.stateIcon.tintColor = _navigationBar.color;

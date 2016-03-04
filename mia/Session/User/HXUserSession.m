@@ -53,6 +53,10 @@ typedef void(^FailureBlock)(NSString *);
     return _user.uid;
 }
 
+- (BOOL)notify {
+    return _notifyMessageCount;
+}
+
 #pragma mark - Public Methods
 - (void)loginWithSDKUser:(SSDKUser *)user success:(nullable void(^)(HXUserSession *, NSString *))success failure:(nullable void(^)(NSString *))failure {
     _successBlock = success;
@@ -75,6 +79,11 @@ typedef void(^FailureBlock)(NSString *);
 
 - (void)sysnc {
     [self updateUser:_user];
+}
+
+- (void)clearNotify {
+    _notifyAvatar = nil;
+    _notifyMessageCount = 0;
 }
 
 - (void)logout {

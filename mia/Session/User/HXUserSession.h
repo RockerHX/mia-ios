@@ -22,6 +22,10 @@ typedef NS_ENUM(BOOL, HXUserState) {
 @property (nonatomic, strong, readonly) HXUserModel *user;
 @property (nonatomic, strong, readonly)    NSString *uid;
 
+@property (nonatomic, strong)       NSString *notifyAvatar;
+@property (nonatomic, assign)      NSInteger  notifyMessageCount;
+@property (nonatomic, assign, readonly) BOOL  notify;
+
 
 + (instancetype)share;
 
@@ -36,6 +40,8 @@ typedef NS_ENUM(BOOL, HXUserState) {
 
 - (void)updateUser:(HXUserModel *)user;
 - (void)sysnc;
+- (void)clearNotify;
+
 - (void)logout;
 
 @end

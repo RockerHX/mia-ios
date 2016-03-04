@@ -12,6 +12,7 @@
 #import "HXPlayViewController.h"
 #import "MusicMgr.h"
 #import "HXMusicStateView.h"
+#import "HXUserSession.h"
 
 
 @interface HXFavoriteViewController () <

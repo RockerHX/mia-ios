@@ -13,6 +13,7 @@
                 <outlet property="containerView" destination="XzQ-mD-mKd" id="WNH-fX-9WO"/>
                 <outlet property="fansCountLabel" destination="Yxm-YX-RAQ" id="cKN-wh-SwK"/>
                 <outlet property="followCountLabel" destination="p8e-Qi-wC4" id="dqD-tV-FD3"/>
+                <outlet property="messagePromptView" destination="mwn-0l-ycG" id="VdM-uA-JIq"/>
                 <outlet property="nickNameLabel" destination="uqx-5D-eyB" id="CGt-Pe-0oW"/>
                 <outlet property="playNickNameLabel" destination="ydG-SQ-UvC" id="8Z3-KG-vdn"/>
             </connections>
@@ -157,6 +158,13 @@
                         <constraint firstAttribute="trailing" secondItem="qcP-EE-K6u" secondAttribute="trailing" id="w4m-lR-xa5"/>
                     </constraints>
                 </view>
+                <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="113" placeholderIntrinsicHeight="26" translatesAutoresizingMaskIntoConstraints="NO" id="mwn-0l-ycG" customClass="HXMessagePromptView">
+                    <rect key="frame" x="131" y="219" width="113" height="26"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="XX3-Ld-JCr"/>
+                    </connections>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BFm-Y6-5Tj" customClass="HXIBView">
                     <rect key="frame" x="16" y="284" width="155" height="30"/>
                     <subviews>
@@ -234,10 +242,12 @@
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="BFm-Y6-5Tj" firstAttribute="leading" secondItem="XzQ-mD-mKd" secondAttribute="leading" constant="16" id="1Zk-OM-cco"/>
+                <constraint firstItem="mwn-0l-ycG" firstAttribute="top" secondItem="qlD-y3-ZlQ" secondAttribute="bottom" constant="8" id="7rA-AH-9mB"/>
                 <constraint firstItem="qlD-y3-ZlQ" firstAttribute="top" secondItem="R0N-UP-ARd" secondAttribute="bottom" constant="10" id="8Px-5O-Suq"/>
                 <constraint firstAttribute="bottom" secondItem="1NI-Xf-mYb" secondAttribute="bottom" constant="16" id="CnN-PW-LL2"/>
                 <constraint firstAttribute="bottom" secondItem="BFm-Y6-5Tj" secondAttribute="bottom" constant="16" id="NoU-PG-dJQ"/>
                 <constraint firstItem="R0N-UP-ARd" firstAttribute="centerX" secondItem="XzQ-mD-mKd" secondAttribute="centerX" id="S4o-RB-bhk"/>
+                <constraint firstItem="mwn-0l-ycG" firstAttribute="centerX" secondItem="XzQ-mD-mKd" secondAttribute="centerX" id="Srk-h6-A8j"/>
                 <constraint firstItem="R0N-UP-ARd" firstAttribute="top" secondItem="XzQ-mD-mKd" secondAttribute="top" constant="85" id="YJz-XS-Clu"/>
                 <constraint firstAttribute="trailing" secondItem="1NI-Xf-mYb" secondAttribute="trailing" constant="16" id="spD-Xc-muL"/>
                 <constraint firstItem="qlD-y3-ZlQ" firstAttribute="centerX" secondItem="R0N-UP-ARd" secondAttribute="centerX" id="szo-in-vp1"/>

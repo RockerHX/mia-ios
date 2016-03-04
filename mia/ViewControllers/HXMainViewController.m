@@ -114,8 +114,10 @@ HXLoginViewControllerDelegate
     id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
     if (0 == [ret intValue]) {
         NSInteger notifyCount = [[notification userInfo][MiaAPIKey_Values][@"notifyCnt"] integerValue];
-//        [[UserSession standard] setNotifyUserpic:[notification userInfo][MiaAPIKey_Values][@"notifyUserpic"]];
-//        [[UserSession standard] setNotifyCnt:notifyCount];
+        [self subViewControllerTabBarItem].badgeValue = @(notifyCount).stringValue;
+        
+        [[HXUserSession share] setNotifyAvatar:[notification userInfo][MiaAPIKey_Values][@"notifyUserpic"]];
+        [[HXUserSession share] setNotifyMessageCount:notifyCount];
     } else {
         NSLog(@"notify count parse failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
     }
@@ -177,6 +179,10 @@ HXLoginViewControllerDelegate
 
 - (void)showNoNetworkView {
     [HXNoNetworkView showOnViewController:self show:nil play:nil];
+}
+
+- (UITabBarItem *)subViewControllerTabBarItem {
+    return self.viewControllers[2].tabBarItem;
 }
 
 #pragma mark - UITabBarControllerDelegate Methods
