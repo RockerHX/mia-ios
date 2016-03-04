@@ -51,7 +51,8 @@ HXPlayListViewControllerDelegate
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
+	[self viewConfigure];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
