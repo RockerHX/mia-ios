@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, HXPlayBottomBarAction) {
 
 @required
 - (void)bottomBar:(HXPlayBottomBar *)bar takeAction:(HXPlayBottomBarAction)action;
+- (void)bottomBar:(HXPlayBottomBar *)bar seekToPosition:(float)postion;
 
 @end
 
@@ -55,5 +56,6 @@ typedef NS_ENUM(NSUInteger, HXPlayBottomBarAction) {
 - (IBAction)pauseButtonPressed;
 - (IBAction)nextButtonPressed;
 - (IBAction)infectButtonPressed;
+- (IBAction)valueChange:(UISlider *)slider;
 
 @end

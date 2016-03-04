@@ -295,6 +295,10 @@ HXPlayListViewControllerDelegate
     }
 }
 
+- (void)bottomBar:(HXPlayBottomBar *)bar seekToPosition:(float)postion {
+	[_musicMgr seekToPosition:postion];
+}
+
 #pragma mark - HXPlayListViewControllerDelegate Methods
 - (void)playListViewController:(HXPlayListViewController *)viewController playIndex:(NSInteger)index {
     [_musicMgr playWithIndex:index];
