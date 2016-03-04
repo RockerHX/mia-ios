@@ -28,6 +28,10 @@ HXMeShareCellDelegate
     HXMeViewModel *_viewModel;
 }
 
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -48,6 +52,7 @@ HXMeShareCellDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
     _viewModel = [HXMeViewModel instanceWithUID:_uid];
 }
 
@@ -236,6 +241,16 @@ HXMeShareCellDelegate
             break;
         }
     }
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+	NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+	for (ShareItem *item in _viewModel.dataSource) {
+		if ([item.sID isEqualToString:sID]) {
+			[self.tableView reloadData];
+		}
+	}
 }
 
 @end
