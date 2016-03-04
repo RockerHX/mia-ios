@@ -45,13 +45,13 @@
     [MobClick setEncryptEnabled:YES];       // 日志加密
     // 启动[友盟统计]
     [MobClick setCrashReportEnabled:NO];
-    
-#ifdef DEBUG
-    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"fir.im"];
-#else
-	[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"appstore"];
-#endif
-    
+
+	if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.miamusic.ios"]) {
+		[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"appstore"];
+	} else {
+		[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"fir.im"];
+	}
+
 //#pragma mark - Testin Crash SDK
 //    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
     
