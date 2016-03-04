@@ -67,7 +67,7 @@ HXFavoriteEditViewControllerDelegate
     [MiaAPIHelper deleteFavoritesWithIDs:@[sID] completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-             [HXAlertBanner showWithMessage:@"取消收藏成功！" tap:nil];
+             [HXAlertBanner showWithMessage:@"取消收藏成功" tap:nil];
              [[FavoriteMgr standard] removeSelectedItem:selectedItem];
              
              [self fetchUserFavoriteData];

@@ -122,7 +122,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
         case HXLoginActionLogin: {
             if ([self checkPhoneNumber]) {
                 if (!password.length) {
-                    [self showToastWithMessage:@"请输入登录密码！"];
+                    [self showToastWithMessage:@"请输入登录密码"];
                 } else {
                     [self startLoginRequestWithMobile:mobile password:password];
                 }

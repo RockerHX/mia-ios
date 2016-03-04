@@ -140,7 +140,7 @@
         [_editCommentView resignFirstResponder];
         [self postCommentWithSID:_viewModel.playItem.sID content:content];
     } else {
-        [self showBannerWithPrompt:@"评论不能为空！"];
+        [self showBannerWithPrompt:@"评论不能为空"];
     }
 }
 

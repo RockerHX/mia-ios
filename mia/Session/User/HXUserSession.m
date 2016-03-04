@@ -154,7 +154,7 @@ typedef void(^FailureBlock)(NSString *);
     
     if (_user) {
         if (_successBlock) {
-            _successBlock(self, @"登录成功！");
+            _successBlock(self, @"登录成功");
         }
     } else {
         [self handelError:DataParseErrorPrompt];

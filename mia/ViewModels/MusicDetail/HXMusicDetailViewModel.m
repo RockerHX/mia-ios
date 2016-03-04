@@ -119,12 +119,12 @@ typedef void(^FailureBlock)(NSString *);
              }
          } else {
              if (_shareItemFailureBlock) {
-                 _shareItemFailureBlock(@"数据获取出错！");
+                 _shareItemFailureBlock(@"数据获取出错");
              }
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
          if (_shareItemFailureBlock) {
-             _shareItemFailureBlock(@"请求超时！");
+             _shareItemFailureBlock(@"请求超时");
          }
      }];
 }
