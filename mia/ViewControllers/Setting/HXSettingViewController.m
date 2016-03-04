@@ -21,6 +21,7 @@
 #import "HXMessageCenterViewController.h"
 #import "AFNetworking.h"
 #import "HXUserSession.h"
+#import "NSObject+LoginAction.h"
 
 typedef NS_ENUM(NSUInteger, HXSettingSection) {
     HXSettingSectionUser,
@@ -327,10 +328,8 @@ GenderPickerViewDelegate
 }
 
 - (void)logoutTouchAction {
-    __weak __typeof__(self)weakSelf = self;
     MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"退出登录中..."];
     [MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-        __strong __typeof__(self)strongSelf = weakSelf;
         if (success) {
             [MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                 if (success) {
@@ -344,7 +343,8 @@ GenderPickerViewDelegate
             
             [[HXUserSession share] logout];
             [HXAlertBanner showWithMessage:@"退出登录成功" tap:nil];
-            [strongSelf.navigationController popToRootViewControllerAnimated:YES];
+            [self shouldLogout];
+            [self.navigationController popViewControllerAnimated:NO];
         } else {
             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];

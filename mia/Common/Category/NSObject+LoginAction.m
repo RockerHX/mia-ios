@@ -8,12 +8,17 @@
 
 #import "NSObject+LoginAction.h"
 
-NSString *const kLoginNotification  = @"kLoginNotification";
+NSString *const kLoginNotification   = @"kLoginNotification";
+NSString *const kLogoutNotification  = @"kLogoutNotification";
 
 @implementation NSObject (LoginAction)
 
 - (void)shouldLogin {
     [[NSNotificationCenter defaultCenter] postNotificationName:kLoginNotification object:nil];
+}
+
+- (void)shouldLogout {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLogoutNotification object:nil];
 }
 
 @end
