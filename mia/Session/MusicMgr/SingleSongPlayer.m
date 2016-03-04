@@ -118,7 +118,7 @@
 - (BOOL)isPlaying {
 	if (_audioStream) {
 		if (_tryingPlay) {
-			NSLog(@"isPlaying return YES by tryPlay, _audioState: %ld", (long)_audioState);
+//			NSLog(@"isPlaying return YES by tryPlay, _audioState: %ld", (long)_audioState);
 			return YES;
 		} else {
 			return [_audioStream isPlaying];
@@ -129,14 +129,16 @@
 }
 
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	if (!_audioStream) {
-		return NO;
-	}
-	if (![_audioStream isPlaying]) {
+	if (![self isPlaying]) {
 		return NO;
 	}
 
-	return [_audioStream.url.absoluteString isEqualToString:url];
+//	NSLog(@"isPlayingWithUrl\n===%@\n+++%@\n---%@", url, _audioStream.url.absoluteString, _currentItem.murl);
+	if (_tryingPlay) {
+		return [_currentItem.murl isEqualToString:url];
+	} else {
+		return [_audioStream.url.absoluteString isEqualToString:url];
+	}
 }
 
 - (void)play {
