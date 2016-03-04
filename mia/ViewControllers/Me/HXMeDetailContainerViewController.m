@@ -53,7 +53,7 @@ HXMeShareCellDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
-    _viewModel = [HXMeViewModel instanceWithUID:_uid];
+    _viewModel = [HXMeViewModel new];
 }
 
 - (void)viewConfigure {

@@ -10,12 +10,8 @@
 
 @interface HXMeViewModel : NSObject
 
-@property (nonatomic, strong)  NSString *uid;
-
 @property (nonatomic, assign, readonly) NSInteger  rows;
 @property (nonatomic, strong, readonly)   NSArray *dataSource;
-
-+ (instancetype)instanceWithUID:(NSString *)uid;
 
 - (void)fetchProfileListData:(void(^)(HXMeViewModel *viewModel))completed failure:(void(^)(NSString *message))failure;
 - (void)fetchProfileListMoreData;
