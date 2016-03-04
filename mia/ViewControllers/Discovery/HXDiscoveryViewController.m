@@ -239,7 +239,16 @@ HXDiscoveryContainerViewControllerDelegate
 - (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
     switch (action) {
         case HXDiscoveryHeaderActionShare: {
-            [self.navigationController pushViewController:[HXShareViewController instance] animated:YES];
+			switch ([HXUserSession share].userState) {
+				case HXUserStateLogout: {
+					[self shouldLogin];
+					break;
+				}
+				case HXUserStateLogin: {
+					[self.navigationController pushViewController:[HXShareViewController instance] animated:YES];
+					break;
+				}
+			}
             break;
         }
         case HXDiscoveryHeaderActionPlay: {
