@@ -11,6 +11,7 @@
 #import "UserSetting.h"
 #import "MusicMgr.h"
 #import "HXAppConstants.h"
+#import "MobClick.h"
 
 // Share SDK
 #import <ShareSDK/ShareSDK.h>
@@ -37,6 +38,22 @@
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 	// 默认用户配置
     [UserSetting registerUserDefaults];
+    
+#pragma mark - UMeng Analytics SDK
+    // 设置版本号
+    [MobClick setAppVersion:[[HXVersion appVersion] stringByAppendingFormat:@"(%@)", [HXVersion appBuildVersion]]];
+    [MobClick setEncryptEnabled:YES];       // 日志加密
+    // 启动[友盟统计]
+    [MobClick setCrashReportEnabled:NO];
+    
+#ifdef DEBUG
+    [MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"fir.im"];
+#else
+	[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"appstore"];
+#endif
+    
+//#pragma mark - Testin Crash SDK
+//    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
     
 #pragma mark - Share SDK
     NSArray *activePlatforms = @[@(SSDKPlatformTypeWechat),
