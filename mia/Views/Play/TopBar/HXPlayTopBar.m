@@ -30,6 +30,12 @@ HXXibImplementation
     _containerView.backgroundColor = [UIColor clearColor];
 }
 
+- (IBAction)sharerTapGesture {
+    if (_delegate && [_delegate respondsToSelector:@selector(topBar:takeAction:)]) {
+        [_delegate topBar:self takeAction:HXPlayTopBarActionSharerTaped];
+    }
+}
+
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(topBar:takeAction:)]) {

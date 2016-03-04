@@ -12,7 +12,8 @@
 
 typedef NS_ENUM(NSUInteger, HXPlayTopBarAction) {
     HXPlayTopBarActionBack,
-    HXPlayTopBarActionShowList
+    HXPlayTopBarActionShowList,
+    HXPlayTopBarActionSharerTaped,
 };
 
 @protocol HXPlayTopBarDelegate <NSObject>
@@ -30,5 +31,6 @@ typedef NS_ENUM(NSUInteger, HXPlayTopBarAction) {
 
 - (IBAction)backButtonPressed;
 - (IBAction)listButtonPressed;
+- (IBAction)sharerTapGesture;
 
 @end

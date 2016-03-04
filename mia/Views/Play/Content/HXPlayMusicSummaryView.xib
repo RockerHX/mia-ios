@@ -19,12 +19,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="405"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BJ2-Xg-7W0">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BJ2-Xg-7W0">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                     <color key="backgroundColor" red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="BJ2-Xg-7W0" secondAttribute="height" multiplier="1:1" id="TjN-3S-tZ6"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="B9K-BZ-Es9" appends="YES" id="lyh-CC-DWs"/>
+                    </connections>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="歌曲名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8J1-g8-Kpw" userLabel="歌曲名称">
                     <rect key="frame" x="0.0" y="340" width="320" height="22"/>
@@ -55,14 +59,11 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outletCollection property="gestureRecognizers" destination="JNE-Wd-KCm" appends="YES" id="mt2-Fw-fQD"/>
-            </connections>
             <point key="canvasLocation" x="336" y="582.5"/>
         </view>
-        <tapGestureRecognizer id="JNE-Wd-KCm">
+        <tapGestureRecognizer id="B9K-BZ-Es9" userLabel="Cover Gesture">
             <connections>
-                <action selector="tapedGesture" destination="-1" id="qbz-1C-XlD"/>
+                <action selector="coverTapedGesture" destination="-1" id="4Fg-ik-a67"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

@@ -9,7 +9,7 @@
         <!--HXPlayNavigationController-->
         <scene sceneID="M5O-Dt-w0n">
             <objects>
-                <navigationController storyboardIdentifier="HXPlayNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Go-qd-9PF" userLabel="HXPlayNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HXPlayNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Go-qd-9PF" userLabel="HXPlayNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JAz-Ms-g4h">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

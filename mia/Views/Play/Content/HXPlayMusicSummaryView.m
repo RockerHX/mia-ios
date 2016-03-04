@@ -33,7 +33,7 @@ HXXibImplementation
 }
 
 #pragma mark - Event Response
-- (IBAction)tapedGesture {
+- (IBAction)coverTapedGesture {
     if (_delegate && [_delegate respondsToSelector:@selector(summaryViewTaped:)]) {
         [_delegate summaryViewTaped:self];
     }
