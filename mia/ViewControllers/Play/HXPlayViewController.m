@@ -157,7 +157,11 @@ HXPlayListViewControllerDelegate
 }
 
 - (void)pause {
-    [_musicMgr pause];
+	if ([_musicMgr isPlaying]) {
+		[_musicMgr pause];
+	} else {
+		[_musicMgr playCurrent];
+	}
 }
 
 - (void)previous {
