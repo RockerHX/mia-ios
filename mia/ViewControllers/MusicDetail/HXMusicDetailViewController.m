@@ -17,7 +17,9 @@
 #import "HXUserSession.h"
 #import "HXLoadingView.h"
 
-@interface HXMusicDetailViewController ()
+@interface HXMusicDetailViewController () <
+HXMusicDetailContainerViewControllerDelegate
+>
 @end
 
 @implementation HXMusicDetailViewController {
@@ -36,6 +38,7 @@
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     _container = segue.destinationViewController;
+    _container.delegate = self;
 }
 
 #pragma mark - View Controller Life Cycle
@@ -74,6 +77,10 @@
     
     _loadingView = [HXLoadingView new];
     [_loadingView showOnViewController:self];
+    
+    if (_showKeyboard) {
+        [_editCommentView becomeFirstResponder];
+    }
 }
 
 #pragma mark - Event Response
@@ -197,14 +204,14 @@
     [self showBannerWithPrompt:@"正在提交评论..."];
     [MiaAPIHelper postCommentWithShareID:sID
                                  comment:content
-							   commentID:_atComment ? _atComment.cmid : nil
+							   commentID:(_atComment.cmid ?: nil)
                            completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
              _editCommentView.text = @"";
 			 _editCommentView.placeholderText = @"";
 			 _atComment = nil;
-
+             
              [self requestLatestComments];
              [HXAlertBanner showWithMessage:@"评论成功" tap:nil];
          } else {
@@ -230,6 +237,24 @@
 
 - (void)shouldLogin {
     [self shouldLogin];
+}
+
+#pragma mark - HXMusicDetailContainerViewControllerDelegate Methods
+- (void)containerViewControllerAtComment:(HXMusicDetailContainerViewController *)container at:(HXComment *)comment {
+    [self.view endEditing:YES];
+    _atComment = [comment copy];
+    _editCommentView.placeholderText = [NSString stringWithFormat:@"回复%@:", _atComment.nickName];
+    
+    switch ([HXUserSession share].userState) {
+        case HXUserStateLogout: {
+            [self shouldLogin];
+            break;
+        }
+        case HXUserStateLogin: {
+            [_editCommentView becomeFirstResponder];
+            break;
+        }
+    }
 }
 
 @end

@@ -8,8 +8,12 @@
 
 #import "UIViewController+HXClass.h"
 
+
+@class HXMusicStateView;
+
+
 @interface HXFavoriteViewController : UIViewController
 
-- (IBAction)musicButtonPressed;
+@property (weak, nonatomic) IBOutlet HXMusicStateView *stateView;
 
 @end

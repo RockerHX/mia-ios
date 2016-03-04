@@ -6,18 +6,21 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HXMusicStateView.h"
 
-typedef NS_ENUM(NSUInteger, HXMeNavigationBarAction) {
-    HXMeNavigationBarMusic,
+
+typedef NS_ENUM(NSUInteger, HXMeNavigationAction) {
+    HXMeNavigationActionMusic,
 };
 
+
 @class HXMeNavigationBar;
+
 
 @protocol HXMeNavigationBarDelegate <NSObject>
 
 @optional
-- (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationBarAction)action;
+- (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationAction)action;
 
 @end
 
@@ -26,7 +29,13 @@ typedef NS_ENUM(NSUInteger, HXMeNavigationBarAction) {
 
 @property (weak, nonatomic) IBOutlet id  <HXMeNavigationBarDelegate>delegate;
 
+@property (weak, nonatomic) IBOutlet           UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet           UIView *containerView;
+@property (weak, nonatomic) IBOutlet          UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet HXMusicStateView *stateView;
+
 @property (nonatomic, assign)  CGFloat  colorAlpha;
+@property (nonatomic, strong)  UIColor *color;
 @property (nonatomic, strong) NSString *title;
 
 @end

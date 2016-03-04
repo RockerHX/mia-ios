@@ -21,11 +21,13 @@
 #import "HXSettingViewController.h"
 #import "HXMessageCenterViewController.h"
 
+
 @interface HXMeViewController () <
 HXMeDetailContainerViewControllerDelegate,
 HXMeNavigationBarDelegate
 >
 @end
+
 
 @implementation HXMeViewController {
     BOOL _hiddenNavigationBar;
@@ -39,6 +41,32 @@ HXMeNavigationBarDelegate
     NSUInteger _followState;
 }
 
+#pragma mark - Class Methods
++ (NSString *)navigationControllerIdentifier {
+    return @"HXMeNavgationController";
+}
+
++ (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameMe;
+}
+
+#pragma mark - StatusBar
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return _statusBarStyle;
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSString *identifier = segue.identifier;
+    if ([identifier isEqualToString:[HXMeCoverContainerViewController segueIdentifier]]) {
+        _coverContainerViewController = segue.destinationViewController;
+    } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
+        _detailContainerViewController = segue.destinationViewController;
+        _detailContainerViewController.uid = [HXUserSession share].uid;
+        _detailContainerViewController.delegate = self;
+    }
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -46,6 +74,7 @@ HXMeNavigationBarDelegate
     animated = (self.navigationController.viewControllers.count > 2);
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
+    [self updateUI];
     [self fetchProfileData];
 }
 
@@ -63,33 +92,14 @@ HXMeNavigationBarDelegate
     [self viewConfigure];
 }
 
-+ (NSString *)navigationControllerIdentifier {
-    return @"HXMeNavgationController";
-}
-
-+ (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameMe;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return _statusBarStyle;
-}
-
-#pragma mark - Segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSString *identifier = segue.identifier;
-    if ([identifier isEqualToString:[HXMeCoverContainerViewController segueIdentifier]]) {
-        _coverContainerViewController = segue.destinationViewController;
-    } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
-        _detailContainerViewController = segue.destinationViewController;
-        _detailContainerViewController.uid = [HXUserSession share].uid;
-        _detailContainerViewController.delegate = self;
-    }
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _statusBarStyle = UIStatusBarStyleLightContent;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
@@ -97,7 +107,37 @@ HXMeNavigationBarDelegate
     [self showMessagePromptView];
 }
 
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    switch (event) {
+        case MiaPlayerEventDidPlay: {
+            _navigationBar.stateView.state = HXMusicStatePlay;
+            break;
+        }
+        case MiaPlayerEventDidPause:
+        case MiaPlayerEventDidCompletion: {
+            _navigationBar.stateView.state = HXMusicStateStop;
+            break;
+        }
+    }
+}
+
 #pragma mark - Private Methods
+- (void)updateUI {
+    [self updateMusicEntryState];
+    
+    HXUserSession *session = [HXUserSession share];
+    _detailContainerViewController.header.messagePromptView.hidden = !session.notify;
+    [_detailContainerViewController.header.messagePromptView displayWithAvatarURL:session.notifyAvatar promptCount:session.notifyMessageCount];
+}
+
+- (void)updateMusicEntryState {
+    _navigationBar.stateView.state = ([MusicMgr standard].isPlaying ? HXMusicStatePlay : HXMusicStateStop);
+//    _navigationBar.stateView.stateIcon.tintColor = _navigationBar.color;
+}
+
 - (void)fetchProfileData {
     [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
@@ -197,14 +237,12 @@ HXMeNavigationBarDelegate
 }
 
 #pragma mark - HXMeNavigationBarDelegate Methods
-- (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationBarAction)action {
+- (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationAction)action {
     switch (action) {
-        case HXMeNavigationBarMusic: {
+        case HXMeNavigationActionMusic: {
             if ([MusicMgr standard].currentItem) {
                 _hiddenNavigationBar = YES;
                 UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
-//                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
-                
                 __weak __typeof__(self)weakSelf = self;
                 [self presentViewController:playNavigationController animated:YES completion:^{
                     __strong __typeof__(self)strongSelf = weakSelf;

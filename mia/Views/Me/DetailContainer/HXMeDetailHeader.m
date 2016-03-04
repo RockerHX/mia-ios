@@ -10,6 +10,7 @@
 #import "HXXib.h"
 #import "UIImageView+WebCache.h"
 
+
 @implementation HXMeDetailHeader
 
 HXXibImplementation
@@ -63,6 +64,13 @@ HXXibImplementation
     _playNickNameLabel.text = model.nickName;
     _fansCountLabel.text = model.fansCount;
     _followCountLabel.text = model.followCount;
+}
+
+#pragma mark - HXMessagePromptViewDelegate Methods
+- (void)messagePromptViewTaped:(HXMessagePromptView *)view {
+    if (_delegate && [_delegate respondsToSelector:@selector(detailHeader:takeAction:)]) {
+        [_delegate detailHeader:self takeAction:HXMeDetailHeaderActionShowMessage];
+    }
 }
 
 @end

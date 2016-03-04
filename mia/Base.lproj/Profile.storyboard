@@ -195,8 +195,8 @@
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uAf-lM-nYa">
                                                             <rect key="frame" x="33" y="33" width="35" height="35"/>
-                                                            <state key="normal" image="M-PlayIcon"/>
-                                                            <state key="selected" image="M-PauseIcon"/>
+                                                            <state key="normal" image="CM-PlayIcon"/>
+                                                            <state key="selected" image="CM-PauseIcon"/>
                                                             <connections>
                                                                 <action selector="playButtonPressed" destination="h7b-s1-DXZ" eventType="touchUpInside" id="BqL-YU-042"/>
                                                             </connections>
@@ -367,8 +367,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="M-PauseIcon" width="35" height="35"/>
-        <image name="M-PlayIcon" width="35" height="35"/>
+        <image name="CM-PauseIcon" width="35" height="35"/>
+        <image name="CM-PlayIcon" width="35" height="35"/>
         <image name="PF-CommentIcon" width="20" height="20"/>
         <image name="PF-FavoriteIcon" width="20" height="20"/>
     </resources>

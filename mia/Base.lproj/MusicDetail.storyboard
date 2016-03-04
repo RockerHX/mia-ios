@@ -140,8 +140,8 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrq-1u-jAT">
                                                     <rect key="frame" x="70" y="70" width="35" height="35"/>
-                                                    <state key="normal" image="M-PlayIcon"/>
-                                                    <state key="selected" image="M-PauseIcon"/>
+                                                    <state key="normal" image="CM-PlayIcon"/>
+                                                    <state key="selected" image="CM-PauseIcon"/>
                                                     <connections>
                                                         <action selector="playButtonPressed" destination="5dw-l1-KTl" eventType="touchUpInside" id="eNX-8T-Ugk"/>
                                                     </connections>
@@ -583,9 +583,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="CM-PauseIcon" width="35" height="35"/>
+        <image name="CM-PlayIcon" width="35" height="35"/>
         <image name="D-FavoriteIcon" width="30" height="30"/>
-        <image name="M-PauseIcon" width="35" height="35"/>
-        <image name="M-PlayIcon" width="35" height="35"/>
         <image name="MD-CommentButtonIcon" width="345" height="41"/>
         <image name="MD-CoverMask" width="250" height="65"/>
         <image name="MD-LocationIcon" width="15" height="15"/>

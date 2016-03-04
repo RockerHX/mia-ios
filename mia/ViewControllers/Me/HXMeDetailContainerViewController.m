@@ -17,6 +17,7 @@
 #import "UIActionSheet+BlocksKit.h"
 #import "FavoriteMgr.h"
 #import "HXMusicDetailViewController.h"
+#import "HXMessageCenterViewController.h"
 
 @interface HXMeDetailContainerViewController () <
 HXMeDetailHeaderDelegate,
@@ -193,6 +194,11 @@ HXMeShareCellDelegate
             if (_delegate && [_delegate respondsToSelector:@selector(detailContainer:takeAction:)]) {
                 [_delegate detailContainer:self takeAction:HXProfileDetailContainerActionShowFollow];
             }
+            break;
+        }
+        case HXMeDetailHeaderActionShowMessage: {
+            HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
+            [self.navigationController pushViewController:messageCenterViewController animated:YES];
             break;
         }
     }

@@ -37,7 +37,7 @@
 - (void)setFavorite:(BOOL)favorite {
     _favorite = favorite;
     
-    [_favoriteButton setImage:[UIImage imageNamed:(favorite ? @"P-FavoritedIcon" : @"P-UnFavoriteIcon")] forState:UIControlStateNormal];
+    [_favoriteButton setImage:[UIImage imageNamed:(favorite ? @"PF-FavoritedIcon" : @"PF-FavoriteIcon")] forState:UIControlStateNormal];
 }
 
 #pragma mark - Event Response

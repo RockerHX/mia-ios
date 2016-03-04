@@ -51,7 +51,7 @@
 											  font:nil
 										   logoImg:nil
 								   backgroundImage:nil];
-	[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+	[_playButton setBackgroundImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
 	[_playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[contentView addSubview:_playButton];
 
@@ -118,9 +118,9 @@
 - (void)setIsPlaying:(BOOL)isPlaying {
 	_dataItem.isPlaying = isPlaying;
 	if (isPlaying) {
-		[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
 	} else {
-		[_playButton setBackgroundImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+		[_playButton setBackgroundImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
 	}
 }
 

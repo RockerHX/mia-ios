@@ -179,18 +179,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.view endEditing:YES];
+    
     if ((indexPath.row >= _viewModel.regularRow) && (_viewModel.comments.count)) {
         HXComment *comment = _viewModel.comments[indexPath.row - _viewModel.regularRow];
-
-//		_atComment = [comment copy];
-//		_editCommentView.placeholderText = [NSString stringWithFormat:@"回复%@:", _atComment.nickName];
-//
-//		if ([[UserSession standard] isLogined]) {
-//			[_editCommentView becomeFirstResponder];
-//		} else {
-//			[self shouldLogin];
-//		}
+        if (_delegate && [_delegate respondsToSelector:@selector(containerViewControllerAtComment:at:)]) {
+            [_delegate containerViewControllerAtComment:self at:comment];
+        }
     }
 }
 

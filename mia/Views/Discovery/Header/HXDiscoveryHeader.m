@@ -9,6 +9,13 @@
 #import "HXDiscoveryHeader.h"
 #import "HXXib.h"
 
+
+@interface HXDiscoveryHeader () <
+HXMusicStateViewDelegate
+>
+@end
+
+
 @implementation HXDiscoveryHeader
 
 HXXibImplementation
@@ -19,9 +26,11 @@ HXXibImplementation
         [_delegate discoveryHeader:self takeAction:HXDiscoveryHeaderActionShare];
     }
 }
-- (IBAction)playButtonPressed {
+
+#pragma mark - HXMusicStateViewDelegate Methods
+- (void)musicStateViewTaped:(HXMusicStateView *)stateView {
     if (_delegate && [_delegate respondsToSelector:@selector(discoveryHeader:takeAction:)]) {
-        [_delegate discoveryHeader:self takeAction:HXDiscoveryHeaderActionPlay];
+        [_delegate discoveryHeader:self takeAction:HXDiscoveryHeaderActionMusic];
     }
 }
 

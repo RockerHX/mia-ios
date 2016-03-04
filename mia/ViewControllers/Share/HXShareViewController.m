@@ -134,7 +134,7 @@
 - (IBAction)playButtonPressed {
 	if ([[MusicMgr standard] isPlayingWithUrl:_dataItem.songUrl]) {
 		[[MusicMgr standard] pause];
-		[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
 	} else {
 		[self playMusic];
 	}
@@ -175,13 +175,13 @@
     
     switch (event) {
         case MiaPlayerEventDidPlay:
-            [_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+            [_playButton setImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
             break;
         case MiaPlayerEventDidPause:
-            [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+            [_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
             break;
         case MiaPlayerEventDidCompletion:
-            [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+            [_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
             [_searchViewController playCompletion];
             break;
         default:
@@ -203,12 +203,12 @@
 	[[MusicMgr standard] setPlayListWithItem:itemForPlay hostObject:self];
 	[[MusicMgr standard] playCurrent];
 
-	[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+	[_playButton setImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
 }
 
 - (void)pauseMusic {
 	[[MusicMgr standard] pause];
-    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+    [_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
 }
 
 - (void)stopMusic {
@@ -217,7 +217,7 @@
 	}
 
 	[[MusicMgr standard] stop];
-    [_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+    [_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
 }
 
 #pragma mark - Private Methods
@@ -262,9 +262,9 @@
     _singerLabel.text = _musicItem.singerName;
     
 	if ([[MusicMgr standard] isPlayingWithUrl:_musicItem.murl]) {
-		[_playButton setImage:[UIImage imageNamed:@"M-PauseIcon"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
 	} else {
-		[_playButton setImage:[UIImage imageNamed:@"M-PlayIcon"] forState:UIControlStateNormal];
+		[_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
 	}
 
     [MiaAPIHelper getMusicById:_dataItem.songID

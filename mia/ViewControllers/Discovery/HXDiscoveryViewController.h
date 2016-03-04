@@ -8,7 +8,13 @@
 
 #import "UIViewController+HXClass.h"
 
+
+@class HXDiscoveryHeader;
+
+
 @interface HXDiscoveryViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet HXDiscoveryHeader *header;
 
 - (void)fetchShareList;
 - (void)refreshShareItem;

@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "HXProfileHeaderModel.h"
+#import "HXMessagePromptView.h"
+
 
 typedef NS_ENUM(NSUInteger, HXMeDetailHeaderAction) {
     HXMeDetailHeaderActionSetting,
     HXMeDetailHeaderActionPlay,
     HXMeDetailHeaderActionShowFans,
     HXMeDetailHeaderActionShowFollow,
+    HXMeDetailHeaderActionShowMessage,
 };
 
+
 @class HXMeDetailHeader;
+
 
 @protocol HXMeDetailHeaderDelegate <NSObject>
 
@@ -25,7 +30,8 @@ typedef NS_ENUM(NSUInteger, HXMeDetailHeaderAction) {
 
 @end
 
-@interface HXMeDetailHeader : UIView
+
+@interface HXMeDetailHeader : UIView <HXMessagePromptViewDelegate>
 
 @property (weak, nonatomic) IBOutlet       id  <HXMeDetailHeaderDelegate>delegate;
 @property (weak, nonatomic) IBOutlet      UIView *containerView;
@@ -34,6 +40,8 @@ typedef NS_ENUM(NSUInteger, HXMeDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *playNickNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
+
+@property (weak, nonatomic) IBOutlet HXMessagePromptView *messagePromptView;
 
 - (IBAction)settingButtonPressed;
 - (IBAction)playViewTaped;

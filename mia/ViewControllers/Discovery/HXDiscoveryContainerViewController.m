@@ -9,6 +9,7 @@
 #import "HXDiscoveryContainerViewController.h"
 #import "UIView+Frame.h"
 #import "HXDiscoveryCardView.h"
+#import "HXMusicDetailViewController.h"
 
 @interface HXDiscoveryContainerViewController () <
 iCarouselDataSource,
@@ -158,8 +159,16 @@ HXDiscoveryCardViewDelegate
             cardAction = HXDiscoveryCardActionShowCommenter;
             break;
         }
-        case HXDiscoveryCardViewActionShowDetail: {
+        case HXDiscoveryCardViewActionShowDetailOnly: {
             cardAction = HXDiscoveryCardActionShowDetail;
+            break;
+        }
+        case HXDiscoveryCardViewActionShowDetailAndComment: {
+            HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+            detailViewController.playItem = self.currentItem;
+            detailViewController.showKeyboard = YES;
+            [self.navigationController pushViewController:detailViewController animated:YES];
+            return;
             break;
         }
         case HXDiscoveryCardViewActionInfect: {

@@ -10,6 +10,7 @@
                 <outlet property="backButton" destination="EDM-DY-yeI" id="U0R-bL-F3w"/>
                 <outlet property="backgroundView" destination="uos-yF-YdI" id="Tfb-Ue-mMi"/>
                 <outlet property="containerView" destination="iN0-l3-epB" id="Cfh-c2-gAM"/>
+                <outlet property="stateView" destination="9MS-VH-UpI" id="7NL-bu-RcW"/>
                 <outlet property="titleLabel" destination="elw-aF-JWl" id="f9a-gD-8a4"/>
             </connections>
         </placeholder>
@@ -60,14 +61,27 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9MS-VH-UpI" customClass="HXMusicStateView">
+                            <rect key="frame" x="256" y="0.0" width="64" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="64" id="efV-q0-boh"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="29T-ZQ-ScY"/>
+                            </connections>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="9MS-VH-UpI" firstAttribute="top" secondItem="Fd4-HS-c5h" secondAttribute="top" id="3u5-HC-HrA"/>
                         <constraint firstItem="EDM-DY-yeI" firstAttribute="top" secondItem="Fd4-HS-c5h" secondAttribute="top" id="AfA-hU-oKC"/>
+                        <constraint firstAttribute="trailing" secondItem="9MS-VH-UpI" secondAttribute="trailing" id="L0e-5l-USX"/>
                         <constraint firstAttribute="bottom" secondItem="EDM-DY-yeI" secondAttribute="bottom" id="Rnf-Di-06y"/>
                         <constraint firstItem="EDM-DY-yeI" firstAttribute="leading" secondItem="Fd4-HS-c5h" secondAttribute="leading" id="enu-CX-bKm"/>
                         <constraint firstItem="elw-aF-JWl" firstAttribute="centerX" secondItem="Fd4-HS-c5h" secondAttribute="centerX" id="ihl-Iv-E5V"/>
                         <constraint firstAttribute="height" constant="44" id="o8p-ip-lZN"/>
+                        <constraint firstAttribute="bottom" secondItem="9MS-VH-UpI" secondAttribute="bottom" id="tTf-ob-LXO"/>
                         <constraint firstItem="elw-aF-JWl" firstAttribute="centerY" secondItem="Fd4-HS-c5h" secondAttribute="centerY" id="uIz-N5-MbO"/>
                     </constraints>
                 </view>
