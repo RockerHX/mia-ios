@@ -210,7 +210,13 @@ HXDiscoveryContainerViewControllerDelegate
                          item.infectTotal = infectTotal;
                          [item parseInfectUsersFromJsonArray:infectArray];
                          item.isInfected = isInfected;
-                     }
+
+						 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+					 } else {
+						 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+						 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+					 }
+
                      [self refreshCard];
                  } else {
                      NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
