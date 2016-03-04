@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXMusicStateView.h"
 
 
 typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
@@ -15,7 +16,6 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
 };
 
 
-@class HXMusicStateView;
 @class HXDiscoveryHeader;
 
 

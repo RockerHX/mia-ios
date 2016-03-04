@@ -44,6 +44,9 @@
                             </view>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="stateView" destination="bgV-Ta-XJF" id="Veq-fT-z8n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUh-U7-7cJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

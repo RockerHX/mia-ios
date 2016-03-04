@@ -41,6 +41,32 @@ HXMeNavigationBarDelegate
     NSUInteger _followState;
 }
 
+#pragma mark - Class Methods
++ (NSString *)navigationControllerIdentifier {
+    return @"HXMeNavgationController";
+}
+
++ (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameMe;
+}
+
+#pragma mark - StatusBar
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return _statusBarStyle;
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSString *identifier = segue.identifier;
+    if ([identifier isEqualToString:[HXMeCoverContainerViewController segueIdentifier]]) {
+        _coverContainerViewController = segue.destinationViewController;
+    } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
+        _detailContainerViewController = segue.destinationViewController;
+        _detailContainerViewController.uid = [HXUserSession share].uid;
+        _detailContainerViewController.delegate = self;
+    }
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -48,6 +74,7 @@ HXMeNavigationBarDelegate
     animated = (self.navigationController.viewControllers.count > 2);
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
+    [self updateMusicEntryState];
     [self fetchProfileData];
 }
 
@@ -65,33 +92,14 @@ HXMeNavigationBarDelegate
     [self viewConfigure];
 }
 
-+ (NSString *)navigationControllerIdentifier {
-    return @"HXMeNavgationController";
-}
-
-+ (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameMe;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return _statusBarStyle;
-}
-
-#pragma mark - Segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSString *identifier = segue.identifier;
-    if ([identifier isEqualToString:[HXMeCoverContainerViewController segueIdentifier]]) {
-        _coverContainerViewController = segue.destinationViewController;
-    } else if ([identifier isEqualToString:[HXMeDetailContainerViewController segueIdentifier]]) {
-        _detailContainerViewController = segue.destinationViewController;
-        _detailContainerViewController.uid = [HXUserSession share].uid;
-        _detailContainerViewController.delegate = self;
-    }
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _statusBarStyle = UIStatusBarStyleLightContent;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
@@ -99,7 +107,29 @@ HXMeNavigationBarDelegate
     [self showMessagePromptView];
 }
 
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    switch (event) {
+        case MiaPlayerEventDidPlay: {
+            _navigationBar.stateView.state = HXMusicStatePlay;
+            break;
+        }
+        case MiaPlayerEventDidPause:
+        case MiaPlayerEventDidCompletion: {
+            _navigationBar.stateView.state = HXMusicStateStop;
+            break;
+        }
+    }
+}
+
 #pragma mark - Private Methods
+- (void)updateMusicEntryState {
+    _navigationBar.stateView.state = ([MusicMgr standard].isPlaying ? HXMusicStatePlay : HXMusicStateStop);
+//    _navigationBar.stateView.stateIcon.tintColor = _navigationBar.color;
+}
+
 - (void)fetchProfileData {
     [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {

@@ -74,18 +74,39 @@ HXDiscoveryContainerViewControllerDelegate
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
     [[WebSocketMgr standard] watchNetworkStatus];
     [[LocationMgr standard] initLocationMgr];
     [[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
     _loadingView = [HXLoadingView new];
     [_loadingView showOnViewController:self];
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    switch (event) {
+        case MiaPlayerEventDidPlay: {
+            _header.stateView.state = HXMusicStatePlay;
+            break;
+        }
+        case MiaPlayerEventDidPause:
+        case MiaPlayerEventDidCompletion: {
+            _header.stateView.state = HXMusicStateStop;
+            break;
+        }
+    }
 }
 
 #pragma mark - Public Methods

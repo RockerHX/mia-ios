@@ -53,6 +53,9 @@
                             <constraint firstItem="qW7-Qm-70h" firstAttribute="leading" secondItem="9aB-yR-gJ9" secondAttribute="leading" id="vHb-aW-l9b"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="header" destination="qW7-Qm-70h" id="deA-77-ekm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zai-PF-gZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

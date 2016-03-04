@@ -8,7 +8,6 @@
 
 #import "HXDiscoveryHeader.h"
 #import "HXXib.h"
-#import "HXMusicStateView.h"
 
 
 @interface HXDiscoveryHeader () <

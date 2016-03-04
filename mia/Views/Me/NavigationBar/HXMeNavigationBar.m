@@ -8,7 +8,6 @@
 
 #import "HXMeNavigationBar.h"
 #import "HXXib.h"
-#import "HXMusicStateView.h"
 
 
 @interface HXMeNavigationBar () <
@@ -31,6 +30,7 @@ HXXibImplementation
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+    _color = [UIColor whiteColor];
     _stateView.stateIcon.image = [_stateView.stateIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _stateView.stateIcon.tintColor = [UIColor whiteColor];
 }
@@ -45,9 +45,9 @@ HXXibImplementation
     
     _backgroundView.alpha = colorAlpha;
     _titleLabel.alpha = colorAlpha;
-    UIColor *color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
-    _titleLabel.textColor = color;
-    _stateView.stateIcon.tintColor = color;
+    _color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
+    _titleLabel.textColor = _color;
+    _stateView.stateIcon.tintColor = _color;
 }
 
 - (void)setTitle:(NSString *)title {

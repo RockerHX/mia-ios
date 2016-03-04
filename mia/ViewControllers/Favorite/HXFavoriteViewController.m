@@ -39,6 +39,12 @@ HXFavoriteContainerViewControllerDelegate
 }
 
 #pragma mark - View Controller Lift Cycle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self updateMusicEntryState];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,13 +52,39 @@ HXFavoriteContainerViewControllerDelegate
     [self viewConfigure];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    ;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
     ;
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    switch (event) {
+        case MiaPlayerEventDidPlay: {
+            _stateView.state = HXMusicStatePlay;
+            break;
+        }
+        case MiaPlayerEventDidPause:
+        case MiaPlayerEventDidCompletion: {
+            _stateView.state = HXMusicStateStop;
+            break;
+        }
+    }
+}
+
+#pragma mark - Public Methods
+- (void)updateMusicEntryState {
+    _stateView.state = ([MusicMgr standard].isPlaying ? HXMusicStatePlay : HXMusicStateStop);
 }
 
 #pragma mark - HXMusicStateViewDelegate Methods

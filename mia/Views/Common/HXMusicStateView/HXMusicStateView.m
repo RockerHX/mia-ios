@@ -26,12 +26,17 @@ HXXibImplementation
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    _animationImages = @[];
+    NSMutableArray *imgaes = [[NSMutableArray alloc] initWithCapacity:30];
+    for (NSUInteger index = 0; index < 30; index++ ) {
+        [imgaes addObject:[UIImage imageNamed:@(index).stringValue]];
+    }
+    _animationImages = imgaes.copy;
 }
 
 - (void)viewConfigure {
     _containerView.backgroundColor = [UIColor clearColor];
     _stateIcon.animationImages = _animationImages;
+    _stateIcon.animationDuration = 2.0f;
 }
 
 #pragma mark - Property

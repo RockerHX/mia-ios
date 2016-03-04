@@ -9,7 +9,6 @@
 #import "HXProfileNavigationBar.h"
 #import "HXXib.h"
 #import "UIView+FindUIViewController.h"
-#import "HXMusicStateView.h"
 
 
 @interface HXProfileNavigationBar () <
@@ -48,10 +47,11 @@ HXXibImplementation
     
     _backgroundView.alpha = colorAlpha;
     _titleLabel.alpha = colorAlpha;
-    UIColor *color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
-    _titleLabel.textColor = color;
-    [_backButton setTintColor:color];
-    _stateView.stateIcon.tintColor = color;
+    
+    _color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
+    [_backButton setTintColor:_color];
+    _titleLabel.textColor = _color;
+    _stateView.stateIcon.tintColor = _color;
 }
 
 - (void)setTitle:(NSString *)title {

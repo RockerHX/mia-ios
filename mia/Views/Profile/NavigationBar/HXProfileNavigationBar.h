@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Mia Music. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HXMusicStateView.h"
 
 
 typedef NS_ENUM(NSUInteger, HXProfileNavigationAction) {
@@ -15,7 +15,6 @@ typedef NS_ENUM(NSUInteger, HXProfileNavigationAction) {
 };
 
 
-@class HXMusicStateView;
 @class HXProfileNavigationBar;
 
 
@@ -38,6 +37,7 @@ typedef NS_ENUM(NSUInteger, HXProfileNavigationAction) {
 @property (weak, nonatomic) IBOutlet HXMusicStateView *stateView;
 
 @property (nonatomic, assign)  CGFloat  colorAlpha;
+@property (nonatomic, strong)  UIColor *color;
 @property (nonatomic, strong) NSString *title;
 
 - (IBAction)backButtonPressed;
