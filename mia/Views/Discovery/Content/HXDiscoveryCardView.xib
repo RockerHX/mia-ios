@@ -206,7 +206,7 @@
         </tapGestureRecognizer>
         <tapGestureRecognizer id="KSM-fD-ufy" userLabel="Comment Gesture">
             <connections>
-                <action selector="showCommentAction" destination="-1" id="dhQ-Ci-eeM"/>
+                <action selector="showDetailAction" destination="-1" id="PKE-st-B2D"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

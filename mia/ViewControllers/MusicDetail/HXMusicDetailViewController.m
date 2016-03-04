@@ -77,6 +77,10 @@ HXMusicDetailContainerViewControllerDelegate
     
     _loadingView = [HXLoadingView new];
     [_loadingView showOnViewController:self];
+    
+    if (_showKeyboard) {
+        [_editCommentView becomeFirstResponder];
+    }
 }
 
 #pragma mark - Event Response

@@ -18,7 +18,8 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
     HXDiscoveryCardViewActionShowSharer,
     HXDiscoveryCardViewActionShowInfecter,
     HXDiscoveryCardViewActionShowCommenter,
-    HXDiscoveryCardViewActionShowDetail,
+    HXDiscoveryCardViewActionShowDetailOnly,
+    HXDiscoveryCardViewActionShowDetailAndComment,
     HXDiscoveryCardViewActionInfect,
     HXDiscoveryCardViewActionComment
 };

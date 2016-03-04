@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailAction) {
 @property (weak, nonatomic) IBOutlet         HXTextView *editCommentView;
 
 @property (nonatomic, assign)      BOOL  fromProfile;
+@property (nonatomic, assign)      BOOL  showKeyboard;
 @property (nonatomic, strong) ShareItem *playItem;
 @property (strong, nonatomic)  NSString *sID;
 

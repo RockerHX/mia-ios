@@ -97,7 +97,7 @@ HXXibImplementation
 
 - (IBAction)showDetailAction {
     if (_delegate && [_delegate respondsToSelector:@selector(cardView:takeAction:)]) {
-        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionShowDetail];
+        [_delegate cardView:self takeAction:HXDiscoveryCardViewActionShowDetailAndComment];
     }
 }
 
@@ -164,7 +164,7 @@ HXXibImplementation
             break;
         }
         case HXDiscoveryCoverActionShowDetail: {
-            cardAction = HXDiscoveryCardViewActionShowDetail;
+            cardAction = HXDiscoveryCardViewActionShowDetailOnly;
             break;
         }
     }
