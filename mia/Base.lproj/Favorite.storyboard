@@ -33,15 +33,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="我的收藏" id="1d8-qr-Sej">
-                        <barButtonItem key="rightBarButtonItem" id="30h-7p-vff">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="ec7-Rf-61d" userLabel="Music Button">
-                                <rect key="frame" x="279" y="9" width="25" height="25"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="aDf-ry-N8x">
+                            <view key="customView" contentMode="scaleToFill" id="bgV-Ta-XJF" customClass="HXMusicStateView">
+                                <rect key="frame" x="274" y="5" width="30" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="C-MuisIcon-Black"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="musicButtonPressed" destination="CyJ-32-f2J" eventType="touchUpInside" id="1y6-In-TaE"/>
+                                    <outlet property="delegate" destination="CyJ-32-f2J" id="k7c-xi-IDi"/>
                                 </connections>
-                            </button>
+                            </view>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
@@ -347,7 +347,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="C-MuisIcon-Black" width="25" height="25"/>
         <image name="F-DeleteIcon" width="40" height="40"/>
         <image name="F-DownLoadIcon" width="20" height="20"/>
         <image name="F-SelecteIcon" width="20" height="20"/>

@@ -20,11 +20,13 @@
 #import "FriendViewController.h"
 #import "HXMessageCenterViewController.h"
 
+
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate,
 HXProfileNavigationBarDelegate
 >
 @end
+
 
 @implementation HXProfileViewController {
     BOOL _hiddenNavigationBar;
@@ -129,6 +131,28 @@ HXProfileNavigationBarDelegate
     _fansCount = _detailContainerViewController.header.fansCountLabel.text.integerValue + count;
     _fansCount = _fansCount ?: 0;
     [_detailContainerViewController.header.fansCountLabel setText:@(_fansCount).stringValue];
+}
+
+#pragma mark - HXProfileNavigationBarDelegate Methods
+- (void)navigationBar:(HXProfileNavigationBar *)bar takeAction:(HXProfileNavigationAction)action {
+    switch (action) {
+        case HXProfileNavigationActionBack: {
+            ;
+            break;
+        }
+        case HXProfileNavigationActionMusic: {
+            if ([MusicMgr standard].currentItem) {
+                _hiddenNavigationBar = YES;
+                UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];                
+                __weak __typeof__(self)weakSelf = self;
+                [self presentViewController:playNavigationController animated:YES completion:^{
+                    __strong __typeof__(self)strongSelf = weakSelf;
+                    strongSelf->_hiddenNavigationBar = NO;
+                }];
+            }
+            break;
+        }
+    }
 }
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods

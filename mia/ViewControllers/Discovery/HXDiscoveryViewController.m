@@ -251,7 +251,7 @@ HXDiscoveryContainerViewControllerDelegate
 			}
             break;
         }
-        case HXDiscoveryHeaderActionPlay: {
+        case HXDiscoveryHeaderActionMusic: {
             if ([MusicMgr standard].currentItem) {
                 _shouldHiddenNavigationBar = YES;
                 UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];

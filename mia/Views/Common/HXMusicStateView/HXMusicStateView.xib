@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXMusicStateView">
+            <connections>
+                <outlet property="containerView" destination="iN0-l3-epB" id="agR-jn-1he"/>
+                <outlet property="stateIcon" destination="Zsr-bO-daB" id="5Om-5g-KGV"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="60" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CM-MuisIcon-Black" translatesAutoresizingMaskIntoConstraints="NO" id="Zsr-bO-daB">
+                    <rect key="frame" x="0.0" y="0.0" width="60" height="44"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="Zsr-bO-daB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7SM-Fg-g2X"/>
+                <constraint firstAttribute="bottom" secondItem="Zsr-bO-daB" secondAttribute="bottom" id="PGi-BR-mH2"/>
+                <constraint firstAttribute="trailing" secondItem="Zsr-bO-daB" secondAttribute="trailing" id="Xdh-fB-YF2"/>
+                <constraint firstItem="Zsr-bO-daB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bLi-CB-m2R"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="R5X-Xt-oio" appends="YES" id="cx5-Gh-YXK"/>
+            </connections>
+            <point key="canvasLocation" x="439" y="354"/>
+        </view>
+        <tapGestureRecognizer id="R5X-Xt-oio" userLabel="Tap Gesture">
+            <connections>
+                <action selector="tapGesture" destination="-1" id="Mh5-9P-TQl"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="CM-MuisIcon-Black" width="26" height="26"/>
+    </resources>
+</document>

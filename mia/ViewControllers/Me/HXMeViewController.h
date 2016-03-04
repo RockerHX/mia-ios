@@ -8,7 +8,9 @@
 
 #import "UIViewController+HXClass.h"
 
+
 @class HXMeNavigationBar;
+
 
 @interface HXMeViewController : UIViewController
 

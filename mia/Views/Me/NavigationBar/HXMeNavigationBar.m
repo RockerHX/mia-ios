@@ -8,19 +8,14 @@
 
 #import "HXMeNavigationBar.h"
 #import "HXXib.h"
+#import "HXMusicStateView.h"
 
-@interface HXMeNavigationBar ()
 
-@property (weak, nonatomic) IBOutlet   UIView *backgroundView;
-@property (weak, nonatomic) IBOutlet   UIView *containerView;
-@property (weak, nonatomic) IBOutlet  UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIButton *musicButton;
-
-- (IBAction)backButtonPressed;
-- (IBAction)musicButtonPressed;
-
+@interface HXMeNavigationBar () <
+HXMusicStateViewDelegate
+>
 @end
+
 
 @implementation HXMeNavigationBar
 
@@ -36,10 +31,8 @@ HXXibImplementation
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-//    [_backButton setImage:[[_backButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [_musicButton setImage:[[_musicButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-//    [_backButton setTintColor:[UIColor whiteColor]];
-    [_musicButton setTintColor:[UIColor whiteColor]];
+    _stateView.stateIcon.image = [_stateView.stateIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    _stateView.stateIcon.tintColor = [UIColor whiteColor];
 }
 
 - (void)viewConfigure {
@@ -54,8 +47,7 @@ HXXibImplementation
     _titleLabel.alpha = colorAlpha;
     UIColor *color = [UIColor colorWithWhite:(1 - colorAlpha) alpha:1.0f];
     _titleLabel.textColor = color;
-//    [_backButton setTintColor:color];
-    [_musicButton setTintColor:color];
+    _stateView.stateIcon.tintColor = color;
 }
 
 - (void)setTitle:(NSString *)title {
@@ -64,14 +56,10 @@ HXXibImplementation
     _titleLabel.text = title;
 }
 
-#pragma mark - Event Response
-- (IBAction)backButtonPressed {
-    ;
-}
-
-- (IBAction)musicButtonPressed {
+#pragma mark - HXMusicStateViewDelegate Methods
+- (void)musicStateViewTaped:(HXMusicStateView *)stateView {
     if (_delegate && [_delegate respondsToSelector:@selector(navigationBar:takeAction:)]) {
-        [_delegate navigationBar:self takeAction:HXMeNavigationBarMusic];
+        [_delegate navigationBar:self takeAction:HXMeNavigationActionMusic];
     }
 }
 

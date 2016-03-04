@@ -10,11 +10,16 @@
 #import "HXFavoriteContainerViewController.h"
 #import "HXShareViewController.h"
 #import "HXPlayViewController.h"
+#import "MusicMgr.h"
+#import "HXMusicStateView.h"
+
 
 @interface HXFavoriteViewController () <
+HXMusicStateViewDelegate,
 HXFavoriteContainerViewControllerDelegate
 >
 @end
+
 
 @implementation HXFavoriteViewController
 
@@ -50,10 +55,12 @@ HXFavoriteContainerViewControllerDelegate
     ;
 }
 
-#pragma mark - Event Response
-- (IBAction)musicButtonPressed {
-    UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
-    [self presentViewController:playNavigationController animated:YES completion:nil];
+#pragma mark - HXMusicStateViewDelegate Methods
+- (void)musicStateViewTaped:(HXMusicStateView *)stateView {
+    if ([MusicMgr standard].currentItem) {
+        UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
+        [self presentViewController:playNavigationController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - HXFavoriteContainerViewControllerDelegate Methods

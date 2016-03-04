@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
 typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
     HXDiscoveryHeaderActionShare,
-    HXDiscoveryHeaderActionPlay
+    HXDiscoveryHeaderActionMusic
 };
 
 
+@class HXMusicStateView;
 @class HXDiscoveryHeader;
+
 
 @protocol HXDiscoveryHeaderDelegate <NSObject>
 
@@ -28,7 +31,8 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryHeaderAction) {
 
 @property (nonatomic, weak) IBOutlet id <HXDiscoveryHeaderDelegate>delegate;
 
+@property (weak, nonatomic) IBOutlet HXMusicStateView *stateView;
+
 - (IBAction)shareButtonPressed;
-- (IBAction)playButtonPressed;
 
 @end

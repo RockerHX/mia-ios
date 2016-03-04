@@ -21,11 +21,13 @@
 #import "HXSettingViewController.h"
 #import "HXMessageCenterViewController.h"
 
+
 @interface HXMeViewController () <
 HXMeDetailContainerViewControllerDelegate,
 HXMeNavigationBarDelegate
 >
 @end
+
 
 @implementation HXMeViewController {
     BOOL _hiddenNavigationBar;
@@ -197,14 +199,12 @@ HXMeNavigationBarDelegate
 }
 
 #pragma mark - HXMeNavigationBarDelegate Methods
-- (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationBarAction)action {
+- (void)navigationBar:(HXMeNavigationBar *)bar takeAction:(HXMeNavigationAction)action {
     switch (action) {
-        case HXMeNavigationBarMusic: {
+        case HXMeNavigationActionMusic: {
             if ([MusicMgr standard].currentItem) {
                 _hiddenNavigationBar = YES;
                 UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];
-//                HXPlayViewController *playViewController = playNavigationController.viewControllers.firstObject;
-                
                 __weak __typeof__(self)weakSelf = self;
                 [self presentViewController:playNavigationController animated:YES completion:^{
                     __strong __typeof__(self)strongSelf = weakSelf;
