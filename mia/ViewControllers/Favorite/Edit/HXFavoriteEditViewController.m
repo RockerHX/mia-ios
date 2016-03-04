@@ -51,7 +51,7 @@
 #pragma mark - Event Response
 - (IBAction)selectAllButtonPressed {
     _containerViewController.selectAll = !_containerViewController.selectAll;
-    [_selectedAllButton setTitle:(_containerViewController.selectAll ? @"取消" : @"全选") forState:UIControlStateNormal];
+    [_selectedAllButton setTitle:(_containerViewController.selectAll ? @"全不选" : @"全选") forState:UIControlStateNormal];
 }
 
 - (IBAction)doneButtonPressed {
