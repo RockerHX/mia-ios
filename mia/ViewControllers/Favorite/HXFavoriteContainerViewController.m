@@ -76,7 +76,7 @@ HXFavoriteEditViewControllerDelegate
              [HXAlertBanner showWithMessage:error tap:nil];
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [HXAlertBanner showWithMessage:@"取消收藏失败，网络请求超时!" tap:nil];
+         [HXAlertBanner showWithMessage:@"取消收藏失败，网络请求超时" tap:nil];
      }];
 }
 
