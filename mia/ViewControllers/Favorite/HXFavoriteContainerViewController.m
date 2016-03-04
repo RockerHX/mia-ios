@@ -67,7 +67,7 @@ HXFavoriteEditViewControllerDelegate
     [MiaAPIHelper deleteFavoritesWithIDs:@[sID] completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-             [HXAlertBanner showWithMessage:@"取消收藏成功！" tap:nil];
+             [HXAlertBanner showWithMessage:@"取消收藏成功" tap:nil];
              [[FavoriteMgr standard] removeSelectedItem:selectedItem];
              
              [self fetchUserFavoriteData];
@@ -76,7 +76,7 @@ HXFavoriteEditViewControllerDelegate
              [HXAlertBanner showWithMessage:error tap:nil];
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [HXAlertBanner showWithMessage:@"取消收藏失败，网络请求超时!" tap:nil];
+         [HXAlertBanner showWithMessage:@"取消收藏失败，网络请求超时" tap:nil];
      }];
 }
 
@@ -185,7 +185,6 @@ HXFavoriteEditViewControllerDelegate
 #pragma mark - Notification Methods
 - (void)notificationPlayerEvent:(NSNotification *)notification {
     NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
-    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
     
     if ([[MusicMgr standard] isCurrentHostObject:self]) {
         _playIndex = [self playIndexBySID:sID];

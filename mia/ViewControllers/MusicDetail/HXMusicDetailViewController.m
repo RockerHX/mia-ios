@@ -140,7 +140,7 @@
         [_editCommentView resignFirstResponder];
         [self postCommentWithSID:_viewModel.playItem.sID content:content];
     } else {
-        [self showBannerWithPrompt:@"评论不能为空！"];
+        [self showBannerWithPrompt:@"评论不能为空"];
     }
 }
 
@@ -194,7 +194,7 @@
 }
 
 - (void)postCommentWithSID:(NSString *)sID content:(NSString *)content {
-    [self showBannerWithPrompt:@"正在提交评论。。。"];
+    [self showBannerWithPrompt:@"正在提交评论..."];
     [MiaAPIHelper postCommentWithShareID:sID
                                  comment:content
 							   commentID:_atComment ? _atComment.cmid : nil

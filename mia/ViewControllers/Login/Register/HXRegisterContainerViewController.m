@@ -52,13 +52,13 @@ static NSString *CaptchApi = @"/user/pauth";
 - (IBAction)registerButtonPressed {
     if ([self checkPhoneNumber]) {
         if (_captchaTextField.text.length < 4) {
-            [self showToastWithMessage:@"请输入正确验证码！"];
+            [self showToastWithMessage:@"请输入正确验证码"];
         } else if (!_nickNameTextField.text.length) {
-            [self showToastWithMessage:@"请输入用户昵称！"];
+            [self showToastWithMessage:@"请输入用户昵称"];
         } else if (!_passWordTextField.text.length) {
-            [self showToastWithMessage:@"请输入登录密码！"];
+            [self showToastWithMessage:@"请输入登录密码"];
         } else if (![_passWordTextField.text isEqualToString:_confirmTextField.text]) {
-            [self showToastWithMessage:@"亲，您输入的两次密码不相同噢！"];
+            [self showToastWithMessage:@"亲，您输入的两次密码不相同噢"];
         } else {
             [self startRegisterRequestWithMobile:_mobileTextField.text
                                          captcha:_captchaTextField.text
@@ -75,7 +75,7 @@ static NSString *CaptchApi = @"/user/pauth";
         && [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
         return YES;
     }
-    [self showBannerWithPrompt:@"手机号码不符合规范，请重新输入！"];
+    [self showBannerWithPrompt:@"手机号码不符合规范，请重新输入"];
     return NO;
 }
 

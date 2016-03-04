@@ -52,11 +52,11 @@ static NSString *ResetPWApi = @"/user/pauth";
 - (IBAction)resetButtonPressed {
     if ([self checkPhoneNumber]) {
         if (_captchaTextField.text.length < 4) {
-            [self showToastWithMessage:@"请输入正确验证码！"];
+            [self showToastWithMessage:@"请输入正确验证码"];
         } else if (!_passWordTextField.text.length) {
-            [self showToastWithMessage:@"请输入登录密码！"];
+            [self showToastWithMessage:@"请输入登录密码"];
         } else if (![_passWordTextField.text isEqualToString:_confirmTextField.text]) {
-            [self showToastWithMessage:@"亲，您输入的两次密码不相同噢！"];
+            [self showToastWithMessage:@"亲，您输入的两次密码不相同噢"];
         } else {
             [self startResetPWRequestWithMobile:_mobileTextField.text
                                         captcha:_captchaTextField.text
@@ -72,7 +72,7 @@ static NSString *ResetPWApi = @"/user/pauth";
         && [str rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location != NSNotFound) {
         return YES;
     }
-    [self showBannerWithPrompt:@"手机号码不符合规范，请重新输入！"];
+    [self showBannerWithPrompt:@"手机号码不符合规范，请重新输入"];
     return NO;
 }
 
@@ -82,7 +82,7 @@ static NSString *ResetPWApi = @"/user/pauth";
                                 completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-             [self showBannerWithPrompt:@"验证码已经发送！"];
+             [self showBannerWithPrompt:@"验证码已经发送"];
          } else {
              NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
              [self showBannerWithPrompt:error];
@@ -121,7 +121,7 @@ static NSString *ResetPWApi = @"/user/pauth";
 }
 
 - (void)resetSuccess {
-    [self showBannerWithPrompt:@"修改密码成功！"];
+    [self showBannerWithPrompt:@"修改密码成功"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

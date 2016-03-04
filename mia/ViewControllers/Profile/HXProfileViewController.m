@@ -179,7 +179,7 @@ HXProfileNavigationBarDelegate
                         [self displayFollowState:_followState];
                         [self displayFansCountWithFollowState:_followState];
                     } timeoutBlock:^(MiaRequestItem *requestItem) {
-                        [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+                        [HXAlertBanner showWithMessage:@"请求超时，请重试" tap:nil];
                     }];
                     break;
                 }

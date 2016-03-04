@@ -516,7 +516,7 @@ static const long kUserListPageCount = 10;
 		 if (completedBlock) {
 			 completedBlock(NO);
 		 }
-		 [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
+		 [HXAlertBanner showWithMessage:@"请求超时，请重试" tap:nil];
 	 }];
 	
 }

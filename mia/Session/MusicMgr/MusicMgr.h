@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, MiaPlayerEvent) {
 
 typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
-@interface MusicMgr : NSObject
+@interface MusicMgr : NSObject<NSCoding>
 
 /**
  *  使用单例初始化

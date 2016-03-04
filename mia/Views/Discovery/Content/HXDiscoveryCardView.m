@@ -116,7 +116,7 @@ HXXibImplementation
         
         LastCommentItem *comment = _shareItem.lastComment;
         _commentatorsNameLabel.text = (comment.nick ?: ([HXUserSession share].user.nickName ?: @"快来"));
-        _commentContentLabel.text = comment.comment ?: @"说说你此刻的想法。。。";
+        _commentContentLabel.text = comment.comment ?: @"说说你此刻的想法...";
     }
 }
 

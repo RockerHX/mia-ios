@@ -210,7 +210,13 @@ HXDiscoveryContainerViewControllerDelegate
                          item.infectTotal = infectTotal;
                          [item parseInfectUsersFromJsonArray:infectArray];
                          item.isInfected = isInfected;
-                     }
+
+						 [HXAlertBanner showWithMessage:@"妙推成功" tap:nil];
+					 } else {
+						 id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
+						 [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
+					 }
+
                      [self refreshCard];
                  } else {
                      NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
@@ -233,7 +239,16 @@ HXDiscoveryContainerViewControllerDelegate
 - (void)discoveryHeader:(HXDiscoveryHeader *)header takeAction:(HXDiscoveryHeaderAction)action {
     switch (action) {
         case HXDiscoveryHeaderActionShare: {
-            [self.navigationController pushViewController:[HXShareViewController instance] animated:YES];
+			switch ([HXUserSession share].userState) {
+				case HXUserStateLogout: {
+					[self shouldLogin];
+					break;
+				}
+				case HXUserStateLogin: {
+					[self.navigationController pushViewController:[HXShareViewController instance] animated:YES];
+					break;
+				}
+			}
             break;
         }
         case HXDiscoveryHeaderActionPlay: {

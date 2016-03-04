@@ -51,6 +51,7 @@ HXProfileShareCellDelegate
     _footerHeight = 10.0f;
     
     _viewModel = [HXProfileViewModel instanceWithUID:_uid];
+	[_header setHost:[_uid isEqualToString:[HXUserSession share].uid]];
     
     __weak __typeof__(self)weakSelf = self;
     [_viewModel fetchProfileListData:^(HXProfileViewModel *viewModel) {

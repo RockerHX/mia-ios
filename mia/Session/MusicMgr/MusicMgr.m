@@ -15,6 +15,8 @@
 #import "FileLog.h"
 #import "UIAlertView+BlocksKit.h"
 #import "NSObject+BlockSupport.h"
+#import "PathHelper.h"
+#import "HXUserSession.h"
 
 
 NSString * const MusicMgrNotificationKey_RemoteControlEvent	= @"RemoteControlEvent";
@@ -45,28 +47,23 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
  *
  */
 + (MusicMgr *)standard {
-    static MusicMgr *aMusicMgr = nil;
+    static MusicMgr *aMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        aMusicMgr = [[self alloc] init];
+		aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]]];
+		if (!aMgr) {
+			aMgr = [[self alloc] init];
+		}
+
+		[aMgr loadConfig];
     });
-    return aMusicMgr;
+    return aMgr;
 }
 
 - (instancetype)init {
 	self = [super init];
 	if (self) {
-		_player = [[SingleSongPlayer alloc] init];
-		_player.delegate = self;
-
-		_preloader = [[SongPreloader alloc] init];
-		_preloader.delegate = self;
-
-		// 添加通知，拔出耳机后暂停播放
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
+		[self loadConfig];
 	}
 
 	return self;
@@ -77,6 +74,20 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationRemoteControlEvent object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
+}
+
+- (void)loadConfig {
+	_player = [[SingleSongPlayer alloc] init];
+	_player.delegate = self;
+
+	_preloader = [[SongPreloader alloc] init];
+	_preloader.delegate = self;
+
+	// 添加通知，拔出耳机后暂停播放
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
 }
 
 #pragma mark - Getter and Setter
@@ -117,6 +128,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	_currentIndex = 0;
 	_isShufflePlay = NO;
 
+	[self saveChanges];
 }
 
 - (void)setPlayListWithItem:(ShareItem *)item hostObject:(id)hostObject {
@@ -308,6 +320,39 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	} else {
 		return nextIndex;
 	}
+}
+
+- (BOOL)saveChanges {
+	NSString *fileName = [PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]];
+	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
+		NSLog(@"archive share list failed.");
+		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
+			NSLog(@"delete share list archive file.");
+		}
+		return NO;
+	}
+
+	return YES;
+}
+
+#pragma mark - NSCoding
+//将对象编码(即:序列化)
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+	[aCoder encodeObject:_currentItem forKey:@"currentItem"];
+	[aCoder encodeObject:_playList forKey:@"playList"];
+	[aCoder encodeInteger:_currentIndex forKey:@"currentIndex"];
+	[aCoder encodeInteger:_isShufflePlay forKey:@"isShufflePlay"];
+}
+
+//将对象解码(反序列化)
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+	if (self=[super init]) {
+		_currentItem = [aDecoder decodeObjectForKey:@"currentItem"];
+		_playList = [aDecoder decodeObjectForKey:@"playList"];
+		_currentIndex = [aDecoder decodeIntegerForKey:@"currentIndex"];
+		_isShufflePlay = [aDecoder decodeIntegerForKey:@"isShufflePlay"];
+	}
+	return (self);
 }
 
 #pragma mark - Notification

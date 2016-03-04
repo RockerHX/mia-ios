@@ -51,6 +51,8 @@
  */
 + (NSString *)favoriteArchivePathWithUID:(NSString *)uid;
 
++ (NSString *)playlistArchivePathWithUID:(NSString *)uid;
+
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url;
 
 + (NSString *)logFileName;

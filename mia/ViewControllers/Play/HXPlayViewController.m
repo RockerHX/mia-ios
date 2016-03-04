@@ -97,7 +97,7 @@ HXPlayListViewControllerDelegate
 
 - (void)updateTopBar {
     ShareItem *item = _musicMgr.currentItem;
-    _topBar.sharerNameLabel.text = item.shareUser.nick;
+    _topBar.sharerNameLabel.text = item.sNick;
 }
 
 - (void)updateSummaryView {
