@@ -47,9 +47,9 @@ HXLoginViewControllerDelegate
     // Login
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kLoginNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kLogoutNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kClearNotifyNotifacation object:nil];
     
     // Notify
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kClearNotifyNotifacation object:nil];
 }
 
 #pragma mark - Config Methods
