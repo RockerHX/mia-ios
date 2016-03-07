@@ -95,6 +95,7 @@ HXMeShareCellDelegate
     }
     
     _promptLabel.hidden = hasData;
+    _header.playView.hidden = !hasData;
 }
 
 - (void)resizeFooter {
