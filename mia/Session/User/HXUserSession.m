@@ -11,6 +11,8 @@
 #import "MiaAPIHelper.h"
 #import "PathHelper.h"
 
+NSString *const kClearNotifyNotifacation = @"kClearNotifyNotifacation";
+
 static NSString *UserFilePath = @"/user.data";
 
 typedef void(^SuccessBlock)(HXUserSession *, NSString *);
@@ -84,7 +86,8 @@ typedef void(^FailureBlock)(NSString *);
 - (void)clearNotify {
     _user.notifyAvatar = nil;
     _user.notifyCount = 0;
-#warning @andy Tab栏上的数据没有清除掉
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kClearNotifyNotifacation object:nil];
 }
 
 - (void)logout {

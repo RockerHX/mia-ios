@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSString *const kClearNotifyNotifacation;
+
 typedef NS_ENUM(BOOL, HXUserState) {
     HXUserStateLogout,
     HXUserStateLogin
