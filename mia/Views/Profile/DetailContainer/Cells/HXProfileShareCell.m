@@ -76,7 +76,8 @@
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
     _commentCountLabel.text = @(item.cComm).stringValue;
-    
+    _dateLabel.text = item.formatTime;
+	
     [self displayTitle:item.sNote];
     [self updatePlayState];
 }

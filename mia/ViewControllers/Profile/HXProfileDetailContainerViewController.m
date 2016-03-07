@@ -34,6 +34,10 @@ HXProfileShareCellDelegate
 	BOOL _isPlayButtonSelected;
 }
 
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,6 +52,8 @@ HXProfileShareCellDelegate
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
+
     _footerHeight = 10.0f;
     
     _viewModel = [HXProfileViewModel instanceWithUID:_uid];
@@ -262,6 +268,16 @@ HXProfileShareCellDelegate
             break;
         }
     }
+}
+
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+	NSString *sID = notification.userInfo[MusicMgrNotificationKey_sID];
+	for (ShareItem *item in _viewModel.dataSource) {
+		if ([item.sID isEqualToString:sID]) {
+			[self.tableView reloadData];
+		}
+	}
 }
 
 @end

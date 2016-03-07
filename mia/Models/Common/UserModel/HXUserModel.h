@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *token;
-@property (nonatomic, strong) NSString *notifyCount;
+@property (nonatomic, assign) NSInteger notifyCount;
 @property (nonatomic, strong) NSString *notifyAvatar;
 
 @end

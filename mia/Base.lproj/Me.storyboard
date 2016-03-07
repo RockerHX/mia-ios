@@ -273,6 +273,7 @@
                                 <connections>
                                     <outlet property="commentCountLabel" destination="a4e-Nq-MLC" id="Zra-Fl-A9v"/>
                                     <outlet property="cover" destination="Zd6-ud-b80" id="aec-Vj-4dp"/>
+                                    <outlet property="dateLabel" destination="XKc-rk-8eu" id="83r-I5-3NH"/>
                                     <outlet property="delegate" destination="1Hq-Ud-gFD" id="RNj-5L-eJ4"/>
                                     <outlet property="deleteButton" destination="4zk-Vv-HtB" id="s80-ZJ-ubc"/>
                                     <outlet property="descriptionLabel" destination="fRc-rJ-7uu" id="eMM-7k-3lN"/>

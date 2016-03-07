@@ -51,7 +51,8 @@ HXPlayListViewControllerDelegate
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
+	[self viewConfigure];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
@@ -157,7 +158,11 @@ HXPlayListViewControllerDelegate
 }
 
 - (void)pause {
-    [_musicMgr pause];
+	if ([_musicMgr isPlaying]) {
+		[_musicMgr pause];
+	} else {
+		[_musicMgr playCurrent];
+	}
 }
 
 - (void)previous {
@@ -304,6 +309,10 @@ HXPlayListViewControllerDelegate
             break;
         }
     }
+}
+
+- (void)bottomBar:(HXPlayBottomBar *)bar seekToPosition:(float)postion {
+	[_musicMgr seekToPosition:postion];
 }
 
 #pragma mark - HXPlayListViewControllerDelegate Methods

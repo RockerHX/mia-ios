@@ -114,10 +114,10 @@ HXLoginViewControllerDelegate
     id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
     if (0 == [ret intValue]) {
         NSInteger notifyCount = [[notification userInfo][MiaAPIKey_Values][@"notifyCnt"] integerValue];
-        [self subViewControllerTabBarItem].badgeValue = @(notifyCount).stringValue;
-        
-        [[HXUserSession share] setNotifyAvatar:[notification userInfo][MiaAPIKey_Values][@"notifyUserpic"]];
-        [[HXUserSession share] setNotifyMessageCount:notifyCount];
+        [[HXUserSession share].user setNotifyAvatar:[notification userInfo][MiaAPIKey_Values][@"notifyUserpic"]];
+        [[HXUserSession share].user setNotifyCount:notifyCount];
+
+		[self updateNotificationBadge];
     } else {
         NSLog(@"notify count parse failed! error:%@", [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Error]);
     }
@@ -148,6 +148,8 @@ HXLoginViewControllerDelegate
                      NSDictionary *data = userInfo[MiaAPIKey_Values];
                      HXUserModel *user = [HXUserModel mj_objectWithKeyValues:data];
                      [userSession updateUser:user];
+
+					 [self updateNotificationBadge];
                  } else {
                      [[FileLog standard] log:@"autoLogin failed, logout"];
                      [userSession logout];
@@ -185,6 +187,16 @@ HXLoginViewControllerDelegate
     return self.viewControllers[2].tabBarItem;
 }
 
+- (void)updateNotificationBadge {
+	NSInteger notifyCount = [HXUserSession share].user.notifyCount;
+	if (notifyCount > 0) {
+		[self subViewControllerTabBarItem].badgeValue = @(notifyCount).stringValue;
+	} else {
+		[self subViewControllerTabBarItem].badgeValue = nil;
+	}
+
+}
+
 #pragma mark - UITabBarControllerDelegate Methods
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     if (![[self.viewControllers firstObject] isEqual:viewController]) {
@@ -207,6 +219,7 @@ HXLoginViewControllerDelegate
 - (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController {
     HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
     [discoveryViewController refreshShareItem];
+	[self updateNotificationBadge];
     [loginViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

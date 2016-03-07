@@ -38,6 +38,12 @@ HXFavoriteEditViewControllerDelegate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
+	[self dataSysnc];
+}
+
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];

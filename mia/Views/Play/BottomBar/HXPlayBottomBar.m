@@ -101,6 +101,15 @@ HXXibImplementation
     }
 }
 
+- (IBAction)valueChange:(UISlider *)slider {
+	NSLog(@"slider value : %.2f",[slider value]);
+
+	if (_delegate && [_delegate respondsToSelector:@selector(bottomBar:seekToPosition:)]) {
+		[_delegate bottomBar:self seekToPosition:[slider value]];
+	}
+}
+
+
 #pragma mark - Private Methods
 - (NSString *)timeText:(NSUInteger)time {
     NSUInteger minute = (time / 60);

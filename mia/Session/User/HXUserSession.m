@@ -54,7 +54,7 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (BOOL)notify {
-    return _notifyMessageCount;
+    return (_user.notifyCount > 0);
 }
 
 #pragma mark - Public Methods
@@ -82,8 +82,9 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (void)clearNotify {
-    _notifyAvatar = nil;
-    _notifyMessageCount = 0;
+    _user.notifyAvatar = nil;
+    _user.notifyCount = 0;
+#warning @andy Tab栏上的数据没有清除掉
 }
 
 - (void)logout {

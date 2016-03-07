@@ -9,6 +9,7 @@
 #import "HXMeViewModel.h"
 #import "MiaAPIHelper.h"
 #import "UIConstants.h"
+#import "HXUserSession.h"
 
 static NSInteger ListPageLimit = 10;
 
@@ -25,11 +26,6 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 #pragma mark - Class Methods
-+ (instancetype)instanceWithUID:(NSString *)uid {
-    HXMeViewModel *viewModel = [HXMeViewModel new];
-    viewModel.uid = uid;
-    return viewModel;
-}
 
 #pragma mark - Init Methods
 - (instancetype)init {
@@ -86,7 +82,7 @@ typedef void(^FailureBlock)(NSString *);
     // 当如果这样的话，第二页的个数如果不一样的话，会导致数据重复
     // 第一页11个的最后一个，第二页10个的第一个
     // 解决方案：服务端的start不是分页，而是上一个id
-    [MiaAPIHelper getShareListWithUID:_uid
+    [MiaAPIHelper getShareListWithUID:[HXUserSession share].uid
                                 start:_shareListPage
                                  item:ListPageLimit
                         completeBlock:

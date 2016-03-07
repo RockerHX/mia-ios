@@ -421,6 +421,10 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
 	_playWith3GOnceTime = NO;
 
+	if (![_player isPlaying]) {
+		return;
+	}
+
 	if ([UserSetting isAllowedToPlayNowWithURL:_player.currentItem.murl]) {
 		return;
 	}
