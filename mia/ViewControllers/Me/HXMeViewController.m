@@ -130,7 +130,7 @@ HXMeNavigationBarDelegate
     
     HXUserSession *session = [HXUserSession share];
     _detailContainerViewController.header.messagePromptView.hidden = !session.notify;
-    [_detailContainerViewController.header.messagePromptView displayWithAvatarURL:session.notifyAvatar promptCount:session.notifyMessageCount];
+    [_detailContainerViewController.header.messagePromptView displayWithAvatarURL:session.user.notifyAvatar promptCount:session.user.notifyCount];
 }
 
 - (void)updateMusicEntryState {
