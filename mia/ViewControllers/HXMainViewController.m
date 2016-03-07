@@ -47,6 +47,9 @@ HXLoginViewControllerDelegate
     // Login
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kLoginNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kLogoutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kClearNotifyNotifacation object:nil];
+    
+    // Notify
 }
 
 #pragma mark - Config Methods
@@ -64,6 +67,9 @@ HXLoginViewControllerDelegate
     // Login
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginSence) name:kLoginNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutEventAction) name:kLogoutNotification object:nil];
+    
+    // Notify
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotificationBadge) name:kClearNotifyNotifacation object:nil];
 }
 
 - (void)viewConfigure {
