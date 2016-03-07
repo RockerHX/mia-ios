@@ -219,6 +219,7 @@ HXLoginViewControllerDelegate
 - (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController {
     HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
     [discoveryViewController refreshShareItem];
+	[self updateNotificationBadge];
     [loginViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
