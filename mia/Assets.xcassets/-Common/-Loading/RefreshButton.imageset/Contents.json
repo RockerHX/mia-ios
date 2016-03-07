@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Guide-2@2x.png",
+      "filename" : "RefreshButton@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Guide-2@3x.png"
+      "filename" : "RefreshButton@3x.png"
     }
   ],
   "info" : {

@@ -66,7 +66,10 @@ HXXibImplementation
                      _shareItem.favorite = favorite;
                  }
                  
+                 _shareItem.starCnt += (favorite ? 1 : (-1));
                  _favoriteIcon.image = [UIImage imageNamed:(favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")];
+                 [self displayWithItem:_shareItem];
+                 
                  [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
                  
                  // 收藏操作成功后同步下收藏列表并检查下载

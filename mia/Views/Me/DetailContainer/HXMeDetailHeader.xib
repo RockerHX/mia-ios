@@ -16,6 +16,7 @@
                 <outlet property="messagePromptView" destination="mwn-0l-ycG" id="VdM-uA-JIq"/>
                 <outlet property="nickNameLabel" destination="uqx-5D-eyB" id="CGt-Pe-0oW"/>
                 <outlet property="playNickNameLabel" destination="ydG-SQ-UvC" id="8Z3-KG-vdn"/>
+                <outlet property="playView" destination="BFm-Y6-5Tj" id="E7s-ry-hlf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -165,7 +166,7 @@
                         <outlet property="delegate" destination="-1" id="XX3-Ld-JCr"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BFm-Y6-5Tj" customClass="HXIBView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BFm-Y6-5Tj" userLabel="Play View" customClass="HXIBView">
                     <rect key="frame" x="16" y="284" width="155" height="30"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5x0-Sd-5K7">

@@ -30,7 +30,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithItem:(InfectItem *)item {
-    [_header sd_setImageWithURL:[NSURL URLWithString:item.avatar] placeholderImage:[UIImage imageNamed:@"HP-ProfileIcon"] options:SDWebImageRetryFailed];
+    [_header sd_setImageWithURL:[NSURL URLWithString:item.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"] options:SDWebImageRetryFailed];
     _nameLabel.text = item.nick;
     _dynamicLabel.text = item.lastShare;
 }
