@@ -18,17 +18,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jy4-Ms-6Xm" userLabel="Prompt View">
+                                <rect key="frame" x="76" y="258" width="170" height="52"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您都还没有收藏歌曲！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5t-iJ-Bzk">
+                                        <rect key="frame" x="0.0" y="0.0" width="170" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快去收藏！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKd-oe-MSF">
+                                        <rect key="frame" x="0.0" y="31" width="170" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="E5t-iJ-Bzk" secondAttribute="trailing" id="0Lt-hE-Gg7"/>
+                                    <constraint firstAttribute="trailing" secondItem="DKd-oe-MSF" secondAttribute="trailing" id="4cx-FB-4gH"/>
+                                    <constraint firstItem="DKd-oe-MSF" firstAttribute="top" secondItem="E5t-iJ-Bzk" secondAttribute="bottom" constant="10" id="BZp-T3-Vh8"/>
+                                    <constraint firstItem="DKd-oe-MSF" firstAttribute="leading" secondItem="Jy4-Ms-6Xm" secondAttribute="leading" id="NXN-dD-yge"/>
+                                    <constraint firstItem="E5t-iJ-Bzk" firstAttribute="leading" secondItem="Jy4-Ms-6Xm" secondAttribute="leading" id="QDh-VV-Sdq"/>
+                                    <constraint firstAttribute="bottom" secondItem="DKd-oe-MSF" secondAttribute="bottom" id="cSI-Lm-Nvu"/>
+                                    <constraint firstItem="E5t-iJ-Bzk" firstAttribute="top" secondItem="Jy4-Ms-6Xm" secondAttribute="top" id="xth-eM-gXG"/>
+                                </constraints>
+                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ywt-0K-Ebq">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <connections>
                                     <segue destination="FId-QM-6gp" kind="embed" id="ApV-F3-s52"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Ywt-0K-Ebq" firstAttribute="top" secondItem="v5k-QU-9jH" secondAttribute="bottom" id="Ah2-qj-RHG"/>
                             <constraint firstAttribute="bottom" secondItem="Ywt-0K-Ebq" secondAttribute="bottom" id="BGi-g5-pKh"/>
                             <constraint firstItem="Ywt-0K-Ebq" firstAttribute="leading" secondItem="3bY-7X-xx1" secondAttribute="leading" id="WmG-ip-drR"/>
-                            <constraint firstItem="Ywt-0K-Ebq" firstAttribute="top" secondItem="3bY-7X-xx1" secondAttribute="top" id="k7r-CV-bEI"/>
+                            <constraint firstItem="Jy4-Ms-6Xm" firstAttribute="centerX" secondItem="3bY-7X-xx1" secondAttribute="centerX" id="gWn-CI-dpH"/>
+                            <constraint firstItem="Jy4-Ms-6Xm" firstAttribute="centerY" secondItem="3bY-7X-xx1" secondAttribute="centerY" id="vp7-Hs-lta"/>
                             <constraint firstAttribute="trailing" secondItem="Ywt-0K-Ebq" secondAttribute="trailing" id="zS3-ib-gPw"/>
                         </constraints>
                     </view>
@@ -57,7 +86,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="HXFavoriteContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FId-QM-6gp" userLabel="HXFavoriteContainerViewController" customClass="HXFavoriteContainerViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="ksj-zN-DCJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="50" minY="0.0" maxX="0.0" maxY="0.0"/>

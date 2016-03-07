@@ -90,6 +90,7 @@ HXFavoriteEditViewControllerDelegate
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
     
     _header.favoriteCount = _favoriteLists.count;
+    self.view.hidden = !_favoriteLists.count;
     [self.tableView reloadData];
 }
 
