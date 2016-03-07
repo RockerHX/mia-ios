@@ -44,6 +44,7 @@ HXXibImplementation
     _controlToSpace = 60.0f + constant;
     _collectionViewWidthConstraint.constant = constant;
     [_collectionView reloadData];
+    _promptLabel.hidden = count;
     
     if (_delegate && [_delegate respondsToSelector:@selector(infectView:takeAction:)]) {
         [_delegate infectView:self takeAction:HXInfectViewActionLayout];
