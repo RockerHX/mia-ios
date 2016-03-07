@@ -166,6 +166,7 @@ HXMeShareCellDelegate
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
+	detailViewController.fromProfile = YES;
     detailViewController.playItem = _viewModel.dataSource[indexPath.row];
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
