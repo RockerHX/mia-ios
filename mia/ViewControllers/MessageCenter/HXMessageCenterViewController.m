@@ -15,6 +15,7 @@
 #import "UIView+Frame.h"
 #import "HXProfileViewController.h"
 //#import "HXMusicDetailViewController.h"
+#import "HXUserSession.h"
 
 static const long kMessagePageCount = 10;
 
@@ -71,7 +72,7 @@ static const long kMessagePageCount = 10;
 						completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-//			 [[UserSession standard] clearNotify];
+			 [[HXUserSession share] clearNotify];
 
 			 NSArray *items = userInfo[@"v"][@"info"];
 			 if ([items count] > 0) {

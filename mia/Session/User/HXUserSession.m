@@ -84,6 +84,7 @@ typedef void(^FailureBlock)(NSString *);
 - (void)clearNotify {
     _notifyAvatar = nil;
     _notifyMessageCount = 0;
+#warning @andy Tab栏上的数据没有清除掉
 }
 
 - (void)logout {
