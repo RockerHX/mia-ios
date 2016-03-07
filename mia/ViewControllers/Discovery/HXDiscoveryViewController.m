@@ -189,13 +189,14 @@ HXDiscoveryContainerViewControllerDelegate
              }
              
              [_shareListMgr addSharesWithArray:shareList];
-             [self hiddenLoadingView];
              [self reloadShareList];
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
              [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
          }
+         [self hiddenLoadingView];
      } timeoutBlock:^(MiaRequestItem *requestItem) {
+         [self hiddenLoadingView];
          [[FileLog standard] log:@"getNearbyWithLatitude timeout"];
      }];
 }
