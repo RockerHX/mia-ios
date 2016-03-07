@@ -95,7 +95,7 @@
 	[_detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(contentView.mas_centerY).offset(6);
 		make.left.equalTo(_avatarImageView.mas_right).offset(15);
-		make.right.equalTo(contentView.mas_right).offset(-10);
+		make.right.equalTo(_followButton.mas_left).offset(-5);
 	}];
 
 	UIView *lineView = [[UIView alloc] init];
