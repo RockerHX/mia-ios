@@ -87,6 +87,8 @@
 		CDB55E901C72D16300962ED0 /* HXPanGestureNavgaitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E8E1C72D16300962ED0 /* HXPanGestureNavgaitionController.m */; };
 		CDB55E961C72D24200962ED0 /* HXProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E951C72D24200962ED0 /* HXProfileViewController.m */; };
 		CDB55E9C1C73005B00962ED0 /* HXFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */; };
+		CDB7E6181C8EB64100160E91 /* HXGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB7E6161C8EB64100160E91 /* HXGuideView.m */; };
+		CDB7E6191C8EB64100160E91 /* HXGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB7E6171C8EB64100160E91 /* HXGuideView.xib */; };
 		CDBC45311C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */; };
 		CDBC45321C75D4A60037FEC4 /* HXDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBC45301C75D4A60037FEC4 /* HXDiscoveryViewController.m */; };
 		CDC5EBF71C896B8A002244A6 /* HXMusicStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC5EBF61C896B8A002244A6 /* HXMusicStateView.m */; };
@@ -339,6 +341,9 @@
 		CDB55E951C72D24200962ED0 /* HXProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProfileViewController.m; sourceTree = "<group>"; };
 		CDB55E9A1C73005B00962ED0 /* HXFavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFavoriteViewController.h; sourceTree = "<group>"; };
 		CDB55E9B1C73005B00962ED0 /* HXFavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFavoriteViewController.m; sourceTree = "<group>"; };
+		CDB7E6151C8EB64100160E91 /* HXGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXGuideView.h; sourceTree = "<group>"; };
+		CDB7E6161C8EB64100160E91 /* HXGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXGuideView.m; sourceTree = "<group>"; };
+		CDB7E6171C8EB64100160E91 /* HXGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXGuideView.xib; sourceTree = "<group>"; };
 		CDBC452D1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryContainerViewController.h; sourceTree = "<group>"; };
 		CDBC452E1C75D4A60037FEC4 /* HXDiscoveryContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDiscoveryContainerViewController.m; sourceTree = "<group>"; };
 		CDBC452F1C75D4A60037FEC4 /* HXDiscoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDiscoveryViewController.h; sourceTree = "<group>"; };
@@ -1131,6 +1136,7 @@
 		CDB55E791C72CEDF00962ED0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CDB7E6141C8EB64100160E91 /* Guide */,
 				CD74FBF11C7C06FA00DBEB83 /* Common */,
 				CDBC45331C75D6100037FEC4 /* Discovery */,
 				CD64E9151C7AFB1600270836 /* Favorite */,
@@ -1168,6 +1174,16 @@
 				CD487E3E1C842D6D004835A9 /* HXProfileDetailContainerViewController.m */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		CDB7E6141C8EB64100160E91 /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				CDB7E6151C8EB64100160E91 /* HXGuideView.h */,
+				CDB7E6161C8EB64100160E91 /* HXGuideView.m */,
+				CDB7E6171C8EB64100160E91 /* HXGuideView.xib */,
+			);
+			path = Guide;
 			sourceTree = "<group>";
 		};
 		CDBC452C1C75D4A60037FEC4 /* Discovery */ = {
@@ -2039,6 +2055,7 @@
 				CD9A36481C7ED9FD0016DDB1 /* HXInfectListCell.xib in Resources */,
 				CDFFB9101C853514009C452B /* HXMeDetailHeader.xib in Resources */,
 				CDEF7AD61C7EFE3900354229 /* HXPlayTopBar.xib in Resources */,
+				CDB7E6191C8EB64100160E91 /* HXGuideView.xib in Resources */,
 				CDB55E7F1C72CFC000962ED0 /* Favorite.storyboard in Resources */,
 				CD0690261C747164001C0997 /* Me.storyboard in Resources */,
 				CDB55E681C72C7EE00962ED0 /* Main.storyboard in Resources */,
@@ -2180,6 +2197,7 @@
 				CD06901B1C746B8C001C0997 /* HXLabel.m in Sources */,
 				CDEF7AE91C7FEA7200354229 /* SearchResultCollectionViewCell.m in Sources */,
 				CDE539B01C7BFD5200E0616D /* FriendItem.m in Sources */,
+				CDB7E6181C8EB64100160E91 /* HXGuideView.m in Sources */,
 				CDE539BE1C7BFD5200E0616D /* SuggestionItem.m in Sources */,
 				CDEF7B181C8031AA00354229 /* HXPlayListCell.m in Sources */,
 				CDEF7AED1C7FEA7200354229 /* SearchViewController.m in Sources */,
