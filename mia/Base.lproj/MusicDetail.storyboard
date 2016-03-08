@@ -592,6 +592,7 @@
                                     <outlet property="avatar" destination="59F-UE-nlJ" id="bU3-A7-oU2"/>
                                     <outlet property="contentLabel" destination="XuS-AC-TGV" id="QZv-5A-PUF"/>
                                     <outlet property="dateLabel" destination="CF3-TS-s8V" id="DAF-fR-Fay"/>
+                                    <outlet property="delegate" destination="skb-wG-FT4" id="XZE-Ut-5Lc"/>
                                     <outlet property="nameLabel" destination="fkK-FP-k1j" id="QMR-kr-aLv"/>
                                 </connections>
                             </tableViewCell>
