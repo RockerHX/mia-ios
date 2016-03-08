@@ -251,6 +251,30 @@
                                             <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mB7-Lo-mfp" userLabel="See Count View">
+                                            <rect key="frame" x="183" y="0.0" width="27" height="15"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MD-ViewIcon" translatesAutoresizingMaskIntoConstraints="NO" id="cgE-8b-JBH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qe9-Nb-gBA">
+                                                    <rect key="frame" x="19" y="0.0" width="8" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="cgE-8b-JBH" firstAttribute="leading" secondItem="mB7-Lo-mfp" secondAttribute="leading" id="4xX-C0-fY7"/>
+                                                <constraint firstAttribute="bottom" secondItem="qe9-Nb-gBA" secondAttribute="bottom" id="AzC-5U-kCW"/>
+                                                <constraint firstAttribute="bottom" secondItem="cgE-8b-JBH" secondAttribute="bottom" id="Dug-I2-srf"/>
+                                                <constraint firstItem="cgE-8b-JBH" firstAttribute="top" secondItem="mB7-Lo-mfp" secondAttribute="top" id="Hu4-dh-dst"/>
+                                                <constraint firstItem="qe9-Nb-gBA" firstAttribute="top" secondItem="mB7-Lo-mfp" secondAttribute="top" id="cUD-A8-tnG"/>
+                                                <constraint firstAttribute="trailing" secondItem="qe9-Nb-gBA" secondAttribute="trailing" id="ud4-nv-hT5"/>
+                                                <constraint firstItem="qe9-Nb-gBA" firstAttribute="leading" secondItem="cgE-8b-JBH" secondAttribute="trailing" constant="4" id="zd3-p7-WjI"/>
+                                            </constraints>
+                                        </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tpk-TN-A98" userLabel="Location View">
                                             <rect key="frame" x="218" y="0.0" width="87" height="15"/>
                                             <subviews>
@@ -433,6 +457,7 @@
                                         <constraint firstItem="Vkd-2H-Ie4" firstAttribute="centerY" secondItem="tpk-TN-A98" secondAttribute="centerY" id="GWL-X3-1FJ"/>
                                         <constraint firstItem="II3-hF-m16" firstAttribute="leading" secondItem="H1w-sV-Z98" secondAttribute="leading" id="M5g-z0-v6v"/>
                                         <constraint firstAttribute="trailing" secondItem="tpk-TN-A98" secondAttribute="trailing" constant="15" id="NIu-zk-Vdc"/>
+                                        <constraint firstItem="tpk-TN-A98" firstAttribute="leading" secondItem="mB7-Lo-mfp" secondAttribute="trailing" constant="8" id="OuU-zt-6Go"/>
                                         <constraint firstItem="Lhw-Fm-5QR" firstAttribute="leading" secondItem="H1w-sV-Z98" secondAttribute="leading" constant="65" id="QTw-ut-ssu"/>
                                         <constraint firstAttribute="trailing" secondItem="31d-Qv-0oC" secondAttribute="trailing" id="R27-59-p6C"/>
                                         <constraint firstItem="vyW-Fb-hCV" firstAttribute="leading" secondItem="H1w-sV-Z98" secondAttribute="leading" id="TNE-Ba-JxX"/>
@@ -447,6 +472,7 @@
                                         <constraint firstAttribute="trailing" secondItem="vyW-Fb-hCV" secondAttribute="trailing" id="oUV-QA-G9H"/>
                                         <constraint firstAttribute="trailing" secondItem="II3-hF-m16" secondAttribute="trailing" id="qWk-FM-ZDJ"/>
                                         <constraint firstItem="31d-Qv-0oC" firstAttribute="leading" secondItem="H1w-sV-Z98" secondAttribute="leading" id="r0c-l1-3F9"/>
+                                        <constraint firstItem="mB7-Lo-mfp" firstAttribute="centerY" secondItem="tpk-TN-A98" secondAttribute="centerY" id="rAQ-RV-pGw"/>
                                         <constraint firstItem="II3-hF-m16" firstAttribute="top" secondItem="DIa-Gq-qVZ" secondAttribute="bottom" id="rfJ-ip-ykk"/>
                                         <constraint firstAttribute="trailing" secondItem="Lhw-Fm-5QR" secondAttribute="trailing" id="zok-qy-E5S"/>
                                     </constraints>
@@ -462,6 +488,7 @@
                                     <outlet property="infectView" destination="AJz-4f-7Ox" id="cXp-kH-HWa"/>
                                     <outlet property="infectionCountLabel" destination="6KK-po-SRW" id="dOe-rN-aup"/>
                                     <outlet property="locationLabel" destination="p2S-cs-Cu1" id="K2r-aa-gKe"/>
+                                    <outlet property="seeCountLabel" destination="qe9-Nb-gBA" id="BQI-HA-56z"/>
                                     <outlet property="spaceConstraint" destination="p98-GB-iP4" id="Rc1-Fj-zCL"/>
                                 </connections>
                             </tableViewCell>
@@ -565,6 +592,7 @@
                                     <outlet property="avatar" destination="59F-UE-nlJ" id="bU3-A7-oU2"/>
                                     <outlet property="contentLabel" destination="XuS-AC-TGV" id="QZv-5A-PUF"/>
                                     <outlet property="dateLabel" destination="CF3-TS-s8V" id="DAF-fR-Fay"/>
+                                    <outlet property="delegate" destination="skb-wG-FT4" id="XZE-Ut-5Lc"/>
                                     <outlet property="nameLabel" destination="fkK-FP-k1j" id="QMR-kr-aLv"/>
                                 </connections>
                             </tableViewCell>
@@ -591,5 +619,6 @@
         <image name="MD-LocationIcon" width="15" height="15"/>
         <image name="MD-MoreActionIcon" width="25" height="25"/>
         <image name="MD-SofaIcon" width="25" height="25"/>
+        <image name="MD-ViewIcon" width="15" height="15"/>
     </resources>
 </document>

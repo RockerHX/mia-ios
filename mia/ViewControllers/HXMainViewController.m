@@ -19,6 +19,7 @@
 #import "HXAlertBanner.h"
 #import "UpdateHelper.h"
 #import "FileLog.h"
+#import "HXGuideView.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate,
@@ -29,6 +30,14 @@ HXLoginViewControllerDelegate
 @implementation HXMainViewController
 
 #pragma mark - View Controller Life Cycle
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if ([HXGuideView shouldShow]) {
+        [HXGuideView showGuide:nil];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
