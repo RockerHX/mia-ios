@@ -211,7 +211,7 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="D-CommentIcon" width="30" height="30"/>
-        <image name="D-FavoriteIcon" width="30" height="30"/>
+        <image name="D-CommentIcon" width="32" height="32"/>
+        <image name="D-FavoriteIcon" width="32" height="32"/>
     </resources>
 </document>
