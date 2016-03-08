@@ -63,7 +63,11 @@ HXMusicDetailContainerViewControllerDelegate
 }
 
 - (void)initConfigure {
-    _viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+	if (_playItem) {
+		_viewModel = [[HXMusicDetailViewModel alloc] initWithItem:_playItem];
+	} else if (_sID) {
+		_viewModel = [[HXMusicDetailViewModel alloc] initWithID:_sID];
+	}
 }
 
 - (void)registerNotification {

@@ -112,14 +112,19 @@ typedef void(^FailureBlock)(NSString *);
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
 			 ShareItem *newItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
+			 
 			 // 手动更新数据，而不是整个替换，这个可以保证所有页面用的ShareItem是同一个对象，方便数据同步
 			 // @eden 2016-03-04 16:52
-             _playItem.infectUsers = newItem.infectUsers;
-			 _playItem.infectTotal = newItem.infectTotal;
-			 _playItem.starCnt = newItem.starCnt;
-			 _playItem.shareCnt = newItem.shareCnt;
-			 _playItem.favorite = newItem.favorite;
-			 _playItem.isInfected = newItem.isInfected;
+			 if (_playItem) {
+				 _playItem.infectUsers = newItem.infectUsers;
+				 _playItem.infectTotal = newItem.infectTotal;
+				 _playItem.starCnt = newItem.starCnt;
+				 _playItem.shareCnt = newItem.shareCnt;
+				 _playItem.favorite = newItem.favorite;
+				 _playItem.isInfected = newItem.isInfected;
+			 } else {
+				 _playItem = newItem;
+			 }
 
              [self setupRowTypes];
              if (_shareItemSuccessBlock) {
