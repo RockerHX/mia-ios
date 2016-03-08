@@ -289,7 +289,17 @@ HXPlayListViewControllerDelegate
 - (void)bottomBar:(HXPlayBottomBar *)bar takeAction:(HXPlayBottomBarAction)action {
     switch (action) {
         case HXPlayBottomBarActionFavorite: {
-            [self takeFavoriteAction];
+            switch ([HXUserSession share].userState) {
+                case HXUserStateLogout: {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self shouldLogin];
+                    break;
+                }
+                case HXUserStateLogin: {
+                    [self takeFavoriteAction];
+                    break;
+                }
+            }
             break;
         }
         case HXPlayBottomBarActionPrevious: {
@@ -305,7 +315,17 @@ HXPlayListViewControllerDelegate
             break;
         }
         case HXPlayBottomBarActionInfect: {
-            [self takeInfectAction];
+            switch ([HXUserSession share].userState) {
+                case HXUserStateLogout: {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self shouldLogin];
+                    break;
+                }
+                case HXUserStateLogin: {
+                    [self takeInfectAction];
+                    break;
+                }
+            }
             break;
         }
     }
