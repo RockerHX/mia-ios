@@ -185,15 +185,15 @@ HXDiscoveryContainerViewControllerDelegate
              NSArray *shareList = userInfo[@"v"][@"data"];
              if (!shareList.count) {
                  [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
-                 return;
-             }
-             
-             [_shareListMgr addSharesWithArray:shareList];
-             [self reloadShareList];
+			 } else {
+				 [_shareListMgr addSharesWithArray:shareList];
+				 [self reloadShareList];
+			 }
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
              [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];
          }
+
          [self hiddenLoadingView];
      } timeoutBlock:^(MiaRequestItem *requestItem) {
          [self hiddenLoadingView];
