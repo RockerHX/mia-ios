@@ -238,6 +238,7 @@ HXPlayListViewControllerDelegate
                          item.isInfected = isInfected;
                      }
                      [self displayPlayView];
+                     [HXAlertBanner showWithMessage:@"秒推成功！" tap:nil];
                  } else {
                      NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                      [HXAlertBanner showWithMessage:error tap:nil];
