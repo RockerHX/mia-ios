@@ -94,11 +94,6 @@ HXFavoriteEditViewControllerDelegate
     _header.favoriteCount = _favoriteLists.count;
     self.view.hidden = !_favoriteLists.count;
     [self.tableView reloadData];
-
-	MusicMgr *musicMgr = [MusicMgr standard];
-	if ([musicMgr isCurrentHostObject:self]) {
-		[musicMgr setPlayList:[self shareList] hostObject:self];
-	}
 }
 
 - (NSArray *)shareList {
@@ -195,6 +190,12 @@ HXFavoriteEditViewControllerDelegate
 
 - (void)favoriteMgrDidFinishDownload {
     [self dataSysnc];
+
+	// 下载完成后就可以播放本地歌曲缓存了，所以需要更新下歌单
+	MusicMgr *musicMgr = [MusicMgr standard];
+	if ([musicMgr isCurrentHostObject:self]) {
+		[musicMgr setPlayList:[self shareList] hostObject:self];
+	}
 }
 
 #pragma mark - HXFavoriteEditViewControllerDelegate Methods
