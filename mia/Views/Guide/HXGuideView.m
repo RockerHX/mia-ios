@@ -49,8 +49,8 @@ typedef void(^BLOCK)(void);
 - (IBAction)locationButtonPressed {
     if (_finishedBlock) {
         _finishedBlock();
-        [self showed];
     }
+    [self showed];
     [self hidden];
 }
 
