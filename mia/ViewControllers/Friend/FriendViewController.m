@@ -500,13 +500,15 @@ static const long kUserListPageCount = 10;
 		 if (!success) {
 			 [HXAlertBanner showWithMessage:(isFollow ? @"添加关注失败" : @"取消关注失败") tap:nil];
 		 } else {
-			 if (isFollow) {
-				 _followingCount++;
-			 } else {
-				 _followingCount--;
-			 }
+			 if (_isHost) {
+				 if (isFollow) {
+					 _followingCount++;
+				 } else {
+					 _followingCount--;
+				 }
 
-			 [_segmentedControl setTitle:[NSString stringWithFormat:@"关注 %ld", _followingCount] forIndex:UserListViewTypeFollowing];
+				 [_segmentedControl setTitle:[NSString stringWithFormat:@"关注 %ld", _followingCount] forIndex:UserListViewTypeFollowing];
+			 }
 		 }
 
 		 if (completedBlock) {

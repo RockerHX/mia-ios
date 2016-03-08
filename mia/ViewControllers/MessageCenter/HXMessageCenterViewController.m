@@ -16,6 +16,7 @@
 #import "HXProfileViewController.h"
 //#import "HXMusicDetailViewController.h"
 #import "HXUserSession.h"
+#import "HXMusicDetailViewController.h"
 
 static const long kMessagePageCount = 10;
 
@@ -128,27 +129,17 @@ static const long kMessagePageCount = 10;
         return;
     }
     
-//    MessageItem *item = _messageModel.dataSource[indexPath.row];
-//    if (item.navigateToUser) {
-//        HXProfileType type;
-//        NSString *sharerID = item.fromUID;
-//        NSString *userID = [UserSession standard].uid;
-//        if (![sharerID isEqualToString:userID]) {
-//            type = HXProfileTypeGuest;
-//            userID = sharerID;
-//        } else {
-//            type = HXProfileTypeHost;
-//        }
-//        
-//        HXProfileViewController *profileViewController = [HXProfileViewController instance];
-//        profileViewController.uid = userID;
-//        profileViewController.type = type;
-//        [self.navigationController pushViewController:profileViewController animated:YES];
-//    } else {
-//        HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
-//		musicDetailViewController.sID = item.sID;
-//        [self.navigationController pushViewController:musicDetailViewController animated:YES];
-//    }
+    MessageItem *item = _messageModel.dataSource[indexPath.row];
+    if (item.navigateToUser) {
+        NSString *userID = [HXUserSession share].uid;
+        HXProfileViewController *profileViewController = [HXProfileViewController instance];
+        profileViewController.uid = userID;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    } else {
+        HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
+		musicDetailViewController.sID = item.sID;
+        [self.navigationController pushViewController:musicDetailViewController animated:YES];
+    }
 }
 
 @end

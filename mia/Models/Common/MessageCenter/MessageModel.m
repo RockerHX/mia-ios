@@ -28,8 +28,6 @@ static NSString *kDefaultMessageLastID = @"0";
 		MessageItem *dataItem = [MessageItem mj_objectWithKeyValues:item];
 		[_dataSource addObject:dataItem];
 
-		NSLog(@"time: %@", dataItem.formatTime);
-
 		_lastID = dataItem.notifyID;
 	}
 }

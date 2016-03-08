@@ -94,12 +94,14 @@ HXMeNavigationBarDelegate
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:WebSocketMgrNotificationPushUnread object:nil];
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _statusBarStyle = UIStatusBarStyleLightContent;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWebSocketPushUnread:) name:WebSocketMgrNotificationPushUnread object:nil];
 }
 
 - (void)viewConfigure {
@@ -124,18 +126,28 @@ HXMeNavigationBarDelegate
     }
 }
 
+- (void)notificationWebSocketPushUnread:(NSNotification *)notification {
+	id ret = [notification userInfo][MiaAPIKey_Values][MiaAPIKey_Return];
+	if (0 == [ret intValue]) {
+		[self updateMessagePrompt];
+	}
+}
+
 #pragma mark - Private Methods
 - (void)updateUI {
     [self updateMusicEntryState];
-    
-    HXUserSession *session = [HXUserSession share];
-    _detailContainerViewController.header.messagePromptView.hidden = !session.notify;
-    [_detailContainerViewController.header.messagePromptView displayWithAvatarURL:session.user.notifyAvatar promptCount:session.user.notifyCount];
+	[self updateMessagePrompt];
 }
 
 - (void)updateMusicEntryState {
     _navigationBar.stateView.state = ([MusicMgr standard].isPlaying ? HXMusicStatePlay : HXMusicStateStop);
 //    _navigationBar.stateView.stateIcon.tintColor = _navigationBar.color;
+}
+
+- (void)updateMessagePrompt {
+	HXUserSession *session = [HXUserSession share];
+	_detailContainerViewController.header.messagePromptView.hidden = !session.notify;
+	[_detailContainerViewController.header.messagePromptView displayWithAvatarURL:session.user.notifyAvatar promptCount:session.user.notifyCount];
 }
 
 - (void)fetchProfileData {
