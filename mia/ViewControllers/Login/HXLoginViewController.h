@@ -8,13 +8,18 @@
 
 #import "UIViewController+HXClass.h"
 
+typedef NS_ENUM(NSUInteger, HXLoginViewControllerAction) {
+    HXLoginViewControllerActionDismiss,
+    HXLoginViewControllerActionLoginSuccess,
+};
+
 @class HXLoginView;
 @class HXLoginViewController;
 
 @protocol HXLoginViewControllerDelegate <NSObject>
 
 @optional
-- (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController;
+- (void)loginViewController:(HXLoginViewController *)loginViewController takeAction:(HXLoginViewControllerAction)action;
 
 @end
 

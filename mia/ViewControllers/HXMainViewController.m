@@ -178,7 +178,23 @@ HXLoginViewControllerDelegate
     UINavigationController *loginNavigationController = [HXLoginViewController navigationControllerInstance];
     HXLoginViewController *loginViewController = loginNavigationController.viewControllers.firstObject;
     loginViewController.delegate = self;
-    [self presentViewController:loginNavigationController animated:YES completion:nil];
+    
+    [self transitionAnimationOnView:loginViewController.view duration:0.4f type:kCATransitionMoveIn subtype:kCATransitionFromRight];
+    [self.view addSubview:loginViewController.view];
+    [self addChildViewController:loginViewController];
+    
+}
+
+- (CATransition *)transitionAnimationOnView:(UIView *)view duration:(CFTimeInterval)duration type:(NSString *)type subtype:(NSString *)subtype {
+    CATransition *animation = [CATransition animation];
+    animation.duration = duration;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.fillMode = kCAFillModeForwards;
+    animation.type = type;
+    animation.subtype = subtype;
+    [view.layer addAnimation:animation forKey:@"animation"];
+    
+    return animation;
 }
 
 - (void)logoutEventAction {
@@ -222,11 +238,22 @@ HXLoginViewControllerDelegate
 }
 
 #pragma mark - HXLoginViewControllerDelegate Methods
-- (void)loginViewControllerLoginSuccess:(HXLoginViewController *)loginViewController {
-    HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
-    [discoveryViewController refreshShareItem];
-	[self updateNotificationBadge];
-    [loginViewController dismissViewControllerAnimated:YES completion:nil];
+- (void)loginViewController:(HXLoginViewController *)loginViewController takeAction:(HXLoginViewControllerAction)action {
+    [loginViewController.view removeFromSuperview];
+    [loginViewController removeFromParentViewController];
+    switch (action) {
+        case HXLoginViewControllerActionDismiss: {
+            [self transitionAnimationOnView:self.view duration:0.5f type:kCATransitionReveal subtype:kCATransitionFromLeft];
+            break;
+        }
+        case HXLoginViewControllerActionLoginSuccess: {
+            HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
+            [discoveryViewController refreshShareItem];
+            [self updateNotificationBadge];
+            [self transitionAnimationOnView:self.view duration:0.5f type:kCATransitionReveal subtype:kCATransitionFromLeft];
+            break;
+        }
+    }
 }
 
 @end
