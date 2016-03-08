@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
 @interface HXDiscoveryCardView : UIView
 
 @property (weak, nonatomic) IBOutlet   HXDiscoveryCover *coverView;
+@property (weak, nonatomic) IBOutlet             UIView *sharerInfoView;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *sharerLabel;
 @property (weak, nonatomic) IBOutlet       HXInfectView *infectView;
 @property (weak, nonatomic) IBOutlet        UIImageView *favoriteIcon;
