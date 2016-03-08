@@ -15,6 +15,7 @@
 #import "NSString+IsNull.h"
 #import "FileLog.h"
 #import "HXUserSession.h"
+#import "UserSetting.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -322,11 +323,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if(![fileManager fileExistsAtPath:[PathHelper genMusicFilenameWithUrl:url]]) {
-		return NO;
+
+	if ([UserSetting isLocalFilePrefix:url]) {
+		NSString *pathWithoutPrefix = [UserSetting pathWithoutPrefix:url];
+		return [fileManager fileExistsAtPath:pathWithoutPrefix];
 	}
 
-	return YES;
+	NSString *localPath = [PathHelper genMusicFilenameWithUrl:url];
+	return [fileManager fileExistsAtPath:localPath];
 }
 
 #pragma mark - Notification
