@@ -52,6 +52,8 @@ HXFavoriteEditViewControllerDelegate
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
     _header.favoriteCount = _favoriteLists.count;
     [FavoriteMgr standard].customDelegate = self;
+
+	[[FavoriteMgr standard] syncFavoriteList];
 }
 
 - (void)viewConfigure {
