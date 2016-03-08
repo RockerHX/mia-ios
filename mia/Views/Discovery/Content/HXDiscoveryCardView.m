@@ -56,7 +56,7 @@ HXXibImplementation
                      _shareItem.favorite = favorite;
                  }
                  
-                 _shareItem.starCnt += (favorite ? 1 : (-1));
+                 _shareItem.starCnt += (favorite ? 1 : (_shareItem.starCnt ? -1 : 0));
                  _favoriteIcon.image = [UIImage imageNamed:(favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")];
                  [self displayWithItem:_shareItem];
                  
