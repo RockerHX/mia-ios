@@ -132,9 +132,16 @@
 }
 
 - (IBAction)playButtonPressed {
-	if ([[MusicMgr standard] isPlayingWithUrl:_dataItem.songUrl]) {
-		[[MusicMgr standard] pause];
-		[_playButton setImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
+	MusicMgr *_musicMgr = [MusicMgr standard];
+	if ([_musicMgr isCurrentHostObject:self]
+		&& [_musicMgr.currentItem.music.murl isEqualToString:_dataItem.songUrl]) {
+		if ([_musicMgr isPlaying]) {
+			[_musicMgr pause];
+			[_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
+		} else {
+			[_musicMgr playCurrent];
+			[_playButton setImage:[UIImage imageNamed:@"CM-PauseIcon"] forState:UIControlStateNormal];
+		}
 	} else {
 		[self playMusic];
 	}
@@ -217,6 +224,7 @@
 	}
 
 	[[MusicMgr standard] stop];
+	[[MusicMgr standard] setPlayList:nil hostObject:self];
     [_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
 }
 
