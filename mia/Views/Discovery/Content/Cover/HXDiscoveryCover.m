@@ -115,7 +115,7 @@ HXXibImplementation
     
     BOOL isShare = [self isSharer];
     UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
-    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @"分享" : @"妙推")];
+    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @" 分享" : @" 妙推")];
     _cardUserLabel.text = userPrompt;
     [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil];
     
@@ -145,7 +145,7 @@ HXXibImplementation
 //    
 //    BOOL isShare = [item.shareUser.uid isEqualToString:item.spaceUser.uid];
 //    UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
-//    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @"分享" : @"妙推")];
+//    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @" 分享" : @" 妙推")];
 //    _cardUserLabel.text = userPrompt;
 //    [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
 //        __strong __typeof__(self)strongSelf = weakSelf;
