@@ -81,6 +81,7 @@
     _descriptionLabel.text = item.formatTime;
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
+    _viewCountLabel.text = @(item.cView).stringValue;
     _commentCountLabel.text = @(item.cComm).stringValue;
 	_dateLabel.text = item.formatTime;
 

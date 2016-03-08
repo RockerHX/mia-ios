@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, HXMeShareCellAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *songLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *singerLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet     UILabel *viewCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *commentCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet    UIButton *deleteButton;

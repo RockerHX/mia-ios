@@ -56,6 +56,7 @@ HXInfectViewDelegate
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
     ShareItem *item = viewModel.playItem;
     _dateLabel.text = item.formatTime;
+    _seeCountLabel.text = @(item.cView).stringValue;
     _locationLabel.text = item.sAddress;
     _infectionCountLabel.text = @(item.infectTotal).stringValue;
     _favoriteCountLabel.text = @(item.starCnt).stringValue;
