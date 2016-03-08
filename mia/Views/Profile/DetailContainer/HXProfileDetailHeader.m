@@ -74,7 +74,7 @@ HXXibImplementation
 
 #pragma mark - Public Methods
 - (void)displayWithHeaderModel:(HXProfileHeaderModel *)model {
-    [_avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+    [_avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
     _nickNameLabel.text = model.nickName;
     _playNickNameLabel.text = model.nickName;
     _fansCountLabel.text = model.fansCount;
