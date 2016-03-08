@@ -47,7 +47,7 @@
 	_avatarImageView.clipsToBounds = YES;
 	_avatarImageView.layer.borderWidth = 0.5f;
 	_avatarImageView.layer.borderColor = UIColorByHex(0x808080).CGColor;
-	[_avatarImageView setImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+	[_avatarImageView setImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
 	[contentView addSubview:_avatarImageView];
 
 	_followButton = [[MIAButton alloc] initWithFrame:CGRectZero
@@ -113,7 +113,7 @@
 	_dataItem = item;
 
 	[_avatarImageView sd_setImageWithURL:[NSURL URLWithString:item.userpic]
-					   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+					   placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
 	[_titleLabel setText:item.nick];
 	[_detailLabel setText:[NSString stringWithFormat:@"最近分享了 %@", item.sharem]];
 

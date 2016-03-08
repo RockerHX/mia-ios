@@ -196,7 +196,7 @@ HXMeNavigationBarDelegate
 
 - (void)showMessagePromptView {
 //	[_detailContainerViewController.header.messageAvatar sd_setImageWithURL:[NSURL URLWithString:[UserSession standard].notifyUserpic]
-//														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+//														   placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
 //	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
 //
 //

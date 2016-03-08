@@ -109,7 +109,7 @@ GenderPickerViewDelegate
              
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
              [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-                                 placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+                                 placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
              [strongSelf updateGenderLabel:gender];
          } else {
              NSLog(@"getUserInfoWithUID failed");

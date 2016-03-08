@@ -238,7 +238,7 @@ HXPlayListViewControllerDelegate
                          item.isInfected = isInfected;
                      }
                      [self displayPlayView];
-                     [HXAlertBanner showWithMessage:@"秒推成功！" tap:nil];
+                     [HXAlertBanner showWithMessage:@"妙推成功！" tap:nil];
                  } else {
                      NSString *error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
                      [HXAlertBanner showWithMessage:error tap:nil];
@@ -338,7 +338,17 @@ HXPlayListViewControllerDelegate
 
 #pragma mark - HXPlayListViewControllerDelegate Methods
 - (void)playListViewController:(HXPlayListViewController *)viewController playIndex:(NSInteger)index {
-    [_musicMgr playWithIndex:index];
+	MusicItem* selectedItem = viewController.musicList[index];
+	if ([_musicMgr.currentItem.music.murl isEqualToString:selectedItem.murl]) {
+		if ([_musicMgr isPlaying]) {
+			[_musicMgr pause];
+		} else {
+			[_musicMgr playCurrent];
+		}
+	} else {
+		[_musicMgr playWithIndex:index];
+	}
+
     [self displayPlayView];
 }
 

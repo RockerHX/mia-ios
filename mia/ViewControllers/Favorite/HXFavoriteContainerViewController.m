@@ -151,10 +151,16 @@ HXFavoriteEditViewControllerDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _playIndex = indexPath.row;
     [tableView reloadData];
-    
+
+	ShareItem* selectedItem = _favoriteLists[indexPath.row];
     MusicMgr *musicMgr = [MusicMgr standard];
-    [musicMgr setPlayList:[self shareList] hostObject:self];
-    [musicMgr playWithIndex:indexPath.row];
+
+	if ([musicMgr isCurrentHostObject:self] && [musicMgr.currentItem.sID isEqualToString:selectedItem.sID]) {
+		[musicMgr pause];
+	} else {
+		[musicMgr setPlayList:[self shareList] hostObject:self];
+		[musicMgr playWithIndex:indexPath.row];
+	}
 }
 
 #pragma mark - HXFavoriteHeaderDelegate Methods
