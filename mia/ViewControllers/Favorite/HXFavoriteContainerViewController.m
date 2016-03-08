@@ -94,6 +94,11 @@ HXFavoriteEditViewControllerDelegate
     _header.favoriteCount = _favoriteLists.count;
     self.view.hidden = !_favoriteLists.count;
     [self.tableView reloadData];
+
+	MusicMgr *musicMgr = [MusicMgr standard];
+	if ([musicMgr isCurrentHostObject:self]) {
+		[musicMgr setPlayList:[self shareList] hostObject:self];
+	}
 }
 
 - (NSArray *)shareList {
