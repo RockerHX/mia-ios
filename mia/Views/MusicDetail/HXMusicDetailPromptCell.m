@@ -63,6 +63,7 @@ HXInfectViewDelegate
     
     _infectView.infected = viewModel.playItem.isInfected;
     _infectView.infecters = viewModel.playItem.infectUsers;
+    _infectView.promptLabel.hidden = YES;
     
     [self updateFavoriteState:item.favorite];
 }

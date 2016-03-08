@@ -79,7 +79,9 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
             break;
         }
         case HXLoginActionCancel: {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if (_delegate && [_delegate respondsToSelector:@selector(loginViewController:takeAction:)]) {
+                [_delegate loginViewController:self takeAction:HXLoginViewControllerActionDismiss];
+            }
             break;
         }
     }
@@ -258,8 +260,8 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
     [self hiddenHUD];
     [self showBannerWithPrompt:prompt];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
-        [_delegate loginViewControllerLoginSuccess:self];
+    if (_delegate && [_delegate respondsToSelector:@selector(loginViewController:takeAction:)]) {
+        [_delegate loginViewController:self takeAction:HXLoginViewControllerActionLoginSuccess];
     }
 }
 

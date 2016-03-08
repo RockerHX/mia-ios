@@ -19,6 +19,7 @@
 #import "HXAlertBanner.h"
 #import "WebSocketMgr.h"
 #import "NSObject+LoginAction.h"
+#import "UIView+Frame.h"
 
 @interface HXDiscoveryCardView () <
 HXDiscoveryCoverDelegate,
@@ -34,21 +35,11 @@ HXInfectViewDelegate
 
 HXXibImplementation
 
-#pragma mark - Load Methods
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-    [self loadConfigure];
-    [self viewConfigure];
-}
-
-#pragma mark - Configure Methods
-- (void)loadConfigure {
-    _sharerLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 30.0f;
-}
-
-- (void)viewConfigure {
-    ;
+//    NSLog(@"%s:%@", __func__, @(self.width));
+    _sharerLabel.preferredMaxLayoutWidth = self.width - 30.0f;
 }
 
 #pragma mark - Event Response
