@@ -134,7 +134,7 @@
 - (IBAction)playButtonPressed {
 	MusicMgr *_musicMgr = [MusicMgr standard];
 	if ([_musicMgr isCurrentHostObject:self]
-		&& [_musicMgr.currentItem.music.murl isEqualToString:_dataItem.songUrl]) {
+		&& [_musicMgr.currentItem.music.murl isEqualToString:_musicItem.murl]) {
 		if ([_musicMgr isPlaying]) {
 			[_musicMgr pause];
 			[_playButton setImage:[UIImage imageNamed:@"CM-PlayIcon"] forState:UIControlStateNormal];
