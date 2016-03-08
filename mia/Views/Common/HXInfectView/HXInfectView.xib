@@ -70,6 +70,6 @@
         </view>
     </objects>
     <resources>
-        <image name="D-InfectIcon" width="30" height="30"/>
+        <image name="D-InfectIcon" width="32" height="32"/>
     </resources>
 </document>

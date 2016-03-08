@@ -38,7 +38,6 @@ HXXibImplementation
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-//    NSLog(@"%s:%@", __func__, @(self.width));
     _sharerLabel.preferredMaxLayoutWidth = self.width - 30.0f;
 }
 
@@ -57,7 +56,7 @@ HXXibImplementation
                      _shareItem.favorite = favorite;
                  }
                  
-                 _shareItem.starCnt += (favorite ? 1 : (-1));
+                 _shareItem.starCnt += (favorite ? 1 : (_shareItem.starCnt ? -1 : 0));
                  _favoriteIcon.image = [UIImage imageNamed:(favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")];
                  [self displayWithItem:_shareItem];
                  
@@ -125,7 +124,7 @@ HXXibImplementation
         _sharerNickNameLayer = [CAShapeLayer layer];
         _sharerNickNameLayer.fillColor = UIColorByHex(0xEBEFF0).CGColor;
         _sharerNickNameLayer.strokeColor = _sharerNickNameLayer.fillColor;
-        [_sharerLabel.layer insertSublayer:_sharerNickNameLayer atIndex:0];
+        [_sharerInfoView.layer insertSublayer:_sharerNickNameLayer atIndex:0];
     }
     
     NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f]};
@@ -135,8 +134,8 @@ HXXibImplementation
     
     // 文字渲染
     NSDictionary *linkAttributes = @{(__bridge id)kCTUnderlineStyleAttributeName: [NSNumber numberWithInt:kCTUnderlineStyleNone],
-                                     (__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor],
-                                     (__bridge id)kCTFontAttributeName: [UIFont systemFontOfSize:14.0f]};
+                                    (__bridge id)kCTForegroundColorAttributeName: [UIColor blackColor],
+                                               (__bridge id)kCTFontAttributeName: [UIFont systemFontOfSize:14.0f]};
     _sharerLabel.activeLinkAttributes = linkAttributes;
     _sharerLabel.linkAttributes = linkAttributes;
     [_sharerLabel addLinkToPhoneNumber:sharer withRange:[shareContent rangeOfString:sharer]];

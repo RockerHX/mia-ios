@@ -44,7 +44,6 @@ HXDiscoveryCardViewDelegate
     _currentPage = currentPage;
     
     [_carousel scrollToItemAtIndex:currentPage animated:NO];
-    [_carousel reloadData];
 }
 
 - (void)setDataSoure:(NSArray *)dataSoure {
@@ -83,7 +82,7 @@ HXDiscoveryCardViewDelegate
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
     HXDiscoveryCardView *cardView = nil;
     //create new view if no view is available for recycling
-    if (!view){
+    if (!view) {
         view = [self setupCarouselCard:carousel];
         cardView = [self setUpCardView:view];
     } else {

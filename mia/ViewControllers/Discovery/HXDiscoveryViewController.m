@@ -254,7 +254,7 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 - (void)refreshCard {
-    [_containerViewController.carousel reloadData];
+    [_containerViewController.carousel reloadItemAtIndex:_shareListMgr.currentIndex animated:NO];
 }
 
 #pragma mark - HXDiscoveryHeaderDelegate Methods

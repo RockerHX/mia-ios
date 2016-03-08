@@ -307,8 +307,9 @@
                                  item.favorite = favorite;
                              }
                              
+                             item.starCnt += (favorite ? 1 : (item.starCnt ? -1 : 0));
                              [HXAlertBanner showWithMessage:(favorite ? @"收藏成功" : @"取消收藏成功") tap:nil];
-                             [self reload];
+                             [cell displayWithViewModel:_viewModel];
                              // 收藏操作成功后同步下收藏列表并检查下载
                              [[FavoriteMgr standard] syncFavoriteList];
                          } else {

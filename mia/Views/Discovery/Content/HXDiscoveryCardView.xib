@@ -14,6 +14,7 @@
                 <outlet property="favoriteCountLabel" destination="Mzl-Fx-DG0" id="jii-mr-HG5"/>
                 <outlet property="favoriteIcon" destination="TPV-BU-Fvz" id="EDi-or-usz"/>
                 <outlet property="infectView" destination="KMu-t3-LtB" id="RWg-qV-SXp"/>
+                <outlet property="sharerInfoView" destination="cgq-mw-184" id="OUl-Pq-5m6"/>
                 <outlet property="sharerLabel" destination="Wib-Wl-9pg" id="cqO-Y4-zWV"/>
             </connections>
         </placeholder>
@@ -37,6 +38,7 @@
                     <subviews>
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BBC要按照基本法来拍纪录片，这次做的很好，我很欣慰，他们以前还too young，不知道裤子要提多高，我和他们谈笑风生之后，他们总算是明白了一些人生哲理" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Wib-Wl-9pg" customClass="TTTAttributedLabel">
                             <rect key="frame" x="0.0" y="0.0" width="290" height="40"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="IfE-iE-fVS"/>
                             </constraints>
@@ -211,7 +213,7 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="D-CommentIcon" width="30" height="30"/>
-        <image name="D-FavoriteIcon" width="30" height="30"/>
+        <image name="D-CommentIcon" width="32" height="32"/>
+        <image name="D-FavoriteIcon" width="32" height="32"/>
     </resources>
 </document>
