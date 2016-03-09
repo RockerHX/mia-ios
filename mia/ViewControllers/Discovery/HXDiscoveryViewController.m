@@ -268,6 +268,7 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 - (void)refreshCard {
+    NSLog(@"%s", __func__);
     [_containerViewController.carousel reloadItemAtIndex:_shareListMgr.currentIndex animated:NO];
 }
 
