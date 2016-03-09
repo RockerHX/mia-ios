@@ -10,7 +10,7 @@
 
 @interface ShareListMgr : NSObject <NSCoding>
 
-@property (nonatomic, strong) NSMutableArray<ShareItem *> *shareList;
+@property (nonatomic, strong, readonly) NSArray<ShareItem *> *shareList;
 
 @property (nonatomic, assign) NSInteger currentIndex;
 

@@ -15,7 +15,9 @@ const int kShareListCapacity					= 25;
 const int kHistoryItemsMaxCount					= 15;
 const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下会有两首新歌和界面元素绑定:current, right
 
-@implementation ShareListMgr
+@implementation ShareListMgr {
+    NSMutableArray <ShareItem *> *_shareList;
+}
 
 #pragma mark - Class Methods
 + (instancetype)initFromArchive {
@@ -54,6 +56,14 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 #pragma mark - Property
+- (NSArray<ShareItem *> *)shareList {
+    NSMutableArray *list = [_shareList mutableCopy];
+    ShareItem *placeHolderItem = [ShareItem new];
+    placeHolderItem.placeHolder = YES;
+    [list addObject:placeHolderItem];
+    return [list copy];
+}
+
 - (void)setCurrentIndex:(NSInteger)currentIndex {
     _currentIndex = currentIndex;
     [self saveChanges];

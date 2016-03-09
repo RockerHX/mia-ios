@@ -43,6 +43,7 @@ extern NSString * const kDefaultShareID;
 
 @property (assign, nonatomic) BOOL favorite;
 @property (assign, nonatomic) BOOL isInfected;
+@property (assign, nonatomic) BOOL placeHolder;
 
 @property (nonatomic, assign) BOOL hasData;
 @property (nonatomic, strong, readonly) NSString *formatTime;

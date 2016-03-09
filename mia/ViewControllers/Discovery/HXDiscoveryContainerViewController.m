@@ -11,6 +11,7 @@
 #import "HXDiscoveryCardView.h"
 #import "HXMusicDetailViewController.h"
 #import "HXDiscoveryPlaceHolderCardView.h"
+#import "ShareItem.h"
 
 @interface HXDiscoveryContainerViewController () <
 iCarouselDataSource,
@@ -93,27 +94,25 @@ HXDiscoveryPlaceHolderCardViewDelegate
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    if ((_dataSoure.count == index)) {
-        view = [self setupCarouselCard:carousel];
-        [self setupPlaceHolderCard:view];
-        return view;
-    } else {
-        HXDiscoveryCardView *cardView = nil;
-        //create new view if no view is available for recycling
-        if (!view) {
+    if (index < _dataSoure.count) {
+        ShareItem *item = _dataSoure[index];
+        if (item.placeHolder) {
             view = [self setupCarouselCard:carousel];
-            cardView = [self setUpCard:view];
+            [self setupPlaceHolderCard:view];
         } else {
-            //get a reference to the label in the recycled view
-            cardView = (HXDiscoveryCardView *)[view viewWithTag:1];
-        }
-        
-        if ((_dataSoure.count) && (index < _dataSoure.count)) {
+            HXDiscoveryCardView *cardView = nil;
+            //create new view if no view is available for recycling
+            if (!view) {
+                view = [self setupCarouselCard:carousel];
+                cardView = [self setUpCard:view];
+            } else {
+                //get a reference to the label in the recycled view
+                cardView = (HXDiscoveryCardView *)[view viewWithTag:1];
+            }
             [cardView displayWithItem:_dataSoure[index]];
         }
-        
-        return view;
     }
+    return view;
 }
 
 #pragma mark - iCarousel Delegate Methods
@@ -136,9 +135,12 @@ HXDiscoveryPlaceHolderCardViewDelegate
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    if (carousel.currentItemIndex < _dataSoure.count) {
-        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
-            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionShowDetail];
+    if (index < _dataSoure.count) {
+        ShareItem *item = _dataSoure[index];
+        if (!item.placeHolder) {
+            if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+                [_delegate containerViewController:self takeAction:HXDiscoveryCardActionShowDetail];
+            }
         }
     }
 }
