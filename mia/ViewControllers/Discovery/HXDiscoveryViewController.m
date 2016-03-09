@@ -22,6 +22,7 @@
 #import "HXUserSession.h"
 #import "HXAlertBanner.h"
 #import "HXMusicDetailViewController.h"
+#import "HXGuideView.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -81,9 +82,12 @@ HXDiscoveryContainerViewControllerDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     [[WebSocketMgr standard] watchNetworkStatus];
-    [[LocationMgr standard] initLocationMgr];
-    [[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
-    
+
+	if (![HXGuideView shouldShow]) {
+		[[LocationMgr standard] initLocationMgr];
+		[[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
+	}
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
@@ -117,6 +121,10 @@ HXDiscoveryContainerViewControllerDelegate
     }
     
     _shareListMgr = [ShareListMgr initFromArchive];
+	if (_shareListMgr.shareList.count > 0) {
+		[self reloadShareList];
+	}
+
     if ([_shareListMgr isNeedGetNearbyItems]) {
         [self fetchNewShares];
     } else {
@@ -127,6 +135,11 @@ HXDiscoveryContainerViewControllerDelegate
 
 - (void)refreshShareItem {
     ShareItem *item = _containerViewController.currentItem;
+	if (!item) {
+		NSLog(@"refreshShareItem with nil item");
+		return;
+	}
+
     [MiaAPIHelper getShareById:item.sID
                           spID:item.spID
                  completeBlock:
@@ -305,6 +318,7 @@ HXDiscoveryContainerViewControllerDelegate
                 [self fetchNewShares];
             }
             if ([_shareListMgr checkHistoryItemsMaxCount]) {
+				container.dataSoure = _shareListMgr.shareList;
                 container.currentPage = _shareListMgr.currentIndex;
             }
             break;

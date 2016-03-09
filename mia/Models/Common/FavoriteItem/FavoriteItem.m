@@ -8,6 +8,8 @@
 
 #import "FavoriteItem.h"
 #import "ShareItem.h"
+#import "PathHelper.h"
+#import "UserSetting.h"
 
 @implementation FavoriteItem
 
@@ -46,9 +48,13 @@
 	item.sNick = self.sNick;
 	item.sNote = self.sNote;
 	item.time = self.time;
-	item.music = self.music;
+	item.music = [self.music copy];
 	item.favorite = YES;
 	item.isInfected = self.isInfected;
+
+	if (self.isCached) {
+		item.music.murl = [UserSetting pathWithPrefix:[PathHelper genMusicFilenameWithUrl:self.music.murl]];
+	}
 
 	return item;
 }

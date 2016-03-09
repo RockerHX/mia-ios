@@ -131,10 +131,10 @@ static const long kMessagePageCount = 10;
     
     MessageItem *item = _messageModel.dataSource[indexPath.row];
     if (item.navigateToUser) {
-        NSString *userID = [HXUserSession share].uid;
-        HXProfileViewController *profileViewController = [HXProfileViewController instance];
-        profileViewController.uid = userID;
-        [self.navigationController pushViewController:profileViewController animated:YES];
+		NSString *sharerID = item.fromUID;
+		HXProfileViewController *profileViewController = [HXProfileViewController instance];
+		profileViewController.uid = sharerID;
+		[self.navigationController pushViewController:profileViewController animated:YES];
     } else {
         HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
 		musicDetailViewController.sID = item.sID;

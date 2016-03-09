@@ -147,9 +147,11 @@ HXMeShareCellDelegate
 #pragma mark - Table View Delegate Methods
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0.0f;
-    height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMeShareCell class]) cacheByIndexPath:indexPath configuration:
-              ^(HXMeShareCell *cell) {
-                  [(HXMeShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+	height = [tableView fd_heightForCellWithIdentifier:NSStringFromClass([HXMeShareCell class]) cacheByIndexPath:indexPath configuration:
+			  ^(HXMeShareCell *cell) {
+				  if (_viewModel.rows > 0) {
+					  [(HXMeShareCell *)cell displayWithItem:_viewModel.dataSource[indexPath.row]];
+				  }
               }];
     return height;
 }
