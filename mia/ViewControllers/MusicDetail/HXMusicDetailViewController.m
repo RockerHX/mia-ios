@@ -240,7 +240,7 @@ HXMusicDetailContainerViewControllerDelegate
 }
 
 - (void)shouldLogin {
-    [self shouldLogin];
+#warning @andy
 }
 
 #pragma mark - HXMusicDetailContainerViewControllerDelegate Methods
