@@ -56,7 +56,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 }
 
 - (ShareItem *)currentItem {
-	if (_carousel.currentItemIndex > 0 && _carousel.currentItemIndex < _dataSoure.count) {
+	if ((_carousel.currentItemIndex >= 0) && (_carousel.currentItemIndex < _dataSoure.count)) {
 		return _dataSoure[_carousel.currentItemIndex];
 	} else {
 		return nil;
