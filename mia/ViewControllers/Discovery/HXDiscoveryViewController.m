@@ -197,11 +197,12 @@ HXDiscoveryContainerViewControllerDelegate
          if (success) {
              NSArray *shareList = userInfo[@"v"][@"data"];
              if (!shareList.count) {
+                 [_shareListMgr addPlaceHolder];
                  [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
 			 } else {
 				 [_shareListMgr addSharesWithArray:shareList];
-				 [self reloadShareList];
-			 }
+             }
+             [self reloadShareList];
          } else {
              id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
              [[FileLog standard] log:@"getNearbyWithLatitude failed: %@", error];

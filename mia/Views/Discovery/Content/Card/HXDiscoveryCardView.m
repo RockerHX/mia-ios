@@ -115,6 +115,10 @@ HXXibImplementation
 
 #pragma mark - Private Methods
 - (void)displaySharerLabelWithSharer:(NSString *)sharer content:(NSString *)content {
+    if (!sharer || !content) {
+        return;
+    }
+    
     NSString *sharerString = [NSString stringWithFormat:@"  %@  ", sharer];
     NSString *shareContent = [NSString stringWithFormat:@"%@  %@", sharerString, content];
     _sharerLabel.text = shareContent;

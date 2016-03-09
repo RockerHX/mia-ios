@@ -19,6 +19,8 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
     NSMutableArray <ShareItem *> *_shareList;
 }
 
+@synthesize shareList = _shareList;
+
 #pragma mark - Class Methods
 + (instancetype)initFromArchive {
 	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper shareArchivePathWithUID:[[HXUserSession share] uid]]];
@@ -56,14 +58,6 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 }
 
 #pragma mark - Property
-- (NSArray<ShareItem *> *)shareList {
-    NSMutableArray *list = [_shareList mutableCopy];
-    ShareItem *placeHolderItem = [ShareItem new];
-    placeHolderItem.placeHolder = YES;
-    [list addObject:placeHolderItem];
-    return [list copy];
-}
-
 - (void)setCurrentIndex:(NSInteger)currentIndex {
     _currentIndex = currentIndex;
     [self saveChanges];
@@ -113,13 +107,27 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	if ([shareList count] <= 0) {
 		return;
 	}
-
+    if ([_shareList lastObject].placeHolder) {
+        [_shareList removeLastObject];
+    }
+    
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);
 		[_shareList addObject:shareItem];
 	}
 	[self saveChanges];
+}
+
+- (void)addPlaceHolder {
+    if ([_shareList lastObject].placeHolder) {
+        return;
+    }
+    
+    ShareItem *placeHolderItem = [ShareItem new];
+    placeHolderItem.placeHolder = YES;
+    [_shareList addObject:placeHolderItem];
+    [self saveChanges];
 }
 
 - (BOOL)saveChanges {
