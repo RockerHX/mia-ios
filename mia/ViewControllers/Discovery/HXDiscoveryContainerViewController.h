@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardAction) {
     HXDiscoveryCardActionShowDetail,
     HXDiscoveryCardActionInfect,
     HXDiscoveryCardActionComment,
+    HXDiscoveryCardActionRefresh,
 };
 
 @protocol HXDiscoveryContainerViewControllerDelegate <NSObject>

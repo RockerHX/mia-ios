@@ -10,11 +10,13 @@
 #import "UIView+Frame.h"
 #import "HXDiscoveryCardView.h"
 #import "HXMusicDetailViewController.h"
+#import "HXDiscoveryPlaceHolderCardView.h"
 
 @interface HXDiscoveryContainerViewController () <
 iCarouselDataSource,
 iCarouselDelegate,
-HXDiscoveryCardViewDelegate
+HXDiscoveryCardViewDelegate,
+HXDiscoveryPlaceHolderCardViewDelegate
 >
 @end
 
@@ -66,7 +68,14 @@ HXDiscoveryCardViewDelegate
     return view;
 }
 
-- (HXDiscoveryCardView *)setUpCardView:(UIView *)superView {
+- (HXDiscoveryPlaceHolderCardView *)setupPlaceHolderCard:(UIView *)superView {
+    HXDiscoveryPlaceHolderCardView *cardView = [[HXDiscoveryPlaceHolderCardView alloc] initWithFrame:superView.bounds];
+    cardView.delegate = self;
+    [superView addSubview:cardView];
+    return cardView;
+}
+
+- (HXDiscoveryCardView *)setUpCard:(UIView *)superView {
     HXDiscoveryCardView *cardView = [[HXDiscoveryCardView alloc] initWithFrame:superView.bounds];
     cardView.delegate = self;
     cardView.tag = 1;
@@ -76,25 +85,31 @@ HXDiscoveryCardViewDelegate
 
 #pragma mark - iCarousel Data Source Methods
 - (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return [_dataSoure count];
+    return _dataSoure.count + 1;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    HXDiscoveryCardView *cardView = nil;
-    //create new view if no view is available for recycling
-    if (!view) {
+    if ((_dataSoure.count == index)) {
         view = [self setupCarouselCard:carousel];
-        cardView = [self setUpCardView:view];
+        [self setupPlaceHolderCard:view];
+        return view;
     } else {
-        //get a reference to the label in the recycled view
-        cardView = (HXDiscoveryCardView *)[view viewWithTag:1];
+        HXDiscoveryCardView *cardView = nil;
+        //create new view if no view is available for recycling
+        if (!view) {
+            view = [self setupCarouselCard:carousel];
+            cardView = [self setUpCard:view];
+        } else {
+            //get a reference to the label in the recycled view
+            cardView = (HXDiscoveryCardView *)[view viewWithTag:1];
+        }
+        
+        if ((_dataSoure.count) && (index < _dataSoure.count)) {
+            [cardView displayWithItem:_dataSoure[index]];
+        }
+        
+        return view;
     }
-    
-    if ((_dataSoure.count) && (index < _dataSoure.count)) {
-        [cardView displayWithItem:_dataSoure[index]];
-    }
-    
-    return view;
 }
 
 #pragma mark - iCarousel Delegate Methods
@@ -117,7 +132,7 @@ HXDiscoveryCardViewDelegate
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    if (_carousel.currentItemIndex < _dataSoure.count) {
+    if (carousel.currentItemIndex < _dataSoure.count) {
         if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
             [_delegate containerViewController:self takeAction:HXDiscoveryCardActionShowDetail];
         }
@@ -125,16 +140,18 @@ HXDiscoveryCardViewDelegate
 }
 
 - (void)carouselDidEndDecelerating:(iCarousel *)carousel {
-    NSInteger page = carousel.currentItemIndex;
-    if (page < _currentPage) {
-        _currentPage = page;
-        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
-            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionSlidePrevious];
-        }
-    } else if (page > _currentPage) {
-        _currentPage = page;
-        if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
-            [_delegate containerViewController:self takeAction:HXDiscoveryCardActionSlideNext];
+    if (carousel.currentItemIndex < _dataSoure.count) {
+        NSInteger page = carousel.currentItemIndex;
+        if (page < _currentPage) {
+            _currentPage = page;
+            if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+                [_delegate containerViewController:self takeAction:HXDiscoveryCardActionSlidePrevious];
+            }
+        } else if (page > _currentPage) {
+            _currentPage = page;
+            if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+                [_delegate containerViewController:self takeAction:HXDiscoveryCardActionSlideNext];
+            }
         }
     }
 }
@@ -181,6 +198,18 @@ HXDiscoveryCardViewDelegate
     }
     if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
         [_delegate containerViewController:self takeAction:cardAction];
+    }
+}
+
+#pragma mark - HXDiscoveryPlaceHolderCardViewDelegate Methods
+- (void)placeHolderCardView:(HXDiscoveryPlaceHolderCardView *)cardView takeAction:(HXDiscoveryPlaceHolderCardViewAction)action {
+    switch (action) {
+        case HXDiscoveryPlaceHolderCardViewActionRefresh: {
+            if (_delegate && [_delegate respondsToSelector:@selector(containerViewController:takeAction:)]) {
+                [_delegate containerViewController:self takeAction:HXDiscoveryCardActionRefresh];
+            }
+            break;
+        }
     }
 }
 

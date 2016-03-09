@@ -350,6 +350,9 @@ HXDiscoveryContainerViewControllerDelegate
             ;
             break;
         }
+        case HXDiscoveryCardActionRefresh: {
+            break;
+        }
     }
 }
 
