@@ -92,6 +92,7 @@ typedef void(^FailureBlock)(NSString *);
 
 - (void)logout {
     [self updateUser:[HXUserModel new]];
+	[self clearNotify];
 }
 
 #pragma mark - Private Methods
