@@ -24,7 +24,8 @@
 
 @interface HXMeViewController () <
 HXMeDetailContainerViewControllerDelegate,
-HXMeNavigationBarDelegate
+HXMeNavigationBarDelegate,
+FriendViewControllerDelegate
 >
 @end
 
@@ -226,6 +227,7 @@ HXMeNavigationBarDelegate
                                                                                     uID:[HXUserSession share].uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
+			friendVC.delegate = self;
             [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
@@ -236,6 +238,7 @@ HXMeNavigationBarDelegate
                                                                                     uID:[HXUserSession share].uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
+			friendVC.delegate = self;
             [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
@@ -264,6 +267,12 @@ HXMeNavigationBarDelegate
             break;
         }
     }
+}
+
+
+#pragma mark - FriendViewControllerDelegate
+- (void)friendViewControllerActionDismiss {
+	_hiddenNavigationBar = NO;
 }
 
 @end

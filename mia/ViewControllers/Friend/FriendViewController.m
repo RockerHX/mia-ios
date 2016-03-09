@@ -530,6 +530,9 @@ static const long kUserListPageCount = 10;
 
 - (void)backButtonAction:(id)sender {
 	[self.navigationController popViewControllerAnimated:YES];
+	if (_delegate && [_delegate respondsToSelector:@selector(friendViewControllerActionDismiss)]) {
+		[_delegate friendViewControllerActionDismiss];
+	}
 }
 
 - (void)cancelButtonAction:(id)sender {

@@ -23,7 +23,8 @@
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate,
-HXProfileNavigationBarDelegate
+HXProfileNavigationBarDelegate,
+FriendViewControllerDelegate
 >
 @end
 
@@ -207,6 +208,7 @@ HXProfileNavigationBarDelegate
                                                                                     uID:_uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
+			friendVC.delegate = self;
             [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
@@ -217,6 +219,7 @@ HXProfileNavigationBarDelegate
                                                                                     uID:_uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
+			friendVC.delegate = self;
             [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
@@ -249,4 +252,8 @@ HXProfileNavigationBarDelegate
     }
 }
 
+#pragma mark - FriendViewControllerDelegate
+- (void)friendViewControllerActionDismiss {
+	_hiddenNavigationBar = NO;
+}
 @end
