@@ -126,14 +126,15 @@ HXXibImplementation
     // 文字背景Layer
     if (!_sharerNickNameLayer) {
         _sharerNickNameLayer = [CAShapeLayer layer];
-        _sharerNickNameLayer.fillColor = UIColorByHex(0xEBEFF0).CGColor;
-        _sharerNickNameLayer.strokeColor = _sharerNickNameLayer.fillColor;
+        _sharerNickNameLayer.fillColor = UIColorByHex(0xe4e8e9).CGColor;
+        _sharerNickNameLayer.strokeColor = UIColorByHex(0xd6dadb).CGColor;
+        _sharerNickNameLayer.lineWidth = 0.5f;
         [_sharerInfoView.layer insertSublayer:_sharerNickNameLayer atIndex:0];
     }
     
     NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f]};
-    CGRect rect = [sharerString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 20.0f) options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0.0f, -1.0f, rect.size.width, 20.0f) cornerRadius:10.0f];
+    CGRect rect = [sharerString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 24.0f) options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(-2.0f, -3.0f, (rect.size.width + 4.0f), 24.0f) cornerRadius:10.0f];
     _sharerNickNameLayer.path = path.CGPath;
     
     // 文字渲染

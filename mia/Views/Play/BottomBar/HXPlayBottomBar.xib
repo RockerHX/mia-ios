@@ -29,7 +29,7 @@
                     <rect key="frame" x="0.0" y="80" width="320" height="80"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Brz-V5-BDW" userLabel="Favorite Button">
-                            <rect key="frame" x="0.0" y="20" width="40" height="40"/>
+                            <rect key="frame" x="10" y="20" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="1XE-xl-r41"/>
                                 <constraint firstAttribute="width" secondItem="Brz-V5-BDW" secondAttribute="height" multiplier="1:1" id="Gog-Dd-rj0"/>
@@ -66,7 +66,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eI-cX-yfV" userLabel="Infect Button">
-                            <rect key="frame" x="280" y="20" width="40" height="40"/>
+                            <rect key="frame" x="270" y="20" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="2eI-cX-yfV" secondAttribute="height" multiplier="1:1" id="01K-qd-LAb"/>
                                 <constraint firstAttribute="width" constant="40" id="38T-e7-9tf"/>
@@ -84,8 +84,8 @@
                         <constraint firstItem="2eI-cX-yfV" firstAttribute="centerY" secondItem="Brz-V5-BDW" secondAttribute="centerY" id="DbT-dV-mb7"/>
                         <constraint firstItem="Brz-V5-BDW" firstAttribute="centerY" secondItem="Uly-nl-h8u" secondAttribute="centerY" id="FeM-4O-WEg"/>
                         <constraint firstItem="eRt-O0-d3C" firstAttribute="centerY" secondItem="Uly-nl-h8u" secondAttribute="centerY" id="KJQ-Bn-EGp"/>
-                        <constraint firstItem="Brz-V5-BDW" firstAttribute="leading" secondItem="Uly-nl-h8u" secondAttribute="leading" id="Ukz-tK-Og9"/>
-                        <constraint firstAttribute="trailing" secondItem="2eI-cX-yfV" secondAttribute="trailing" id="Yla-yi-Gdg"/>
+                        <constraint firstItem="Brz-V5-BDW" firstAttribute="leading" secondItem="Uly-nl-h8u" secondAttribute="leading" constant="10" id="Ukz-tK-Og9"/>
+                        <constraint firstAttribute="trailing" secondItem="2eI-cX-yfV" secondAttribute="trailing" constant="10" id="Yla-yi-Gdg"/>
                         <constraint firstItem="Hdq-TX-gVP" firstAttribute="height" secondItem="eRt-O0-d3C" secondAttribute="height" id="YsY-DW-F63"/>
                         <constraint firstItem="Hdq-TX-gVP" firstAttribute="centerY" secondItem="eRt-O0-d3C" secondAttribute="centerY" id="gzX-dm-yPZ"/>
                         <constraint firstItem="Bgc-qM-UEV" firstAttribute="centerX" secondItem="Uly-nl-h8u" secondAttribute="centerX" multiplier="0.6" id="jTY-Vu-gf7"/>
@@ -174,8 +174,8 @@
     <resources>
         <image name="P-FavoriteIcon" width="25" height="25"/>
         <image name="P-InfectIcon" width="25" height="25"/>
-        <image name="P-NextIcon-E" width="30" height="30"/>
-        <image name="P-PauseIcon" width="30" height="30"/>
-        <image name="P-PreviousIcon-E" width="30" height="30"/>
+        <image name="P-NextIcon-E" width="25" height="25"/>
+        <image name="P-PauseIcon" width="25" height="25"/>
+        <image name="P-PreviousIcon-E" width="25" height="25"/>
     </resources>
 </document>

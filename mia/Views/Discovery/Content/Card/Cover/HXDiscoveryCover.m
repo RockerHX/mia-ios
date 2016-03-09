@@ -115,8 +115,8 @@ HXXibImplementation
     
     BOOL isShare = [self isSharer];
     UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
-    NSString *userPrompt = [NSString stringWithFormat:@"%@%@", userItem.nick, (isShare ? @" 分享" : @" 妙推")];
-    _cardUserLabel.text = userPrompt;
+    _cardUserLabel.text = userItem.nick;
+    _cardPromptLabel.text = (isShare ? @" 分享" : @" 妙推");
     [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil];
     
     MusicItem *musicItem = item.music;
