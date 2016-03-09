@@ -127,6 +127,11 @@ HXDiscoveryContainerViewControllerDelegate
 
 - (void)refreshShareItem {
     ShareItem *item = _containerViewController.currentItem;
+	if (!item) {
+		NSLog(@"refreshShareItem with nil item");
+		return;
+	}
+
     [MiaAPIHelper getShareById:item.sID
                           spID:item.spID
                  completeBlock:
@@ -305,6 +310,7 @@ HXDiscoveryContainerViewControllerDelegate
                 [self fetchNewShares];
             }
             if ([_shareListMgr checkHistoryItemsMaxCount]) {
+				container.dataSoure = _shareListMgr.shareList;
                 container.currentPage = _shareListMgr.currentIndex;
             }
             break;

@@ -53,7 +53,11 @@ HXDiscoveryCardViewDelegate
 }
 
 - (ShareItem *)currentItem {
-    return _dataSoure[_carousel.currentItemIndex];
+	if (_carousel.currentItemIndex > 0 && _carousel.currentItemIndex < _dataSoure.count) {
+		return _dataSoure[_carousel.currentItemIndex];
+	} else {
+		return nil;
+	}
 }
 
 #pragma mark - Private Methods
