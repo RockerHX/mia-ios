@@ -93,7 +93,7 @@
 		make.right.equalTo(contentView.mas_right).offset(-10);
 	}];
 	[_detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(contentView.mas_centerY).offset(6);
+		make.top.equalTo(contentView.mas_centerY).offset(3);
 		make.left.equalTo(_avatarImageView.mas_right).offset(15);
 		make.right.equalTo(_followButton.mas_left).offset(-5);
 	}];
