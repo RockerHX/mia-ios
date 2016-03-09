@@ -21,6 +21,7 @@
 #import "FileLog.h"
 #import "HXGuideView.h"
 #import "LocationMgr.h"
+#import "UIConstants.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate,
