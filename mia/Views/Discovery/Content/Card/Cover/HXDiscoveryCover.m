@@ -40,17 +40,17 @@ HXXibImplementation
 }
 
 - (void)viewConfigure {
-    _cardUserView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    _cardUserView.layer.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.3f].CGColor;
     _cardUserView.layer.shadowOffset = CGSizeMake(0.0f, 0.5f);
     _cardUserView.layer.shadowRadius = 3.0f;
     _cardUserView.layer.shadowOpacity = 1.0f;
     
-    _songNameLabel.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    _songNameLabel.layer.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.3f].CGColor;
     _songNameLabel.layer.shadowOffset = CGSizeMake(0.0f, 0.5f);
     _songNameLabel.layer.shadowRadius = 3.0f;
     _songNameLabel.layer.shadowOpacity = 1.0f;
     
-    _singerNameLabel.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    _singerNameLabel.layer.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.3f].CGColor;
     _singerNameLabel.layer.shadowOffset = CGSizeMake(0.0f, 0.5f);
     _singerNameLabel.layer.shadowRadius = 3.0f;
     _singerNameLabel.layer.shadowOpacity = 1.0f;
