@@ -129,7 +129,6 @@ HXDiscoveryContainerViewControllerDelegate
         [self fetchNewShares];
     } else {
         [self hiddenLoadingView];
-        [self reloadShareList];
     }
 }
 
@@ -268,8 +267,7 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 - (void)refreshCard {
-    NSLog(@"%s", __func__);
-    [_containerViewController.carousel reloadItemAtIndex:_shareListMgr.currentIndex animated:NO];
+    [_containerViewController.carousel reloadItemAtIndex:_shareListMgr.currentIndex animated:YES];
 }
 
 #pragma mark - HXDiscoveryHeaderDelegate Methods

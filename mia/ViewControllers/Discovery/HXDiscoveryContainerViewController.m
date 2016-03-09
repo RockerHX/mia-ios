@@ -76,6 +76,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 - (HXDiscoveryPlaceHolderCardView *)setupPlaceHolderCard:(UIView *)superView {
     HXDiscoveryPlaceHolderCardView *cardView = [[HXDiscoveryPlaceHolderCardView alloc] initWithFrame:superView.bounds];
     cardView.delegate = self;
+    cardView.tag = 10;
     [superView addSubview:cardView];
     return cardView;
 }
@@ -83,7 +84,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 - (HXDiscoveryCardView *)setUpCard:(UIView *)superView {
     HXDiscoveryCardView *cardView = [[HXDiscoveryCardView alloc] initWithFrame:superView.bounds];
     cardView.delegate = self;
-    cardView.tag = 1;
+    cardView.tag = 10;
     [superView addSubview:cardView];
     return cardView;
 }
@@ -94,6 +95,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
+    NSLog(@"%s------------%@----tag:%@", __func__, NSStringFromClass([view class]), NSStringFromClass([(HXDiscoveryCardView *)[view viewWithTag:10] class]));
     if (index < _dataSoure.count) {
         ShareItem *item = _dataSoure[index];
         if (item.placeHolder) {
@@ -107,7 +109,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
                 cardView = [self setUpCard:view];
             } else {
                 //get a reference to the label in the recycled view
-                cardView = (HXDiscoveryCardView *)[view viewWithTag:1];
+                cardView = (HXDiscoveryCardView *)[view viewWithTag:10];
             }
             [cardView displayWithItem:_dataSoure[index]];
         }
