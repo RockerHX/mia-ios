@@ -120,7 +120,7 @@ HXXibImplementation
     [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil];
     
     MusicItem *musicItem = item.music;
-    [_cover sd_setImageWithURL:[NSURL URLWithString:musicItem.purl] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
+    [_cover sd_setImageWithURL:[NSURL URLWithString:musicItem.purl]];
     _songNameLabel.text = musicItem.name;
     _singerNameLabel.text = musicItem.singerName;
 }

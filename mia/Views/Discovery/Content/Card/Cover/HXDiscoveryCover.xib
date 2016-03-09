@@ -24,6 +24,7 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2U2-sO-h5F" userLabel="音乐封面">
                     <rect key="frame" x="0.0" y="0.0" width="260" height="260"/>
+                    <color key="backgroundColor" red="0.89411764705882346" green="0.90980392156862744" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-MaskBG" translatesAutoresizingMaskIntoConstraints="NO" id="IqH-MH-7nG" userLabel="Mask View">
                     <rect key="frame" x="0.0" y="0.0" width="260" height="260"/>

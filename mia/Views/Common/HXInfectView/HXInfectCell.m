@@ -39,7 +39,7 @@
 
 #pragma mark - Public Methods
 - (void)displayWithInfecter:(InfectUserItem *)infecter {
-    [_avatar sd_setImageWithURL:[NSURL URLWithString:infecter.avatar] placeholderImage:nil];
+    [_avatar sd_setImageWithURL:[NSURL URLWithString:infecter.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
 }
 
 @end
