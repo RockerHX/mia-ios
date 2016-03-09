@@ -49,7 +49,7 @@
     _stepNumber = 0;
     _isAnimating = NO;
     self.hidesWhenStopped = YES;
-    self.color = [UIColor colorWithRed:241.0f/255.0f green:196.0f/255.0f blue:15.0f/255.0f alpha:1.0];
+    self.color = [UIColor colorWithRed:11.0f/255.0f green:208.0f/255.0f blue:188.0f/255.0f alpha:1.0f];
     
     _dotRadius = frame.size.height <= frame.size.width ? frame.size.width/12 : frame.size.height/12;
     _firstPoint = CGRectMake(frame.size.width/4-_dotRadius, frame.size.height/2-_dotRadius, 2*_dotRadius, 2*_dotRadius);
