@@ -88,6 +88,7 @@ NSString * const kDefaultShareID = @"0";
 
 	[aCoder encodeBool:self.favorite forKey:@"favorite"];
 	[aCoder encodeBool:self.isInfected forKey:@"isInfected"];
+	[aCoder encodeBool:self.placeHolder forKey:@"placeHolder"];
 }
 
 //将对象解码(反序列化)
@@ -118,6 +119,7 @@ NSString * const kDefaultShareID = @"0";
 
 		self.favorite = [aDecoder decodeBoolForKey:@"favorite"];
 		self.isInfected = [aDecoder decodeBoolForKey:@"isInfected"];
+		self.placeHolder = [aDecoder decodeBoolForKey:@"placeHolder"];
 	}
 
 	return (self);
