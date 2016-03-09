@@ -76,6 +76,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 - (HXDiscoveryPlaceHolderCardView *)setupPlaceHolderCard:(UIView *)superView {
     HXDiscoveryPlaceHolderCardView *cardView = [[HXDiscoveryPlaceHolderCardView alloc] initWithFrame:superView.bounds];
     cardView.delegate = self;
+    cardView.tag = 10;
     [superView addSubview:cardView];
     return cardView;
 }
@@ -83,7 +84,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 - (HXDiscoveryCardView *)setUpCard:(UIView *)superView {
     HXDiscoveryCardView *cardView = [[HXDiscoveryCardView alloc] initWithFrame:superView.bounds];
     cardView.delegate = self;
-    cardView.tag = 1;
+    cardView.tag = 10;
     [superView addSubview:cardView];
     return cardView;
 }
@@ -94,26 +95,27 @@ HXDiscoveryPlaceHolderCardViewDelegate
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    if (index < _dataSoure.count) {
-        ShareItem *item = _dataSoure[index];
-        if (item.placeHolder) {
+    ShareItem *item = _dataSoure[index];
+    if (item.placeHolder) {
+        view = [self setupCarouselCard:carousel];
+        [self setupPlaceHolderCard:view];
+    } else {
+        HXDiscoveryCardView *cardView = nil;
+        if (!view) {
             view = [self setupCarouselCard:carousel];
-            [self setupPlaceHolderCard:view];
+            cardView = [self setUpCard:view];
         } else {
-            HXDiscoveryCardView *cardView = nil;
-            //create new view if no view is available for recycling
-            if (!view) {
+            UIView *card = [view viewWithTag:10];
+            if ([card isKindOfClass:[HXDiscoveryCardView class]]) {
+                cardView = (HXDiscoveryCardView *)card;
+            } else {
                 view = [self setupCarouselCard:carousel];
                 cardView = [self setUpCard:view];
-            } else {
-                //get a reference to the label in the recycled view
-                cardView = (HXDiscoveryCardView *)[view viewWithTag:1];
             }
-            [cardView displayWithItem:_dataSoure[index]];
         }
-    } else {
-        NSLog(@"%s", __func__);
+        [cardView displayWithItem:_dataSoure[index]];
     }
+    
     return view;
 }
 
