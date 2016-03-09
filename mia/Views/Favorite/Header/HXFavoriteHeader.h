@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, HXFavoriteHeaderAction) {
 @property (nonatomic, weak) IBOutlet      id  <HXFavoriteHeaderDelegate>delegate;
 @property (nonatomic, weak) IBOutlet UILabel *countLabel;
 
-@property (nonatomic, assign) NSInteger favoriteCount;
+- (void)setFavoriteCount:(NSInteger)favoriteCount cachedCount:(NSInteger)cachedCount;
 
 - (IBAction)shufflePlayViewTaped;
 - (IBAction)multipleSelectedViewTaped;
