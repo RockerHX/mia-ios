@@ -88,9 +88,9 @@
                     </connections>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBP-ye-QIy" userLabel="Play Button">
-                    <rect key="frame" x="113" y="112" width="35" height="35"/>
-                    <state key="normal" image="CM-PlayIcon"/>
-                    <state key="selected" image="CM-PauseIcon"/>
+                    <rect key="frame" x="103" y="102" width="55" height="55"/>
+                    <state key="normal" image="D-PlayIcon"/>
+                    <state key="selected" image="D-PauseIcon"/>
                     <connections>
                         <action selector="playAction" destination="-1" eventType="touchUpInside" id="OW0-8c-EyZ"/>
                     </connections>
@@ -149,8 +149,8 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="CM-PauseIcon" width="35" height="35"/>
-        <image name="CM-PlayIcon" width="35" height="35"/>
         <image name="D-MaskBG" width="325" height="325"/>
+        <image name="D-PauseIcon" width="55" height="55"/>
+        <image name="D-PlayIcon" width="55" height="55"/>
     </resources>
 </document>
