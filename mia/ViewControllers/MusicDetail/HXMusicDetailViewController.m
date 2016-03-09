@@ -239,10 +239,6 @@ HXMusicDetailContainerViewControllerDelegate
     }];
 }
 
-- (void)shouldLogin {
-#warning @andy
-}
-
 #pragma mark - HXMusicDetailContainerViewControllerDelegate Methods
 - (void)containerViewControllerAtComment:(HXMusicDetailContainerViewController *)container at:(HXComment *)comment {
     [self.view endEditing:YES];
