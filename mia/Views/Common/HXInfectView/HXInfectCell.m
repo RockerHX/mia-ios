@@ -39,7 +39,27 @@
 
 #pragma mark - Public Methods
 - (void)displayWithInfecter:(InfectUserItem *)infecter {
-    [_avatar sd_setImageWithURL:[NSURL URLWithString:infecter.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
+    _avatar.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+    __weak __typeof__(self)weakSelf = self;
+    [_avatar sd_setImageWithURL:[NSURL URLWithString:infecter.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"] options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [self showImageAnimationOnImageView:strongSelf.avatar image:image];
+    }];
+}
+
+#pragma mark - Private Methods
+- (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
+    [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        _avatar.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+            _avatar.transform = CGAffineTransformMakeScale(0.8f, 0.8f);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+                _avatar.transform = CGAffineTransformIdentity;
+            } completion:nil];
+        }];
+    }];
 }
 
 @end

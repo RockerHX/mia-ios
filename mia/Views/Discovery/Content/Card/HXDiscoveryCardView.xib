@@ -34,7 +34,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgq-mw-184" userLabel="Share Content View">
-                    <rect key="frame" x="15" y="335" width="290" height="86"/>
+                    <rect key="frame" x="15" y="335" width="290" height="42"/>
                     <subviews>
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BBC要按照基本法来拍纪录片，这次做的很好，我很欣慰，他们以前还too young，不知道裤子要提多高，我和他们谈笑风生之后，他们总算是明白了一些人生哲理" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Wib-Wl-9pg" customClass="TTTAttributedLabel">
                             <rect key="frame" x="0.0" y="0.0" width="290" height="42"/>
@@ -65,7 +65,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMu-t3-LtB" userLabel="Infecter View" customClass="HXInfectView">
-                    <rect key="frame" x="15" y="433" width="290" height="32"/>
+                    <rect key="frame" x="15" y="391" width="290" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                     <constraints>
@@ -76,7 +76,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFm-6C-XzL" userLabel="Favorite View">
-                    <rect key="frame" x="15" y="477" width="290" height="32"/>
+                    <rect key="frame" x="15" y="435" width="290" height="32"/>
                     <subviews>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-FavoriteIcon" translatesAutoresizingMaskIntoConstraints="NO" id="TPV-BU-Fvz">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -104,7 +104,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0i-8S-rZK" userLabel="Comment Container View">
-                    <rect key="frame" x="15" y="521" width="290" height="32"/>
+                    <rect key="frame" x="15" y="479" width="290" height="32"/>
                     <subviews>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-CommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="CqQ-VA-ehL">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -191,7 +191,7 @@
                 <constraint firstItem="S0i-8S-rZK" firstAttribute="top" secondItem="nFm-6C-XzL" secondAttribute="bottom" constant="12" id="UMw-FC-zZv"/>
                 <constraint firstItem="KMu-t3-LtB" firstAttribute="leading" secondItem="nFm-6C-XzL" secondAttribute="leading" id="WP4-et-LSc"/>
                 <constraint firstAttribute="trailing" secondItem="ZlF-TJ-5uI" secondAttribute="trailing" id="bGb-3S-DR8"/>
-                <constraint firstItem="KMu-t3-LtB" firstAttribute="top" secondItem="cgq-mw-184" secondAttribute="bottom" constant="12" id="dBR-gk-RJP"/>
+                <constraint firstItem="KMu-t3-LtB" firstAttribute="top" secondItem="cgq-mw-184" secondAttribute="bottom" constant="14" id="dBR-gk-RJP"/>
                 <constraint firstItem="S0i-8S-rZK" firstAttribute="leading" secondItem="X5g-lg-Nqm" secondAttribute="leading" constant="15" id="kFM-pR-eaD"/>
                 <constraint firstItem="nFm-6C-XzL" firstAttribute="top" secondItem="KMu-t3-LtB" secondAttribute="bottom" constant="12" id="sGq-KA-rqf"/>
                 <constraint firstItem="cgq-mw-184" firstAttribute="trailing" secondItem="KMu-t3-LtB" secondAttribute="trailing" id="yyd-8e-Thj"/>
