@@ -159,7 +159,7 @@
                                                                 <constraint firstItem="WGq-21-XIL" firstAttribute="top" secondItem="in1-f4-54f" secondAttribute="top" id="uRl-wr-nMN"/>
                                                             </constraints>
                                                         </view>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8C3-gk-VoM">
+                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8C3-gk-VoM">
                                                             <rect key="frame" x="33" y="33" width="35" height="35"/>
                                                             <state key="normal" image="CM-PlayIcon"/>
                                                             <state key="selected" image="CM-PauseIcon"/>
