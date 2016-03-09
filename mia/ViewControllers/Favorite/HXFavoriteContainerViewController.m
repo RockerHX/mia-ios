@@ -50,7 +50,7 @@ HXFavoriteEditViewControllerDelegate
     
     _playIndex = -1;
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
-    _header.favoriteCount = _favoriteLists.count;
+	[_header setFavoriteCount:_favoriteLists.count cachedCount:[FavoriteMgr standard].cachedCount];
     [FavoriteMgr standard].customDelegate = self;
 
 	[[FavoriteMgr standard] syncFavoriteList];
@@ -90,8 +90,8 @@ HXFavoriteEditViewControllerDelegate
 
 - (void)dataSysnc {
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
-    
-    _header.favoriteCount = _favoriteLists.count;
+
+	[_header setFavoriteCount:_favoriteLists.count cachedCount:[FavoriteMgr standard].cachedCount];
     self.view.hidden = !_favoriteLists.count;
     [self.tableView reloadData];
 }

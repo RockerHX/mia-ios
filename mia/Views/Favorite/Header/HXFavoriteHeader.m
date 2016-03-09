@@ -14,9 +14,8 @@
 HXXibImplementation
 
 #pragma mark - Property
-- (void)setFavoriteCount:(NSInteger)favoriteCount {
-    _favoriteCount = favoriteCount;
-    _countLabel.text = [NSString stringWithFormat:@"%@首", @(favoriteCount)];
+- (void)setFavoriteCount:(NSInteger)favoriteCount cachedCount:(NSInteger)cachedCount {
+    _countLabel.text = [NSString stringWithFormat:@"%@首, %@首已下载", @(favoriteCount), @(cachedCount)];
 }
 
 #pragma mark - Event Response
