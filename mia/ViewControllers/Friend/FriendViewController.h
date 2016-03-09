@@ -11,6 +11,14 @@
 
 @class FriendItem;
 
+@protocol FriendViewControllerDelegate <NSObject>
+
+@optional
+- (void)friendViewControllerActionDismiss;
+
+@end
+
+
 @interface FriendViewController : UIViewController
 
 - (instancetype)initWithType:(UserListViewType)type
@@ -18,6 +26,8 @@
                          uID:(NSString *)uID
                    fansCount:(NSUInteger)fansCount
               followingCount:(NSUInteger)followingCount;
+
+@property (weak, nonatomic)id<FriendViewControllerDelegate> delegate;
 
 @end
 

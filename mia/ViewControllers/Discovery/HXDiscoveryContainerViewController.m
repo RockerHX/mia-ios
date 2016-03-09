@@ -192,7 +192,6 @@ HXDiscoveryPlaceHolderCardViewDelegate
         case HXDiscoveryCardViewActionShowDetailAndComment: {
             HXMusicDetailViewController *detailViewController = [HXMusicDetailViewController instance];
             detailViewController.playItem = self.currentItem;
-            detailViewController.showKeyboard = YES;
             [self.navigationController pushViewController:detailViewController animated:YES];
             return;
             break;
