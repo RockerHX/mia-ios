@@ -53,9 +53,9 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]]];
 		if (!aMgr) {
 			aMgr = [[self alloc] init];
+		} else {
+			[aMgr loadConfig];
 		}
-
-		[aMgr loadConfig];
     });
     return aMgr;
 }
