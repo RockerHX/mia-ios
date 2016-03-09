@@ -121,6 +121,10 @@ HXDiscoveryContainerViewControllerDelegate
     }
     
     _shareListMgr = [ShareListMgr initFromArchive];
+	if (_shareListMgr.shareList.count > 0) {
+		[self reloadShareList];
+	}
+
     if ([_shareListMgr isNeedGetNearbyItems]) {
         [self fetchNewShares];
     } else {
