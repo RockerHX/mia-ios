@@ -44,20 +44,20 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9QV-6m-qMn" userLabel="Mask View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="P-MaskBG-Bottom" translatesAutoresizingMaskIntoConstraints="NO" id="ShB-E8-7qB">
-                                        <rect key="frame" x="0.0" y="355" width="320" height="213"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="ShB-E8-7qB" secondAttribute="height" multiplier="3:2" id="VsS-za-Jy5"/>
-                                        </constraints>
-                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="P-MaskBG-Top" translatesAutoresizingMaskIntoConstraints="NO" id="T40-CS-g8y">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="213"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="T40-CS-g8y" secondAttribute="height" multiplier="3:2" id="nmN-aX-jlr"/>
                                         </constraints>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="P-MaskBG-Bottom" translatesAutoresizingMaskIntoConstraints="NO" id="ShB-E8-7qB">
+                                        <rect key="frame" x="0.0" y="355" width="320" height="213"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="ShB-E8-7qB" secondAttribute="height" multiplier="3:2" id="VsS-za-Jy5"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="T40-CS-g8y" firstAttribute="leading" secondItem="9QV-6m-qMn" secondAttribute="leading" id="Igy-4r-f0K"/>
                                     <constraint firstAttribute="trailing" secondItem="ShB-E8-7qB" secondAttribute="trailing" id="NLe-Yw-u9A"/>
