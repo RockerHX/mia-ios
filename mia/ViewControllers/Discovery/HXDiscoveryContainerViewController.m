@@ -90,7 +90,7 @@ HXDiscoveryPlaceHolderCardViewDelegate
 
 #pragma mark - iCarousel Data Source Methods
 - (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return _dataSoure.count + 1;
+    return _dataSoure.count;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
@@ -111,6 +111,8 @@ HXDiscoveryPlaceHolderCardViewDelegate
             }
             [cardView displayWithItem:_dataSoure[index]];
         }
+    } else {
+        NSLog(@"%s", __func__);
     }
     return view;
 }

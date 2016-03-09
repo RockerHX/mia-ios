@@ -25,6 +25,7 @@
 - (BOOL)isEnd;
 
 - (void)addSharesWithArray:(NSArray *)shareList;
+- (void)addPlaceHolder;
 - (BOOL)checkHistoryItemsMaxCount;
 
 - (void)cleanUserState;
