@@ -158,8 +158,12 @@ FriendViewControllerDelegate
              NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];
              HXProfileHeaderModel *model = [HXProfileHeaderModel mj_objectWithKeyValues:data];
              [_detailContainerViewController.header displayWithHeaderModel:model];
-             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
              [_navigationBar setTitle:model.nickName];
+             __weak __typeof__(self)weakSelf = self;
+             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                 __strong __typeof__(self)strongSelf = weakSelf;
+                 [strongSelf showImageAnimationOnImageView:strongSelf->_coverContainerViewController.avatarBG image:image];
+             }];
              
              _fansCount = [model.fansCount integerValue];
              _followCount = [model.followCount integerValue];
@@ -202,6 +206,15 @@ FriendViewControllerDelegate
 //
 //
 //	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0) || !_type];
+}
+
+- (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
+    [UIView transitionWithView:imageView
+                      duration:1.0f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        imageView.image = image;
+                    } completion:nil];
 }
 
 #pragma mark - HXMeDetailContainerViewControllerDelegate Methods
