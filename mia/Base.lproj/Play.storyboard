@@ -179,7 +179,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="59"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Td5-8D-rN2">
-                                                    <rect key="frame" x="20" y="21" width="10" height="18"/>
+                                                    <rect key="frame" x="20" y="12" width="10" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -187,7 +187,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="Td5-8D-rN2" firstAttribute="centerY" secondItem="em2-1T-3si" secondAttribute="centerY" id="2px-rY-pzn"/>
                                                 <constraint firstItem="Td5-8D-rN2" firstAttribute="centerX" secondItem="em2-1T-3si" secondAttribute="centerX" id="C2a-0n-WYj"/>
                                                 <constraint firstAttribute="width" constant="50" id="x6r-FE-JnA"/>
                                             </constraints>
@@ -205,6 +204,7 @@
                                         <constraint firstAttribute="trailing" secondItem="RMI-od-34h" secondAttribute="trailing" constant="12" id="JhO-2k-tmH"/>
                                         <constraint firstItem="RMI-od-34h" firstAttribute="leading" secondItem="em2-1T-3si" secondAttribute="trailing" id="MSt-on-Gg2"/>
                                         <constraint firstAttribute="bottom" secondItem="em2-1T-3si" secondAttribute="bottom" id="OgN-jg-9Oo"/>
+                                        <constraint firstItem="Td5-8D-rN2" firstAttribute="centerY" secondItem="RMI-od-34h" secondAttribute="centerY" id="V2N-wJ-I5q"/>
                                         <constraint firstItem="RMI-od-34h" firstAttribute="top" secondItem="zgr-9k-4Wu" secondAttribute="top" constant="12" id="XcF-Sr-K4F"/>
                                         <constraint firstItem="7My-Jm-J5h" firstAttribute="leading" secondItem="RMI-od-34h" secondAttribute="leading" id="hib-Qc-v5t"/>
                                         <constraint firstItem="em2-1T-3si" firstAttribute="top" secondItem="zgr-9k-4Wu" secondAttribute="top" id="pPD-Hb-ahT"/>

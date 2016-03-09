@@ -9,13 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
 
+
 typedef NS_ENUM(NSUInteger, HXMeShareCellAction) {
     HXMeShareCellActionPlay,
     HXMeShareCellActionFavorite,
     HXMeShareCellActionDelete
 };
 
+
+@class TTTAttributedLabel;
 @class HXMeShareCell;
+
 
 @protocol HXMeShareCellDelegate <NSObject>
 
@@ -24,21 +28,21 @@ typedef NS_ENUM(NSUInteger, HXMeShareCellAction) {
 
 @end
 
+
 @interface HXMeShareCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet         id  <HXMeShareCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet     UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UIImageView *cover;
-@property (weak, nonatomic) IBOutlet     UILabel *songLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *singerLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *favoriteButton;
-@property (weak, nonatomic) IBOutlet     UILabel *viewCountLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *commentCountLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *deleteButton;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *titleLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *playButton;
+@property (weak, nonatomic) IBOutlet        UIImageView *cover;
+@property (weak, nonatomic) IBOutlet            UILabel *songLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *singerLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet            UILabel *viewCountLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *deleteButton;
 
 @property (nonatomic, assign) BOOL favorite;
 

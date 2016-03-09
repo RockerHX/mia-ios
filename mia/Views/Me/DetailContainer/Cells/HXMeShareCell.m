@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIConstants.h"
 #import "MusicMgr.h"
+#import "TTTAttributedLabel.h"
 
 @implementation HXMeShareCell {
     __weak ShareItem *_shareItem;
@@ -78,27 +79,17 @@
     self.favorite = item.favorite;
     [_cover sd_setImageWithURL:[NSURL URLWithString:item.music.purl]];
     
-    _descriptionLabel.text = item.formatTime;
+    _titleLabel.text = item.sNote;
     _songLabel.text = item.music.name;
     _singerLabel.text = item.music.singerName;
     _viewCountLabel.text = @(item.cView).stringValue;
     _commentCountLabel.text = @(item.cComm).stringValue;
 	_dateLabel.text = item.formatTime;
 
-    [self displayTitle:item.sNote];
     [self updatePlayState];
 }
 
 #pragma mark - Private Methods
-- (void)displayTitle:(NSString *)title {
-    _titleLabel.text = title;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:_titleLabel.attributedText];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:4.0f];
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [title length])];
-    _titleLabel.attributedText = attributedString;
-}
-
 - (void)updatePlayState {
     MusicMgr *musicMgr = [MusicMgr standard];
     if ([musicMgr isPlayingWithUrl:_shareItem.music.murl]) {
