@@ -93,6 +93,10 @@ static const long kUserListPageCount = 10;
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
+
+	if (_delegate && [_delegate respondsToSelector:@selector(friendViewControllerActionDismiss)]) {
+		[_delegate friendViewControllerActionDismiss];
+	}
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -530,9 +534,6 @@ static const long kUserListPageCount = 10;
 
 - (void)backButtonAction:(id)sender {
 	[self.navigationController popViewControllerAnimated:YES];
-	if (_delegate && [_delegate respondsToSelector:@selector(friendViewControllerActionDismiss)]) {
-		[_delegate friendViewControllerActionDismiss];
-	}
 }
 
 - (void)cancelButtonAction:(id)sender {
