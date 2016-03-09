@@ -20,6 +20,7 @@
 #import "UpdateHelper.h"
 #import "FileLog.h"
 #import "HXGuideView.h"
+#import "LocationMgr.h"
 
 @interface HXMainViewController () <
 UITabBarControllerDelegate,
@@ -34,8 +35,11 @@ HXLoginViewControllerDelegate
     [super viewDidAppear:animated];
     
     if ([HXGuideView shouldShow]) {
-        [HXGuideView showGuide:nil];
-    }
+        [HXGuideView showGuide:^{
+			[[LocationMgr standard] initLocationMgr];
+			[[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
+		}];
+	}
 }
 
 - (void)viewDidLoad {

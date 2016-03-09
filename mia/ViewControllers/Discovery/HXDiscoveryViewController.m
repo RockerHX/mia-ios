@@ -22,6 +22,7 @@
 #import "HXUserSession.h"
 #import "HXAlertBanner.h"
 #import "HXMusicDetailViewController.h"
+#import "HXGuideView.h"
 
 @interface HXDiscoveryViewController () <
 HXDiscoveryHeaderDelegate,
@@ -81,9 +82,12 @@ HXDiscoveryContainerViewControllerDelegate
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     [[WebSocketMgr standard] watchNetworkStatus];
-    [[LocationMgr standard] initLocationMgr];
-    [[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
-    
+
+	if (![HXGuideView shouldShow]) {
+		[[LocationMgr standard] initLocationMgr];
+		[[LocationMgr standard] startUpdatingLocationWithOnceBlock:nil];
+	}
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
