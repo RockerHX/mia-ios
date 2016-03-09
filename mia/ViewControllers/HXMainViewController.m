@@ -192,22 +192,35 @@ HXLoginViewControllerDelegate
     HXLoginViewController *loginViewController = loginNavigationController.viewControllers.firstObject;
     loginViewController.delegate = self;
     
-    [self transitionAnimationOnView:loginViewController.view duration:0.4f type:kCATransitionMoveIn subtype:kCATransitionFromRight];
-    [self.view addSubview:loginViewController.view];
-    [self addChildViewController:loginViewController];
-    
+    __weak __typeof__(self)weakSelf = self;
+    [self transitionAnimationWithDuration:0.3f type:kCATransitionMoveIn subtype:kCATransitionFromRight transiteCode:^{
+        __strong __typeof__(self)strongSelf = weakSelf;
+        [strongSelf presentViewController:loginNavigationController animated:NO completion:nil];
+    }];
 }
 
-- (CATransition *)transitionAnimationOnView:(UIView *)view duration:(CFTimeInterval)duration type:(NSString *)type subtype:(NSString *)subtype {
-    CATransition *animation = [CATransition animation];
-    animation.duration = duration;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    animation.fillMode = kCAFillModeForwards;
-    animation.type = type;
-    animation.subtype = subtype;
-    [view.layer addAnimation:animation forKey:@"animation"];
-    
-    return animation;
+- (void)transitionAnimationWithDuration:(CFTimeInterval)duration type:(NSString *)type subtype:(NSString *)subtype transiteCode:(void(^)(void))transiteCode {
+    if (transiteCode) {
+        [CATransaction begin];
+        
+        CATransition *transition = [CATransition animation];
+        transition.duration = duration;
+        transition.type = type;
+        transition.subtype = subtype;
+        transition.fillMode = kCAFillModeForwards;
+        
+        [[UIApplication sharedApplication].keyWindow.layer addAnimation:transition forKey:kCATransition];
+        [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+        [CATransaction setCompletionBlock: ^ {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(transition.duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
+                [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+            });
+        }];
+        
+        transiteCode();
+        
+        [CATransaction commit];
+    }
 }
 
 - (void)logoutEventAction {
@@ -252,21 +265,21 @@ HXLoginViewControllerDelegate
 
 #pragma mark - HXLoginViewControllerDelegate Methods
 - (void)loginViewController:(HXLoginViewController *)loginViewController takeAction:(HXLoginViewControllerAction)action {
-    [loginViewController.view removeFromSuperview];
-    [loginViewController removeFromParentViewController];
     switch (action) {
         case HXLoginViewControllerActionDismiss: {
-            [self transitionAnimationOnView:self.view duration:0.5f type:kCATransitionReveal subtype:kCATransitionFromLeft];
             break;
         }
         case HXLoginViewControllerActionLoginSuccess: {
             HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
             [discoveryViewController refreshShareItem];
             [self updateNotificationBadge];
-            [self transitionAnimationOnView:self.view duration:0.5f type:kCATransitionReveal subtype:kCATransitionFromLeft];
             break;
         }
     }
+    
+    [self transitionAnimationWithDuration:0.3f type:kCATransitionReveal subtype:kCATransitionFromLeft transiteCode:^{
+        [loginViewController dismissViewControllerAnimated:NO completion:nil];
+    }];
 }
 
 @end

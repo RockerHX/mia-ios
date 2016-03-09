@@ -45,7 +45,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZ6-6a-j00">
-                                <rect key="frame" x="0.0" y="20" width="44" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="PA0-4t-bd6"/>
                                     <constraint firstAttribute="width" secondItem="GZ6-6a-j00" secondAttribute="height" multiplier="1:1" id="i3P-35-jPI"/>
@@ -196,7 +196,7 @@
                             <constraint firstItem="ec2-Wv-1IY" firstAttribute="top" secondItem="TFN-mw-K2y" secondAttribute="bottom" constant="60" id="YnP-xe-nAB"/>
                             <constraint firstAttribute="trailing" secondItem="Dde-Ct-cGn" secondAttribute="trailing" constant="-40" id="Zwb-QT-I05"/>
                             <constraint firstItem="SJc-6Q-mb8" firstAttribute="top" secondItem="MgH-Sh-6z1" secondAttribute="top" id="aD5-95-pzB"/>
-                            <constraint firstItem="GZ6-6a-j00" firstAttribute="top" secondItem="BpJ-J0-J5r" secondAttribute="bottom" constant="20" id="ax1-ko-NP4"/>
+                            <constraint firstItem="GZ6-6a-j00" firstAttribute="top" secondItem="BpJ-J0-J5r" secondAttribute="bottom" id="ax1-ko-NP4"/>
                             <constraint firstItem="61s-lC-Toq" firstAttribute="width" secondItem="TFN-mw-K2y" secondAttribute="width" id="bpv-v4-flZ"/>
                             <constraint firstItem="SJc-6Q-mb8" firstAttribute="leading" secondItem="MgH-Sh-6z1" secondAttribute="leading" id="fFO-pD-LKs"/>
                             <constraint firstItem="Dde-Ct-cGn" firstAttribute="centerY" secondItem="MgH-Sh-6z1" secondAttribute="centerY" multiplier="0.5" id="hUw-Pp-3C7"/>
