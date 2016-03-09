@@ -16,7 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet HXDiscoveryHeader *header;
 
-- (void)fetchShareList;
+- (void)loadShareList;
 - (void)refreshShareItem;
 
 @end

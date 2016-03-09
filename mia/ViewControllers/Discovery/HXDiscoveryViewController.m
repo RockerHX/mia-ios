@@ -114,7 +114,7 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 #pragma mark - Public Methods
-- (void)fetchShareList {
+- (void)loadShareList {
     if (_shareListMgr) {
         NSLog(@"auto reconnect did not need to reload data.");
         return;
@@ -365,6 +365,7 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionRefresh: {
+            [self fetchNewShares];
             break;
         }
     }

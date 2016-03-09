@@ -110,7 +110,7 @@ HXLoginViewControllerDelegate
             [self autoLogin];
             
             HXDiscoveryViewController *discoveryViewController = [((UINavigationController *)[self.viewControllers firstObject]).viewControllers firstObject];
-            [discoveryViewController fetchShareList];
+            [discoveryViewController loadShareList];
         } else {
             [self autoReconnect];
         }
