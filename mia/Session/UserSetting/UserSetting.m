@@ -75,6 +75,10 @@ NSString * const kLocalFilePrefix 					= @"file://";
 	}
 }
 
++ (NSString *)pathWithPrefix:(NSString *)orgPath {
+	return [NSString stringWithFormat:@"file://%@", orgPath];
+}
+
 + (NSString *)pathWithoutPrefix:(NSString *)orgPath {
 	if (![self isLocalFilePrefix:orgPath]) {
 		return orgPath;

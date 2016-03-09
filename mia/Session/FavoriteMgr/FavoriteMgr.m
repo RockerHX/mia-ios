@@ -16,6 +16,7 @@
 #import "FileLog.h"
 #import "HXUserSession.h"
 #import "UserSetting.h"
+#import "MusicMgr.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -226,6 +227,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSString *filename = [PathHelper genMusicFilenameWithUrl:url];
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
+
+	if ([[MusicMgr standard] isPlayingWithUrl:[UserSetting pathWithPrefix:filename]]) {
+		[[MusicMgr standard] playNext];
+	}
 }
 
 - (void)downloadFavorite {
@@ -427,7 +432,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request
 																	 progress:nil
 																  destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-																	  return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@", savePath]];
+																	  return [NSURL URLWithString:[UserSetting pathWithPrefix:savePath]];
 																  } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
 																	  if (completeBlock) {
 																		  completeBlock(response, filePath, error);

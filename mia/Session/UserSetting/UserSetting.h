@@ -25,6 +25,7 @@ extern NSString * const UserDefaultsKey_AutoPlay;
 + (BOOL)isAllowedToPlayNowWithURL:(NSString *)url;
 
 + (BOOL)isLocalFilePrefix:(NSString *)path;
++ (NSString *)pathWithPrefix:(NSString *)orgPath;
 + (NSString *)pathWithoutPrefix:(NSString *)orgPath;
 
 @end
