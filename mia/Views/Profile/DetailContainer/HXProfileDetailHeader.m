@@ -95,6 +95,7 @@ HXXibImplementation
 
 #pragma mark - Private Methods
 - (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
+    image = image ?: [UIImage imageNamed:@"C-AvatarDefaultIcon"];
     [UIView transitionWithView:imageView
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionCrossDissolve

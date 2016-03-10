@@ -28,7 +28,7 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R0N-UP-ARd" customClass="HXIBImageView">
                     <rect key="frame" x="145" y="79" width="86" height="86"/>
-                    <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="R0N-UP-ARd" secondAttribute="height" multiplier="1:1" id="dQZ-oK-c8U"/>
                         <constraint firstAttribute="width" constant="86" id="mCe-xc-kSV"/>
