@@ -128,7 +128,7 @@ HXXibImplementation
     UserItem *userItem = isShare ? item.shareUser : item.spaceUser;
     _cardUserLabel.text = userItem.nick;
     _cardPromptLabel.text = (isShare ? @" 分享" : @" 妙推");
-    [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:nil];
+    [_cardUserAvatar sd_setImageWithURL:[NSURL URLWithString:userItem.userpic] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
     
     MusicItem *musicItem = item.music;
     [_cover sd_setImageWithURL:[NSURL URLWithString:musicItem.purl]];
