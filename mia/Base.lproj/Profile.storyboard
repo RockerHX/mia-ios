@@ -351,29 +351,21 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DjY-4O-T5w">
                                 <rect key="frame" x="-30" y="-30" width="380" height="598"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6K0-nc-Gow" customClass="FXBlurView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eh7-Yp-7nF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.89411764709999997" green="0.90980392160000001" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="DjY-4O-T5w" secondAttribute="trailing" constant="-30" id="0IH-Dj-B94"/>
                             <constraint firstItem="DjY-4O-T5w" firstAttribute="top" secondItem="5vN-if-7CW" secondAttribute="top" constant="-30" id="1mI-rO-J5x"/>
-                            <constraint firstAttribute="trailing" secondItem="6K0-nc-Gow" secondAttribute="trailing" id="3bf-9H-4Ru"/>
                             <constraint firstItem="DjY-4O-T5w" firstAttribute="leading" secondItem="5vN-if-7CW" secondAttribute="leading" constant="-30" id="4PK-xm-5Hp"/>
                             <constraint firstItem="Eh7-Yp-7nF" firstAttribute="top" secondItem="5vN-if-7CW" secondAttribute="top" id="5nY-fU-NR9"/>
                             <constraint firstAttribute="trailing" secondItem="Eh7-Yp-7nF" secondAttribute="trailing" id="8aJ-F8-c5L"/>
                             <constraint firstItem="TFI-27-beF" firstAttribute="top" secondItem="DjY-4O-T5w" secondAttribute="bottom" id="Big-hI-wrO"/>
-                            <constraint firstItem="6K0-nc-Gow" firstAttribute="leading" secondItem="5vN-if-7CW" secondAttribute="leading" id="Fcd-qB-El8"/>
-                            <constraint firstItem="Eh7-Yp-7nF" firstAttribute="bottom" secondItem="6K0-nc-Gow" secondAttribute="bottom" id="TET-ii-xKI"/>
-                            <constraint firstItem="6K0-nc-Gow" firstAttribute="bottom" secondItem="DjY-4O-T5w" secondAttribute="bottom" id="is7-at-QD9"/>
+                            <constraint firstItem="TFI-27-beF" firstAttribute="top" secondItem="Eh7-Yp-7nF" secondAttribute="bottom" id="KYm-y0-0zF"/>
                             <constraint firstItem="Eh7-Yp-7nF" firstAttribute="leading" secondItem="5vN-if-7CW" secondAttribute="leading" id="j7d-n1-x7D"/>
-                            <constraint firstItem="6K0-nc-Gow" firstAttribute="top" secondItem="5vN-if-7CW" secondAttribute="top" id="rMr-YJ-hyM"/>
                         </constraints>
                     </view>
                     <connections>
