@@ -68,6 +68,8 @@ HXMusicDetailContainerViewControllerDelegate
 	} else if (_sID) {
 		_viewModel = [[HXMusicDetailViewModel alloc] initWithID:_sID];
 	}
+    
+    [_viewModel reportViews:nil];
 }
 
 - (void)registerNotification {
