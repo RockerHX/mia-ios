@@ -42,7 +42,11 @@ HXXibImplementation
     _sharerLabel.preferredMaxLayoutWidth = self.width - 30.0f;
     
     if ([HXVersion currentModel] == SCDeviceModelTypeIphone5_5S) {
-        _coverHeightConstraint.constant = 226.0f;
+        _cverToShareInfoLabelVerticalSpaceConstraint.constant = 12.0f;
+        _shareInfoLabelToInfectViewVerticalSpaceConstraint.constant = 12.0f;
+        _infectViewToFavoriteViewVerticalSpaceConstraint.constant = 6.0f;
+        _favoriteViewToCommentViewVerticalSpaceConstraint.constant = 0.0f;
+        _commentViewToSuperViewVerticalSpaceConstraint.constant = 8.0f;
     }
 }
 
