@@ -20,14 +20,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="X5g-lg-Nqm">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="531"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-TJ-5uI" customClass="HXDiscoveryCover">
+                <view contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-TJ-5uI" customClass="HXDiscoveryCover">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="ZlF-TJ-5uI" secondAttribute="height" multiplier="1:1" id="kHw-qo-LX1"/>
+                        <constraint firstAttribute="width" secondItem="ZlF-TJ-5uI" secondAttribute="height" multiplier="1:1" id="ost-LC-YNy"/>
                     </constraints>
                     <connections>
                         <outlet property="delegate" destination="-1" id="kVK-U8-tA3"/>
@@ -104,7 +104,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0i-8S-rZK" userLabel="Comment Container View">
-                    <rect key="frame" x="15" y="479" width="290" height="32"/>
+                    <rect key="frame" x="15" y="475" width="290" height="32"/>
                     <subviews>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-CommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="CqQ-VA-ehL">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -185,10 +185,11 @@
                 <constraint firstAttribute="trailing" secondItem="S0i-8S-rZK" secondAttribute="trailing" constant="15" id="5po-hQ-xnL"/>
                 <constraint firstItem="nFm-6C-XzL" firstAttribute="leading" secondItem="S0i-8S-rZK" secondAttribute="leading" id="7ch-U9-0Kq"/>
                 <constraint firstItem="KMu-t3-LtB" firstAttribute="trailing" secondItem="nFm-6C-XzL" secondAttribute="trailing" id="Ar7-tq-OUF"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="S0i-8S-rZK" secondAttribute="bottom" constant="12" id="Cbw-1P-uxi"/>
                 <constraint firstItem="nFm-6C-XzL" firstAttribute="trailing" secondItem="S0i-8S-rZK" secondAttribute="trailing" id="Iwo-pn-BXB"/>
                 <constraint firstItem="ZlF-TJ-5uI" firstAttribute="leading" secondItem="X5g-lg-Nqm" secondAttribute="leading" id="LeP-jZ-Piu"/>
                 <constraint firstItem="cgq-mw-184" firstAttribute="leading" secondItem="KMu-t3-LtB" secondAttribute="leading" id="OEA-Yc-T3N"/>
-                <constraint firstItem="S0i-8S-rZK" firstAttribute="top" secondItem="nFm-6C-XzL" secondAttribute="bottom" constant="12" id="UMw-FC-zZv"/>
+                <constraint firstItem="S0i-8S-rZK" firstAttribute="top" secondItem="nFm-6C-XzL" secondAttribute="bottom" constant="8" id="UMw-FC-zZv"/>
                 <constraint firstItem="KMu-t3-LtB" firstAttribute="leading" secondItem="nFm-6C-XzL" secondAttribute="leading" id="WP4-et-LSc"/>
                 <constraint firstAttribute="trailing" secondItem="ZlF-TJ-5uI" secondAttribute="trailing" id="bGb-3S-DR8"/>
                 <constraint firstItem="KMu-t3-LtB" firstAttribute="top" secondItem="cgq-mw-184" secondAttribute="bottom" constant="14" id="dBR-gk-RJP"/>
@@ -199,7 +200,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="457" y="350"/>
+            <point key="canvasLocation" x="457" y="331.5"/>
         </view>
         <tapGestureRecognizer id="cv0-0w-qFJ" userLabel="Favorite Gesture">
             <connections>
