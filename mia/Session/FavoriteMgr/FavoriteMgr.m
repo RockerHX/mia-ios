@@ -147,6 +147,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	if (completeBlock) {
 		completeBlock(isChanged, deletePlaying, idArray);
 	}
+
+	if (_dataSource.count <= 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
+	}
 }
 
 - (void)removeSelectedItem:(FavoriteItem *)item {
@@ -162,6 +166,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
     
 	[self removeItem:item];
     [self saveData];
+
+	if (_dataSource.count <= 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
+	}
 }
 
 #pragma mark - private method
@@ -176,6 +184,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	if (_customDelegate && [_customDelegate respondsToSelector:@selector(favoriteMgrDidFinishSync)]) {
 		[_customDelegate favoriteMgrDidFinishSync];
+	}
+
+	if (_dataSource.count <= 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
 	}
 
 	_isSyncing = NO;
@@ -229,10 +241,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	if ([[MusicMgr standard] isPlayingWithUrl:[UserSetting pathWithPrefix:filename]]) {
 		[[MusicMgr standard] playNext];
-	}
-
-	if (_dataSource.count <= 0) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
 	}
 }
 
