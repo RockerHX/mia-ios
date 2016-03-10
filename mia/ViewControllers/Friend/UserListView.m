@@ -164,9 +164,14 @@ UserCollectionViewCellDelegate
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	UserCollectionViewCell *cell = (UserCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kUserListViewCellReuseIdentifier
 																											   forIndexPath:indexPath];
-	cell.dataItem = [_customDelegate userListViewModelWithType:_type].dataSource[indexPath.row];
-	cell.indexPath = indexPath;
-	cell.delegate = self;
+
+	if ([_customDelegate userListViewModelWithType:_type].dataSource.count) {
+		cell.dataItem = [_customDelegate userListViewModelWithType:_type].dataSource[indexPath.row];
+		cell.indexPath = indexPath;
+		cell.delegate = self;
+	} else {
+		NSLog(@"UserListView data sync error");
+	}
 
 	return cell;
 }
