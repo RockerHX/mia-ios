@@ -280,10 +280,20 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		{
 			[[FileLog standard] log:@"download %@, %@, error:%@", item.music.name, item.music.murl, error];
 			if (nil == error) {
-				[_dataSource[_currentDownloadIndex] setIsCached:YES];
+				if (_dataSource.count) {
+					[_dataSource[_currentDownloadIndex] setIsCached:YES];
+				} else {
+					NSLog(@"FavoriteMgr downloadTask datasource is empty.");
+				}
+
 				[self saveData];
 			} else {
-				[_dataSource[_currentDownloadIndex] setIsCached:NO];
+				if (_dataSource.count) {
+					[_dataSource[_currentDownloadIndex] setIsCached:NO];
+				} else {
+					NSLog(@"FavoriteMgr downloadTask datasource is empty.");
+				}
+
 				if (filePath) {
 					NSError *fileError;
 					[[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];
