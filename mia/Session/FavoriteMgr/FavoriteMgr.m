@@ -18,6 +18,8 @@
 #import "UserSetting.h"
 #import "MusicMgr.h"
 
+NSString * const FavoriteMgrNotificationKey_EmptyList = @"FavoriteMgrNotificationKey_EmptyList";
+
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
 @interface FavoriteMgr()
@@ -134,8 +136,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 				[_downloadTask cancel];
 			}
 
-			[self deleteCacheFileWithUrl:item.music.murl];
-			[_dataSource removeObject:item];
+			[self removeItem:item];
 		}
 	}
 
@@ -159,9 +160,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
         [_downloadTask cancel];
     }
     
-    [self deleteCacheFileWithUrl:item.music.murl];
-    [_dataSource removeObject:item];
-    
+	[self removeItem:item];
     [self saveData];
 }
 
@@ -203,9 +202,8 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSEnumerator *deleteEnumerator = [_dataSource reverseObjectEnumerator];
 	for (FavoriteItem *item in deleteEnumerator) {
 		if (![self isItemInArray:item array:_tempItems]) {
-			[self deleteCacheFileWithUrl:item.music.murl];
 			item.isCached = NO;
-			[_dataSource removeObject:item];
+			[self removeItem:item];
 			hasDataChanged = YES;
 		}
 	}
@@ -221,6 +219,15 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	_tempItems = nil;
 	return hasDataChanged;
+}
+
+- (void)removeItem:(FavoriteItem *)item {
+	[self deleteCacheFileWithUrl:item.music.murl];
+	[_dataSource removeObject:item];
+
+	if (_dataSource.count <= 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
+	}
 }
 
 - (void)deleteCacheFileWithUrl:(NSString *)url {

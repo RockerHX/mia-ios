@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "FavoriteItem.h"
 
+extern NSString * const FavoriteMgrNotificationKey_EmptyList;
+
 @protocol FavoriteMgrDelegate <NSObject>
 
 @optional
