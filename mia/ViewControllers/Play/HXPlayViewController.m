@@ -117,6 +117,14 @@ HXPlayListViewControllerDelegate
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);
     
+    NSInteger nextIndex = _musicMgr.currentIndex + 1;
+    if (nextIndex < _musicMgr.playList.count) {
+        ShareItem *nextItem = _musicMgr.playList[nextIndex];
+        if (nextItem.placeHolder) {
+            isLast = YES;
+        }
+    }
+    
     _bottomBar.pause = _musicMgr.isPlaying;
     _bottomBar.enablePrevious = !isFirst;
     _bottomBar.enableNext = !isLast;
