@@ -57,6 +57,10 @@ static NSInteger kInfectListItemCountInPage = 10;
     NSString *className = NSStringFromClass([HXInfectListCell class]);
     UINib *nib = [UINib nibWithNibName:className bundle:nil];
     [_tableView registerNib:nib forCellReuseIdentifier:className];
+    
+    if ([HXVersion currentModel] == SCDeviceModelTypeIphone5_5S) {
+        _tableView.rowHeight = 70.0f;
+    }
 }
 
 - (void)viewConfig {
