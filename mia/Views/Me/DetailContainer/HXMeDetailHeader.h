@@ -42,6 +42,8 @@ typedef NS_ENUM(NSUInteger, HXMeDetailHeaderAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *avatarWidthConstraint;
+
 @property (weak, nonatomic) IBOutlet HXMessagePromptView *messagePromptView;
 
 - (IBAction)settingButtonPressed;

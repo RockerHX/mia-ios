@@ -9,6 +9,8 @@
 #import "HXProfileDetailHeader.h"
 #import "HXXib.h"
 #import "UIImageView+WebCache.h"
+#import "HXVersion.h"
+
 
 @implementation HXProfileDetailHeader
 
@@ -29,6 +31,11 @@ HXXibImplementation
 
 - (void)viewConfigure {
     _containerView.backgroundColor = [UIColor clearColor];
+    
+    if ([HXVersion currentModel] == SCDeviceModelTypeIphone5_5S) {
+        _avatar.layer.cornerRadius = 38.0f;
+        _avatarWidthConstraint.constant = 76.0f;
+    }
 }
 
 #pragma mark - Property
