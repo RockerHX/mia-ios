@@ -222,21 +222,17 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)removeItem:(FavoriteItem *)item {
-	[self deleteCacheFileWithUrl:item.music.murl];
-	[_dataSource removeObject:item];
-
-	if (_dataSource.count <= 0) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
-	}
-}
-
-- (void)deleteCacheFileWithUrl:(NSString *)url {
-	NSString *filename = [PathHelper genMusicFilenameWithUrl:url];
+	NSString *filename = [PathHelper genMusicFilenameWithUrl:item.music.murl];
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
+	[_dataSource removeObject:item];
 
 	if ([[MusicMgr standard] isPlayingWithUrl:[UserSetting pathWithPrefix:filename]]) {
 		[[MusicMgr standard] playNext];
+	}
+
+	if (_dataSource.count <= 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
 	}
 }
 
