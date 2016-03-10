@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 @class MusicItem;
 @class SingleSongPlayer;
 
@@ -33,6 +35,9 @@
 - (void)pause;
 - (void)stop;
 
-- (float)playPosition;
+- (float)durationSeconds;
+- (float)currentPlayedSeconds;
+- (float)currentPlayedPostion;
+- (void)seekToPosition:(float)postion;
 
 @end

@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 @class MusicItem;
 @class SongPreloader;
 

@@ -9,6 +9,7 @@
 #import "HXRegisterViewController.h"
 #import "TTTAttributedLabel.h"
 #import "HXUserTermsViewController.h"
+#import "UIConstants.h"
 
 @interface HXRegisterViewController () <
 TTTAttributedLabelDelegate

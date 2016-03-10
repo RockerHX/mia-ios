@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HXInfectListCell" rowHeight="81" id="TIo-vP-lHy" customClass="HXInfectListCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="81"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TIo-vP-lHy" id="Ivf-pj-x2E">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xmb-UV-xMm">
+                        <rect key="frame" x="30" y="12" width="56" height="56"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="xmb-UV-xMm" secondAttribute="height" multiplier="1:1" id="xQh-bz-J3j"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jaa-tB-u67">
+                        <rect key="frame" x="102" y="16" width="210" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="分享着动态" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7W6-5E-Eld">
+                        <rect key="frame" x="175" y="43" width="137" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最近分享:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nNT-fG-ie7">
+                        <rect key="frame" x="102" y="43" width="73" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="73" id="YVI-cK-KjH"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="xmb-UV-xMm" firstAttribute="top" secondItem="Ivf-pj-x2E" secondAttribute="top" constant="12" id="2Hq-Yr-GtB"/>
+                    <constraint firstItem="Jaa-tB-u67" firstAttribute="bottom" secondItem="xmb-UV-xMm" secondAttribute="centerY" constant="-3" id="8Ce-Dl-aH1"/>
+                    <constraint firstItem="Jaa-tB-u67" firstAttribute="leading" secondItem="xmb-UV-xMm" secondAttribute="trailing" constant="16" id="Fxb-fo-nv7"/>
+                    <constraint firstItem="7W6-5E-Eld" firstAttribute="leading" secondItem="nNT-fG-ie7" secondAttribute="trailing" id="GdL-pv-KxP"/>
+                    <constraint firstAttribute="bottom" secondItem="xmb-UV-xMm" secondAttribute="bottom" constant="12" id="WhB-Qd-tAP"/>
+                    <constraint firstItem="7W6-5E-Eld" firstAttribute="top" secondItem="xmb-UV-xMm" secondAttribute="centerY" constant="3" id="aMq-8r-C4R"/>
+                    <constraint firstItem="nNT-fG-ie7" firstAttribute="top" secondItem="xmb-UV-xMm" secondAttribute="centerY" constant="3" id="mPq-SF-ayT"/>
+                    <constraint firstItem="xmb-UV-xMm" firstAttribute="leading" secondItem="Ivf-pj-x2E" secondAttribute="leading" constant="30" id="paD-dV-C2I"/>
+                    <constraint firstItem="nNT-fG-ie7" firstAttribute="leading" secondItem="Jaa-tB-u67" secondAttribute="leading" id="vgc-Ij-4QQ"/>
+                    <constraint firstAttribute="trailing" secondItem="7W6-5E-Eld" secondAttribute="trailing" constant="8" id="w5O-5k-5E3"/>
+                    <constraint firstAttribute="trailing" secondItem="Jaa-tB-u67" secondAttribute="trailing" constant="8" id="zdF-zQ-Eue"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dynamicLabel" destination="7W6-5E-Eld" id="L1P-hc-iA0"/>
+                <outlet property="header" destination="xmb-UV-xMm" id="lsl-oT-zbr"/>
+                <outlet property="nameLabel" destination="Jaa-tB-u67" id="lL5-H0-P2p"/>
+            </connections>
+            <point key="canvasLocation" x="363" y="319.5"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
 typedef void(^LocationDidUpdateBlock)(CLLocationCoordinate2D coordinate, NSString *address);

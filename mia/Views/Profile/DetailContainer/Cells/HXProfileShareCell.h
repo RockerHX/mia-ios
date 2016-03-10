@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ShareItem.h"
 
+
 typedef NS_ENUM(NSUInteger, HXProfileShareCellAction) {
+    HXProfileShareCellActionPlay,
     HXProfileShareCellActionFavorite,
-    HXProfileShareCellActionDelete
 };
 
+@class TTTAttributedLabel;
 @class HXProfileShareCell;
+
 
 @protocol HXProfileShareCellDelegate <NSObject>
 
@@ -23,26 +26,25 @@ typedef NS_ENUM(NSUInteger, HXProfileShareCellAction) {
 
 @end
 
+
 @interface HXProfileShareCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet         id  <HXProfileShareCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet     UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UIImageView *cover;
-@property (weak, nonatomic) IBOutlet     UILabel *songLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *singerLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *favoriteButton;
-@property (weak, nonatomic) IBOutlet     UILabel *commentCountLabel;
-@property (weak, nonatomic) IBOutlet     UILabel *seeCountLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *deleteButton;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *titleLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *playButton;
+@property (weak, nonatomic) IBOutlet        UIImageView *cover;
+@property (weak, nonatomic) IBOutlet            UILabel *songLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *singerLabel;
+@property (weak, nonatomic) IBOutlet           UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet            UILabel *viewCountLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet            UILabel *dateLabel;
 
 @property (nonatomic, assign) BOOL favorite;
 
 - (IBAction)playButtonPressed;
 - (IBAction)favoriteButtonPressed;
-- (IBAction)deleteButtonPressed;
 
 - (void)displayWithItem:(ShareItem *)item;
 

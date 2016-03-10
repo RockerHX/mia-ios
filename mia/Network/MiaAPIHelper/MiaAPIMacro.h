@@ -6,8 +6,7 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-#ifndef MiaMusicAPIMacro_h
-#define MiaMusicAPIMacro_h
+#import <Foundation/Foundation.h>
 
 static NSString * const MiaAPIProtocolVersion				= @"1";
 static NSString * const MiaAPIDefaultIMEI					= @"ios";
@@ -120,5 +119,3 @@ static NSString * const MiaAPICommand_User_GetNotify		= @"User.Get.Noti";
 static NSString * const MiaAPICommand_User_PushNoti			= @"User.Push.Noti";
 
 static NSString * const MiaAPICommand_User_DeleteSharem		= @"User.Delete.Sharem";
-
-#endif // MiaMusicAPIMacro_h

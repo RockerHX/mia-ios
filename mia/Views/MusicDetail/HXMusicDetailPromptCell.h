@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class HXMusicDetailViewModel;
-@class HXInfectUserView;
+@class HXInfectView;
 @class HXMusicDetailPromptCell;
 
 typedef NS_ENUM(NSUInteger, HXMusicDetailPromptCellAction) {
     HXMusicDetailPromptCellActionInfect,
-    HXMusicDetailPromptCellActionShowInfecter
+    HXMusicDetailPromptCellActionFavorite,
+    HXMusicDetailPromptCellActionShowInfecter,
+    HXMusicDetailPromptCellActionShowFavorite,
 };
 
 @protocol HXMusicDetailPromptCellDelegate <NSObject>
@@ -28,14 +30,20 @@ typedef NS_ENUM(NSUInteger, HXMusicDetailPromptCellAction) {
 
 @property (weak, nonatomic) IBOutlet                id  <HXMusicDetailPromptCellDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet           UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet           UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet           UIView *infectionView;
-@property (weak, nonatomic) IBOutlet HXInfectUserView *infectUserView;
-@property (weak, nonatomic) IBOutlet           UILabel *infectionCountLabel;
-@property (weak, nonatomic) IBOutlet           UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *seeCountLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet       UIView *infectInfoView;
+@property (weak, nonatomic) IBOutlet HXInfectView *infectView;
+@property (weak, nonatomic) IBOutlet      UILabel *infectionCountLabel;
+@property (weak, nonatomic) IBOutlet       UIView *favoriteInfoView;
+@property (weak, nonatomic) IBOutlet     UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet      UILabel *favoriteCountLabel;
+@property (weak, nonatomic) IBOutlet      UILabel *commentCountLabel;
 
-- (IBAction)infectButtonPressed;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spaceConstraint;
+
+- (IBAction)favoriteButtonPressed;
 
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel;
 

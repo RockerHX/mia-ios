@@ -10,6 +10,7 @@
 #import "TTTAttributedLabel.h"
 #import "ShareItem.h"
 #import "MusicItem.h"
+#import "UIConstants.h"
 
 @implementation HXMusicDetailSongCell
 
@@ -22,14 +23,7 @@
 
 #pragma mark - Config Methods
 - (void)initConfig {
-    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 60.0f;
-}
-
-#pragma mark - Event Response
-- (IBAction)starButtonPressed {
-    if (_delegate && [_delegate respondsToSelector:@selector(cellUserWouldLikeStar:)]) {
-        [_delegate cellUserWouldLikeStar:self];
-    }
+    _songInfoLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 30.0f;
 }
 
 #pragma mark - Public Methods
@@ -39,23 +33,14 @@
 	}
 	
     MusicItem *musicItem = item.music;
-    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@"-" stringByAppendingString:musicItem.singerName]];
-    [self updateStatStateWithFavorite:item.favorite];
-}
-
-- (void)updateStatStateWithFavorite:(BOOL)favorite {
-    if (favorite) {
-        [_starButton setImage:[UIImage imageNamed:@"MD-StarIcon"] forState:UIControlStateNormal];
-    } else {
-        [_starButton setImage:[UIImage imageNamed:@"MD-UnStarIcon"] forState:UIControlStateNormal];
-    }
+    [self displaySongInfoLabelWithSongName:musicItem.name singerName:[@" - " stringByAppendingString:musicItem.singerName]];
 }
 
 #pragma mark - Private Methods
 - (void)displaySongInfoLabelWithSongName:(NSString *)songerName singerName:(NSString *)singerName {
     NSString *text = [NSString stringWithFormat:@"%@%@", (songerName.length ? songerName : @""), ((singerName.length > 1) ? singerName : @"")];
     
-    NSDictionary *linkAttributes = @{(__bridge id)kCTForegroundColorAttributeName: UIColorFromHex(@"808080", 1.0f)};
+    NSDictionary *linkAttributes = @{(__bridge id)kCTForegroundColorAttributeName: UIColorByHex(0x808080)};
     [_songInfoLabel setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
         NSRange boldRange = [text rangeOfString:singerName];
         if (singerName.length > 1) {

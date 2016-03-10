@@ -13,8 +13,9 @@
 #import "HXAlertBanner.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIView+Frame.h"
-#import "UserSession.h"
 #import "HXProfileViewController.h"
+//#import "HXMusicDetailViewController.h"
+#import "HXUserSession.h"
 #import "HXMusicDetailViewController.h"
 
 static const long kMessagePageCount = 10;
@@ -72,7 +73,7 @@ static const long kMessagePageCount = 10;
 						completeBlock:
 	 ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
 		 if (success) {
-			 [[UserSession standard] clearNotify];
+			 [[HXUserSession share] clearNotify];
 
 			 NSArray *items = userInfo[@"v"][@"info"];
 			 if ([items count] > 0) {
@@ -130,20 +131,10 @@ static const long kMessagePageCount = 10;
     
     MessageItem *item = _messageModel.dataSource[indexPath.row];
     if (item.navigateToUser) {
-        HXProfileType type;
-        NSString *sharerID = item.fromUID;
-        NSString *userID = [UserSession standard].uid;
-        if (![sharerID isEqualToString:userID]) {
-            type = HXProfileTypeGuest;
-            userID = sharerID;
-        } else {
-            type = HXProfileTypeHost;
-        }
-        
-        HXProfileViewController *profileViewController = [HXProfileViewController instance];
-        profileViewController.uid = userID;
-        profileViewController.type = type;
-        [self.navigationController pushViewController:profileViewController animated:YES];
+		NSString *sharerID = item.fromUID;
+		HXProfileViewController *profileViewController = [HXProfileViewController instance];
+		profileViewController.uid = sharerID;
+		[self.navigationController pushViewController:profileViewController animated:YES];
     } else {
         HXMusicDetailViewController *musicDetailViewController = [HXMusicDetailViewController instance];
 		musicDetailViewController.sID = item.sID;

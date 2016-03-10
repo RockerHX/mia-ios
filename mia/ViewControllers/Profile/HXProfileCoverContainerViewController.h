@@ -8,10 +8,8 @@
 
 #import "UIViewController+HXClass.h"
 
-@interface HXProfileCoverContainerViewController : UICollectionViewController
+@interface HXProfileCoverContainerViewController : UIViewController
 
-@property (nonatomic, strong)  NSArray *dataSource;
-
-- (void)scrollPosition:(UICollectionViewScrollPosition)position;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarBG;
 
 @end

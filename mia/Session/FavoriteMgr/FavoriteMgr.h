@@ -6,7 +6,8 @@
 //  Copyright (c) 2015年 Mia Music. All rights reserved.
 //
 
-@class FavoriteItem;
+#import <Foundation/Foundation.h>
+#import "FavoriteItem.h"
 
 @protocol FavoriteMgrDelegate <NSObject>
 
@@ -36,6 +37,5 @@
 - (void)removeSelectedItem:(FavoriteItem *)item;
 - (BOOL)isItemCached:(FavoriteItem *)item;
 - (BOOL)isItemCachedWithUrl:(NSString *)url;
-
 
 @end

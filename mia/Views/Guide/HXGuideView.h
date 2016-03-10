@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+
+FOUNDATION_EXPORT NSString *const kGuideViewShowKey;
+
+
 @interface HXGuideView : UIView <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet  UIScrollView *scrollView;
@@ -16,9 +20,11 @@
 
 - (IBAction)locationButtonPressed;
 
-+ (instancetype)showGuide:(void(^)(void))finished;
-- (void)showGuide:(void(^)(void))finished;
 
++ (instancetype)showGuide:(void(^)(void))finished;
++ (BOOL)shouldShow;
+
+- (void)showGuide:(void(^)(void))finished;
 - (void)hidden;
 
 @end

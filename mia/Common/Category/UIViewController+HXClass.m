@@ -8,6 +8,7 @@
 #import "UIViewController+HXClass.h"
 #import "UIAlertView+BlocksKit.h"
 #import "UIConstants.h"
+#import "HXAlertBanner.h"
 
 @implementation UIViewController (HXClass)
 
@@ -57,6 +58,7 @@
                                    handler:block];
 }
 
+
 - (void)showMessage:(NSString *)message {
     if (message.length) {
         [self showToastWithMessage:message];
@@ -86,6 +88,13 @@
 
 - (void)hiddenHUD {
     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+}
+
+
+- (void)showBannerWithPrompt:(NSString *)prompt {
+    if (prompt.length) {
+        [HXAlertBanner showWithMessage:prompt tap:nil];
+    }
 }
 
 @end

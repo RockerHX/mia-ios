@@ -8,8 +8,12 @@
 
 #import "HXMusicDetailPromptCell.h"
 #import "HXMusicDetailViewModel.h"
-#import "HXInfectUserView.h"
-#import "InfectUserItem.h"
+#import "HXInfectView.h"
+
+@interface HXMusicDetailPromptCell () <
+HXInfectViewDelegate
+>
+@end
 
 @implementation HXMusicDetailPromptCell
 
@@ -25,13 +29,14 @@
 }
 
 - (void)viewConfigure {
-    [_infectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectViewTaped)]];
+    [_infectInfoView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(infectViewTaped)]];
+    [_favoriteInfoView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(favoriteViewTaped)]];
 }
 
 #pragma mark - Event Response
-- (IBAction)infectButtonPressed {
+- (IBAction)favoriteButtonPressed {
     if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
-        [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionInfect];
+        [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionFavorite];
     }
 }
 
@@ -41,43 +46,52 @@
     }
 }
 
+- (void)favoriteViewTaped {
+    if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
+        [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionShowFavorite];
+    }
+}
+
 #pragma mark - Public Methods
 - (void)displayWithViewModel:(HXMusicDetailViewModel *)viewModel {
     ShareItem *item = viewModel.playItem;
     _dateLabel.text = item.formatTime;
+    _seeCountLabel.text = @(item.cView).stringValue;
     _locationLabel.text = item.sAddress;
     _infectionCountLabel.text = @(item.infectTotal).stringValue;
+    _favoriteCountLabel.text = @(item.starCnt).stringValue;
     _commentCountLabel.text = @(item.cComm).stringValue;
     
-    [self showInfectUsers:viewModel.playItem.infectUsers];
+    _infectView.infected = viewModel.playItem.isInfected;
+    _infectView.infecters = viewModel.playItem.infectUsers;
+    _infectView.promptLabel.hidden = YES;
+    
+    [self updateFavoriteState:item.favorite];
 }
 
 #pragma mark - Private Methods
-- (void)showInfectUsers:(NSArray *)infectUsers {
-    [_infectUserView removeAllItem];
-    if (infectUsers) {
-        NSMutableArray *itmes = [NSMutableArray arrayWithCapacity:infectUsers.count];
-        if (itmes.count > 5) {
-            for (NSInteger index = 0; index < 5; index ++) {
-                InfectUserItem *item = infectUsers[index];
-                [itmes addObject:[NSURL URLWithString:item.avatar]];
+- (void)updateFavoriteState:(BOOL)favorite {
+    [_favoriteButton setImage:[UIImage imageNamed:(favorite ? @"D-FavoritedIcon" : @"D-FavoriteIcon")] forState:UIControlStateNormal];
+}
+
+#pragma mark - HXInfectViewDelegate Methods
+- (void)infectView:(HXInfectView *)infectView takeAction:(HXInfectViewAction)action {
+    switch (action) {
+        case HXInfectViewActionInfect: {
+            if (_delegate && [_delegate respondsToSelector:@selector(promptCell:takeAction:)]) {
+                [_delegate promptCell:self takeAction:HXMusicDetailPromptCellActionInfect];
             }
-        } else {
-            for (InfectUserItem *item in infectUsers) {
-                [itmes addObject:[NSURL URLWithString:item.avatar]];
-            }
+            break;
         }
-        [_infectUserView showWithItems:itmes];
-        __weak __typeof__(self)weakSelf = self;
-        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-            __strong __typeof__(self)strongSelf = weakSelf;
-            [strongSelf.infectUserView refresh];
-        } completion:^(BOOL finished) {
-            __strong __typeof__(self)strongSelf = weakSelf;
-            // 妙推用户头像跳动动画
-            [strongSelf.infectUserView refreshItemWithAnimation];
-        }];
+        case HXInfectViewActionLayout: {
+            _spaceConstraint.constant = infectView.controlToSpace;
+            break;
+        }
     }
+}
+
+- (void)infectViewInfecterTaped:(HXInfectView *)infectView atIndex:(NSInteger)index {
+    [self infectViewTaped];
 }
 
 @end

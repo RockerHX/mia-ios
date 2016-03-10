@@ -10,13 +10,13 @@
 #import "FavoriteMgr.h"
 #import "WebSocketMgr.h"
 #import "MiaAPIHelper.h"
-#import "FavoriteItem.h"
 #import "PathHelper.h"
-#import "UserSession.h"
 #import "AFNetworking.h"
-#import "AFNHttpClient.h"
 #import "NSString+IsNull.h"
 #import "FileLog.h"
+#import "HXUserSession.h"
+#import "UserSetting.h"
+#import "MusicMgr.h"
 
 static const long kFavoriteRequestItemCountPerPage	= 100;
 
@@ -227,6 +227,10 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	NSString *filename = [PathHelper genMusicFilenameWithUrl:url];
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
+
+	if ([[MusicMgr standard] isPlayingWithUrl:[UserSetting pathWithPrefix:filename]]) {
+		[[MusicMgr standard] playNext];
+	}
 }
 
 - (void)downloadFavorite {
@@ -267,7 +271,7 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 			return;
 		}
 
-		_downloadTask = [AFNHttpClient downloadWithURL:item.music.murl
+		_downloadTask = [self downloadWithURL:item.music.murl
 										  savePath:[PathHelper genMusicFilenameWithUrl:item.music.murl]
 									 completeBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error)
 		{
@@ -324,11 +328,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	}
 
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if(![fileManager fileExistsAtPath:[PathHelper genMusicFilenameWithUrl:url]]) {
-		return NO;
+
+	if ([UserSetting isLocalFilePrefix:url]) {
+		NSString *pathWithoutPrefix = [UserSetting pathWithoutPrefix:url];
+		return [fileManager fileExistsAtPath:pathWithoutPrefix];
 	}
 
-	return YES;
+	NSString *localPath = [PathHelper genMusicFilenameWithUrl:url];
+	return [fileManager fileExistsAtPath:localPath];
 }
 
 #pragma mark - Notification
@@ -378,14 +385,14 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)loadData {
-	_dataSource = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]]];
+	_dataSource = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper favoriteArchivePathWithUID:[[HXUserSession share] uid]]];
 	if (!_dataSource) {
 		_dataSource = [[NSMutableArray alloc] init];
 	}
 }
 
 - (BOOL)saveData {
-	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[UserSession standard] uid]];
+	NSString *fileName = [PathHelper favoriteArchivePathWithUID:[[HXUserSession share] uid]];
 	if (![NSKeyedArchiver archiveRootObject:_dataSource toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
@@ -410,6 +417,32 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 
 	return (self);
 	
+}
+
+#pragma mark - download
+- (NSURLSessionDownloadTask *)downloadWithURL:(NSString *)url
+									 savePath:(NSString *)savePath
+								completeBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completeBlock {
+	NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+	AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+	NSURL *requestUrl = [NSURL URLWithString:url];
+	NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
+
+	NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request
+																	 progress:nil
+																  destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+																	  return [NSURL URLWithString:[UserSetting pathWithPrefix:savePath]];
+																  } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+																	  if (completeBlock) {
+																		  completeBlock(response, filePath, error);
+																	  }
+
+																	  NSLog(@"File downloaded to: %@", filePath);
+																  }];
+	[downloadTask resume];
+	
+	return downloadTask;
 }
 
 @end

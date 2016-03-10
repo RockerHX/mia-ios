@@ -27,7 +27,6 @@ typedef void(^FailureBlock)(NSString *);
     CommentReuqestBlock _lastCommentReuqestBlock;
     CommentReuqestBlock _reportViewsBlock;
     
-    NSInteger _rowCount;
     NSArray *_rowTypes;
     CommentModel *_dataModel;
     ShareItem *_playItem;
@@ -59,7 +58,6 @@ typedef void(^FailureBlock)(NSString *);
 - (void)initConfigure {
     [self setupRowTypes];
     _dataModel = [[CommentModel alloc] init];
-    _rowCount = _rowTypes.count;
 }
 
 - (void)setupRowTypes {
@@ -67,7 +65,6 @@ typedef void(^FailureBlock)(NSString *);
                   @(HXMusicDetailRowSong),
                   @(HXMusicDetailRowShare),
                   @(HXMusicDetailRowPrompt)];
-    _rowCount = _rowTypes.count;
 }
 
 #pragma mark - Setter And Getter
@@ -75,12 +72,12 @@ typedef void(^FailureBlock)(NSString *);
     return _playItem;
 }
 
-- (CGFloat)frontCoverCellHeight {
-    return [HXVersion isIPhone5SPrior] ? 225.0f : 240.0f;
+- (CGFloat)coverCellHeight {
+    return 230.0f;
 }
 
 - (CGFloat)promptCellHeight {
-    return 112.0f;
+    return 186.0f;
 }
 
 - (CGFloat)noCommentCellHeight {
@@ -88,7 +85,7 @@ typedef void(^FailureBlock)(NSString *);
 }
 
 - (NSInteger)rows {
-    return (_playItem ? _rowCount : 0);
+    return (_playItem ? _rowTypes.count : 0);
 }
 
 - (NSInteger)regularRow {
@@ -114,7 +111,20 @@ typedef void(^FailureBlock)(NSString *);
                  completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-             _playItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
+			 ShareItem *newItem = [[ShareItem alloc] initWithDictionary:userInfo[MiaAPIKey_Values][@"data"]];
+			 
+			 // 手动更新数据，而不是整个替换，这个可以保证所有页面用的ShareItem是同一个对象，方便数据同步
+			 // @eden 2016-03-04 16:52
+			 if (_playItem) {
+				 _playItem.infectUsers = newItem.infectUsers;
+				 _playItem.infectTotal = newItem.infectTotal;
+				 _playItem.starCnt = newItem.starCnt;
+				 _playItem.shareCnt = newItem.shareCnt;
+				 _playItem.favorite = newItem.favorite;
+				 _playItem.isInfected = newItem.isInfected;
+			 } else {
+				 _playItem = newItem;
+			 }
 
              [self setupRowTypes];
              if (_shareItemSuccessBlock) {
@@ -122,12 +132,12 @@ typedef void(^FailureBlock)(NSString *);
              }
          } else {
              if (_shareItemFailureBlock) {
-                 _shareItemFailureBlock(@"数据获取出错！");
+                 _shareItemFailureBlock(@"数据获取出错");
              }
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
          if (_shareItemFailureBlock) {
-             _shareItemFailureBlock(@"请求超时！");
+             _shareItemFailureBlock(@"请求超时");
          }
      }];
 }
@@ -248,7 +258,6 @@ typedef void(^FailureBlock)(NSString *);
     } else {
         [array addObject:@(HXMusicDetailRowNoComment)];
     }
-    _rowCount = array.count;
     _rowTypes = [array copy];
 }
 

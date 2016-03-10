@@ -7,10 +7,7 @@
 //
 
 #import "HXLoginViewController.h"
-#import <ShareSDK/ShareSDK.h>
-#import "NSString+MD5.h"
-#import "MiaAPIHelper.h"
-#import "UserSession.h"
+#import "HXUserSession.h"
 #import "HXAlertBanner.h"
 
 typedef NS_ENUM(BOOL, HXLoginAction) {
@@ -75,13 +72,16 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 
 #pragma mark - Event Response
 - (IBAction)backButtonPressed {
+    _shouldHideNavigationBar = YES;
     switch (_loginAction) {
         case HXLoginActionLogin: {
             [self showAnimation];
             break;
         }
         case HXLoginActionCancel: {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if (_delegate && [_delegate respondsToSelector:@selector(loginViewController:takeAction:)]) {
+                [_delegate loginViewController:self takeAction:HXLoginViewControllerActionDismiss];
+            }
             break;
         }
     }
@@ -114,6 +114,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 }
 
 - (IBAction)loginButtonPressed {
+    [self.view endEditing:YES];
     _shouldHideNavigationBar = YES;
     
     NSString *mobile = _mobileTextField.text;
@@ -123,7 +124,7 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
         case HXLoginActionLogin: {
             if ([self checkPhoneNumber]) {
                 if (!password.length) {
-                    [self showToastWithMessage:@"请输入登录密码！"];
+                    [self showToastWithMessage:@"请输入登录密码"];
                 } else {
                     [self startLoginRequestWithMobile:mobile password:password];
                 }
@@ -239,104 +240,34 @@ typedef NS_ENUM(BOOL, HXLoginAction) {
 
 - (void)startWeiXinLoginRequestWithUser:(SSDKUser *)user {
     [self showHUD];
-    
-    NSDictionary *credential = user.credential.rawData;
-    NSString *openID = credential[@"openid"];
-    NSString *unionID = credential[@"unionid"];
-    NSString *token = user.credential.token;
-    NSString *nickName = user.nickname;
-    NSString *avatar = user.icon;
-    NSString *sex = ((user.gender == SSDKGenderUnknown) ? @"0" : @(user.gender + 1).stringValue);
-    
-    __weak __typeof__(self)weakSelf = self;
-    [MiaAPIHelper thirdLoginWithOpenID:openID
-                               unionID:unionID
-                                 token:token
-                              nickName:nickName
-                                   sex:sex
-                                  type:@"WEIXIN"
-                                avatar:avatar
-                         completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         __strong __typeof__(self)strongSelf = weakSelf;
-         if (success) {
-			 [[UserSession standard] setUid:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][@"uid"]]];
-			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-			 [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
-			 [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
-
-             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-             
-             UserSession *userSession = [UserSession standard];
-             userSession.state = UserSessionLoginStateLogin;
-             [userSession setAvatar:avatarUrlWithTime];
-             [userSession saveAuthInfo:userInfo[MiaAPIKey_Values][@"uid"] token:userInfo[MiaAPIKey_Values][@"token"]];
-             [userSession saveUserInfoUid:userInfo[MiaAPIKey_Values][@"uid"] nickName:userInfo[MiaAPIKey_Values][@"nick"]];
-             
-             if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
-                 [_delegate loginViewControllerLoginSuccess:self];
-             }
-             
-             [strongSelf dismissViewControllerAnimated:YES completion:nil];
-         } else {
-             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-         }
-         
-         [strongSelf hiddenHUD];
-     } timeoutBlock:^(MiaRequestItem *requestItem) {
-         __strong __typeof__(self)strongSelf = weakSelf;
-         [HXAlertBanner showWithMessage:@"请求超时，请稍后重试" tap:nil];
-         [strongSelf hiddenHUD];
-     }];
+    [[HXUserSession share] loginWithSDKUser:user success:^(HXUserSession *session, NSString *prompt) {
+        [self loginSuccessHandleWithPrompt:prompt];
+    } failure:^(NSString *prompt) {
+        [self loginFailureHanleWithPrompt:prompt];
+    }];
 }
 
 - (void)startLoginRequestWithMobile:(NSString *)mobile password:(NSString *)password {
     [self showHUD];
-    __weak __typeof__(self)weakSelf = self;
-    [MiaAPIHelper loginWithPhoneNum:mobile
-                       passwordHash:[NSString md5HexDigest:password]
-                      completeBlock:
-     ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-         __strong __typeof__(self)strongSelf = weakSelf;
-         if (success) {
-			 [[UserSession standard] setUid:[NSString stringWithFormat:@"%@", userInfo[MiaAPIKey_Values][@"uid"]]];
-			 [[UserSession standard] setNick:userInfo[MiaAPIKey_Values][@"nick"]];
-			 [[UserSession standard] setUtype:userInfo[MiaAPIKey_Values][@"utype"]];
-			 [[UserSession standard] setNotifyCnt:[userInfo[MiaAPIKey_Values][@"notifyCnt"] integerValue]];
-			 [[UserSession standard] setNotifyUserpic:userInfo[MiaAPIKey_Values][@"notifyUserpic"]];
-
-             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"userpic"];
-             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-             
-             UserSession *userSession = [UserSession standard];
-             userSession.state = UserSessionLoginStateLogin;
-             [userSession setAvatar:avatarUrlWithTime];
-			 [userSession saveAuthInfo:userInfo[MiaAPIKey_Values][@"uid"] token:userInfo[MiaAPIKey_Values][@"token"]];
-             [userSession saveUserInfoUid:userInfo[MiaAPIKey_Values][@"uid"] nickName:userInfo[MiaAPIKey_Values][@"nick"]];
-             
-             if (_delegate && [_delegate respondsToSelector:@selector(loginViewControllerLoginSuccess:)]) {
-                 [_delegate loginViewControllerLoginSuccess:self];
-             }
-             
-             [strongSelf dismissViewControllerAnimated:YES completion:nil];
-         } else {
-             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
-             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];
-         }
-         
-         [strongSelf hiddenHUD];
-     } timeoutBlock:^(MiaRequestItem *requestItem) {
-         __strong __typeof__(self)strongSelf = weakSelf;
-         [HXAlertBanner showWithMessage:@"请求超时，请稍后重试" tap:nil];
-         [strongSelf hiddenHUD];
-     }];
+    [[HXUserSession share] loginWithMobile:mobile password:password success:^(HXUserSession *session, NSString *prompt) {
+        [self loginSuccessHandleWithPrompt:prompt];
+    } failure:^(NSString *prompt) {
+        [self loginFailureHanleWithPrompt:prompt];
+    }];
 }
 
-- (void)loginRequestHandle {
-    ;
+- (void)loginSuccessHandleWithPrompt:(NSString *)prompt {
+    [self hiddenHUD];
+    [self showBannerWithPrompt:prompt];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(loginViewController:takeAction:)]) {
+        [_delegate loginViewController:self takeAction:HXLoginViewControllerActionLoginSuccess];
+    }
+}
+
+- (void)loginFailureHanleWithPrompt:(NSString *)prompt {
+    [self showBannerWithPrompt:prompt];
+    [self hiddenHUD];
 }
 
 @end

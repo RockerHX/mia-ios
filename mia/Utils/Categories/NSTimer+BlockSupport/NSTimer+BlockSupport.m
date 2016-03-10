@@ -5,6 +5,8 @@
 //
 //
 
+#import "NSTimer+BlockSupport.h"
+
 @implementation NSTimer (BlockSupport)
 
 + (NSTimer *)bs_scheduledTimerWithTimeInterval:(NSTimeInterval)interval

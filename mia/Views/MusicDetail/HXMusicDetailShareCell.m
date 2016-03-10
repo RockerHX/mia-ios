@@ -9,9 +9,11 @@
 #import "HXMusicDetailShareCell.h"
 #import "TTTAttributedLabel.h"
 #import "ShareItem.h"
+#import "UIConstants.h"
 
-@interface HXMusicDetailShareCell () <TTTAttributedLabelDelegate>
-
+@interface HXMusicDetailShareCell () <
+TTTAttributedLabelDelegate
+>
 @end
 
 @implementation HXMusicDetailShareCell
@@ -46,8 +48,8 @@
 
 #pragma mark - TTTAttributedLabelDelegate Methods
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber {
-    if (_delegate && [_delegate respondsToSelector:@selector(cellUserWouldLikeSeeSharerInfo:)]) {
-        [_delegate cellUserWouldLikeSeeSharerInfo:self];
+    if (_delegate && [_delegate respondsToSelector:@selector(shareCell:takeAction:)]) {
+        [_delegate shareCell:self takeAction:HXMusicDetailShareCellActionShowSharer];
     }
 }
 

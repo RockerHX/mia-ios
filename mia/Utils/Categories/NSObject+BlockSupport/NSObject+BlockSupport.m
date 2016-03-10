@@ -5,6 +5,8 @@
 //
 //
 
+#import "NSObject+BlockSupport.h"
+
 @implementation NSObject (BlockSupport)
 
 - (void)bs_performBlock:(void (^)(void))block

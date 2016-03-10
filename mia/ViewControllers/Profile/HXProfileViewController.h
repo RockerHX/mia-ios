@@ -7,18 +7,15 @@
 //
 
 #import "UIViewController+HXClass.h"
-#import "HXProfileDetailContainerViewController.h"
 
-@class HXNavigationBar;
+
+@class HXProfileNavigationBar;
+
 
 @interface HXProfileViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet HXNavigationBar *navigationBar;
-@property (weak, nonatomic) IBOutlet        UIButton *settingButton;
+@property (weak, nonatomic) IBOutlet HXProfileNavigationBar *navigationBar;
 
-@property (nonatomic, assign) HXProfileType  type;
-@property (nonatomic, strong)      NSString *uid;
-
-- (IBAction)settingButtonPressed;
+@property (nonatomic, strong) NSString *uid;
 
 @end

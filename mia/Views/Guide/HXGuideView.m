@@ -9,6 +9,8 @@
 #import "HXGuideView.h"
 #import "AppDelegate.h"
 
+NSString *const kGuideViewShowKey = @"kGuideViewShowKey";
+
 typedef void(^BLOCK)(void);
 
 @implementation HXGuideView {
@@ -20,6 +22,11 @@ typedef void(^BLOCK)(void);
     HXGuideView *guideView = [[[NSBundle mainBundle] loadNibNamed:@"HXGuideView" owner:self options:nil] firstObject];
     [guideView showGuide:finished];
     return guideView;
+}
+
++ (BOOL)shouldShow {
+    NSNumber *showed = [[NSUserDefaults standardUserDefaults] valueForKey:kGuideViewShowKey];
+    return !showed.boolValue;
 }
 
 #pragma mark - Init Methods
@@ -43,6 +50,7 @@ typedef void(^BLOCK)(void);
     if (_finishedBlock) {
         _finishedBlock();
     }
+    [self showed];
     [self hidden];
 }
 
@@ -69,6 +77,11 @@ typedef void(^BLOCK)(void);
     UIWindow *mainWindow = delegate.window;
     self.frame = mainWindow.frame;
     [mainWindow addSubview:self];
+}
+
+- (void)showed {
+    [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:kGuideViewShowKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - UIScrollViewDelegate Methods

@@ -9,9 +9,7 @@
 #import "HXSettingViewController.h"
 #import "MBProgressHUDHelp.h"
 #import "MiaAPIHelper.h"
-#import "UserSession.h"
 #import "HXAlertBanner.h"
-#import "AFNHttpClient.h"
 #import "FileLog.h"
 #import "HXFeedBackViewController.h"
 #import "CacheHelper.h"
@@ -21,6 +19,9 @@
 #import "UIImageView+WebCache.h"
 #import "UserSetting.h"
 #import "HXMessageCenterViewController.h"
+#import "AFNetworking.h"
+#import "HXUserSession.h"
+#import "NSObject+LoginAction.h"
 
 typedef NS_ENUM(NSUInteger, HXSettingSection) {
     HXSettingSectionUser,
@@ -95,20 +96,20 @@ GenderPickerViewDelegate
 
 - (void)loadAvatar {
     __weak __typeof__(self)weakSelf = self;
-    [MiaAPIHelper getUserInfoWithUID:[[UserSession standard] uid] completeBlock:
+    [MiaAPIHelper getUserInfoWithUID:[HXUserSession share].uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          __strong __typeof__(self)strongSelf = weakSelf;
          if (success) {
              NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
              NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
              long gender = [userInfo[MiaAPIKey_Values][@"info"][0][@"gender"] intValue];
-
+             
              [_nickNameTextField setText:nickName];
              _lastNickName = nickName;
              
              NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
              [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-                                 placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
+                                 placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"]];
              [strongSelf updateGenderLabel:gender];
          } else {
              NSLog(@"getUserInfoWithUID failed");
@@ -119,7 +120,7 @@ GenderPickerViewDelegate
 }
 
 - (void)loadNickName {
-    _nickNameTextField.text = [[UserSession standard] nick];
+    _nickNameTextField.text = [HXUserSession share].user.nickName;
 }
 
 - (void)loadNetworkingSetting {
@@ -196,8 +197,8 @@ GenderPickerViewDelegate
     }];
     
     [_avatarImageView setImage:avatarImage];
-    NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", url, (long)[[NSDate date] timeIntervalSince1970]];
-    [[UserSession standard] setAvatar:avatarUrlWithTime];
+    [HXUserSession share].user.avatar = url;
+    [[HXUserSession share] sysnc];
 }
 
 - (void)postNickNameChange:(NSString *)nick {
@@ -210,7 +211,8 @@ GenderPickerViewDelegate
     
     [MiaAPIHelper changeNickName:nick completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
         if (success) {
-            [[UserSession standard] setNick:_nickNameTextField.text];
+            [HXUserSession share].user.nickName = _nickNameTextField.text;
+            [[HXUserSession share] sysnc];
             _lastNickName = _nickNameTextField.text;
             [HXAlertBanner showWithMessage:@"修改昵称成功" tap:nil];
         } else {
@@ -290,23 +292,44 @@ GenderPickerViewDelegate
     }
     
     _uploadLogClickTimes = 0;
+    [self postLastLog];
+}
+
+- (void)postLastLog {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     
-    [AFNHttpClient postLogDataWithURL:@"http://applog.miamusic.com"
-                              logData:[[FileLog standard] latestLogs]
-                              timeOut:5.0
-                         successBlock:
-     ^(id task, NSDictionary *jsonServerConfig) {
-         [HXAlertBanner showWithMessage:@"喵~" tap:nil];
-     } failBlock:^(id task, NSError *error) {
-         [HXAlertBanner showWithMessage:@"喵喵喵~" tap:nil];
-     }];
+    [manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    [manager POST:@"http://applog.miamusic.com" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        NSData *act = [@"save" dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *key = [@"meweoids1122123**&" dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *platform = [@"iOS" dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *logTitle = [NSString stringWithFormat:@"%@\n%@ %@\n",
+                              [UIDevice currentDevice].name,
+                              [UIDevice currentDevice].systemName,
+                              [UIDevice currentDevice].systemVersion];
+        
+        NSMutableData *content = [[NSMutableData alloc] init];
+        [content appendData:[logTitle dataUsingEncoding:NSUTF8StringEncoding]];
+        [content appendData:[[FileLog standard] latestLogs]];
+        
+        [formData appendPartWithFormData:act name:@"act"];
+        [formData appendPartWithFormData:key name:@"key"];
+        [formData appendPartWithFormData:platform name:@"platform"];
+        [formData appendPartWithFormData:[content base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength] name:@"content"];
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [HXAlertBanner showWithMessage:@"喵~" tap:nil];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [HXAlertBanner showWithMessage:@"喵喵喵~" tap:nil];
+    }];
 }
 
 - (void)logoutTouchAction {
-    __weak __typeof__(self)weakSelf = self;
     MBProgressHUD *aMBProgressHUD = [MBProgressHUDHelp showLoadingWithText:@"退出登录中..."];
     [MiaAPIHelper logoutWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-        __strong __typeof__(self)strongSelf = weakSelf;
         if (success) {
             [MiaAPIHelper sendUUIDWithCompleteBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
                 if (success) {
@@ -318,9 +341,10 @@ GenderPickerViewDelegate
                 NSLog(@"logout then sendUUID timeout");
             }];
             
-            [[UserSession standard] logout];
+            [[HXUserSession share] logout];
             [HXAlertBanner showWithMessage:@"退出登录成功" tap:nil];
-            [strongSelf.navigationController popToRootViewControllerAnimated:YES];
+            [self shouldLogout];
+            [self.navigationController popViewControllerAnimated:NO];
         } else {
             id error = userInfo[MiaAPIKey_Values][MiaAPIKey_Error];
             [HXAlertBanner showWithMessage:[NSString stringWithFormat:@"%@", error] tap:nil];

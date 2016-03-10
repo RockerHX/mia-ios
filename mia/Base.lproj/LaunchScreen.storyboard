@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="L-LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-D2-W16">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="C-LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-D2-W16">
                                 <rect key="frame" x="32" y="87" width="257" height="257"/>
                             </imageView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试用版" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jia-0p-UTY">
@@ -43,6 +43,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="L-LaunchLogo" width="257" height="257"/>
+        <image name="C-LaunchLogo" width="257" height="257"/>
     </resources>
 </document>

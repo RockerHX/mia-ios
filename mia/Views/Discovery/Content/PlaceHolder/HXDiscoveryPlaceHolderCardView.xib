@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXDiscoveryPlaceHolderCardView"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Npw-Xg-Njl">
+                    <rect key="frame" x="65" y="253" width="190" height="62"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="糟糕,暂没有歌曲了" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6oL-oA-XAF">
+                            <rect key="frame" x="0.0" y="0.0" width="190" height="22"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一大波歌曲正在安利给你的路上请耐心等待" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="195" translatesAutoresizingMaskIntoConstraints="NO" id="zGp-kQ-SUS" customClass="TTTAttributedLabel">
+                            <rect key="frame" x="0.0" y="30" width="190" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="WOs-SA-FNj"/>
+                                <constraint firstAttribute="width" constant="190" id="bVh-MP-nyZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="lineSpacing">
+                                    <real key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="zGp-kQ-SUS" firstAttribute="leading" secondItem="Npw-Xg-Njl" secondAttribute="leading" id="2F2-Q3-Eec"/>
+                        <constraint firstAttribute="trailing" secondItem="6oL-oA-XAF" secondAttribute="trailing" id="MXa-cU-dyq"/>
+                        <constraint firstAttribute="bottom" secondItem="zGp-kQ-SUS" secondAttribute="bottom" id="SeW-Zh-3Oz"/>
+                        <constraint firstAttribute="trailing" secondItem="zGp-kQ-SUS" secondAttribute="trailing" id="UYN-aR-Po3"/>
+                        <constraint firstItem="6oL-oA-XAF" firstAttribute="top" secondItem="Npw-Xg-Njl" secondAttribute="top" id="lRa-48-Ni1"/>
+                        <constraint firstItem="zGp-kQ-SUS" firstAttribute="top" secondItem="6oL-oA-XAF" secondAttribute="bottom" constant="8" id="lsj-va-vDY"/>
+                        <constraint firstItem="6oL-oA-XAF" firstAttribute="leading" secondItem="Npw-Xg-Njl" secondAttribute="leading" id="xB8-yF-5aa"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xaN-NP-ESX" customClass="HXIBButton">
+                    <rect key="frame" x="58" y="470" width="205" height="38"/>
+                    <color key="backgroundColor" red="0.043137254901960784" green="0.81568627450980391" blue="0.73725490196078436" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="7tp-d4-AEj"/>
+                        <constraint firstAttribute="width" constant="205" id="q7b-iC-Rqe"/>
+                    </constraints>
+                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="-10" maxY="0.0"/>
+                    <state key="normal" title="点击刷新" image="D-RefreshIcon">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="19"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="refreshButtonPressed" destination="-1" eventType="touchUpInside" id="k64-Uh-8pd"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-NoMoreIcon" translatesAutoresizingMaskIntoConstraints="NO" id="giS-NW-xkM">
+                    <rect key="frame" x="95" y="63" width="130" height="130"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Npw-Xg-Njl" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="HEA-o6-1Vw"/>
+                <constraint firstItem="xaN-NP-ESX" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="c8t-ji-uew"/>
+                <constraint firstItem="Npw-Xg-Njl" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="eUt-fH-G0e"/>
+                <constraint firstItem="Npw-Xg-Njl" firstAttribute="top" secondItem="giS-NW-xkM" secondAttribute="bottom" constant="60" id="hE1-B4-O9I"/>
+                <constraint firstItem="giS-NW-xkM" firstAttribute="centerX" secondItem="Npw-Xg-Njl" secondAttribute="centerX" id="mkl-YE-aq6"/>
+                <constraint firstAttribute="bottom" secondItem="xaN-NP-ESX" secondAttribute="bottom" constant="60" id="rUX-o6-WAi"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="302" y="405"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="D-NoMoreIcon" width="130" height="130"/>
+        <image name="D-RefreshIcon" width="16" height="16"/>
+    </resources>
+</document>

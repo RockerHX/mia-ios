@@ -7,12 +7,16 @@
 //
 //
 
+#import <Foundation/Foundation.h>
 #import "PathHelper.h"
 #import "NSString+IsNull.h"
 #import "NSString+MD5.h"
 
-@interface PathHelper()
+#define DOCUMENT_PATH       [NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES) lastObject]
+#define LIBRARY_PATH        [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject]
+#define CACHE_PATH          [LIBRARY_PATH stringByAppendingString:@"/Caches"]
 
+@interface PathHelper()
 @end
 
 @implementation PathHelper {
@@ -81,6 +85,10 @@
 
 + (NSString *)favoriteArchivePathWithUID:(NSString *)uid {
     return [NSString stringWithFormat:@"%@/favorite.archive", [self userDirWithUID:uid]];
+}
+
++ (NSString *)playlistArchivePathWithUID:(NSString *)uid {
+	return [NSString stringWithFormat:@"%@/playlist.archive", [self userDirWithUID:uid]];
 }
 
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url {

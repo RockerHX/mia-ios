@@ -7,6 +7,8 @@
 //
 //
 
+#import <Foundation/Foundation.h>
+
 @interface PathHelper : NSObject
 
 + (NSString *)cacheDir;
@@ -48,6 +50,8 @@
  *
  */
 + (NSString *)favoriteArchivePathWithUID:(NSString *)uid;
+
++ (NSString *)playlistArchivePathWithUID:(NSString *)uid;
 
 + (NSString *)genMusicFilenameWithUrl:(NSString *)url;
 

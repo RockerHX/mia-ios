@@ -10,7 +10,7 @@
 #import "UserDefaultsUtils.h"
 #import "MiaAPIHelper.h"
 #import "NSString+IsNull.h"
-#import "UIAlertView+Blocks.h"
+#import "UIAlertView+BlocksKit.h"
 
 static NSString * const UserDefaultsKey_LastUpdateTimestamp	= @"LastUpdateTimestamp";
 static double kMaxUpdateTimeInterval = 60 * 60 * 24;	// 24 Hours
@@ -55,7 +55,6 @@ static double kMaxUpdateTimeInterval = 60 * 60 * 24;	// 24 Hours
 		 } else {
 			 NSLog(@"get update info failed");
 		 }
-		NSLog(@"...");
 	} timeoutBlock:^(MiaRequestItem *requestItem) {
 		NSLog(@"get update info timeout");
 	}];
@@ -76,19 +75,19 @@ static double kMaxUpdateTimeInterval = 60 * 60 * 24;	// 24 Hours
 - (void)showUpdateTipsWithMsg:(NSString *)msg version:(NSString *)version url:(NSString *)url {
 	static NSString *kAlertTitle = @"升级提示";
 
-	RIButtonItem *allowItem = [RIButtonItem itemWithLabel:@"取消" action:^{
-		NSLog(@"cancel update");
-	}];
-
-	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"马上升级" action:^{
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-	}];
-
-	UIAlertView *updateAlertView = [[UIAlertView alloc] initWithTitle:kAlertTitle
-													  message:msg
-											 cancelButtonItem:cancelItem
-											 otherButtonItems:allowItem, nil];
-	[updateAlertView show];
+	[UIAlertView bk_showAlertViewWithTitle:kAlertTitle
+								   message:msg
+						 cancelButtonTitle:@"取消"
+						 otherButtonTitles:@[@"马上升级"]
+								   handler:
+	 ^(UIAlertView *alertView, NSInteger buttonIndex) {
+		 if (alertView.cancelButtonIndex == buttonIndex) {
+			 NSLog(@"cancel update");
+		 } else {
+			 NSLog(@"update now");
+			 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+		 }
+	 }];
 }
 
 

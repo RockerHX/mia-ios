@@ -7,7 +7,6 @@
 //
 
 #import "HXNoNetworkView.h"
-#import "AAPullToRefresh.h"
 #import "AppDelegate.h"
 #import "FavoriteMgr.h"
 
@@ -29,11 +28,11 @@ typedef void(^BLOCK)(void);
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    [self viewConfig];
+    [self viewConfigure];
 }
 
 #pragma mark - Config Methods
-- (void)viewConfig {
+- (void)viewConfigure {
     _playButton.layer.cornerRadius = _playButton.frame.size.height/2;
 //    _playButton.hidden = ![[FavoriteMgr standard] cachedCount];
 	// TODO 1.3先把这个屏蔽了
@@ -44,13 +43,6 @@ typedef void(^BLOCK)(void);
 }
 
 #pragma mark - Event Response
-- (IBAction)userHeaderButtonPressed {
-    [self hidden];
-    if (_showBlock) {
-        _showBlock();
-    }
-}
-
 - (IBAction)playButtonPressed {
     [self hidden];
     if (_playBlock) {

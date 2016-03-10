@@ -7,6 +7,7 @@
 
 #import "HXStoryBoardManager.h"
 #import "MBProgressHUD.h"
+#import "NSObject+LoginAction.h"
 
 @interface UIViewController (HXClass)
 
@@ -26,5 +27,7 @@
 
 - (void)showHUD;
 - (void)hiddenHUD;
+
+- (void)showBannerWithPrompt:(NSString *)prompt;
 
 @end

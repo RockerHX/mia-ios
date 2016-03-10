@@ -8,47 +8,62 @@
 //
 
 #import "MusicMgr.h"
-#import <AVFoundation/AVFoundation.h>
 #import "SingleSongPlayer.h"
-#import "SongListPlayer.h"
+#import "SongPreloader.h"
 #import "WebSocketMgr.h"
-#import "UIAlertView+Blocks.h"
 #import "UserSetting.h"
 #import "FileLog.h"
+#import "UIAlertView+BlocksKit.h"
+#import "NSObject+BlockSupport.h"
+#import "PathHelper.h"
+#import "HXUserSession.h"
 
-NSString * const MusicMgrNotificationKey_Msg 			= @"msg";
-NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotificationRemoteControlEvent";
 
-@interface MusicMgr()
+NSString * const MusicMgrNotificationKey_RemoteControlEvent	= @"RemoteControlEvent";
+NSString * const MusicMgrNotificationKey_PlayerEvent		= @"PlayerEvent";
+NSString * const MusicMgrNotificationKey_sID				= @"sID";
+
+NSString * const MusicMgrNotificationRemoteControlEvent		= @"MusicMgrNotificationRemoteControlEvent";
+NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlayerEvent";
+
+
+@interface MusicMgr() <SingleSongPlayerDelegate, SongPreloaderDelegate>
 
 @end
 
 @implementation MusicMgr {
-	UIAlertView 	*_playWith3GAlertView;	
-	BOOL			_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
+	NSString				*_hostObjectName;
+	long					_hostObjectID;
+
+	SingleSongPlayer		*_player;
+	SongPreloader			*_preloader;
+
+	UIAlertView 			*_playWith3GAlertView;
+	BOOL					_playWith3GOnceTime;		// 本次网络切换期间允许用户使用3G网络播放，网络切换后，自动重置这个开关
 }
 
 /**
  *  使用单例初始化
  *
  */
-+ (MusicMgr *)standard{
-    static MusicMgr *aMusicMgr = nil;
++ (MusicMgr *)standard {
+    static MusicMgr *aMgr = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        aMusicMgr = [[self alloc] init];
+		aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]]];
+		if (!aMgr) {
+			aMgr = [[self alloc] init];
+		} else {
+			[aMgr loadConfig];
+		}
     });
-    return aMusicMgr;
+    return aMgr;
 }
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self) {
-		// 添加通知，拔出耳机后暂停播放
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
+		[self loadConfig];
 	}
 
 	return self;
@@ -61,21 +76,129 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
 }
 
-#pragma mark - Public Methods
+- (void)loadConfig {
+	_player = [[SingleSongPlayer alloc] init];
+	_player.delegate = self;
 
-- (void)setCurrentPlayer:(SongListPlayer *)player {
-	if ([player isEqual:_currentPlayer]) {
-		NSLog(@"Same Model, do not need to reset ListPlayer.");
+	_preloader = [[SongPreloader alloc] init];
+	_preloader.delegate = self;
+
+	// 添加通知，拔出耳机后暂停播放
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remountControlEvent:) name:MusicMgrNotificationRemoteControlEvent object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReachabilityStatusChange:) name:NetworkNotificationReachabilityStatusChange object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruption:) name:AVAudioSessionInterruptionNotification object:nil];
+}
+
+#pragma mark - Getter and Setter
+- (ShareItem *)currentItem {
+	if (_playList.count <= 0) {
+		return nil;
+	}
+
+	if (_currentIndex < 0 && _currentIndex >= _playList.count) {
+		return nil;
+	}
+
+	return _playList[_currentIndex];
+}
+
+- (NSInteger)musicCount {
+    return (_playList.count - 1);
+}
+
+#pragma mark - Public Methods
+- (BOOL)isCurrentHostObject:(id)hostObject {
+	if (0 == _hostObjectID) {
+		return NO;
+	}
+
+	long objectID = (long)(__bridge void *)hostObject;
+	return (objectID == _hostObjectID);
+}
+
+- (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject {
+	_hostObjectName = NSStringFromClass([hostObject class]);
+	_hostObjectID = (long)(__bridge void *)hostObject;
+
+	[_player stop];
+	[_preloader stop];
+
+	_playList = [[NSArray alloc] initWithArray:playList];
+	_currentIndex = 0;
+	_isShufflePlay = NO;
+
+	[self saveChanges];
+}
+
+- (void)setPlayListWithItem:(ShareItem *)item hostObject:(id)hostObject {
+	NSArray *playList = [[NSArray alloc] initWithObjects:item, nil];
+	[self setPlayList:playList hostObject:hostObject];
+}
+
+#pragma mark - Player Methods
+- (void)playWithIndex:(NSInteger)index {
+	if (_playList.count <= 0) {
 		return;
 	}
 
-	[_currentPlayer tearDown];
-	_currentPlayer = player;
-	[player setUp];
+	if (index < 0 || index >= _playList.count) {
+		return;
+	}
+
+	ShareItem *item = _playList[index];
+	if (item) {
+		[_player playWithMusicItem:item.music];
+		_currentIndex = index;
+	}
+}
+
+- (void)playWithItem:(ShareItem *)item {
+	NSUInteger count = [_playList count];
+
+	if (count <= 0) {
+		return;
+	}
+
+	for (int i = 0 ; i < count; i++) {
+		ShareItem *it = [_playList objectAtIndex:i];
+		if ([it.sID isEqualToString:item.sID]) {
+			[_preloader stop];
+			[_player playWithMusicItem:item.music];
+			_currentIndex = i;
+
+			return;
+		}
+
+	}
+}
+
+- (void)playCurrent {
+	[_player playWithMusicItem:self.currentItem.music];
+}
+
+- (void)playPrevios {
+	if (_playList.count <= 0) {
+		return;
+	}
+
+	NSInteger prevIndex = [self getPrevIndex];
+	[_player playWithMusicItem:_playList[prevIndex].music];
+	_currentIndex = prevIndex;
+}
+
+- (void)playNext {
+	if (_playList.count <= 0) {
+		return;
+	}
+
+	NSInteger nextIndex = [self getNextIndex];
+	[_player playWithMusicItem:_playList[nextIndex].music];
+	_currentIndex = nextIndex;
 }
 
 - (void)checkIsAllowToPlayWith3GOnceTimeWithBlock:(PlayWith3GOnceTimeBlock)playWith3GOnceTimeBlock {
-	[_currentPlayer pause];
+	[_player pause];
 
 	if (![[WebSocketMgr standard] isNetworkEnable]) {
 		return;
@@ -97,50 +220,139 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 	static NSString *kAlertTitleError = @"网络连接提醒";
 	static NSString *kAlertMsgNotAllowToPlayWith3G = @"您现在使用的是运营商网络，继续播放会产生流量费用。是否允许在2G/3G/4G网络下播放？";
 
-
-	RIButtonItem *allowItem = [RIButtonItem itemWithLabel:@"允许播放" action:^{
-		// this is the code that will be executed when the user taps "No"
-		// this is optional... if you leave the action as nil, it won't do anything
-		// but here, I'm showing a block just to show that you can use one if you want to.
-		NSLog(@"allow to play");
-		_playWith3GAlertView = nil;
-		_playWith3GOnceTime = YES;
-		if (playWith3GOnceTimeBlock) {
-			playWith3GOnceTimeBlock(YES);
-		}
-	}];
-
-	RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:@"取消" action:^{
-		// this is the code that will be executed when the user taps "Yes"
-		// delete the object in question...
-		NSLog(@"cancel");
-		_playWith3GAlertView = nil;
-		if (playWith3GOnceTimeBlock) {
-			playWith3GOnceTimeBlock(NO);
-		}
-	}];
-
-	_playWith3GAlertView = [[UIAlertView alloc] initWithTitle:kAlertTitleError
-													  message:kAlertMsgNotAllowToPlayWith3G
-											 cancelButtonItem:cancelItem
-											 otherButtonItems:allowItem, nil];
-	[_playWith3GAlertView show];
+	_playWith3GAlertView = [UIAlertView bk_showAlertViewWithTitle:kAlertTitleError
+														  message:kAlertMsgNotAllowToPlayWith3G
+												cancelButtonTitle:@"取消"
+												otherButtonTitles:@[@"允许播放"]
+														  handler:
+							^(UIAlertView *alertView, NSInteger buttonIndex) {
+								if (alertView.cancelButtonIndex == buttonIndex) {
+									NSLog(@"cancel");
+									_playWith3GAlertView = nil;
+									if (playWith3GOnceTimeBlock) {
+										playWith3GOnceTimeBlock(NO);
+									}
+								} else {
+									NSLog(@"allow to play");
+									_playWith3GAlertView = nil;
+									_playWith3GOnceTime = YES;
+									if (playWith3GOnceTimeBlock) {
+										playWith3GOnceTimeBlock(YES);
+									}
+								}
+							}];
 }
-
-#pragma mark - Private Methods
-
-#pragma mark - Player Methods
 
 - (BOOL)isPlayWith3GOnceTime {
 	return _playWith3GOnceTime;
 }
 
+- (BOOL)isPlaying {
+	return [_player isPlaying];
+}
+
 - (BOOL)isPlayingWithUrl:(NSString *)url {
-	return [_currentPlayer isPlayingWithUrl:url];
+	return [_player isPlayingWithUrl:url];
 }
 
 - (void)pause {
-	[_currentPlayer pause];
+	[_player pause];
+}
+
+- (void)stop {
+	[_player stop];
+	[_preloader stop];
+}
+
+- (float)durationSeconds {
+	return [_player durationSeconds];
+}
+
+- (float)currentPlayedSeconds {
+	return [_player currentPlayedSeconds];
+}
+
+- (float)currentPlayedPostion {
+	return [_player currentPlayedPostion];
+}
+
+- (void)seekToPosition:(float)postion {
+	return [_player seekToPosition:postion];
+}
+
+#pragma mark - Private Methods
+- (NSInteger)getPrevIndex {
+	if (_playList.count <= 0) {
+		return 0;
+	}
+
+	if (_isShufflePlay) {
+		return [self getNextIndex];
+	}
+
+	NSInteger prevIndex = _currentIndex - 1;
+	if (prevIndex < 0 || prevIndex >= _playList.count) {
+		return 0;
+	} else {
+		return prevIndex;
+	}
+}
+
+- (NSInteger)getNextIndex {
+	if (_playList.count <= 0) {
+		return 0;
+	}
+
+	NSInteger lastIndex = _currentIndex;
+	NSInteger nextIndex = lastIndex;
+
+	if (_isShufflePlay) {
+		nextIndex = arc4random() % _playList.count;
+		if (nextIndex == lastIndex) {
+			nextIndex = lastIndex + 1;
+		}
+	} else {
+		nextIndex = _currentIndex + 1;
+	}
+
+	if (nextIndex < 0 || nextIndex >= _playList.count) {
+		return 0;
+	} else {
+		return nextIndex;
+	}
+}
+
+- (BOOL)saveChanges {
+	NSString *fileName = [PathHelper playlistArchivePathWithUID:[[HXUserSession share] uid]];
+	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
+		NSLog(@"archive share list failed.");
+		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
+			NSLog(@"delete share list archive file.");
+		}
+		return NO;
+	}
+
+	return YES;
+}
+
+#pragma mark - NSCoding
+//将对象编码(即:序列化)
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+	[aCoder encodeObject:_currentItem forKey:@"currentItem"];
+	[aCoder encodeObject:_playList forKey:@"playList"];
+	[aCoder encodeInteger:_currentIndex forKey:@"currentIndex"];
+	[aCoder encodeInteger:_isShufflePlay forKey:@"isShufflePlay"];
+}
+
+//将对象解码(反序列化)
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+	if (self=[super init]) {
+		_currentItem = [aDecoder decodeObjectForKey:@"currentItem"];
+		_playList = [aDecoder decodeObjectForKey:@"playList"];
+		_currentIndex = [aDecoder decodeIntegerForKey:@"currentIndex"];
+		_isShufflePlay = [aDecoder decodeIntegerForKey:@"isShufflePlay"];
+	}
+	return (self);
 }
 
 #pragma mark - Notification
@@ -159,32 +371,34 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 		//原设备为耳机则暂停
 		if ([portDescription.portType isEqualToString:@"Headphones"]) {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[_currentPlayer pause];
-				[[FileLog standard] log:@"routechange last device is headphone, pause"];
+				if ([_player isPlaying]) {
+					[_player pause];
+					[[FileLog standard] log:@"routechange last device is headphone, pause"];
+				}
 			});
 		}
 	}
 }
 
 - (void)remountControlEvent:(NSNotification *)notification {
-	UIEvent* event = [[notification userInfo] valueForKey:MusicMgrNotificationKey_Msg];
+	UIEvent* event = [[notification userInfo] valueForKey:MusicMgrNotificationKey_RemoteControlEvent];
 	NSLog(@"%li,%li",(long)event.type,(long)event.subtype);
 	if(event.type == UIEventTypeRemoteControl){
 		switch (event.subtype) {
 			case UIEventSubtypeRemoteControlPlay:
-				[_currentPlayer playCurrentItem];
+				[self playCurrent];
 				break;
 			case UIEventSubtypeRemoteControlPause:
-				[_currentPlayer pause];
+				[self pause];
 				break;
 			case UIEventSubtypeRemoteControlTogglePlayPause:
-				[_currentPlayer pause];
+				[self pause];
 				break;
 			case UIEventSubtypeRemoteControlNextTrack:
-				[_currentPlayer playNext];
+				[self playNext];
 				break;
 			case UIEventSubtypeRemoteControlPreviousTrack:
-				[_currentPlayer playPrevios];
+				[self playPrevios];
 				break;
 			case UIEventSubtypeRemoteControlBeginSeekingForward:
 				NSLog(@"Begin seek forward...");
@@ -207,14 +421,18 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 - (void)notificationReachabilityStatusChange:(NSNotification *)notification {
 	_playWith3GOnceTime = NO;
 
-	if ([UserSetting isAllowedToPlayNowWithURL:_currentPlayer.currentItem.murl]) {
+	if (![_player isPlaying]) {
 		return;
 	}
 
-	[_currentPlayer stop];
+	if ([UserSetting isAllowedToPlayNowWithURL:_player.currentItem.murl]) {
+		return;
+	}
+
+	[_player stop];
 	[self checkIsAllowToPlayWith3GOnceTimeWithBlock:^(BOOL isAllowed) {
 		if (isAllowed) {
-			[_currentPlayer playCurrentItem];
+			[self playCurrent];
 		}
 	}];
 }
@@ -236,6 +454,55 @@ NSString * const MusicMgrNotificationRemoteControlEvent	= @"MusicMgrNotification
 			[[FileLog standard] log:@"Audio Session Interruption Notification case default: %d", interuptionType];
 			break;
 	}
+}
+
+#pragma mark - SingleSongPlayerDelegate
+- (void)singleSongPlayerDidPlay {
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPlay], MusicMgrNotificationKey_PlayerEvent,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
+}
+
+- (void)singleSongPlayerDidPause {
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
+}
+
+- (void)singleSongPlayerDidCompletion {
+	[self playNext];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidCompletion], MusicMgrNotificationKey_PlayerEvent,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
+}
+
+- (void)singleSongPlayerDidBufferStream {
+	[self bs_performBlock:^{
+		NSLog(@"delayPreloader");
+		if (_playList.count > 0) {
+			ShareItem *nextItem = _playList[[self getNextIndex]];
+			[_preloader preloadWithMusicItem:nextItem.music];
+		}
+	} afterDelay:30.0f];
+}
+
+- (void)singleSongPlayerDidFailure {
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSNumber numberWithUnsignedInteger:MiaPlayerEventDidPause], MusicMgrNotificationKey_PlayerEvent,
+							  self.currentItem.sID ? self.currentItem.sID : kDefaultShareID, MusicMgrNotificationKey_sID,
+							  nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MusicMgrNotificationPlayerEvent object:self userInfo:userInfo];
+}
+
+#pragma mark - SongPreloaderDelegate
+- (BOOL)songPreloaderIsPlayerLoadedThisUrl:(NSString *)url {
+	return [_player.currentItem.murl isEqualToString:url];
 }
 
 @end

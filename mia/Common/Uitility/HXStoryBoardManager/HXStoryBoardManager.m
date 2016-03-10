@@ -28,24 +28,40 @@
             storyBoardName = @"Login";
             break;
         }
-        case HXStoryBoardNameMusicDetail: {
-            storyBoardName = @"MusicDetail";
+        case HXStoryBoardNameDiscovery: {
+            storyBoardName = @"Discovery";
             break;
         }
-        case HXStoryBoardNameShare: {
-            storyBoardName = @"Share";
+        case HXStoryBoardNameFavorite: {
+            storyBoardName = @"Favorite";
             break;
         }
-        case HXStoryBoardNameProfile: {
-            storyBoardName = @"Profile";
+        case HXStoryBoardNameMe: {
+            storyBoardName = @"Me";
             break;
         }
         case HXStoryBoardNameSetting: {
             storyBoardName = @"Setting";
             break;
         }
+        case HXStoryBoardNameProfile: {
+            storyBoardName = @"Profile";
+            break;
+        }
+        case HXStoryBoardNamePlay: {
+            storyBoardName = @"Play";
+            break;
+        }
+        case HXStoryBoardNameShare: {
+            storyBoardName = @"Share";
+            break;
+        }
         case HXStoryBoardNameMessageCenter: {
             storyBoardName = @"MessageCenter";
+            break;
+        }
+        case HXStoryBoardNameMusicDetail: {
+            storyBoardName = @"MusicDetail";
             break;
         }
     }

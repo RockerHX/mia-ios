@@ -12,6 +12,12 @@
 #import "UserDefaultsUtils.h"
 #import "NSString+IsNull.h"
 
+
+NSString *const TimtOutPrompt           = @"请求超时，请稍后重试";
+NSString *const DataParseErrorPrompt    = @"数据解析出错，请联系Mia客服";
+NSString *const UnknowErrorPrompt       = @"未知错误，请联系Mia客服";
+
+
 @interface MiaAPIHelper()
 
 @end

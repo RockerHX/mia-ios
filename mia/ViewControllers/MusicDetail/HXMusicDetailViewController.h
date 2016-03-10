@@ -8,28 +8,32 @@
 
 #import "UIViewController+HXClass.h"
 
+typedef NS_ENUM(NSUInteger, HXMusicDetailAction) {
+    HXMusicDetailActionDelete,
+};
+
 @class ShareItem;
 @class HXTextView;
+@class HXMusicDetailViewController;
 
 @protocol HXMusicDetailViewControllerDelegate <NSObject>
 
 @optional
-- (void)detailViewControllerDidDeleteShare;
-- (void)detailViewControllerDismissWithoutDelete;
+- (void)detailViewController:(HXMusicDetailViewController *)detail takeAction:(HXMusicDetailAction)action;
 
 @end
 
-@interface HXMusicDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface HXMusicDetailViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet                 id  <HXMusicDetailViewControllerDelegate>delegate;
 
-@property (weak, nonatomic) IBOutlet        UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewBottomConstraint;
 @property (weak, nonatomic) IBOutlet         HXTextView *editCommentView;
 
 @property (nonatomic, assign)      BOOL  fromProfile;
+@property (nonatomic, assign)      BOOL  showKeyboard;
 @property (nonatomic, strong) ShareItem *playItem;
-@property (strong, nonatomic) NSString 	*sID;
+@property (strong, nonatomic)  NSString *sID;
 
 - (IBAction)moreButtonPressed;
 - (IBAction)commentButtonPressed;

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="49e-Tb-3d3">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--HXMainViewController-->
+        <scene sceneID="yl2-sM-qoP">
+            <objects>
+                <tabBarController storyboardIdentifier="HXMainViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="49e-Tb-3d3" userLabel="HXMainViewController" customClass="HXMainViewController" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="DzX-VT-5ZE" kind="relationship" relationship="viewControllers" id="hXZ-hc-JZc"/>
+                        <segue destination="rQp-9P-ea9" kind="relationship" relationship="viewControllers" id="V3s-jK-ole"/>
+                        <segue destination="g9L-yn-q9f" kind="relationship" relationship="viewControllers" id="qMI-y3-EOv"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--HXHomePageNavigationController-->
+        <scene sceneID="GNi-9D-WuZ">
+            <objects>
+                <navigationController storyboardIdentifier="HXDiscoveryNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DzX-VT-5ZE" userLabel="HXHomePageNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="T-DiscoveryIcon" selectedImage="T-DiscoveryIcon-S" id="JSJ-D7-xUP">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dCc-AB-kgx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bdn-hc-6oe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="487" y="-678"/>
+        </scene>
+        <!--HXFavoriteNavigationController-->
+        <scene sceneID="Yrp-UD-WoW">
+            <objects>
+                <navigationController storyboardIdentifier="HXFavoriteNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rQp-9P-ea9" userLabel="HXFavoriteNavigationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="T-FavoriteIcon" selectedImage="T-FavoriteIcon-S" id="A5u-Ol-oOH">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mko-MX-W0G">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kr2-SK-04f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="487" y="0.0"/>
+        </scene>
+        <!--HXMeNavgationController-->
+        <scene sceneID="YVX-Uk-tXZ">
+            <objects>
+                <navigationController storyboardIdentifier="HXMeNavgationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="g9L-yn-q9f" userLabel="HXMeNavgationController" customClass="HXPanGestureNavgaitionController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="T-MeIcon" selectedImage="T-MeIcon-S" id="m5a-Wu-Ld5">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sji-gb-Do4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dgE-jU-nmx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="487" y="688"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="T-DiscoveryIcon" width="35" height="35"/>
+        <image name="T-DiscoveryIcon-S" width="35" height="35"/>
+        <image name="T-FavoriteIcon" width="35" height="35"/>
+        <image name="T-FavoriteIcon-S" width="35" height="35"/>
+        <image name="T-MeIcon" width="35" height="35"/>
+        <image name="T-MeIcon-S" width="35" height="35"/>
+    </resources>
+</document>

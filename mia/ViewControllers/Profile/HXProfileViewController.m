@@ -7,25 +7,30 @@
 //
 
 #import "HXProfileViewController.h"
-#import "HXNavigationBar.h"
 #import "HXProfileCoverContainerViewController.h"
+#import "HXProfileDetailContainerViewController.h"
+#import "HXProfileNavigationBar.h"
 #import "MiaAPIHelper.h"
 #import "UIImageView+WebCache.h"
-#import "FriendViewController.h"
-#import "UserSession.h"
-#import "HXSettingViewController.h"
 #import "WebSocketMgr.h"
 #import "HXAlertBanner.h"
+#import "MusicMgr.h"
+#import "HXUserSession.h"
+#import "HXPlayViewController.h"
+#import "FriendViewController.h"
 #import "HXMessageCenterViewController.h"
+
 
 @interface HXProfileViewController () <
 HXProfileDetailContainerViewControllerDelegate,
-HXNavigationBarDelegate
+HXProfileNavigationBarDelegate,
+FriendViewControllerDelegate
 >
 @end
 
+
 @implementation HXProfileViewController {
-    BOOL _pushToFrends;
+    BOOL _hiddenNavigationBar;
     
     UIStatusBarStyle  _statusBarStyle;
     HXProfileCoverContainerViewController *_coverContainerViewController;
@@ -36,21 +41,47 @@ HXNavigationBarDelegate
     NSUInteger _followState;
 }
 
+#pragma mark - Class Methods
++ (NSString *)navigationControllerIdentifier {
+    return @"HXProfileNavigationController";
+}
+
++ (HXStoryBoardName)storyBoardName {
+    return HXStoryBoardNameProfile;
+}
+
+#pragma mark - StatusBar
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return _statusBarStyle;
+}
+
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSString *identifier = segue.identifier;
+    if ([identifier isEqualToString:[HXProfileCoverContainerViewController segueIdentifier]]) {
+        _coverContainerViewController = segue.destinationViewController;
+    } else if ([identifier isEqualToString:[HXProfileDetailContainerViewController segueIdentifier]]) {
+        _detailContainerViewController = segue.destinationViewController;
+        _detailContainerViewController.uid = _uid;
+        _detailContainerViewController.delegate = self;
+    }
+}
+
 #pragma mark - View Controller Life Cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     animated = (self.navigationController.viewControllers.count > 2);
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-
-	[self showHUD];
+    
+    [self updateMusicEntryState];
 	[self fetchProfileData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    BOOL hidden = _pushToFrends ?: (self.navigationController.viewControllers.count < 2);
+    BOOL hidden = _hiddenNavigationBar ?: (self.navigationController.viewControllers.count < 2);
     [self.navigationController setNavigationBarHidden:hidden animated:YES];
 }
 
@@ -61,113 +92,73 @@ HXNavigationBarDelegate
     [self viewConfigure];
 }
 
-+ (NSString *)navigationControllerIdentifier {
-    return @"HXProfileNavigationController";
-}
-
-+ (HXStoryBoardName)storyBoardName {
-    return HXStoryBoardNameProfile;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return _statusBarStyle;
-}
-
 - (void)dealloc {
-    [[UserSession standard] removeObserver:self forKeyPath:UserSessionKey_NotifyCount context:nil];
-}
-
-#pragma mark - Segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSString *identifier = segue.identifier;
-    if ([identifier isEqualToString:[HXProfileCoverContainerViewController segueIdentifier]]) {
-        _coverContainerViewController = segue.destinationViewController;
-    } else if ([identifier isEqualToString:[HXProfileDetailContainerViewController segueIdentifier]]) {
-        _detailContainerViewController = segue.destinationViewController;
-        _detailContainerViewController.type = _type;
-        _detailContainerViewController.uid = _uid;
-        _detailContainerViewController.delegate = self;
-    }
-}
-
-#pragma mark - KVO Methods
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:UserSessionKey_NotifyCount]) {
-		[self showMessagePromptView];
-    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    [[UserSession standard] addObserver:self forKeyPath:UserSessionKey_NotifyCount options:NSKeyValueObservingOptionNew context:nil];
+    _statusBarStyle = UIStatusBarStyleLightContent;
+    _detailContainerViewController.header.host = ([[HXUserSession share].uid isEqualToString:_uid]);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
 }
 
 - (void)viewConfigure {
 	_navigationBar.delegate = self;
-    _settingButton.hidden = !_type;
-	[self showMessagePromptView];
 }
 
-#pragma mark - Event Response
-- (IBAction)settingButtonPressed {
-    _pushToFrends = NO;
-    HXSettingViewController *settingViewController = [HXSettingViewController instance];
-    [self.navigationController pushViewController:settingViewController animated:YES];
+#pragma mark - Notification Methods
+- (void)notificationPlayerEvent:(NSNotification *)notification {
+    MiaPlayerEvent event = [notification.userInfo[MusicMgrNotificationKey_PlayerEvent] unsignedIntegerValue];
+    
+    switch (event) {
+        case MiaPlayerEventDidPlay: {
+            _navigationBar.stateView.state = HXMusicStatePlay;
+            break;
+        }
+        case MiaPlayerEventDidPause:
+        case MiaPlayerEventDidCompletion: {
+            _navigationBar.stateView.state = HXMusicStateStop;
+            break;
+        }
+    }
 }
 
 #pragma mark - Private Methods
+- (void)updateMusicEntryState {
+    _navigationBar.stateView.state = ([MusicMgr standard].isPlaying ? HXMusicStatePlay : HXMusicStateStop);
+}
+
 - (void)fetchProfileData {
     [MiaAPIHelper getUserInfoWithUID:_uid completeBlock:
      ^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
          if (success) {
-             NSString *avatarUrl = userInfo[MiaAPIKey_Values][@"info"][0][@"uimg"];
-             NSString *nickName = userInfo[MiaAPIKey_Values][@"info"][0][@"nick"];
-             _fansCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"fansCnt"] integerValue];
-             _followCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"followCnt"] integerValue];
-             _detailContainerViewController.shareCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"shareCnt"] integerValue];
-             _detailContainerViewController.favoriteCount = [userInfo[MiaAPIKey_Values][@"info"][0][@"favCnt"] integerValue];
+             NSDictionary *data = userInfo[MiaAPIKey_Values][@"info"][0];
+             HXProfileHeaderModel *model = [HXProfileHeaderModel mj_objectWithKeyValues:data];
+             [_detailContainerViewController.header displayWithHeaderModel:model];
+             [_navigationBar setTitle:model.nickName];
+             __weak __typeof__(self)weakSelf = self;
+             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                 __strong __typeof__(self)strongSelf = weakSelf;
+                 [strongSelf showImageAnimationOnImageView:strongSelf->_coverContainerViewController.avatarBG image:image];
+             }];
+             
+             _fansCount = [model.fansCount integerValue];
+             _followCount = [model.followCount integerValue];
              NSUInteger follow = [userInfo[MiaAPIKey_Values][@"info"][0][@"follow"] integerValue];            // 0表示没关注，1表示关注，2表示相互关注
-             NSArray *imgs = userInfo[MiaAPIKey_Values][@"info"][0][@"background"];
-             NSLog(@"user info: %ld, %ld, %ld, %@", _fansCount, _followCount, follow, imgs);
-             
-             _coverContainerViewController.dataSource = imgs;
-             
-             NSString *avatarUrlWithTime = [NSString stringWithFormat:@"%@?t=%ld", avatarUrl, (long)[[NSDate date] timeIntervalSince1970]];
-             [_detailContainerViewController.header.avatar sd_setImageWithURL:[NSURL URLWithString:avatarUrlWithTime]
-                                                             placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
-             _detailContainerViewController.header.nickNameLabel.text = nickName;
-             _detailContainerViewController.header.fansCountLabel.text = @(_fansCount).stringValue;
-             _detailContainerViewController.header.followCountLabel.text = @(_followCount).stringValue;
-             
              [self displayFollowState:follow];
-             
-             [self hiddenHUD];
          } else {
-             [self hiddenHUD];
              NSLog(@"getUserInfoWithUID failed");
          }
      } timeoutBlock:^(MiaRequestItem *requestItem) {
-         [self hiddenHUD];
          NSLog(@"getUserInfoWithUID timeout");
      }];
 }
 
 - (void)displayFollowState:(NSUInteger)state {
     _followState = state;
-    NSString *prompt = @"关注";
-    switch (state) {
-        case 1: {
-            prompt = @"已关注";
-            break;
-        }
-        case 2: {
-            prompt = @"相互关注";
-            break;
-        }
-    }
-    
-	[_detailContainerViewController.header.followButton setHidden:[_uid isEqualToString:[UserSession standard].uid]];
-    [_detailContainerViewController.header.followButton setTitle:prompt forState:UIControlStateNormal];
+    _detailContainerViewController.header.follow = state;
 }
 
 - (void)displayFansCountWithFollowState:(NSUInteger)state {
@@ -177,13 +168,35 @@ HXNavigationBarDelegate
     [_detailContainerViewController.header.fansCountLabel setText:@(_fansCount).stringValue];
 }
 
-- (void)showMessagePromptView {
-	[_detailContainerViewController.header.messageAvatar sd_setImageWithURL:[NSURL URLWithString:[UserSession standard].notifyUserpic]
-														   placeholderImage:[UIImage imageNamed:@"HP-InfectUserDefaultHeader"]];
-	_detailContainerViewController.header.messageCountLabel.text = @([UserSession standard].notifyCnt).stringValue;
+- (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
+    [UIView transitionWithView:imageView
+                      duration:1.0f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        imageView.image = image;
+                    } completion:nil];
+}
 
-
-	[_detailContainerViewController.header.messagePromptView setHidden:([UserSession standard].notifyCnt <= 0) || !_type];
+#pragma mark - HXProfileNavigationBarDelegate Methods
+- (void)navigationBar:(HXProfileNavigationBar *)bar takeAction:(HXProfileNavigationAction)action {
+    switch (action) {
+        case HXProfileNavigationActionBack: {
+            ;
+            break;
+        }
+        case HXProfileNavigationActionMusic: {
+            if ([MusicMgr standard].currentItem) {
+                _hiddenNavigationBar = YES;
+                UINavigationController *playNavigationController = [HXPlayViewController navigationControllerInstance];                
+                __weak __typeof__(self)weakSelf = self;
+                [self presentViewController:playNavigationController animated:YES completion:^{
+                    __strong __typeof__(self)strongSelf = weakSelf;
+                    strongSelf->_hiddenNavigationBar = NO;
+                }];
+            }
+            break;
+        }
+    }
 }
 
 #pragma mark - HXProfileDetailContainerViewControllerDelegate Methods
@@ -193,64 +206,67 @@ HXNavigationBarDelegate
     _navigationBar.colorAlpha = alpha;
     _statusBarStyle = ((alpha > 0.1f) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent);
     [self setNeedsStatusBarAppearanceUpdate];
-    
-    [_coverContainerViewController scrollPosition:((scrollOffset.y < scrollThreshold) ? UICollectionViewScrollPositionTop : UICollectionViewScrollPositionBottom)];
 }
 
 - (void)detailContainer:(HXProfileDetailContainerViewController *)controller takeAction:(HXProfileDetailContainerAction)action {
     switch (action) {
         case HXProfileDetailContainerActionShowMusicDetail: {
-            _pushToFrends = NO;
+            _hiddenNavigationBar = NO;
             break;
         }
         case HXProfileDetailContainerActionShowFans: {
-            _pushToFrends = YES;
+            _hiddenNavigationBar = YES;
             FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFans
-                                                                                 isHost:_type
+                                                                                 isHost:NO
                                                                                     uID:_uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
+			friendVC.delegate = self;
             [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
         case HXProfileDetailContainerActionShowFollow: {
-            _pushToFrends = YES;
+            _hiddenNavigationBar = YES;
             FriendViewController *friendVC = [[FriendViewController alloc] initWithType:UserListViewTypeFollowing
-                                                                                 isHost:_type
+                                                                                 isHost:NO
                                                                                     uID:_uid
                                                                               fansCount:_fansCount
                                                                          followingCount:_followCount];
+			friendVC.delegate = self;
             [self.navigationController pushViewController:friendVC animated:YES];
             break;
         }
         case HXProfileDetailContainerActionShoulFollow: {
-            if ([UserSession standard].state) {
-                [MiaAPIHelper followWithUID:_uid isFollow:!_followState completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
-                    _followState = !_followState;
-                    [HXAlertBanner showWithMessage:(_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
-                    [self displayFollowState:_followState];
-                    [self displayFansCountWithFollowState:_followState];
-                } timeoutBlock:^(MiaRequestItem *requestItem) {
-                    [HXAlertBanner showWithMessage:@"请求超时，请重试！" tap:nil];
-                }];
-            } else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedLoginNotification object:nil];
+            switch ([HXUserSession share].userState) {
+                case HXUserStateLogout: {
+                    [self shouldLogin];
+                    break;
+                }
+                case HXUserStateLogin: {
+                    [MiaAPIHelper followWithUID:_uid isFollow:!_followState completeBlock:^(MiaRequestItem *requestItem, BOOL success, NSDictionary *userInfo) {
+                        _followState = !_followState;
+                        [HXAlertBanner showWithMessage:(_followState ? @"添加关注成功" : @"取消关注成功") tap:nil];
+                        [self displayFollowState:_followState];
+                        [self displayFansCountWithFollowState:_followState];
+                    } timeoutBlock:^(MiaRequestItem *requestItem) {
+                        [HXAlertBanner showWithMessage:@"请求超时，请重试" tap:nil];
+                    }];
+                    break;
+                }
             }
             break;
         }
         case HXProfileDetailContainerActionShowMessageCenter: {
-            _pushToFrends = NO;
+            _hiddenNavigationBar = NO;
 			HXMessageCenterViewController *messageCenterViewController = [HXMessageCenterViewController instance];
 			[self.navigationController pushViewController:messageCenterViewController animated:YES];
-
 			break;
 		}
     }
 }
 
-#pragma mark - HXNavigationBarDelegate Methods
-- (void)navigationBarDidBackAction {
-	[_detailContainerViewController stopMusic];
+#pragma mark - FriendViewControllerDelegate
+- (void)friendViewControllerActionDismiss {
+	_hiddenNavigationBar = NO;
 }
-
 @end

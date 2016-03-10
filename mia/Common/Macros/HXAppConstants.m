@@ -18,8 +18,6 @@ NSString *const WeiXinSecret                = @"d4624c36b6795d1d99dcf0547af5443d
 NSString *const WeiBoKEY                    = @"wx6194bafa9ae065cc";
 
 #pragma mark - Notification Name
-NSString *const HXLoginNotification         = @"HXLoginNotification";
-
 NSString *const HXApplicationDidBecomeActiveNotification    = @"HXApplicationDidBecomeActiveNotification";
 NSString *const HXMusicPlayerMgrDidPlayNotification         = @"HXMusicPlayerMgrDidPlayNotification";
 NSString *const HXMusicPlayerMgrDidPauseNotification        = @"HXMusicPlayerMgrDidPauseNotification";

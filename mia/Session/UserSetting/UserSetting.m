@@ -14,12 +14,21 @@
 
 NSString * const UserDefaultsKey_PlayWith3G			= @"PlayWith3G";
 NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
+NSString * const kLocalFilePrefix 					= @"file://";
 
 @interface UserSetting()
 
 @end
 
 @implementation UserSetting {
+}
+
++ (void)registerUserDefaults {
+	NSDictionary *defaultValues = [NSDictionary dictionaryWithObjectsAndKeys:
+								   [NSNumber numberWithBool:NO], UserDefaultsKey_PlayWith3G,
+								   [NSNumber numberWithBool:YES], UserDefaultsKey_AutoPlay,
+								   nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
 
 + (BOOL)playWith3G {
@@ -39,8 +48,6 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 }
 
 + (BOOL)isAllowedToPlayNowWithURL:(NSString *)url {
-	static NSString * const kLocalFilePrefix = @"file://";
-	
 	if ([self playWith3G]) {
 		return YES;
 	}
@@ -49,7 +56,7 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 		return YES;
 	}
 
-	if ([url hasPrefix:kLocalFilePrefix]) {
+	if ([self isLocalFilePrefix:url]) {
 		return YES;
 	}
 
@@ -60,20 +67,28 @@ NSString * const UserDefaultsKey_AutoPlay			= @"AutoPlay";
 	return NO;
 }
 
++ (BOOL)isLocalFilePrefix:(NSString *)path {
+	if ([path hasPrefix:kLocalFilePrefix]) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
++ (NSString *)pathWithPrefix:(NSString *)orgPath {
+	return [NSString stringWithFormat:@"file://%@", orgPath];
+}
+
++ (NSString *)pathWithoutPrefix:(NSString *)orgPath {
+	if (![self isLocalFilePrefix:orgPath]) {
+		return orgPath;
+	}
+
+	NSMutableString *result = [[NSMutableString alloc]initWithString:orgPath];
+	[result deleteCharactersInRange:NSMakeRange(0, [kLocalFilePrefix length])];
+	return result;
+}
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

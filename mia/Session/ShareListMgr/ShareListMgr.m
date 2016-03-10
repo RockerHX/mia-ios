@@ -8,18 +8,22 @@
 
 #import "ShareListMgr.h"
 #import "PathHelper.h"
-#import "UserSession.h"
 #import "FileLog.h"
+#import "HXUserSession.h"
 
 const int kShareListCapacity					= 25;
 const int kHistoryItemsMaxCount					= 15;
 const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下会有两首新歌和界面元素绑定:current, right
 
-@implementation ShareListMgr
+@implementation ShareListMgr {
+    NSMutableArray <ShareItem *> *_shareList;
+}
+
+@synthesize shareList = _shareList;
 
 #pragma mark - Class Methods
 + (instancetype)initFromArchive {
-	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper shareArchivePathWithUID:[[UserSession standard] uid]]];
+	ShareListMgr * aMgr = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathHelper shareArchivePathWithUID:[[HXUserSession share] uid]]];
 	if (!aMgr) {
 	    aMgr = [[self alloc] init];
 	}
@@ -53,7 +57,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
     return (self);
 }
 
-#pragma mark - Setter And Getter
+#pragma mark - Property
 - (void)setCurrentIndex:(NSInteger)currentIndex {
     _currentIndex = currentIndex;
     [self saveChanges];
@@ -103,7 +107,10 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	if ([shareList count] <= 0) {
 		return;
 	}
-
+    if ([_shareList lastObject].placeHolder) {
+        [_shareList removeLastObject];
+    }
+    
 	for(id item in shareList){
 		ShareItem *shareItem = [[ShareItem alloc] initWithDictionary:item];
 		//NSLog(@"%@", shareItem);
@@ -112,8 +119,19 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 	[self saveChanges];
 }
 
+- (void)addPlaceHolder {
+    if ([_shareList lastObject].placeHolder) {
+        return;
+    }
+    
+    ShareItem *placeHolderItem = [ShareItem new];
+    placeHolderItem.placeHolder = YES;
+    [_shareList addObject:placeHolderItem];
+    [self saveChanges];
+}
+
 - (BOOL)saveChanges {
-	NSString *fileName = [PathHelper shareArchivePathWithUID:[[UserSession standard] uid]];
+	NSString *fileName = [PathHelper shareArchivePathWithUID:[[HXUserSession share] uid]];
 	if (![NSKeyedArchiver archiveRootObject:self toFile:fileName]) {
 		NSLog(@"archive share list failed.");
 		if ([[NSFileManager defaultManager] removeItemAtPath:fileName error:nil]) {
@@ -127,7 +145,7 @@ const int kNeedGetNearbyCount					= 2;	// 至少两首，因为默认情况下�
 
 - (BOOL)checkHistoryItemsMaxCount {
     BOOL change = NO;
-	NSInteger overCount = _currentIndex - kHistoryItemsMaxCount;
+	NSInteger overCount = _shareList.count - kHistoryItemsMaxCount;
 	if (overCount > 0) {
 		for (NSInteger i = 0; i < overCount; i++) {
 			[_shareList removeObjectAtIndex:0];

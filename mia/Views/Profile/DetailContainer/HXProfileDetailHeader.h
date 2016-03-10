@@ -7,17 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(BOOL, HXProfileType) {
-    HXProfileTypeHost = YES,
-    HXProfileTypeGuest = NO
-};
+#import "HXProfileHeaderModel.h"
 
 typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
+    HXProfileDetailHeaderActionAttention,
+    HXProfileDetailHeaderActionPlay,
     HXProfileDetailHeaderActionShowFans,
     HXProfileDetailHeaderActionShowFollow,
-    HXProfileDetailHeaderActionShowMessage,
-    HXProfileDetailHeaderActionTakeFollow,
 };
 
 @class HXProfileDetailHeader;
@@ -32,20 +28,25 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 @interface HXProfileDetailHeader : UIView
 
 @property (weak, nonatomic) IBOutlet       id  <HXProfileDetailHeaderDelegate>delegate;
+@property (weak, nonatomic) IBOutlet      UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet     UILabel *nickNameLabel;
+@property (weak, nonatomic) IBOutlet      UIView *playView;
+@property (weak, nonatomic) IBOutlet     UILabel *playNickNameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *fansCountLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *followCountLabel;
-@property (weak, nonatomic) IBOutlet    UIButton *followButton;
-@property (weak, nonatomic) IBOutlet      UIView *messagePromptView;
-@property (weak, nonatomic) IBOutlet     UILabel *messageCountLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *messageAvatar;
 
-@property (nonatomic, assign) HXProfileType  type;
+@property (weak, nonatomic) IBOutlet           UIButton *actionButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionButtonWidthConstraint;
 
+@property (nonatomic, assign) BOOL follow;
+@property (nonatomic, assign) BOOL host;
+
+- (IBAction)actionButtonPressed;
+- (IBAction)playViewTaped;
 - (IBAction)fansViewTaped;
 - (IBAction)followViewTaped;
-- (IBAction)messageViewTaped;
-- (IBAction)followButtonPressed;
+
+- (void)displayWithHeaderModel:(HXProfileHeaderModel *)model;
 
 @end
