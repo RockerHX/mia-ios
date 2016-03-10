@@ -42,6 +42,12 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCardViewAction) {
 @property (weak, nonatomic) IBOutlet            UILabel *commentatorsNameLabel;
 @property (weak, nonatomic) IBOutlet            UILabel *commentContentLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cverToShareInfoLabelVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareInfoLabelToInfectViewVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *infectViewToFavoriteViewVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *favoriteViewToCommentViewVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewToSuperViewVerticalSpaceConstraint;
+
 @property (nonatomic, weak) id <HXDiscoveryCardViewDelegate>delegate;
 
 - (IBAction)favoriteAction;

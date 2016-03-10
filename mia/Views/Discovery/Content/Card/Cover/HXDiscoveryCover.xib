@@ -8,6 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXDiscoveryCover">
             <connections>
+                <outlet property="avatarWidthConstraint" destination="pTt-KL-eeJ" id="9CM-IK-KWU"/>
                 <outlet property="cardPromptLabel" destination="Q5w-p0-6BD" id="Nbs-Rr-1l9"/>
                 <outlet property="cardUserAvatar" destination="QUd-EQ-JaH" id="k9q-gR-x5Y"/>
                 <outlet property="cardUserLabel" destination="Bf7-hc-ci7" id="MKT-ZX-uil"/>

@@ -45,21 +45,21 @@
     [MobClick setEncryptEnabled:YES];       // 日志加密
     // 启动[友盟统计]
     [MobClick setCrashReportEnabled:NO];
-
+    
 	if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.miamusic.ios"]) {
 		[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"appstore"];
 	} else {
 		[MobClick startWithAppkey:UMengAPPKEY reportPolicy:BATCH channelId:@"fir.im"];
 	}
-
+    
 //#pragma mark - Testin Crash SDK
 //    [TestinAgent init:TestinAPPKEY channel:FirimChannel config:[TestinConfig defaultConfig]];
     
 #pragma mark - Share SDK
     NSArray *activePlatforms = @[@(SSDKPlatformTypeWechat),
                                  @(SSDKPlatformTypeSMS)/*,
-                                                        @(SSDKPlatformTypeMail),
-                                                        @(SSDKPlatformTypeSinaWeibo)*/];
+                                 @(SSDKPlatformTypeMail),
+                                 @(SSDKPlatformTypeSinaWeibo)*/];
     [ShareSDK registerApp:ShareSDKKEY activePlatforms:activePlatforms onImport:^(SSDKPlatformType platformType) {
         switch (platformType) {
             case SSDKPlatformTypeWechat: {

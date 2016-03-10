@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, HXDiscoveryCoverAction) {
 @property (weak, nonatomic) IBOutlet     UILabel *cardUserLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *cardPromptLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *avatarWidthConstraint;
+
 - (IBAction)playAction;
 - (IBAction)showProfileAction;
 - (IBAction)showDetailAction;

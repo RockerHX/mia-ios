@@ -20,6 +20,7 @@
 #import "WebSocketMgr.h"
 #import "NSObject+LoginAction.h"
 #import "UIView+Frame.h"
+#import "HXVersion.h"
 
 @interface HXDiscoveryCardView () <
 HXDiscoveryCoverDelegate,
@@ -39,6 +40,14 @@ HXXibImplementation
     [super layoutSubviews];
     
     _sharerLabel.preferredMaxLayoutWidth = self.width - 30.0f;
+    
+    if ([HXVersion currentModel] == SCDeviceModelTypeIphone5_5S) {
+        _cverToShareInfoLabelVerticalSpaceConstraint.constant = 12.0f;
+        _shareInfoLabelToInfectViewVerticalSpaceConstraint.constant = 12.0f;
+        _infectViewToFavoriteViewVerticalSpaceConstraint.constant = 6.0f;
+        _favoriteViewToCommentViewVerticalSpaceConstraint.constant = 0.0f;
+        _commentViewToSuperViewVerticalSpaceConstraint.constant = 8.0f;
+    }
 }
 
 #pragma mark - Event Response

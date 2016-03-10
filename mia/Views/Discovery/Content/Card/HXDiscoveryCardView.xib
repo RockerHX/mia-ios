@@ -9,34 +9,39 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXDiscoveryCardView">
             <connections>
                 <outlet property="commentContentLabel" destination="rkS-0f-fMn" id="OX6-Lu-aVR"/>
+                <outlet property="commentViewToSuperViewVerticalSpaceConstraint" destination="Cbw-1P-uxi" id="erQ-zj-zY6"/>
                 <outlet property="commentatorsNameLabel" destination="V83-uH-kB6" id="Lpf-iw-aNh"/>
                 <outlet property="coverView" destination="ZlF-TJ-5uI" id="GOL-pc-XNz"/>
+                <outlet property="cverToShareInfoLabelVerticalSpaceConstraint" destination="2DV-E9-uRJ" id="BHL-LL-PAF"/>
                 <outlet property="favoriteCountLabel" destination="Mzl-Fx-DG0" id="jii-mr-HG5"/>
                 <outlet property="favoriteIcon" destination="TPV-BU-Fvz" id="EDi-or-usz"/>
+                <outlet property="favoriteViewToCommentViewVerticalSpaceConstraint" destination="UMw-FC-zZv" id="gKg-S2-yW1"/>
                 <outlet property="infectView" destination="KMu-t3-LtB" id="RWg-qV-SXp"/>
+                <outlet property="infectViewToFavoriteViewVerticalSpaceConstraint" destination="sGq-KA-rqf" id="7AI-b5-0hc"/>
+                <outlet property="shareInfoLabelToInfectViewVerticalSpaceConstraint" destination="dBR-gk-RJP" id="njO-le-4cG"/>
                 <outlet property="sharerInfoView" destination="cgq-mw-184" id="OUl-Pq-5m6"/>
                 <outlet property="sharerLabel" destination="Wib-Wl-9pg" id="cqO-Y4-zWV"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="X5g-lg-Nqm">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="531"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-TJ-5uI" customClass="HXDiscoveryCover">
+                <view contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-TJ-5uI" customClass="HXDiscoveryCover">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="ZlF-TJ-5uI" secondAttribute="height" multiplier="1:1" id="kHw-qo-LX1"/>
+                        <constraint firstAttribute="width" secondItem="ZlF-TJ-5uI" secondAttribute="height" multiplier="1:1" id="ost-LC-YNy"/>
                     </constraints>
                     <connections>
                         <outlet property="delegate" destination="-1" id="kVK-U8-tA3"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgq-mw-184" userLabel="Share Content View">
+                <view contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="cgq-mw-184" userLabel="Share Content View">
                     <rect key="frame" x="15" y="335" width="290" height="42"/>
                     <subviews>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BBC要按照基本法来拍纪录片，这次做的很好，我很欣慰，他们以前还too young，不知道裤子要提多高，我和他们谈笑风生之后，他们总算是明白了一些人生哲理" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Wib-Wl-9pg" customClass="TTTAttributedLabel">
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="BBC要按照基本法来拍纪录片，这次做的很好，我很欣慰，他们以前还too young，不知道裤子要提多高，我和他们谈笑风生之后，他们总算是明白了一些人生哲理" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Wib-Wl-9pg" customClass="TTTAttributedLabel">
                             <rect key="frame" x="0.0" y="0.0" width="290" height="42"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -65,7 +70,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMu-t3-LtB" userLabel="Infecter View" customClass="HXInfectView">
-                    <rect key="frame" x="15" y="391" width="290" height="32"/>
+                    <rect key="frame" x="15" y="392" width="290" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                     <constraints>
@@ -76,7 +81,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFm-6C-XzL" userLabel="Favorite View">
-                    <rect key="frame" x="15" y="435" width="290" height="32"/>
+                    <rect key="frame" x="15" y="434" width="290" height="32"/>
                     <subviews>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-FavoriteIcon" translatesAutoresizingMaskIntoConstraints="NO" id="TPV-BU-Fvz">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -104,7 +109,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0i-8S-rZK" userLabel="Comment Container View">
-                    <rect key="frame" x="15" y="479" width="290" height="32"/>
+                    <rect key="frame" x="15" y="470" width="290" height="32"/>
                     <subviews>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D-CommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="CqQ-VA-ehL">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -112,7 +117,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7sQ-rK-X8E" userLabel="Comment Centent View">
                             <rect key="frame" x="47" y="0.0" width="243" height="32"/>
                             <subviews>
-                                <label opaque="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="说说你此刻的想法..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkS-0f-fMn" userLabel="用户评论内容">
+                                <label opaque="NO" contentMode="left" horizontalCompressionResistancePriority="749" text="说说你此刻的想法..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkS-0f-fMn" userLabel="用户评论内容">
                                     <rect key="frame" x="56" y="0.0" width="187" height="32"/>
                                     <gestureRecognizers/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -185,21 +190,22 @@
                 <constraint firstAttribute="trailing" secondItem="S0i-8S-rZK" secondAttribute="trailing" constant="15" id="5po-hQ-xnL"/>
                 <constraint firstItem="nFm-6C-XzL" firstAttribute="leading" secondItem="S0i-8S-rZK" secondAttribute="leading" id="7ch-U9-0Kq"/>
                 <constraint firstItem="KMu-t3-LtB" firstAttribute="trailing" secondItem="nFm-6C-XzL" secondAttribute="trailing" id="Ar7-tq-OUF"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="S0i-8S-rZK" secondAttribute="bottom" constant="15" id="Cbw-1P-uxi"/>
                 <constraint firstItem="nFm-6C-XzL" firstAttribute="trailing" secondItem="S0i-8S-rZK" secondAttribute="trailing" id="Iwo-pn-BXB"/>
                 <constraint firstItem="ZlF-TJ-5uI" firstAttribute="leading" secondItem="X5g-lg-Nqm" secondAttribute="leading" id="LeP-jZ-Piu"/>
                 <constraint firstItem="cgq-mw-184" firstAttribute="leading" secondItem="KMu-t3-LtB" secondAttribute="leading" id="OEA-Yc-T3N"/>
-                <constraint firstItem="S0i-8S-rZK" firstAttribute="top" secondItem="nFm-6C-XzL" secondAttribute="bottom" constant="12" id="UMw-FC-zZv"/>
+                <constraint firstItem="S0i-8S-rZK" firstAttribute="top" secondItem="nFm-6C-XzL" secondAttribute="bottom" constant="4" id="UMw-FC-zZv"/>
                 <constraint firstItem="KMu-t3-LtB" firstAttribute="leading" secondItem="nFm-6C-XzL" secondAttribute="leading" id="WP4-et-LSc"/>
                 <constraint firstAttribute="trailing" secondItem="ZlF-TJ-5uI" secondAttribute="trailing" id="bGb-3S-DR8"/>
-                <constraint firstItem="KMu-t3-LtB" firstAttribute="top" secondItem="cgq-mw-184" secondAttribute="bottom" constant="14" id="dBR-gk-RJP"/>
+                <constraint firstItem="KMu-t3-LtB" firstAttribute="top" secondItem="cgq-mw-184" secondAttribute="bottom" constant="15" id="dBR-gk-RJP"/>
                 <constraint firstItem="S0i-8S-rZK" firstAttribute="leading" secondItem="X5g-lg-Nqm" secondAttribute="leading" constant="15" id="kFM-pR-eaD"/>
-                <constraint firstItem="nFm-6C-XzL" firstAttribute="top" secondItem="KMu-t3-LtB" secondAttribute="bottom" constant="12" id="sGq-KA-rqf"/>
+                <constraint firstItem="nFm-6C-XzL" firstAttribute="top" secondItem="KMu-t3-LtB" secondAttribute="bottom" constant="10" id="sGq-KA-rqf"/>
                 <constraint firstItem="cgq-mw-184" firstAttribute="trailing" secondItem="KMu-t3-LtB" secondAttribute="trailing" id="yyd-8e-Thj"/>
                 <constraint firstItem="ZlF-TJ-5uI" firstAttribute="top" secondItem="X5g-lg-Nqm" secondAttribute="top" id="zLK-9m-HeI"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="457" y="350"/>
+            <point key="canvasLocation" x="457" y="331.5"/>
         </view>
         <tapGestureRecognizer id="cv0-0w-qFJ" userLabel="Favorite Gesture">
             <connections>
