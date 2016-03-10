@@ -155,7 +155,11 @@ HXFavoriteEditViewControllerDelegate
 	ShareItem* selectedItem = _favoriteLists[indexPath.row];
     MusicMgr *musicMgr = [MusicMgr standard];
 
-	if ([musicMgr isCurrentHostObject:self] && [musicMgr.currentItem.sID isEqualToString:selectedItem.sID]) {
+//	NSLog(@"======> %@", musicMgr.currentUrlInPlayer);
+
+	if (musicMgr.currentUrlInPlayer
+		&& [musicMgr isCurrentHostObject:self]
+		&& [musicMgr.currentItem.sID isEqualToString:selectedItem.sID]) {
 		[musicMgr pause];
 	} else {
 		[musicMgr setPlayList:[self shareList] hostObject:self];

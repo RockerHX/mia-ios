@@ -35,6 +35,7 @@ typedef void(^PlayWith3GOnceTimeBlock)(BOOL isAllowed);
 
 @property (nonatomic, assign) NSInteger  currentIndex;
 @property (nonatomic, strong) ShareItem *currentItem;
+@property (nonatomic, strong, readonly) NSString *currentUrlInPlayer;
 
 @property (nonatomic, assign, readonly)            NSInteger  musicCount;
 @property (nonatomic, strong, readonly) NSArray<ShareItem *> *playList;

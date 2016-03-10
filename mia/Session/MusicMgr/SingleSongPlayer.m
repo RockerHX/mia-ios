@@ -97,6 +97,14 @@
 	NSLog(@"SingleSongPlayer dealoc");
 }
 
+- (NSString *)currentUrl {
+	if (_tryingPlay) {
+		return _currentItem.murl;
+	} else {
+		return _audioStream.url.absoluteString;
+	}
+}
+
 - (void)playWithMusicItem:(MusicItem *)item {
 	[[FileLog standard] log:@"playWithMusicItem %@, %@", item.name, item.murl];
 
