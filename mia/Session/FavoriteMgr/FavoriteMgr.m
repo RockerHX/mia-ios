@@ -222,21 +222,17 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 }
 
 - (void)removeItem:(FavoriteItem *)item {
-	[self deleteCacheFileWithUrl:item.music.murl];
-	[_dataSource removeObject:item];
-
-	if (_dataSource.count <= 0) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
-	}
-}
-
-- (void)deleteCacheFileWithUrl:(NSString *)url {
-	NSString *filename = [PathHelper genMusicFilenameWithUrl:url];
+	NSString *filename = [PathHelper genMusicFilenameWithUrl:item.music.murl];
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
+	[_dataSource removeObject:item];
 
 	if ([[MusicMgr standard] isPlayingWithUrl:[UserSetting pathWithPrefix:filename]]) {
 		[[MusicMgr standard] playNext];
+	}
+
+	if (_dataSource.count <= 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FavoriteMgrNotificationKey_EmptyList object:self];
 	}
 }
 
@@ -284,10 +280,20 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 		{
 			[[FileLog standard] log:@"download %@, %@, error:%@", item.music.name, item.music.murl, error];
 			if (nil == error) {
-				[_dataSource[_currentDownloadIndex] setIsCached:YES];
+				if (_dataSource.count) {
+					[_dataSource[_currentDownloadIndex] setIsCached:YES];
+				} else {
+					NSLog(@"FavoriteMgr downloadTask datasource is empty.");
+				}
+
 				[self saveData];
 			} else {
-				[_dataSource[_currentDownloadIndex] setIsCached:NO];
+				if (_dataSource.count) {
+					[_dataSource[_currentDownloadIndex] setIsCached:NO];
+				} else {
+					NSLog(@"FavoriteMgr downloadTask datasource is empty.");
+				}
+
 				if (filePath) {
 					NSError *fileError;
 					[[NSFileManager defaultManager] removeItemAtPath:[filePath absoluteString] error:&fileError];

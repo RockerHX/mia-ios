@@ -91,6 +91,10 @@ HXPlayListViewControllerDelegate
 }
 
 - (void)notificationEmptyList {
+	if (_musicMgr.playList.count) {
+		return;
+	}
+
     [self dismiss];
 }
 

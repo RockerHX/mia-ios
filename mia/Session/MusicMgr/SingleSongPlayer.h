@@ -26,6 +26,7 @@
 
 @property (nonatomic, weak) id <SingleSongPlayerDelegate> delegate;
 @property (strong, nonatomic) MusicItem * currentItem;
+@property (strong, nonatomic, readonly) NSString * currentUrl;
 
 - (void)playWithMusicItem:(MusicItem *)item;
 
