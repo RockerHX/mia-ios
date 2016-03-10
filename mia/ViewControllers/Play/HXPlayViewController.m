@@ -71,12 +71,14 @@ HXPlayListViewControllerDelegate
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FavoriteMgrNotificationKey_EmptyList object:nil];
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _musicMgr = [MusicMgr standard];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationEmptyList) name:FavoriteMgrNotificationKey_EmptyList object:nil];
 }
 
 - (void)viewConfigure {
@@ -88,7 +90,16 @@ HXPlayListViewControllerDelegate
     [self displayPlayView];
 }
 
+- (void)notificationEmptyList {
+    [self dismiss];
+}
+
 #pragma mark - Private Methods
+- (void)dismiss {
+    _willDismiss = YES;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)displayPlayView {
     [_coverBG sd_setImageWithURL:[NSURL URLWithString:_musicMgr.currentItem.music.purl] placeholderImage:nil];
     
@@ -270,8 +281,7 @@ HXPlayListViewControllerDelegate
 - (void)topBar:(HXPlayTopBar *)bar takeAction:(HXPlayTopBarAction)action {
     switch (action) {
         case HXPlayTopBarActionBack: {
-            _willDismiss = YES;
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismiss];
             break;
         }
         case HXPlayTopBarActionShowList: {
