@@ -181,6 +181,7 @@ HXDiscoveryContainerViewControllerDelegate
 }
 
 - (void)reloadShareList {
+	[_shareListMgr addPlaceHolder];
     _containerViewController.dataSoure = _shareListMgr.shareList;
     _containerViewController.currentPage = _shareListMgr.currentIndex;
 }
@@ -196,8 +197,7 @@ HXDiscoveryContainerViewControllerDelegate
          if (success) {
              NSArray *shareList = userInfo[@"v"][@"data"];
              if (!shareList.count) {
-                 [_shareListMgr addPlaceHolder];
-                 [[FileLog standard] log:@"getNearbyWithLatitude failed: shareList is nill"];
+                 [[FileLog standard] log:@"getNearbyWithLatitude shareList is nill"];
 			 } else {
 				 [_shareListMgr addSharesWithArray:shareList];
              }
