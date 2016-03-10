@@ -9,6 +9,7 @@
 #import "HXMeDetailHeader.h"
 #import "HXXib.h"
 #import "UIImageView+WebCache.h"
+#import "HXVersion.h"
 
 
 @implementation HXMeDetailHeader
@@ -30,6 +31,11 @@ HXXibImplementation
 
 - (void)viewConfigure {
     _containerView.backgroundColor = [UIColor clearColor];
+    
+    if ([HXVersion currentModel] == SCDeviceModelTypeIphone5_5S) {
+        _avatar.layer.cornerRadius = 38.0f;
+        _avatarWidthConstraint.constant = 76.0f;
+    }
 }
 
 #pragma mark - Event Response
@@ -73,6 +79,7 @@ HXXibImplementation
 
 #pragma mark - Private Methods
 - (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
+    image = image ?: [UIImage imageNamed:@"C-AvatarDefaultIcon"];
     [UIView transitionWithView:imageView
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionCrossDissolve
