@@ -138,11 +138,7 @@ FriendViewControllerDelegate
              HXProfileHeaderModel *model = [HXProfileHeaderModel mj_objectWithKeyValues:data];
              [_detailContainerViewController.header displayWithHeaderModel:model];
              [_navigationBar setTitle:model.nickName];
-             __weak __typeof__(self)weakSelf = self;
-             [_coverContainerViewController.avatarBG sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                 __strong __typeof__(self)strongSelf = weakSelf;
-                 [strongSelf showImageAnimationOnImageView:strongSelf->_coverContainerViewController.avatarBG image:image];
-             }];
+             _coverContainerViewController.imageURL = model.avatar;
              
              _fansCount = [model.fansCount integerValue];
              _followCount = [model.followCount integerValue];
@@ -166,15 +162,6 @@ FriendViewControllerDelegate
     _fansCount = _detailContainerViewController.header.fansCountLabel.text.integerValue + count;
     _fansCount = _fansCount ?: 0;
     [_detailContainerViewController.header.fansCountLabel setText:@(_fansCount).stringValue];
-}
-
-- (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
-    [UIView transitionWithView:imageView
-                      duration:1.0f
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        imageView.image = image;
-                    } completion:nil];
 }
 
 #pragma mark - HXProfileNavigationBarDelegate Methods

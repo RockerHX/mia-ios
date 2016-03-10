@@ -103,6 +103,14 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	return _playList[_currentIndex];
 }
 
+- (NSString *)currentUrlInPlayer {
+	if (!_player) {
+		return nil;
+	}
+
+	return _player.currentUrl;
+}
+
 - (NSInteger)musicCount {
     return (_playList.count - 1);
 }

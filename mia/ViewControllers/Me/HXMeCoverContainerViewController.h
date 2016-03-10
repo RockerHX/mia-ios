@@ -12,4 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarBG;
 
+@property (nonatomic, strong) NSString *imageURL;
+
 @end

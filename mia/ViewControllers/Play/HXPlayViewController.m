@@ -71,12 +71,14 @@ HXPlayListViewControllerDelegate
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MusicMgrNotificationPlayerEvent object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FavoriteMgrNotificationKey_EmptyList object:nil];
 }
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
     _musicMgr = [MusicMgr standard];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationPlayerEvent:) name:MusicMgrNotificationPlayerEvent object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationEmptyList) name:FavoriteMgrNotificationKey_EmptyList object:nil];
 }
 
 - (void)viewConfigure {
@@ -88,7 +90,20 @@ HXPlayListViewControllerDelegate
     [self displayPlayView];
 }
 
+- (void)notificationEmptyList {
+	if (_musicMgr.playList.count) {
+		return;
+	}
+
+    [self dismiss];
+}
+
 #pragma mark - Private Methods
+- (void)dismiss {
+    _willDismiss = YES;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)displayPlayView {
     [_coverBG sd_setImageWithURL:[NSURL URLWithString:_musicMgr.currentItem.music.purl] placeholderImage:nil];
     
@@ -116,6 +131,14 @@ HXPlayListViewControllerDelegate
     NSInteger playIndex = _musicMgr.currentIndex;
     BOOL isFirst = (playIndex == 0);
     BOOL isLast = (playIndex == _musicMgr.musicCount);
+    
+    NSInteger nextIndex = _musicMgr.currentIndex + 1;
+    if (nextIndex < _musicMgr.playList.count) {
+        ShareItem *nextItem = _musicMgr.playList[nextIndex];
+        if (nextItem.placeHolder) {
+            isLast = YES;
+        }
+    }
     
     _bottomBar.pause = _musicMgr.isPlaying;
     _bottomBar.enablePrevious = !isFirst;
@@ -262,8 +285,7 @@ HXPlayListViewControllerDelegate
 - (void)topBar:(HXPlayTopBar *)bar takeAction:(HXPlayTopBarAction)action {
     switch (action) {
         case HXPlayTopBarActionBack: {
-            _willDismiss = YES;
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismiss];
             break;
         }
         case HXPlayTopBarActionShowList: {

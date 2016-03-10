@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, HXProfileDetailHeaderAction) {
 
 @property (weak, nonatomic) IBOutlet           UIButton *actionButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionButtonWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *avatarWidthConstraint;
 
 @property (nonatomic, assign) BOOL follow;
 @property (nonatomic, assign) BOOL host;

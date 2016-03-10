@@ -155,7 +155,11 @@ HXFavoriteEditViewControllerDelegate
 	ShareItem* selectedItem = _favoriteLists[indexPath.row];
     MusicMgr *musicMgr = [MusicMgr standard];
 
-	if ([musicMgr isCurrentHostObject:self] && [musicMgr.currentItem.sID isEqualToString:selectedItem.sID]) {
+//	NSLog(@"======> %@", musicMgr.currentUrlInPlayer);
+
+	if (musicMgr.currentUrlInPlayer
+		&& [musicMgr isCurrentHostObject:self]
+		&& [musicMgr.currentItem.sID isEqualToString:selectedItem.sID]) {
 		[musicMgr pause];
 	} else {
 		[musicMgr setPlayList:[self shareList] hostObject:self];
@@ -186,6 +190,12 @@ HXFavoriteEditViewControllerDelegate
 #pragma mark - FavoriteMgrDelegate Methods
 - (void)favoriteMgrDidFinishSync {
     [self dataSysnc];
+
+	// 收藏的歌曲新增或删除后都会触发同步，所以需要更新下歌单
+	MusicMgr *musicMgr = [MusicMgr standard];
+	if ([musicMgr isCurrentHostObject:self]) {
+		[musicMgr setPlayList:[self shareList] hostObject:self];
+	}
 }
 
 - (void)favoriteMgrDidFinishDownload {

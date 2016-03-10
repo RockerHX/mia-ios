@@ -9,9 +9,13 @@
 #import "HXMeDetailHeader.h"
 #import "HXXib.h"
 #import "UIImageView+WebCache.h"
+#import "HXVersion.h"
 
 
-@implementation HXMeDetailHeader
+@implementation HXMeDetailHeader {
+    NSString *_placeHolderImageURL;
+    UIImage *_placeHolderImage;
+}
 
 HXXibImplementation
 
@@ -25,11 +29,16 @@ HXXibImplementation
 
 #pragma mark - Configure Methods
 - (void)loadConfigure {
-    ;
+    _placeHolderImage = [UIImage imageNamed:@"C-AvatarDefaultIcon"];
 }
 
 - (void)viewConfigure {
     _containerView.backgroundColor = [UIColor clearColor];
+    
+    if ([HXVersion currentModel] == SCDeviceModelTypeIphone5_5S) {
+        _avatar.layer.cornerRadius = 38.0f;
+        _avatarWidthConstraint.constant = 76.0f;
+    }
 }
 
 #pragma mark - Event Response
@@ -59,20 +68,27 @@ HXXibImplementation
 
 #pragma mark - Public Methods
 - (void)displayWithHeaderModel:(HXProfileHeaderModel *)model {
-    __weak __typeof__(self)weakSelf = self;
-    [_avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"C-AvatarDefaultIcon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        __strong __typeof__(self)strongSelf = weakSelf;
-        [strongSelf showImageAnimationOnImageView:strongSelf.avatar image:image];
-    }];
-    
     _nickNameLabel.text = model.nickName;
     _playNickNameLabel.text = model.nickName;
     _fansCountLabel.text = model.fansCount;
     _followCountLabel.text = model.followCount;
+    
+    if ([model.avatar isEqualToString:_placeHolderImageURL]) {
+        return;
+    }
+    
+    _placeHolderImageURL = model.avatar;
+    __weak __typeof__(self)weakSelf = self;
+    [_avatar sd_setImageWithURL:[NSURL URLWithString:_placeHolderImageURL] placeholderImage:_placeHolderImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        __strong __typeof__(self)strongSelf = weakSelf;
+        strongSelf->_placeHolderImage = image;
+        [strongSelf showImageAnimationOnImageView:strongSelf.avatar image:image];
+    }];
 }
 
 #pragma mark - Private Methods
 - (void)showImageAnimationOnImageView:(UIImageView *)imageView image:(UIImage *)image {
+    image = image ?: [UIImage imageNamed:@"C-AvatarDefaultIcon"];
     [UIView transitionWithView:imageView
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionCrossDissolve

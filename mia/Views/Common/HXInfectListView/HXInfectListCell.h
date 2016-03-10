@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet     UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet     UILabel *dynamicLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelSpaceConstraint;
+
 - (void)displayWithItem:(InfectItem *)item;
 
 @end
