@@ -324,7 +324,13 @@ HXDiscoveryContainerViewControllerDelegate
             break;
         }
         case HXDiscoveryCardActionPlay: {
-            [[MusicMgr standard] setPlayList:_shareListMgr.shareList hostObject:self];
+			// 歌单中要删除占位元素
+			NSMutableArray *playlist = [[NSMutableArray alloc] initWithArray:_shareListMgr.shareList];
+			if ([[playlist lastObject] placeHolder]) {
+				[playlist removeLastObject];
+			}
+
+            [[MusicMgr standard] setPlayList:playlist hostObject:self];
             [[MusicMgr standard] playWithIndex:_shareListMgr.currentIndex];
             break;
         }
