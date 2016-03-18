@@ -65,14 +65,6 @@ static const long kFavoriteRequestItemCountPerPage	= 100;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkNotificationReachabilityStatusChange object:nil];
 }
 
-- (NSInteger)currentPlaying {
-	if (_currentPlaying < 0 || _currentPlaying >= _dataSource.count) {
-		_currentPlaying = 0;
-	}
-
-	return _currentPlaying;
-}
-
 - (long)favoriteCount {
 	return [_dataSource count];
 }

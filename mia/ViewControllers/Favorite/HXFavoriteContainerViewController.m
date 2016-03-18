@@ -90,6 +90,8 @@ HXFavoriteEditViewControllerDelegate
 
 - (void)dataSysnc {
     _favoriteLists = [FavoriteMgr standard].dataSource.mutableCopy;
+	_playIndex = [self playIndexBySID:[MusicMgr standard].currentItem.sID];
+
 
 	[_header setFavoriteCount:_favoriteLists.count cachedCount:[FavoriteMgr standard].cachedCount];
     self.view.hidden = !_favoriteLists.count;
@@ -189,23 +191,23 @@ HXFavoriteEditViewControllerDelegate
 
 #pragma mark - FavoriteMgrDelegate Methods
 - (void)favoriteMgrDidFinishSync {
-    [self dataSysnc];
-
 	// 收藏的歌曲新增或删除后都会触发同步，所以需要更新下歌单
 	MusicMgr *musicMgr = [MusicMgr standard];
 	if ([musicMgr isCurrentHostObject:self]) {
 		[musicMgr setPlayList:[self shareList] hostObject:self];
 	}
+
+	[self dataSysnc];
 }
 
 - (void)favoriteMgrDidFinishDownload {
-    [self dataSysnc];
-
 	// 下载完成后就可以播放本地歌曲缓存了，所以需要更新下歌单
 	MusicMgr *musicMgr = [MusicMgr standard];
 	if ([musicMgr isCurrentHostObject:self]) {
 		[musicMgr setPlayList:[self shareList] hostObject:self];
 	}
+
+	[self dataSysnc];
 }
 
 #pragma mark - HXFavoriteEditViewControllerDelegate Methods
