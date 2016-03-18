@@ -26,6 +26,7 @@ NSString * const MusicMgrNotificationKey_sID				= @"sID";
 NSString * const MusicMgrNotificationRemoteControlEvent		= @"MusicMgrNotificationRemoteControlEvent";
 NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlayerEvent";
 
+const NSInteger kInvalidateCurrentIndex = -1;
 
 @interface MusicMgr() <SingleSongPlayerDelegate, SongPreloaderDelegate>
 
@@ -96,7 +97,7 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 		return nil;
 	}
 
-	if (_currentIndex < 0 && _currentIndex >= _playList.count) {
+	if (_currentIndex < 0 || _currentIndex >= _playList.count) {
 		return nil;
 	}
 
@@ -126,15 +127,30 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 }
 
 - (void)setPlayList:(NSArray *)playList hostObject:(id)hostObject {
-	_hostObjectName = NSStringFromClass([hostObject class]);
-	_hostObjectID = (long)(__bridge void *)hostObject;
-
-	[_player stop];
-	[_preloader stop];
-
+	ShareItem *lastItem = self.currentItem;
 	_playList = [[NSArray alloc] initWithArray:playList];
-	_currentIndex = 0;
-	_isShufflePlay = NO;
+
+	if (![self isCurrentHostObject:hostObject]) {
+		_hostObjectName = NSStringFromClass([hostObject class]);
+		_hostObjectID = (long)(__bridge void *)hostObject;
+
+		[_player stop];
+		[_preloader stop];
+		_currentIndex = 0;
+		_isShufflePlay = NO;
+	} else {
+		// 只更新列表但是不更新当前播放的歌曲
+		NSInteger updatedIndex = [self getCurrentIndexWithItem:lastItem];
+		NSLog(@"updatedIndex: %ld", (long)updatedIndex);
+
+		if (kInvalidateCurrentIndex == updatedIndex) {
+			// 如果更新后的列表没有这首歌了
+			NSLog(@"setPlayList, It must be a bug.");
+			_currentIndex = 0;
+		} else {
+			_currentIndex = updatedIndex;
+		}
+	}
 
 	[self saveChanges];
 }
@@ -328,6 +344,19 @@ NSString * const MusicMgrNotificationPlayerEvent			= @"MusicMgrNotificationPlaye
 	} else {
 		return nextIndex;
 	}
+}
+
+- (NSInteger)getCurrentIndexWithItem:(ShareItem *)item {
+	NSInteger currentIndex = -1;
+	for (int i = 0 ; i < _playList.count; i++) {
+		ShareItem *it = [_playList objectAtIndex:i];
+		if ([it.sID isEqualToString:item.sID]) {
+			currentIndex = i;
+			return currentIndex;
+		}
+	}
+
+	return currentIndex;
 }
 
 - (BOOL)saveChanges {
