@@ -141,8 +141,6 @@ const NSInteger kInvalidateCurrentIndex = -1;
 	} else {
 		// 只更新列表但是不更新当前播放的歌曲
 		NSInteger updatedIndex = [self getCurrentIndexWithItem:lastItem];
-		NSLog(@"updatedIndex: %ld", (long)updatedIndex);
-
 		if (kInvalidateCurrentIndex == updatedIndex) {
 			// 如果更新后的列表没有这首歌了
 			NSLog(@"setPlayList, It must be a bug.");
