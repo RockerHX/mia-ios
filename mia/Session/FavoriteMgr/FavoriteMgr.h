@@ -29,7 +29,6 @@ extern NSString * const FavoriteMgrNotificationKey_EmptyList;
 
 @property (weak, nonatomic)id<FavoriteMgrDelegate> customDelegate;
 @property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, assign) NSInteger currentPlaying;
 
 - (long)favoriteCount;
 - (long)cachedCount;

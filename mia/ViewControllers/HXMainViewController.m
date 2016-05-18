@@ -233,7 +233,7 @@ HXLoginViewControllerDelegate
 }
 
 - (UITabBarItem *)subViewControllerTabBarItem {
-    return self.viewControllers[2].tabBarItem;
+    return [self.viewControllers lastObject].tabBarItem;
 }
 
 - (void)updateNotificationBadge {
