@@ -2031,7 +2031,7 @@
 				TargetAttributes = {
 					CDB55E561C72C7EE00962ED0 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = H2JE2CWJS7;
+						DevelopmentTeam = PQE2NCR38L;
 					};
 				};
 			};
@@ -2504,7 +2504,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "507daddf-c8d3-43c8-9f70-7b46b4cf3ff3";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -2521,7 +2521,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miamusic.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "507daddf-c8d3-43c8-9f70-7b46b4cf3ff3";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
